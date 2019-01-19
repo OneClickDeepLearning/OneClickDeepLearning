@@ -1,4 +1,6 @@
-import sys, getopt
+
+import sys, getopt, os
+import json
 from flask import Flask
 from model_sklearn_adaptor import ModelSklearnAdaptor
 # from model_keras_adaptor import ModelKerasAdaptor
@@ -23,7 +25,7 @@ if __name__ == '__main__':
 	# load params
 	for op, value in opts:
 	    if op == "-f":
-	        model_file_path = value
+	        model_file_path = value.strip()
 	    elif op == "-i":
 	        private_ip_address = value
 	    elif op == "-j":

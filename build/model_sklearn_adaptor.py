@@ -7,6 +7,7 @@ class ModelSklearnAdaptor(IModelAdaptor):
 	def __init__(self):
 		super().__init__()
 
+
 	def load(self, model_file_path):
 		self.classifier_model = joblib.load(model_file_path)
 

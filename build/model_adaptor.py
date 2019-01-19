@@ -10,6 +10,7 @@ class IModelAdaptor:
 		pass
 
 	@abstractmethod
+
 	def predict(self, in_obj):
 		pass
 
