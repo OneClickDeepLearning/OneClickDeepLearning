@@ -1,5 +1,5 @@
 import sys, getopt
-from flask import Flask, 
+from flask import Flask
 
 opts, args = getopt.getopt(sys.argv[1:], "f:i:n:")
 
@@ -19,5 +19,9 @@ for op, value in opts:
 # check params
 if model_file_path == None:
 	sys.exit()
+
+print(model_file_path)
+print(private_ip_address)
+print(number_thread )
 
 
