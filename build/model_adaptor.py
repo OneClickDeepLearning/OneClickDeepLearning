@@ -1,3 +1,5 @@
+from abc import abstractmethod
+
 class IModelAdaptor:
 	def __init__(self):
 		self.classifier_model = None
