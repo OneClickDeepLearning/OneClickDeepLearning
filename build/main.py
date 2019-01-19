@@ -1,23 +1,51 @@
 import sys, getopt
-from flask import Flask, 
+import json
+from flask import Flask
+from model_sklearn_adaptor import ModelSklearnAdaptor
 
-opts, args = getopt.getopt(sys.argv[1:], "f:i:n:")
 
-model_file_path = None
-private_ip_address = "0.0.0.0"
-number_thread = 4
+app = Flask(__name__)
 
-# load params
-for op, value in opts:
-    if op == "-f":
-        model_file_path = value
-    elif op == "-i":
-        private_ip_address = value
-    elif op == "-n":
-    	number_thread = int(str.strip(value))
 
-# check params
-if model_file_path == None:
-	sys.exit()
+@app.route('/predict', methods=['POST']):
+def predict_interface():
+	global model
+	in_str = request.files['i']
+	out = model.predict(json.loads(in_str))
+
+	return json.dumps(out)
+
+
+if __name__ == '__main__':
+	opts, args = getopt.getopt(sys.argv[1:], "f:i:j:")
+	model_file_path = None
+	private_ip_address = "0.0.0.0"
+	is_json_asc2 = False
+
+	# load params
+	for op, value in opts:
+	    if op == "-f":
+	        model_file_path = value
+	    elif op == "-i":
+	        private_ip_address = value
+	    elif op == "-j":
+	    	is_json_asc2 = True
+
+	# check params
+	if model_file_path == None:
+		sys.exit()
+
+
+	model_format = model_file_path.split('.')[1]
+
+	if model_format == 'joblib':
+		model = ModelSklearnAdaptor()
+	elif model_format == '':
+		pass
+
+
+	model.load()
+    app.config['JSON_AS_ASCII'] = is_json_asc2
+    app.run(host=private_ip_address)   
 
 
