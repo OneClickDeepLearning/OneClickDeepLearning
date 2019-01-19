@@ -1,7 +1,7 @@
 source read.sh
 
-docker build -t hello . && 
+docker build -t test . && 
 
-docker run -e FILEPATH="$FILEPATH" -e NUMBER="$NUMBER" -e SOURCEIP="$SOURCEIP" hello ||
+docker run -e FILEPATH="$FILEPATH" -e SOURCEIP="$SOURCEIP" -e NUMBER="$NUMBER" test ||
 
 echo "Failed"

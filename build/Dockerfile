@@ -12,4 +12,4 @@ ENV NAME World
 
 #CMD ["python", "app.py", "hello", "123"]
 
-CMD python app.py "$FILEPATH" "$NUMBER" "$SOURCEIP"
+CMD python main.py "-f $FILEPATH" "-i $SOURCEIP" "-n $NUMBER"
