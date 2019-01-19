@@ -1,5 +1,4 @@
 import sys, getopt
-<<<<<<< HEAD
 import json
 from flask import Flask
 from model_sklearn_adaptor import ModelSklearnAdaptor
@@ -43,7 +42,7 @@ if __name__ == '__main__':
 		model = ModelSklearnAdaptor()
 	elif model_format == '':
 		pass
-		
+
 
 	model.load()
     app.config['JSON_AS_ASCII'] = is_json_asc2
