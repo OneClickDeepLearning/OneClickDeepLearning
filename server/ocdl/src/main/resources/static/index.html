@@ -253,12 +253,17 @@
 			function selectJupyterServer(){
                 $.ajax({
                     url: "/container?action=request",
-                    data: {	userId:1001,
-							account:'u1001',
-							password:'p1001'
-							},
-                    type: "POST",
+                    contentType: 'application/json',
                     dataType: "json",
+                    data:
+                      JSON.stringify({
+                          user_id: 1001,
+                          account: "u1001",
+                          password: "p1001"
+                      }),
+
+                    type: "POST",
+
                     success: function(data) {
                         alert(data);
                     }
