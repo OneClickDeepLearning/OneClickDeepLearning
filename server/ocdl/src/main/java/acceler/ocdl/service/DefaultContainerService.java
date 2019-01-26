@@ -15,14 +15,24 @@ public class DefaultContainerService implements ContainerService {
     private static final Map<User, Integer> assignedContainers = new ConcurrentHashMap<>();
     private final List<Integer> allPorts;
 
+
+    private int firstPort = 10000;
+
+    private int lastPort = 12000;
+
     @Value("${local.port.first}")
-    private int firstPort;
+    public void setFirstPort(int firstPort) {
+        this.firstPort = firstPort;
+        System.out.println(this.firstPort);
+    }
 
     @Value("${local.port.last}")
-    private int lastPort;
-
+    public void setLastPort(int lastPort) {
+        this.lastPort = lastPort;
+    }
 
     public DefaultContainerService() {
+        System.out.println(this.firstPort);
         this.allPorts = new LinkedList<>();
         List<Integer> unavailablePorts = getUnavailablePorts();
 
@@ -88,6 +98,11 @@ public class DefaultContainerService implements ContainerService {
 
         //TODO:cmd to create container
 
+        CmdHelper.runCommand("docker run -dit -v " +
+                "/Users/WBQ/Documents/ALL/PycharmProjects/OneClickDeepLearning/build:/root/build -p "
+                + assign + ":8998 oneclick:jupyterpython /bin/bash");
+
+
         return assign;
     }
 
@@ -101,6 +116,11 @@ public class DefaultContainerService implements ContainerService {
 
     private List<Integer> getUnavailablePorts() {
         // TODO: CmdHelper.runCommand("...");
-        return null;
+
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(8080);
+        return list;
+        //return null;
     }
+
 }
