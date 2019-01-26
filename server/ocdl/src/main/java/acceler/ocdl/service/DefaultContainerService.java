@@ -102,8 +102,11 @@ public class DefaultContainerService implements ContainerService {
                 "/Users/WBQ/Documents/ALL/PycharmProjects/OneClickDeepLearning/build:/root/build -p "
                 + assign + ":8998 oneclick:jupyterpython /bin/bash");
 
+        assignedContainers.put(user,assign);
 
         return assign;
+
+
     }
 
     @Override
