@@ -15,14 +15,26 @@ public class DefaultContainerService implements ContainerService {
     private static final Map<User, Integer> assignedContainers = new ConcurrentHashMap<>();
     private final List<Integer> allPorts;
 
-    @Value("${local.port.first}")
     private int firstPort;
-
-    @Value("${local.port.last}")
     private int lastPort;
 
 
+    @Value("${local.port.first}")
+    public void setFirstPort(int firstPort) {
+        this.firstPort = firstPort;
+        System.out.println(this.firstPort);
+    }
+
+    @Value("${local.port.last}")
+    public void setLastPort(int lastPort) {
+        this.lastPort = lastPort;
+        System.out.println(this.lastPort);
+    }
+
     public DefaultContainerService() {
+
+        System.out.println(firstPort);
+
         this.allPorts = new LinkedList<>();
         List<Integer> unavailablePorts = getUnavailablePorts();
 
@@ -87,6 +99,7 @@ public class DefaultContainerService implements ContainerService {
         }
 
         //TODO:cmd to create container
+        
 
         return assign;
     }
@@ -101,6 +114,7 @@ public class DefaultContainerService implements ContainerService {
 
     private List<Integer> getUnavailablePorts() {
         // TODO: CmdHelper.runCommand("...");
-        return null;
+        List<Integer> a = new LinkedList<>();
+        return a;
     }
 }

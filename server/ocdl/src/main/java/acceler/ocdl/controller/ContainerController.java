@@ -20,9 +20,13 @@ public final class ContainerController {
     @Autowired
     private ContainerService containerService;
 
-    @Value("${local.ip}")
     private String serverIp;
 
+    @Value("${local.ip}")
+    public void setServerIp(String serverIp) {
+        this.serverIp = serverIp;
+        System.out.println(this.serverIp);
+    }
 
     @RequestMapping(params = "status=all", method = RequestMethod.GET)
     public final List<Integer> queryUsingPorts() {
