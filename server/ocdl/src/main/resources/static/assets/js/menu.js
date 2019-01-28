@@ -2,7 +2,7 @@ $(function(){
   var menuwidth  = 240; // 边栏宽度
   var menuspeed  = 400; // 边栏滑出耗费时间
   
-  var $bdy       = $('#main');
+  var $bdy       = $('#hamburgermenu');
   var $container = $('#main');
   var $burger    = $('#hamburgermenu');
   var negwidth   = "-"+menuwidth+"px";
