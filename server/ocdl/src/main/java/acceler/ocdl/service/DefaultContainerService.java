@@ -98,8 +98,6 @@ public class DefaultContainerService implements ContainerService {
             }
         }
 
-        //TODO:cmd to create container
-
         CmdHelper.runCommand("docker run -dit -v " + dir + ":/root/build -p "
                 + assign + ":8998 oneclick:jupyterpython /bin/bash");
 
