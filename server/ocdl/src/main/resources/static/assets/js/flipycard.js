@@ -9,7 +9,7 @@
 		  }
 		    else{
 		        document.getElementById("card").classList.remove("flip");
-		        document.getElementById("flaptext").innerHTML="Code";
+		        document.getElementById("flaptext").innerHTML="Template";
 		    }
 		}
 		

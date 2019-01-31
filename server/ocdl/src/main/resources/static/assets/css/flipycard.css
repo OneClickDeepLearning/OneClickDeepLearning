@@ -59,5 +59,8 @@ transition-duration: 1s, 1s;
     -o-transform: rotateY(360deg);
     transform: rotateY(360deg);
 }
+#flapBtn{
+    background-color: #47C6F8;
+}
 
 
