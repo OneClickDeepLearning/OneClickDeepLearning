@@ -1,5 +1,6 @@
 package acceler.ocdl.controller;
 
+import acceler.ocdl.model.JenkinsMessage;
 import acceler.ocdl.model.User;
 import acceler.ocdl.service.ContainerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,14 @@ public final class ContainerController {
             return serverIp + ":" + assign.toString();
         }
     }
+
+    @ResponseBody
+    @RequestMapping(params = "action=jkmsg", method = RequestMethod.POST)
+    public final Integer updateModel(@RequestBody JenkinsMessage msg) {
+        containerService.getJKmsg(msg);
+        return 1;
+    }
+
 
     @ResponseBody
     @RequestMapping(params = "action=release", method = RequestMethod.POST)

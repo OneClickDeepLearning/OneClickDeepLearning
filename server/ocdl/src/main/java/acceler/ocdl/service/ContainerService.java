@@ -1,5 +1,6 @@
 package acceler.ocdl.service;
 
+import acceler.ocdl.model.JenkinsMessage;
 import acceler.ocdl.model.User;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface ContainerService {
     public Integer requestContainer(User user);
 
     public void releaseContainer(User user);
+
+    public void getJKmsg(JenkinsMessage msg);
 }
