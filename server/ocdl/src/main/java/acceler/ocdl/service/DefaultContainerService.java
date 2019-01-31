@@ -104,6 +104,8 @@ public class DefaultContainerService implements ContainerService {
 
         assignedContainers.put(user,assign);
 
+        System.out.println(user.getType());
+
         return assign;
 
     }
