@@ -1,5 +1,6 @@
 package acceler.ocdl.service;
 
+import acceler.ocdl.model.JenkinsMessage;
 import acceler.ocdl.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -113,6 +114,12 @@ public class DefaultContainerService implements ContainerService {
         synchronized (this) {
             assignedContainers.remove(user);
         }
+    }
+
+    public void getJKmsg(JenkinsMessage msg){
+        System.out.println(msg.getModelId());
+        System.out.println(msg.getModelName());
+        System.out.println(msg.getVersion());
     }
 
     private List<Integer> getUnavailablePorts() {

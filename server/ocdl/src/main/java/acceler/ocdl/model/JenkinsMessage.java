@@ -9,14 +9,6 @@ public class JenkinsMessage implements Serializable {
     private String modelName;
     private String version;
 
-    public JenkinsMessage(int modelId, String modelName, String version) {
-
-        this.modelId = modelId;
-        this.modelName = modelName;
-        this.version = version;
-
-    }
-
     public int getModelId() {
         return modelId;
     }
