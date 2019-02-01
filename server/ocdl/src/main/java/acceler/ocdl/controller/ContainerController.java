@@ -56,6 +56,18 @@ public final class ContainerController {
         return 1;
     }
 
+    @ResponseBody
+    @RequestMapping(params = "action=getVersion", method = RequestMethod.POST)
+    public final String requestVersion(@RequestBody JenkinsMessage msg) {
+
+        String version = containerService.getVersion(msg);
+        if (version == null){
+            return "No such model exists";
+        } else {
+            return version;
+        }
+    }
+
 
     @ResponseBody
     @RequestMapping(params = "action=release", method = RequestMethod.POST)
