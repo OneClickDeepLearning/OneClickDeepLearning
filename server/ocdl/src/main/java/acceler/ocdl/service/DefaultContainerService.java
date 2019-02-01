@@ -21,7 +21,7 @@ public class DefaultContainerService implements ContainerService {
 
     private int lastPort = 12000;
 
-    private String dir = "/Users/WBQ/Documents/ALL/PycharmProjects/OneClickDeepLearning/build";
+    private String dir = "/root/OneClickDeepLearning/build";
 
     @Value("${local.port.first}")
     public void setFirstPort(int firstPort) {
@@ -99,8 +99,13 @@ public class DefaultContainerService implements ContainerService {
             }
         }
 
-        CmdHelper.runCommand("docker run -dit -v " + dir + ":/root/build -p "
-                + assign + ":8998 oneclick:jupyterpython /bin/bash");
+        String cmd = "docker run -dit -v " + dir + ":/root/build -p "
+                + assign + ":8998 wbq1995/server:jupyter /bin/bash";
+
+	System.out.println(cmd);
+
+	CmdHelper.runCommand(cmd);
+	
 
         assignedContainers.put(user,assign);
 
