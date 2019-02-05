@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class DefaultContainerService implements ContainerService {
     private static final Map<User, Integer> assignedContainers = new ConcurrentHashMap<>();
+    private static final Map<Integer, String> models = new ConcurrentHashMap<>();
     private final List<Integer> allPorts;
 
 
@@ -21,12 +22,12 @@ public class DefaultContainerService implements ContainerService {
 
     private int lastPort = 12000;
 
-    private String dir = "/Users/WBQ/Documents/ALL/PycharmProjects/OneClickDeepLearning/build";
+    private String dir = "/root/OneClickDeepLearning/build";
 
     @Value("${local.port.first}")
     public void setFirstPort(int firstPort) {
         this.firstPort = firstPort;
-        System.out.println(this.firstPort);
+        //System.out.println(this.firstPort);
     }
 
     @Value("${local.port.last}")
@@ -35,7 +36,7 @@ public class DefaultContainerService implements ContainerService {
     }
 
     public DefaultContainerService() {
-        System.out.println(this.firstPort);
+        //System.out.println(this.firstPort);
         this.allPorts = new LinkedList<>();
         List<Integer> unavailablePorts = getUnavailablePorts();
 
@@ -99,12 +100,19 @@ public class DefaultContainerService implements ContainerService {
             }
         }
 
-        CmdHelper.runCommand("docker run -dit -v " + dir + ":/root/build -p "
-                + assign + ":8998 oneclick:jupyterpython /bin/bash");
+        if(user.getType() != 1){
+            assign = null;
+            return null;
+        }
+
+        String cmd = "docker run -dit -v " + dir + ":/root/build -p "
+                + assign + ":8998 wbq1995/server:jupyter /bin/bash";
+
+        //System.out.println(cmd);
+
+	    CmdHelper.runCommand(cmd);
 
         assignedContainers.put(user,assign);
-
-        System.out.println(user.getType());
 
         return assign;
 
@@ -119,9 +127,18 @@ public class DefaultContainerService implements ContainerService {
     }
 
     public void getJKmsg(JenkinsMessage msg){
-        System.out.println(msg.getModelId());
-        System.out.println(msg.getModelName());
-        System.out.println(msg.getVersion());
+//        System.out.println(msg.getModelId());
+//        System.out.println(msg.getModelName());
+//        System.out.println(msg.getVersion());
+
+        models.put(msg.getModelId(),msg.getVersion());
+
+    }
+
+    public String getVersion(JenkinsMessage msg){
+        String version = null;
+        version = models.get(msg.getModelId());
+        return version;
     }
 
     private List<Integer> getUnavailablePorts() {

@@ -48,7 +48,6 @@ public final class ContainerController {
         }
     }
 
-    @ResponseBody
     @RequestMapping(params = "action=release", method = RequestMethod.POST)
     public final void releaseContainer(@RequestBody User user) {
         containerService.releaseContainer(user);

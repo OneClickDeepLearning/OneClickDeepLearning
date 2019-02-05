@@ -20,4 +20,6 @@ public interface ContainerService {
     public void releaseContainer(User user);
 
     public void getJKmsg(JenkinsMessage msg);
+
+    public String getVersion(JenkinsMessage msg);
 }
