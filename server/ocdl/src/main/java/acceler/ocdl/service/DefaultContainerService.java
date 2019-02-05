@@ -1,10 +1,10 @@
 package acceler.ocdl.service;
 
-import acceler.ocdl.model.JenkinsMessage;
 import acceler.ocdl.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +16,7 @@ public class DefaultContainerService implements ContainerService {
     private static final Map<User, Integer> assignedContainers = new ConcurrentHashMap<>();
     private static final Map<Integer, String> models = new ConcurrentHashMap<>();
     private final List<Integer> allPorts;
+    private final String modeFilePath = "/root/OneClickDLTemp/models";
 
 
     private int firstPort = 10000;
@@ -126,19 +127,20 @@ public class DefaultContainerService implements ContainerService {
         }
     }
 
-    public void getJKmsg(JenkinsMessage msg){
-//        System.out.println(msg.getModelId());
-//        System.out.println(msg.getModelName());
-//        System.out.println(msg.getVersion());
+    public List<String> getModelFiles() {
+        ArrayList<String> files = new ArrayList<>();
 
-        models.put(msg.getModelId(),msg.getVersion());
+        File file = new File(modeFilePath);
+        File fileList[] = file.listFiles();
 
-    }
+        if(fileList == null)
+            return null;
 
-    public String getVersion(JenkinsMessage msg){
-        String version = null;
-        version = models.get(msg.getModelId());
-        return version;
+        for(File modelFIle : fileList){
+            files.add(modelFIle.getName());
+        }
+
+        return files;
     }
 
     private List<Integer> getUnavailablePorts() {
