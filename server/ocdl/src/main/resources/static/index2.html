@@ -65,7 +65,7 @@
 	<div class="container" >
 		<div class="row">
 			<div class="col-md-8 col-sm-4 col-xs-12">
-				<a href="#" class="toggle toggle--on navbar-right"></a>
+				<a id="serverCtl" href="#" class="toggle toggle--on navbar-right"></a>
 			</div>
 			<div class="col-md-2 col-sm-4 col-xs-12">
 				<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button></p>
@@ -144,7 +144,7 @@
 					<div class="front">
 						<!--			        <iframe sandbox="allow-forms allow-same-origin allow-scripts"
                                             src="http://localhost:8889/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>-->
-						<iframe sandbox="allow-forms allow-same-origin allow-scripts"
+						<iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
 								src="http:34.238.151.1:7777/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>
 					</div>
 					<div class="back">
@@ -249,6 +249,45 @@
 				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
 				dp.SyntaxHighlighter.HighlightAll('code');
 			}
+
+
+	$('#serverCtl').on('click', function(e){
+		if($("#serverCtl").hasClass('toggle--on')){
+			selectJupyterServer(0); //Connect CPU Server
+		}else {
+			selectJupyterServer(1); //Connect GPU Server
+		}
+
+	});
+
+
+	function selectJupyterServer(server){
+		$.ajax({
+			url: "/container?action=request",
+			contentType: 'application/json',
+			dataType: "json",
+			data:
+					JSON.stringify({
+						user_id: 1001,
+						account: "u1001",
+						password: "p1001",
+						type: server
+					}),
+			type: "POST",
+			success: function(data) {
+				alert(data);
+				$('#jupyterFrame').attr('src', "http://"+data+"/notebooks/Untitled.ipynb");
+			},
+			error: function (data) {
+				if(server=='0'){
+					$('#jupyterFrame').attr('src', "http://34.238.151.1:7777/notebooks/Untitled.ipynb");
+				}
+				alert(data);
+			}
+		})
+	}
+
+
 </script>
 
 </body>
