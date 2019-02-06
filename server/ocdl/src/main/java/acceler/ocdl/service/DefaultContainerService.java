@@ -16,14 +16,12 @@ public class DefaultContainerService implements ContainerService {
     private static final Map<User, Integer> assignedContainers = new ConcurrentHashMap<>();
     private static final Map<Integer, String> models = new ConcurrentHashMap<>();
     private final List<Integer> allPorts;
-    private final String modeFilePath = "/root/OneClickDLTemp/models";
-
 
     private int firstPort = 10000;
 
     private int lastPort = 12000;
 
-    private final String dir = "/root/OneClickDeepLearning/build";
+    private final String dir = "/root/OneClickDLTemp/users/";
 
     @Value("${local.port.first}")
     public void setFirstPort(int firstPort) {
@@ -106,7 +104,7 @@ public class DefaultContainerService implements ContainerService {
             return null;
         }
 
-        String cmd = "docker run -dit -v " + dir + ":/root/build -p "
+        String cmd = "docker run -dit -v " + dir + user.getUserId().toString() + ":/root/models -p "
                 + assign + ":8998 wbq1995/server:jupyter /bin/bash";
 
         //System.out.println(cmd);
@@ -127,22 +125,6 @@ public class DefaultContainerService implements ContainerService {
         }
     }
 
-    public List<String> getModelFiles() {
-        ArrayList<String> files = new ArrayList<>();
-
-        File file = new File(modeFilePath);
-        File fileList[] = file.listFiles();
-
-        if(fileList == null)
-            return null;
-
-        for(File modelFIle : fileList){
-            files.add(modelFIle.getName());
-        }
-
-        return files;
-    }
-    
 
     private List<Integer> getUnavailablePorts() {
         // TODO: CmdHelper.runCommand("...");
