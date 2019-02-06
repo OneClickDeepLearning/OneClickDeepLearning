@@ -20,6 +20,4 @@ public interface ContainerService {
 
     public void releaseContainer(User user);
 
-
-
 }

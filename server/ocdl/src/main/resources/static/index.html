@@ -124,7 +124,7 @@
 			<button id="hideNavBtn" class="operateButton  navbar-right"><span class="glyphicon glyphicon-chevron-up"></span></button>
 			<button id="flapBtn" class="operateButton navbar-right"><span class="glyphicon glyphicon-retweet"></span>&nbsp;<span id="flaptext">Code</span></button>
 			<button id="CpuTestBtn" class="operateButton navbar-right"><span> CPU Computing</span></button>
-			<a href="#" class="toggle toggle--on navbar-right"></a>
+			<a id="serverCtl" href="#" class="toggle toggle--on navbar-right"></a>
 		</nav>
 		</nav>
 		
@@ -190,7 +190,7 @@
 			    <div class="front">
 <!--			        <iframe sandbox="allow-forms allow-same-origin allow-scripts"
 					src="http://localhost:8889/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>-->
-					<iframe sandbox="allow-forms allow-same-origin allow-scripts"
+					<iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
 							src="http:34.238.151.1:7777/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>
 			    </div>
 			    <div class="back">
@@ -247,12 +247,17 @@
 
 
 
-			$('#CpuTestBtn').on('click', function(e){
-				selectJupyterServer();
+			$('#serverCtl').on('click', function(e){
+				if($("#serverCtl").hasClass('toggle--on')){
+					selectJupyterServer(0); //Connect CPU Server
+				}else {
+					selectJupyterServer(1); //Connect GPU Server
+				}
+
 			});
 
 
-			function selectJupyterServer(){
+			function selectJupyterServer(server){
                 $.ajax({
                     url: "/container?action=request",
                     contentType: 'application/json',
@@ -261,14 +266,20 @@
                       JSON.stringify({
                           user_id: 1001,
                           account: "u1001",
-                          password: "p1001"
+                          password: "p1001",
+						   type: server
                       }),
-
                     type: "POST",
-
                     success: function(data) {
                         alert(data);
-                    }
+						$('#jupyterFrame').attr('src', data+"/notebooks/Untitled.ipynb");
+					},
+					error: function (data) {
+                    	if(server=='0'){
+							$('#jupyterFrame').attr('src', "34.238.151.1:7777/notebooks/Untitled.ipynb");
+						}
+						alert(data);
+					}
                 })
             }
 
