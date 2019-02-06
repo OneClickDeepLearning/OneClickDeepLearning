@@ -14,8 +14,8 @@
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="assets2/css/templatemo-style.css">
 	<link rel="stylesheet" href="assets2/css/SwitchServer.css">
-	<link href="assets/css/flipycard.css" rel="stylesheet">
-	<link href="assets/css/SyntaxHighlighter.css" type="text/css" rel="stylesheet">
+	<link href="assets2/css/flipycard.css" rel="stylesheet">
+	<link href="assets2/css/SyntaxHighlighter.css" type="text/css" rel="stylesheet">
 	<link href="assets2/css/menu.css" rel="stylesheet">
 
 
@@ -64,17 +64,22 @@
 <header style="background-color:#000000;">
 	<div class="container" >
 		<div class="row">
-			<div class="col-md-8 col-sm-4 col-xs-12">
-				<a href="#" class="toggle toggle--on navbar-right"></a>
+			<div id="informationBlock" style="margin: auto;" class="col-md-6 col-sm-3 col-xs-3">
+				<label class="col-md-4">User: <label id="username" style="color: #47C6F8">Admin</label></label>
+				<label class="col-md-4">Rescourse: <label id="rescourse" style="color: #47C6F8">CPU</label></label>
+				<label class="col-md-4">Status: <label id="status" style="color: #47C6F8">Connected</label></label>
 			</div>
-			<div class="col-md-2 col-sm-4 col-xs-12">
+			<div class="col-md-2 col-sm-3 col-xs-3">
+				<a id="serverCtl" href="#" class="toggle toggle--on navbar-right"></a>
+			</div>
+			<div class="col-md-2 col-sm-3 col-xs-3">
 				<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button></p>
 			</div>
-			<div class="col-md-2 col-sm-4 col-xs-12">
+			<div class="col-md-2 col-sm-3 col-xs-3">
 				<ul class="social-icon">
 					<li><span>Sign in with </span></li>
-					<li><a href="#" class="fa fa-facebook"></a></li>
-					<li><a href="#" class="fa fa-twitter"></a></li>
+					<li><a id="login_f" class="fa fa-facebook"></a></li>
+					<li><a href="login_t" class="fa fa-twitter"></a></li>
 				</ul>
 
 			</div>
@@ -140,11 +145,11 @@
 	<div class="container">
 		<div class="row">
 			<div id="con">
-				<div id="card" class="card col-xs-10 col-xs-offset-2" style="height:600px;">
+				<div id="card" class="card col-xs-11 col-xs-offset-1" style="height:600px;">
 					<div class="front">
 						<!--			        <iframe sandbox="allow-forms allow-same-origin allow-scripts"
                                             src="http://localhost:8889/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>-->
-						<iframe sandbox="allow-forms allow-same-origin allow-scripts"
+						<iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
 								src="http:34.238.151.1:7777/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>
 					</div>
 					<div class="back">
@@ -239,16 +244,59 @@
 <script src="assets2/js/custom.js"></script>
 <script src="assets2/js/prefixfree.min.js"></script>
 <script src="assets2/js/switchServer.js"></script>
-<script language="javascript" src="assets/js/flipycard.js"></script>
-<script language="javascript" src="assets/js/shCore.js"></script>
-<script language="javascript" src="assets/js/shBrushPython.js"></script>
-<script src="assets/js/menu.js"></script>
-<script language="javascript" src="assets/js/secondlayernav.js"></script>
+<script language="javascript" src="assets2/js/flipycard.js"></script>
+<script language="javascript" src="assets2/js/shCore.js"></script>
+<script language="javascript" src="assets2/js/shBrushPython.js"></script>
+<script src="assets2/js/menu.js"></script>
+<script language="javascript" src="assets2/js/secondlayernav.js"></script>
 <script language="javascript">
 	window.onload = function () {
 				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
 				dp.SyntaxHighlighter.HighlightAll('code');
 			}
+
+
+	$('#serverCtl').on('click', function(e){
+		if($("#serverCtl").hasClass('toggle--on')){
+			selectJupyterServer(0); //Connect CPU Server
+		}else {
+			selectJupyterServer(1); //Connect GPU Server
+		}
+
+	});
+
+
+	function selectJupyterServer(server){
+		$.ajax({
+			url: "/container?action=request",
+			contentType: 'application/json',
+			dataType: "json",
+			data:
+					JSON.stringify({
+						user_id: 1001,
+						account: "u1001",
+						password: "p1001",
+						type: server
+					}),
+			type: "POST",
+			success: function(data) {
+				alert(data);
+				$('#jupyterFrame').attr('src', "http://"+data+"/notebooks/Untitled.ipynb");
+			},
+			error: function (data) {
+				if(server==0){
+					$('#jupyterFrame').attr('src', "http://34.238.151.1:7777/notebooks/Untitled.ipynb");
+				}else{
+					$('#jupyterFrame').attr('src', "http://66.131.186.246:5501/notebooks/Untitled.ipynb");
+				}
+				alert(data);
+			}
+		})
+	}
+
+
+
+
 </script>
 
 </body>
