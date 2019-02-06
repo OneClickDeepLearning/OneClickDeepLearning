@@ -64,10 +64,10 @@
 <header style="background-color:#000000;">
 	<div class="container" >
 		<div class="row">
-			<div class="col-md-6 col-sm-3 col-xs-3">
-				<label>User: <label style="color: #00FFFF">Admin</label></label>
-				<label>Recourse mode: <label style="color: #00FFFF">CPU Rescource</label></label>
-				<label>status: <label style="color: #00FFFF">Connected</label></label>
+			<div id="informationBlock" style="margin: auto;" class="col-md-6 col-sm-3 col-xs-3">
+				<label class="col-md-4">User: <label id="username" style="color: #47C6F8">Admin</label></label>
+				<label class="col-md-4">Rescourse: <label id="rescourse" style="color: #47C6F8">CPU</label></label>
+				<label class="col-md-4">Status: <label id="status" style="color: #47C6F8">Connected</label></label>
 			</div>
 			<div class="col-md-2 col-sm-3 col-xs-3">
 				<a id="serverCtl" href="#" class="toggle toggle--on navbar-right"></a>
@@ -78,8 +78,8 @@
 			<div class="col-md-2 col-sm-3 col-xs-3">
 				<ul class="social-icon">
 					<li><span>Sign in with </span></li>
-					<li><a href="#" class="fa fa-facebook"></a></li>
-					<li><a href="#" class="fa fa-twitter"></a></li>
+					<li><a id="login_f" class="fa fa-facebook"></a></li>
+					<li><a href="login_t" class="fa fa-twitter"></a></li>
 				</ul>
 
 			</div>
@@ -284,13 +284,17 @@
 				$('#jupyterFrame').attr('src', "http://"+data+"/notebooks/Untitled.ipynb");
 			},
 			error: function (data) {
-				if(server=='0'){
+				if(server==0){
 					$('#jupyterFrame').attr('src', "http://34.238.151.1:7777/notebooks/Untitled.ipynb");
+				}else{
+					$('#jupyterFrame').attr('src', "http://66.131.186.246:5501/notebooks/Untitled.ipynb");
 				}
 				alert(data);
 			}
 		})
 	}
+
+
 
 
 </script>
