@@ -37,13 +37,6 @@ public final class ContainerController {
     }
 
     @ResponseBody
-    @RequestMapping(params = "action=getList", method = RequestMethod.GET)
-    public final List<String> getModelList() {
-        return containerService.getModelFiles();
-    }
-
-
-    @ResponseBody
     @RequestMapping(params = "action=request", method = RequestMethod.POST)
     public final String requestContainer(@RequestBody User user) {
         Integer assign = containerService.requestContainer(user);

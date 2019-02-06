@@ -14,8 +14,6 @@ public interface ContainerService {
 
     public List<Integer> getAvailableContainers();
 
-    public List<String> getModelFiles();
-
     public Integer requestContainer(User user);
 
     public void releaseContainer(User user);
