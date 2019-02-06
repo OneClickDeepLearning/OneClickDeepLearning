@@ -1,11 +1,9 @@
 package acceler.ocdl.controller;
 
-import acceler.ocdl.model.JenkinsMessage;
 import acceler.ocdl.model.User;
 import acceler.ocdl.service.ContainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +37,13 @@ public final class ContainerController {
     }
 
     @ResponseBody
+    @RequestMapping(params = "action=getList", method = RequestMethod.GET)
+    public final List<String> getModelList() {
+        return containerService.getModelFiles();
+    }
+
+
+    @ResponseBody
     @RequestMapping(params = "action=request", method = RequestMethod.POST)
     public final String requestContainer(@RequestBody User user) {
         Integer assign = containerService.requestContainer(user);
@@ -46,25 +51,6 @@ public final class ContainerController {
             return "None Container Assigned";
         } else {
             return serverIp + ":" + assign.toString();
-        }
-    }
-
-    @ResponseBody
-    @RequestMapping(params = "action=jkmsg", method = RequestMethod.POST)
-    public final Integer updateModel(@RequestBody JenkinsMessage msg) {
-        containerService.getJKmsg(msg);
-        return 1;
-    }
-
-    @ResponseBody
-    @RequestMapping(params = "action=getVersion", method = RequestMethod.POST)
-    public final String requestVersion(@RequestBody JenkinsMessage msg) {
-
-        String version = containerService.getVersion(msg);
-        if (version == null){
-            return "No such model exists";
-        } else {
-            return version;
         }
     }
 
