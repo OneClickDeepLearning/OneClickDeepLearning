@@ -23,7 +23,7 @@ public class DefaultContainerService implements ContainerService {
 
     private int lastPort = 12000;
 
-    private String dir = "/root/OneClickDeepLearning/build";
+    private final String dir = "/root/OneClickDeepLearning/build";
 
     @Value("${local.port.first}")
     public void setFirstPort(int firstPort) {
