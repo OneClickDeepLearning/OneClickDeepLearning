@@ -105,7 +105,7 @@ public class DefaultContainerService implements ContainerService {
         }
 
         String cmd = "docker run -dit -v " + dir + user.getUserId().toString() + ":/root/models -p "
-                + assign + ":8998 wbq1995/server:jupyter /bin/bash";
+                + assign + ":8998 cpuserver:1.0 /bin/bash";
 
         //System.out.println(cmd);
 
