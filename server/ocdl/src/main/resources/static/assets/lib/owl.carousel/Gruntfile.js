@@ -147,7 +147,7 @@ module.exports = function(grunt) {
 				options: {
 					timeout: 10000
 				},
-				dist: [ 'test/index2.html' ]
+				dist: [ 'test/index.html' ]
 			},
 
 			jscs: {
