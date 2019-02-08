@@ -1,10 +1,10 @@
 package acceler.ocdl.service;
 
-import acceler.ocdl.model.JenkinsMessage;
 import acceler.ocdl.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,12 +17,11 @@ public class DefaultContainerService implements ContainerService {
     private static final Map<Integer, String> models = new ConcurrentHashMap<>();
     private final List<Integer> allPorts;
 
-
     private int firstPort = 10000;
 
     private int lastPort = 12000;
 
-    private String dir = "/root/OneClickDeepLearning/build";
+    private final String dir = "/root/OneClickDLTemp/users/";
 
     @Value("${local.port.first}")
     public void setFirstPort(int firstPort) {
@@ -105,7 +104,7 @@ public class DefaultContainerService implements ContainerService {
             return null;
         }
 
-        String cmd = "docker run -dit -v " + dir + ":/root/build -p "
+        String cmd = "docker run -dit -v " + dir + user.getUserId().toString() + ":/root/models -p "
                 + assign + ":8998 wbq1995/server:jupyter /bin/bash";
 
         //System.out.println(cmd);
@@ -126,20 +125,6 @@ public class DefaultContainerService implements ContainerService {
         }
     }
 
-    public void getJKmsg(JenkinsMessage msg){
-//        System.out.println(msg.getModelId());
-//        System.out.println(msg.getModelName());
-//        System.out.println(msg.getVersion());
-
-        models.put(msg.getModelId(),msg.getVersion());
-
-    }
-
-    public String getVersion(JenkinsMessage msg){
-        String version = null;
-        version = models.get(msg.getModelId());
-        return version;
-    }
 
     private List<Integer> getUnavailablePorts() {
         // TODO: CmdHelper.runCommand("...");
