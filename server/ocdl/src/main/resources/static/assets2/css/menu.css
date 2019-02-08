@@ -1,5 +1,8 @@
 
-/** page structure **/
+ul{
+  margin: 0 ;
+  padding: 0 ;
+}
 
 #navbar {
   max-width: 1000px;
@@ -7,8 +10,9 @@
 }
 
 .menubtn {
+ 
   position: relative; 
-  z-index: 110;
+  z-index: 101;
   color: #274a61;
   text-decoration: none;
   font-size: 0em;
@@ -57,7 +61,7 @@ body.openmenu {
   position: fixed;
   top: 0;
   left: 0;
-  padding-top:80px;
+  padding-top:150px;
   z-index: 101;
   overflow: hidden;
   -webkit-box-shadow: 3px 0 7px rgba(0,0,0,0.55);

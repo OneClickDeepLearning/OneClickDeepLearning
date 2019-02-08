@@ -134,6 +134,8 @@ header
 		min-height: 20px;
 		padding-top: 18px;
 		padding-bottom: 10px;
+		z-index: 102;
+		position: relative;
 	}
 header .fa
 	{

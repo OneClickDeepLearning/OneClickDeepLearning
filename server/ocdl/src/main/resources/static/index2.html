@@ -17,12 +17,18 @@
 	<link href="assets2/css/flipycard.css" rel="stylesheet">
 	<link href="assets2/css/SyntaxHighlighter.css" type="text/css" rel="stylesheet">
 	<link href="assets2/css/menu.css" rel="stylesheet">
+	<link href="assets2/css/infoStatus.css" rel="stylesheet">
 
 
 
 
 </head>
 <body id="top">
+<script language="JavaScript">
+	var user_id='';
+	var user_account='';
+	var user_password='';
+</script>
 
 <!-- start preloader -->
 <div class="preloader">
@@ -65,12 +71,12 @@
 	<div class="container" >
 		<div class="row">
 			<div id="informationBlock" style="margin: auto;" class="col-md-6 col-sm-3 col-xs-3">
-				<label class="col-md-4">User: <label id="username" style="color: #47C6F8">Admin</label></label>
-				<label class="col-md-4">Rescourse: <label id="rescourse" style="color: #47C6F8">CPU</label></label>
-				<label class="col-md-4">Status: <label id="status" style="color: #47C6F8">Connected</label></label>
+				<label class="col-md-4">User: <label id="username" style="color: #47C6F8">TempUser</label></label>
+				<label class="col-md-4">Rescourse: <label id="rescourse" style="color: #47C6F8" class="status_NoneR"></label></label>
+				<label class="col-md-4">Status: <label id="status" class="status_disconnected"></label></label>
 			</div>
 			<div class="col-md-2 col-sm-3 col-xs-3">
-				<a id="serverCtl" href="#" class="toggle toggle--on navbar-right"></a>
+				<a id="serverCtl" href="javascript:selectJupyterServer(user_id,user_account,user_password);" class="toggle toggle--on navbar-right"></a>
 			</div>
 			<div class="col-md-2 col-sm-3 col-xs-3">
 				<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button></p>
@@ -78,7 +84,7 @@
 			<div class="col-md-2 col-sm-3 col-xs-3">
 				<ul class="social-icon">
 					<li><span>Sign in with </span></li>
-					<li><a id="login_f" class="fa fa-facebook"></a></li>
+					<li><a id="login_f" href="#" class="fa fa-facebook"></a></li>
 					<li><a href="login_t" class="fa fa-twitter"></a></li>
 				</ul>
 
@@ -145,7 +151,29 @@
 	<div class="container">
 		<div class="row">
 			<div id="con">
-				<div id="card" class="card col-xs-11 col-xs-offset-1" style="height:600px;">
+				<div id="card" class="card col-xs-11 col-xs-offset-1 unlog" style="height:600px;">
+					<div class="cover">
+							<div class="">
+								<div class="col-md-12">
+									<h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">OUR <span>AWESOME</span> THINGS</h2>
+								</div>
+								<div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+									<i class="fa fa-laptop"></i>
+									<h4>One Click Deep learning</h4>
+									<p> le sd fdf sfa sdf sd  g g d  er te  f a dfda d sd  ea d ds sd fsdf a fr r er erte df df re dfg r d fg  rdf df gdf gdfg dfg d r dfgr d gf gdrd fgr  dfg r dfg r df gfg rd fg r dfg rd fg dffg d r dweeree s dfsdf sdf sdf sdf se sdf sdf esdf sdf sdfs df es dfes df es dfes dfes dfesdf es df esdf es dfesdf ses dfes </p>
+								</div>
+								<div class="col-md-4 active wow fadeIn" data-wow-offset="50" data-wow-delay="0.9s">
+									<i class="fa fa-cloud"></i>
+									<h4>Distributed  Computing</h4>
+									<p>le sd fdf sfa sdf sd  g g d  er te  f a dfda d sd  ea d ds sd fsdf a fr r er erte df df re dfg r d fg  rdf df gdf gdfg dfg d r dfgr d gf gdrd fgr  dfg r dfg r df gfg rd fg r dfg rd fg dffg d r dweeree s dfsdf sdf sdf sdf se sdf sdf esdf sdf sdfs df es dfes df es dfes dfes dfesdf es df esdf es dfesdf ses dfes </p>
+								</div>
+								<div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+									<i class="fa fa-cog"></i>
+									<h4>UX Design</h4>
+									<p>le sd fdf sfa sdf sd  g g d  er te  f a dfda d sd  ea d ds sd fsdf a fr r er erte df df re dfg r d fg  rdf df gdf gdfg dfg d r dfgr d gf gdrd fgr  dfg r dfg r df gfg rd fg r dfg rd fg dffg d r dweeree s dfsdf sdf sdf sdf se sdf sdf esdf sdf sdfs df es dfes df es dfes dfes dfesdf es df esdf es dfesdf ses dfes fesdf es df esdf es dfesd</p>
+								</div>
+							</div>
+					</div>
 					<div class="front">
 						<!--			        <iframe sandbox="allow-forms allow-same-origin allow-scripts"
                                             src="http://localhost:8889/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>-->
@@ -195,31 +223,7 @@
 <!-- end home -->
 
 
-<!-- start service -->
-<section id="home">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">OUR <span>AWESOME</span> THINGS</h2>
-			</div>
-			<div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
-				<i class="fa fa-laptop"></i>
-				<h4>Web Design</h4>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elitquisque tempus ac eget diam et laoreet phasellus ut nisi id leo molestie. Adipiscing vitae vel quam proin eget mauris eget. Lorem ipsum dolor sit amet, consectetur adipiscing elitquisque tempus ac eget diam et laoreet phasellus ut nisi id leo molestie.</p>
-			</div>
-			<div class="col-md-4 active wow fadeIn" data-wow-offset="50" data-wow-delay="0.9s">
-				<i class="fa fa-cloud"></i>
-				<h4>Cloud Computing</h4>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elitquisque tempus ac eget diam et laoreet phasellus ut nisi id leo molestie. Adipiscing vitae vel quam proin eget mauris eget. Lorem ipsum dolor sit amet, consectetur adipiscing elitquisque tempus ac eget diam et laoreet phasellus ut nisi id leo molestie.</p>
-			</div>
-			<div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
-				<i class="fa fa-cog"></i>
-				<h4>UX Design</h4>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elitquisque tempus ac eget diam et laoreet phasellus ut nisi id leo molestie. Adipiscing vitae vel quam proin eget mauris eget. Lorem ipsum dolor sit amet, consectetur adipiscing elitquisque tempus ac eget diam et laoreet phasellus ut nisi id leo molestie.</p>
-			</div>
-		</div>
-	</div>
-</section>
+
 <!-- end servie -->
 
 <!-- start copyright -->
@@ -255,7 +259,7 @@
 				dp.SyntaxHighlighter.HighlightAll('code');
 			}
 
-
+/*
 	$('#serverCtl').on('click', function(e){
 		if($("#serverCtl").hasClass('toggle--on')){
 			selectJupyterServer(0); //Connect CPU Server
@@ -263,24 +267,30 @@
 			selectJupyterServer(1); //Connect GPU Server
 		}
 
-	});
+	});*/
 
 
-	function selectJupyterServer(server){
+	function selectJupyterServer(userId,userAccount,userPassword){
+		alert("1");
+		var server = 0;
+		if($("#serverCtl").hasClass('toggle--on')){
+			server = 0;
+		}else{
+			server = 1;
+		}
 		$.ajax({
 			url: "/container?action=request",
 			contentType: 'application/json',
 			dataType: "json",
 			data:
 					JSON.stringify({
-						user_id: 1001,
-						account: "u1001",
-						password: "p1001",
+						user_id: userId,
+						account: userAccount,
+						password: userPassword,
 						type: server
 					}),
 			type: "POST",
 			success: function(data) {
-				alert(data);
 				$('#jupyterFrame').attr('src', "http://"+data+"/notebooks/Untitled.ipynb");
 			},
 			error: function (data) {
@@ -289,12 +299,27 @@
 				}else{
 					$('#jupyterFrame').attr('src', "http://66.131.186.246:5501/notebooks/Untitled.ipynb");
 				}
-				alert(data);
 			}
 		})
 	}
 
+	$('#login_f').on('click', function(e){
+		user_id='1001';
+		user_account='u1001';
+		user_password='p1001'
+		var username=$("#username");
+		var status=$("#status");
+		var rescource=$("#rescourse");
+		var card=$("#card");
+		username.text(user_account);
+		status.removeClass('status_disconnected');
+		status.addClass('status_connected');
+		rescource.removeClass('status_NoneR');
+		rescource.addClass('status_cpu');
+		card.removeClass('unlog');
 
+
+	});
 
 
 </script>

@@ -3,10 +3,11 @@ $(function(){
   var menuspeed  = 400; // 边栏滑出耗费时间
   
   var $bdy       = $('#hamburgermenu');
-  var $container = $('#main');
-  var $burger    = $('#menubtn');
+  var $container = $('.menubtn');
+  var $burger    = $('#hamburgermenu');
   var negwidth   = "-"+menuwidth+"px";
   var poswidth   = menuwidth+"px";
+  
 
   
   $('.menubtn').on('click',function(e){
@@ -22,7 +23,37 @@ $(function(){
       jsAnimateMenu('close');
     }
   });
+  
+  $('#hideNavBtn').on('click',function(e){
+  	if($nav.hasClass('hideNav')) {
+  		jsAnimateNav('open');
+  	}else {
+  		jsAnimateNav("close");
+  	}
+  });
+  
+	$(".d-secondNav").on('click',function(e){
+		jsAnimateMenu('close');
+		flipPanel();
+/*        selectTemplate("ResNetB")*/
+	 });
 
+/*    function selectTemplate(name) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("code").innerHTML = xmlhttp.responseText;
+                dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
+                dp.SyntaxHighlighter.HighlightAll('code');
+            }
+        }
+        xmlhttp.open("POST", "template/getTemplate.do", true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send("name="+name);
+    }*/
+
+	 
   
   function jsAnimateMenu(tog) {
     if(tog == 'open') {

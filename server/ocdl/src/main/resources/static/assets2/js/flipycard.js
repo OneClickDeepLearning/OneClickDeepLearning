@@ -8,6 +8,7 @@
 				document.getElementById("flaptext").innerHTML="Jupyter";
 		  }
 		    else{
+			  	document.getElementById("card").classList.remove("unlog");
 		        document.getElementById("card").classList.remove("flip");
 		        document.getElementById("flaptext").innerHTML="Template";
 		    }
