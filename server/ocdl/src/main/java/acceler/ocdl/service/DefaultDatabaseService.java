@@ -52,6 +52,19 @@ public class DefaultDatabaseService implements DatabaseService {
 
     @Override
     public Map<String, String> getTemplates(List<String> ids) {
-        return null;
+
+        synchronized (this){
+            FindIterable<Document> findIterable = collection.find();
+            MongoCursor<Document> mongoCursor = findIterable.iterator();
+            while (mongoCursor.hasNext()) {
+
+                Document next = mongoCursor.next();
+
+                if(ids.contains(next.get("ID").toString())){
+                    templates.put(next.get("code").toString(),next.get("descrp").toString());
+                }
+            }
+        }
+        return templates;
     }
 }
