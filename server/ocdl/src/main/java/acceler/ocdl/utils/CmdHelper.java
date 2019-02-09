@@ -1,4 +1,4 @@
-package acceler.ocdl.service;
+package acceler.ocdl.utils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
