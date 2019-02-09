@@ -4,7 +4,6 @@ import acceler.ocdl.model.User;
 import acceler.ocdl.service.ContainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +47,7 @@ public final class ContainerController {
             return serverIp + ":" + assign.toString();
         }
     }
+
 
     @ResponseBody
     @RequestMapping(params = "action=release", method = RequestMethod.POST)

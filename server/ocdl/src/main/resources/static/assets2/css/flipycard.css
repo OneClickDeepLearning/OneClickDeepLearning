@@ -1,12 +1,12 @@
 @CHARSET "UTF-8";
 
 .card .front {
-    z-index: 900;
+    z-index: 100;
     background: #fff;
 }
 
 .card .back {
-    z-index: 900;
+    z-index: 100;
     background: #fff;
     -webkit-transform: rotateY(90deg);
     -moz-transform: rotateY(90deg);
@@ -35,7 +35,6 @@ box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
 -ms-transition-duration: 1s, 1s;
 -o-transition-duration: 1s, 1s;
 transition-duration: 1s, 1s;
-
 }
 
 
@@ -43,7 +42,7 @@ transition-duration: 1s, 1s;
 /* flip */
 
 .card.flip .front {
-    z-index: 900;
+    z-index: 100;
     -webkit-transform: rotateY(180deg);
     -moz-transform: rotateY(180deg);
     -ms-transform: rotateY(180deg);
@@ -52,7 +51,7 @@ transition-duration: 1s, 1s;
 }
 
 .card.flip .back {
-    z-index: 1000;
+    z-index: 101;
     -webkit-transform: rotateY(360deg);
     -moz-transform: rotateY(360deg);
     -ms-transform: rotateY(360deg);
@@ -61,6 +60,12 @@ transition-duration: 1s, 1s;
 }
 #flapBtn{
     background-color: #47C6F8;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+#flapBtn:hover{
+    background-color: #4CAF50; /* Green */
+    color: white;
 }
 
 

@@ -8,6 +8,8 @@ public class User implements Serializable {
     private Long userId;
     private String account;
     private String password;
+    private int type;
+
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -36,6 +38,10 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public int getType(){ return type; }
+
+    public void setType(int type){ this.type = type; }
 
 
     @Override

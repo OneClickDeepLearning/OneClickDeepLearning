@@ -4,26 +4,30 @@ import acceler.ocdl.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+
 @Service
 public class DefaultContainerService implements ContainerService {
     private static final Map<User, Integer> assignedContainers = new ConcurrentHashMap<>();
+    private static final Map<Integer, String> models = new ConcurrentHashMap<>();
     private final List<Integer> allPorts;
 
     private int firstPort = 10000;
 
     private int lastPort = 12000;
 
+    private final String dir = "/root/model_repo/";
 
     @Value("${local.port.first}")
     public void setFirstPort(int firstPort) {
         this.firstPort = firstPort;
-        System.out.println(this.firstPort);
+        //System.out.println(this.firstPort);
     }
 
     @Value("${local.port.last}")
@@ -33,7 +37,7 @@ public class DefaultContainerService implements ContainerService {
     }
 
     public DefaultContainerService() {
-        System.out.println(firstPort);
+
         this.allPorts = new LinkedList<>();
         List<Integer> unavailablePorts = getUnavailablePorts();
 
@@ -97,24 +101,34 @@ public class DefaultContainerService implements ContainerService {
             }
         }
 
-        CmdHelper.runCommand("docker run -dit -v " +
-                "/Users/WBQ/Documents/ALL/PycharmProjects/OneClickDeepLearning/build:/root/build -p "
-                + assign + ":8998 oneclick:jupyterpython /bin/bash");
 
+        if(user.getType() != 1){
+            assign = null;
+            return null;
+        }
+
+        String cmd = "docker run -dit -v " + dir + user.getUserId().toString() + ":/root/models -p "
+                + assign + ":8998 cpuserver:1.0 /bin/bash";
+
+        //System.out.println(cmd);
+
+	    CmdHelper.runCommand(cmd);
+
+        assignedContainers.put(user,assign);
 
         return assign;
+
     }
 
     @Override
     public void releaseContainer(final User user) {
-        //TODO: cmd to release container
         synchronized (this) {
             assignedContainers.remove(user);
         }
     }
 
+
     private List<Integer> getUnavailablePorts() {
-        // TODO: CmdHelper.runCommand("...");
         ArrayList<Integer> list = new ArrayList<>();
         list.add(8080);
         return list;
