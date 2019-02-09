@@ -10,6 +10,7 @@ public class User implements Serializable {
     private String password;
     private int type;
 
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }

@@ -1,8 +1,7 @@
-package acceler.ocdl.service;
+package acceler.ocdl.service.impl;
 
-import com.mongodb.DB;
+import acceler.ocdl.service.TemplateService;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoCredential;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -16,13 +15,15 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class DefaultDatabaseService implements DatabaseService {
+public class DefaultTemplateService implements TemplateService {
+
 
     private final MongoDatabase mongoDatabase;
     private final MongoCollection<Document> collection;
 
 
-    public DefaultDatabaseService() {
+
+    public DefaultTemplateService() {
         MongoClient mongoClient = new MongoClient("localhost", 27017);
         mongoDatabase = mongoClient.getDatabase("Oneclick");
         collection = mongoDatabase.getCollection("templates");

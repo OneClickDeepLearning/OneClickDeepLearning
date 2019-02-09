@@ -1,6 +1,7 @@
-package acceler.ocdl.service;
+package acceler.ocdl.service.impl;
 
 import acceler.ocdl.model.User;
+import acceler.ocdl.service.UserService;
 import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.List;
