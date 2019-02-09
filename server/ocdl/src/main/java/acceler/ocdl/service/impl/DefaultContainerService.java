@@ -1,10 +1,11 @@
-package acceler.ocdl.service;
+package acceler.ocdl.service.impl;
 
 import acceler.ocdl.model.User;
+import acceler.ocdl.utils.CmdHelper;
+import acceler.ocdl.service.ContainerService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class DefaultContainerService implements ContainerService {
 
     private int lastPort = 12000;
 
-    private final String dir = "/root/model_repo/";
+    private final String dir = "/root/model_repo/models/";
 
     @Value("${local.port.first}")
     public void setFirstPort(int firstPort) {
@@ -33,10 +34,11 @@ public class DefaultContainerService implements ContainerService {
     @Value("${local.port.last}")
     public void setLastPort(int lastPort) {
         this.lastPort = lastPort;
+        System.out.println(this.lastPort);
     }
 
     public DefaultContainerService() {
-        //System.out.println(this.firstPort);
+
         this.allPorts = new LinkedList<>();
         List<Integer> unavailablePorts = getUnavailablePorts();
 
@@ -100,6 +102,7 @@ public class DefaultContainerService implements ContainerService {
             }
         }
 
+
         if(user.getType() != 1){
             assign = null;
             return null;
@@ -120,7 +123,6 @@ public class DefaultContainerService implements ContainerService {
 
     @Override
     public void releaseContainer(final User user) {
-        //TODO: cmd to release container
         synchronized (this) {
             assignedContainers.remove(user);
         }
@@ -128,8 +130,6 @@ public class DefaultContainerService implements ContainerService {
 
 
     private List<Integer> getUnavailablePorts() {
-        // TODO: CmdHelper.runCommand("...");
-
         ArrayList<Integer> list = new ArrayList<>();
         list.add(8080);
         return list;

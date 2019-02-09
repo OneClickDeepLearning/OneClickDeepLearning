@@ -1,7 +1,7 @@
 package acceler.ocdl.controller;
 
 
-import acceler.ocdl.service.DatabaseService;
+import acceler.ocdl.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping(path = "/database")
-public final class DatabaseController {
+@RequestMapping(path = "/template")
+public final class TemplateController {
 
     @Autowired
-    private DatabaseService databaseService;
+    private TemplateService databaseService;
 
     @ResponseBody
     @RequestMapping(params = "status=getnames", method = RequestMethod.GET)

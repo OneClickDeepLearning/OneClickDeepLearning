@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @Controller
 @RequestMapping(path = "/container")
 public final class ContainerController {
@@ -22,6 +21,7 @@ public final class ContainerController {
     @Value("${local.ip}")
     public void setServerIp(String serverIp) {
         this.serverIp = serverIp;
+        System.out.println(this.serverIp);
     }
 
     @ResponseBody

@@ -1,14 +1,15 @@
 package acceler.ocdl.controller;
 
-import acceler.ocdl.service.CmdHelper;
-import org.springframework.stereotype.Controller;
+import acceler.ocdl.utils.CmdHelper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+
+@RestController
+@RequestMapping(path = "/ping")
 public final class PingController {
-
     @ResponseBody
     @RequestMapping(path = "/ping", method = RequestMethod.GET)
     public final String ping() {
@@ -17,9 +18,8 @@ public final class PingController {
 
 
     @ResponseBody
-    @RequestMapping(path = "/pin", method = RequestMethod.GET)
+    @RequestMapping(path = "/ping/port", method = RequestMethod.GET)
     public final String pin() {
-        String s = CmdHelper.runCommand("docker run -it -n test1 -p 10002:8998 oneclick:jupyterpython /bin/bash &");
-        return s;
+        return CmdHelper.runCommand("docker run -it -n test1 -p 10002:8998 oneclick:jupyterpython /bin/bash &");
     }
 }
