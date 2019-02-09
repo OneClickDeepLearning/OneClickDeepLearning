@@ -18,34 +18,27 @@ import java.util.Map;
 @Service
 public class DefaultDatabaseService implements DatabaseService {
 
-    private List<String> templatesList;
-    private Map<String, String> templates;
-    private MongoClient mongoClient;
-    private MongoDatabase mongoDatabase;
-    private MongoCollection<Document> collection;
+    private final MongoDatabase mongoDatabase;
+    private final MongoCollection<Document> collection;
 
 
-    public DefaultDatabaseService(){
-        templatesList = new ArrayList<>();
-        templates = new HashMap<>();
-
-
-        mongoClient = new MongoClient( "localhost" , 27017 );
+    public DefaultDatabaseService() {
+        MongoClient mongoClient = new MongoClient("localhost", 27017);
         mongoDatabase = mongoClient.getDatabase("Oneclick");
         collection = mongoDatabase.getCollection("templates");
-
     }
 
     @Override
     public List<String> getTemplatesList() {
 
-        synchronized (this) {
-            FindIterable<Document> findIterable = collection.find();
-            MongoCursor<Document> mongoCursor = findIterable.iterator();
-            while (mongoCursor.hasNext()) {
-                templatesList.add(mongoCursor.next().get("name").toString());
-            }
+        List<String> templatesList = new ArrayList<>();
+        
+        FindIterable<Document> findIterable = collection.find();
+        MongoCursor<Document> mongoCursor = findIterable.iterator();
+        while (mongoCursor.hasNext()) {
+            templatesList.add(mongoCursor.next().get("name").toString());
         }
+
         return templatesList;
     }
 
@@ -53,18 +46,19 @@ public class DefaultDatabaseService implements DatabaseService {
     @Override
     public Map<String, String> getTemplates(List<String> ids) {
 
-        synchronized (this){
-            FindIterable<Document> findIterable = collection.find();
-            MongoCursor<Document> mongoCursor = findIterable.iterator();
-            while (mongoCursor.hasNext()) {
+        Map<String, String> templates = new HashMap<>();
 
-                Document next = mongoCursor.next();
+        FindIterable<Document> findIterable = collection.find();
+        MongoCursor<Document> mongoCursor = findIterable.iterator();
+        while (mongoCursor.hasNext()) {
 
-                if(ids.contains(next.get("ID").toString())){
-                    templates.put(next.get("code").toString(),next.get("descrp").toString());
-                }
+            Document next = mongoCursor.next();
+
+            if (ids.contains(next.get("ID").toString())) {
+                templates.put(next.get("code").toString(), next.get("descrp").toString());
             }
         }
+
         return templates;
     }
 }
