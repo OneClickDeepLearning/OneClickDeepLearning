@@ -293,6 +293,7 @@
 				$('#jupyterFrame').attr('src', "http://"+data+"/notebooks/Untitled.ipynb");
 			},
 			error: function (data) {
+
 				if(server==0){
 					$('#jupyterFrame').attr('src', "http://34.238.151.1:7777/notebooks/Untitled.ipynb");
 				}else{
@@ -306,6 +307,8 @@
 		user_id='1001';
 		user_account='u1001';
 		user_password='p1001'
+
+		selectJupyterServer(user_id,user_account,user_password);
 		var username=$("#username");
 		var status=$("#status");
 		var rescource=$("#rescourse");
