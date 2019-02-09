@@ -8,6 +8,8 @@ public class CmdHelper {
     public static String runCommand(String cmd) {
         StringBuilder output = new StringBuilder();
 
+        System.out.println("[DEBug] docker container is running");
+
         try {
             Process p = Runtime.getRuntime().exec(cmd);
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
