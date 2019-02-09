@@ -2,9 +2,11 @@ package acceler.ocdl.service.impl;
 
 import acceler.ocdl.service.ModelService;
 import acceler.ocdl.utils.CmdHelper;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class DefaultModelService implements ModelService {
 
     @Override

@@ -19,7 +19,7 @@ public final class ModelController {
 
     @ResponseBody
     @RequestMapping(params = "action=push", method = RequestMethod.POST)
-    public String queryPushModels(@RequestBody List<String> models){
+    public final String queryPushModels(@RequestBody List<String> models){
         if(modelService.pushModels(models))
             return "push succeeded";
         return "push failed";
