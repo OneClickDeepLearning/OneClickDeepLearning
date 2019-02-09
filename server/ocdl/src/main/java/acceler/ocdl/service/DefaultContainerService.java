@@ -4,25 +4,39 @@ import acceler.ocdl.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+
 @Service
 public class DefaultContainerService implements ContainerService {
     private static final Map<User, Integer> assignedContainers = new ConcurrentHashMap<>();
+    private static final Map<Integer, String> models = new ConcurrentHashMap<>();
     private final List<Integer> allPorts;
 
+    private int firstPort = 10000;
+
+    private int lastPort = 12000;
+
+    private final String dir = "/root/model_repo/";
+
     @Value("${local.port.first}")
-    private int firstPort;
+    public void setFirstPort(int firstPort) {
+        this.firstPort = firstPort;
+        //System.out.println(this.firstPort);
+    }
 
     @Value("${local.port.last}")
-    private int lastPort;
-
+    public void setLastPort(int lastPort) {
+        this.lastPort = lastPort;
+    }
 
     public DefaultContainerService() {
+        //System.out.println(this.firstPort);
         this.allPorts = new LinkedList<>();
         List<Integer> unavailablePorts = getUnavailablePorts();
 
@@ -86,9 +100,22 @@ public class DefaultContainerService implements ContainerService {
             }
         }
 
-        //TODO:cmd to create container
+        if(user.getType() != 1){
+            assign = null;
+            return null;
+        }
+
+        String cmd = "docker run -dit -v " + dir + user.getUserId().toString() + ":/root/models -p "
+                + assign + ":8998 cpuserver:1.0 /bin/bash";
+
+        //System.out.println(cmd);
+
+	    CmdHelper.runCommand(cmd);
+
+        assignedContainers.put(user,assign);
 
         return assign;
+
     }
 
     @Override
@@ -99,8 +126,14 @@ public class DefaultContainerService implements ContainerService {
         }
     }
 
+
     private List<Integer> getUnavailablePorts() {
         // TODO: CmdHelper.runCommand("...");
-        return null;
+
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(8080);
+        return list;
+        //return null;
     }
+
 }

@@ -1,0 +1,131 @@
+
+/** page structure **/
+
+#navbar {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.menubtn {
+  position: relative; 
+  z-index: 110;
+  color: #274a61;
+  text-decoration: none;
+  font-size: 0em;
+  line-height: 0em;
+  top: 2px;
+  padding: 15px;
+  background-image: url('../images/hamburger.png');
+  background-position: 50% 50%;
+  background-size: 25px 25px;
+  background-repeat: no-repeat;
+}
+.menubtn:hover, .openmenu .menubtn {
+  color: #bdd43e;
+  background-image: url('../images/hamburger-active.png');
+}
+
+/** toggle menu **/
+body.openmenu {
+  position: fixed;
+  overflow: hidden;
+}
+
+#pgcontainer {
+  padding: 45px 0;
+  margin: 0;
+}
+
+.overlay {
+  position: fixed;
+  z-index: 99;
+  background-color: rgba(0,0,0,0.5);
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.openmenu .overlay {
+  top: 0;
+}
+
+
+#hamburgermenu {
+  height: 100%;
+  width: 0;
+  background: #373737;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-top:80px;
+  z-index: 101;
+  overflow: hidden;
+  -webkit-box-shadow: 3px 0 7px rgba(0,0,0,0.55);
+  -moz-box-shadow: 3px 0 7px rgba(0,0,0,0.55);
+  box-shadow: 3px 0 7px rgba(0,0,0,0.55);
+}
+#hamburgermenu ul {
+  z-index: 101;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#hamburgermenu ul li {
+  display: block;
+}
+#hamburgermenu ul li a {
+  display: block;
+  min-width: 130px;
+  padding: 18px 8px;
+  color: #cdcdcd;
+  font-size: 1.45em;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+}
+#hamburgermenu li a:hover {
+  color: #fff;
+  background: #2c2c2c;
+}
+
+#hamburgermenu ul li span{
+	display: block;
+	font-size: 1.20em;
+	font-weight: bold;
+	color: #cdcdcd;
+	cursor:pointer;
+	text-align:center;
+}
+#hamburgermenu ul li span:hover {
+	  color: #fff;
+	  background: #2c2c2c;
+}
+
+
+	ul {
+    	list-style: none;
+    }
+
+
+    i.icon-chevron-up {
+        float: right;
+    }
+    .iconRotate {
+        transform: rotate(180deg);
+        transition: transform .5s;
+    }
+    .s-firstNav > i.icon-chevron-up {
+        margin-right: 5px;
+        margin-top: 10px;
+    }    
+    .s-firstDrop > li {
+        line-height: 33px;
+    }
+    .s-firstDrop,
+    .s-secondDrop {
+        display: none;
+    }        
+    .s-secondNav > i.icon-chevron-up {
+        margin-right: 18px;
+        margin-top: 12px;
+    }   
+
