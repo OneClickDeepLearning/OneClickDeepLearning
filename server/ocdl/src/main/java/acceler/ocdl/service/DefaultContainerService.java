@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+
 @Service
 public class DefaultContainerService implements ContainerService {
     private static final Map<User, Integer> assignedContainers = new ConcurrentHashMap<>();
@@ -21,7 +22,7 @@ public class DefaultContainerService implements ContainerService {
 
     private int lastPort = 12000;
 
-    private final String dir = "/root/OneClickDLTemp/users/";
+    private final String dir = "/root/model_repo/";
 
     @Value("${local.port.first}")
     public void setFirstPort(int firstPort) {
@@ -105,7 +106,7 @@ public class DefaultContainerService implements ContainerService {
         }
 
         String cmd = "docker run -dit -v " + dir + user.getUserId().toString() + ":/root/models -p "
-                + assign + ":8998 wbq1995/server:jupyter /bin/bash";
+                + assign + ":8998 cpuserver:1.0 /bin/bash";
 
         //System.out.println(cmd);
 
