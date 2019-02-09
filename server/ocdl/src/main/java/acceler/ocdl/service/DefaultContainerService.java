@@ -22,7 +22,7 @@ public class DefaultContainerService implements ContainerService {
 
     private int lastPort = 12000;
 
-    private final String dir = "/root/OneClickDLTemp/model_repo/";
+    private final String dir = "/root/model_repo/";
 
     @Value("${local.port.first}")
     public void setFirstPort(int firstPort) {
