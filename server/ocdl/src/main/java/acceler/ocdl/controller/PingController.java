@@ -1,6 +1,6 @@
 package acceler.ocdl.controller;
 
-import acceler.ocdl.service.CmdHelper;
+import acceler.ocdl.utils.CmdHelper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
