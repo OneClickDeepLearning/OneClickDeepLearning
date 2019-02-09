@@ -32,7 +32,7 @@ public class DefaultDatabaseService implements DatabaseService {
     public List<String> getTemplatesList() {
 
         List<String> templatesList = new ArrayList<>();
-        
+
         FindIterable<Document> findIterable = collection.find();
         MongoCursor<Document> mongoCursor = findIterable.iterator();
         while (mongoCursor.hasNext()) {
