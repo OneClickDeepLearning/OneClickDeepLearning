@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface ModelService {
 
-    public boolean pushModels(List<String> models) throws Exception;
+    public boolean pushModels(List<String> models);
 }

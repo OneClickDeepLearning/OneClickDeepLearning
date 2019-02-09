@@ -86,7 +86,7 @@ public class DefaultContainerService implements ContainerService {
     }
 
     @Override
-    public Integer requestContainer(final User user) {
+    public Integer requestContainer(final User user){
         if (assignedContainers.containsKey(user)) {
             return null;
         }
@@ -101,8 +101,7 @@ public class DefaultContainerService implements ContainerService {
                 }
             }
         }
-
-
+        
         if(user.getType() != 1){
             assign = null;
             return null;
