@@ -101,7 +101,7 @@ public class DefaultContainerService implements ContainerService {
                 }
             }
         }
-        
+
         if(user.getType() != 1){
             assign = null;
             return null;
