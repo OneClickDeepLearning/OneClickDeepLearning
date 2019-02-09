@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 
 public class CmdHelper {
 
-    public static String runCommand(String cmd) {
+    public static String runCommand(String cmd) throws Exception{
         StringBuilder output = new StringBuilder();
 
         System.out.println("[DEBug] docker container is running");
@@ -23,6 +23,7 @@ public class CmdHelper {
 
         } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
 
         return output.toString();

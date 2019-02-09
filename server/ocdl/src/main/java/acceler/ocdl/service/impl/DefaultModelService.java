@@ -10,7 +10,7 @@ import java.util.List;
 public class DefaultModelService implements ModelService {
 
     @Override
-    public boolean pushModels(List<String> models) {
+    public boolean pushModels(List<String> models) throws Exception{
 
         CmdHelper.runCommand("cd /root/model_repo/models");
 
