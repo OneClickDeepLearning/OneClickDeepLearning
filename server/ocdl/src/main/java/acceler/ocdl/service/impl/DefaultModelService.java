@@ -13,12 +13,10 @@ public class DefaultModelService implements ModelService {
     public boolean pushModels(List<String> models){
 
         for (String modelName: models) {
-            String s = "git add " + modelName + " && git commit -m \"new models\" && git push";
-            System.out.println(s);
-	    CmdHelper.runCommand("git add " + modelName);
-	    CmdHelper.runCommand("git commit -m \"newmodels\"");
-            CmdHelper.runCommand("git push");
+   	    CmdHelper.runCommand("git add " + modelName);
 	}
+	CmdHelper.runCommand("git commit -m \"newmodels\"");
+        CmdHelper.runCommand("git push");
         return true;
     }
 }
