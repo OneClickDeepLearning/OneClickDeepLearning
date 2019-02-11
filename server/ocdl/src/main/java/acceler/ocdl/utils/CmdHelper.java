@@ -2,7 +2,7 @@ package acceler.ocdl.utils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
+import java.io.File;
 public class CmdHelper {
 
     public static String runCommand(String cmd){
@@ -11,7 +11,8 @@ public class CmdHelper {
         System.out.println("[DEBug] docker container is running");
 
         try {
-            Process p = Runtime.getRuntime().exec(cmd);
+	    File f = new File("/home/ec2-user/model_repo/models/1001/");
+            Process p = Runtime.getRuntime().exec(cmd,null,f);
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String s;
             int maxOutputLines = 100;

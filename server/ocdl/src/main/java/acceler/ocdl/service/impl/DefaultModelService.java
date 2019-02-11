@@ -12,15 +12,13 @@ public class DefaultModelService implements ModelService {
     @Override
     public boolean pushModels(List<String> models){
 
-        CmdHelper.runCommand("cd /home/ec2-user/model_repo/models/1001/");
-
         for (String modelName: models) {
-            CmdHelper.runCommand("git add " + modelName);
-        }
-
-        CmdHelper.runCommand("git commit -m \"new models\"");
-        CmdHelper.runCommand("git push");
-
+            String s = "git add " + modelName + " && git commit -m \"new models\" && git push";
+            System.out.println(s);
+	    CmdHelper.runCommand("git add " + modelName);
+	    CmdHelper.runCommand("git commit -m \"newmodels\"");
+            CmdHelper.runCommand("git push");
+	}
         return true;
     }
 }
