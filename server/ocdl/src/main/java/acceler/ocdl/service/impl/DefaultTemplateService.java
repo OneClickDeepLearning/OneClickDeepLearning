@@ -36,8 +36,6 @@ public class DefaultTemplateService implements TemplateService {
     public List<String> getTemplatesList(String type) {
 
         List<String> templatesList = getFile("target/template/"+type);
-
-
         return templatesList;
     }
 
