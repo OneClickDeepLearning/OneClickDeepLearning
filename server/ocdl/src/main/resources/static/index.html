@@ -144,16 +144,16 @@
 								<div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
 									<i class="fa fa-laptop"></i>
 									<h4>One Click Deep learning</h4>
-									<p> le sd fdf sfa sdf sd  g g d  er te  f a dfda d sd  ea d ds sd fsdf a fr r er erte df df re dfg r d fg  rdf df gdf gdfg dfg d r dfgr d gf gdrd fgr  dfg r dfg r df gfg rd fg r dfg rd fg dffg d r dweeree s dfsdf sdf sdf sdf se sdf sdf esdf sdf sdfs df es dfes df es dfes dfes dfesdf es df esdf es dfesdf ses dfes </p>
+									<p>We can help you to deploy deep learning project in a convenient, fast and reliable way. We're totally offering more than 50 templates, 20 type of networks, 30 kinds of layers and 20 kinds blocks templates for you. From training to assessment, all you need to you is just one click. </p>
 								</div>
 								<div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.9s">
 									<i class="fa fa-cloud"></i>
 									<h4>Distributed  Computing</h4>
-									<p>le sd fdf sfa sdf sd  g g d  er te  f a dfda d sd  ea d ds sd fsdf a fr r er erte df df re dfg r d fg  rdf df gdf gdfg dfg d r dfgr d gf gdrd fgr  dfg r dfg r df gfg rd fg r dfg rd fg dffg d r dweeree s dfsdf sdf sdf sdf se sdf sdf esdf sdf sdfs df es dfes df es dfes dfes dfesdf es df esdf es dfesdf ses dfes </p>
+									<p>Don't have a powerful computing resource? We offered distributed computing resource for your training task, </p>
 								</div>
 								<div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
 									<i class="fa fa-cog"></i>
-									<h4>UX Design</h4>
+									<h4>Container friendly</h4>
 									<p>le sd fdf sfa sdf sd  g g d  er te  f a dfda d sd  ea d ds sd fsdf a fr r er erte df df re dfg r d fg  rdf df gdf gdfg dfg d r dfgr d gf gdrd fgr  dfg r dfg r df gfg rd fg r dfg rd fg dffg d r dweeree s dfsdf sdf sdf sdf se sdf sdf esdf sdf sdfs df es dfes df es dfes dfes dfesdf es df esdf es dfesdf ses dfes fesdf es df esdf es dfesd</p>
 								</div>
 							</div>
@@ -281,7 +281,6 @@
 			type: "POST",
 			success: function(data){
 				var  code = $("#code");
-				alert(data[0]);
 				$(".dp-highlighter").remove();
 				code.text(data[0]);
 				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
@@ -309,7 +308,7 @@
 			dataType: "json",
 			data:
 					JSON.stringify({
-						user_id: userId,
+						userId: userId,
 						account: userAccount,
 						password: userPassword,
 						type: server
@@ -319,7 +318,6 @@
 				$('#jupyterFrame').attr('src', "http://"+data+"/notebooks/Untitled.ipynb");
 			},
 			error: function (data) {
-                alert(data);
 				if(server==0){
 					$('#jupyterFrame').attr('src', "http://34.238.151.1:7777/notebooks/Untitled.ipynb");
 				}else{
