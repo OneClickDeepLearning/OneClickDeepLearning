@@ -1,301 +1,376 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta charset="utf-8">
+<title>Home</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link href="assets/lib/bootstrap/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<link href="assets/css/style.css" rel="stylesheet">
-<link href="assets/css/menu.css" rel="stylesheet">
-<link href="assets/css/flipycard.css" rel="stylesheet">
-<link href="assets/css/SyntaxHighlighter.css" type="text/css" rel="stylesheet">
-	<link href="assets/css/SwitchServer.css" rel="stylesheet">
-<!-- <link href="assets/css/secondlayernav.css" rel="stylesheet"> -->
+<link rel="stylesheet" href="assets2/css/animate.min.css">
+<link rel="stylesheet" href="assets2/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets2/css/font-awesome.min.css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="assets2/css/templatemo-style.css">
+	<link rel="stylesheet" href="assets2/css/SwitchServer.css">
+	<link href="assets2/css/flipycard.css" rel="stylesheet">
+	<link href="assets2/css/SyntaxHighlighter.css" type="text/css" rel="stylesheet">
+	<link href="assets2/css/menu.css" rel="stylesheet">
+	<link href="assets2/css/infoStatus.css" rel="stylesheet">
 
-<title>One Click Deep Learning</title>
+
+
+
 </head>
-<body>
-<div id="header">
-		<nav id="myNav"
-		class="navbar-custom navbar-fixed-top"
-		role="navigation">
-				<div class="navbar-header">
-					
-					   <a class="navbar-brand" href="#">
-				        <img alt="Brand" src="assets/images/Brand.png" style="height:25px; width:100px;">
-				      </a>
-					<button class="navbar-toggle" type="button" data-toggle="collapse"
-						data-target="#custom-collapse">
-						<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span
-							class="icon-bar"></span><span class="icon-bar"></span>
-					</button>
-
-				</div>
-				<div class="collapse navbar-collapse" id="custom-collapse">
-					<ul class="nav navbar-nav navbar-right">
-						<li><a id="signUpBtn"class="" href="#"
-							data-toggle="dropdown">Sign Up</a></li>
-						<li><a id="signInBtn" class="" href="#"
-							data-toggle="dropdown">Sign In</a></li>
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown"><a class="" href="#"
-							data-toggle="dropdown">File</a>
-							<ul class="dropdown-menu">
-								<li class="dropdown"><a class="" href="" data-toggle="dropdown">New Python2 File</a></li>
-								<li class="dropdown"><a class="" href="" >New Python3 File</a></li>
-								<li class="dropdown"><a class="" href="" >Open</a></li>
-								<li class="dropdown"><a class="" href="" >Upload</a></li>
-								<li class="dropdown"><a class="" href="" >Save</a></li>
-								<li class="dropdown"><a class="" href="" >Download as .ipynb File</a></li>
-								<li class="dropdown"><a class="" href="" >Download as .py File</a></li>
-							</ul></li>
-							
-						<li class="dropdown"><a class="" href="#"
-							data-toggle="dropdown">Modify</a>
-							<ul class="dropdown-menu">
-								<li class="dropdown"><a class="" href="" data-toggle="dropdown">New Python2 File</a></li>
-								<li class="dropdown"><a class="" href="" >New Python3 File</a></li>
-								<li class="dropdown"><a class="" href="" >Open</a></li>
-								<li class="dropdown"><a class="" href="" >Upload</a></li>
-								<li class="dropdown"><a class="" href="" >Save</a></li>
-								<li class="dropdown"><a class="" href="" >Download as .ipynb File</a></li>
-								<li class="dropdown"><a class="" href="" >Download as .py File</a></li>
-							</ul></li>
-						<li class="dropdown"><a class="" href="#"
-							data-toggle="dropdown">View</a>
-							<ul class="dropdown-menu">
-								<li class="dropdown"><a class="" href="" data-toggle="dropdown">New Python2 File</a></li>
-								<li class="dropdown"><a class="" href="" >New Python3 File</a></li>
-								<li class="dropdown"><a class="" href="" >Open</a></li>
-								<li class="dropdown"><a class="" href="" >Upload</a></li>
-								<li class="dropdown"><a class="" href="" >Save</a></li>
-								<li class="dropdown"><a class="" href="" >Download as .ipynb File</a></li>
-								<li class="dropdown"><a class="" href="" >Download as .py File</a></li>
-							</ul></li>
-						<li class="dropdown"><a class="" href="#"
-							data-toggle="dropdown">Run</a>							
-							<ul class="dropdown-menu">
-								<li class="dropdown"><a class="" href="" data-toggle="dropdown">New Python2 File</a></li>
-								<li class="dropdown"><a class="" href="" >New Python3 File</a></li>
-								<li class="dropdown"><a class="" href="" >Open</a></li>
-								<li class="dropdown"><a class="" href="" >Upload</a></li>
-								<li class="dropdown"><a class="" href="" >Save</a></li>
-								<li class="dropdown"><a class="" href="" >Download as .ipynb File</a></li>
-								<li class="dropdown"><a class="" href="" >Download as .py File</a></li>
-							</ul></li>
-						<li class="dropdown"><a class="" href="#"
-							data-toggle="dropdown">Tools</a>							
-							<ul class="dropdown-menu">
-								<li class="dropdown"><a class="" href="" data-toggle="dropdown">New Python2 File</a></li>
-								<li class="dropdown"><a class="" href="" >New Python3 File</a></li>
-								<li class="dropdown"><a class="" href="" >Open</a></li>
-								<li class="dropdown"><a class="" href="" >Upload</a></li>
-								<li class="dropdown"><a class="" href="" >Save</a></li>
-								<li class="dropdown"><a class="" href="" >Download as .ipynb File</a></li>
-								<li class="dropdown"><a class="" href="" >Download as .py File</a></li>
-							</ul></li>
-						<li class="dropdown"><a class="" href="#"
-							data-toggle="dropdown">Help</a>							<ul class="dropdown-menu">
-								<li class="dropdown"><a class="" href="" data-toggle="dropdown">New Python2 File</a></li>
-								<li class="dropdown"><a class="" href="" >New Python3 File</a></li>
-								<li class="dropdown"><a class="" href="" >Open</a></li>
-								<li class="dropdown"><a class="" href="" >Upload</a></li>
-								<li class="dropdown"><a class="" href="" >Save</a></li>
-								<li class="dropdown"><a class="" href="" >Download as .ipynb File</a></li>
-								<li class="dropdown"><a class="" href="" >Download as .py File</a></li>
-							</ul></li>
-					</ul>
-					
-
-					
-				</div>
-		<nav class="operateMenu">
-  			<!-- Navbar content -->
+<body id="top">
+<script language="JavaScript">
+	var user_id='';
+	var user_account='';
+	var user_password='';
+	var list;
 
 
-  			<button class="operateButton"><span class="glyphicon glyphicon-font"></span>&nbsp;Font</button>
-  			<button class="operateButton"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Refresh</button>
-			
-			
-  			<button class="operateButton"><span class="glyphicon glyphicon-import"></span>&nbsp;Github</button>
-  			<button class="operateButton"><span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;Copy to Cloud</button>
-			
-			<button id="hideNavBtn" class="operateButton  navbar-right"><span class="glyphicon glyphicon-chevron-up"></span></button>
-			<button id="flapBtn" class="operateButton navbar-right"><span class="glyphicon glyphicon-retweet"></span>&nbsp;<span id="flaptext">Code</span></button>
-			<button id="CpuTestBtn" class="operateButton navbar-right"><span> CPU Computing</span></button>
-			<a id="serverCtl" href="#" class="toggle toggle--on navbar-right"></a>
-		</nav>
-		</nav>
-		
 
+</script>
+
+<!-- start preloader -->
+<div class="preloader">
+	<div class="sk-spinner sk-spinner-wave">
+		<div class="sk-rect1"></div>
+		<div class="sk-rect2"></div>
+		<div class="sk-rect3"></div>
+		<div class="sk-rect4"></div>
+		<div class="sk-rect5"></div>
 	</div>
+</div>
+<!-- end preloader -->
 
 
-	<div id="main">
-	
-		<a href="#" class="menubtn">menu</a>
-		<!-- use captain icon for toggle menu -->
-		<div id="hamburgermenu">
-			<ul>
-				<li><a class="d-firstNav s-firstNav" href="#">Network Layer</a>
-						 <ul class="d-firstDrop s-firstDrop">
-						 	<li>
-		                        <div id="TPooling" class="d-secondNav s-secondNav">
-		                            <span>pooling layer</span>
-		                        </div>
-		                    </li>
-	                    	<li>
-		                        <div class="d-secondNav s-secondNav">
-		                            <span id="TActivating">activating layer</span>
-		                        </div>
-	                   		 </li>
-		                    <li>
-		                        <div class="d-secondNav s-secondNav">
-		                            <span>convolutional layer</span>
-		                        </div>
-		                    </li>
-
-		                    <li>
-		                        <div class="d-secondNav s-secondNav">
-		                            <span>fully connected layer</span>
-		                        </div>
-		                    </li>
-               			 </ul>
-				
-				</li>
-				<li><a class="d-firstNav s-firstNav" href="#">Network Block</a>
-					 <ul class="d-firstDrop s-firstDrop">
-                    	<li>
-	                        <div class="d-secondNav s-secondNav">
-	                            <span>ResNet Block</span>
-	                        </div>
-                   		 </li>
-	                    <li>
-	                        <div class="d-secondNav s-secondNav">
-	                            <span>Regular Block</span>
-	                        </div>
-	                    </li>
-               		 </ul>
-				
-				</li>
+<!-- start navigation -->
+<nav class="navbar navbar-default templatemo-nav" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="icon icon-bar"></span>
+				<span class="icon icon-bar"></span>
+				<span class="icon icon-bar"></span>
+			</button>
+			<img href="#" alt="OCDL" class="navbar-brand" src="assets2/images/Brand3.png" />
+		</div>
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#top">FILE</a></li>
+				<li><a href="#about">MODIFY</a></li>
+				<li><a href="#team">TOOLS</a></li>
+				<li><a href="#portfolio">TEAM</a></li>
+				<li><a href="#contact">CONTACT</a></li>
 			</ul>
 		</div>
-		<div class="overlay"></div>
-
-
-
-		<div id="con">
-			<div id="card" class="card col-xs-10 col-xs-offset-2" style="height:600px;">
-			    <div class="front">
-<!--			        <iframe sandbox="allow-forms allow-same-origin allow-scripts"
-					src="http://localhost:8889/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>-->
-					<iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
-							src="http:34.238.151.1:7777/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>
-			    </div>
-			    <div class="back">
-			          <div id="aaa">
-						<textarea id="code" name="code" class="python" cols="60" rows="10">
-						def ResnetB(dense = False):
-							input = Input(shape=[100, 100, 1])
-							layer = Conv2D(filters=32,
-										   kernel_size=[3, 3],
-										   kernel_initializer='random_uniform',
-										   # kernel_regularizer=regularizers.l2(0.01),
-										   strides=[1, 1],
-										   padding='same')(input)
-							layer = resnet_block_B(layer, 32, [3, 3], 0, 'relu')
-							# 50*50
-							layer = resnet_block_B(layer, 64, [3, 3], 0, 'relu', cross_block=True, shrink=True)
-							layer = resnet_block_B(layer, 64, [3, 3], 0, 'relu')
-							# 25*25
-							layer = resnet_block_B(layer, 128, [3, 3], 0, 'relu', cross_block=True, shrink=True)
-							layer = resnet_block_B(layer, 128, [3, 3], 0, 'relu')
-							# 13*13
-							layer = resnet_block_B(layer, 256, [3, 3], 0, 'relu', cross_block=True, shrink=True)
-							layer = resnet_block_B(layer, 256, [3, 3], 0, 'relu')
-							# 7*7
-							layer = resnet_block_B(layer, 512, [3, 3], 0, 'relu', cross_block=True, shrink=True)
-							layer = resnet_block_B(layer, 512, [3, 3], 0, 'relu', is_last=True)
-							if dense:
-								output = Dense(units=5,activation='softmax')(layer)
-							else:
-								output = global_average_pooling(layer, 5)
-							model = Model(inputs=[input], outputs=[output])
-							model.summary()
-							return model
-						</textarea>
-					</div>
-			    </div>
+	</div>
+</nav>
+<!-- end navigation -->
+<!-- start header -->
+<header style="background-color:#000000;">
+	<div class="container" >
+		<div class="row">
+			<div id="informationBlock" style="margin: auto;" class="col-md-6 col-sm-3 col-xs-3">
+				<label class="col-md-4">User: <label id="username" style="color: #47C6F8">TempUser</label></label>
+				<label class="col-md-4">Rescourse: <label id="rescourse" style="color: #47C6F8" class="status_NoneR"></label></label>
+				<label class="col-md-4">Status: <label id="status" class="status_disconnected"></label></label>
 			</div>
+			<div class="col-md-2 col-sm-3 col-xs-3">
+				<a id="serverCtl" href="javascript:selectJupyterServer(user_id,user_account,user_password);" class="toggle toggle--on navbar-right"></a>
+			</div>
+			<div class="col-md-2 col-sm-3 col-xs-3">
+				<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button></p>
+			</div>
+			<div class="col-md-2 col-sm-3 col-xs-3">
+				<ul class="social-icon">
+					<li><span>Sign in with </span></li>
+					<li><a id="login_f" href="#" class="fa fa-facebook"></a></li>
+					<li><a id="login_t" href="#" class="fa fa-twitter"></a></li>
+				</ul>
 
+			</div>
 		</div>
+	</div>
+</header>
+<!-- end header -->
 
 
 
+<a href="#" class="menubtn">menu</a>
+<!-- use captain icon for toggle menu -->
+<div id="hamburgermenu">
+	<ul>
+		<li><a class="d-firstNav s-firstNav">Framework</a>
+			<ul id="Frameworks" class="d-firstDrop s-firstDrop">
+			</ul>
 
-	<!--      js       -->
-	<script src="assets/lib/jquery/dist/jquery.js"></script>
-	<script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-	<script language="javascript" src="assets/js/flipycard.js"></script>
+		</li>
+		<li><a class="d-firstNav s-firstNav" href="#">Layer</a>
+			<ul id="Layers" class="d-firstDrop s-firstDrop">
+			</ul>
 
-		<script language="javascript">
-			window.onload = function () {
-				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
-				dp.SyntaxHighlighter.HighlightAll('code');
-			}
+		</li>
+		<li><a class="d-firstNav s-firstNav" href="#">Block</a>
+			<ul id="Blocks" class="d-firstDrop s-firstDrop">
+			</ul>
+
+		</li>
+
+		<li><a class="d-firstNav s-firstNav" href="#">Network</a>
+			<ul id="Networks" class="d-firstDrop s-firstDrop">
+			</ul>
+
+		</li>
+	</ul>
+</div>
+<div class="overlay"></div>
+
+
+<!-- start home -->
+<section id="service">
+	<div class="container">
+		<div class="row">
+			<div id="con">
+				<div id="card" class="card col-xs-11 col-xs-offset-1 unlog" style="height:600px;">
+					<div class="cover" style="overflow:auto;">
+							<div class="" >
+								<div class="col-md-12">
+									<h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">OUR <span>AWESOME</span> THINGS</h2>
+								</div>
+								<div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+									<i class="fa fa-laptop"></i>
+									<h4>One Click Deep learning</h4>
+									<p> le sd fdf sfa sdf sd  g g d  er te  f a dfda d sd  ea d ds sd fsdf a fr r er erte df df re dfg r d fg  rdf df gdf gdfg dfg d r dfgr d gf gdrd fgr  dfg r dfg r df gfg rd fg r dfg rd fg dffg d r dweeree s dfsdf sdf sdf sdf se sdf sdf esdf sdf sdfs df es dfes df es dfes dfes dfesdf es df esdf es dfesdf ses dfes </p>
+								</div>
+								<div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.9s">
+									<i class="fa fa-cloud"></i>
+									<h4>Distributed  Computing</h4>
+									<p>le sd fdf sfa sdf sd  g g d  er te  f a dfda d sd  ea d ds sd fsdf a fr r er erte df df re dfg r d fg  rdf df gdf gdfg dfg d r dfgr d gf gdrd fgr  dfg r dfg r df gfg rd fg r dfg rd fg dffg d r dweeree s dfsdf sdf sdf sdf se sdf sdf esdf sdf sdfs df es dfes df es dfes dfes dfesdf es df esdf es dfesdf ses dfes </p>
+								</div>
+								<div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+									<i class="fa fa-cog"></i>
+									<h4>UX Design</h4>
+									<p>le sd fdf sfa sdf sd  g g d  er te  f a dfda d sd  ea d ds sd fsdf a fr r er erte df df re dfg r d fg  rdf df gdf gdfg dfg d r dfgr d gf gdrd fgr  dfg r dfg r df gfg rd fg r dfg rd fg dffg d r dweeree s dfsdf sdf sdf sdf se sdf sdf esdf sdf sdfs df es dfes df es dfes dfes dfesdf es df esdf es dfesdf ses dfes fesdf es df esdf es dfesd</p>
+								</div>
+							</div>
+					</div>
+					<div class="front" style="overflow:auto;">
+						<!--			        <iframe sandbox="allow-forms allow-same-origin allow-scripts"
+                                            src="http://localhost:8889/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>-->
+						<iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
+								src="http:34.238.151.1:7777/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>
+					</div>
+					<div class="back" style="overflow:auto;">
+						<div id="aaa">
+							<pre id="code" name="code" class="python" cols="60" rows="10" >
+							</pre>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+<!-- end home -->
 
 
 
-			$('#serverCtl').on('click', function(e){
-				if($("#serverCtl").hasClass('toggle--on')){
-					selectJupyterServer(0); //Connect CPU Server
-				}else {
-					selectJupyterServer(1); //Connect GPU Server
+<!-- end servie -->
+
+<!-- start copyright -->
+<footer id="copyright">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<p class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">Copyright &copy; 2019.Concordia Team Acceler8 All rights reserved.
+			</div>
+		</div>
+	</div>
+</footer>
+<!-- end copyright -->
+
+
+
+<script src="assets2/js/jquery.js"></script>
+<script src="assets2/js/bootstrap.min.js"></script>
+<script src="assets2/js/jquery.singlePageNav.min.js"></script>
+<script src="assets2/js/typed.js"></script>
+<script src="assets2/js/wow.min.js"></script>
+<script src="assets2/js/custom.js"></script>
+<script src="assets2/js/prefixfree.min.js"></script>
+<script src="assets2/js/switchServer.js"></script>
+<script language="javascript" src="assets2/js/flipycard.js"></script>
+<script language="javascript" src="assets2/js/shCore.js"></script>
+<script language="javascript" src="assets2/js/shBrushPython.js"></script>
+<script src="assets2/js/menu.js"></script>
+<script language="javascript" src="assets2/js/secondlayernav.js"></script>
+<script language="javascript">
+	window.onload = function () {
+/*				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
+				dp.SyntaxHighlighter.HighlightAll('code');*/
+				initTemplateList();
+				function addSpan(li,text){
+					var span_1=document.createElement("span");
+					span_1.innerHTML=text;
+					li.appendChild(span_1);
+				}
+				function addLi(content, parent){
+					var li_1=document.createElement("li");
+					li_1.setAttribute("class","d-secondNav s-secondNav");
+					li_1.setAttribute("onclick","javascript:getCode('"+content+"','"+parent+"');");
+					addSpan(li_1,content);
+					document.getElementById(parent).appendChild(li_1);
 				}
 
-			});
-
-
-			function selectJupyterServer(server){
-                $.ajax({
-                    url: "/container?action=request",
-                    contentType: 'application/json',
-                    dataType: "json",
-                    data:
-                      JSON.stringify({
-                          user_id: 1001,
-                          account: "u1001",
-                          password: "p1001",
-						   type: server
-                      }),
-                    type: "POST",
-                    success: function(data) {
-                        alert(data);
-						$('#jupyterFrame').attr('src', data+"/notebooks/Untitled.ipynb");
-					},
-					error: function (data) {
-                    	if(server=='0'){
-							$('#jupyterFrame').attr('src', "34.238.151.1:7777/notebooks/Untitled.ipynb");
+				function initTemplateList(){
+					$.ajax({
+						url: "/template?status=getnames",
+						contentType: 'application/json',
+						dataType: "json",
+						type: "GET",
+						success: function(data) {
+							var layerList=data[0];
+							var blockList=data[1];
+							var networksList=data[2];
+							var frameworks = data[3];
+							for(var i=0; i<layerList.length;i++){
+								addLi(layerList[i],"Layers");
+							}
+							for(var i=0; i<blockList.length;i++){
+								addLi(blockList[i],"Blocks");
+							}
+							for(var i=0; i<networksList.length;i++){
+								addLi(networksList[i],"Networks");
+							}
+							for(var i=0; i<frameworks.length;i++){
+								addLi(frameworks[i],"Frameworks");
+							}
+						},
+						error: function (data) {
+							alert(data);
 						}
-						alert(data);
-					}
-                })
-            }
+					})
+				}
+			}
+
+/*
+	$('#serverCtl').on('click', function(e){
+		if($("#serverCtl").hasClass('toggle--on')){
+			selectJupyterServer(0); //Connect CPU Server
+		}else {
+			selectJupyterServer(1); //Connect GPU Server
+		}
+
+	});*/
+
+	function getCode(name,type) {
+		$.ajax({
+			url: "/template?action=testTemplates",
+			contentType: 'application/json',
+			dataType: "json",
+			data:
+					JSON.stringify({
+						name: name,
+						type: type
+					}),
+			type: "POST",
+			success: function(data){
+				var  code = $("#code");
+				alert(data[0]);
+				$(".dp-highlighter").remove();
+				code.text(data[0]);
+				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
+				dp.SyntaxHighlighter.HighlightAll('code');
+				jsAnimateMenu();
+				flipPanel();
+
+			},
+			error: function (data) {
+			}
+		})
+	}
 
 
+	function selectJupyterServer(userId,userAccount,userPassword){
+		var server = 0;
+		if($("#serverCtl").hasClass('toggle--on')){
+			server = 0;
+		}else{
+			server = 1;
+		}
+		$.ajax({
+			url: "/container?action=request",
+			contentType: 'application/json',
+			dataType: "json",
+			data:
+					JSON.stringify({
+						user_id: userId,
+						account: userAccount,
+						password: userPassword,
+						type: server
+					}),
+			type: "POST",
+			success: function(data) {
+				$('#jupyterFrame').attr('src', "http://"+data+"/notebooks/Untitled.ipynb");
+			},
+			error: function (data) {
+                alert(data);
+				if(server==0){
+					$('#jupyterFrame').attr('src', "http://34.238.151.1:7777/notebooks/Untitled.ipynb");
+				}else{
+					$('#jupyterFrame').attr('src', "http://66.131.186.246:5501/notebooks/Untitled.ipynb");
+				}
+			}
+		})
+	}
+	
+	$('#login_f').on('click', function(e){
+		user_id='1001';
+		user_account='u1001';
+		user_password='p1001';
 
-		</script>
+		selectJupyterServer(user_id,user_account,user_password);
+		var username=$("#username");
+		var status=$("#status");
+		var rescource=$("#rescourse");
+		var card=$("#card");
+		username.text(user_account);
+		status.removeClass('status_disconnected');
+		status.addClass('status_connected');
+		rescource.removeClass('status_NoneR');
+		rescource.addClass('status_cpu');
+		card.removeClass('unlog');
 
 
- 	<script src="assets/js/menu.js"></script>
-	<script src="assets/js/main.js"></script>
-	<script language="javascript" src="assets/js/shCore.js"></script>
-	<script language="javascript" src="assets/js/shBrushPython.js"></script>
-	<script language="javascript" src="assets/js/secondlayernav.js"></script>
-		<script src="assets/js/prefixfree.min.js"></script>
-		<script src="assets/js/switchServer.js"></script>
-	<!-- js code highligh on load-->
+	});
+
+
+	$('#login_t').on('click', function(e){
+		user_id='1002';
+		user_account='u1002';
+		user_password='p1002';
+
+		selectJupyterServer(user_id,user_account,user_password);
+		var username=$("#username");
+		var status=$("#status");
+		var rescource=$("#rescourse");
+		var card=$("#card");
+		username.text(user_account);
+		status.removeClass('status_disconnected');
+		status.addClass('status_connected');
+		rescource.removeClass('status_NoneR');
+		rescource.addClass('status_cpu');
+		card.removeClass('unlog');
+
+	});
+
+
+</script>
 
 </body>
 </html>
