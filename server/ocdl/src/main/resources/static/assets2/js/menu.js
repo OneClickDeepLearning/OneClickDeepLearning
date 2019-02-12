@@ -1,4 +1,4 @@
-$(function(){
+
   var menuwidth  = 240; // 边栏宽度
   var menuspeed  = 400; // 边栏滑出耗费时间
   
@@ -31,12 +31,12 @@ $(function(){
   		jsAnimateNav("close");
   	}
   });
-  
-	$(".d-secondNav").on('click',function(e){
+
+/*	$(".d-secondNav").on('click',function(e){
 		jsAnimateMenu('close');
 		flipPanel();
-/*        selectTemplate("ResNetB")*/
-	 });
+  //      getCode(this.val(),this.parentElement.innerText);
+	 });*/
 
 /*    function selectTemplate(name) {
         var xmlhttp = new XMLHttpRequest();
@@ -53,25 +53,25 @@ $(function(){
         xmlhttp.send("name="+name);
     }*/
 
-	 
-  
-  function jsAnimateMenu(tog) {
-    if(tog == 'open') {
-      $bdy.addClass('openmenu');
-      
-      $container.animate({marginRight: negwidth, marginLeft: poswidth}, menuspeed);
-      $burger.animate({width: poswidth}, menuspeed);
-      $('.overlay').animate({left: poswidth}, menuspeed);
-    }
-    
-    if(tog == 'close') {
-      $bdy.removeClass('openmenu');
-      
-      $container.animate({marginRight: "0", marginLeft: "0"}, menuspeed);
-      $burger.animate({width: "0"}, menuspeed);
-      $('.overlay').animate({left: "0"}, menuspeed);
-    }
-  }
 
-});
+
+
+
+function jsAnimateMenu(tog) {
+    if(tog == 'open') {
+        $bdy.addClass('openmenu');
+
+        $container.animate({marginRight: negwidth, marginLeft: poswidth}, menuspeed);
+        $burger.animate({width: poswidth}, menuspeed);
+        $('.overlay').animate({left: poswidth}, menuspeed);
+    }
+
+    if(tog == 'close') {
+        $bdy.removeClass('openmenu');
+
+        $container.animate({marginRight: "0", marginLeft: "0"}, menuspeed);
+        $burger.animate({width: "0"}, menuspeed);
+        $('.overlay').animate({left: "0"}, menuspeed);
+    }
+}
 

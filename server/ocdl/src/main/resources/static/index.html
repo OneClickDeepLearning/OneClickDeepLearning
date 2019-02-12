@@ -28,6 +28,10 @@
 	var user_id='';
 	var user_account='';
 	var user_password='';
+	var list;
+
+
+
 </script>
 
 <!-- start preloader -->
@@ -100,8 +104,8 @@
 <!-- use captain icon for toggle menu -->
 <div id="hamburgermenu">
 	<ul>
-		<li><a class="d-firstNav s-firstNav" href="#">Network Layer</a>
-			<ul class="d-firstDrop s-firstDrop">
+		<li><a class="d-firstNav s-firstNav" href="#">Layer</a>
+			<ul id="Layers" class="d-firstDrop s-firstDrop">
 				<li>
 					<div id="TPooling" class="d-secondNav s-secondNav">
 						<span>pooling layer</span>
@@ -126,10 +130,10 @@
 			</ul>
 
 		</li>
-		<li><a class="d-firstNav s-firstNav" href="#">Network Block</a>
-			<ul class="d-firstDrop s-firstDrop">
+		<li><a class="d-firstNav s-firstNav" href="#">Block</a>
+			<ul id="Blocks" class="d-firstDrop s-firstDrop">
 				<li>
-					<div class="d-secondNav s-secondNav">
+					<div class="d-secondNav s-secondNav" onclick="javascript:getCode('ResBlock_3layers.py','Blocks');">
 						<span>ResNet Block</span>
 					</div>
 				</li>
@@ -138,6 +142,12 @@
 						<span>Regular Block</span>
 					</div>
 				</li>
+			</ul>
+
+		</li>
+
+		<li><a class="d-firstNav s-firstNav" href="#">Network</a>
+			<ul id="Networks" class="d-firstDrop s-firstDrop">
 			</ul>
 
 		</li>
@@ -152,8 +162,8 @@
 		<div class="row">
 			<div id="con">
 				<div id="card" class="card col-xs-11 col-xs-offset-1 unlog" style="height:600px;">
-					<div class="cover">
-							<div class="">
+					<div class="cover" style="overflow:auto;">
+							<div class="" >
 								<div class="col-md-12">
 									<h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">OUR <span>AWESOME</span> THINGS</h2>
 								</div>
@@ -174,44 +184,16 @@
 								</div>
 							</div>
 					</div>
-					<div class="front">
+					<div class="front" style="overflow:auto;">
 						<!--			        <iframe sandbox="allow-forms allow-same-origin allow-scripts"
                                             src="http://localhost:8889/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>-->
 						<iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
 								src="http:34.238.151.1:7777/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>
 					</div>
-					<div class="back">
+					<div class="back" style="overflow:auto;">
 						<div id="aaa">
-						<textarea id="code" name="code" class="python" cols="60" rows="10">
-								def ResnetB(dense = False):
-									input = Input(shape=[100, 100, 1])
-									layer = Conv2D(filters=32,
-												   kernel_size=[3, 3],
-												   kernel_initializer='random_uniform',
-												   # kernel_regularizer=regularizers.l2(0.01),
-												   strides=[1, 1],
-												   padding='same')(input)
-									layer = resnet_block_B(layer, 32, [3, 3], 0, 'relu')
-									# 50*50
-									layer = resnet_block_B(layer, 64, [3, 3], 0, 'relu', cross_block=True, shrink=True)
-									layer = resnet_block_B(layer, 64, [3, 3], 0, 'relu')
-									# 25*25
-									layer = resnet_block_B(layer, 128, [3, 3], 0, 'relu', cross_block=True, shrink=True)
-									layer = resnet_block_B(layer, 128, [3, 3], 0, 'relu')
-									# 13*13
-									layer = resnet_block_B(layer, 256, [3, 3], 0, 'relu', cross_block=True, shrink=True)
-									layer = resnet_block_B(layer, 256, [3, 3], 0, 'relu')
-									# 7*7
-									layer = resnet_block_B(layer, 512, [3, 3], 0, 'relu', cross_block=True, shrink=True)
-									layer = resnet_block_B(layer, 512, [3, 3], 0, 'relu', is_last=True)
-									if dense:
-										output = Dense(units=5,activation='softmax')(layer)
-									else:
-										output = global_average_pooling(layer, 5)
-									model = Model(inputs=[input], outputs=[output])
-									model.summary()
-									return model
-						</textarea>
+							<pre id="code" name="code" class="python" cols="60" rows="10" >
+							</pre>
 						</div>
 					</div>
 				</div>
@@ -255,8 +237,47 @@
 <script language="javascript" src="assets2/js/secondlayernav.js"></script>
 <script language="javascript">
 	window.onload = function () {
-				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
-				dp.SyntaxHighlighter.HighlightAll('code');
+/*				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
+				dp.SyntaxHighlighter.HighlightAll('code');*/
+				initTemplateList();
+				function addSpan(li,text){
+					var span_1=document.createElement("span");
+					span_1.innerHTML=text;
+					li.appendChild(span_1);
+				}
+				function addLi(content, parent){
+					var li_1=document.createElement("li");
+					li_1.setAttribute("class","d-secondNav s-secondNav");
+					li_1.setAttribute("onclick","javascript:getCode('"+content+"','"+parent+"');");
+					addSpan(li_1,content);
+					document.getElementById(parent).appendChild(li_1);
+				}
+
+				function initTemplateList(){
+					$.ajax({
+						url: "/template?status=getnames",
+						contentType: 'application/json',
+						dataType: "json",
+						type: "GET",
+						success: function(data) {
+							var layerList=data[0];
+							var blockList=data[1];
+							var networksList=data[2];
+							for(var i=0; i<layerList.length;i++){
+								addLi(layerList[i],"Layers");
+							}
+							for(var i=0; i<blockList.length;i++){
+								addLi(layerList[i],"Blocks");
+							}
+							for(var i=0; i<networksList.length;i++){
+								addLi(layerList[i],"Networks");
+							}
+						},
+						error: function (data) {
+							alert(data);
+						}
+					})
+				}
 			}
 
 /*
@@ -268,6 +289,33 @@
 		}
 
 	});*/
+
+	function getCode(name,type) {
+		$.ajax({
+			url: "/template?action=testTemplates",
+			contentType: 'application/json',
+			dataType: "json",
+			data:
+					JSON.stringify({
+						name: name,
+						type: type
+					}),
+			type: "POST",
+			success: function(data){
+				var  code = $("#code");
+				alert(data[0]);
+				$(".dp-highlighter").remove();
+				code.text(data[0]);
+				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
+				dp.SyntaxHighlighter.HighlightAll('code');
+				jsAnimateMenu();
+				flipPanel();
+
+			},
+			error: function (data) {
+			}
+		})
+	}
 
 
 	function selectJupyterServer(userId,userAccount,userPassword){
@@ -293,7 +341,7 @@
 				$('#jupyterFrame').attr('src', "http://"+data+"/notebooks/Untitled.ipynb");
 			},
 			error: function (data) {
-
+                alert(data);
 				if(server==0){
 					$('#jupyterFrame').attr('src', "http://34.238.151.1:7777/notebooks/Untitled.ipynb");
 				}else{
@@ -302,7 +350,7 @@
 			}
 		})
 	}
-
+	
 	$('#login_f').on('click', function(e){
 		user_id='1001';
 		user_account='u1001';
