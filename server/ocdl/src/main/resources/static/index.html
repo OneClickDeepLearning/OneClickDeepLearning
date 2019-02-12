@@ -89,7 +89,7 @@
 				<ul class="social-icon">
 					<li><span>Sign in with </span></li>
 					<li><a id="login_f" href="#" class="fa fa-facebook"></a></li>
-					<li><a href="login_t" class="fa fa-twitter"></a></li>
+					<li><a id="login_t" href="#" class="fa fa-twitter"></a></li>
 				</ul>
 
 			</div>
@@ -104,44 +104,18 @@
 <!-- use captain icon for toggle menu -->
 <div id="hamburgermenu">
 	<ul>
+		<li><a class="d-firstNav s-firstNav">Framework</a>
+			<ul id="Frameworks" class="d-firstDrop s-firstDrop">
+			</ul>
+
+		</li>
 		<li><a class="d-firstNav s-firstNav" href="#">Layer</a>
 			<ul id="Layers" class="d-firstDrop s-firstDrop">
-				<li>
-					<div id="TPooling" class="d-secondNav s-secondNav">
-						<span>pooling layer</span>
-					</div>
-				</li>
-				<li>
-					<div class="d-secondNav s-secondNav">
-						<span id="TActivating">activating layer</span>
-					</div>
-				</li>
-				<li>
-					<div class="d-secondNav s-secondNav">
-						<span>convolutional layer</span>
-					</div>
-				</li>
-
-				<li>
-					<div class="d-secondNav s-secondNav">
-						<span>fully connected layer</span>
-					</div>
-				</li>
 			</ul>
 
 		</li>
 		<li><a class="d-firstNav s-firstNav" href="#">Block</a>
 			<ul id="Blocks" class="d-firstDrop s-firstDrop">
-				<li>
-					<div class="d-secondNav s-secondNav" onclick="javascript:getCode('ResBlock_3layers.py','Blocks');">
-						<span>ResNet Block</span>
-					</div>
-				</li>
-				<li>
-					<div class="d-secondNav s-secondNav">
-						<span>Regular Block</span>
-					</div>
-				</li>
 			</ul>
 
 		</li>
@@ -263,14 +237,18 @@
 							var layerList=data[0];
 							var blockList=data[1];
 							var networksList=data[2];
+							var frameworks = data[3];
 							for(var i=0; i<layerList.length;i++){
 								addLi(layerList[i],"Layers");
 							}
 							for(var i=0; i<blockList.length;i++){
-								addLi(layerList[i],"Blocks");
+								addLi(blockList[i],"Blocks");
 							}
 							for(var i=0; i<networksList.length;i++){
-								addLi(layerList[i],"Networks");
+								addLi(networksList[i],"Networks");
+							}
+							for(var i=0; i<frameworks.length;i++){
+								addLi(frameworks[i],"Frameworks");
 							}
 						},
 						error: function (data) {
@@ -354,7 +332,7 @@
 	$('#login_f').on('click', function(e){
 		user_id='1001';
 		user_account='u1001';
-		user_password='p1001'
+		user_password='p1001';
 
 		selectJupyterServer(user_id,user_account,user_password);
 		var username=$("#username");
@@ -368,6 +346,26 @@
 		rescource.addClass('status_cpu');
 		card.removeClass('unlog');
 
+
+	});
+
+
+	$('#login_t').on('click', function(e){
+		user_id='1002';
+		user_account='u1002';
+		user_password='p1002';
+
+		selectJupyterServer(user_id,user_account,user_password);
+		var username=$("#username");
+		var status=$("#status");
+		var rescource=$("#rescourse");
+		var card=$("#card");
+		username.text(user_account);
+		status.removeClass('status_disconnected');
+		status.addClass('status_connected');
+		rescource.removeClass('status_NoneR');
+		rescource.addClass('status_cpu');
+		card.removeClass('unlog');
 
 	});
 
