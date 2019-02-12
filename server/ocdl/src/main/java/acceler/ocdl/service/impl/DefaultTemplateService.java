@@ -1,12 +1,12 @@
 package acceler.ocdl.service.impl;
 
 import acceler.ocdl.service.TemplateService;
-import com.mongodb.MongoClient;
+/*import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
+import org.bson.Document;*/
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -22,6 +22,7 @@ import java.util.Map;
 public class DefaultTemplateService implements TemplateService {
 
 
+/*
     private final MongoDatabase mongoDatabase;
     private final MongoCollection<Document> collection;
 
@@ -31,6 +32,7 @@ public class DefaultTemplateService implements TemplateService {
         mongoDatabase = mongoClient.getDatabase("Oneclick");
         collection = mongoDatabase.getCollection("templates");
     }
+*/
 
     @Override
     public List<String> getTemplatesList(String type) {
@@ -66,7 +68,7 @@ public class DefaultTemplateService implements TemplateService {
         return nameList;
     }
 
-    @Override
+  /*  @Override
     public Map<String, String> getTemplates(List<String> ids) {
 
         Map<String, String> templates = new HashMap<>();
@@ -83,7 +85,7 @@ public class DefaultTemplateService implements TemplateService {
         }
 
         return templates;
-    }
+    }*/
 
     @Override
     public List<String> getTemplates2(String name,String type) {
