@@ -23,7 +23,7 @@ public class DefaultContainerService implements ContainerService {
 
     private int lastPort = 12000;
 
-    private final String dir = "/root/model_repo/";
+    private final String dir = "/root/model_repo/models/";
 
     @Value("${local.port.first}")
     public void setFirstPort(int firstPort) {
@@ -86,7 +86,7 @@ public class DefaultContainerService implements ContainerService {
     }
 
     @Override
-    public Integer requestContainer(final User user) {
+    public Integer requestContainer(final User user){
         if (assignedContainers.containsKey(user)) {
             return null;
         }
@@ -101,7 +101,6 @@ public class DefaultContainerService implements ContainerService {
                 }
             }
         }
-
 
         if(user.getType() != 1){
             assign = null;
