@@ -1,7 +1,7 @@
 $('.toggle').click(function(e) {
     var toggle = this;
 
-    e.preventDefault();
+ //   e.preventDefault();
 
     $(toggle).toggleClass('toggle--on')
         .toggleClass('toggle--off')

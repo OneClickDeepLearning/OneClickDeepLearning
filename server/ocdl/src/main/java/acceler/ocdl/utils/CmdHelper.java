@@ -3,7 +3,7 @@ package acceler.ocdl.utils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-
+import java.io.File;
 public class CmdHelper {
 
     public static String runCommand(String cmd){
@@ -12,7 +12,9 @@ public class CmdHelper {
         System.out.println("[DEBug] docker container is running");
 
         try {
-            File f = new File("/Users/WBQ/Desktop/OneClickDLTemp/");
+
+	        File f = new File("/home/ec2-user/model_repo/models/1001/");
+
             Process p = Runtime.getRuntime().exec(cmd,null,f);
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String s;
@@ -28,12 +30,5 @@ public class CmdHelper {
         }
 
         return output.toString();
-    }
-
-    public static void main(String[] args){
-
-        CmdHelper.runCommand("touch cmd.tst");
-
-        System.out.println();
     }
 }
