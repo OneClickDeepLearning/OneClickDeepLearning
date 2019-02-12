@@ -22,15 +22,15 @@ import java.util.Map;
 public class DefaultTemplateService implements TemplateService {
 
 
-    private final MongoDatabase mongoDatabase;
-    private final MongoCollection<Document> collection;
-
-
-    public DefaultTemplateService() {
-        MongoClient mongoClient = new MongoClient("54.175.170.87", 27017);
-        mongoDatabase = mongoClient.getDatabase("Oneclick");
-        collection = mongoDatabase.getCollection("templates");
-    }
+//    private final MongoDatabase mongoDatabase;
+//    private final MongoCollection<Document> collection;
+//
+//
+//    public DefaultTemplateService() {
+//        MongoClient mongoClient = new MongoClient("54.175.170.87", 27017);
+//        mongoDatabase = mongoClient.getDatabase("Oneclick");
+//        collection = mongoDatabase.getCollection("templates");
+//    }
 
     @Override
     public List<String> getTemplatesList(String type) {
@@ -64,24 +64,24 @@ public class DefaultTemplateService implements TemplateService {
         return nameList;
     }
 
-    @Override
-    public Map<String, String> getTemplates(List<String> ids) {
-
-        Map<String, String> templates = new HashMap<>();
-
-        FindIterable<Document> findIterable = collection.find();
-        MongoCursor<Document> mongoCursor = findIterable.iterator();
-        while (mongoCursor.hasNext()) {
-
-            Document next = mongoCursor.next();
-
-            if (ids.contains(next.get("ID").toString())) {
-                templates.put(next.get("code").toString(), next.get("descrp").toString());
-            }
-        }
-
-        return templates;
-    }
+//    @Override
+//    public Map<String, String> getTemplates(List<String> ids) {
+//
+//        Map<String, String> templates = new HashMap<>();
+//
+//        FindIterable<Document> findIterable = collection.find();
+//        MongoCursor<Document> mongoCursor = findIterable.iterator();
+//        while (mongoCursor.hasNext()) {
+//
+//            Document next = mongoCursor.next();
+//
+//            if (ids.contains(next.get("ID").toString())) {
+//                templates.put(next.get("code").toString(), next.get("descrp").toString());
+//            }
+//        }
+//
+//        return templates;
+//    }
 
     @Override
     public List<String> getTemplates2(String name,String type) {
