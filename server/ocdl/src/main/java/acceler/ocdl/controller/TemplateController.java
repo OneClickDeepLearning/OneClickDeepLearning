@@ -26,6 +26,7 @@ public final class TemplateController {
         result.add(databaseService.getTemplatesList("Blocks"));
         result.add( databaseService.getTemplatesList("Layers"));
         result.add(  databaseService.getTemplatesList("Networks"));
+        result.add(databaseService.getTemplatesList("Frameworks"));
         return result;
     }
 
