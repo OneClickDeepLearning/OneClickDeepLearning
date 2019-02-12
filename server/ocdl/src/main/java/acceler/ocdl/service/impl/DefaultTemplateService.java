@@ -1,12 +1,6 @@
 package acceler.ocdl.service.impl;
 
 import acceler.ocdl.service.TemplateService;
-import com.mongodb.MongoClient;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
