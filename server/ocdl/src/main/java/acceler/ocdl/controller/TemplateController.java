@@ -30,13 +30,13 @@ public final class TemplateController {
         return result;
     }
 
-    @ResponseBody
-    @RequestMapping(params = "action=getTemplates", method = RequestMethod.POST)
-    public final Map<String,String> getTemplates(@RequestBody List<String> ids){
-        Map<String,String> templates = new HashMap<>();
-        templates = databaseService.getTemplates(ids);
-        return templates;
-    }
+//    @ResponseBody
+//    @RequestMapping(params = "action=getTemplates", method = RequestMethod.POST)
+//    public final Map<String,String> getTemplates(@RequestBody List<String> ids){
+//        Map<String,String> templates = new HashMap<>();
+//        templates = databaseService.getTemplates(ids);
+//        return templates;
+//    }
     @ResponseBody
     @RequestMapping(params = "action=testTemplates", method = RequestMethod.POST)
     public final List<String> testTemplates(@RequestBody Map<String,String> param){
