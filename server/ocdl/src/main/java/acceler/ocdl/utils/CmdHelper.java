@@ -1,6 +1,7 @@
 package acceler.ocdl.utils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 
 public class CmdHelper {
@@ -11,7 +12,8 @@ public class CmdHelper {
         System.out.println("[DEBug] docker container is running");
 
         try {
-            Process p = Runtime.getRuntime().exec(cmd);
+            File f = new File("/Users/WBQ/Desktop/OneClickDLTemp/");
+            Process p = Runtime.getRuntime().exec(cmd,null,f);
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String s;
             int maxOutputLines = 100;
@@ -26,5 +28,12 @@ public class CmdHelper {
         }
 
         return output.toString();
+    }
+
+    public static void main(String[] args){
+
+        CmdHelper.runCommand("touch cmd.tst");
+
+        System.out.println();
     }
 }
