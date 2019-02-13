@@ -41,8 +41,6 @@ public class DefaultTemplateService implements TemplateService {
         for (int i = 0; i < array.length; i++) {
             if (array[i].isFile())//如果是文件
             {
-                // 只输出文件名字
-                //System.out.println( array[i].getName());
 
                 nameList.add(array[i].getName());
             }
@@ -58,7 +56,6 @@ public class DefaultTemplateService implements TemplateService {
 
             /* 读入TXT文件 */
             String pathname = templatePath+type+"//"+ name; // 绝对路径或相对路径都可以，这里是绝对路径，写入文件时演示相对路径
-            System.out.println("+++++++++++++++++++++"+pathname+"+++++++++++++++++++++++");
             File filename = new File(pathname); // 要读取以上路径的input。txt文件
             InputStreamReader reader = new InputStreamReader(
                     new FileInputStream(filename)); // 建立一个输入流对象reader
@@ -72,7 +69,6 @@ public class DefaultTemplateService implements TemplateService {
         } catch (Exception e) {
         }
         result.add(code);
-        System.out.println(code);
         result.add("I'm the description");
 
 
