@@ -23,7 +23,7 @@ public class DefaultContainerService implements ContainerService {
 
     private int lastPort = 12000;
 
-    private final String dir = "/root/model_repo/models/";
+    private final String dir = "/home/ec2-user/model_repo/models/";
 
     @Value("${local.port.first}")
     public void setFirstPort(int firstPort) {
@@ -102,15 +102,15 @@ public class DefaultContainerService implements ContainerService {
             }
         }
 
-        if(user.getType() != 1){
+        if(user.getType() != 0){
             assign = null;
             return null;
         }
 
         String cmd = "docker run -dit -v " + dir + user.getUserId().toString() + ":/root/models -p "
-                + assign + ":8998 cpuserver:1.0 /bin/bash";
+                + assign + ":8998 cpu:1.0 /bin/bash";
 
-        //System.out.println(cmd);
+        System.out.println(cmd);
 
 	    CmdHelper.runCommand(cmd);
 
