@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -38,13 +39,15 @@ public final class ContainerController {
 
     @ResponseBody
     @RequestMapping(params = "action=request", method = RequestMethod.POST)
-    public final String requestContainer(@RequestBody User user) {
+    public final List<String> requestContainer(@RequestBody User user) {
+        List<String> result = new ArrayList<>();
         Integer assign = containerService.requestContainer(user);
         if (assign == null) {
-            return "None Container Assigned";
+            result.add("None Container Assigned");
         } else {
-            return serverIp + ":" + assign.toString();
+            result.add(serverIp+":"+assign.toString());
         }
+        return result;
     }
 
 
