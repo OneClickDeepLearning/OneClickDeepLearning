@@ -104,7 +104,7 @@
 <!-- use captain icon for toggle menu -->
 <div id="hamburgermenu">
 	<ul>
-		<li><a class="d-firstNav s-firstNav">Framework</a>
+		<li><a class="d-firstNav s-firstNav" href="#">Framework</a>
 			<ul id="Frameworks" class="d-firstDrop s-firstDrop">
 			</ul>
 
@@ -252,7 +252,6 @@
 							}
 						},
 						error: function (data) {
-							alert(data);
 						}
 					})
 				}
@@ -286,7 +285,10 @@
 				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
 				dp.SyntaxHighlighter.HighlightAll('code');
 				jsAnimateMenu();
-				flipPanel();
+				if(document.getElementById("card").className.search("flip") === -1){
+					flipPanel();
+				}
+
 
 			},
 			error: function (data) {
@@ -315,11 +317,11 @@
 					}),
 			type: "POST",
 			success: function(data) {
-				$('#jupyterFrame').attr('src', "http://"+data+"/notebooks/Untitled.ipynb");
+				$('#jupyterFrame').attr('src', "http://"+data[0]+"/notebooks/Untitled.ipynb");
 			},
 			error: function (data) {
 				if(server==0){
-					$('#jupyterFrame').attr('src', "http://34.238.151.1:7777/notebooks/Untitled.ipynb");
+					$('#jupyterFrame').attr('src', "http://"+data[0]+"/notebooks/Untitled.ipynb");
 				}else{
 					$('#jupyterFrame').attr('src', "http://66.131.186.246:5501/notebooks/Untitled.ipynb");
 				}
