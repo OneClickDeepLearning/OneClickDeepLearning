@@ -23,8 +23,8 @@ public final class TemplateController {
     @RequestMapping(params = "status=getnames", method = RequestMethod.GET)
     public final List<List<String>> queryTemplatesNames(){
         List<List<String>> result = new ArrayList<List<String>>();
-        result.add(databaseService.getTemplatesList("Blocks"));
         result.add( databaseService.getTemplatesList("Layers"));
+        result.add(databaseService.getTemplatesList("Blocks"));
         result.add(  databaseService.getTemplatesList("Networks"));
         result.add(databaseService.getTemplatesList("Frameworks"));
         return result;
