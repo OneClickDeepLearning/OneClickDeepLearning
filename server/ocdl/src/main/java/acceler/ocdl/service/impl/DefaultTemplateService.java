@@ -1,13 +1,9 @@
 package acceler.ocdl.service.impl;
 
 import acceler.ocdl.service.TemplateService;
-/*import com.mongodb.MongoClient;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
-import org.bson.Document;*/
+
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -15,26 +11,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class DefaultTemplateService implements TemplateService {
 
     private String templatePath = "";
-/*
-    private final MongoDatabase mongoDatabase;
-    private final MongoCollection<Document> collection;
-
-
-    public DefaultTemplateService() {
-        MongoClient mongoClient = new MongoClient("54.175.170.87", 27017);
-        mongoDatabase = mongoClient.getDatabase("Oneclick");
-        collection = mongoDatabase.getCollection("templates");
-    }
-*/
-
 
     @Override
     public List<String> getTemplatesList(String type) {
@@ -67,25 +49,6 @@ public class DefaultTemplateService implements TemplateService {
         }
         return nameList;
     }
-
-  /*  @Override
-    public Map<String, String> getTemplates(List<String> ids) {
-
-        Map<String, String> templates = new HashMap<>();
-
-        FindIterable<Document> findIterable = collection.find();
-        MongoCursor<Document> mongoCursor = findIterable.iterator();
-        while (mongoCursor.hasNext()) {
-
-            Document next = mongoCursor.next();
-
-            if (ids.contains(next.get("ID").toString())) {
-                templates.put(next.get("code").toString(), next.get("descrp").toString());
-            }
-        }
-
-        return templates;
-    }*/
 
     @Override
     public List<String> getTemplates2(String name,String type) {

@@ -29,6 +29,7 @@ public final class TemplateController {
         result.add(databaseService.getTemplatesList("Frameworks"));
         return result;
     }
+
     @ResponseBody
     @RequestMapping(params = "action=testTemplates", method = RequestMethod.POST)
     public final List<String> testTemplates(@RequestBody Map<String,String> param){
