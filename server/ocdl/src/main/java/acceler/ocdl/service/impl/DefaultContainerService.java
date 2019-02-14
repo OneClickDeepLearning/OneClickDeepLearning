@@ -25,7 +25,7 @@ public class DefaultContainerService implements ContainerService {
     private int lastPort = 12000;
 
     private final String personalDir = "/home/ec2-user/model_repo/models/";
-    private final String dataDir = "/home/ec2-user/CFSC/data";
+    private final String dataDir = "/home/ec2-user/data";
 
     @Value("${local.port.first}")
     public void setFirstPort(int firstPort) {
