@@ -17,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DefaultContainerService implements ContainerService {
     private static final Map<User, Integer> assignedContainers = new ConcurrentHashMap<>();
     private static final Map<Integer, String> models = new ConcurrentHashMap<>();
+
     private final List<Integer> allPorts;
 
     private int firstPort = 10000;
@@ -88,7 +89,7 @@ public class DefaultContainerService implements ContainerService {
     @Override
     public Integer requestContainer(final User user){
         if (assignedContainers.containsKey(user)) {
-            return null;
+            return assignedContainers.get(user);
         }
 
         Integer assign = null;
