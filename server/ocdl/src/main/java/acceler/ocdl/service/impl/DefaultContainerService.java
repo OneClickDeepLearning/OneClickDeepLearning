@@ -114,7 +114,7 @@ public class DefaultContainerService implements ContainerService {
         cmd.append("-v " + personalDir + user.getUserId().toString() + ":/root/models ");
         cmd.append("-v " + dataDir + ":/root/data ");
         cmd.append("-p " + assign + ":8998 ");
-        cmd.append("wbq1995/cpu:1.0 /bin/bash");
+        cmd.append("cpu:1.0 /bin/bash");
 
 
         System.out.println(cmd.toString());
