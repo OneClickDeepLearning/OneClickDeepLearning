@@ -24,7 +24,8 @@ public class DefaultContainerService implements ContainerService {
 
     private int lastPort = 12000;
 
-    private final String dir = "/home/ec2-user/model_repo/models/";
+    private final String personalDir = "/home/ec2-user/model_repo/models/";
+    private final String dataDir = "/home/ec2-user/CFSC/data";
 
     @Value("${local.port.first}")
     public void setFirstPort(int firstPort) {
@@ -88,32 +89,37 @@ public class DefaultContainerService implements ContainerService {
 
     @Override
     public Integer requestContainer(final User user){
-        if (assignedContainers.containsKey(user)) {
-            return assignedContainers.get(user);
-        }
+//        if (assignedContainers.containsKey(user)) {
+//            return assignedContainers.get(user);
+//        }
+//
+//        Integer assign = null;
+//
+//        synchronized (this) {
+//            for (Integer i : allPorts) {
+//                if (!assignedContainers.values().contains(i)) {
+//                    assign = i;
+//                    break;
+//                }
+//            }
+//        }
+//
+//        if(user.getType() != 0){
+//            assign = null;
+//            return null;
+//        }
+        int assign = 10001;
+        StringBuilder cmd = new StringBuilder();
+        cmd.append("docker run -dit ");
+        cmd.append("-v " + personalDir + user.getUserId().toString() + ":/root/models ");
+        cmd.append("-v " + dataDir + ":/root/data ");
+        cmd.append("-p " + assign + ":8998 ");
+        cmd.append("cpu:1.0 /bin/bash");
 
-        Integer assign = null;
 
-        synchronized (this) {
-            for (Integer i : allPorts) {
-                if (!assignedContainers.values().contains(i)) {
-                    assign = i;
-                    break;
-                }
-            }
-        }
+        System.out.println(cmd.toString());
 
-        if(user.getType() != 0){
-            assign = null;
-            return null;
-        }
-
-        String cmd = "docker run -dit -v " + dir + user.getUserId().toString() + ":/root/models -p "
-                + assign + ":8998 cpu:1.0 /bin/bash";
-
-        System.out.println(cmd);
-
-	    CmdHelper.runCommand(cmd);
+	    CmdHelper.runCommand(cmd.toString());
 
         assignedContainers.put(user,assign);
 
