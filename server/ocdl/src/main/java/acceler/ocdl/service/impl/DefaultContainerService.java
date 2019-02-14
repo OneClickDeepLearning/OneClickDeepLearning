@@ -89,26 +89,26 @@ public class DefaultContainerService implements ContainerService {
 
     @Override
     public Integer requestContainer(final User user){
-//        if (assignedContainers.containsKey(user)) {
-//            return assignedContainers.get(user);
-//        }
-//
-//        Integer assign = null;
-//
-//        synchronized (this) {
-//            for (Integer i : allPorts) {
-//                if (!assignedContainers.values().contains(i)) {
-//                    assign = i;
-//                    break;
-//                }
-//            }
-//        }
-//
-//        if(user.getType() != 0){
-//            assign = null;
-//            return null;
-//        }
-        int assign = 10001;
+        if (assignedContainers.containsKey(user)) {
+            return assignedContainers.get(user);
+        }
+
+        Integer assign = null;
+
+        synchronized (this) {
+            for (Integer i : allPorts) {
+                if (!assignedContainers.values().contains(i)) {
+                    assign = i;
+                    break;
+                }
+            }
+        }
+
+        if(user.getType() != 0){
+            assign = null;
+            return null;
+        }
+
         StringBuilder cmd = new StringBuilder();
         cmd.append("docker run -dit ");
         cmd.append("-v " + personalDir + user.getUserId().toString() + ":/root/models ");
