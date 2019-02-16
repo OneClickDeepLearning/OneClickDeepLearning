@@ -6,6 +6,7 @@ import acceler.ocdl.service.ContainerService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -119,6 +120,7 @@ public class DefaultContainerService implements ContainerService {
         } catch (Exception ex){
             ex.printStackTrace();
         }
+
 
         assignedContainers.put(user,assign);
 
