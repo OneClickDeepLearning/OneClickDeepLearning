@@ -105,14 +105,16 @@ transition-duration: 1s, 1s;
     transform: rotateY(180deg);
 }
 
+/*
 #flapBtn{
     background-color: #47C6F8;
-    -webkit-transition-duration: 0.4s; /* Safari */
+    -webkit-transition-duration: 0.4s; !* Safari *!
     transition-duration: 0.4s;
 }
 #flapBtn:hover{
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50; !* Green *!
     color: white;
 }
+*/
 
 
