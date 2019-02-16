@@ -114,6 +114,11 @@ public class DefaultContainerService implements ContainerService {
         }
         CmdHelper.runCommand(deploy.toString());
         CmdHelper.runCommand(service.toString());
+        try {
+            Thread.sleep(1000);
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
 
         assignedContainers.put(user,assign);
 
