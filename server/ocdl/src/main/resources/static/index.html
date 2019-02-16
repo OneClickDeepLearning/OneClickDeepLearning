@@ -20,8 +20,6 @@
 	<link href="assets2/css/infoStatus.css" rel="stylesheet">
 
 
-
-
 </head>
 <body id="top">
 <script language="JavaScript">
@@ -29,8 +27,6 @@
 	var user_account='';
 	var user_password='';
 	var list;
-
-
 
 </script>
 
@@ -73,7 +69,7 @@
 <!-- start header -->
 <header style="background-color:#000000;">
 	<div class="container" >
-		<div class="row">
+		<div class="row" style="display:flex;justify-content:center;align-items:center;">
 			<div id="informationBlock" style="margin: auto;" class="col-md-6 col-sm-3 col-xs-3">
 				<label class="col-md-4">User: <label id="username" style="color: #47C6F8">TempUser</label></label>
 				<label class="col-md-4">Rescourse: <label id="rescourse" style="color: #47C6F8" class="status_NoneR"></label></label>
@@ -82,8 +78,19 @@
 			<div class="col-md-2 col-sm-3 col-xs-3">
 				<a id="serverCtl" href="javascript:selectJupyterServer(user_id,user_account,user_password);" class="toggle toggle--on navbar-right"></a>
 			</div>
-			<div class="col-md-2 col-sm-3 col-xs-3">
-				<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button></p>
+			<div class="col-md-2 col-sm-3 col-xs-3" style="height:40px;">
+			<!--	<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button>-->
+					<span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
+					<a  href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Git</a>
+
+				</span>
+
+					<span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
+					<a  id="flapBtn"  href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
+				</span>
+
+
+				</p>
 			</div>
 			<div class="col-md-2 col-sm-3 col-xs-3">
 				<ul class="social-icon">
@@ -267,6 +274,7 @@
 
 	});*/
 
+
 	function getCode(name,type) {
 		$.ajax({
 			url: "/template?action=testTemplates",
@@ -296,6 +304,24 @@
 		})
 	}
 
+	function submitToGit(){
+		$.ajax({
+			url: "/model?action=push",
+			contentType: 'application/json',
+			dataType: "json",
+			data:
+					JSON.stringify({
+						userId: user_id
+					}),
+			type: "POST",
+			success: function(data){
+				alert("Modal push successful!");
+			},
+			error: function (data) {
+				alert("Modal push error!");
+			}
+		})
+	}
 
 	function selectJupyterServer(userId,userAccount,userPassword){
 		var server = 0;
@@ -325,7 +351,7 @@
 			},
 			error: function (data) {
 				if(server==0){
-					$('#jupyterFrame').attr('src', "http://"+data[0]+"/notebooks/Untitled.ipynb");
+					$('#jupyterFrame').attr('src', "http://"+data[0]+"/notebooks/root/Untitled.ipynb");
 				}else{
 					$('#jupyterFrame').attr('src', "http://66.131.186.246:5501/notebooks/Untitled.ipynb");
 				}
