@@ -342,7 +342,10 @@
 						type: server
 					}),
 			type: "POST",
+			timeout:10000,
 			success: function(data) {
+				console.info("success");
+
 				if(server==0){
 					$('#jupyterFrame').attr('src', "http://"+data[0]+"/notebooks/Untitled.ipynb");
 				}else{
@@ -350,6 +353,8 @@
 				}
 			},
 			error: function (data) {
+				console.info("error");
+
 				if(server==0){
 					$('#jupyterFrame').attr('src', "http://"+data[0]+"/notebooks/root/Untitled.ipynb");
 				}else{
