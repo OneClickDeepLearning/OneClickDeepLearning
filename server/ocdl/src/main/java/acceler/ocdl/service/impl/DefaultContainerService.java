@@ -31,6 +31,7 @@ public class DefaultContainerService implements ContainerService {
     @Value("${local.port.first}")
     public void setFirstPort(int firstPort) {
         this.firstPort = firstPort;
+        //System.out.println(this.firstPort);
     }
 
     @Value("${local.port.last}")
@@ -95,35 +96,41 @@ public class DefaultContainerService implements ContainerService {
 
         Integer assign = null;
 
+        synchronized (this) {
+            for (Integer i : allPorts) {
+                if (!assignedContainers.values().contains(i)) {
+                    assign = i;
+                    break;
+                }
+            }
+        }
+
         if(user.getType() != 0){
             assign = null;
             return null;
         }
 
         StringBuilder cmd = new StringBuilder();
+        cmd.append("docker run -dit ");
+        cmd.append("-v " + personalDir + user.getUserId().toString() + ":/root/models ");
+        cmd.append("-v " + dataDir + ":/root/data ");
+        cmd.append("-p " + assign + ":8998 ");
+        cmd.append("cpu:1.0 /bin/bash");
 
-        StringBuilder deploy = new StringBuilder();
-        StringBuilder service = new StringBuilder();
-        if(user.getUserId() == 1001){
-            deploy.append("kubectl create -f /home/ec2-user/minikube/1001deploy.yaml");
-            service.append("kubectl create -f /home/ec2-user/minikube/1001svc.yaml");
-            assign = 32143;
-        } else if(user.getUserId() == 1002){
-            deploy.append("kubectl create -f /home/ec2-user/minikube/1002deploy.yaml");
-            service.append("kubectl create -f /home/ec2-user/minikube/1002svc.yaml");
-            assign = 32144;
-        }
-        CmdHelper.runCommand(deploy.toString());
-        CmdHelper.runCommand(service.toString());
-        try {
-            Thread.sleep(1000);
-        } catch (Exception ex){
-            ex.printStackTrace();
-        }
+
+        System.out.println(cmd.toString());
+
+	    CmdHelper.runCommand(cmd.toString());
 
 
         assignedContainers.put(user,assign);
 
+	try{
+		Thread.sleep(3000);
+	} catch(Exception ex){
+		ex.printStackTrace();
+	}
+	
         return assign;
 
     }
@@ -140,6 +147,7 @@ public class DefaultContainerService implements ContainerService {
         ArrayList<Integer> list = new ArrayList<>();
         list.add(8080);
         return list;
+        //return null;
     }
 
 }
