@@ -110,6 +110,7 @@ public class DefaultContainerService implements ContainerService {
             return null;
         }
 
+        List<String> cmds = new ArrayList<>();
         StringBuilder cmd = new StringBuilder();
         cmd.append("docker run -dit ");
         cmd.append("-v " + personalDir + user.getUserId().toString() + ":/root/models ");
@@ -118,10 +119,11 @@ public class DefaultContainerService implements ContainerService {
         cmd.append("-p " + assign + ":8998 ");
         cmd.append("cpu:1.0 /bin/bash");
 
+        cmds.add(cmd.toString());
 
         System.out.println(cmd.toString());
 
-	    CmdHelper.runCommand(cmd.toString());
+	    CmdHelper.runCommand(cmds);
 
 
         assignedContainers.put(user,assign);
