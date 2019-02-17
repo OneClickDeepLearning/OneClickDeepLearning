@@ -114,7 +114,7 @@ public class DefaultContainerService implements ContainerService {
         cmd.append("docker run -dit ");
         cmd.append("-v " + personalDir + user.getUserId().toString() + ":/root/models ");
         cmd.append("-v " + dataDir + ":/root/data ");
-        cmd.append("-v /home/ec2-user/CFSC:/root/CFSC");
+        cmd.append("-v /home/ec2-user/CFSC:/root/CFSC ");
         cmd.append("-p " + assign + ":8998 ");
         cmd.append("cpu:1.0 /bin/bash");
 

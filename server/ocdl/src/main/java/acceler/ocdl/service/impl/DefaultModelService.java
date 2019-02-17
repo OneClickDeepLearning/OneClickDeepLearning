@@ -17,7 +17,7 @@ public class DefaultModelService implements ModelService {
         CmdHelper.runCommand("git add .");
 
 	    CmdHelper.runCommand("git commit -m \"newmodels\"");
-        CmdHelper.runCommand("git push");
+        CmdHelper.runCommand("git push new master");
         return true;
     }
 }
