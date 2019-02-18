@@ -161,7 +161,7 @@
 								<div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
 									<i class="fa fa-cog"></i>
 									<h4>Container friendly</h4>
-									<p>le sd fdf sfa sdf sd  g g d  er te  f a dfda d sd  ea d ds sd fsdf a fr r er erte df df re dfg r d fg  rdf df gdf gdfg dfg d r dfgr d gf gdrd fgr  dfg r dfg r df gfg rd fg r dfg rd fg dffg d r dweeree s dfsdf sdf sdf sdf se sdf sdf esdf sdf sdfs df es dfes df es dfes dfes dfesdf es df esdf es dfesdf ses dfes fesdf es df esdf es dfesd</p>
+									<p>Easy packing of deep learning stacks rapid development across multiple platforms</p>
 								</div>
 							</div>
 					</div>
@@ -194,7 +194,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 text-center">
-				<p class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">Copyright &copy; 2019.Concordia Team Acceler8 All rights reserved.
+				<p class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">Copyright &copy; 2019.Concordia Team <label style="color:#28a7e9;">Acceler8</label> All rights reserved.
 			</div>
 		</div>
 	</div>
@@ -314,6 +314,7 @@
 						userId: user_id
 					}),
 			type: "POST",
+			timeout: 0,
 			success: function(data){
 				alert("Modal push successful!");
 			},
@@ -342,6 +343,7 @@
 						type: server
 					}),
 			type: "POST",
+			timeout: 0,
 			success: function(data) {
 				if(server==0){
 					$('#jupyterFrame').attr('src', "http://"+data[0]+"/notebooks/Untitled.ipynb");
@@ -350,11 +352,6 @@
 				}
 			},
 			error: function (data) {
-				if(server==0){
-					$('#jupyterFrame').attr('src', "http://"+data[0]+"/notebooks/root/Untitled.ipynb");
-				}else{
-					$('#jupyterFrame').attr('src', "http://66.131.186.246:5501/notebooks/Untitled.ipynb");
-				}
 			}
 		})
 	}
