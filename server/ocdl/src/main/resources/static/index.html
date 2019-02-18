@@ -314,6 +314,7 @@
 						userId: user_id
 					}),
 			type: "POST",
+			timeout: 0,
 			success: function(data){
 				alert("Modal push successful!");
 			},
@@ -351,11 +352,6 @@
 				}
 			},
 			error: function (data) {
-				if(server==0){
-					$('#jupyterFrame').attr('src', "http://"+data[0]+"/notebooks/Untitled.ipynb");
-				}else{
-					$('#jupyterFrame').attr('src', "http://66.131.186.246:5501/notebooks/Untitled.ipynb");
-				}
 			}
 		})
 	}
