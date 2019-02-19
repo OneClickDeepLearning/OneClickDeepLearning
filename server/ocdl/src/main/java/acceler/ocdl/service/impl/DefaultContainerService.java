@@ -6,6 +6,7 @@ import acceler.ocdl.service.ContainerService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,13 +18,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DefaultContainerService implements ContainerService {
     private static final Map<User, Integer> assignedContainers = new ConcurrentHashMap<>();
     private static final Map<Integer, String> models = new ConcurrentHashMap<>();
+
     private final List<Integer> allPorts;
 
     private int firstPort = 10000;
 
     private int lastPort = 12000;
 
-    private final String dir = "/home/ec2-user/model_repo/models/";
+    private final String personalDir = "/home/ec2-user/model_repo/models/";
+    private final String dataDir = "/home/ec2-user/data";
 
     @Value("${local.port.first}")
     public void setFirstPort(int firstPort) {
@@ -88,7 +91,7 @@ public class DefaultContainerService implements ContainerService {
     @Override
     public Integer requestContainer(final User user){
         if (assignedContainers.containsKey(user)) {
-            return null;
+            return assignedContainers.get(user);
         }
 
         Integer assign = null;
@@ -107,15 +110,30 @@ public class DefaultContainerService implements ContainerService {
             return null;
         }
 
-        String cmd = "docker run -dit -v " + dir + user.getUserId().toString() + ":/root/models -p "
-                + assign + ":8998 cpu:1.0 /bin/bash";
+        List<String> cmds = new ArrayList<>();
+        StringBuilder cmd = new StringBuilder();
+        cmd.append("docker run -dit ");
+        cmd.append("-v " + personalDir + user.getUserId().toString() + ":/root/models ");
+        cmd.append("-v " + dataDir + ":/root/data ");
+        cmd.append("-v /home/ec2-user/CFSC:/root/CFSC ");
+        cmd.append("-p " + assign + ":8998 ");
+        cmd.append("cpu:1.0 /bin/bash");
 
-        System.out.println(cmd);
+        cmds.add(cmd.toString());
 
-	    CmdHelper.runCommand(cmd);
+        System.out.println(cmd.toString());
+
+	    CmdHelper.runCommand(cmds);
+
 
         assignedContainers.put(user,assign);
 
+	try{
+		Thread.sleep(3000);
+	} catch(Exception ex){
+		ex.printStackTrace();
+	}
+	
         return assign;
 
     }

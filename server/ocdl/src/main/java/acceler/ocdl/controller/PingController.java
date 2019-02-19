@@ -20,6 +20,7 @@ public final class PingController {
     @ResponseBody
     @RequestMapping(path = "/ping/port", method = RequestMethod.GET)
     public final String pin(){
-        return CmdHelper.runCommand("docker run -it -n test1 -p 10002:8998 oneclick:jupyterpython /bin/bash &");
+        //return CmdHelper.runCommand("docker run -it -n test1 -p 10002:8998 oneclick:jupyterpython /bin/bash &");
+        return "ok";
     }
 }
