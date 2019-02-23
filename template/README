@@ -1,0 +1,15 @@
+Template
+    Assessment
+        assess_model.py : Assessment主框架
+        model_adaptor.py : 模型adaptor接口
+        keras_model_adaptor : keras adaptor 实现
+        hier_assess_model.py : Hierarchical assessment 主框架
+        hier_model_adaptor : Hierarchical模型adaptor接口
+        keras_hier_omdel_adaptor : Keras hierarchical adaptor 实现
+
+    KerasLayers.py : 网络层template
+    Residual_Blocks.py : Resnet block template
+    Residual_Network.py : 一个Resnet网络template
+    Train_framework.py : 一个完整的训练流程
+    trainAdaptor.py : 模型训练Adaptor
+    trainKerasModel.py : keras模型训练adaptor实现
