@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>acceler</groupId>
-	<artifactId>ocdl</artifactId>
+	<artifactId>cx</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ocdl</name>
-	<description>OCDL backend service</description>
+	<name>cx</name>
+	<description>OCDL customer service</description>
 
 	<properties>
 		<java.version>1.8</java.version>

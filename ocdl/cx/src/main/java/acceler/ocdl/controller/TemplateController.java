@@ -2,6 +2,7 @@ package acceler.ocdl.controller;
 
 
 import acceler.ocdl.service.TemplateService;
+import acceler.ocdl.utils.Response;
 import com.sun.org.apache.xerces.internal.xs.StringList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,5 +37,15 @@ public final class TemplateController {
         List<String> templates = new ArrayList <String>();
         templates = databaseService.getTemplates2(param.get("name"),param.get("type"));
         return templates;
+    }
+
+    /**
+     * example of controller
+     * */
+    public final Response controllerExample(){
+        String reponse = "hello world";
+        return Response.getBuilder()
+                .setCode(Response.Code.SUCCESS)
+                .build();
     }
 }
