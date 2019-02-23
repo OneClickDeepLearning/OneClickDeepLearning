@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Home</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="assets2/css/animate.min.css">
+<link rel="stylesheet" href="assets2/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets2/css/font-awesome.min.css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="assets2/css/templatemo-style.css">
+	<link rel="stylesheet" href="assets2/css/SwitchServer.css">
+	<link href="assets2/css/flipycard.css" rel="stylesheet">
+	<link href="assets2/css/SyntaxHighlighter.css" type="text/css" rel="stylesheet">
+	<link href="assets2/css/menu.css" rel="stylesheet">
+	<link href="assets2/css/infoStatus.css" rel="stylesheet">
+
+
+</head>
+<body id="top">
+<script language="JavaScript">
+	var user_id='';
+	var user_account='';
+	var user_password='';
+	var list;
+
+</script>
+
+<!-- start preloader -->
+<div class="preloader">
+	<div class="sk-spinner sk-spinner-wave">
+		<div class="sk-rect1"></div>
+		<div class="sk-rect2"></div>
+		<div class="sk-rect3"></div>
+		<div class="sk-rect4"></div>
+		<div class="sk-rect5"></div>
+	</div>
+</div>
+<!-- end preloader -->
+
+
+<!-- start navigation -->
+<nav class="navbar navbar-default templatemo-nav" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="icon icon-bar"></span>
+				<span class="icon icon-bar"></span>
+				<span class="icon icon-bar"></span>
+			</button>
+			<img href="#" alt="OCDL" class="navbar-brand" src="assets2/images/Brand3.png" />
+			<label id="projectName" style="color: black; margin-top: 30px; margin-left: 20px;"></label>
+		</div>
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#top">FILE</a></li>
+				<li><a href="#about">MODIFY</a></li>
+				<li><a href="#team">TOOLS</a></li>
+				<li><a href="#portfolio">TEAM</a></li>
+				<li><a href="#contact">CONTACT</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+<!-- end navigation -->
+<!-- start header -->
+<header style="background-color:#000000;">
+	<div class="container" >
+		<div class="row" style="display:flex;justify-content:center;align-items:center;">
+			<div id="informationBlock" style="margin: auto;" class="col-md-6 col-sm-3 col-xs-3">
+				<label class="col-md-4">User: <label id="username" style="color: #47C6F8">TempUser</label></label>
+				<label class="col-md-4">Rescourse: <label id="rescourse" style="color: #47C6F8" class="status_NoneR"></label></label>
+				<label class="col-md-4">Status: <label id="status" class="status_disconnected"></label></label>
+			</div>
+			<div class="col-md-2 col-sm-3 col-xs-3">
+				<a id="serverCtl" href="javascript:selectJupyterServer(user_id,user_account,user_password);" class="toggle toggle--on navbar-right"></a>
+			</div>
+			<div class="col-md-2 col-sm-3 col-xs-3" style="height:40px;">
+			<!--	<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button>-->
+					<span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
+					<a  href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Git</a>
+
+				</span>
+
+					<span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
+					<a  id="flapBtn"  href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
+				</span>
+
+
+				</p>
+			</div>
+			<div class="col-md-2 col-sm-3 col-xs-3">
+				<ul class="social-icon">
+					<li><span>Sign in with </span></li>
+					<li><a id="login_f" href="#" class="fa fa-facebook"></a></li>
+					<li><a id="login_t" href="#" class="fa fa-twitter"></a></li>
+				</ul>
+
+			</div>
+		</div>
+	</div>
+</header>
+<!-- end header -->
+
+
+
+<a href="#" class="menubtn">menu</a>
+<!-- use captain icon for toggle menu -->
+<div id="hamburgermenu">
+	<ul>
+		<li><a class="d-firstNav s-firstNav" href="#">Framework</a>
+			<ul id="Frameworks" class="d-firstDrop s-firstDrop">
+			</ul>
+
+		</li>
+		<li><a class="d-firstNav s-firstNav" href="#">Layer</a>
+			<ul id="Layers" class="d-firstDrop s-firstDrop">
+			</ul>
+
+		</li>
+		<li><a class="d-firstNav s-firstNav" href="#">Block</a>
+			<ul id="Blocks" class="d-firstDrop s-firstDrop">
+			</ul>
+
+		</li>
+
+		<li><a class="d-firstNav s-firstNav" href="#">Network</a>
+			<ul id="Networks" class="d-firstDrop s-firstDrop">
+			</ul>
+
+		</li>
+	</ul>
+</div>
+<div class="overlay"></div>
+
+
+<!-- start home -->
+<section id="service">
+	<div class="container">
+		<div class="row">
+			<div id="con">
+				<div id="card" class="card col-xs-11 col-xs-offset-1 unlog" style="height:600px;">
+					<div class="cover" style="overflow:auto;">
+							<div class="" >
+								<div class="col-md-12">
+									<h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">OUR <span>AWESOME</span> THINGS</h2>
+								</div>
+								<div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+									<i class="fa fa-laptop"></i>
+									<h4>One Click Deep learning</h4>
+									<p>We can help you to deploy deep learning project in a convenient, fast and reliable way. We're totally offering more than 50 templates, 20 type of networks, 30 kinds of layers and 20 kinds blocks templates for you. From training to assessment, all you need to you is just one click. </p>
+								</div>
+								<div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.9s">
+									<i class="fa fa-cloud"></i>
+									<h4>Distributed  Computing</h4>
+									<p>Don't have a powerful computing resource? We offered distributed computing resource for your training task, </p>
+								</div>
+								<div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+									<i class="fa fa-cog"></i>
+									<h4>Container friendly</h4>
+									<p>Easy packing of deep learning stacks rapid development across multiple platforms</p>
+								</div>
+							</div>
+					</div>
+					<div class="front" style="overflow:auto;">
+						<!--			        <iframe sandbox="allow-forms allow-same-origin allow-scripts"
+                                            src="http://localhost:8889/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>-->
+						<iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
+								src="" style="height:100%; width:100%"></iframe>
+					</div>
+					<div class="back" style="overflow:auto;">
+						<div id="aaa">
+							<pre id="code" name="code" class="python" cols="60" rows="10" >
+							</pre>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+<!-- end home -->
+
+
+
+<!-- end servie -->
+
+<!-- start copyright -->
+<footer id="copyright">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<p class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">Copyright &copy; 2019.Concordia Team <label style="color:#28a7e9;">Acceler8</label> All rights reserved.
+			</div>
+		</div>
+	</div>
+</footer>
+<!-- end copyright -->
+
+
+
+<script src="assets2/js/jquery.js"></script>
+<script src="assets2/js/bootstrap.min.js"></script>
+<script src="assets2/js/jquery.singlePageNav.min.js"></script>
+<script src="assets2/js/typed.js"></script>
+<script src="assets2/js/wow.min.js"></script>
+<script src="assets2/js/custom.js"></script>
+<script src="assets2/js/prefixfree.min.js"></script>
+<script src="assets2/js/switchServer.js"></script>
+<script language="javascript" src="assets2/js/flipycard.js"></script>
+<script language="javascript" src="assets2/js/shCore.js"></script>
+<script language="javascript" src="assets2/js/shBrushPython.js"></script>
+<script src="assets2/js/menu.js"></script>
+<script language="javascript" src="assets2/js/secondlayernav.js"></script>
+<script language="javascript">
+	window.onload = function () {
+/*				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
+				dp.SyntaxHighlighter.HighlightAll('code');*/
+				initTemplateList();
+				initProjectName();
+				function addSpan(li,text){
+					var span_1=document.createElement("span");
+					span_1.innerHTML=text;
+					li.appendChild(span_1);
+				}
+				function addLi(content, parent){
+					var li_1=document.createElement("li");
+					li_1.setAttribute("class","d-secondNav s-secondNav");
+					li_1.setAttribute("onclick","javascript:getCode('"+content+"','"+parent+"');");
+					addSpan(li_1,content);
+					document.getElementById(parent).appendChild(li_1);
+				}
+				
+				function initProjectName() {
+					$.ajax({
+						url: "/configuration?action=project",
+						contentType: 'application/json',
+						dataType: "json",
+						type: "GET",
+						success: function(data) {
+							var projectName=$("#projectName");
+							projectName.text(data[0]);
+						},
+						error: function (data) {
+						}
+					})
+				}
+
+				function initTemplateList(){
+					$.ajax({
+						url: "/template?status=getnames",
+						contentType: 'application/json',
+						dataType: "json",
+						type: "GET",
+						success: function(data) {
+							var layerList=data[0];
+							var blockList=data[1];
+							var networksList=data[2];
+							var frameworks = data[3];
+							for(var i=0; i<layerList.length;i++){
+								addLi(layerList[i],"Layers");
+							}
+							for(var i=0; i<blockList.length;i++){
+								addLi(blockList[i],"Blocks");
+							}
+							for(var i=0; i<networksList.length;i++){
+								addLi(networksList[i],"Networks");
+							}
+							for(var i=0; i<frameworks.length;i++){
+								addLi(frameworks[i],"Frameworks");
+							}
+						},
+						error: function (data) {
+						}
+					})
+				}
+			}
+
+/*
+	$('#serverCtl').on('click', function(e){
+		if($("#serverCtl").hasClass('toggle--on')){
+			selectJupyterServer(0); //Connect CPU Server
+		}else {
+			selectJupyterServer(1); //Connect GPU Server
+		}
+
+	});*/
+
+
+	function changeProjectName() {
+		$.ajax({
+			url: "/configuration?action=changeProjectName",
+			contentType: 'application/json',
+			dataType: "json",
+			data:
+					JSON.stringify({
+						name: $("#projectName").text()
+					}),
+			type: "POST",
+			timeout: 0,
+			success: function(data){
+			},
+			error: function (data) {
+			}
+		})
+		
+	}
+	function getCode(name,type) {
+		$.ajax({
+			url: "/template?action=testTemplates",
+			contentType: 'application/json',
+			dataType: "json",
+			data:
+					JSON.stringify({
+						name: name,
+						type: type
+					}),
+			type: "POST",
+			success: function(data){
+				var  code = $("#code");
+				$(".dp-highlighter").remove();
+				code.text(data[0]);
+				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
+				dp.SyntaxHighlighter.HighlightAll('code');
+				jsAnimateMenu();
+				if(document.getElementById("card").className.search("flip") === -1){
+					flipPanel();
+				}
+
+
+			},
+			error: function (data) {
+			}
+		})
+	}
+
+	function submitToGit(){
+		$.ajax({
+			url: "/model?action=push",
+			contentType: 'application/json',
+			dataType: "json",
+			data:
+					JSON.stringify({
+						userId: user_id
+					}),
+			type: "POST",
+			timeout: 0,
+			success: function(data){
+				alert("Modal push successful!");
+			},
+			error: function (data) {
+				alert("Modal push error!");
+			}
+		})
+	}
+
+	function selectJupyterServer(userId,userAccount,userPassword){
+		var server = 0;
+		if($("#serverCtl").hasClass('toggle--on')){
+			server = 0;
+		}else{
+			server = 1;
+		}
+		$.ajax({
+			url: "/container?action=request",
+			contentType: 'application/json',
+			dataType: "json",
+			data:
+					JSON.stringify({
+						userId: userId,
+						account: userAccount,
+						password: userPassword,
+						type: server
+					}),
+			type: "POST",
+
+			timeout: 0,
+
+			success: function(data) {
+				console.info("success");
+
+				if(server==0){
+					$('#jupyterFrame').attr('src', "http://"+data[0]+"/notebooks/Untitled.ipynb");
+				}else{
+					$('#jupyterFrame').attr('src', "http://66.131.186.246:5501/notebooks/Untitled.ipynb");
+				}
+			},
+			error: function (data) {
+				console.info("error");
+
+				if(server==0){
+					$('#jupyterFrame').attr('src', "http://"+data[0]+"/notebooks/root/Untitled.ipynb");
+				}else{
+					$('#jupyterFrame').attr('src', "http://66.131.186.246:5501/notebooks/Untitled.ipynb");
+				}
+
+			}
+		})
+	}
+	
+	$('#login_f').on('click', function(e){
+		user_id='1001';
+		user_account='u1001';
+		user_password='p1001';
+
+		selectJupyterServer(user_id,user_account,user_password);
+		var username=$("#username");
+		var status=$("#status");
+		var rescource=$("#rescourse");
+		var card=$("#card");
+		username.text(user_account);
+		status.removeClass('status_disconnected');
+		status.addClass('status_connected');
+		rescource.removeClass('status_NoneR');
+		rescource.addClass('status_cpu');
+		card.removeClass('unlog');
+
+
+	});
+
+
+	$('#login_t').on('click', function(e){
+		user_id='1002';
+		user_account='u1002';
+		user_password='p1002';
+
+		selectJupyterServer(user_id,user_account,user_password);
+		var username=$("#username");
+		var status=$("#status");
+		var rescource=$("#rescourse");
+		var card=$("#card");
+		username.text(user_account);
+		status.removeClass('status_disconnected');
+		status.addClass('status_connected');
+		rescource.removeClass('status_NoneR');
+		rescource.addClass('status_cpu');
+		card.removeClass('unlog');
+
+	});
+
+
+
+
+
+	$('#projectName').click(function(){
+		var td=$(this); //为后面文本框变成文本铺垫
+		var text=$(this).text();
+		var input=$('<input type="text" class="edit" value="'+text+'">');
+		$(this).html( input );
+
+		$('input').click(function(){
+			return false;
+		}); //阻止表单默认点击行为
+
+		$('input').select(); //点击自动全选中表单的内容
+
+		$('input').blur(function(){
+			var nextxt=$(this).val();
+			td.html(nextxt);
+			changeProjectName();
+		}); //表单失去焦点文本框变成文本
+
+	});
+
+
+</script>
+
+</body>
+</html>
