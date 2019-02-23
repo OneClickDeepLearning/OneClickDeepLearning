@@ -53,6 +53,7 @@
 				<span class="icon icon-bar"></span>
 			</button>
 			<img href="#" alt="OCDL" class="navbar-brand" src="assets2/images/Brand3.png" />
+			<label id="projectName" style="color: black; margin-top: 30px; margin-left: 20px;"></label>
 		</div>
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav navbar-right">
@@ -221,6 +222,7 @@
 /*				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
 				dp.SyntaxHighlighter.HighlightAll('code');*/
 				initTemplateList();
+				initProjectName();
 				function addSpan(li,text){
 					var span_1=document.createElement("span");
 					span_1.innerHTML=text;
@@ -232,6 +234,21 @@
 					li_1.setAttribute("onclick","javascript:getCode('"+content+"','"+parent+"');");
 					addSpan(li_1,content);
 					document.getElementById(parent).appendChild(li_1);
+				}
+				
+				function initProjectName() {
+					$.ajax({
+						url: "/configuration?action=project",
+						contentType: 'application/json',
+						dataType: "json",
+						type: "GET",
+						success: function(data) {
+							var projectName=$("#projectName");
+							projectName.text(data[0]);
+						},
+						error: function (data) {
+						}
+					})
 				}
 
 				function initTemplateList(){
@@ -275,6 +292,24 @@
 	});*/
 
 
+	function changeProjectName() {
+		$.ajax({
+			url: "/configuration?action=changeProjectName",
+			contentType: 'application/json',
+			dataType: "json",
+			data:
+					JSON.stringify({
+						name: $("#projectName").text()
+					}),
+			type: "POST",
+			timeout: 0,
+			success: function(data){
+			},
+			error: function (data) {
+			}
+		})
+		
+	}
 	function getCode(name,type) {
 		$.ajax({
 			url: "/template?action=testTemplates",
@@ -393,6 +428,30 @@
 		rescource.removeClass('status_NoneR');
 		rescource.addClass('status_cpu');
 		card.removeClass('unlog');
+
+	});
+
+
+
+
+
+	$('#projectName').click(function(){
+		var td=$(this); //为后面文本框变成文本铺垫
+		var text=$(this).text();
+		var input=$('<input type="text" class="edit" value="'+text+'">');
+		$(this).html( input );
+
+		$('input').click(function(){
+			return false;
+		}); //阻止表单默认点击行为
+
+		$('input').select(); //点击自动全选中表单的内容
+
+		$('input').blur(function(){
+			var nextxt=$(this).val();
+			td.html(nextxt);
+			changeProjectName();
+		}); //表单失去焦点文本框变成文本
 
 	});
 
