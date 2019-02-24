@@ -1,12 +1,13 @@
-package com.ocdl.proxy;
+package com.ocdl.proxy.service;
 
+import com.ocdl.proxy.ProxyCallBack;
 import com.ocdl.proxy.domain.Topic;
 
 public interface MessageTransferService {
 
     public void createConsumer();
 
-    public void consum(Topic topic, Proxy proxy);
+    public void consum(Topic topic, ProxyCallBack proxyCallBack);
 
     public void createProducer();
 

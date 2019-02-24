@@ -1,5 +1,6 @@
 package com.ocdl.proxy.service;
 
+import com.ocdl.proxy.service.impl.S3Service;
 import org.junit.Test;
 
 public class S3ServiceTest {

@@ -1,6 +1,6 @@
-package com.ocdl.proxy.service;
+package com.ocdl.proxy.service.impl;
 
-import com.ocdl.proxy.StorageService;
+import com.ocdl.proxy.service.StorageService;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.HttpMethod;
@@ -11,6 +11,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -27,15 +28,6 @@ public class S3Service implements StorageService {
     private static AmazonS3 s3client;
 
     public S3Service() {
-        System.out.println("create the S3 services  ====================================");
-        AWSCredentials credentials = new BasicAWSCredentials(accesskey, secretkey);
-
-        // todo: change the regions if you don't use us_east_virginia
-        s3client = AmazonS3ClientBuilder
-                .standard()
-                .withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withRegion(Regions.US_EAST_1)
-                .build();
     }
 
     @Value("S3.server.accesskey")
@@ -48,6 +40,7 @@ public class S3Service implements StorageService {
     public void createStorage() {
 
         if (s3client == null) {
+            System.out.println("create the S3 services  ====================================");
             AWSCredentials credentials = new BasicAWSCredentials(accesskey, secretkey);
 
             // todo: change the regions if you don't use us_east_virginia

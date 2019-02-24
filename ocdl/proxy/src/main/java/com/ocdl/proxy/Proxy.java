@@ -1,8 +1,11 @@
 package com.ocdl.proxy;
 
-import org.springframework.stereotype.Component;
 import com.ocdl.proxy.domain.Topic;
 import com.ocdl.proxy.util.FileTool;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import com.ocdl.proxy.service.StorageService;
+import com.ocdl.proxy.service.MessageTransferService;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -11,7 +14,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 @Component
-public class Proxy {
+public class Proxy implements ProxyCallBack{
 
     HashMap<String, Set<String>> preModel;
     HashMap<String, Set<String>> curModel;
@@ -51,6 +54,7 @@ public class Proxy {
 
     }
 
+    @Override
     public void processMsg(String msg) {
 
         System.out.println("=================================================================");
