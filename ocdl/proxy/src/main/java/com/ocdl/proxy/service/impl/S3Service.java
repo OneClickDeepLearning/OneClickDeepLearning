@@ -21,8 +21,8 @@ import java.util.List;
 public class S3Service implements StorageService {
 
     // todo: modify the accesskey and secretkey
-    private static String accesskey = "AKIAJMVONNFPI6FOUNUQ";
-    private static String secretkey = "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";
+    private String accesskey;
+    private String secretkey;
 
     private static AmazonS3 s3client;
 
@@ -37,6 +37,12 @@ public class S3Service implements StorageService {
                 .withRegion(Regions.US_EAST_1)
                 .build();
     }
+
+    @Value("S3.server.accesskey")
+    public void setAccesskey(String accesskey) { this.accesskey = accesskey; }
+
+    @Value("S3.server.secretkey")
+    public void setSecretkey(String secretkey) { this.secretkey = secretkey; }
 
     @Override
     public void createStorage() {

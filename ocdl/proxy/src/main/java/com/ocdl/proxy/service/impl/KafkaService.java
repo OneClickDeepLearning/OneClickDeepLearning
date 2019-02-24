@@ -19,13 +19,13 @@ import java.util.*;
 public class KafkaService implements MessageTransferService {
 
     private Consumer<String, String> consumer;
-    private static KafkaProducer<String, String> producer;
+    private KafkaProducer<String, String> producer;
 
     public static String KAFKADNS;
     private static String group = "js_group2";
 
     @Value("kafka.server.url")
-    public static void setKAFKADNS(String KAFKADNS) {
+    public void setKAFKADNS(String KAFKADNS) {
         KafkaService.KAFKADNS = KAFKADNS;
     }
 

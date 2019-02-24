@@ -22,14 +22,20 @@ public class Proxy {
     @Resource
     MessageTransferService msgTransfer;
 
-    public static String SOURCE = "/var/lib/jenkins/workspace/OneClickDeepLearning/models";
-    public static String BUCKETNAME = "ocdl-model";
+    public static String SOURCE;
+    public static String BUCKETNAME;
 
     public Proxy() {
         // create the preModel and curModel
         preModel = new HashMap<String, Set<String>>();
         curModel = new HashMap<String, Set<String>>();
     }
+
+    @Value("jenkins.server.workspacePath")
+    public static void setSOURCE(String SOURCE) { Proxy.SOURCE = SOURCE; }
+
+    @Value("S3.server.bucketName")
+    public static void setBUCKETNAME(String BUCKETNAME) { Proxy.BUCKETNAME = BUCKETNAME; }
 
     public void run() {
 
