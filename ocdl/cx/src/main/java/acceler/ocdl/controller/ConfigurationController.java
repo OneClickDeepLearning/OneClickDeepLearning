@@ -30,9 +30,12 @@ public class ConfigurationController {
 
     @ResponseBody
     @RequestMapping(params = "action=changeProjectName", method = RequestMethod.POST)
-    public final List<String> changeProjectNames(@RequestBody Map<String, String> param) {
+    public final Response changeProjectNames(@RequestBody Map<String, String> param) {
         List<String> result = new ArrayList<>();
         configurationService.update("project.name", param.get("name"));
-        return result;
+        return Response.getBuilder()
+                .setCode(Response.Code.SUCCESS)
+                .setData(result)
+                .build();
     }
 }

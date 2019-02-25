@@ -20,21 +20,29 @@ public final class TemplateController {
 
     @ResponseBody
     @RequestMapping(params = "status=getnames", method = RequestMethod.GET)
-    public final List<List<String>> queryTemplatesNames(){
+    public final Response queryTemplatesNames(){
         List<List<String>> result = new ArrayList<List<String>>();
         result.add( databaseService.getTemplatesList("Layers"));
         result.add(databaseService.getTemplatesList("Blocks"));
         result.add(  databaseService.getTemplatesList("Networks"));
         result.add(databaseService.getTemplatesList("Frameworks"));
-        return result;
+
+        return Response.getBuilder()
+                .setCode(Response.Code.SUCCESS)
+                .setData(result)
+                .build();
     }
 
     @ResponseBody
     @RequestMapping(params = "action=testTemplates", method = RequestMethod.POST)
-    public final List<String> testTemplates(@RequestBody Map<String,String> param){
+    public final Response testTemplates(@RequestBody Map<String,String> param){
         List<String> templates = new ArrayList <String>();
         templates = databaseService.getTemplates2(param.get("name"),param.get("type"));
-        return templates;
+
+        return Response.getBuilder()
+                .setCode(Response.Code.SUCCESS)
+                .setData(templates)
+                .build();
     }
 
     /**
