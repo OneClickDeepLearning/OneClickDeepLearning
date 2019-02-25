@@ -56,12 +56,12 @@
 			<label id="projectName" style="color: black; margin-top: 30px; margin-left: 20px;"></label>
 		</div>
 		<div class="collapse navbar-collapse">
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#top">FILE</a></li>
-				<li><a href="#about">MODIFY</a></li>
-				<li><a href="#team">TOOLS</a></li>
-				<li><a href="#portfolio">TEAM</a></li>
-				<li><a href="#contact">CONTACT</a></li>
+			<ul id="nav-menu" class="nav navbar-nav navbar-right">
+				<li><a href="#">FILE</a></li>
+				<li><a href="#">MODIFY</a></li>
+				<li><a href="#">TOOLS</a></li>
+				<li><a href="#">TEAM</a></li>
+				<li><a href="#" onclick="forwardTo('/views/configuration.html')">CONFIGURE</a></li>
 			</ul>
 		</div>
 	</div>
@@ -236,6 +236,7 @@
 					document.getElementById(parent).appendChild(li_1);
 				}
 				
+
 				function initProjectName() {
 					$.ajax({
 						url: "/configuration?action=project",
@@ -291,6 +292,23 @@
 
 	});*/
 
+	function ShowApprovalPortal(content, parent) {
+		var li_1=document.createElement("li");
+		var a=document.createElement("a");
+		a.setAttribute("onclick","forwardTo('/views/configuration.html')");
+		a.setAttribute("href","#");
+		a.innerHTML=content;
+		li_1.appendChild(a);
+		document.getElementById(parent).appendChild(li_1);
+	}
+
+	function ajaxMessageReader(response, func){
+		if(response.get("code")=="400"){
+			alert(response.get("message"));
+		}else if(response.get("message")=="200"){
+			func(response.data);
+		}
+	}
 
 	function changeProjectName() {
 		$.ajax({
@@ -304,6 +322,8 @@
 			type: "POST",
 			timeout: 0,
 			success: function(data){
+				ajaxMessageReader(data,function (data) {
+				})
 			},
 			error: function (data) {
 			}
@@ -422,7 +442,13 @@
 
 
 	});
-
+	
+	/*$("#configButton").on('click',function (e) {
+		window.top.location.href="views/configuration.html";
+	})*/
+	function forwardTo(url){
+		window.top.location.href=url;
+	}
 
 	$('#login_t').on('click', function(e){
 		user_id='1002';
@@ -440,6 +466,7 @@
 		rescource.removeClass('status_NoneR');
 		rescource.addClass('status_cpu');
 		card.removeClass('unlog');
+		ShowApprovalPortal("MODEL CENTER","nav-menu");
 
 	});
 

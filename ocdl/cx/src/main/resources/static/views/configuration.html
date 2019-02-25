@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OCDL Configuration</title>
+
+    <link rel="stylesheet" href="../assets2/css/animate.min.css">
+    <link rel="stylesheet" href="../assets2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets2/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../assets2/css/templatemo-style.css">
+    <link rel="stylesheet" href="../assets2/css/SwitchServer.css">
+    <link href="../assets2/css/flipycard.css" rel="stylesheet">
+    <link href="../assets2/css/SyntaxHighlighter.css" type="text/css" rel="stylesheet">
+    <link href="../assets2/css/menu.css" rel="stylesheet">
+    <link href="../assets2/css/infoStatus.css" rel="stylesheet">
+    <link href="../assets2/css/configuration.css" rel="stylesheet">
+
+
+</head>
+<body>
+
+
+
+<!-- end preloader -->
+
+
+<!-- start navigation -->
+<nav class="navbar navbar-default templatemo-nav" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon icon-bar"></span>
+                <span class="icon icon-bar"></span>
+                <span class="icon icon-bar"></span>
+            </button>
+            <img href="#" alt="OCDL" class="navbar-brand" src="../assets2/images/Brand3.png" />
+            <label id="projectName" style="color: black; margin-top: 30px; margin-left: 20px;"></label>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#top">FILE</a></li>
+                <li><a href="#about">MODIFY</a></li>
+                <li><a href="#team">TOOLS</a></li>
+                <li><a href="#portfolio">TEAM</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<header style="background-color:#000000;">
+    <div class="container" >
+        <div class="row" style="display:flex;justify-content:center;align-items:center;">
+            <div id="informationBlock" style="margin: auto;" class="col-md-6 col-sm-3 col-xs-3">
+                <label class="col-md-4">User: <label id="username" style="color: #47C6F8">TempUser</label></label>
+                <label class="col-md-4">Rescourse: <label id="rescourse" style="color: #47C6F8" class="status_NoneR"></label></label>
+                <label class="col-md-4">Status: <label id="status" class="status_disconnected"></label></label>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-3">
+                <a id="serverCtl" href="javascript:selectJupyterServer(user_id,user_account,user_password);" class="toggle toggle--on navbar-right"></a>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-3" style="height:40px;">
+                <!--	<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button>-->
+                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
+					<a  href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Git</a>
+
+				</span>
+
+                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
+					<a  id="flapBtn"  href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
+				</span>
+
+
+                </p>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-3">
+                <ul class="social-icon">
+                    <li><span>Sign in with </span></li>
+                    <li><a id="login_f" href="#" class="fa fa-facebook"></a></li>
+                    <li><a id="login_t" href="#" class="fa fa-twitter"></a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- start home -->
+<section id="config">
+                <div class="container2 w3layouts agileits">
+
+                    <div class="login w3layouts agileits">
+                        <div class="col-md-12 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+                            <i class="fa fa-cogs"></i>
+                        </div>
+                        <div class="col-md-12 wow fadeIn" style="margin-top: 80px;" data-wow-offset="50" data-wow-delay="0.6s">
+                            <p>We can help you to deploy deep learning project in a convenient, fast and reliable way. We're totally offering more than 50 templates, 20 type of networks, 30 kinds of layers and 20 kinds blocks templates for you. From training to assessment, all you need to you is just one click. </p>
+                        </div>
+
+                        <div class="clear"></div>
+                    </div>
+
+
+                    <div class="register w3layouts agileits">
+                        <h2>Configuration</h2>
+                        <form action="#" method="post">
+                            <input type="text" Name="Name" placeholder="Project Name" required="">
+                            <input type="text" Name="Email" placeholder="Git Repository" required="">
+                            <input type="password" Name="Password" placeholder="K8S URL" required="">
+                            <input type="text" Name="Phone Number" placeholder="Template Path" required="">
+                        </form>
+                        <div class="send-button w3layouts agileits">
+                            <form>
+                                <input type="submit" value="Confirm">
+                            </form>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="clear"></div>
+
+            </div>
+
+</section>
+
+<!-- start copyright -->
+<footer id="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <p class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">Copyright &copy; 2019.Concordia Team <label style="color:#28a7e9;">Acceler8</label> All rights reserved.
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+</body>
+</html>
