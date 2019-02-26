@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="../assets2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../assets2/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../assets2/css/approvalCenter.css">
+    <link rel="stylesheet" type="text/css" href="css/leo.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
 
 
     <link rel="stylesheet" href="../assets2/css/animate.min.css">
@@ -21,6 +23,24 @@
     <link href="../assets2/css/menu.css" rel="stylesheet">
     <link href="../assets2/css/infoStatus.css" rel="stylesheet">
     <link href="../assets2/css/configuration.css" rel="stylesheet">
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="Donuts3D.js"></script>
+    <style>
+        path.slice{
+            stroke-width:2px;
+        }
+        polyline{
+            opacity: .3;
+            stroke: black;
+            stroke-width: 2px;
+            fill: none;
+        }
+        svg text.percent{
+            fill:white;
+            text-anchor:middle;
+            font-size:12px;
+        }
+    </style>
 </head>
 <body>
 
@@ -87,6 +107,11 @@
 <div class="demo">
     <div class="container">
         <div class="row">
+
+
+            <div id="pie" class="col-md-offset-1 col-md-5">
+
+            </div>
 
             <div class="col-md-offset-1 col-md-10">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -183,5 +208,26 @@
 </div>
 <script src="../assets2/js/jquery.js"></script>
 <script src="../assets2/js/bootstrap.min.js"></script>
+
+<script language="JavaScript">
+
+    var salesData=[
+        {label:"Waiting", color:"#3366CC"},
+        {label:"Reject", color:"#DC3912"},
+        {label:"Approval", color:"#109618"},
+    ];
+
+    var svg = d3.select("#pie").append("svg").attr("width",700).attr("height",300);
+
+    svg.append("g").attr("id","salesDonut");
+    Donut3D.draw("salesDonut", randomData(), 150, 150, 130, 100, 30, 0.4);
+
+
+    function randomData(){
+        return salesData.map(function(d){
+            return {label:d.label, value:1000*Math.random(), color:d.color};});
+    }
+</script>
+
 </body>
 </html>

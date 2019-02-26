@@ -261,3 +261,22 @@ table.border-bottom tbody tr{
 }
 
 /* table - End -----------------------------------------------------------------E*/
+
+
+
+.pie-line{
+    opacity: .6;
+    stroke: #eee;
+    stroke-width: 2px;
+    fill: none;
+}
+.pie-line-point{
+    fill:#eee;
+    opacity: 0.6;
+}
+.pie-text{
+    fill:#eee;
+    font-family: "微软雅黑";
+    font-size: 14px;
+    font-weight: normal;
+}
