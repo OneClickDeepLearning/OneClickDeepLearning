@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approval Center</title>
+    <link rel="stylesheet" type="text/css" href="../assets2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../assets2/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../assets2/css/approvalCenter.css">
+
+
+    <link rel="stylesheet" href="../assets2/css/animate.min.css">
+    <link rel="stylesheet" href="../assets2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets2/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../assets2/css/templatemo-style.css">
+    <link rel="stylesheet" href="../assets2/css/SwitchServer.css">
+    <link href="../assets2/css/flipycard.css" rel="stylesheet">
+    <link href="../assets2/css/SyntaxHighlighter.css" type="text/css" rel="stylesheet">
+    <link href="../assets2/css/menu.css" rel="stylesheet">
+    <link href="../assets2/css/infoStatus.css" rel="stylesheet">
+    <link href="../assets2/css/configuration.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- start navigation -->
+<nav class="navbar navbar-default templatemo-nav" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon icon-bar"></span>
+                <span class="icon icon-bar"></span>
+                <span class="icon icon-bar"></span>
+            </button>
+            <img href="#" alt="OCDL" class="navbar-brand" src="../assets2/images/Brand3.png" />
+            <label id="projectName" style="color: black; margin-top: 30px; margin-left: 20px;"></label>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul id="nav-menu" class="nav navbar-nav navbar-right">
+                <li><a href="#">FILE</a></li>
+                <li><a href="#">MODIFY</a></li>
+                <li><a href="#">TOOLS</a></li>
+                <li><a href="#">TEAM</a></li>
+                <li><a href="#" onclick="forwardTo('/views/configuration.html')">CONFIGURE</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- end navigation -->
+<!-- start header -->
+<header style="background-color:#000000;">
+    <div class="container" >
+        <div class="row" style="display:flex;justify-content:center;align-items:center;">
+            <div id="informationBlock" style="margin: auto;" class="col-md-6 col-sm-3 col-xs-3">
+                <label class="col-md-4">User: <label id="username" style="color: #47C6F8">TempUser</label></label>
+                <label class="col-md-4">Rescourse: <label id="rescourse" style="color: #47C6F8" class="status_NoneR"></label></label>
+                <label class="col-md-4">Status: <label id="status" class="status_disconnected"></label></label>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-3" style="height:40px;">
+                <!--	<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button>-->
+                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
+					<a  href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Git</a>
+
+				</span>
+
+                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
+					<a  id="flapBtn"  href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
+				</span>
+
+
+                </p>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-3">
+                <ul class="social-icon">
+                    <li><span>Sign in with </span></li>
+                    <li><a id="login_f" href="#" class="fa fa-facebook"></a></li>
+                    <li><a id="login_t" href="#" class="fa fa-twitter"></a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</header>
+<!-- end header -->
+
+<div class="demo">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-offset-1 col-md-10">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingTwo">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    TO DO LIST
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                            <div class="panel-body">
+
+                                <div class="col4">
+                                    <div class="item-box">
+                                        <div class="item-con">
+                                            <table class="odd-even" id="table1">
+                                                <thead><tr><th>Account</th><th>Name</th><th>Sex</th><th>Birthday</th></tr></thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>jk01</td>
+                                                    <td>joke</td>
+                                                    <td>man</td>
+                                                    <td>1990-08-05</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>sa</td>
+                                                    <td>sarry</td>
+                                                    <td>woman</td>
+                                                    <td>1989-12-22</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>lar007</td>
+                                                    <td>larbarn</td>
+                                                    <td>man</td>
+                                                    <td>1989-10-10</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>sny</td>
+                                                    <td>sunny</td>
+                                                    <td>woman</td>
+                                                    <td>1990-02-09</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>flaiy</td>
+                                                    <td>farlaiy</td>
+                                                    <td>man</td>
+                                                    <td>1990-05-06</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingThree">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    APPROVALED LIST
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                            <div class="panel-body">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque lacinia lacinia mauris, at ultricies leo ornare nec. Vivamus eu est vel felis dignissim tempor. Nulla facilisi. Duis molestie tortor ac tempor volutpat. Phasellus nec mi aliquet, sollicitudin neque eget, consectetur libero. Vestibulum sollicitudin sapien libero, egestas tempus eros scelerisque eu.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingFour">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    REJECTED LIST
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                            <div class="panel-body">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque lacinia lacinia mauris, at ultricies leo ornare nec. Vivamus eu est vel felis dignissim tempor. Nulla facilisi. Duis molestie tortor ac tempor volutpat. Phasellus nec mi aliquet, sollicitudin neque eget, consectetur libero. Vestibulum sollicitudin sapien libero, egestas tempus eros scelerisque eu.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="../assets2/js/jquery.js"></script>
+<script src="../assets2/js/bootstrap.min.js"></script>
+</body>
+</html>

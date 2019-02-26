@@ -244,8 +244,10 @@
 						dataType: "json",
 						type: "GET",
 						success: function(data) {
-							var projectName=$("#projectName");
-							projectName.text(data[0]);
+							ajaxMessageReader(data,function (data) {
+								var projectName=$("#projectName");
+								projectName.text(data[0]);
+							})
 						},
 						error: function (data) {
 						}
