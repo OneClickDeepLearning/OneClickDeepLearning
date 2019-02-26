@@ -6,10 +6,31 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long userId;
+    private String userName;
     private String account;
     private String password;
     private int type;
+    private Role role;
 
+    public User() {}
+
+    public User(String userName, String account, String password, int type, Role role) {
+        this.userName = userName;
+        this.account = account;
+        this.password = password;
+        this.type = type;
+        this.role = role;
+    }
+
+
+    public User(Long userId, String userName, String account, String password, int type, Role role) {
+        this.userId = userId;
+        this.userName = userName;
+        this.account = account;
+        this.password = password;
+        this.type = type;
+        this.role = role;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -22,6 +43,10 @@ public class User implements Serializable {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
+    public String getUserName() { return userName; }
+
+    public void setUserName(String userName) { this.userName = userName; }
 
     public String getAccount() {
         return account;
@@ -43,6 +68,10 @@ public class User implements Serializable {
 
     public void setType(int type){ this.type = type; }
 
+    public Role getRole() { return role; }
+
+    public void setRole(Role role) { this.role = role; }
+
 
     @Override
     public boolean equals(Object o) {
@@ -57,5 +86,23 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         return userId.hashCode();
+    }
+
+
+    public enum Role {
+        MANAGER, DEVELOPER,TEST;
+
+        public static Role getRole(String role) {
+
+            switch(role.toLowerCase()) {
+                case "manager":
+                    return Role.MANAGER;
+                case "developer":
+                    return Role.DEVELOPER;
+                case "test":
+                    return Role.TEST;
+            }
+            return null;
+        }
     }
 }
