@@ -2,6 +2,7 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.model.User;
 import acceler.ocdl.service.ContainerService;
+import acceler.ocdl.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -27,27 +28,46 @@ public final class ContainerController {
 
     @ResponseBody
     @RequestMapping(params = "status=all", method = RequestMethod.GET)
-    public final List<Integer> queryUsingPorts() {
-        return containerService.getAssignedContainers();
+    public final Response queryUsingPorts() {
+        return Response.getBuilder()
+                .setCode(Response.Code.SUCCESS)
+                .setData(containerService.getAssignedContainers())
+                .build();
     }
 
     @ResponseBody
     @RequestMapping(params = "status=free", method = RequestMethod.GET)
-    public final Integer queryAvailablePortsCount() {
-        return containerService.getAvailableContainers().size();
+    public final Response queryAvailablePortsCount() {
+        return Response.getBuilder()
+                .setCode(Response.Code.SUCCESS)
+                .setData(containerService.getAvailableContainers().size())
+                .build();
+
     }
 
     @ResponseBody
     @RequestMapping(params = "action=request", method = RequestMethod.POST)
-    public final List<String> requestContainer(@RequestBody User user) {
-        List<String> result = new ArrayList<>();
+    public final Response requestContainer(@RequestBody User user) {
+//        List<String> result = new ArrayList<>();
         Integer assign = containerService.requestContainer(user);
+//        if (assign == null) {
+//            result.add("None Container Assigned");
+//        } else {
+//            result.add(serverIp+":"+assign.toString());
+//        }
+//        return result;
+
         if (assign == null) {
-            result.add("None Container Assigned");
+            return Response.getBuilder()
+                    .setCode(Response.Code.ERROR)
+                    .setMessage("None Container Assigned")
+                    .build();
         } else {
-            result.add(serverIp+":"+assign.toString());
+            return Response.getBuilder()
+                    .setCode(Response.Code.SUCCESS)
+                    .setData(serverIp + ":" + assign.toString())
+                    .build();
         }
-        return result;
     }
 
 

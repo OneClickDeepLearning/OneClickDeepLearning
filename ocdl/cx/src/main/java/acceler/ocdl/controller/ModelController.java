@@ -1,6 +1,7 @@
 package acceler.ocdl.controller;
 
 import acceler.ocdl.service.ModelService;
+import acceler.ocdl.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,13 +21,27 @@ public final class ModelController {
 
     @ResponseBody
     @RequestMapping(params = "action=push", method = RequestMethod.POST)
-    public final List<String> queryPushModels(@RequestBody String userId) {
-        List<String> result = new ArrayList<>();
+    public final Response queryPushModels(@RequestBody String userId) {
+//        List<String> result = new ArrayList<>();
+//        if(modelService.pushModels(userId)) {
+//            result.add("push succeeded");
+//        } else{
+//            result.add("push failed");
+//        }
+//        return result;
+
         if(modelService.pushModels(userId)) {
-            result.add("push succeeded");
+            return Response.getBuilder()
+                    .setCode(Response.Code.SUCCESS)
+                    .setData("push succeeded")
+                    .build();
         } else{
-            result.add("push failed");
+            return Response.getBuilder()
+                    .setCode(Response.Code.ERROR)
+                    .setMessage("push failed")
+                    .build();
         }
-        return result;
+
+
     }
 }

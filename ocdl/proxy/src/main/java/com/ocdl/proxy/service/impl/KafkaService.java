@@ -1,7 +1,8 @@
-package com.ocdl.proxy.service;
+package com.ocdl.proxy.service.impl;
 
-import com.ocdl.proxy.MessageTransferService;
-import com.ocdl.proxy.Proxy;
+
+import com.ocdl.proxy.service.MessageTransferService;
+import com.ocdl.proxy.ProxyCallBack;
 import com.ocdl.proxy.domain.Topic;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -19,13 +20,13 @@ import java.util.*;
 public class KafkaService implements MessageTransferService {
 
     private Consumer<String, String> consumer;
-    private static KafkaProducer<String, String> producer;
+    private KafkaProducer<String, String> producer;
 
     public static String KAFKADNS;
     private static String group = "js_group2";
 
     @Value("kafka.server.url")
-    public static void setKAFKADNS(String KAFKADNS) {
+    public void setKAFKADNS(String KAFKADNS) {
         KafkaService.KAFKADNS = KAFKADNS;
     }
 
@@ -78,7 +79,7 @@ public class KafkaService implements MessageTransferService {
     }
 
     @Override
-    public void consum(Topic topic, Proxy proxy) {
+    public void consum(Topic topic, ProxyCallBack proxyCallBack) {
 
         consumer.subscribe(Arrays.asList(topic.toString()));
 
@@ -90,7 +91,7 @@ public class KafkaService implements MessageTransferService {
             for (ConsumerRecord<String, String> record : records) {
                 // recieve the jkmsg, just a msg told that it has new model
                 System.out.printf("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value());
-                proxy.processMsg(record.value());
+                proxyCallBack.processMsg(record.value());
             }
         }
     }
