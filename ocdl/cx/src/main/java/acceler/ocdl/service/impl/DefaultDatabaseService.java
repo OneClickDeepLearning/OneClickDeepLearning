@@ -4,6 +4,7 @@ import acceler.ocdl.model.Model;
 import acceler.ocdl.model.Project;
 import acceler.ocdl.model.Template;
 import acceler.ocdl.model.User;
+import acceler.ocdl.service.DatabaseService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-@Component
-public class DefaultDatabaseService {
+@Service
+public class DefaultDatabaseService implements DatabaseService {
 
     private Connection con;
 
@@ -63,6 +64,7 @@ public class DefaultDatabaseService {
     /*
      * insert a new role in the table user_role
      */
+    @Override
     public int createNewRole(User.Role role) {
 
         int id = -1;
@@ -90,7 +92,8 @@ public class DefaultDatabaseService {
     /*
      * get the role id in the table user_role
      */
-    public int getRoleId (User.Role role) {
+    @Override
+    public int getRoleId(User.Role role) {
 
         int id = -1;
         String query = "select id from user_role where " + " role=?";
@@ -115,7 +118,8 @@ public class DefaultDatabaseService {
     /*
      * get the role id in the table user_role
      */
-    public String getRoleName (int roleId) {
+    @Override
+    public String getRoleName(int roleId) {
 
         String roleName = "";
         String query = "select role from user_role where " + " id=?";
@@ -183,6 +187,7 @@ public class DefaultDatabaseService {
     /*
      * Get user info except the password
      */
+    @Override
     public Long getUserId(String userName) {
 
        Long id = -1L;
@@ -208,6 +213,7 @@ public class DefaultDatabaseService {
     /*
      * Get user info except the password
      */
+    @Override
     public User getUserInfo(String userName) {
 
         User user = new User();
@@ -242,6 +248,7 @@ public class DefaultDatabaseService {
      * get the user password
      * TODO: password need to be encrypted
      */
+    @Override
     public String getUserPassword(String userName) {
 
         String password = "";
@@ -271,6 +278,7 @@ public class DefaultDatabaseService {
     /*
      * insert a new project in the table project
      */
+    @Override
     public int createProject(String projectName, String description) {
 
         int id = -1;
@@ -296,7 +304,8 @@ public class DefaultDatabaseService {
     /*
      * get the project id in the table project
      */
-    public int getProjectId (String projectName) {
+    @Override
+    public int getProjectId(String projectName) {
 
         int id = -1;
         String query = "select id from project where " + " name=?";
@@ -316,6 +325,7 @@ public class DefaultDatabaseService {
         return id;
     }
 
+    @Override
     public Project getProjectInfo(String projectName) {
 
         Project project = new Project();
@@ -343,6 +353,7 @@ public class DefaultDatabaseService {
         return project;
     }
 
+    @Override
     public Project getProjectInfo(int projectId) {
 
         Project project = new Project();
@@ -370,6 +381,7 @@ public class DefaultDatabaseService {
         return project;
     }
 
+    @Override
     public void setProjectGit(String git, int projectId) {
 
         String query = "update project set " + "git=?" + " where " + "id=?";
@@ -387,6 +399,7 @@ public class DefaultDatabaseService {
         }
     }
 
+    @Override
     public void setProjectK8(String k8Url, int projectId) {
 
         String query = "update project set " + "k8_url=?" + " where " + "id=?";
@@ -404,6 +417,7 @@ public class DefaultDatabaseService {
         }
     }
 
+    @Override
     public void setProjectTemplate(String templateUrl, int projectId) {
 
         String query = "update project set " + "template_url=?" + " where " + "id=?";
@@ -425,6 +439,7 @@ public class DefaultDatabaseService {
     // operation of table user_project_relation
     //==================================================================================
 
+    @Override
     public void createUserProjectRelation(User user, String projectName) {
 
         // get user id
@@ -448,7 +463,7 @@ public class DefaultDatabaseService {
         }
     }
 
-
+    @Override
     public ArrayList<Project> getProjectList(Long userId) {
 
         ArrayList<Project> projectList = new ArrayList<Project>();
@@ -474,6 +489,7 @@ public class DefaultDatabaseService {
         return projectList;
     }
 
+    @Override
     public User getProjectManager(int projectId) {
 
         User user = new User();
@@ -502,6 +518,7 @@ public class DefaultDatabaseService {
     // column: id, name, project_id
     //==================================================================================
 
+    @Override
     public int createModelType(String modelTypeName, int projectId) {
 
         int id = -1;
@@ -525,7 +542,7 @@ public class DefaultDatabaseService {
         return id;
     }
 
-
+    @Override
     public ArrayList<String> getModelType(int projectId) {
 
         ArrayList<String> modelTypeList = new ArrayList<String>();
@@ -552,7 +569,8 @@ public class DefaultDatabaseService {
     /*
      * get the model type id in the table model_type
      */
-    public int getModelTypeId (int projectId, String modelTypeName) {
+    @Override
+    public int getModelTypeId(int projectId, String modelTypeName) {
 
         int id = -1;
         String query = "select id from model_type where " + " name=?" + " and " + "project_id=?";
@@ -581,7 +599,8 @@ public class DefaultDatabaseService {
     /*
      * get status id in the table status
      */
-    public int getStatusId (Model.Status status) {
+    @Override
+    public int getStatusId(Model.Status status) {
 
         int id = -1;
         String query = "select id from status where " + " name=?";
@@ -606,6 +625,7 @@ public class DefaultDatabaseService {
     // column: id, name, model_type_id, project_id, url, status_id, version
     //==================================================================================
 
+    @Override
     public int createModel(Model model) {
 
         int id = -1;
@@ -635,6 +655,7 @@ public class DefaultDatabaseService {
         return id;
     }
 
+    @Override
     public void updateModelStatus(Model model, Model.Status expectedStatus) {
 
         if (model.getModelId() != null) {
@@ -689,6 +710,7 @@ public class DefaultDatabaseService {
     /*
      * TODO: big version or small version
      */
+    @Override
     public void updateModelVersion(Model model, String version) {
 
         if (model.getModelId() != null) {
@@ -714,7 +736,6 @@ public class DefaultDatabaseService {
             System.out.println(e.getMessage());
         }
     }
-
 
     private void updateModelVersionWithoutModelId(Model model,String version) {
 
@@ -744,6 +765,7 @@ public class DefaultDatabaseService {
     // column: model_id, model_name, url, version, model_type_name, project_name, status
     //==================================================================================
 
+    @Override
     public ArrayList<Model> getAllProjectModel(String projectName) {
 
         ArrayList<Model> modelList = new ArrayList<Model>();
@@ -780,6 +802,7 @@ public class DefaultDatabaseService {
      * get project models on specific status
      * @para condition specific status, such as: new/approval/reject
      */
+    @Override
     public ArrayList<Model> getConditioanalProjectModel(String projectName, Model.Status condition) {
 
         ArrayList<Model> modelList = new ArrayList<Model>();
@@ -819,6 +842,7 @@ public class DefaultDatabaseService {
     // column: id, name, file, model_suffix, desp
     //==================================================================================
 
+    @Override
     public int createTemplate(Template template) {
         int id = -1;
 
@@ -851,6 +875,7 @@ public class DefaultDatabaseService {
         return id;
     }
 
+    @Override
     public Template getTemplateInfo(Long templateId) {
 
         Template template = new Template();
@@ -881,6 +906,7 @@ public class DefaultDatabaseService {
         return template;
     }
 
+    @Override
     public Template getTemplateInfo(String templateName) {
 
         Template template = new Template();
