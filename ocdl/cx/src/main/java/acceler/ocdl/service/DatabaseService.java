@@ -56,7 +56,7 @@ public interface DatabaseService {
     void updateModelVersion(Model model, String version);
 
     ArrayList<Model> getAllProjectModel(String projectName);
-    
+
     ArrayList<Model> getConditioanalProjectModel(String projectName, Model.Status condition);
 
     int createTemplate(Template template);
