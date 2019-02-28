@@ -95,5 +95,18 @@ public class Model {
             }
             return null;
         }
+
+        public static Status getStatus(int status) {
+
+            switch(status) {
+                case -1:
+                    return Status.NEW;
+                case 1:
+                    return Status.APPROVAL;
+                case 0:
+                    return Status.REJECT;
+            }
+            return null;
+        }
     }
 }
