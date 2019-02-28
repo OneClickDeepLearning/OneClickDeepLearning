@@ -6,7 +6,6 @@ import acceler.ocdl.model.Template;
 import acceler.ocdl.model.User;
 import acceler.ocdl.service.DatabaseService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
@@ -382,7 +381,30 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public void setProjectGit(String git, int projectId) {
+    public Boolean updateProject(int projectId, String projectName, String git, String k8, String template) {
+
+        String query = "update project set " + "name=?, git=?, k8_url=?, template_url=?" + " where " + "id=?";
+
+        try {
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.setString (1, projectName); //name
+            preparedStmt.setString(2, git); // git
+            preparedStmt.setString(3, k8); // k8_url
+            preparedStmt.setString(4, template); // template_url
+            preparedStmt.setInt(5, projectId); // id
+
+            // execute the preparedstatement
+            preparedStmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean setProjectGit(String git, int projectId) {
 
         String query = "update project set " + "git=?" + " where " + "id=?";
 
@@ -394,13 +416,15 @@ public class DefaultDatabaseService implements DatabaseService {
 
             // execute the preparedstatement
             preparedStmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
         }
     }
 
     @Override
-    public void setProjectK8(String k8Url, int projectId) {
+    public Boolean setProjectK8(String k8Url, int projectId) {
 
         String query = "update project set " + "k8_url=?" + " where " + "id=?";
 
@@ -412,13 +436,15 @@ public class DefaultDatabaseService implements DatabaseService {
 
             // execute the preparedstatement
             preparedStmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
         }
     }
 
     @Override
-    public void setProjectTemplate(String templateUrl, int projectId) {
+    public Boolean setProjectTemplate(String templateUrl, int projectId) {
 
         String query = "update project set " + "template_url=?" + " where " + "id=?";
 
@@ -430,10 +456,33 @@ public class DefaultDatabaseService implements DatabaseService {
 
             // execute the preparedstatement
             preparedStmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
         }
     }
+
+    @Override
+    public Boolean setProjectName(String projectName, int projectId) {
+
+        String query = "update project set " + "name=?" + " where " + "id=?";
+
+        try {
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.setString (1, projectName); //projectName
+            preparedStmt.setInt(2, projectId); // projectId
+
+            // execute the preparedstatement
+            preparedStmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
 
     //==================================================================================
     // operation of table user_project_relation
@@ -542,6 +591,7 @@ public class DefaultDatabaseService implements DatabaseService {
         return id;
     }
 
+    //TODO 也需要ID
     @Override
     public ArrayList<String> getModelType(int projectId) {
 
@@ -665,7 +715,8 @@ public class DefaultDatabaseService implements DatabaseService {
         }
     }
 
-    private void updateModelStatusWithModelId(Long modelId, Model.Status expectedStatus) {
+    @Override
+    public Boolean updateModelStatusWithModelId(Long modelId, Model.Status expectedStatus) {
 
         int statusId = getStatusId(expectedStatus);
 
@@ -679,8 +730,10 @@ public class DefaultDatabaseService implements DatabaseService {
 
             // execute the preparedstatement
             preparedStmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
         }
     }
 
@@ -720,7 +773,8 @@ public class DefaultDatabaseService implements DatabaseService {
         }
     }
 
-    private void updateModelVersionWithModelId(Long modelId, String version) {
+    @Override
+    public  Boolean updateModelVersionWithModelId(Long modelId, String version) {
 
         String query = "update model set " + "version=?" + " where " + "id=?";
 
@@ -732,8 +786,10 @@ public class DefaultDatabaseService implements DatabaseService {
 
             // execute the preparedstatement
             preparedStmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
         }
     }
 
@@ -803,16 +859,16 @@ public class DefaultDatabaseService implements DatabaseService {
      * @para condition specific status, such as: new/approval/reject
      */
     @Override
-    public ArrayList<Model> getConditioanalProjectModel(String projectName, Model.Status condition) {
+    public ArrayList<Model> getConditioanalProjectModel(int projectId, Model.Status condition) {
 
         ArrayList<Model> modelList = new ArrayList<Model>();
 
-        String query = "select * from model_view where " + " project_name=?" + " and " + "status=?";
+        String query = "select * from model_view where " + " project_id=?" + " and " + "status=?";
 
         try {
             // create the mysql insert preparedstatement
             PreparedStatement preparedStmt = con.prepareStatement(query);
-            preparedStmt.setString (1, projectName); //projectName
+            preparedStmt.setInt (1, projectId); //projectId
             preparedStmt.setString (2, condition.name().toLowerCase()); //condition
 
             // execute the preparedstatement
