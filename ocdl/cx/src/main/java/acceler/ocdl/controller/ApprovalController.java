@@ -27,7 +27,7 @@ public class ApprovalController {
 
         ArrayList<ArrayList<Model>> models = new ArrayList<ArrayList<Model>>();
 
-//        int projectId = (Integer)param.get("id");
+//        int projectId = Integer.valueOf(param.get("id"));
         int projectId = 3;
 
         ArrayList<Model> newModels= dbService.getConditioanalProjectModel(projectId, Model.Status.NEW);
@@ -49,7 +49,7 @@ public class ApprovalController {
 
         ArrayList<String> modelTypes = new ArrayList<String>();
 
-//        int projectId = (Integer)param.get("id");
+//        int projectId = Integer.valueOf(param.get("id"));
         int projectId = 3;
 
         modelTypes = dbService.getModelType(projectId);
@@ -65,7 +65,8 @@ public class ApprovalController {
     public final Response pushDecision(@RequestBody Map<String, String> param) {
 
         Long modelId = Long.parseLong(param.get("id"));
-        Model.Status decision = Model.Status.getStatus(param.get("decision"));
+        // -1:new, 0:reject, 1:qpproval
+        Model.Status decision = Model.Status.getStatus(Integer.valueOf(param.get("decision")));
 
         Boolean isSuccess = dbService.updateModelStatusWithModelId(modelId, decision);
 

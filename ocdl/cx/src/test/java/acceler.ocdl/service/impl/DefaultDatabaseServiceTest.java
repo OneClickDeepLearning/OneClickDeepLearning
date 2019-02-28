@@ -294,7 +294,7 @@ public class DefaultDatabaseServiceTest {
     @Test
     public void getConditioanalProjectModel() {
 
-        ArrayList<Model> models = db.getConditioanalProjectModel("project3", Model.Status.APPROVAL);
+        ArrayList<Model> models = db.getConditioanalProjectModel(3, Model.Status.APPROVAL);
         models.stream().forEach(m -> {
             System.out.println(m.getModelName());
             System.out.println(m.getModelType());
@@ -302,7 +302,7 @@ public class DefaultDatabaseServiceTest {
         });
         assertEquals(1, models.size());
 
-        models = db.getConditioanalProjectModel("project3", Model.Status.REJECT);
+        models = db.getConditioanalProjectModel(3, Model.Status.REJECT);
         models.stream().forEach(m -> {
             System.out.println(m.getModelName());
             System.out.println(m.getModelType());
@@ -310,7 +310,7 @@ public class DefaultDatabaseServiceTest {
         });
         assertEquals(1, models.size());
 
-        models = db.getConditioanalProjectModel("project3", Model.Status.NEW);
+        models = db.getConditioanalProjectModel(3, Model.Status.NEW);
         models.stream().forEach(m -> {
             System.out.println(m.getModelName());
             System.out.println(m.getModelType());
