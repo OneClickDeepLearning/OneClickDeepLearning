@@ -40,6 +40,56 @@
             text-anchor:middle;
             font-size:12px;
         }
+
+
+        .pieGraph{
+            float: left;
+            text-align: center;
+        }
+        .pieInfo {
+            float: left;
+            border-left: 1px solid #DDD;
+            padding-left: 40px;
+            text-align: left;
+        }
+
+        .container2 {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(10, 10, 10, 0.77);
+            border: 2px ridge rgba(238, 238, 238, 0.13);
+            border-radius: 5px;
+            -moz-box-shadow: 0 -5px 10px 1px rgba(16, 16, 16, 0.57);
+            -webkit-box-shadow: 0 -5px 10px 1px rgba(16, 16, 16, 0.57);
+            box-shadow: 0 -5px 10px 1px rgba(16, 16, 16, 0.57);
+            border-bottom: none;
+            border-bottom-left-radius: initial;
+            border-bottom-right-radius: initial;
+        }
+        .newColorBlock{
+            width: 10px;
+            height: 10px;
+            float:left;
+            margin: 3px;
+            background-color:#3366CC ;
+        }
+        .approvalColorBlock{
+            width: 10px;
+            height: 10px;
+            float:left;
+            margin: 3px;
+            background-color:#109618 ;
+
+        }
+        .rejectColorBlock{
+            width: 10px;
+            height: 10px;
+            float:left;
+            margin: 3px;
+            background-color:#DC3912 ;
+
+        }
     </style>
 </head>
 <body>
@@ -105,13 +155,36 @@
 <!-- end header -->
 
 <div class="demo">
-    <div class="container">
+    <div class="container" style="margin-top: 20px">
         <div class="row">
 
+            <div class="container2 w3layouts agileits">
 
-            <div id="pie" class="col-md-offset-1 col-md-5">
+                <div class="pieGraph w3layouts agileits col-lg-5 col-md-12 col-sm-12">
+                    <div class="col-md-12 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+                        <div id="pie">
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+
+                <div class="pieInfo w3layouts agileits col-lg-7 col col-md-12 col-sm-12">
+                    <div class="col-md-12" data-wow-offset="50" data-wow-delay="0.6s">
+                        <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">YOU GOT <span>3</span><span> TODO'S </span> IN THE LIST</h2>
+                        <p><div class="newColorBlock"></div><span style="color: #3366CC;"> New Models:</span><span>3</span></p>
+                        <p><div class="approvalColorBlock"></div><span style="color: #109618;"> Approved Models:</span><span>5</span></p>
+                        <p><div class="rejectColorBlock"></div> <span style="color: #DC3912;">Rejected Models:</span><span>1</span></p>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="clear"></div>
 
             </div>
+
+
+
 
             <div class="col-md-offset-1 col-md-10">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -144,24 +217,6 @@
                                                     <td>woman</td>
                                                     <td>1989-12-22</td>
                                                 </tr>
-                                                <tr>
-                                                    <td>lar007</td>
-                                                    <td>larbarn</td>
-                                                    <td>man</td>
-                                                    <td>1989-10-10</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>sny</td>
-                                                    <td>sunny</td>
-                                                    <td>woman</td>
-                                                    <td>1990-02-09</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>flaiy</td>
-                                                    <td>farlaiy</td>
-                                                    <td>man</td>
-                                                    <td>1990-05-06</td>
-                                                </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -182,7 +237,29 @@
                         </div>
                         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                             <div class="panel-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque lacinia lacinia mauris, at ultricies leo ornare nec. Vivamus eu est vel felis dignissim tempor. Nulla facilisi. Duis molestie tortor ac tempor volutpat. Phasellus nec mi aliquet, sollicitudin neque eget, consectetur libero. Vestibulum sollicitudin sapien libero, egestas tempus eros scelerisque eu.</p>
+                                <div class="col4">
+                                    <div class="item-box">
+                                        <div class="item-con">
+                                            <table class="odd-even" id="table1">
+                                                <thead><tr><th>Account</th><th>Name</th><th>Sex</th><th>Birthday</th></tr></thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>jk01</td>
+                                                    <td>joke</td>
+                                                    <td>man</td>
+                                                    <td>1990-08-05</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>sa</td>
+                                                    <td>sarry</td>
+                                                    <td>woman</td>
+                                                    <td>1989-12-22</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -196,7 +273,29 @@
                         </div>
                         <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
                             <div class="panel-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque lacinia lacinia mauris, at ultricies leo ornare nec. Vivamus eu est vel felis dignissim tempor. Nulla facilisi. Duis molestie tortor ac tempor volutpat. Phasellus nec mi aliquet, sollicitudin neque eget, consectetur libero. Vestibulum sollicitudin sapien libero, egestas tempus eros scelerisque eu.</p>
+                                <div class="col4">
+                                    <div class="item-box">
+                                        <div class="item-con">
+                                            <table class="odd-even" id="table1">
+                                                <thead><tr><th>Account</th><th>Name</th><th>Sex</th><th>Birthday</th></tr></thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>jk01</td>
+                                                    <td>joke</td>
+                                                    <td>man</td>
+                                                    <td>1990-08-05</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>sa</td>
+                                                    <td>sarry</td>
+                                                    <td>woman</td>
+                                                    <td>1989-12-22</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -214,7 +313,7 @@
     var salesData=[
         {label:"Waiting", color:"#3366CC"},
         {label:"Reject", color:"#DC3912"},
-        {label:"Approval", color:"#109618"},
+        {label:"Approval", color:"#109618"}
     ];
 
     var svg = d3.select("#pie").append("svg").attr("width",700).attr("height",300);

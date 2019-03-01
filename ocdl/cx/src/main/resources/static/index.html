@@ -239,7 +239,7 @@
 
 				function initProjectName() {
 					$.ajax({
-						url: "/configuration?action=project",
+						url: "/configuration?action=getAllProject",
 						contentType: 'application/json',
 						dataType: "json",
 						type: "GET",
@@ -260,24 +260,27 @@
 						contentType: 'application/json',
 						dataType: "json",
 						type: "GET",
-						success: function(data) {
-							var layerList=data[0];
-							var blockList=data[1];
-							var networksList=data[2];
-							var frameworks = data[3];
-							for(var i=0; i<layerList.length;i++){
-								addLi(layerList[i],"Layers");
-							}
-							for(var i=0; i<blockList.length;i++){
-								addLi(blockList[i],"Blocks");
-							}
-							for(var i=0; i<networksList.length;i++){
-								addLi(networksList[i],"Networks");
-							}
-							for(var i=0; i<frameworks.length;i++){
-								addLi(frameworks[i],"Frameworks");
-							}
+						success:function (data) {
+							ajaxMessageReader(data,function (data) {
+								var layerList=data[0];
+								var blockList=data[1];
+								var networksList=data[2];
+								var frameworks = data[3];
+								for(var i=0; i<layerList.length;i++){
+									addLi(layerList[i],"Layers");
+								}
+								for(var i=0; i<blockList.length;i++){
+									addLi(blockList[i],"Blocks");
+								}
+								for(var i=0; i<networksList.length;i++){
+									addLi(networksList[i],"Networks");
+								}
+								for(var i=0; i<frameworks.length;i++){
+									addLi(frameworks[i],"Frameworks");
+								}
+							})
 						},
+
 						error: function (data) {
 						}
 					})
@@ -305,9 +308,9 @@
 	}
 
 	function ajaxMessageReader(response, func){
-		if(response.get("code")=="400"){
+		if(response.code=="400"){
 			alert(response.get("message"));
-		}else if(response.get("message")=="200"){
+		}else if(response.code=="200"){
 			func(response.data);
 		}
 	}
@@ -343,19 +346,20 @@
 						type: type
 					}),
 			type: "POST",
-			success: function(data){
-				var  code = $("#code");
-				$(".dp-highlighter").remove();
-				code.text(data[0]);
-				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
-				dp.SyntaxHighlighter.HighlightAll('code');
-				jsAnimateMenu();
-				if(document.getElementById("card").className.search("flip") === -1){
-					flipPanel();
-				}
-
-
+			success:function (data) {
+				ajaxMessageReader(data,function (data) {
+					var  code = $("#code");
+					$(".dp-highlighter").remove();
+					code.text(data[0]);
+					dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
+					dp.SyntaxHighlighter.HighlightAll('code');
+					jsAnimateMenu();
+					if(document.getElementById("card").className.search("flip") === -1){
+						flipPanel();
+					}
+				})
 			},
+
 			error: function (data) {
 			}
 		})
@@ -373,10 +377,11 @@
 			type: "POST",
 			timeout: 0,
 			success: function(data){
-				alert("Modal push successful!");
+				ajaxMessageReader(data,function (data) {
+					alert(data.data[0]);
+				})
 			},
-			error: function (data) {
-				alert("Modal push error!");
+			error: function () {
 			}
 		})
 	}
@@ -404,23 +409,17 @@
 			timeout: 0,
 
 			success: function(data) {
-				console.info("success");
+				ajaxMessageReader(data,function (data) {
+					if(server==0){
+						$('#jupyterFrame').attr('src', "http://"+data.data[0]+"/notebooks/Untitled.ipynb");
+					}else{
+						$('#jupyterFrame').attr('src', "http://66.131.186.246:5501/notebooks/Untitled.ipynb");
+					}
+				})
 
-				if(server==0){
-					$('#jupyterFrame').attr('src', "http://"+data[0]+"/notebooks/Untitled.ipynb");
-				}else{
-					$('#jupyterFrame').attr('src', "http://66.131.186.246:5501/notebooks/Untitled.ipynb");
-				}
+
 			},
-			error: function (data) {
-				console.info("error");
-
-				if(server==0){
-					$('#jupyterFrame').attr('src', "http://"+data[0]+"/notebooks/root/Untitled.ipynb");
-				}else{
-					$('#jupyterFrame').attr('src', "http://66.131.186.246:5501/notebooks/Untitled.ipynb");
-				}
-
+			error: function () {
 			}
 		})
 	}
