@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 public interface DatabaseService {
 
+    void createConn();
+
     int createNewRole(User.Role role);
 
     int getRoleId(User.Role role);

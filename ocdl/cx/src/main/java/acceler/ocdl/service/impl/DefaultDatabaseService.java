@@ -39,19 +39,23 @@ public class DefaultDatabaseService implements DatabaseService {
 
     public void setPassword(String password) { this.password = password; }
 
+    @Override
     public void createConn(){
-        try {
-            //加载驱动程序
-            System.out.println(driver);
-            Class.forName(driver);
-            //1.getConnection()方法，连接MySQL数据库！！
-            con = DriverManager.getConnection(url,user,password);
 
-            if(!con.isClosed()) System.out.println("Succeeded connecting to the Database!");
-        } catch (ClassNotFoundException e) {
-            System.out.println(e.getMessage());
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        if (con == null) {
+            try {
+                //加载驱动程序
+                System.out.println(driver);
+                Class.forName(driver);
+                //1.getConnection()方法，连接MySQL数据库！！
+                con = DriverManager.getConnection(url,user,password);
+
+                if(!con.isClosed()) System.out.println("Succeeded connecting to the Database!");
+            } catch (ClassNotFoundException e) {
+                System.out.println(e.getMessage());
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
