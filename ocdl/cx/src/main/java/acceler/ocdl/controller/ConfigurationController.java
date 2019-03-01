@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,52 +47,74 @@ public class ConfigurationController {
 
     @ResponseBody
     @RequestMapping(params = "action=updateProjectName", method = RequestMethod.POST)
-    public final Response updateProjectNames(@RequestBody Map<String, String> param) {
+    public final  Map<String, String> updateProjectNames(@RequestBody Map<String, String> param) {
 
+        Map<String, String> result = new HashMap<String, String>();
+
+        dbService.createConn();
         boolean isSuccess = dbService.setProjectName( param.get("name"), 3);
 
         if (isSuccess) {
-            return Response.getBuilder()
-                    .setCode(Response.Code.SUCCESS)
-                    .build();
+            result.put("isSuccess", "true");
+//            return Response.getBuilder()
+//                    .setCode(Response.Code.SUCCESS)
+//                    .build();
         } else {
-            return Response.getBuilder()
-                    .setCode(Response.Code.SUCCESS)
-                    .build();
+            result.put("isSuccess", "false");
+//            return Response.getBuilder()
+//                    .setCode(Response.Code.SUCCESS)
+//                    .build();
         }
+        return result;
     }
 
 
     @ResponseBody
     @RequestMapping(params = "action=getAllProject", method = RequestMethod.POST)
-    public final Response getAllProject() {
+    public final Map<Integer, Project> getAllProject() {
+
+        Map<Integer, Project> result = new HashMap<Integer, Project>();
 
         // TODO user_id should be te param
         Long user_id = 1L;
+
+        dbService.createConn();
         ArrayList<Project> projects = dbService.getProjectList(user_id);
 
-        return Response.getBuilder()
-                .setCode(Response.Code.SUCCESS)
-                .setData(projects)
-                .build();
+        projects.stream().forEach((p -> {
+            result.put(p.getProjectId(), p);
+        }));
+
+        return result;
+
+//        return Response.getBuilder()
+//                .setCode(Response.Code.SUCCESS)
+//                .setData(projects)
+//                .build();
     }
 
     @ResponseBody
     @RequestMapping(params = "action=updateProject", method = RequestMethod.POST)
-    public final Response updateProject(@RequestBody Map<String, String> param) {
+    public final Map<String, String> updateProject(@RequestBody Map<String, String> param) {
 
         // TODO: projectId should be a param
+        Map<String, String> result = new HashMap<String, String>();
+
+        dbService.createConn();
         boolean isSuccess = dbService.updateProject(3, param.get("name"), param.get("git"), param.get("k8"), param.get("template"));
 
         if (isSuccess) {
-            return Response.getBuilder()
-                    .setCode(Response.Code.SUCCESS)
-                    .build();
+            result.put("isSuccess", "true");
+//            return Response.getBuilder()
+//                    .setCode(Response.Code.SUCCESS)
+//                    .build();
         } else {
-            return Response.getBuilder()
-                    .setCode(Response.Code.SUCCESS)
-                    .build();
+            result.put("isSuccess", "false");
+//            return Response.getBuilder()
+//                    .setCode(Response.Code.SUCCESS)
+//                    .build();
         }
+        return result;
     }
 
 
