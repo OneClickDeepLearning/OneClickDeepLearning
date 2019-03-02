@@ -94,9 +94,7 @@ ul.tick li input[type="checkbox"]+label {
 }
 
 input[type="text"], input[type="password"] {
-    width: 93.4%;
     margin-bottom: 20px;
-    padding: 10px;
     float: left;
     background-color: transparent;
     border: none;

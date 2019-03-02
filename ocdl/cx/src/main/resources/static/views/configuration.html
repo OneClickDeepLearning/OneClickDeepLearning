@@ -103,17 +103,15 @@
 
 
                     <div class="register w3layouts agileits">
-                        <h2>Configuration</h2>
+                        <h2>Configuration Center</h2>
                         <form action="#" method="post">
-                            <input type="text" Name="Name" placeholder="Project Name" required="">
-                            <input type="text" Name="Email" placeholder="Git Repository" required="">
-                            <input type="password" Name="Password" placeholder="K8S URL" required="">
-                            <input type="text" Name="Phone Number" placeholder="Template Path" required="">
+                            <label class="col-md-4" for="name">Project Name: </label> <input id="name" class="col-md-8" type="text" Name="name" placeholder="Project Name" required="">
+                            <label class="col-md-4" for="git">Git Repository: </label> <input id="git" class="col-md-8" type="text" Name="git" placeholder="Git Repository" required="">
+                            <label class="col-md-4" for="k8Url">K8S URL: </label>    <input id="k8Url" class="col-md-8" type="text" Name="k8Url" placeholder="K8S URL" required="">
+                            <label class="col-md-4" for="templateUrl">Template Path: </label>  <input id="templateUrl" class="col-md-8" type="text" Name="templateUrl" placeholder="Template Path" required="">
                         </form>
                         <div class="send-button w3layouts agileits">
-                            <form>
-                                <input type="submit" value="Confirm">
-                            </form>
+                                <input type="submit" value="Confirm" onclick="updateConfiguration()">
                         </div>
                         <div class="clear"></div>
                     </div>
@@ -123,6 +121,82 @@
             </div>
 
 </section>
+
+
+<script src="../assets2/js/jquery.js"></script>
+<script src="../assets2/js/bootstrap.min.js"></script>
+<script src="../assets2/js/jquery.singlePageNav.min.js"></script>
+
+<script language="JavaScript">
+    window.onload = function () {
+        initConfigInfo();
+    }
+    
+    
+    function initConfigInfo() {
+        $.ajax({
+            url: "/configuration?action=getAllProject",
+            contentType: 'application/json',
+            dataType: "json",
+            type: "POST",
+            success: function(data) {
+                ajaxMessageReader(data,function (data) {
+                    var projectName=$("#name");
+                    var projectName2=$("#projectName");
+                    var k8Url= $("#k8Url");
+                    var git = $("#git");
+                    var templatePath = $("#templateUrl");
+                    projectName.val(data[3].projectName);
+                    k8Url.val(data[3].k8Url);
+                    git.val(data[3].git);
+                    templatePath.val(data[3].templateUrl);
+                    projectName2.text(data[3].projectName);
+
+                })
+            },
+            error: function (data) {
+            }
+        })
+    }
+    
+    function updateConfiguration() {
+        $.ajax({
+            url: "/configuration?action=updateProject",
+            contentType: 'application/json',
+            dataType: "json",
+            data:
+                JSON.stringify({
+                    name: $("#name").val(),
+                    git: $("#git").val(),
+                    k8: $("#k8Url").val(),
+                    template: $("#templateUrl").val()
+                }),
+            type: "POST",
+            timeout: 0,
+            success: function(data){
+                ajaxMessageReader(data,function (data) {
+                    if (data["isSuccess"]=="true"){
+                        $("#projectName").text($("#name").val());
+                        alert("Update Successful");
+                    }else{
+                        alert("Update Fail");
+                    }
+                })
+            },
+            error: function (data) {
+            }
+        })
+    }
+    function ajaxMessageReader(response, func){
+        /*		if(response.code=="400"){
+                    alert(response.get("message"));
+                }else if(response.code=="200"){
+                    func(response.data);
+                }*/
+
+        func(response);
+    }
+</script>
 
 
 

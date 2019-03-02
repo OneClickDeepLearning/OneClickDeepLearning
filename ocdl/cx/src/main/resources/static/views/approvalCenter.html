@@ -8,8 +8,6 @@
     <link rel="stylesheet" type="text/css" href="../assets2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../assets2/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../assets2/css/approvalCenter.css">
-    <link rel="stylesheet" type="text/css" href="css/leo.css">
-    <link rel="stylesheet" type="text/css" href="css/index.css">
 
 
     <link rel="stylesheet" href="../assets2/css/animate.min.css">
@@ -155,7 +153,7 @@
 <!-- end header -->
 
 <div class="demo">
-    <div class="container" style="margin-top: 20px">
+    <div class="container" style="margin-top: 40px">
         <div class="row">
 
             <div class="container2 w3layouts agileits">
@@ -171,10 +169,10 @@
 
                 <div class="pieInfo w3layouts agileits col-lg-7 col col-md-12 col-sm-12">
                     <div class="col-md-12" data-wow-offset="50" data-wow-delay="0.6s">
-                        <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">YOU GOT <span>3</span><span> TODO'S </span> IN THE LIST</h2>
-                        <p><div class="newColorBlock"></div><span style="color: #3366CC;"> New Models:</span><span>3</span></p>
-                        <p><div class="approvalColorBlock"></div><span style="color: #109618;"> Approved Models:</span><span>5</span></p>
-                        <p><div class="rejectColorBlock"></div> <span style="color: #DC3912;">Rejected Models:</span><span>1</span></p>
+                        <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">YOU GOT <span id="todoNum">3</span><span> TODO'S </span> IN THE LIST</h2>
+                        <p><div class="newColorBlock"></div><span style="color: #3366CC;"> New Models:</span><span id="newModelNum">3</span></p>
+                        <p><div class="approvalColorBlock"></div><span style="color: #109618;"> Approved Models:</span><span id="approvalModelNum">5</span></p>
+                        <p><div class="rejectColorBlock"></div> <span style="color: #DC3912;">Rejected Models:</span><span id="rejectedModelNum">1</span></p>
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -202,21 +200,10 @@
                                 <div class="col4">
                                     <div class="item-box">
                                         <div class="item-con">
-                                            <table class="odd-even" id="table1">
-                                                <thead><tr><th>Account</th><th>Name</th><th>Sex</th><th>Birthday</th></tr></thead>
+                                            <table class="odd-even" id="tableNew">
+                                                <thead><tr><th>Model Name</th><th>Project</th><th>Model Type</th><th>Update Step</th><th>Operation</th></tr></thead>
                                                 <tbody>
-                                                <tr>
-                                                    <td>jk01</td>
-                                                    <td>joke</td>
-                                                    <td>man</td>
-                                                    <td>1990-08-05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>sa</td>
-                                                    <td>sarry</td>
-                                                    <td>woman</td>
-                                                    <td>1989-12-22</td>
-                                                </tr>
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -240,21 +227,10 @@
                                 <div class="col4">
                                     <div class="item-box">
                                         <div class="item-con">
-                                            <table class="odd-even" id="table1">
-                                                <thead><tr><th>Account</th><th>Name</th><th>Sex</th><th>Birthday</th></tr></thead>
+                                            <table class="odd-even" id="tableApproval">
+                                                <thead><tr><th>Model Name</th><th>Project</th><th>Model Type</th><th>Version</th><th>Operation</th></tr></thead>
                                                 <tbody>
-                                                <tr>
-                                                    <td>jk01</td>
-                                                    <td>joke</td>
-                                                    <td>man</td>
-                                                    <td>1990-08-05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>sa</td>
-                                                    <td>sarry</td>
-                                                    <td>woman</td>
-                                                    <td>1989-12-22</td>
-                                                </tr>
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -276,21 +252,10 @@
                                 <div class="col4">
                                     <div class="item-box">
                                         <div class="item-con">
-                                            <table class="odd-even" id="table1">
-                                                <thead><tr><th>Account</th><th>Name</th><th>Sex</th><th>Birthday</th></tr></thead>
+                                            <table class="odd-even" id="tableRejected">
+                                                <thead><tr><th>Model Name</th><th>Project</th><th>Operation</th></tr></thead>
                                                 <tbody>
-                                                <tr>
-                                                    <td>jk01</td>
-                                                    <td>joke</td>
-                                                    <td>man</td>
-                                                    <td>1990-08-05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>sa</td>
-                                                    <td>sarry</td>
-                                                    <td>woman</td>
-                                                    <td>1989-12-22</td>
-                                                </tr>
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -310,21 +275,157 @@
 
 <script language="JavaScript">
 
+
+
     var salesData=[
-        {label:"Waiting", color:"#3366CC"},
-        {label:"Reject", color:"#DC3912"},
-        {label:"Approval", color:"#109618"}
+        {label:"Waiting",value:3, color:"#3366CC"},
+        {label:"Reject",value:5, color:"#DC3912"},
+        {label:"Approval",value:1,  color:"#109618"}
     ];
+
+    var modelTypeList;
+
 
     var svg = d3.select("#pie").append("svg").attr("width",700).attr("height",300);
 
     svg.append("g").attr("id","salesDonut");
     Donut3D.draw("salesDonut", randomData(), 150, 150, 130, 100, 30, 0.4);
 
+    Donut3D.draw("salesDonut",salesData, 150, 150, 130, 100, 30, 0.4);
+
+
+
+
+    initApproralCenterInfo();
+    function initApproralCenterInfo() {
+        $("#tableNew .data").remove();
+        $("#tableApproval .data").remove();
+        $("#tableRejected .data").remove();
+
+        initModelTypeList();
+        
+        $.ajax({
+            url: "/approval?action=getModelList",
+            contentType: 'application/json',
+            dataType: "json",
+            type: "POST",
+            success: function(data) {
+                ajaxMessageReader(data,function (data) {
+                    salesData[0].value=data["newModel"].length;
+                    salesData[1].value=data["approvalModel"].length;
+                    salesData[2].value=data["rejectedModel"].length;
+                    $("#newModelNum").text(salesData[0].value);
+                    $("#approvalModelNum").text(salesData[1].value);
+                    $("#rejectedModelNum").text(salesData[2].value);
+                    $("#todoNum").text(salesData[0].value);
+                    Donut3D.draw("salesDonut",salesData, 150, 150, 130, 100, 30, 0.4);
+
+                    <!-- waiting list -->
+                    for(var i=0; i<data["newModel"].length;i++){
+                        var tr = "<tr class='data'><td>"+data["newModel"][i].modelName+"</td><td>"+data["newModel"][i].project+"</td><td>" +
+                            "<select id=\"modelType"+data["newModel"][i].modelId+"\" >" +
+                            "</select>" +
+                            "</td> <td></td>  " +
+                            "<td>\n" +
+                            " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
+                            "<button type=\"button\" class=\"btn btn-success\" onclick='UpdateDecision("+data["newModel"][i].modelId+",1)'>Approve</button>" +
+                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision("+data["newModel"][i].modelId+",0)'>Reject</button>" +
+                            "</div>" +
+                            "</td></tr>";
+
+                        $("#tableNew").append(tr);
+
+                        for(var j=0;j<modelTypeList.length;j++){
+                            var option = document.createElement("OPTION");
+                            option.text = modelTypeList[j];
+                            option.value = modelTypeList[j];
+                            document.getElementById("modelType"+data["newModel"][i].modelId).options.add(option);
+                        }
+
+                    }
+
+                    <!-- approval list -->
+                    for(var i=0; i<data["approvalModel"].length;i++){
+                        var tr = "<tr class='data'><td>"+data["approvalModel"][i].modelName+"</td><td>"+data["approvalModel"][i].project+"</td><td>"+data["approvalModel"][i].modelType+"</td> <td>"+data["approvalModel"][i].version+"</td>  " +
+                            "<td>\n" +
+                            " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
+                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision("+data["approvalModel"][i].modelId+",-1)'>Undo</button>" +
+                            "</div>" +
+                            "</td></tr>";
+                        $("#tableApproval").append(tr);
+                    }
+
+                    <!-- approval list -->
+                    for(var i=0; i<data["rejectedModel"].length;i++){
+                        var tr = "<tr class='data'><td>"+data["rejectedModel"][i].modelName+"</td><td>"+data["rejectedModel"][i].project+"</td>"+
+                            "<td>\n" +
+                            " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
+                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision("+data["rejectedModel"][i].modelId+",-1)'>Undo</button>" +
+                            "</div>" +
+                            "</td></tr>";
+                        $("#tableRejected").append(tr);
+                    }
+
+
+
+                })
+            },
+            error: function (data) {
+            }
+        })
+    }
+    
+    function  initModelTypeList() {
+        $.ajax({
+            url: "/approval?action=getModeltype",
+            contentType: 'application/json',
+            dataType: "json",
+            type: "POST",
+            success: function(data) {
+                ajaxMessageReader(data,function (data) {
+                    modelTypeList=data;
+                })
+            },
+            error: function (data) {
+            }
+        })
+    }
+
+    function UpdateDecision(id,decision){
+        $.ajax({
+            url: "/approval?action=updateDecision",
+            contentType: 'application/json',
+            dataType: "json",
+            data:
+                JSON.stringify({
+                    id:id,
+                    decision:decision
+                }),
+            type: "POST",
+            timeout: 0,
+            success: function(data){
+                ajaxMessageReader(data,function (data) {
+                    initApproralCenterInfo();
+                })
+            },
+            error: function (data) {
+            }
+        })
+    }
 
     function randomData(){
         return salesData.map(function(d){
             return {label:d.label, value:1000*Math.random(), color:d.color};});
+    }
+
+    function ajaxMessageReader(response, func){
+        /*		if(response.code=="400"){
+                    alert(response.get("message"));
+                }else if(response.code=="200"){
+                    func(response.data);
+                }*/
+
+        func(response);
     }
 </script>
 

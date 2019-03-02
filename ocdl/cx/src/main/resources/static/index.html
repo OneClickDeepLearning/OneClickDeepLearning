@@ -190,17 +190,6 @@
 
 <!-- end servie -->
 
-<!-- start copyright -->
-<footer id="copyright">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 text-center">
-				<p class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">Copyright &copy; 2019.Concordia Team <label style="color:#28a7e9;">Acceler8</label> All rights reserved.
-			</div>
-		</div>
-	</div>
-</footer>
-<!-- end copyright -->
 
 
 
@@ -242,11 +231,11 @@
 						url: "/configuration?action=getAllProject",
 						contentType: 'application/json',
 						dataType: "json",
-						type: "GET",
+						type: "POST",
 						success: function(data) {
 							ajaxMessageReader(data,function (data) {
 								var projectName=$("#projectName");
-								projectName.text(data[0]);
+								projectName.text(data[3].projectName);
 							})
 						},
 						error: function (data) {
@@ -300,7 +289,7 @@
 	function ShowApprovalPortal(content, parent) {
 		var li_1=document.createElement("li");
 		var a=document.createElement("a");
-		a.setAttribute("onclick","forwardTo('/views/configuration.html')");
+		a.setAttribute("onclick","forwardTo('/views/approvalCenter.html')");
 		a.setAttribute("href","#");
 		a.innerHTML=content;
 		li_1.appendChild(a);
@@ -308,16 +297,18 @@
 	}
 
 	function ajaxMessageReader(response, func){
-		if(response.code=="400"){
+/*		if(response.code=="400"){
 			alert(response.get("message"));
 		}else if(response.code=="200"){
 			func(response.data);
-		}
+		}*/
+
+		func(response);
 	}
 
 	function changeProjectName() {
 		$.ajax({
-			url: "/configuration?action=changeProjectName",
+			url: "/configuration?action=updateProjectName",
 			contentType: 'application/json',
 			dataType: "json",
 			data:

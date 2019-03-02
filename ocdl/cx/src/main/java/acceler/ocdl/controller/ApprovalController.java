@@ -24,7 +24,7 @@ public class ApprovalController {
 
     @ResponseBody
     @RequestMapping(params = "action=getModelList", method = RequestMethod.POST)
-    public final Map<String, ArrayList<Model>> getModelList(@RequestBody Map<String, String> param) {
+    public final Map<String, ArrayList<Model>> getModelList() {
 
 //        ArrayList<ArrayList<Model>> models = new ArrayList<ArrayList<Model>>();
         Map<String, ArrayList<Model>> models = new HashMap<String, ArrayList<Model>>();
@@ -53,7 +53,7 @@ public class ApprovalController {
 
     @ResponseBody
     @RequestMapping(params = "action=getModeltype", method = RequestMethod.POST)
-    public final Map<Integer, String> getModeltype(@RequestBody Map<String, String> param) {
+    public final ArrayList<String> getModeltype() {
 
         Map<Integer, String> result = new HashMap<Integer, String>();
 
@@ -65,11 +65,8 @@ public class ApprovalController {
         dbService.createConn();
         modelTypes = dbService.getModelType(projectId);
 
-        for (int i=0; i< modelTypes.size(); i++) {
-            result.put(i, modelTypes.get(i));
-        }
 
-        return result;
+        return modelTypes;
 
 //        return Response.getBuilder()
 //                .setCode(Response.Code.SUCCESS)
