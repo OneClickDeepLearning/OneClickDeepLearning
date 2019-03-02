@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 public interface DatabaseService {
 
+    void createConn();
+
     int createNewRole(User.Role role);
 
     int getRoleId(User.Role role);
@@ -29,11 +31,15 @@ public interface DatabaseService {
 
     Project getProjectInfo(int projectId);
 
-    void setProjectGit(String git, int projectId);
+    Boolean updateProject(int projectId, String projectName, String git, String k8, String template);
 
-    void setProjectK8(String k8Url, int projectId);
+    Boolean setProjectGit(String git, int projectId);
 
-    void setProjectTemplate(String templateUrl, int projectId);
+    Boolean setProjectK8(String k8Url, int projectId);
+
+    Boolean setProjectTemplate(String templateUrl, int projectId);
+
+    Boolean setProjectName(String projectName, int projectId);
 
     void createUserProjectRelation(User user, String projectName);
 
@@ -53,11 +59,15 @@ public interface DatabaseService {
 
     void updateModelStatus(Model model, Model.Status expectedStatus);
 
+    Boolean updateModelStatusWithModelId(Long modelId, Model.Status expectedStatus);
+
     void updateModelVersion(Model model, String version);
+
+    Boolean updateModelVersionWithModelId(Long modelId, String version);
 
     ArrayList<Model> getAllProjectModel(String projectName);
 
-    ArrayList<Model> getConditioanalProjectModel(String projectName, Model.Status condition);
+    ArrayList<Model> getConditioanalProjectModel(int projectId, Model.Status condition);
 
     int createTemplate(Template template);
 

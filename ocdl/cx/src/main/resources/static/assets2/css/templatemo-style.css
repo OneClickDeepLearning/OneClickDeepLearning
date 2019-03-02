@@ -31,7 +31,7 @@ h2 span
 /* end h2 */
 
 /* start about team service portfolio contact */
-#about, #team, #service,
+#about, #team, #service, #config,
 #portfolio, #contact
 	{
 		padding-top: 60px;
@@ -332,6 +332,13 @@ header .social-icon li a
 		line-height: 100px;
 		text-align: center;
 	}
+#config .fa{
+	border-radius: 2px;
+	color: #fff;
+	font-size: 150px;
+	line-height: 100px;
+	text-align: center;
+}
 #service h4
 	{
 		color: #28a7e9;

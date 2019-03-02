@@ -56,12 +56,12 @@
 			<label id="projectName" style="color: black; margin-top: 30px; margin-left: 20px;"></label>
 		</div>
 		<div class="collapse navbar-collapse">
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#top">FILE</a></li>
-				<li><a href="#about">MODIFY</a></li>
-				<li><a href="#team">TOOLS</a></li>
-				<li><a href="#portfolio">TEAM</a></li>
-				<li><a href="#contact">CONTACT</a></li>
+			<ul id="nav-menu" class="nav navbar-nav navbar-right">
+				<li><a href="#">FILE</a></li>
+				<li><a href="#">MODIFY</a></li>
+				<li><a href="#">TOOLS</a></li>
+				<li><a href="#">TEAM</a></li>
+				<li><a href="#" onclick="forwardTo('/views/configuration.html')">CONFIGURE</a></li>
 			</ul>
 		</div>
 	</div>
@@ -190,17 +190,6 @@
 
 <!-- end servie -->
 
-<!-- start copyright -->
-<footer id="copyright">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 text-center">
-				<p class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">Copyright &copy; 2019.Concordia Team <label style="color:#28a7e9;">Acceler8</label> All rights reserved.
-			</div>
-		</div>
-	</div>
-</footer>
-<!-- end copyright -->
 
 
 
@@ -236,15 +225,18 @@
 					document.getElementById(parent).appendChild(li_1);
 				}
 				
+
 				function initProjectName() {
 					$.ajax({
-						url: "/configuration?action=project",
+						url: "/configuration?action=getAllProject",
 						contentType: 'application/json',
 						dataType: "json",
-						type: "GET",
+						type: "POST",
 						success: function(data) {
-							var projectName=$("#projectName");
-							projectName.text(data[0]);
+							ajaxMessageReader(data,function (data) {
+								var projectName=$("#projectName");
+								projectName.text(data[3].projectName);
+							})
 						},
 						error: function (data) {
 						}
@@ -257,24 +249,27 @@
 						contentType: 'application/json',
 						dataType: "json",
 						type: "GET",
-						success: function(data) {
-							var layerList=data[0];
-							var blockList=data[1];
-							var networksList=data[2];
-							var frameworks = data[3];
-							for(var i=0; i<layerList.length;i++){
-								addLi(layerList[i],"Layers");
-							}
-							for(var i=0; i<blockList.length;i++){
-								addLi(blockList[i],"Blocks");
-							}
-							for(var i=0; i<networksList.length;i++){
-								addLi(networksList[i],"Networks");
-							}
-							for(var i=0; i<frameworks.length;i++){
-								addLi(frameworks[i],"Frameworks");
-							}
+						success:function (data) {
+							ajaxMessageReader(data,function (data) {
+								var layerList=data[0];
+								var blockList=data[1];
+								var networksList=data[2];
+								var frameworks = data[3];
+								for(var i=0; i<layerList.length;i++){
+									addLi(layerList[i],"Layers");
+								}
+								for(var i=0; i<blockList.length;i++){
+									addLi(blockList[i],"Blocks");
+								}
+								for(var i=0; i<networksList.length;i++){
+									addLi(networksList[i],"Networks");
+								}
+								for(var i=0; i<frameworks.length;i++){
+									addLi(frameworks[i],"Frameworks");
+								}
+							})
 						},
+
 						error: function (data) {
 						}
 					})
@@ -291,10 +286,29 @@
 
 	});*/
 
+	function ShowApprovalPortal(content, parent) {
+		var li_1=document.createElement("li");
+		var a=document.createElement("a");
+		a.setAttribute("onclick","forwardTo('/views/approvalCenter.html')");
+		a.setAttribute("href","#");
+		a.innerHTML=content;
+		li_1.appendChild(a);
+		document.getElementById(parent).appendChild(li_1);
+	}
+
+	function ajaxMessageReader(response, func){
+/*		if(response.code=="400"){
+			alert(response.get("message"));
+		}else if(response.code=="200"){
+			func(response.data);
+		}*/
+
+		func(response);
+	}
 
 	function changeProjectName() {
 		$.ajax({
-			url: "/configuration?action=changeProjectName",
+			url: "/configuration?action=updateProjectName",
 			contentType: 'application/json',
 			dataType: "json",
 			data:
@@ -304,6 +318,8 @@
 			type: "POST",
 			timeout: 0,
 			success: function(data){
+				ajaxMessageReader(data,function (data) {
+				})
 			},
 			error: function (data) {
 			}
@@ -321,19 +337,20 @@
 						type: type
 					}),
 			type: "POST",
-			success: function(data){
-				var  code = $("#code");
-				$(".dp-highlighter").remove();
-				code.text(data[0]);
-				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
-				dp.SyntaxHighlighter.HighlightAll('code');
-				jsAnimateMenu();
-				if(document.getElementById("card").className.search("flip") === -1){
-					flipPanel();
-				}
-
-
+			success:function (data) {
+				ajaxMessageReader(data,function (data) {
+					var  code = $("#code");
+					$(".dp-highlighter").remove();
+					code.text(data[0]);
+					dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
+					dp.SyntaxHighlighter.HighlightAll('code');
+					jsAnimateMenu();
+					if(document.getElementById("card").className.search("flip") === -1){
+						flipPanel();
+					}
+				})
 			},
+
 			error: function (data) {
 			}
 		})
@@ -351,10 +368,11 @@
 			type: "POST",
 			timeout: 0,
 			success: function(data){
-				alert("Modal push successful!");
+				ajaxMessageReader(data,function (data) {
+					alert(data.data[0]);
+				})
 			},
-			error: function (data) {
-				alert("Modal push error!");
+			error: function () {
 			}
 		})
 	}
@@ -382,23 +400,17 @@
 			timeout: 0,
 
 			success: function(data) {
-				console.info("success");
+				ajaxMessageReader(data,function (data) {
+					if(server==0){
+						$('#jupyterFrame').attr('src', "http://"+data.data[0]+"/notebooks/Untitled.ipynb");
+					}else{
+						$('#jupyterFrame').attr('src', "http://66.131.186.246:5501/notebooks/Untitled.ipynb");
+					}
+				})
 
-				if(server==0){
-					$('#jupyterFrame').attr('src', "http://"+data[0]+"/notebooks/Untitled.ipynb");
-				}else{
-					$('#jupyterFrame').attr('src', "http://66.131.186.246:5501/notebooks/Untitled.ipynb");
-				}
+
 			},
-			error: function (data) {
-				console.info("error");
-
-				if(server==0){
-					$('#jupyterFrame').attr('src', "http://"+data[0]+"/notebooks/root/Untitled.ipynb");
-				}else{
-					$('#jupyterFrame').attr('src', "http://66.131.186.246:5501/notebooks/Untitled.ipynb");
-				}
-
+			error: function () {
 			}
 		})
 	}
@@ -422,7 +434,13 @@
 
 
 	});
-
+	
+	/*$("#configButton").on('click',function (e) {
+		window.top.location.href="views/configuration.html";
+	})*/
+	function forwardTo(url){
+		window.top.location.href=url;
+	}
 
 	$('#login_t').on('click', function(e){
 		user_id='1002';
@@ -440,6 +458,7 @@
 		rescource.removeClass('status_NoneR');
 		rescource.addClass('status_cpu');
 		card.removeClass('unlog');
+		ShowApprovalPortal("MODEL CENTER","nav-menu");
 
 	});
 
