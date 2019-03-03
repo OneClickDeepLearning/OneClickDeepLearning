@@ -1,7 +1,10 @@
-package acceler.ocdl.utils;
+package acceler.ocdl.dto;
 
 
-public class Response {
+import java.io.Serializable;
+
+public class Response implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private int code;
     private String message;

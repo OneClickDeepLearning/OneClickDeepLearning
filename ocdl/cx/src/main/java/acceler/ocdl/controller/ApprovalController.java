@@ -3,7 +3,6 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.model.Model;
 import acceler.ocdl.service.DatabaseService;
-import acceler.ocdl.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +22,7 @@ public class ApprovalController {
     private DatabaseService dbService;
 
     @ResponseBody
-    @RequestMapping(params = "action=getModelList", method = RequestMethod.POST)
+    @RequestMapping(params = "action=getModelList", method = RequestMethod.GET)
     public final Map<String, ArrayList<Model>> getModelList() {
 
 //        ArrayList<ArrayList<Model>> models = new ArrayList<ArrayList<Model>>();

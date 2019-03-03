@@ -1,5 +1,6 @@
 package acceler.ocdl.utils;
 
+import acceler.ocdl.dto.Response;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
