@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 public class JenkinsServiceTest {
 
     @Autowired
-    private JenkinsService jenkins;
+    private DefaultJenkinsService jenkins;
 
     @Before
     public void setUp() throws Exception {
