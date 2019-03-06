@@ -115,7 +115,7 @@ public class DefaultDatabaseServiceTest {
 
     @Test
     public void createProject() {
-        int id = db.createProject("project3", "this is project3");
+        int id = db.createProject("project3");
         System.out.println("the project id is: " + id);
         assertTrue(id>0);
     }
@@ -258,18 +258,6 @@ public class DefaultDatabaseServiceTest {
 //        model.setModelId(id);
 //        db.updateModelStatus(model, Model.Status.REJECT);
 
-    }
-
-
-    @Test
-    public void updateModelVersion() {
-
-        Model model = new Model("test_model", "test_type222", "project3", "www");
-//        db.updateModelVersion(model, "1.0");
-
-        Long id = 1L;
-        model.setModelId(id);
-        db.updateModelVersion(model, "2.0");
     }
 
 

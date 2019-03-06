@@ -1,6 +1,9 @@
 package acceler.ocdl.controller;
 
 
+import acceler.ocdl.dto.ModelDto;
+import acceler.ocdl.dto.Response;
+import acceler.ocdl.exception.DatabaseException;
 import acceler.ocdl.model.Model;
 import acceler.ocdl.service.DatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,82 +25,93 @@ public class ApprovalController {
     private DatabaseService dbService;
 
     @ResponseBody
-    @RequestMapping(params = "action=getModelList", method = RequestMethod.GET)
-    public final Map<String, ArrayList<Model>> getModelList() {
+    @RequestMapping(path = "/model", method = RequestMethod.GET)
+    public final Response getModelList() {
 
-//        ArrayList<ArrayList<Model>> models = new ArrayList<ArrayList<Model>>();
+        Response.Builder responseBuilder = Response.getBuilder();
+
         Map<String, ArrayList<Model>> models = new HashMap<String, ArrayList<Model>>();
-
-//        int projectId = Integer.valueOf(param.get("id"));
         int projectId = 3;
 
-        dbService.createConn();
-        ArrayList<Model> newModels= dbService.getConditioanalProjectModel(projectId, Model.Status.NEW);
-        models.put("newModel", newModels);
+        try {
+            ArrayList<Model> newModels= dbService.getConditioanalProjectModel(projectId, Model.Status.NEW);
+            models.put("newModel", newModels);
 
 
-        ArrayList<Model> approvalModels= dbService.getConditioanalProjectModel(projectId, Model.Status.APPROVAL);
-        models.put("approvalModel", approvalModels);
+            ArrayList<Model> approvalModels= dbService.getConditioanalProjectModel(projectId, Model.Status.APPROVAL);
+            models.put("approvalModel", approvalModels);
 
-        ArrayList<Model> rejectModels= dbService.getConditioanalProjectModel(projectId, Model.Status.REJECT);
-        models.put("rejectedModel", rejectModels);
+            ArrayList<Model> rejectModels= dbService.getConditioanalProjectModel(projectId, Model.Status.REJECT);
+            models.put("rejectedModel", rejectModels);
 
-        return models;
+            responseBuilder.setCode(Response.Code.SUCCESS)
+                    .setData(models);
 
-//        return Response.getBuilder()
-//                .setCode(Response.Code.SUCCESS)
-//                .setData(models)
-//                .build();
+        } catch (DatabaseException e) {
+
+            responseBuilder.setCode(Response.Code.ERROR)
+                    .setMessage(e.getMessage());
+
+        }
+
+        return responseBuilder.build();
     }
 
     @ResponseBody
-    @RequestMapping(params = "action=getModeltype", method = RequestMethod.POST)
-    public final ArrayList<String> getModeltype() {
+    @RequestMapping(path = "modeltype", method = RequestMethod.GET)
+    public final Response getModeltype() {
 
-        Map<Integer, String> result = new HashMap<Integer, String>();
+        Response.Builder responseBuilder = Response.getBuilder();
 
         ArrayList<String> modelTypes = new ArrayList<String>();
-
-//        int projectId = Integer.valueOf(param.get("id"));
         int projectId = 3;
 
-        dbService.createConn();
-        modelTypes = dbService.getModelType(projectId);
+        try {
+            modelTypes = dbService.getModelType(projectId);
+            responseBuilder.setData(modelTypes);
 
+        } catch (DatabaseException e) {
 
-        return modelTypes;
+            responseBuilder.setCode(Response.Code.ERROR)
+                    .setMessage(e.getMessage());
 
-//        return Response.getBuilder()
-//                .setCode(Response.Code.SUCCESS)
-//                .setData(modelTypes)
-//                .build();
+        }
+        return responseBuilder.build();
     }
 
+
     @ResponseBody
-    @RequestMapping(params = "action=updateDecision", method = RequestMethod.POST)
-    public final Map<String, String> pushDecision(@RequestBody Map<String, String> param) {
+    @RequestMapping(path = "/model/decision", method = RequestMethod.PUT)
+    public final Response pushDecision(@RequestBody ModelDto modelDto) {
+        Response.Builder responseBuilder = Response.getBuilder();
 
-        Map<String, String> result = new HashMap<String, String>();
+        int projectId = 3;
 
-        Long modelId = Long.parseLong(param.get("id"));
-        // -1:new, 0:reject, 1:qpproval
-        Model.Status decision = Model.Status.getStatus(Integer.valueOf(param.get("decision")));
-        dbService.createConn();
-        Boolean isSuccess = dbService.updateModelStatusWithModelId(modelId, decision);
+        try {
+            int modelTypeId = dbService.getModelTypeId(projectId, modelDto.getModelType());
+            int statusId = dbService.getStatusId(modelDto.getStatus());
 
-        if (isSuccess) {
+            int bigVersion = dbService.getLatestBigVersion(projectId, modelTypeId);
+            int smallVersion = dbService.getLatestSmallVersion(projectId, modelTypeId);
 
-            result.put("isSuccess", "true");
-//            return Response.getBuilder()
-//                    .setCode(Response.Code.SUCCESS)
-//                    .build();
-        } else {
-            result.put("isSuccess", "false");
-//            return Response.getBuilder()
-//                    .setCode(Response.Code.SUCCESS)
-//                    .build();
+            if (modelDto.getIsbigVersion() == 1) {
+                bigVersion ++;
+                smallVersion = 0;
+            } else {
+                smallVersion++;
+            }
+
+            dbService.updateModelStatusWithModelId(modelDto.getModelId(), modelTypeId, statusId, bigVersion, smallVersion);
+            responseBuilder.setCode(Response.Code.SUCCESS);
+
+        } catch (DatabaseException e) {
+
+            responseBuilder.setCode(Response.Code.ERROR)
+                    .setMessage(e.getMessage());
+
         }
-        return result;
+
+        return responseBuilder.build();
     }
 
 }

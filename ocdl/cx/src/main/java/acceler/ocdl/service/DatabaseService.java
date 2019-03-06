@@ -23,7 +23,7 @@ public interface DatabaseService {
 
     String getUserPassword(String userName);
 
-    int createProject(String projectName, String description);
+    int createProject(String projectName);
 
     int getProjectId(String projectName);
 
@@ -31,7 +31,7 @@ public interface DatabaseService {
 
     Project getProjectInfo(int projectId);
 
-    Boolean updateProject(int projectId, String projectName, String git, String k8, String template);
+    void updateProject(int projectId, String projectName, String git, String k8, String template);
 
     Boolean setProjectGit(String git, int projectId);
 
@@ -39,7 +39,7 @@ public interface DatabaseService {
 
     Boolean setProjectTemplate(String templateUrl, int projectId);
 
-    Boolean setProjectName(String projectName, int projectId);
+    void setProjectName(String projectName, int projectId);
 
     void createUserProjectRelation(User user, String projectName);
 
@@ -55,15 +55,19 @@ public interface DatabaseService {
 
     int getStatusId(Model.Status status);
 
+    int getStatusId(String status);
+
     int createModel(Model model);
 
     void updateModelStatus(Model model, Model.Status expectedStatus);
 
     Boolean updateModelStatusWithModelId(Long modelId, Model.Status expectedStatus);
 
-    void updateModelVersion(Model model, String version);
+    void updateModelStatusWithModelId(Long modelId, int modelTypeId, int statusId, int bigVersion, int smallVersion);
 
-    Boolean updateModelVersionWithModelId(Long modelId, String version);
+    int getLatestBigVersion(int projectId, int modelTypeId);
+
+    int getLatestSmallVersion(int projectId, int modelTypeId);
 
     ArrayList<Model> getAllProjectModel(String projectName);
 

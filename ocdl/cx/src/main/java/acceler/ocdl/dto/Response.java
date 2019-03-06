@@ -20,6 +20,18 @@ public class Response implements Serializable {
         return respBuilder;
     }
 
+    public int getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
     public static class Builder {
         private Response resp;
 
