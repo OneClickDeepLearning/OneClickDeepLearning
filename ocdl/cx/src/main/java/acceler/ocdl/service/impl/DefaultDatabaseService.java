@@ -284,7 +284,7 @@ public class DefaultDatabaseService implements DatabaseService {
      * insert a new project in the table project
      */
     @Override
-    public int createProject(String projectName) {
+    public int createProject(String projectName) throws DatabaseException{
         createConn();
         int id = -1;
         String query = " insert into project (name)" + " values (?)";
@@ -309,7 +309,7 @@ public class DefaultDatabaseService implements DatabaseService {
      * get the project id in the table project
      */
     @Override
-    public int getProjectId(String projectName) {
+    public int getProjectId(String projectName) throws DatabaseException {
 
         createConn();
         int id = -1;
@@ -387,7 +387,7 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public void updateProject(int projectId, String projectName, String git, String k8, String template) {
+    public void updateProject(int projectId, String projectName, String git, String k8, String template) throws DatabaseException {
 
         createConn();
 
@@ -471,7 +471,7 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public void setProjectName(String projectName, int projectId) {
+    public void setProjectName(String projectName, int projectId) throws DatabaseException {
 
         createConn();
 
@@ -496,7 +496,7 @@ public class DefaultDatabaseService implements DatabaseService {
     //==================================================================================
 
     @Override
-    public void createUserProjectRelation(User user, String projectName) {
+    public void createUserProjectRelation(User user, String projectName) throws DatabaseException {
 
         // get user id
         if (user.getUserId() == null) user.setUserId(getUserId(user.getUserName()));
@@ -514,8 +514,8 @@ public class DefaultDatabaseService implements DatabaseService {
             // execute the preparedstatement
             preparedStmt.executeUpdate();
 
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+           throw new DatabaseException(e.getMessage());
         }
     }
 
@@ -600,7 +600,7 @@ public class DefaultDatabaseService implements DatabaseService {
 
     //TODO 也需要ID
     @Override
-    public ArrayList<String> getModelType(int projectId) {
+    public ArrayList<String> getModelType(int projectId) throws DatabaseException {
 
         createConn();
 
@@ -709,7 +709,7 @@ public class DefaultDatabaseService implements DatabaseService {
     //==================================================================================
 
     @Override
-    public int createModel(Model model) {
+    public int createModel(Model model) throws DatabaseException{
 
         int id = -1;
         String query = " insert into model (name, model_type_id, project_id, url, status_id)" + " values (?, ?, ?, ?, ?)";
@@ -732,14 +732,14 @@ public class DefaultDatabaseService implements DatabaseService {
             ResultSet rs = preparedStmt.getGeneratedKeys();
             if (rs.next()) id = rs.getInt(1);
 
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            throw new DatabaseException(e.getMessage());
         }
         return id;
     }
 
     @Override
-    public void updateModelStatus(Model model, Model.Status expectedStatus) {
+    public void updateModelStatus(Model model, Model.Status expectedStatus) throws DatabaseException {
 
         if (model.getModelId() != null) {
             updateModelStatusWithModelId(model.getModelId(), expectedStatus);
@@ -749,7 +749,7 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public Boolean updateModelStatusWithModelId(Long modelId, Model.Status expectedStatus) {
+    public void updateModelStatusWithModelId(Long modelId, Model.Status expectedStatus) throws DatabaseException{
 
         int statusId = getStatusId(expectedStatus);
 
@@ -763,15 +763,13 @@ public class DefaultDatabaseService implements DatabaseService {
 
             // execute the preparedstatement
             preparedStmt.executeUpdate();
-            return true;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
+            throw new DatabaseException(e.getMessage());
         }
     }
 
     @Override
-    public void updateModelStatusWithModelId(Long modelId, int modelTypeId, int statusId, int bigVersion, int smallVersion) {
+    public void updateModelStatusWithModelId(Long modelId, int modelTypeId, int statusId, int bigVersion, int smallVersion) throws DatabaseException {
         createConn();
 
         String query = "update model set " + "model_type_id=?" + ", " + "status_id=?" + ", " + "big_version=?" + ", " + "small_version=?" + " where " + "id=?";
@@ -793,7 +791,7 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
 
-    private void updateModelStatusWithoutModelId(Model model, Model.Status expectedStatus) {
+    private void updateModelStatusWithoutModelId(Model model, Model.Status expectedStatus) throws DatabaseException{
 
         int statusId = getStatusId(expectedStatus);
         int projectId = getProjectId(model.getProject());
@@ -811,13 +809,13 @@ public class DefaultDatabaseService implements DatabaseService {
 
             // execute the preparedstatement
             preparedStmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            throw new DatabaseException(e.getMessage());
         }
     }
 
     @Override
-    public int getLatestBigVersion(int projectId, int modelTypeId) {
+    public int getLatestBigVersion(int projectId, int modelTypeId) throws DatabaseException {
 
         int bigVersion = 0;
 
@@ -835,7 +833,7 @@ public class DefaultDatabaseService implements DatabaseService {
                 bigVersion = rs.getInt("max(big_version)");
             }
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new DatabaseException(e.getMessage());
         }
 
@@ -843,7 +841,7 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public int getLatestSmallVersion(int projectId, int modelTypeId) {
+    public int getLatestSmallVersion(int projectId, int modelTypeId) throws DatabaseException {
 
         int smallVersion = 0;
 
@@ -913,7 +911,7 @@ public class DefaultDatabaseService implements DatabaseService {
      * @para condition specific status, such as: new/approval/reject
      */
     @Override
-    public ArrayList<Model> getConditioanalProjectModel(int projectId, Model.Status condition) {
+    public ArrayList<Model> getConditioanalProjectModel(int projectId, Model.Status condition) throws DatabaseException{
 
         createConn();
 
