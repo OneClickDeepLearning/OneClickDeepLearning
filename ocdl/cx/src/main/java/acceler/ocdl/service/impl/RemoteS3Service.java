@@ -22,7 +22,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @Component
-public class S3Service implements StorageService {
+public class RemoteS3Service implements StorageService {
 
     // todo: modify the accesskey and secretkey
     private String accesskey;
@@ -30,7 +30,7 @@ public class S3Service implements StorageService {
 
     private static AmazonS3 s3client;
 
-    public S3Service() {
+    public RemoteS3Service() {
     }
 
     @Value("S3.server.accesskey")
