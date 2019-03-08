@@ -2,7 +2,7 @@
 =            button style    www.bootstrapmb.com        =
 ====================================*/
 .temp-form-button {
-  background-color: #992168;
+  background-color: #1786A8;
   border: 0 !important;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -15,10 +15,10 @@
   box-shadow: 1px 3px 6px #bababa;
 }
 .temp-form-button:hover {
-  background-color: #992168;
+  background-color: #1786A8;
 }
 .temp-form-button:before {
-  background: #cd559c;
+  background: #47C6F8;
   bottom: 0;
   content: "";
   left: 0;
@@ -103,7 +103,7 @@
 }
 .temp-span-wrap .temp_input_label:after {
   bottom: 0;
-  background: #992168;
+  background: #1786A8;
   content: "";
   height: 2px;
   left: 0;
@@ -116,7 +116,7 @@
   bottom: -60px;
 }
 .temp-span-wrap .temp_input_label .temp_input_label-content {
-  color: #cd559c;
+  color: #47C6F8;
   display: block;
   -webkit-font-size: 12px;
   -moz-font-size: 12px;
@@ -154,7 +154,7 @@
   font-size: 12px;
   position: relative;
   margin-left: 15px;
-  color: #992168;
+  color: #1786A8;
 }
 .temp-checkbox-wrap input {
   content: "";
@@ -164,13 +164,13 @@
   visibility: hidden;
 }
 .temp-checkbox-wrap input:checked ~ .checkmark {
-  background-color: #cd559c;
+  background-color: #47C6F8;
 }
 .temp-checkbox-wrap input:checked ~ .checkmark:after {
   display: block;
 }
 .temp-checkbox-wrap .checkmark {
-  background: #992168;
+  background: #1786A8;
   height: 16px;
   left: -24px;
   position: absolute;
@@ -211,13 +211,13 @@
   cursor: pointer;
 }
 .temp-custom-radio-button input:checked ~ .temp-radio-checkmark {
-  background-color: #992168;
+  background-color: #47C6F8;
 }
 .temp-custom-radio-button input:checked ~ .temp-radio-checkmark:after {
   display: block;
 }
 .temp-custom-radio-button .temp-radio-checkmark {
-  background-color: #cd559c;
+  background-color: #47C6F8;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   -ms-border-radius: 50%;
@@ -306,14 +306,14 @@ a:hover {
 }
 .temp-custom-modal-wrap .temp-custom-modal-content .temp-custom-modal-body .temp-login-form-wrapper .temp-form-column-wrap h2 {
   margin-bottom: 30px;
-  color: #992168;
+  color: #1786A8;
 }
 .temp-custom-modal-wrap .temp-custom-modal-content .temp-custom-modal-body .temp-login-form-wrapper .temp-form-column-wrap .custom-form-label2 a {
   -webkit-font-size: 12px;
   -moz-font-size: 12px;
   -ms-font-size: 12px;
   font-size: 12px;
-  color: #992168;
+  color: #1786A8;
 }
 .temp-custom-modal-wrap .temp-custom-modal-content .temp-custom-modal-body .temp-login-form-wrapper .temp-form-column-wrap .temp-login-button-wrap {
   margin-top: 20px;
@@ -328,7 +328,7 @@ a:hover {
   margin-bottom: 25px;
 }
 .temp-custom-modal-wrap .temp-custom-modal-content .temp-custom-modal-body .temp-login-form-wrapper .temp-form-column-wrap.temp-subscribe-form-column-wrap .temp-radio-button-subscribe {
-  color: #992168;
+  color: #1786A8;
   -webkit-font-size: 13px;
   -moz-font-size: 13px;
   -ms-font-size: 13px;
@@ -362,7 +362,7 @@ a:hover {
   text-transform: capitalize;
 }
 .temp-custom-modal-wrap .temp-custom-modal-content .temp-custom-modal-body .temp-login-form-wrapper .temp-form-column-wrap-image:after {
-  background: #992168;
+  background: #1786A8;
   content: "";
   height: 100%;
   left: 0;

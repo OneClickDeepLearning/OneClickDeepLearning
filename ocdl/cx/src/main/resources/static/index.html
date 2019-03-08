@@ -18,7 +18,7 @@
 	<link href="assets2/css/SyntaxHighlighter.css" type="text/css" rel="stylesheet">
 	<link href="assets2/css/menu.css" rel="stylesheet">
 	<link href="assets2/css/infoStatus.css" rel="stylesheet">
-<!--	<link href="assets2/css/login.css" rel="stylesheet">-->
+	<link href="assets2/css/login.css" rel="stylesheet">
 
 
 </head>
@@ -200,16 +200,15 @@
 		</div>
 	</div>
 </footer>
-<!--
 
-======================================
+<!--======================================
 =            registration form modal            =
-=======================================
- Modal
+=======================================-->
+<!-- Modal -->
 <div class="modal fade" id="RegistrationModal" role="dialog">
 	<div class="temp-custom-modal-wrap">
 		<div class="modal-dialog">
-			 Modal content
+			<!-- Modal content-->
 			<div class="modal-content temp-custom-modal-content">
 				<button type="button" class="close temp-custom-close-button" data-dismiss="modal">&times;</button>
 				<div class="modal-body temp-custom-modal-body">
@@ -327,17 +326,17 @@
 		</div>
 	</div>
 </div>
-====  End of registration form modal  ====
+<!--====  End of registration form modal  ====-->
 
 
-======================================
+<!--======================================
 =            login form modal            =
-=======================================
- Modal
+=======================================-->
+<!-- Modal -->
 <div class="modal fade" id="LogInModal" role="dialog">
 	<div class="temp-custom-modal-wrap">
 		<div class="modal-dialog">
-			 Modal content
+			<!-- Modal content-->
 			<div class="modal-content temp-custom-modal-content">
 				<button type="button" class="close temp-custom-close-button" data-dismiss="modal">&times;</button>
 				<div class="modal-body temp-custom-modal-body">
@@ -409,11 +408,10 @@
 		</div>
 	</div>
 </div>
-====  End of login form modal  ====
+<!--====  End of login form modal  ====-->
 
 
 
--->
 
 
 <script src="assets2/js/jquery.js"></script>
@@ -565,7 +563,7 @@
 					var  code = $("#code");
 					$(".dp-highlighter").remove();
 					code.text(data[0]);
-					dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
+					dp.SyntaxHighlighter.ClipboardSwf = 'assets2/js/clipboard.swf';
 					dp.SyntaxHighlighter.HighlightAll('code');
 					jsAnimateMenu();
 					if(document.getElementById("card").className.search("flip") === -1){
