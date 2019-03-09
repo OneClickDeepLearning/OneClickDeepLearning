@@ -203,7 +203,27 @@
                                             <table class="odd-even" id="tableNew">
                                                 <thead><tr><th>Model Name</th><th>Project</th><th>Model Type</th><th>Update Step</th><th>Operation</th></tr></thead>
                                                 <tbody>
-
+                                                    <tr><td>ddd</td>
+                                                        <td>adsf</td>
+                                                        <td>
+                                                        </td>
+                                                        <td>
+                                                            <select style="color: black;">
+                                                                <option value="0">
+                                                                    Small Update
+                                                                </option>
+                                                                <option value="1">
+                                                                    Large Update
+                                                                </option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                            <button type="button" class="btn btn-success">Approve</button>
+                                                            <button type="button" class="btn btn-danger" >Reject</button>
+                                                            </div>
+                                                     </td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -325,7 +345,16 @@
                         var tr = "<tr class='data'><td>"+data["newModel"][i].modelName+"</td><td>"+data["newModel"][i].project+"</td><td>" +
                             "<select id=\"modelType"+data["newModel"][i].modelId+"\" >" +
                             "</select>" +
-                            "</td> <td></td>  " +
+                            "</td> <td>" +
+                            "<select style=\"color: black;\">\n" +
+                            "<option value=\"0\">\n" +
+                            "Small Update\n" +
+                            "</option>\n" +
+                            "<option value=\"1\">\n" +
+                            "Large Update\n" +
+                            "</option>\n" +
+                            "</select>" +
+                            "</td>  " +
                             "<td>\n" +
                             " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
                             "<button type=\"button\" class=\"btn btn-success\" onclick='UpdateDecision("+data["newModel"][i].modelId+",1)'>Approve</button>" +
