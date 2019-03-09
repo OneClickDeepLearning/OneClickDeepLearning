@@ -2,7 +2,9 @@ package acceler.ocdl.dao;
 
 import acceler.ocdl.model.Project;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ProjectDao extends CrudRepository<Long, Project>{
+@Repository
+public interface ProjectDao extends CrudRepository<Project, Long>{
     Project findByprojectName(String projectName);
 }

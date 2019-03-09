@@ -15,6 +15,7 @@ public class ModelDto implements Serializable {
     private String url;
     private String status;
     private int isbigVersion;
+    private String version;
 
     public Long getModelId() { return modelId; }
 
@@ -44,17 +45,21 @@ public class ModelDto implements Serializable {
 
     public void setIsbigVersion(int isbigVersion) { this.isbigVersion = isbigVersion; }
 
-    public Model convert2Model() {
+    public String getVersion() { return version; }
 
-        Model model = new Model();
+    public void setVersion(String version) { this.version = version; }
 
-        model.setModelId(this.modelId);
-        model.setModelName(this.getModelName());
-        model.setModelType(this.getModelType());
-        model.setUrl(this.url);
-        model.setStatus(Model.Status.getStatus(this.status));
-        model.setProject(this.getProject());
-
-        return model;
-    }
+//    public Model convert2Model() {
+//
+//        Model model = new Model();
+//
+//        model.setModelId(this.modelId);
+//        model.setModelName(this.getModelName());
+//        model.setModelType(this.getModelType());
+//        model.setUrl(this.url);
+//        model.setStatus(Model.Status.getStatus(this.status));
+//        model.setProject(this.getProject());
+//
+//        return model;
+//    }
 }

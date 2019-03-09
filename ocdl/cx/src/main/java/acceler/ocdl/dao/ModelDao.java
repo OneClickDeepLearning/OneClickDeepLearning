@@ -2,7 +2,9 @@ package acceler.ocdl.dao;
 
 import acceler.ocdl.model.Model;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ModelDao extends CrudRepository<Long, Model> {
+@Repository
+public interface ModelDao extends CrudRepository<Model, Long> {
 
 }

@@ -1,5 +1,7 @@
 package acceler.ocdl.model;
 
+import acceler.ocdl.dto.ModelDto;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,71 +10,62 @@ public class Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long modelId;
+    private Long id;
 
     @Column(name = "name")
-    private String modelName;
+    private String name;
 
     @Column(name = "model_type_id")
-    private String modelType;
+    private Long modelTypeId;
 
     @Column(name = "project_id")
-    private String project;
+    private Long projectId;
 
     @Column(name = "url")
     private String url;
 
     @Enumerated()
     @Column(name = "status_id")
-    private Status status;
+    private Status statusId;
 
     @Column(name = "big_version")
-    private String version;
+    private Long bigVersion;
 
     @Column(name = "small_version")
-    private String smallVersion;
+    private Long smallVersion;
 
     public Model(){}
 
-    public Model(String modelName, String modelType, String project, String url) {
-        this.modelName = modelName;
-        this.modelType = modelType;
-        this.project = project;
-        this.url = url;
-        this.status = Status.NEW;
-        this.version = null;
+    public Long getId() {
+        return id;
     }
 
-    public Long getModelId() {
-        return modelId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setModelId(Long modelId) {
-        this.modelId = modelId;
+    public String getName() {
+        return name;
     }
 
-    public String getModelName() {
-        return modelName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setModelName(String modelName) {
-        this.modelName = modelName;
+    public Long getModelTypeId() {
+        return modelTypeId;
     }
 
-    public String getModelType() {
-        return modelType;
+    public void setModelTypeId(Long modelTypeId) {
+        this.modelTypeId = modelTypeId;
     }
 
-    public void setModelType(String modelType) {
-        this.modelType = modelType;
+    public Long getProjectId() {
+        return projectId;
     }
 
-    public String getProject() {
-        return project;
-    }
-
-    public void setProject(String project) {
-        this.project = project;
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
     }
 
     public String getUrl() {
@@ -83,49 +76,32 @@ public class Model {
         this.url = url;
     }
 
-    public Status getStatus() {
-        return status;
+    public Status getStatusId() {
+        return statusId;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setStatusId(Status statusId) {
+        this.statusId = statusId;
     }
 
-    public String getVersion() {
-        return version;
+    public Long getBigVersion() {
+        return bigVersion;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setBigVersion(Long bigVersion) {
+        this.bigVersion = bigVersion;
     }
 
-    public enum Status {
-        NEW, APPROVAL, REJECT;
-
-        public static Status getStatus(String status) {
-
-            switch (status.toLowerCase()) {
-                case "new":
-                    return Status.NEW;
-                case "approval":
-                    return Status.APPROVAL;
-                case "reject":
-                    return Status.REJECT;
-            }
-            return null;
-        }
-
-        public static Status getStatus(int status) {
-
-            switch (status) {
-                case -1:
-                    return Status.NEW;
-                case 1:
-                    return Status.APPROVAL;
-                case 0:
-                    return Status.REJECT;
-            }
-            return null;
-        }
+    public Long getSmallVersion() {
+        return smallVersion;
     }
+
+    public void setSmallVersion(Long smallVersion) {
+        this.smallVersion = smallVersion;
+    }
+
+    public static enum Status {
+        NEW, APPROVAL, REJECT
+    }
+
 }
