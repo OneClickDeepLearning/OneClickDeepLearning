@@ -203,27 +203,7 @@
                                             <table class="odd-even" id="tableNew">
                                                 <thead><tr><th>Model Name</th><th>Project</th><th>Model Type</th><th>Update Step</th><th>Operation</th></tr></thead>
                                                 <tbody>
-                                                    <tr><td>ddd</td>
-                                                        <td>adsf</td>
-                                                        <td>
-                                                        </td>
-                                                        <td>
-                                                            <select style="color: black;">
-                                                                <option value="0">
-                                                                    Small Update
-                                                                </option>
-                                                                <option value="1">
-                                                                    Large Update
-                                                                </option>
-                                                            </select>
-                                                        </td>
-                                                        <td>
-                                                            <div class="btn-group" role="group" aria-label="Basic example">
-                                                            <button type="button" class="btn btn-success">Approve</button>
-                                                            <button type="button" class="btn btn-danger" >Reject</button>
-                                                            </div>
-                                                     </td>
-                                                    </tr>
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -325,10 +305,10 @@
         initModelTypeList();
         
         $.ajax({
-            url: "/approval?action=getModelList",
+            url: "/approval/model",
             contentType: 'application/json',
             dataType: "json",
-            type: "POST",
+            type: "GET",
             success: function(data) {
                 ajaxMessageReader(data,function (data) {
                     salesData[0].value=data["newModel"].length;
@@ -406,10 +386,10 @@
     
     function  initModelTypeList() {
         $.ajax({
-            url: "/approval?action=getModeltype",
+            url: "/approval/modeltype",
             contentType: 'application/json',
             dataType: "json",
-            type: "POST",
+            type: "GET",
             success: function(data) {
                 ajaxMessageReader(data,function (data) {
                     modelTypeList=data;
@@ -448,13 +428,13 @@
     }
 
     function ajaxMessageReader(response, func){
-        /*		if(response.code=="400"){
+        		if(response.code=="400"){
                     alert(response.get("message"));
                 }else if(response.code=="200"){
                     func(response.data);
-                }*/
+                }
 
-        func(response);
+       /* func(response);*/
     }
 </script>
 

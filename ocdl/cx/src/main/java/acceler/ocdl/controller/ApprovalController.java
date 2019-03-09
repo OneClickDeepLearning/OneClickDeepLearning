@@ -68,7 +68,8 @@ public class ApprovalController {
 
         try {
             modelTypes = dbService.getModelType(projectId);
-            responseBuilder.setData(modelTypes);
+            responseBuilder.setCode(Response.Code.SUCCESS)
+                    .setData(modelTypes);
 
         } catch (DatabaseException e) {
 
