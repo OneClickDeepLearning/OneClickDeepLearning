@@ -1,4 +1,4 @@
-package acceler.ocdl.utils;
+package acceler.ocdl.exception;
 
 public class OcdlException extends RuntimeException {
     private String frontEndErrorMsg;

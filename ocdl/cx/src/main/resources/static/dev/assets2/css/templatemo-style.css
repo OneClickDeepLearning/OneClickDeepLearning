@@ -30,14 +30,14 @@ h2 span
 	}
 /* end h2 */
 
-/* start about team service portfolio contact */
+/* start about team crud portfolio contact */
 #about, #team, #service, #config,
 #portfolio, #contact
 	{
 		padding-top: 60px;
 		padding-bottom: 40px;
 	}
-/* end about team service portfolio contact */
+/* end about team crud portfolio contact */
 
 /* start preloader */
 .preloader
@@ -305,7 +305,7 @@ header .social-icon li a
 	}
 /* end team */
 
-/* start service */
+/* start crud */
 #service .col-md-4
 	{
 		padding: 40px;
@@ -346,7 +346,7 @@ header .social-icon li a
 		padding-top: 10px;
 		padding-bottom: 14px;
 	}
-/* end service */
+/* end crud */
 
 /* start portfolio */
 #portfolio
