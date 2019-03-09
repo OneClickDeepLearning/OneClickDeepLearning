@@ -1,19 +1,38 @@
 package acceler.ocdl.model;
 
+import javax.persistence.*;
 
+@Entity
+@Table(name = "model")
 public class Model {
-
-    //column: id, name, model_type, project, url, status, version
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long modelId;
+
+    @Column(name = "name")
     private String modelName;
+
+    @Column(name = "model_type_id")
     private String modelType;
+
+    @Column(name = "project_id")
     private String project;
+
+    @Column(name = "url")
     private String url;
+
+    @Enumerated()
+    @Column(name = "status_id")
     private Status status;
+
+    @Column(name = "big_version")
     private String version;
 
+    @Column(name = "small_version")
+    private String smallVersion;
 
-    public Model() {}
+    public Model(){}
 
     public Model(String modelName, String modelType, String project, String url) {
         this.modelName = modelName;
@@ -85,7 +104,7 @@ public class Model {
 
         public static Status getStatus(String status) {
 
-            switch(status.toLowerCase()) {
+            switch (status.toLowerCase()) {
                 case "new":
                     return Status.NEW;
                 case "approval":
@@ -98,7 +117,7 @@ public class Model {
 
         public static Status getStatus(int status) {
 
-            switch(status) {
+            switch (status) {
                 case -1:
                     return Status.NEW;
                 case 1:

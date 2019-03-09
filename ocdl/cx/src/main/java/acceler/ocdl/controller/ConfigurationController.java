@@ -4,24 +4,21 @@ package acceler.ocdl.controller;
 import acceler.ocdl.dto.ProjectConfigurationDto;
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.exception.DatabaseException;
-import acceler.ocdl.model.Project;
 import acceler.ocdl.service.DatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
-@RequestMapping(path = "/project")
+@RequestMapping(path = "/projects")
 public class ConfigurationController {
 
     @Autowired
     private DatabaseService dbService;
 
-    @RequestMapping(path = "/config/name", method = RequestMethod.PUT)
+    @RequestMapping(path = "/{projectId}/config/name", method = RequestMethod.PUT)
     @ResponseBody
     public Response updateProjectNames(@RequestBody ProjectConfigurationDto updatedProjectConfig) {
 
