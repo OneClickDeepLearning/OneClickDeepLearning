@@ -60,7 +60,7 @@
 			<ul id="nav-menu" class="nav navbar-nav navbar-right">
 				<li><a href="#">FILE</a></li>
 				<li><a href="#">MODIFY</a></li>
-				<li><a href="#" onclick="forwardTo('/views/configuration.html')">CONFIGURE</a></li>
+				<li><a href="#" onclick="forwardTo('views/configuration.html')">CONFIGURE</a></li>
 				<li><a href="#" class="nav-link" data-toggle="modal" data-target="#RegistrationModal">SIGN UP</a></li>
 				<li><a href="#" class="nav-link" data-toggle="modal" data-target="#LogInModal">SIGN IN</a></li>
 			</ul>
@@ -510,7 +510,7 @@
 	function ShowApprovalPortal(content, parent) {
 		var li_1=document.createElement("li");
 		var a=document.createElement("a");
-		a.setAttribute("onclick","forwardTo('/views/approvalCenter.html')");
+		a.setAttribute("onclick","forwardTo('views/approvalCenter.html')");
 		a.setAttribute("href","#");
 		a.innerHTML=content;
 		li_1.appendChild(a);
