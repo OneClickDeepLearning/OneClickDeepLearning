@@ -1628,7 +1628,7 @@ var getYTPVideoID = function( url ) {
 
 			/*
 			 if( jQuery.browser.chrome )
-			 YTPlayer.opt.quality = "default";
+			 YTPlayer.crud.quality = "default";
 			 */
 
 			YTPlayer.preventTrigger = true;

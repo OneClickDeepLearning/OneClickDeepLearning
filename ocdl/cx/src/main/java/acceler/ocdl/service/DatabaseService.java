@@ -3,7 +3,7 @@
 //import acceler.ocdl.dto.ProjectConfigurationDto;
 //import acceler.ocdl.exception.DatabaseException;
 //import acceler.ocdl.model.Model;
-//import acceler.ocdl.model.Project;
+//import acceler.ocdl.model.ProjectCrud;
 //import acceler.ocdl.model.Template;
 //import acceler.ocdl.model.User;
 //
@@ -29,9 +29,9 @@
 //
 //    int getProjectId(String projectName) throws DatabaseException;
 //
-//    Project getProjectInfo(String projectName);
+//    ProjectCrud getProjectInfo(String projectName);
 //
-//    Project getProjectInfo(Long projectId);
+//    ProjectCrud getProjectInfo(Long projectId);
 //
 //    void updateProject(Long projectId, String projectName, String git, String k8, String template) throws DatabaseException;
 //

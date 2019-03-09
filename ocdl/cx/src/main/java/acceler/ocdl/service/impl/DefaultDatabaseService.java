@@ -4,10 +4,10 @@
 //import acceler.ocdl.exception.DatabaseException;
 //import acceler.ocdl.exception.KuberneteException;
 //import acceler.ocdl.model.Model;
-//import acceler.ocdl.model.Project;
+//import acceler.ocdl.model.ProjectCrud;
 //import acceler.ocdl.model.Template;
 //import acceler.ocdl.model.User;
-//import acceler.ocdl.service.DatabaseService;
+//import acceler.ocdl.crud.DatabaseService;
 //import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.stereotype.Service;
 //
@@ -332,9 +332,9 @@
 //    }
 //
 //    @Override
-//    public Project getProjectInfo(String projectName) {
+//    public ProjectCrud getProjectInfo(String projectName) {
 //
-//        Project project = new Project();
+//        ProjectCrud project = new ProjectCrud();
 //        String query = "select * from project where " + " name=?";
 //
 //        try {
@@ -360,9 +360,9 @@
 //    }
 //
 //    @Override
-//    public Project getProjectInfo(Long projectId) {
+//    public ProjectCrud getProjectInfo(Long projectId) {
 //
-//        Project project = new Project();
+//        ProjectCrud project = new ProjectCrud();
 //        String query = "select * from project where " + " id=?";
 //
 //        try {
@@ -538,7 +538,7 @@
 //            ResultSet rs = preparedStmt.executeQuery();
 //            while (rs.next()) {
 //
-//                Project project = getProjectInfo(rs.getInt("project_id"));
+//                ProjectCrud project = getProjectInfo(rs.getInt("project_id"));
 //                ProjectConfigurationDto p = project.transfer2ProjectDto();
 //                projectList.add(p);
 //            }

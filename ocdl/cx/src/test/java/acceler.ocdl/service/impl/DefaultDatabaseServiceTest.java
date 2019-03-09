@@ -2,10 +2,10 @@
 //
 //import acceler.ocdl.OcdlApplication;
 //import acceler.ocdl.model.Model;
-//import acceler.ocdl.model.Project;
+//import acceler.ocdl.model.ProjectCrud;
 //import acceler.ocdl.model.Template;
 //import acceler.ocdl.model.User;
-//import acceler.ocdl.service.impl.DefaultDatabaseService;
+//import acceler.ocdl.crud.impl.DefaultDatabaseService;
 //import org.junit.Before;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
@@ -33,7 +33,7 @@
 //    private User user;
 //    private Template template;
 //    private Model model;
-//    private Project project;
+//    private ProjectCrud project;
 //
 //
 //    @Before
@@ -134,7 +134,7 @@
 //        db.setProjectK8("k8", 3);
 //        db.setProjectTemplate("template url", 3);
 //
-//        Project project = db.getProjectInfo(3);
+//        ProjectCrud project = db.getProjectInfo(3);
 //        assertEquals("project3", project.getProjectName());
 //        assertEquals("www.project3.com", project.getGit());
 //        assertEquals("k8", project.getK8Url());
@@ -144,7 +144,7 @@
 //    @Test
 //    public void getProjectInfoByName() {
 //
-//        Project project = db.getProjectInfo("project3");
+//        ProjectCrud project = db.getProjectInfo("project3");
 //        assertEquals(3, project.getProjectId());
 //        assertEquals("www.project3.com", project.getGit());
 //        assertEquals("k8", project.getK8Url());
@@ -169,7 +169,7 @@
 //    public void getProjectList() {
 //
 //        Long id = 1L;
-//        ArrayList<Project> projectList = db.getProjectList(id);
+//        ArrayList<ProjectCrud> projectList = db.getProjectList(id);
 //
 //        projectList.stream().forEach(p -> {
 //            System.out.println(p.getProjectName());
@@ -354,7 +354,7 @@
 //
 //
 //    @Configuration
-//    @ComponentScan(basePackages = {"acceler.ocdl.service"})
+//    @ComponentScan(basePackages = {"acceler.ocdl.crud"})
 //    public class Testconfig{
 //
 //    }

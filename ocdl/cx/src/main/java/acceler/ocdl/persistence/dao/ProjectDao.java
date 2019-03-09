@@ -1,4 +1,4 @@
-package acceler.ocdl.dao;
+package acceler.ocdl.persistence.dao;
 
 import acceler.ocdl.model.Project;
 import org.springframework.data.repository.CrudRepository;
