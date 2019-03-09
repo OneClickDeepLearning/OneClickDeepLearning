@@ -368,18 +368,18 @@
 							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 								<div class="temp-form-column-wrap">
 									<h2>Sign In</h2>
-									<form>
+									<form name="login_form" method="post" action="">
 										<div class="form-group">
                       <span class="temp-span-wrap temp-span-input-label-wrap">
-                        <input class="temp_input_field" type="text"  >
+                        <input id="data_username" name="username" class="temp_input_field" type="text" required >
                         <label class="temp_input_label">
-                          <span class="temp_input_label-content">username</span>
+                          <span class="temp_input_label-content">Username</span>
                         </label>
                       </span>
 										</div>
 										<div class="form-group">
                       <span class="temp-span-wrap temp-span-input-label-wrap">
-                        <input class="temp_input_field" type="password"  >
+                        <input id="data_pwd" name="password" class="temp_input_field" type="password" required >
                         <label class="temp_input_label">
                           <span class="temp_input_label-content">Password</span>
                         </label>
@@ -387,7 +387,7 @@
 										</div>
 										<div class="form-group">
 											<label class="temp-checkbox-wrap">
-												<input name="signup_agree_checkbox" value="1" type="checkbox">
+												<input  name="signup_agree_checkbox" value="1" type="checkbox">
 												Remember me
 												<span class="checkmark"></span>
 											</label>
@@ -396,7 +396,7 @@
 											</label>
 										</div>
 										<div class="temp-login-button-wrap">
-											<button class="btn btn-info temp-form-button" type="button">Sign In</button>
+											<button class="btn btn-info temp-form-button" type="submit">Sign In</button>
 										</div>
 									</form>
 								</div>
@@ -427,6 +427,7 @@
 <script language="javascript" src="assets2/js/shBrushPython.js"></script>
 <script src="assets2/js/menu.js"></script>
 <script language="javascript" src="assets2/js/secondlayernav.js"></script>
+<script language="javascript" src="assets2/js/login.js"></script>
 <script language="javascript">
 	window.onload = function () {
 /*				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';

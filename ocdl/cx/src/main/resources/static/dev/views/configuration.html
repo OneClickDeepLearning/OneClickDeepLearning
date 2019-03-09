@@ -109,6 +109,7 @@
                             <label class="col-md-4" for="git">Git Repository: </label> <input id="git" class="col-md-8" type="text" Name="git" placeholder="Git Repository" required="">
                             <label class="col-md-4" for="k8Url">K8S URL: </label>    <input id="k8Url" class="col-md-8" type="text" Name="k8Url" placeholder="K8S URL" required="">
                             <label class="col-md-4" for="templateUrl">Template Path: </label>  <input id="templateUrl" class="col-md-8" type="text" Name="templateUrl" placeholder="Template Path" required="">
+                            <label class="col-md-4" for="suffix">Model File Suffix: </label>  <input id="suffix" class="col-md-8" type="text" Name="suffix" placeholder="Suffix" required="">
                         </form>
                         <div class="send-button w3layouts agileits">
                                 <input type="submit" value="Confirm" onclick="updateConfiguration()">
@@ -169,7 +170,8 @@
                     name: $("#name").val(),
                     git: $("#git").val(),
                     k8: $("#k8Url").val(),
-                    template: $("#templateUrl").val()
+                    template: $("#templateUrl").val(),
+                    suffix:$("#suffix").val()
                 }),
             type: "POST",
             timeout: 0,
