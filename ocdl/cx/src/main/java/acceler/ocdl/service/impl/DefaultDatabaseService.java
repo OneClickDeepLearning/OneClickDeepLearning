@@ -310,10 +310,10 @@ public class DefaultDatabaseService implements DatabaseService {
      * get the project id in the table project
      */
     @Override
-    public int getProjectId(String projectName) throws DatabaseException {
+    public Long getProjectId(String projectName) throws DatabaseException {
 
         createConn();
-        int id = -1;
+        Long id = -1L;
         String query = "select id from project where " + " name=?";
 
         try {
@@ -323,7 +323,7 @@ public class DefaultDatabaseService implements DatabaseService {
 
             // execute the preparedstatement
             ResultSet rs = preparedStmt.executeQuery();
-            if (rs.next()) id = rs.getInt(1);
+            if (rs.next()) id = rs.getLong(1);
 
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
@@ -360,7 +360,7 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public Project getProjectInfo(int projectId) {
+    public Project getProjectInfo(Long projectId) {
 
         Project project = new Project();
         String query = "select * from project where " + " id=?";
@@ -388,7 +388,7 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public void updateProject(int projectId, String projectName, String git, String k8, String template) throws DatabaseException {
+    public void updateProject(Long projectId, String projectName, String git, String k8, String template) throws DatabaseException {
 
         createConn();
 
@@ -401,7 +401,7 @@ public class DefaultDatabaseService implements DatabaseService {
             preparedStmt.setString(2, git); // git
             preparedStmt.setString(3, k8); // k8_url
             preparedStmt.setString(4, template); // template_url
-            preparedStmt.setInt(5, projectId); // id
+            preparedStmt.setLong(5, projectId); // id
 
             // execute the preparedstatement
             preparedStmt.executeUpdate();
@@ -412,7 +412,7 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public Boolean setProjectGit(String git, int projectId) {
+    public Boolean setProjectGit(String git, Long projectId) {
 
         String query = "update project set " + "git=?" + " where " + "id=?";
 
@@ -432,7 +432,7 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public Boolean setProjectK8(String k8Url, int projectId) {
+    public Boolean setProjectK8(String k8Url, Long projectId) {
 
         String query = "update project set " + "k8_url=?" + " where " + "id=?";
 
@@ -452,7 +452,7 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public Boolean setProjectTemplate(String templateUrl, int projectId) {
+    public Boolean setProjectTemplate(String templateUrl, Long projectId) {
 
         String query = "update project set " + "template_url=?" + " where " + "id=?";
 
@@ -472,7 +472,7 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public void setProjectName(String projectName, int projectId) throws DatabaseException {
+    public void setProjectName(String projectName, Long projectId) throws DatabaseException {
 
         createConn();
 
@@ -482,7 +482,7 @@ public class DefaultDatabaseService implements DatabaseService {
             // create the mysql insert preparedstatement
             PreparedStatement preparedStmt = con.prepareStatement(query);
             preparedStmt.setString (1, projectName); //projectName
-            preparedStmt.setInt(2, projectId); // projectId
+            preparedStmt.setLong(2, projectId); // projectId
 
             // execute the preparedstatement
             preparedStmt.executeUpdate();
@@ -502,7 +502,7 @@ public class DefaultDatabaseService implements DatabaseService {
         // get user id
         if (user.getUserId() == null) user.setUserId(getUserId(user.getUserName()));
         // get project id
-        int projectId = getProjectId(projectName);
+        Long projectId = getProjectId(projectName);
 
         String query = " insert into user_project_relation (user_id, project_id)" + " values (?, ?)";
 
@@ -510,7 +510,7 @@ public class DefaultDatabaseService implements DatabaseService {
             // create the mysql insert preparedstatement
             PreparedStatement preparedStmt = con.prepareStatement(query);
             preparedStmt.setLong (1, user.getUserId()); //user_id
-            preparedStmt.setInt(2, projectId);
+            preparedStmt.setLong(2, projectId);
 
             // execute the preparedstatement
             preparedStmt.executeUpdate();
@@ -550,7 +550,7 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public User getProjectManager(int projectId) {
+    public User getProjectManager(Long projectId) {
 
         User user = new User();
         String userName = "";
@@ -560,7 +560,7 @@ public class DefaultDatabaseService implements DatabaseService {
         try {
             // create the mysql insert preparedstatement
             PreparedStatement preparedStmt = con.prepareStatement(query);
-            preparedStmt.setInt(1, projectId); //projectId
+            preparedStmt.setLong(1, projectId); //projectId
 
             // execute the preparedstatement
             ResultSet rs = preparedStmt.executeQuery();
@@ -579,7 +579,7 @@ public class DefaultDatabaseService implements DatabaseService {
     //==================================================================================
 
     @Override
-    public int createModelType(String modelTypeName, int projectId) {
+    public int createModelType(String modelTypeName, Long projectId) {
 
         int id = -1;
         String query = " insert into model_type (name, project_id)" + " values (?, ?)";
@@ -604,7 +604,7 @@ public class DefaultDatabaseService implements DatabaseService {
 
     //TODO 也需要ID
     @Override
-    public ArrayList<String> getModelType(int projectId) throws DatabaseException {
+    public ArrayList<String> getModelType(Long projectId) throws DatabaseException {
 
         createConn();
 
@@ -633,7 +633,7 @@ public class DefaultDatabaseService implements DatabaseService {
      * get the model type id in the table model_type
      */
     @Override
-    public int getModelTypeId(int projectId, String modelTypeName) {
+    public int getModelTypeId(Long projectId, String modelTypeName) {
 
         createConn();
 
@@ -644,7 +644,7 @@ public class DefaultDatabaseService implements DatabaseService {
             // create the mysql insert preparedstatement
             PreparedStatement preparedStmt = con.prepareStatement(query);
             preparedStmt.setString (1, modelTypeName); //name
-            preparedStmt.setInt (2, projectId); //name
+            preparedStmt.setLong (2, projectId); //name
 
             // execute the preparedstatement
             ResultSet rs = preparedStmt.executeQuery();
@@ -718,7 +718,7 @@ public class DefaultDatabaseService implements DatabaseService {
         int id = -1;
         String query = " insert into model (name, model_type_id, project_id, url, status_id)" + " values (?, ?, ?, ?, ?)";
 
-        int projectId = getProjectId(model.getProject());
+        Long projectId = getProjectId(model.getProject());
         int modelTypeId = getModelTypeId(projectId, model.getModelType());
         int statusId = getStatusId(model.getStatus());
 
@@ -727,7 +727,7 @@ public class DefaultDatabaseService implements DatabaseService {
             PreparedStatement preparedStmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStmt.setString (1, model.getModelName()); //modelName
             preparedStmt.setInt(2, modelTypeId); //modelTypeId
-            preparedStmt.setInt(3, projectId); //modelProjectId
+            preparedStmt.setLong(3, projectId); //modelProjectId
             preparedStmt.setString(4, model.getUrl()); //modelUrl
             preparedStmt.setInt(5, statusId); //modelTypeId
 
@@ -798,7 +798,7 @@ public class DefaultDatabaseService implements DatabaseService {
     private void updateModelStatusWithoutModelId(Model model, Model.Status expectedStatus) throws DatabaseException{
 
         int statusId = getStatusId(expectedStatus);
-        int projectId = getProjectId(model.getProject());
+        Long projectId = getProjectId(model.getProject());
         int modelTypeId = getModelTypeId(projectId, model.getModelType());
 
         String query = "update model set " + "status_id=?" + " where " + "name=?" + " and " + "project_id=?" + " and " + "model_type_id=?" ;
@@ -819,7 +819,7 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public int getLatestBigVersion(int projectId, int modelTypeId) throws DatabaseException {
+    public int getLatestBigVersion(Long projectId, int modelTypeId) throws DatabaseException {
 
         int bigVersion = 0;
 
@@ -829,7 +829,7 @@ public class DefaultDatabaseService implements DatabaseService {
         try {
 
             PreparedStatement preparedStmt = con.prepareStatement(query);
-            preparedStmt.setInt (1, projectId);
+            preparedStmt.setLong (1, projectId);
             preparedStmt.setInt(2, modelTypeId);
             // execute the preparedstatement
             ResultSet rs = preparedStmt.executeQuery();
@@ -845,7 +845,7 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public int getLatestSmallVersion(int projectId, int modelTypeId) throws DatabaseException {
+    public int getLatestSmallVersion(Long projectId, int modelTypeId) throws DatabaseException {
 
         int smallVersion = 0;
 
@@ -915,7 +915,7 @@ public class DefaultDatabaseService implements DatabaseService {
      * @para condition specific status, such as: new/approval/reject
      */
     @Override
-    public ArrayList<Model> getConditioanalProjectModel(int projectId, Model.Status condition) throws DatabaseException{
+    public ArrayList<Model> getConditioanalProjectModel(Long projectId, Model.Status condition) throws DatabaseException{
 
         createConn();
 
@@ -926,7 +926,7 @@ public class DefaultDatabaseService implements DatabaseService {
         try {
             // create the mysql insert preparedstatement
             PreparedStatement preparedStmt = con.prepareStatement(query);
-            preparedStmt.setInt (1, projectId); //projectId
+            preparedStmt.setLong (1, projectId); //projectId
             preparedStmt.setString (2, condition.name().toLowerCase()); //condition
 
             // execute the preparedstatement

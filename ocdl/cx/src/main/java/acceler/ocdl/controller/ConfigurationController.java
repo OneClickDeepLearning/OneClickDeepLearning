@@ -15,21 +15,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping(path = "/project")
+@RequestMapping(path = "/projects")
 public class ConfigurationController {
 
     @Autowired
     private DatabaseService dbService;
 
-    @RequestMapping(path = "/config/name", method = RequestMethod.PUT)
+    @RequestMapping(path = "/{projectId}/config/name", method = RequestMethod.PUT)
     @ResponseBody
-    public Response updateProjectNames(@RequestBody ProjectConfigurationDto updatedProjectConfig) {
+    public Response updateProjectNames(@PathVariable("projectId") Long projectId, @RequestBody Map<String, String> projectName) {
 
         Response.Builder responseBuilder = Response.getBuilder();
 
         try{
             // one manager - one project, project Id is redundant
-            dbService.setProjectName(updatedProjectConfig.getProjectName(), 3);
+            // projectId = 3
+            dbService.setProjectName(projectName.get("name"), projectId);
             responseBuilder.setCode(Response.Code.SUCCESS);
 
         } catch (DatabaseException e) {
@@ -42,18 +43,13 @@ public class ConfigurationController {
     }
 
 
-    @RequestMapping(path = "/config", method = RequestMethod.PUT)
+    @RequestMapping(path = "/{projectId}/config", method = RequestMethod.PUT)
     @ResponseBody
-    public Response updateProject(@RequestBody ProjectConfigurationDto updatedProjectConfig) {
+    public Response updateProject(@PathVariable("projectId") Long projectId, @RequestBody ProjectConfigurationDto updatedProjectConfig) {
 
         Response.Builder responseBuilder = Response.getBuilder();
 
         try{
-            int projectId = dbService.getProjectId(updatedProjectConfig.getProjectName());
-
-            if (projectId == -1 ) {
-                projectId = dbService.createProject(updatedProjectConfig.getProjectName());
-            }
 
             dbService.updateProject(projectId, updatedProjectConfig.getProjectName(), updatedProjectConfig.getGitUrl(), updatedProjectConfig.getK8Url(), updatedProjectConfig.getTemplatePath());
             responseBuilder.setCode(Response.Code.SUCCESS);
@@ -69,16 +65,16 @@ public class ConfigurationController {
 
 
     @ResponseBody
-    @RequestMapping(path = "/config/details", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public final Response getAllProject() {
 
         Response.Builder responseBuilder = Response.getBuilder();
 
-        // TODO user_id should be te param
-        Long user_id = 1L;
+        // TODO userId should be get in context
+        Long userId = 1L;
 
         try{
-            ArrayList<ProjectConfigurationDto> projects = dbService.getProjectList(user_id);
+            ArrayList<ProjectConfigurationDto> projects = dbService.getProjectList(userId);
             responseBuilder.setCode(Response.Code.SUCCESS)
                     .setData(projects);
 

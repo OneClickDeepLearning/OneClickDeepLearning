@@ -31,29 +31,29 @@ public interface DatabaseService {
 
     Project getProjectInfo(String projectName);
 
-    Project getProjectInfo(int projectId);
+    Project getProjectInfo(Long projectId);
 
-    void updateProject(int projectId, String projectName, String git, String k8, String template) throws DatabaseException;
+    void updateProject(Long projectId, String projectName, String git, String k8, String template) throws DatabaseException;
 
-    Boolean setProjectGit(String git, int projectId);
+    Boolean setProjectGit(String git, Long projectId);
 
-    Boolean setProjectK8(String k8Url, int projectId);
+    Boolean setProjectK8(String k8Url, Long projectId);
 
-    Boolean setProjectTemplate(String templateUrl, int projectId);
+    Boolean setProjectTemplate(String templateUrl, Long projectId);
 
-    void setProjectName(String projectName, int projectId) throws DatabaseException;
+    void setProjectName(String projectName, Long projectId) throws DatabaseException;
 
     void createUserProjectRelation(User user, String projectName) throws DatabaseException;
 
     ArrayList<ProjectConfigurationDto> getProjectList(Long userId) throws DatabaseException;
 
-    User getProjectManager(int projectId);
+    User getProjectManager(Long projectId);
 
-    int createModelType(String modelTypeName, int projectId);
+    int createModelType(String modelTypeName, Long projectId);
 
-    ArrayList<String> getModelType(int projectId) throws DatabaseException;
+    ArrayList<String> getModelType(Long projectId) throws DatabaseException;
 
-    int getModelTypeId(int projectId, String modelTypeName) throws DatabaseException;
+    int getModelTypeId(Long projectId, String modelTypeName) throws DatabaseException;
 
     int getStatusId(Model.Status status);
 
@@ -67,13 +67,13 @@ public interface DatabaseService {
 
     void updateModelStatusWithModelId(Long modelId, int modelTypeId, int statusId, int bigVersion, int smallVersion) throws DatabaseException;
 
-    int getLatestBigVersion(int projectId, int modelTypeId) throws DatabaseException;
+    int getLatestBigVersion(Long projectId, int modelTypeId) throws DatabaseException;
 
-    int getLatestSmallVersion(int projectId, int modelTypeId) throws DatabaseException;
+    int getLatestSmallVersion(Long projectId, int modelTypeId) throws DatabaseException;
 
     ArrayList<Model> getAllProjectModel(String projectName);
 
-    ArrayList<Model> getConditioanalProjectModel(int projectId, Model.Status condition) throws DatabaseException;
+    ArrayList<Model> getConditioanalProjectModel(Long projectId, Model.Status condition) throws DatabaseException;
 
     int createTemplate(Template template);
 

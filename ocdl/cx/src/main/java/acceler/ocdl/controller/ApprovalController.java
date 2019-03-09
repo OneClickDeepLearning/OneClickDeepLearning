@@ -8,30 +8,26 @@ import acceler.ocdl.model.Model;
 import acceler.ocdl.service.DatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping(path = "/approval")
+@RequestMapping(path = "/models")
 public class ApprovalController {
 
     @Autowired
     private DatabaseService dbService;
 
     @ResponseBody
-    @RequestMapping(path = "/model", method = RequestMethod.GET)
-    public final Response getModelList() {
+    @RequestMapping(path = "/{projectId}", method = RequestMethod.GET)
+    public final Response getModelList(@PathVariable("projectId") Long projectId) {
 
         Response.Builder responseBuilder = Response.getBuilder();
 
         Map<String, ArrayList<Model>> models = new HashMap<String, ArrayList<Model>>();
-        int projectId = 3;
 
         try {
             ArrayList<Model> newModels= dbService.getConditioanalProjectModel(projectId, Model.Status.NEW);
@@ -58,13 +54,12 @@ public class ApprovalController {
     }
 
     @ResponseBody
-    @RequestMapping(path = "modeltype", method = RequestMethod.GET)
-    public final Response getModeltype() {
+    @RequestMapping(path = "/{projectId}/modeltypes", method = RequestMethod.GET)
+    public final Response getModeltype(@PathVariable("projectId") Long projectId) {
 
         Response.Builder responseBuilder = Response.getBuilder();
 
         ArrayList<String> modelTypes = new ArrayList<String>();
-        int projectId = 3;
 
         try {
             modelTypes = dbService.getModelType(projectId);
@@ -81,11 +76,9 @@ public class ApprovalController {
 
 
     @ResponseBody
-    @RequestMapping(path = "/model/decision", method = RequestMethod.PUT)
-    public final Response pushDecision(@RequestBody ModelDto modelDto) {
+    @RequestMapping(path = "/{projectId}/{modelId}",  method = RequestMethod.PUT)
+    public final Response pushDecision(@PathVariable("projectId") Long projectId, @PathVariable("modelId") Long modelId, @RequestBody ModelDto modelDto) {
         Response.Builder responseBuilder = Response.getBuilder();
-
-        int projectId = 3;
 
         try {
             int modelTypeId = dbService.getModelTypeId(projectId, modelDto.getModelType());
@@ -101,7 +94,7 @@ public class ApprovalController {
                 smallVersion++;
             }
 
-            dbService.updateModelStatusWithModelId(modelDto.getModelId(), modelTypeId, statusId, bigVersion, smallVersion);
+            dbService.updateModelStatusWithModelId(modelId, modelTypeId, statusId, bigVersion, smallVersion);
             responseBuilder.setCode(Response.Code.SUCCESS);
 
         } catch (DatabaseException e) {
@@ -110,7 +103,6 @@ public class ApprovalController {
                     .setMessage(e.getMessage());
 
         }
-
         return responseBuilder.build();
     }
 
