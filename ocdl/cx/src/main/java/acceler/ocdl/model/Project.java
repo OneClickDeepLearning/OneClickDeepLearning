@@ -1,5 +1,7 @@
 package acceler.ocdl.model;
 
+import acceler.ocdl.dto.ProjectConfigurationDto;
+
 public class Project {
 
     private int projectId;
@@ -66,6 +68,16 @@ public class Project {
 
     public void setDesp(String desp) {
         this.desp = desp;
+    }
+
+    public ProjectConfigurationDto transfer2ProjectDto(){
+        ProjectConfigurationDto p = new ProjectConfigurationDto();
+        p.setProjectName(this.projectName);
+        p.setGitUrl(this.git);
+        p.setK8Url(this.k8Url);
+        p.setTemplatePath(this.templateUrl);
+
+        return p;
     }
 
 }

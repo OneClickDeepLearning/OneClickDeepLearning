@@ -4,6 +4,7 @@ package acceler.ocdl.controller;
 import acceler.ocdl.dto.ProjectConfigurationDto;
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.exception.DatabaseException;
+import acceler.ocdl.model.Project;
 import acceler.ocdl.service.DatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -66,4 +67,26 @@ public class ConfigurationController {
         return responseBuilder.build();
     }
 
+
+    @ResponseBody
+    @RequestMapping(path = "/config/details", method = RequestMethod.GET)
+    public final Response getAllProject() {
+
+        Response.Builder responseBuilder = Response.getBuilder();
+
+        // TODO user_id should be te param
+        Long user_id = 1L;
+
+        try{
+            ArrayList<ProjectConfigurationDto> projects = dbService.getProjectList(user_id);
+            responseBuilder.setCode(Response.Code.SUCCESS)
+                    .setData(projects);
+
+        } catch (DatabaseException e) {
+            responseBuilder.setCode(Response.Code.ERROR)
+                    .setMessage(e.getMessage());
+        }
+
+        return responseBuilder.build();
+    }
 }

@@ -1,5 +1,6 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.dto.ProjectConfigurationDto;
 import acceler.ocdl.exception.DatabaseException;
 import acceler.ocdl.exception.KuberneteException;
 import acceler.ocdl.model.Model;
@@ -520,9 +521,11 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public ArrayList<Project> getProjectList(Long userId) {
+    public ArrayList<ProjectConfigurationDto> getProjectList(Long userId) throws DatabaseException{
 
-        ArrayList<Project> projectList = new ArrayList<Project>();
+        createConn();
+
+        ArrayList<ProjectConfigurationDto> projectList = new ArrayList<ProjectConfigurationDto>();
 
         String query = "select project_id from user_project_relation where " + " user_id=?";
 
@@ -536,11 +539,12 @@ public class DefaultDatabaseService implements DatabaseService {
             while (rs.next()) {
 
                 Project project = getProjectInfo(rs.getInt("project_id"));
-                projectList.add(project);
+                ProjectConfigurationDto p = project.transfer2ProjectDto();
+                projectList.add(p);
             }
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+           throw new DatabaseException(e.getMessage());
         }
         return projectList;
     }

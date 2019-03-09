@@ -1,5 +1,6 @@
 package acceler.ocdl.service;
 
+import acceler.ocdl.dto.ProjectConfigurationDto;
 import acceler.ocdl.exception.DatabaseException;
 import acceler.ocdl.model.Model;
 import acceler.ocdl.model.Project;
@@ -44,7 +45,7 @@ public interface DatabaseService {
 
     void createUserProjectRelation(User user, String projectName) throws DatabaseException;
 
-    ArrayList<Project> getProjectList(Long userId);
+    ArrayList<ProjectConfigurationDto> getProjectList(Long userId) throws DatabaseException;
 
     User getProjectManager(int projectId);
 
