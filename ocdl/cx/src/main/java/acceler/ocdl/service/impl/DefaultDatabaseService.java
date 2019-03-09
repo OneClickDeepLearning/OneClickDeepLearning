@@ -1,5 +1,7 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.exception.DatabaseException;
+import acceler.ocdl.exception.KuberneteException;
 import acceler.ocdl.model.Model;
 import acceler.ocdl.model.Project;
 import acceler.ocdl.model.Template;
@@ -282,23 +284,22 @@ public class DefaultDatabaseService implements DatabaseService {
      * insert a new project in the table project
      */
     @Override
-    public int createProject(String projectName, String description) {
-
+    public int createProject(String projectName) throws DatabaseException{
+        createConn();
         int id = -1;
-        String query = " insert into project (name, desp)" + " values (?, ?)";
+        String query = " insert into project (name)" + " values (?)";
 
         try {
             // create the mysql insert preparedstatement
             PreparedStatement preparedStmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStmt.setString (1, projectName); //name
-            preparedStmt.setString (2, description); //name
 
             // execute the preparedstatement
             preparedStmt.executeUpdate();
             ResultSet rs = preparedStmt.getGeneratedKeys();
             if (rs.next()) id = rs.getInt(1);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+           throw new DatabaseException(e.getMessage());
         }
         return id;
     }
@@ -308,8 +309,9 @@ public class DefaultDatabaseService implements DatabaseService {
      * get the project id in the table project
      */
     @Override
-    public int getProjectId(String projectName) {
+    public int getProjectId(String projectName) throws DatabaseException {
 
+        createConn();
         int id = -1;
         String query = "select id from project where " + " name=?";
 
@@ -323,7 +325,7 @@ public class DefaultDatabaseService implements DatabaseService {
             if (rs.next()) id = rs.getInt(1);
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DatabaseException(e.getMessage());
         }
         return id;
     }
@@ -385,7 +387,9 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public Boolean updateProject(int projectId, String projectName, String git, String k8, String template) {
+    public void updateProject(int projectId, String projectName, String git, String k8, String template) throws DatabaseException {
+
+        createConn();
 
         String query = "update project set " + "name=?, git=?, k8_url=?, template_url=?" + " where " + "id=?";
 
@@ -400,10 +404,9 @@ public class DefaultDatabaseService implements DatabaseService {
 
             // execute the preparedstatement
             preparedStmt.executeUpdate();
-            return true;
+
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
+            throw new DatabaseException(e.getMessage());
         }
     }
 
@@ -468,7 +471,9 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public Boolean setProjectName(String projectName, int projectId) {
+    public void setProjectName(String projectName, int projectId) throws DatabaseException {
+
+        createConn();
 
         String query = "update project set " + "name=?" + " where " + "id=?";
 
@@ -480,10 +485,8 @@ public class DefaultDatabaseService implements DatabaseService {
 
             // execute the preparedstatement
             preparedStmt.executeUpdate();
-            return true;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
+            throw new DatabaseException(e.getMessage());
         }
     }
 
@@ -493,7 +496,7 @@ public class DefaultDatabaseService implements DatabaseService {
     //==================================================================================
 
     @Override
-    public void createUserProjectRelation(User user, String projectName) {
+    public void createUserProjectRelation(User user, String projectName) throws DatabaseException {
 
         // get user id
         if (user.getUserId() == null) user.setUserId(getUserId(user.getUserName()));
@@ -511,8 +514,8 @@ public class DefaultDatabaseService implements DatabaseService {
             // execute the preparedstatement
             preparedStmt.executeUpdate();
 
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+           throw new DatabaseException(e.getMessage());
         }
     }
 
@@ -597,7 +600,9 @@ public class DefaultDatabaseService implements DatabaseService {
 
     //TODO 也需要ID
     @Override
-    public ArrayList<String> getModelType(int projectId) {
+    public ArrayList<String> getModelType(int projectId) throws DatabaseException {
+
+        createConn();
 
         ArrayList<String> modelTypeList = new ArrayList<String>();
 
@@ -625,6 +630,8 @@ public class DefaultDatabaseService implements DatabaseService {
      */
     @Override
     public int getModelTypeId(int projectId, String modelTypeName) {
+
+        createConn();
 
         int id = -1;
         String query = "select id from model_type where " + " name=?" + " and " + "project_id=?";
@@ -674,13 +681,35 @@ public class DefaultDatabaseService implements DatabaseService {
         return id;
     }
 
+
+    @Override
+    public int getStatusId(String status) {
+
+        int id = -1;
+        String query = "select id from status where " + " name=?";
+
+        try {
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.setString (1, status.toLowerCase()); //name
+
+            // execute the preparedstatement
+            ResultSet rs = preparedStmt.executeQuery();
+            if (rs.next()) id = rs.getInt(1);
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return id;
+    }
+
     //==================================================================================
     // operation of table model
     // column: id, name, model_type_id, project_id, url, status_id, version
     //==================================================================================
 
     @Override
-    public int createModel(Model model) {
+    public int createModel(Model model) throws DatabaseException{
 
         int id = -1;
         String query = " insert into model (name, model_type_id, project_id, url, status_id)" + " values (?, ?, ?, ?, ?)";
@@ -703,14 +732,14 @@ public class DefaultDatabaseService implements DatabaseService {
             ResultSet rs = preparedStmt.getGeneratedKeys();
             if (rs.next()) id = rs.getInt(1);
 
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            throw new DatabaseException(e.getMessage());
         }
         return id;
     }
 
     @Override
-    public void updateModelStatus(Model model, Model.Status expectedStatus) {
+    public void updateModelStatus(Model model, Model.Status expectedStatus) throws DatabaseException {
 
         if (model.getModelId() != null) {
             updateModelStatusWithModelId(model.getModelId(), expectedStatus);
@@ -720,7 +749,7 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     @Override
-    public Boolean updateModelStatusWithModelId(Long modelId, Model.Status expectedStatus) {
+    public void updateModelStatusWithModelId(Long modelId, Model.Status expectedStatus) throws DatabaseException{
 
         int statusId = getStatusId(expectedStatus);
 
@@ -734,14 +763,35 @@ public class DefaultDatabaseService implements DatabaseService {
 
             // execute the preparedstatement
             preparedStmt.executeUpdate();
-            return true;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
+            throw new DatabaseException(e.getMessage());
         }
     }
 
-    private void updateModelStatusWithoutModelId(Model model, Model.Status expectedStatus) {
+    @Override
+    public void updateModelStatusWithModelId(Long modelId, int modelTypeId, int statusId, int bigVersion, int smallVersion) throws DatabaseException {
+        createConn();
+
+        String query = "update model set " + "model_type_id=?" + ", " + "status_id=?" + ", " + "big_version=?" + ", " + "small_version=?" + " where " + "id=?";
+
+        try {
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.setInt (1, modelTypeId); //status_id
+            preparedStmt.setInt(2, statusId);
+            preparedStmt.setInt(3, bigVersion);
+            preparedStmt.setInt(4, smallVersion);
+            preparedStmt.setLong(5, modelId); // modelId
+
+            // execute the preparedstatement
+            preparedStmt.executeUpdate();
+        } catch (SQLException e) {
+           throw new DatabaseException(e.getMessage());
+        }
+    }
+
+
+    private void updateModelStatusWithoutModelId(Model model, Model.Status expectedStatus) throws DatabaseException{
 
         int statusId = getStatusId(expectedStatus);
         int projectId = getProjectId(model.getProject());
@@ -759,64 +809,61 @@ public class DefaultDatabaseService implements DatabaseService {
 
             // execute the preparedstatement
             preparedStmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /*
-     * TODO: big version or small version
-     */
-    @Override
-    public void updateModelVersion(Model model, String version) {
-
-        if (model.getModelId() != null) {
-            updateModelVersionWithModelId(model.getModelId(), version);
-        } else {
-            updateModelVersionWithoutModelId(model, version);
+        } catch (Exception e) {
+            throw new DatabaseException(e.getMessage());
         }
     }
 
     @Override
-    public  Boolean updateModelVersionWithModelId(Long modelId, String version) {
+    public int getLatestBigVersion(int projectId, int modelTypeId) throws DatabaseException {
 
-        String query = "update model set " + "version=?" + " where " + "id=?";
+        int bigVersion = 0;
+
+        String query = "select max(big_version) from model where " + "project_id=?" + " and "  + "model_type_id=?";
+
 
         try {
-            // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = con.prepareStatement(query);
-            preparedStmt.setString (1, version); //version
-            preparedStmt.setLong(2, modelId); // modelId
 
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.setInt (1, projectId);
+            preparedStmt.setInt(2, modelTypeId);
             // execute the preparedstatement
-            preparedStmt.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
+            ResultSet rs = preparedStmt.executeQuery();
+            if (rs.next()) {
+                bigVersion = rs.getInt("max(big_version)");
+            }
+
+        } catch (Exception e) {
+            throw new DatabaseException(e.getMessage());
         }
+
+        return bigVersion;
     }
 
-    private void updateModelVersionWithoutModelId(Model model,String version) {
+    @Override
+    public int getLatestSmallVersion(int projectId, int modelTypeId) throws DatabaseException {
 
-        int projectId = getProjectId(model.getProject());
-        int modelTypeId = getModelTypeId(projectId, model.getModelType());
+        int smallVersion = 0;
 
-        String query = "update model set " + "version=?" + " where " + "name=?" + " and " + "project_id=?" + " and " + "model_type_id=?" ;
+        String query = "select max(small_version) from model where " + "project_id=?" + " and "  + "model_type_id=?";
+
 
         try {
-            // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = con.prepareStatement(query);
-            preparedStmt.setString (1, version); //version
-            preparedStmt.setString(2, model.getModelName()); // modelName
-            preparedStmt.setInt (3, projectId); //project_id
-            preparedStmt.setInt (4, modelTypeId); //model_type_id
 
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.setInt (1, projectId);
+            preparedStmt.setInt(2, modelTypeId);
             // execute the preparedstatement
-            preparedStmt.executeUpdate();
+            ResultSet rs = preparedStmt.executeQuery();
+            if (rs.next()) {
+                smallVersion = rs.getInt("max(small_version)");
+            }
+
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DatabaseException(e.getMessage());
         }
+
+        return smallVersion;
     }
 
 
@@ -827,6 +874,7 @@ public class DefaultDatabaseService implements DatabaseService {
 
     @Override
     public ArrayList<Model> getAllProjectModel(String projectName) {
+        createConn();
 
         ArrayList<Model> modelList = new ArrayList<Model>();
 
@@ -863,7 +911,9 @@ public class DefaultDatabaseService implements DatabaseService {
      * @para condition specific status, such as: new/approval/reject
      */
     @Override
-    public ArrayList<Model> getConditioanalProjectModel(int projectId, Model.Status condition) {
+    public ArrayList<Model> getConditioanalProjectModel(int projectId, Model.Status condition) throws DatabaseException{
+
+        createConn();
 
         ArrayList<Model> modelList = new ArrayList<Model>();
 
@@ -885,14 +935,17 @@ public class DefaultDatabaseService implements DatabaseService {
                 model.setProject(rs.getString("project_name"));
                 model.setUrl(rs.getString("url"));
                 model.setStatus(Model.Status.getStatus(rs.getString("status")));
-                model.setVersion(rs.getString("version"));
+
+                String version = String.valueOf(rs.getInt("big_version")) + "." + String.valueOf(rs.getInt("small_version"));
+                model.setVersion(version);
 
                 modelList.add(model);
             }
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DatabaseException(e.getMessage());
         }
+
         return modelList;
     }
 

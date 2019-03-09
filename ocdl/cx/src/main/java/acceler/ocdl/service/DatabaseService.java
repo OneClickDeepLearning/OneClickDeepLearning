@@ -1,5 +1,6 @@
 package acceler.ocdl.service;
 
+import acceler.ocdl.exception.DatabaseException;
 import acceler.ocdl.model.Model;
 import acceler.ocdl.model.Project;
 import acceler.ocdl.model.Template;
@@ -23,15 +24,15 @@ public interface DatabaseService {
 
     String getUserPassword(String userName);
 
-    int createProject(String projectName, String description);
+    int createProject(String projectName) throws DatabaseException;
 
-    int getProjectId(String projectName);
+    int getProjectId(String projectName) throws DatabaseException;
 
     Project getProjectInfo(String projectName);
 
     Project getProjectInfo(int projectId);
 
-    Boolean updateProject(int projectId, String projectName, String git, String k8, String template);
+    void updateProject(int projectId, String projectName, String git, String k8, String template) throws DatabaseException;
 
     Boolean setProjectGit(String git, int projectId);
 
@@ -39,9 +40,9 @@ public interface DatabaseService {
 
     Boolean setProjectTemplate(String templateUrl, int projectId);
 
-    Boolean setProjectName(String projectName, int projectId);
+    void setProjectName(String projectName, int projectId) throws DatabaseException;
 
-    void createUserProjectRelation(User user, String projectName);
+    void createUserProjectRelation(User user, String projectName) throws DatabaseException;
 
     ArrayList<Project> getProjectList(Long userId);
 
@@ -49,25 +50,29 @@ public interface DatabaseService {
 
     int createModelType(String modelTypeName, int projectId);
 
-    ArrayList<String> getModelType(int projectId);
+    ArrayList<String> getModelType(int projectId) throws DatabaseException;
 
-    int getModelTypeId(int projectId, String modelTypeName);
+    int getModelTypeId(int projectId, String modelTypeName) throws DatabaseException;
 
     int getStatusId(Model.Status status);
 
-    int createModel(Model model);
+    int getStatusId(String status);
 
-    void updateModelStatus(Model model, Model.Status expectedStatus);
+    int createModel(Model model) throws DatabaseException;
 
-    Boolean updateModelStatusWithModelId(Long modelId, Model.Status expectedStatus);
+    void updateModelStatus(Model model, Model.Status expectedStatus) throws DatabaseException;
 
-    void updateModelVersion(Model model, String version);
+    void updateModelStatusWithModelId(Long modelId, Model.Status expectedStatus) throws DatabaseException;
 
-    Boolean updateModelVersionWithModelId(Long modelId, String version);
+    void updateModelStatusWithModelId(Long modelId, int modelTypeId, int statusId, int bigVersion, int smallVersion) throws DatabaseException;
+
+    int getLatestBigVersion(int projectId, int modelTypeId) throws DatabaseException;
+
+    int getLatestSmallVersion(int projectId, int modelTypeId) throws DatabaseException;
 
     ArrayList<Model> getAllProjectModel(String projectName);
 
-    ArrayList<Model> getConditioanalProjectModel(int projectId, Model.Status condition);
+    ArrayList<Model> getConditioanalProjectModel(int projectId, Model.Status condition) throws DatabaseException;
 
     int createTemplate(Template template);
 
