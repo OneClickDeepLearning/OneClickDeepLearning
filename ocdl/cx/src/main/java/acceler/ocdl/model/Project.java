@@ -2,15 +2,30 @@ package acceler.ocdl.model;
 
 import acceler.ocdl.dto.ProjectConfigurationDto;
 
+import javax.persistence.*;
+
+@Entity
 public class Project {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int projectId;
-    private String projectName;
-    private String git;
-    private String k8Url;
-    private String templateUrl;
-    private String desp;
 
+    @Column(name = "name")
+    private String projectName;
+
+    @Column(name = "git")
+    private String git;
+
+    @Column(name = "k8_url")
+    private String k8Url;
+
+    @Column(name = "template_url")
+    private String templateUrl;
+
+    @Column(name = "desp")
+    private String desp;
 
     public Project() {}
 
