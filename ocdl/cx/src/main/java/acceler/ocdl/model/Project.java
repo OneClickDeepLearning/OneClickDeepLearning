@@ -77,14 +77,16 @@ public class Project {
         this.description = description;
     }
 
-//    public ProjectConfigurationDto transfer2ProjectDto(){
-//        ProjectConfigurationDto p = new ProjectConfigurationDto();
-//        p.setProjectName(this.projectName);
-//        p.setGitUrl(this.gitPath);
-//        p.setK8Url(this.k8Url);
-//        p.setTemplatePath(this.templatePath);
-//
-//        return p;
-//    }
+    public ProjectConfigurationDto convert2ProjectDto(){
+
+        ProjectConfigurationDto p = new ProjectConfigurationDto();
+        p.setProjectId(this.projectId);
+        p.setProjectName(this.projectName);
+        p.setGitPath(this.gitPath);
+        p.setK8Url(this.k8Url);
+        p.setTemplatePath(this.templatePath);
+
+        return p;
+    }
 
 }

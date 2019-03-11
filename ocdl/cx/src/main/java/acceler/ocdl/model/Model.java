@@ -1,12 +1,18 @@
 package acceler.ocdl.model;
 
 import acceler.ocdl.dto.ModelDto;
+import acceler.ocdl.persistence.crud.ModelTypeCrud;
+import acceler.ocdl.persistence.crud.ProjectCrud;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 
+import javax.annotation.Resource;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "model")
 public class Model {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -26,13 +32,23 @@ public class Model {
 
     @Enumerated()
     @Column(name = "status_id")
-    private Status statusId;
+    private Status status;
 
     @Column(name = "big_version")
     private Long bigVersion;
 
     @Column(name = "small_version")
     private Long smallVersion;
+
+    @Transient
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "model_type_id", referencedColumnName = "id")
+    private ModelType modelType;
+
+    @Transient
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    private Project project;
 
     public Model(){}
 
@@ -76,12 +92,12 @@ public class Model {
         this.url = url;
     }
 
-    public Status getStatusId() {
-        return statusId;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setStatusId(Status statusId) {
-        this.statusId = statusId;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public Long getBigVersion() {
@@ -100,8 +116,42 @@ public class Model {
         this.smallVersion = smallVersion;
     }
 
+    public ModelType getModelType() {
+        return modelType;
+    }
+
+    public void setModelType(ModelType modelType) {
+        this.modelType = modelType;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
     public static enum Status {
         NEW, APPROVAL, REJECT
     }
+
+    public ModelDto convert2ModelDto() {
+        ModelDto modelDto = new ModelDto();
+
+        System.out.println(this.modelType);
+
+        modelDto.setModelId(this.id);
+        modelDto.setModelName(this.name);
+        modelDto.setModelType(this.modelType.getName());
+        modelDto.setProject(this.project.getProjectName());
+        modelDto.setUrl(this.url);
+        modelDto.setStatus(this.status.toString());
+        modelDto.setVersion(bigVersion + "." + smallVersion);
+
+        return modelDto;
+    }
+
+
 
 }
