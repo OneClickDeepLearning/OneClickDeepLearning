@@ -67,5 +67,6 @@ public class Response implements Serializable {
     public class Code {
         public static final int SUCCESS = 200;
         public static final int ERROR = 400;
+        public static final int UNAUTH = 403;
     }
 }

@@ -1,8 +1,7 @@
 package acceler.ocdl.service;
 
-import acceler.ocdl.model.User;
+import acceler.ocdl.controller.AuthController;
 
 public interface UserService {
-
-    public boolean credentialCheck(User loginUser);
+    public boolean credentialCheck(AuthController.UserCredentials loginUser);
 }

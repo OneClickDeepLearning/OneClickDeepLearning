@@ -20,7 +20,10 @@ public class SecurityUtil {
                 return (String) entry.getKey();
             }
         }
-        return generateToken();
+        //user never get token
+        String token = generateToken();
+        this.inMemoryTokenManager.put(token, user);
+        return token;
     }
 
     public boolean isUserLogin(User user) {
@@ -38,7 +41,9 @@ public class SecurityUtil {
                 token = entry.getKey();
             }
         }
-        this.inMemoryTokenManager.remove(token);
+        if(token != null){
+            this.inMemoryTokenManager.remove(token);
+        }
     }
 
     private String generateToken() {
@@ -50,5 +55,4 @@ public class SecurityUtil {
         }
         return token.toString();
     }
-
 }

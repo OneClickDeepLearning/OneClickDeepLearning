@@ -1,13 +1,14 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.controller.AuthController;
 import acceler.ocdl.model.User;
 import acceler.ocdl.service.UserService;
-import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.List;
 
-@Service
+@Deprecated
 public class InMemoryUserService implements UserService {
+
     private static final List<User> validUsers = new LinkedList<>();
 
     public InMemoryUserService() {
@@ -32,13 +33,11 @@ public class InMemoryUserService implements UserService {
     }
 
     @Override
-    public boolean credentialCheck(final User loginUser) {
+    public boolean credentialCheck(final AuthController.UserCredentials loginUser) {
         Boolean isValidUser = false;
 
         for (User u : validUsers) {
-            if (u.getUserId().equals(loginUser.getUserId()) &&
-                    u.getAccount().equals(loginUser.getAccount()) &&
-                    u.getPassword().equals(loginUser.getPassword())) {
+            if (u.getAccount().equals(loginUser.account) && u.getPassword().equals(loginUser.password)) {
                 isValidUser = true;
                 break;
             }
