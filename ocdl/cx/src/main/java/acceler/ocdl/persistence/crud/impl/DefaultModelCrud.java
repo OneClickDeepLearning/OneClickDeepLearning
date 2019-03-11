@@ -36,21 +36,37 @@ public class DefaultModelCrud implements ModelCrud {
     }
 
     @Override
-    public Map<String,Long> getVersion(Long modelTypeId, Long projectId) {
+    public Long getBigVersion(Long modelTypeId, Long projectId) {
 
         List<Model> models = modelDao.findByModelTypeIdAndProjectId(modelTypeId, projectId);
 
-        // 0 - big, 1- small
-        Map<String,Long> version = new HashMap<String,Long>();
-        version.put("big", 0L);
-        version.put("small", 0L);
+        Long biggest = 0L;
         for (Model m : models) {
-            if (m.getBigVersion() > version.get("big")) version.put("big", m.getBigVersion());
-            if (m.getSmallVersion() > version.get("small")) version.put("big", m.getSmallVersion());
+            if (m.getBigVersion() != null && m.getBigVersion() > biggest) {
+                biggest = m.getBigVersion();
+            }
         }
 
-        return version;
+        return biggest;
     }
+
+    @Override
+    public Long getSmallVersion(Long modelTypeId, Long projectId, Long bigVersion) {
+
+        List<Model> models = modelDao.findByModelTypeIdAndProjectIdAndAndBigVersion(modelTypeId, projectId,bigVersion);
+
+        Long smallest = 0L;
+        for (Model m : models) {
+            // get the biggest small versrion
+            if (m.getSmallVersion() != null && m.getSmallVersion() > smallest) {
+                smallest = m.getSmallVersion();
+            }
+        }
+
+        return smallest;
+    }
+
+
 
 
 

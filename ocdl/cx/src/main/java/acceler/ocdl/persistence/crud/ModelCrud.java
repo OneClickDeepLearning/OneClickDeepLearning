@@ -14,5 +14,7 @@ public interface ModelCrud {
 
     List<Model> getModels(Model.Status status);
 
-    Map<String,Long> getVersion(Long modelTypeId, Long projectId);
+    Long getBigVersion(Long modelTypeId, Long projectId);
+
+    Long getSmallVersion(Long modelTypeId, Long projectId, Long bigVersion);
 }

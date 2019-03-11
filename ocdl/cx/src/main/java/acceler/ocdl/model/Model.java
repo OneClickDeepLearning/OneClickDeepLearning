@@ -143,11 +143,18 @@ public class Model {
 
         modelDto.setModelId(this.id);
         modelDto.setModelName(this.name);
-        modelDto.setModelType(this.modelType.getName());
+
+        if (this.modelType != null) {
+            modelDto.setModelType(this.modelType.getName());
+        }
+
         modelDto.setProject(this.project.getProjectName());
         modelDto.setUrl(this.url);
         modelDto.setStatus(this.status.toString());
-        modelDto.setVersion(bigVersion + "." + smallVersion);
+
+        if (bigVersion != null && smallVersion != null) {
+            modelDto.setVersion(bigVersion + "." + smallVersion);
+        }
 
         return modelDto;
     }

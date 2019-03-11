@@ -10,6 +10,5 @@ import java.util.List;
 public interface ModelTypeDao extends CrudRepository<ModelType, Long>{
 
     List<ModelType> findByProjectId(Long projectId);
-//    ModelType findByName(String modelTypeName);
 
 }

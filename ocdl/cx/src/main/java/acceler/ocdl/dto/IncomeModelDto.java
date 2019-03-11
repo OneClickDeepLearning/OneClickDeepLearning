@@ -80,7 +80,7 @@ public class IncomeModelDto implements Serializable {
         model.setModelTypeId(this.modelTypeId);
         model.setProjectId(this.projectId);
         model.setUrl(this.url);
-        model.setStatus(Model.Status.valueOf(status));
+        model.setStatus(Model.Status.valueOf(this.status.toUpperCase()));
 
         return model;
 
