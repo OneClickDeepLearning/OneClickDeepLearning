@@ -6,6 +6,7 @@ echo $1
 
 cd /home/git
 sudo mkdir $1
+sudo chown -R apache:apache $1
 
 cd $1
 sudo git init --bare --shared
