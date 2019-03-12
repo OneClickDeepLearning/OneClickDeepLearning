@@ -1,18 +1,30 @@
 package acceler.ocdl.model;
 
-import java.io.Serializable;
+import javax.persistence.*;
 
-public class User implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Entity
+public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long userId;
+
+    @Column(name = "name")
     private String userName;
+
+    @Column(name = "account")
     private String account;
+
+    @Column(name = "password")
     private String password;
+
+
     private int type;
     private Role role;
 
-    public User() {}
+    public User() {
+    }
 
     public User(String userName, String account, String password, int type, Role role) {
         this.userName = userName;
@@ -32,10 +44,6 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
     public Long getUserId() {
         return userId;
     }
@@ -44,9 +52,13 @@ public class User implements Serializable {
         this.userId = userId;
     }
 
-    public String getUserName() { return userName; }
+    public String getUserName() {
+        return userName;
+    }
 
-    public void setUserName(String userName) { this.userName = userName; }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getAccount() {
         return account;
@@ -64,13 +76,21 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public int getType(){ return type; }
+    public int getType() {
+        return type;
+    }
 
-    public void setType(int type){ this.type = type; }
+    public void setType(int type) {
+        this.type = type;
+    }
 
-    public Role getRole() { return role; }
+    public Role getRole() {
+        return role;
+    }
 
-    public void setRole(Role role) { this.role = role; }
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
 
     @Override
@@ -90,11 +110,11 @@ public class User implements Serializable {
 
 
     public enum Role {
-        MANAGER, DEVELOPER,TEST;
+        MANAGER, DEVELOPER, TEST;
 
         public static Role getRole(String role) {
 
-            switch(role.toLowerCase()) {
+            switch (role.toLowerCase()) {
                 case "manager":
                     return Role.MANAGER;
                 case "developer":

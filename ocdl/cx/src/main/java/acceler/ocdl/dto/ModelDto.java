@@ -9,20 +9,20 @@ public class ModelDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long modelId;
-//    private String modelName;
+    private String modelName;
     private String modelType;
     private String project;
     private String url;
     private String status;
-    private int isbigVersion;
+    private String version;
 
     public Long getModelId() { return modelId; }
 
     public void setModelId(Long modelId) { this.modelId = modelId; }
 
-//    public String getModelName() { return modelName; }
-//
-//    public void setModelName(String modelName) { this.modelName = modelName; }
+    public String getModelName() { return modelName; }
+
+    public void setModelName(String modelName) { this.modelName = modelName; }
 
     public String getModelType() { return modelType; }
 
@@ -40,7 +40,8 @@ public class ModelDto implements Serializable {
 
     public void setStatus(String status) { this.status = status; }
 
-    public int getIsbigVersion() { return isbigVersion; }
+    public String getVersion() { return version; }
 
-    public void setIsbigVersion(int isbigVersion) { this.isbigVersion = isbigVersion; }
+    public void setVersion(String version) { this.version = version; }
+
 }

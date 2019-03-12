@@ -1,59 +1,87 @@
 package acceler.ocdl.model;
 
+import acceler.ocdl.dto.ModelDto;
+import acceler.ocdl.persistence.crud.ModelTypeCrud;
+import acceler.ocdl.persistence.crud.ProjectCrud;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 
+import javax.annotation.Resource;
+import javax.persistence.*;
+
+@Entity
+@Table(name = "model")
 public class Model {
 
-    //column: id, name, model_type, project, url, status, version
-    private Long modelId;
-    private String modelName;
-    private String modelType;
-    private String project;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "model_type_id")
+    private Long modelTypeId;
+
+    @Column(name = "project_id")
+    private Long projectId;
+
+    @Column(name = "url")
     private String url;
+
+    @Enumerated()
+    @Column(name = "status_id")
     private Status status;
-    private String version;
 
+    @Column(name = "big_version")
+    private Long bigVersion;
 
-    public Model() {}
+    @Column(name = "small_version")
+    private Long smallVersion;
 
-    public Model(String modelName, String modelType, String project, String url) {
-        this.modelName = modelName;
-        this.modelType = modelType;
-        this.project = project;
-        this.url = url;
-        this.status = Status.NEW;
-        this.version = null;
+    @Transient
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "model_type_id", referencedColumnName = "id")
+    private ModelType modelType;
+
+    @Transient
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    private Project project;
+
+    public Model(){}
+
+    public Long getId() {
+        return id;
     }
 
-    public Long getModelId() {
-        return modelId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setModelId(Long modelId) {
-        this.modelId = modelId;
+    public String getName() {
+        return name;
     }
 
-    public String getModelName() {
-        return modelName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setModelName(String modelName) {
-        this.modelName = modelName;
+    public Long getModelTypeId() {
+        return modelTypeId;
     }
 
-    public String getModelType() {
-        return modelType;
+    public void setModelTypeId(Long modelTypeId) {
+        this.modelTypeId = modelTypeId;
     }
 
-    public void setModelType(String modelType) {
-        this.modelType = modelType;
+    public Long getProjectId() {
+        return projectId;
     }
 
-    public String getProject() {
-        return project;
-    }
-
-    public void setProject(String project) {
-        this.project = project;
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
     }
 
     public String getUrl() {
@@ -72,41 +100,65 @@ public class Model {
         this.status = status;
     }
 
-    public String getVersion() {
-        return version;
+    public Long getBigVersion() {
+        return bigVersion;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setBigVersion(Long bigVersion) {
+        this.bigVersion = bigVersion;
     }
 
-    public enum Status {
-        NEW, APPROVAL, REJECT;
+    public Long getSmallVersion() {
+        return smallVersion;
+    }
 
-        public static Status getStatus(String status) {
+    public void setSmallVersion(Long smallVersion) {
+        this.smallVersion = smallVersion;
+    }
 
-            switch(status.toLowerCase()) {
-                case "new":
-                    return Status.NEW;
-                case "approval":
-                    return Status.APPROVAL;
-                case "reject":
-                    return Status.REJECT;
-            }
-            return null;
+    public ModelType getModelType() {
+        return modelType;
+    }
+
+    public void setModelType(ModelType modelType) {
+        this.modelType = modelType;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public static enum Status {
+        NEW, APPROVAL, REJECT
+    }
+
+    public ModelDto convert2ModelDto() {
+        ModelDto modelDto = new ModelDto();
+
+        System.out.println(this.modelType);
+
+        modelDto.setModelId(this.id);
+        modelDto.setModelName(this.name);
+
+        if (this.modelType != null) {
+            modelDto.setModelType(this.modelType.getName());
         }
 
-        public static Status getStatus(int status) {
+        modelDto.setProject(this.project.getProjectName());
+        modelDto.setUrl(this.url);
+        modelDto.setStatus(this.status.toString());
 
-            switch(status) {
-                case -1:
-                    return Status.NEW;
-                case 1:
-                    return Status.APPROVAL;
-                case 0:
-                    return Status.REJECT;
-            }
-            return null;
+        if (bigVersion != null && smallVersion != null) {
+            modelDto.setVersion(bigVersion + "." + smallVersion);
         }
+
+        return modelDto;
     }
+
+
+
 }
