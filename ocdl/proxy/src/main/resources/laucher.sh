@@ -5,11 +5,11 @@ sudo service httpd start
 echo $1
 
 cd /home/git
-mkdir $1
+sudo mkdir $1
 
 cd $1
-git init --bare --shared
-git config --file config http.receivepack true
+sudo git init --bare --shared
+sudo git config --file config http.receivepack true
 
 cd hooks
 sudo mv post-update.sample post-update
