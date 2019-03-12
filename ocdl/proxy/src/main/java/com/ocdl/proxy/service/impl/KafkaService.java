@@ -25,7 +25,7 @@ public class KafkaService implements MessageTransferService {
     public static String KAFKADNS;
     private static String group = "js_group2";
 
-    @Value("kafka.server.url")
+    @Value("${kafka.server.url}")
     public void setKAFKADNS(String KAFKADNS) {
         KafkaService.KAFKADNS = KAFKADNS;
     }
