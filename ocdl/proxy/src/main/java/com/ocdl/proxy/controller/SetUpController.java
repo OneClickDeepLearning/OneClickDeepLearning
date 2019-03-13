@@ -39,7 +39,7 @@ public final class SetUpController {
             CmdHelper.runCommand("laucher.sh", projectName, path.toString());
             String gitUrl = "http://ec2-54-89-140-122.compute-1.amazonaws.com/git/" + projectName;
 
-            String topic = projectName+"jkmsg";
+            String topic = projectName+"_jkmsg";
             kafkaTopicService.createTopic(topic);
 
             String outputFileName = topic + ".txt";

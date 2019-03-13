@@ -30,11 +30,16 @@ public class DefaultKafkaTopicService implements KafkaTopicService {
     @Override
     public void createTopic(String topic) {
 
+        System.out.println("Create a topic.......................");
+
         ZkClient zkClient = new ZkClient(ZookeeperDNS, sessionTimeoutMs, connectionTimeoutMs, ZKStringSerializer$.MODULE$);
+
+        System.out.println("Zk client build...");
 
         // Security for Kafka was added in Kafka 0.9.0.0
         boolean isSecureKafkaCluster = false;
         ZkUtils zkUtils = new ZkUtils(zkClient, new ZkConnection(ZookeeperDNS), isSecureKafkaCluster);
+        System.out.println("zk utils build...");
 
         int partitions = 1;
         int replication = 1;
