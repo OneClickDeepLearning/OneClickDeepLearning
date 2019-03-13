@@ -34,6 +34,8 @@ public class DefaultKubernetesService implements KubernetesService {
             return gpuAssigned.get(user);
         else if(!rscType.equals("gpu") && !rscType.equals("cpu"))
             return null;
+        else if(rscType.equals("gpu") && gpuAssigned.size() == 1)
+            return null;
 
         String url = null;
         String ip;
