@@ -38,7 +38,7 @@ public class DefaultKubernetesService implements KubernetesService {
         String url = null;
         String ip;
         String port;
-        String nameSpace = user.getProjectId().toString() + "_" + user.getUserId().toString();
+        String nameSpace = user.getProjectId().toString() + "-" + user.getUserId().toString();
 
         DefaultCmdHelper cmdHelper = new DefaultCmdHelper();
 
@@ -55,7 +55,7 @@ public class DefaultKubernetesService implements KubernetesService {
         command.append("sh ").append(rscType).append("_makeDeploy.sh ").append(nameSpace);
         cmdHelper.runCommand(file,command.toString(), std, stderr);
         command = new StringBuilder();
-        command.append("kubectl create -f ").append(nameSpace).append("_deploy_").append(rscType).append(".yaml");
+        command.append("kubectl create -f ").append(nameSpace).append("-deploy-").append(rscType).append(".yaml");
         cmdHelper.runCommand(file, command.toString(),std,stderr);
 
         std = new StringBuilder();
