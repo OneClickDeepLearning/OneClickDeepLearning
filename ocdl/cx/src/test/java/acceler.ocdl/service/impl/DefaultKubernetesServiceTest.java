@@ -27,5 +27,10 @@ public class DefaultKubernetesServiceTest {
         System.out.println(url);
         url = service.launchDockerContainer("gpu",user1);
         System.out.println(url);
+
+        url = service.launchDockerContainer("cpu",user2);
+        System.out.println(url);
+        url = service.launchDockerContainer("gpu",user2);
+        System.out.println(url);
     }
 }

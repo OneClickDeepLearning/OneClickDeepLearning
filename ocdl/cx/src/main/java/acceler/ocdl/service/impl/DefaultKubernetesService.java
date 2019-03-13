@@ -53,7 +53,7 @@ public class DefaultKubernetesService implements KubernetesService {
         file = new File("/home/ec2-user/k8s/deployment");
         stderr = new StringBuilder();
         std = new StringBuilder();
-        
+
         StringBuilder command = new StringBuilder();
         command.append("sh ").append(rscType).append("_makeDeploy.sh ").append(nameSpace);
         cmdHelper.runCommand(file,command.toString(), std, stderr);
