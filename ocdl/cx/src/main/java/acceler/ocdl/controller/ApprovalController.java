@@ -9,6 +9,7 @@ import acceler.ocdl.exception.DatabaseException;
 import acceler.ocdl.model.Model;
 import acceler.ocdl.model.ModelType;
 import acceler.ocdl.model.Project;
+import acceler.ocdl.model.User;
 import acceler.ocdl.persistence.crud.ModelCrud;
 import acceler.ocdl.persistence.crud.ModelTypeCrud;
 import acceler.ocdl.persistence.crud.ProjectCrud;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,10 +40,11 @@ public class ApprovalController {
     private ProjectCrud projectCrud;
 
     @ResponseBody
-    @RequestMapping(path = "/{projectId}", method = RequestMethod.GET)
-    public final Response getModelList(@PathVariable("projectId") Long projectId) {
+    @RequestMapping(method = RequestMethod.GET)
+    public final Response getModelList(HttpServletRequest request) {
 
         Response.Builder responseBuilder = Response.getBuilder();
+        Long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
 
         Map<String, List<ModelDto>> models = new HashMap<String, List<ModelDto>>();
 
@@ -97,10 +100,11 @@ public class ApprovalController {
 
 
     @ResponseBody
-    @RequestMapping(path = "/{projectId}/modeltypes", method = RequestMethod.GET)
-    public final Response getModeltype(@PathVariable("projectId") Long projectId) {
+    @RequestMapping(path = "/modeltypes", method = RequestMethod.GET)
+    public final Response getModeltype(HttpServletRequest request) {
 
         Response.Builder responseBuilder = Response.getBuilder();
+        Long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
 
         try {
 
@@ -121,12 +125,12 @@ public class ApprovalController {
 
 
     @ResponseBody
-    @RequestMapping(path = "/{projectId}/{modelId}",  method = RequestMethod.PUT)
-    public final Response pushDecision(@PathVariable("projectId") Long projectId, @PathVariable("modelId") Long modelId, @RequestBody IncomeModelDto incomeModelDto) {
+    @RequestMapping(path = "/{modelId}",  method = RequestMethod.PUT)
+    public final Response pushDecision(HttpServletRequest request, @PathVariable("modelId") Long modelId, @RequestBody IncomeModelDto incomeModelDto) {
         Response.Builder responseBuilder = Response.getBuilder();
 
         try {
-
+            Long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
             Model model = incomeModelDto.convert2Model();
 
             Long bigVersion = 1L;
