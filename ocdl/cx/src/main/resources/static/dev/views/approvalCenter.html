@@ -24,26 +24,29 @@
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="Donuts3D.js"></script>
     <style>
-        path.slice{
-            stroke-width:2px;
+        path.slice {
+            stroke-width: 2px;
         }
-        polyline{
+
+        polyline {
             opacity: .3;
             stroke: black;
             stroke-width: 2px;
             fill: none;
         }
-        svg text.percent{
-            fill:white;
-            text-anchor:middle;
-            font-size:12px;
+
+        svg text.percent {
+            fill: white;
+            text-anchor: middle;
+            font-size: 12px;
         }
 
 
-        .pieGraph{
+        .pieGraph {
             float: left;
             text-align: center;
         }
+
         .pieInfo {
             float: left;
             border-left: 1px solid #DDD;
@@ -65,27 +68,30 @@
             border-bottom-left-radius: initial;
             border-bottom-right-radius: initial;
         }
-        .newColorBlock{
+
+        .newColorBlock {
             width: 10px;
             height: 10px;
-            float:left;
+            float: left;
             margin: 3px;
-            background-color:#3366CC ;
+            background-color: #3366CC;
         }
-        .approvalColorBlock{
+
+        .approvalColorBlock {
             width: 10px;
             height: 10px;
-            float:left;
+            float: left;
             margin: 3px;
-            background-color:#109618 ;
+            background-color: #109618;
 
         }
-        .rejectColorBlock{
+
+        .rejectColorBlock {
             width: 10px;
             height: 10px;
-            float:left;
+            float: left;
             margin: 3px;
-            background-color:#DC3912 ;
+            background-color: #DC3912;
 
         }
     </style>
@@ -101,7 +107,7 @@
                 <span class="icon icon-bar"></span>
                 <span class="icon icon-bar"></span>
             </button>
-            <img href="#" alt="OCDL" class="navbar-brand" src="../assets2/images/Brand4.png" />
+            <img href="#" alt="OCDL" class="navbar-brand" src="../assets2/images/Brand4.png"/>
             <label id="projectName" style="color: black; margin-top: 30px; margin-left: 20px;"></label>
         </div>
         <div class="collapse navbar-collapse">
@@ -118,22 +124,23 @@
 <!-- end navigation -->
 <!-- start header -->
 <header style="background-color:#000000;">
-    <div class="container" >
+    <div class="container">
         <div class="row" style="display:flex;justify-content:center;align-items:center;">
             <div id="informationBlock" style="margin: auto;" class="col-md-6 col-sm-3 col-xs-3">
                 <label class="col-md-4">User: <label id="username" style="color: #47C6F8">TempUser</label></label>
-                <label class="col-md-4">Rescourse: <label id="rescourse" style="color: #47C6F8" class="status_NoneR"></label></label>
+                <label class="col-md-4">Rescourse: <label id="rescourse" style="color: #47C6F8"
+                                                          class="status_NoneR"></label></label>
                 <label class="col-md-4">Status: <label id="status" class="status_disconnected"></label></label>
             </div>
             <div class="col-md-2 col-sm-3 col-xs-3" style="height:40px;">
                 <!--	<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button>-->
                 <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
-					<a  href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Git</a>
+					<a href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Git</a>
 
 				</span>
 
                 <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
-					<a  id="flapBtn"  href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
+					<a id="flapBtn" href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
 				</span>
 
 
@@ -169,10 +176,17 @@
 
                 <div class="pieInfo w3layouts agileits col-lg-7 col col-md-12 col-sm-12">
                     <div class="col-md-12" data-wow-offset="50" data-wow-delay="0.6s">
-                        <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">YOU GOT <span id="todoNum">3</span><span> TODO'S </span> IN THE LIST</h2>
-                        <p><div class="newColorBlock"></div><span style="color: #3366CC;"> New Models:</span><span id="newModelNum">3</span></p>
-                        <p><div class="approvalColorBlock"></div><span style="color: #109618;"> Approved Models:</span><span id="approvalModelNum">5</span></p>
-                        <p><div class="rejectColorBlock"></div> <span style="color: #DC3912;">Rejected Models:</span><span id="rejectedModelNum">1</span></p>
+                        <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">YOU GOT <span
+                                id="todoNum">3</span><span> TODO'S </span> IN THE LIST</h2>
+                        <p>
+                        <div class="newColorBlock"></div>
+                        <span style="color: #3366CC;"> New Models:</span><span id="newModelNum">3</span></p>
+                        <p>
+                        <div class="approvalColorBlock"></div>
+                        <span style="color: #109618;"> Approved Models:</span><span id="approvalModelNum">5</span></p>
+                        <p>
+                        <div class="rejectColorBlock"></div>
+                        <span style="color: #DC3912;">Rejected Models:</span><span id="rejectedModelNum">1</span></p>
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -182,26 +196,34 @@
             </div>
 
 
-
-
             <div class="col-md-offset-1 col-md-10">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab" id="headingTwo">
                             <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                     TO DO LIST
                                 </a>
                             </h4>
                         </div>
-                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                             aria-labelledby="headingTwo">
                             <div class="panel-body">
 
                                 <div class="col4">
                                     <div class="item-box">
                                         <div class="item-con">
                                             <table class="odd-even" id="tableNew">
-                                                <thead><tr><th>Model Name</th><th>Project</th><th>Model Type</th><th>Update Step</th><th>Operation</th></tr></thead>
+                                                <thead>
+                                                <tr>
+                                                    <th>Model Name</th>
+                                                    <th>Project</th>
+                                                    <th>Model Type</th>
+                                                    <th>Update Step</th>
+                                                    <th>Operation</th>
+                                                </tr>
+                                                </thead>
                                                 <tbody>
 
                                                 </tbody>
@@ -217,18 +239,28 @@
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab" id="headingThree">
                             <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                     APPROVALED LIST
                                 </a>
                             </h4>
                         </div>
-                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                             aria-labelledby="headingThree">
                             <div class="panel-body">
                                 <div class="col4">
                                     <div class="item-box">
                                         <div class="item-con">
                                             <table class="odd-even" id="tableApproval">
-                                                <thead><tr><th>Model Name</th><th>Project</th><th>Model Type</th><th>Version</th><th>Operation</th></tr></thead>
+                                                <thead>
+                                                <tr>
+                                                    <th>Model Name</th>
+                                                    <th>Project</th>
+                                                    <th>Model Type</th>
+                                                    <th>Version</th>
+                                                    <th>Operation</th>
+                                                </tr>
+                                                </thead>
                                                 <tbody>
 
                                                 </tbody>
@@ -242,18 +274,26 @@
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab" id="headingFour">
                             <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                                     REJECTED LIST
                                 </a>
                             </h4>
                         </div>
-                        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel"
+                             aria-labelledby="headingFour">
                             <div class="panel-body">
                                 <div class="col4">
                                     <div class="item-box">
                                         <div class="item-con">
                                             <table class="odd-even" id="tableRejected">
-                                                <thead><tr><th>Model Name</th><th>Project</th><th>Operation</th></tr></thead>
+                                                <thead>
+                                                <tr>
+                                                    <th>Model Name</th>
+                                                    <th>Project</th>
+                                                    <th>Operation</th>
+                                                </tr>
+                                                </thead>
                                                 <tbody>
 
                                                 </tbody>
@@ -275,124 +315,136 @@
 
 <script language="JavaScript">
 
+    var token = GetQueryString("token");
 
-
-    var salesData=[
-        {label:"Waiting",value:3, color:"#3366CC"},
-        {label:"Reject",value:5, color:"#DC3912"},
-        {label:"Approval",value:1,  color:"#109618"}
+    var salesData = [
+        {label: "Waiting", value: 3, color: "#3366CC"},
+        {label: "Reject", value: 5, color: "#DC3912"},
+        {label: "Approval", value: 1, color: "#109618"}
     ];
 
     var modelTypeList;
 
 
-    var svg = d3.select("#pie").append("svg").attr("width",700).attr("height",300);
+    var svg = d3.select("#pie").append("svg").attr("width", 700).attr("height", 300);
 
-    svg.append("g").attr("id","salesDonut");
+    svg.append("g").attr("id", "salesDonut");
     Donut3D.draw("salesDonut", randomData(), 150, 150, 130, 100, 30, 0.4);
 
-    Donut3D.draw("salesDonut",salesData, 150, 150, 130, 100, 30, 0.4);
-
-
-
+    Donut3D.draw("salesDonut", salesData, 150, 150, 130, 100, 30, 0.4);
 
     initApproralCenterInfo();
+    initModelTypeList();
+
+
+
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
     function initApproralCenterInfo() {
         $("#tableNew .data").remove();
         $("#tableApproval .data").remove();
         $("#tableRejected .data").remove();
 
-        initModelTypeList();
-        
+
         $.ajax({
-            url: "/approval/model",
+            url: "/rest/models",
             contentType: 'application/json',
             dataType: "json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("AUTH_TOKEN", token);
+            },
             type: "GET",
-            success: function(data) {
-                ajaxMessageReader(data,function (data) {
-                    salesData[0].value=data["newModel"].length;
-                    salesData[1].value=data["approvalModel"].length;
-                    salesData[2].value=data["rejectedModel"].length;
+            success: function (data) {
+                ajaxMessageReader(data, function (data) {
+                    salesData[0].value = data['newModels'].length;
+                    salesData[1].value = data['approvalModels'].length;
+                    salesData[2].value = data['rejectedModels'].length;
                     $("#newModelNum").text(salesData[0].value);
                     $("#approvalModelNum").text(salesData[1].value);
                     $("#rejectedModelNum").text(salesData[2].value);
                     $("#todoNum").text(salesData[0].value);
-                    Donut3D.draw("salesDonut",salesData, 150, 150, 130, 100, 30, 0.4);
+                    Donut3D.draw("salesDonut", salesData, 150, 150, 130, 100, 30, 0.4);
 
                     <!-- waiting list -->
-                    for(var i=0; i<data["newModel"].length;i++){
-                        var tr = "<tr class='data'><td>"+data["newModel"][i].modelName+"</td><td>"+data["newModel"][i].project+"</td><td>" +
-                            "<select id=\"modelType"+data["newModel"][i].modelId+"\" >" +
+                    for (var i = 0; i < data["newModels"].length; i++) {
+                        var tr = "<tr class='data'><td>" + data["newModels"][i].modelName + "</td><td>" + data["newModels"][i].project + "</td><td>" +
+                            "<select id=\"modelType" + data["newModels"][i].modelId + "\" >" +
                             "</select>" +
                             "</td> <td>" +
-                            "<select style=\"color: black;\">\n" +
-                            "<option value=\"0\">\n" +
+                            "<select id=\"version" + data["newModels"][i].modelId +"\" style=\"color: black;\">\n" +
+                            "<option value=\"1\">\n" +
                             "Small Update\n" +
                             "</option>\n" +
-                            "<option value=\"1\">\n" +
+                            "<option value=\"2\">\n" +
                             "Large Update\n" +
                             "</option>\n" +
                             "</select>" +
                             "</td>  " +
                             "<td>\n" +
                             " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
-                            "<button type=\"button\" class=\"btn btn-success\" onclick='UpdateDecision("+data["newModel"][i].modelId+",1)'>Approve</button>" +
-                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision("+data["newModel"][i].modelId+",0)'>Reject</button>" +
+                            "<button type=\"button\" class=\"btn btn-success\" onclick='UpdateDecision(" + data["newModels"][i].modelId + ",1)'>Approve</button>" +
+                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(" + data["newModels"][i].modelId + ",0)'>Reject</button>" +
                             "</div>" +
                             "</td></tr>";
 
                         $("#tableNew").append(tr);
 
-                        for(var j=0;j<modelTypeList.length;j++){
+                        for (var j = 0; j < modelTypeList.length; j++) {
                             var option = document.createElement("OPTION");
-                            option.text = modelTypeList[j];
-                            option.value = modelTypeList[j];
-                            document.getElementById("modelType"+data["newModel"][i].modelId).options.add(option);
+                            option.text = modelTypeList[j]['name'];
+                            option.value = modelTypeList[j]['id'];
+                            document.getElementById("modelType" + data["newModels"][i].modelId).options.add(option);
                         }
 
                     }
 
                     <!-- approval list -->
-                    for(var i=0; i<data["approvalModel"].length;i++){
-                        var tr = "<tr class='data'><td>"+data["approvalModel"][i].modelName+"</td><td>"+data["approvalModel"][i].project+"</td><td>"+data["approvalModel"][i].modelType+"</td> <td>"+data["approvalModel"][i].version+"</td>  " +
+                    for (var i = 0; i < data["approvalModels"].length; i++) {
+                        var tr = "<tr class='data'><td>" + data["approvalModels"][i].modelName + "</td><td>" + data["approvalModels"][i].project + "</td><td>" + data["approvalModels"][i].modelType + "</td> <td>" + data["approvalModels"][i].version + "</td>  " +
                             "<td>\n" +
                             " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
-                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision("+data["approvalModel"][i].modelId+",-1)'>Undo</button>" +
+                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(" + data["approvalModels"][i].modelId + ",-1)'>Undo</button>" +
                             "</div>" +
                             "</td></tr>";
                         $("#tableApproval").append(tr);
                     }
 
                     <!-- approval list -->
-                    for(var i=0; i<data["rejectedModel"].length;i++){
-                        var tr = "<tr class='data'><td>"+data["rejectedModel"][i].modelName+"</td><td>"+data["rejectedModel"][i].project+"</td>"+
+                    for (var i = 0; i < data["rejectedModels"].length; i++) {
+                        var tr = "<tr class='data'><td>" + data["rejectedModels"][i].modelName + "</td><td>" + data["rejectedModels"][i].project + "</td>" +
                             "<td>\n" +
                             " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
-                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision("+data["rejectedModel"][i].modelId+",-1)'>Undo</button>" +
+                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(" + data["rejectedModels"][i].modelId + ",-1)'>Undo</button>" +
                             "</div>" +
                             "</td></tr>";
                         $("#tableRejected").append(tr);
                     }
 
 
-
                 })
             },
             error: function (data) {
             }
         })
     }
-    
-    function  initModelTypeList() {
+
+    function initModelTypeList() {
         $.ajax({
-            url: "/approval/modeltype",
+            url: "/rest/models/modeltypes",
             contentType: 'application/json',
             dataType: "json",
             type: "GET",
-            success: function(data) {
-                ajaxMessageReader(data,function (data) {
-                    modelTypeList=data;
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("AUTH_TOKEN", token);
+            },
+            success: function (data) {
+                ajaxMessageReader(data, function (data) {
+                    modelTypeList = data;
                 })
             },
             error: function (data) {
@@ -400,20 +452,33 @@
         })
     }
 
-    function UpdateDecision(id,decision){
+    function UpdateDecision(id,status) {
+        var decision='';
+        if(status==0){
+            decision="Rejected";
+        }else if(status==1){
+            decision="Approval";
+        }else if(status==-1){
+            decision="Undo";
+        }
         $.ajax({
-            url: "/approval?action=updateDecision",
+            url: "/rest/models/"+id+"",
             contentType: 'application/json',
             dataType: "json",
             data:
                 JSON.stringify({
-                    id:id,
-                    decision:decision
+                    modelId: id,
+                    modelTypeId: parseInt($("#modelType"+id).val()),
+                    status:decision,
+                    bigVersion:parseInt($("#version"+id).val())
                 }),
-            type: "POST",
+            type: "PUT",
             timeout: 0,
-            success: function(data){
-                ajaxMessageReader(data,function (data) {
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("AUTH_TOKEN", token);
+            },
+            success: function (data) {
+                ajaxMessageReader(data, function (data) {
                     initApproralCenterInfo();
                 })
             },
@@ -422,19 +487,19 @@
         })
     }
 
-    function randomData(){
-        return salesData.map(function(d){
-            return {label:d.label, value:1000*Math.random(), color:d.color};});
+    function randomData() {
+        return salesData.map(function (d) {
+            return {label: d.label, value: 1000 * Math.random(), color: d.color};
+        });
     }
 
-    function ajaxMessageReader(response, func){
-        		if(response.code=="400"){
-                    alert(response.get("message"));
-                }else if(response.code=="200"){
-                    func(response.data);
-                }
+    function ajaxMessageReader(response, func) {
+        if (response.code == "400") {
+        } else if (response.code == "200") {
+            func(response.data);
+        }
 
-       /* func(response);*/
+        /* func(response);*/
     }
 </script>
 

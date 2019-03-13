@@ -24,10 +24,10 @@
 </head>
 <body id="top">
 <script language="JavaScript">
-	var user_id='';
-	var user_account='';
-	var user_password='';
+	var user_name='';
+	var project_name='';
 	var list;
+	var token='';
 
 </script>
 
@@ -368,10 +368,10 @@
 							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 								<div class="temp-form-column-wrap">
 									<h2>Sign In</h2>
-									<form name="login_form" method="post" action="">
+									<form name="login_form" method="post">
 										<div class="form-group">
                       <span class="temp-span-wrap temp-span-input-label-wrap">
-                        <input id="data_username" name="username" class="temp_input_field" type="text" required >
+                        <input id="data_username" name="account" class="temp_input_field" type="text" required >
                         <label class="temp_input_label">
                           <span class="temp_input_label-content">Username</span>
                         </label>
@@ -396,7 +396,7 @@
 											</label>
 										</div>
 										<div class="temp-login-button-wrap">
-											<button class="btn btn-info temp-form-button" type="submit">Sign In</button>
+											<button class="btn btn-info temp-form-button" type="button" onclick="signIn()">Sign In</button>
 										</div>
 									</form>
 								</div>
@@ -454,6 +454,10 @@
 						contentType: 'application/json',
 						dataType: "json",
 						type: "POST",
+						<!-- auth_token add to header -->
+						beforeSend: function(xhr) {
+							xhr.setRequestHeader("AUTH_TOKEN",token);
+						},
 						success: function(data) {
 							ajaxMessageReader(data,function (data) {
 								var projectName=$("#projectName");
@@ -511,7 +515,7 @@
 	function ShowApprovalPortal(content, parent) {
 		var li_1=document.createElement("li");
 		var a=document.createElement("a");
-		a.setAttribute("onclick","forwardTo('views/approvalCenter.html')");
+		a.setAttribute("onclick","forwardTo('views/approvalCenter.html?token="+token+"')");
 		a.setAttribute("href","#");
 		a.innerHTML=content;
 		li_1.appendChild(a);
@@ -547,6 +551,59 @@
 			}
 		})
 		
+	}
+	function checkLogin() {
+		if($("#username").val()==''){
+			alert("please input the username");
+			return false;
+		}else if($("password").val()==''){
+			alert("please input the password");
+			return false;
+		}
+	}
+
+	function signIn() {
+		console.log($("#data_username").val());
+		console.log($("#data_pwd").val());
+
+		$.ajax({
+			url: "/rest/auth/login",
+			contentType: 'application/json',
+			dataType: "json",
+			type: "POST",
+			data:
+					JSON.stringify({
+						account: $("#data_username").val(),
+						password: $("#data_pwd").val()
+					}),
+			success:function (data) {
+				ajaxMessageReader(data,function (data) {
+					token=data['token'];
+					user_name=data['userName'];
+					project_name=data['projectName'];
+					var projectName=$("#projectName");
+					projectName.text(project_name);
+					if(data['role']=="MANAGER"){
+						ShowApprovalPortal("MODEL CENTER","nav-menu");
+					}
+
+
+					var username=$("#username");
+					var status=$("#status");
+					var rescource=$("#rescourse");
+					var card=$("#card");
+					username.text(user_name);
+					status.removeClass('status_disconnected');
+					status.addClass('status_connected');
+					rescource.removeClass('status_NoneR');
+					rescource.addClass('status_cpu');
+					card.removeClass('unlog');
+				})
+			},
+
+			error: function (data) {
+			}
+		})
 	}
 	function getCode(name,type) {
 		$.ajax({

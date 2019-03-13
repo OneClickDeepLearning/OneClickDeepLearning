@@ -4,8 +4,12 @@ import acceler.ocdl.controller.AuthController;
 import acceler.ocdl.model.User;
 import acceler.ocdl.persistence.crud.UserCrud;
 import acceler.ocdl.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DBUserService implements UserService {
+    @Autowired
     private UserCrud userCrud;
 
     @Override
