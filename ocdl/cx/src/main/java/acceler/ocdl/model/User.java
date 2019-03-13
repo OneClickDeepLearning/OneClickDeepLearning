@@ -22,29 +22,26 @@ public class User {
     @Column(name = "project_id")
     private Long projectId;
 
-
-    private int type;
+    @Transient
     private Role role;
 
     public User() {
     }
 
-    public User(String userName, String account, String password, int type, Role role, Long projectId) {
+    public User(String userName, String account, String password, Role role, Long projectId) {
         this.userName = userName;
         this.account = account;
         this.password = password;
-        this.type = type;
         this.role = role;
         this.projectId = projectId;
     }
 
 
-    public User(Long userId, String userName, String account, String password, int type, Role role, Long projectId) {
+    public User(Long userId, String userName, String account, String password, Role role, Long projectId) {
         this.userId = userId;
         this.userName = userName;
         this.account = account;
         this.password = password;
-        this.type = type;
         this.role = role;
         this.projectId = projectId;
     }
@@ -79,14 +76,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public Role getRole() {

@@ -6,6 +6,7 @@ import acceler.ocdl.persistence.dao.UserDao;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -26,9 +27,9 @@ public class DefaultUserCrud implements UserCrud {
 
     @Override
     public User getUserByAccountAndPassword(String account, String password) {
-        Optional<User> userOpt = this.userDao.findByAccountAndPassword(account, password);
-        if (userOpt.isPresent()) {
-            return userOpt.get();
+        List<User> userOpt = this.userDao.findByAccountAndPassword(account, password);
+        if (userOpt.size() > 0) {
+            return userOpt.get(0);
         } else {
             return null;
         }

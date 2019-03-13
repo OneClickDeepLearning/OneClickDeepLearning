@@ -2,6 +2,8 @@ package acceler.ocdl.persistence.crud.impl;
 
 import acceler.ocdl.model.Model;
 import acceler.ocdl.persistence.crud.ModelCrud;
+import acceler.ocdl.persistence.crud.ModelTypeCrud;
+import acceler.ocdl.persistence.crud.ProjectCrud;
 import acceler.ocdl.persistence.dao.ModelDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,13 @@ public class DefaultModelCrud implements ModelCrud {
 
     @Autowired
     private ModelDao modelDao;
+
+    @Autowired
+    private ModelTypeCrud modelTypeCrud;
+
+    @Autowired
+    private ProjectCrud projectCrud;
+
 
     @Override
     public Model createModel(Model modelInfo) {
@@ -32,7 +41,8 @@ public class DefaultModelCrud implements ModelCrud {
 
     @Override
     public List<Model> getModels(Model.Status status) {
-        return modelDao.findByStatus(status);
+
+        return  modelDao.findByStatus(status);
     }
 
     @Override
