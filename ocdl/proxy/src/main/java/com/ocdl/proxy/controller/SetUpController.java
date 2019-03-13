@@ -44,7 +44,8 @@ public final class SetUpController {
             CmdHelper.runCommand("add_kafka_topic.sh", topic, path.toString());
 
             String outputFileName = topic + ".txt";
-            jenkinsService.generateXML(projectName, gitUrl, topic, outputFileName);
+            String xml = jenkinsService.generateXML(projectName, gitUrl, topic, outputFileName);
+            jenkinsService.createJob(projectName, xml);
 
             builder.setCode(Response.Code.SUCCESS);
 
