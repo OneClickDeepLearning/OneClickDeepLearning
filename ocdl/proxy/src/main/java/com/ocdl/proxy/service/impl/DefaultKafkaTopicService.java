@@ -1,6 +1,7 @@
-package acceler.ocdl.service.impl;
+package com.ocdl.proxy.service.impl;
 
-import acceler.ocdl.service.KafkaTopicService;
+
+import com.ocdl.proxy.service.KafkaTopicService;
 import kafka.admin.AdminUtils;
 import kafka.utils.ZKStringSerializer$;
 import kafka.utils.ZkUtils;
@@ -20,7 +21,7 @@ public class DefaultKafkaTopicService implements KafkaTopicService {
     int sessionTimeoutMs = 10 * 1000;
     int connectionTimeoutMs = 8 * 1000;
 
-    @Value("zookeeper.server.url")
+    @Value("${zookeeper.server.url}")
     public void setZookeeperDNS(String ZookeeperDNS) { this.ZookeeperDNS = ZookeeperDNS; }
 
     public DefaultKafkaTopicService() {
