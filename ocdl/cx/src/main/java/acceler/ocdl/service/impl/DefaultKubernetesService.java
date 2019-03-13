@@ -1,0 +1,98 @@
+package acceler.ocdl.service.impl;
+
+import acceler.ocdl.exception.KuberneteException;
+import acceler.ocdl.model.User;
+import acceler.ocdl.service.KubernetesService;
+import acceler.ocdl.utils.impl.DefaultCmdHelper;
+import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Service
+public class DefaultKubernetesService implements KubernetesService {
+
+    private static final Map<User, String> cpuAssigned = new ConcurrentHashMap<>();
+    private static final Map<User, String> gpuAssigned = new ConcurrentHashMap<>();
+    private static final Map<Integer, String> models = new ConcurrentHashMap<>();
+    private static final Map<String,String> ipMap = new HashMap<>();
+
+    public DefaultKubernetesService() {
+        ipMap.put("10.8.0.1", "3.89.28.106");
+        ipMap.put("10.8.0.6", "3.87.64.159");
+        ipMap.put("10.8.0.10", "66.131.186.246");
+    }
+
+    public String launchDockerContainer(String rscType, User user) throws KuberneteException{
+
+
+        if(rscType.equals("cpu") && cpuAssigned.containsKey(user))
+            return cpuAssigned.get(user);
+        else if(rscType.equals("gpu") && gpuAssigned.containsKey(user))
+            return gpuAssigned.get(user);
+        else if(!rscType.equals("gpu") && !rscType.equals("cpu"))
+            return null;
+
+        String url = null;
+        String ip;
+        String port;
+        String nameSpace = user.getProjectId().toString() + "_" + user.getUserId().toString();
+
+        DefaultCmdHelper cmdHelper = new DefaultCmdHelper();
+
+        StringBuilder std = new StringBuilder();
+        StringBuilder stderr = new StringBuilder();
+
+        File file = new File("/home/ec2-user/hdfsmnt");
+        String copyCommand = "hadoop fs -get /userSpace/" + nameSpace + " userSpace/";
+        cmdHelper.runCommand(file,copyCommand,std,stderr);
+        System.out.println(copyCommand);
+
+        file = new File("/home/ec2-user/k8s/deployment");
+        StringBuilder command = new StringBuilder();
+        command.append("sh").append(rscType).append("_makeDeploy.sh ").append(nameSpace);
+        cmdHelper.runCommand(file,command.toString(), std, stderr);
+        command = new StringBuilder();
+        command.append("kubectl create -f ").append(nameSpace).append("_deploy_").append(rscType).append(".yaml");
+        cmdHelper.runCommand(file, command.toString(),std,stderr);
+
+        std = new StringBuilder();
+        command = new StringBuilder();
+        command.append("sh getIp.sh ").append(nameSpace).append(" ").append(rscType);
+        cmdHelper.runCommand(file, command.toString(), std, stderr);
+        ip = ipMap.get(std.toString());
+        std = new StringBuilder();
+        command = new StringBuilder();
+        command.append("sh getPort.sh ").append(nameSpace).append(" ").append(rscType);
+        cmdHelper.runCommand(file, command.toString(), std, stderr);
+        port = std.toString();
+
+        if(!stderr.toString().equals("")){
+            System.out.println(stderr.toString());
+            throw new KuberneteException(stderr.toString());
+        }
+
+        url = ip + ":" + port;
+
+        if(rscType.equals("cpu")) {
+            synchronized (this) {
+                cpuAssigned.put(user, url);
+            }
+        } else {
+            synchronized (this) {
+                gpuAssigned.put(user, url);
+            }
+        }
+
+        System.out.println(url);
+
+        return url;
+    }
+
+    public void releaseDockerContainer(String rscType, User user) throws KuberneteException{
+
+    }
+
+}
