@@ -1,4 +1,4 @@
-package acceler.ocdl.service.impl;
+/*package acceler.ocdl.service.impl;
 
 
 import acceler.ocdl.service.StorageService;
@@ -11,7 +11,6 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -126,4 +125,4 @@ public class RemoteS3Service implements StorageService {
 
     }
 
-}
+}*/

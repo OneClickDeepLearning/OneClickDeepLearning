@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approval Center</title>
+    <link rel="stylesheet" type="text/css" href="../assets2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../assets2/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../assets2/css/approvalCenter.css">
+
+
+    <link rel="stylesheet" href="../assets2/css/animate.min.css">
+    <link rel="stylesheet" href="../assets2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets2/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../assets2/css/templatemo-style.css">
+    <link rel="stylesheet" href="../assets2/css/SwitchServer.css">
+    <link href="../assets2/css/flipycard.css" rel="stylesheet">
+    <link href="../assets2/css/SyntaxHighlighter.css" type="text/css" rel="stylesheet">
+    <link href="../assets2/css/menu.css" rel="stylesheet">
+    <link href="../assets2/css/infoStatus.css" rel="stylesheet">
+    <link href="../assets2/css/configuration.css" rel="stylesheet">
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="Donuts3D.js"></script>
+    <style>
+        path.slice {
+            stroke-width: 2px;
+        }
+
+        polyline {
+            opacity: .3;
+            stroke: black;
+            stroke-width: 2px;
+            fill: none;
+        }
+
+        svg text.percent {
+            fill: white;
+            text-anchor: middle;
+            font-size: 12px;
+        }
+
+
+        .pieGraph {
+            float: left;
+            text-align: center;
+        }
+
+        .pieInfo {
+            float: left;
+            border-left: 1px solid #DDD;
+            padding-left: 40px;
+            text-align: left;
+        }
+
+        .container2 {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(10, 10, 10, 0.77);
+            border: 2px ridge rgba(238, 238, 238, 0.13);
+            border-radius: 5px;
+            -moz-box-shadow: 0 -5px 10px 1px rgba(16, 16, 16, 0.57);
+            -webkit-box-shadow: 0 -5px 10px 1px rgba(16, 16, 16, 0.57);
+            box-shadow: 0 -5px 10px 1px rgba(16, 16, 16, 0.57);
+            border-bottom: none;
+            border-bottom-left-radius: initial;
+            border-bottom-right-radius: initial;
+        }
+
+        .newColorBlock {
+            width: 10px;
+            height: 10px;
+            float: left;
+            margin: 3px;
+            background-color: #3366CC;
+        }
+
+        .approvalColorBlock {
+            width: 10px;
+            height: 10px;
+            float: left;
+            margin: 3px;
+            background-color: #109618;
+
+        }
+
+        .rejectColorBlock {
+            width: 10px;
+            height: 10px;
+            float: left;
+            margin: 3px;
+            background-color: #DC3912;
+
+        }
+    </style>
+</head>
+<body>
+
+<!-- start navigation -->
+<nav class="navbar navbar-default templatemo-nav" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon icon-bar"></span>
+                <span class="icon icon-bar"></span>
+                <span class="icon icon-bar"></span>
+            </button>
+            <img href="#" alt="OCDL" class="navbar-brand" src="../assets2/images/Brand4.png"/>
+            <label id="projectName" style="color: black; margin-top: 30px; margin-left: 20px;"></label>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul id="nav-menu" class="nav navbar-nav navbar-right">
+                <li><a href="#">FILE</a></li>
+                <li><a href="#">MODIFY</a></li>
+                <li><a href="#">TOOLS</a></li>
+                <li><a href="#">TEAM</a></li>
+                <li><a href="#" onclick="forwardTo('/views/configuration.html')">CONFIGURE</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- end navigation -->
+<!-- start header -->
+<header style="background-color:#000000;">
+    <div class="container">
+        <div class="row" style="display:flex;justify-content:center;align-items:center;">
+            <div id="informationBlock" style="margin: auto;" class="col-md-6 col-sm-3 col-xs-3">
+                <label class="col-md-4">User: <label id="username" style="color: #47C6F8">TempUser</label></label>
+                <label class="col-md-4">Rescourse: <label id="rescourse" style="color: #47C6F8"
+                                                          class="status_NoneR"></label></label>
+                <label class="col-md-4">Status: <label id="status" class="status_disconnected"></label></label>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-3" style="height:40px;">
+                <!--	<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button>-->
+                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
+					<a href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Git</a>
+
+				</span>
+
+                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
+					<a id="flapBtn" href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
+				</span>
+
+
+                </p>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-3">
+                <ul class="social-icon">
+                    <li><span>Sign in with </span></li>
+                    <li><a id="login_f" href="#" class="fa fa-facebook"></a></li>
+                    <li><a id="login_t" href="#" class="fa fa-twitter"></a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</header>
+<!-- end header -->
+
+<div class="demo">
+    <div class="container" style="margin-top: 40px">
+        <div class="row">
+
+            <div class="container2 w3layouts agileits">
+
+                <div class="pieGraph w3layouts agileits col-lg-5 col-md-12 col-sm-12">
+                    <div class="col-md-12 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+                        <div id="pie">
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+
+                <div class="pieInfo w3layouts agileits col-lg-7 col col-md-12 col-sm-12">
+                    <div class="col-md-12" data-wow-offset="50" data-wow-delay="0.6s">
+                        <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">YOU GOT <span
+                                id="todoNum">3</span><span> TODO'S </span> IN THE LIST</h2>
+                        <p>
+                        <div class="newColorBlock"></div>
+                        <span style="color: #3366CC;"> New Models:</span><span id="newModelNum">3</span></p>
+                        <p>
+                        <div class="approvalColorBlock"></div>
+                        <span style="color: #109618;"> Approved Models:</span><span id="approvalModelNum">5</span></p>
+                        <p>
+                        <div class="rejectColorBlock"></div>
+                        <span style="color: #DC3912;">Rejected Models:</span><span id="rejectedModelNum">1</span></p>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="clear"></div>
+
+            </div>
+
+
+            <div class="col-md-offset-1 col-md-10">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingTwo">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    TO DO LIST
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                             aria-labelledby="headingTwo">
+                            <div class="panel-body">
+
+                                <div class="col4">
+                                    <div class="item-box">
+                                        <div class="item-con">
+                                            <table class="odd-even" id="tableNew">
+                                                <thead>
+                                                <tr>
+                                                    <th>Model Name</th>
+                                                    <th>Project</th>
+                                                    <th>Model Type</th>
+                                                    <th>Update Step</th>
+                                                    <th>Operation</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingThree">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    APPROVALED LIST
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                             aria-labelledby="headingThree">
+                            <div class="panel-body">
+                                <div class="col4">
+                                    <div class="item-box">
+                                        <div class="item-con">
+                                            <table class="odd-even" id="tableApproval">
+                                                <thead>
+                                                <tr>
+                                                    <th>Model Name</th>
+                                                    <th>Project</th>
+                                                    <th>Model Type</th>
+                                                    <th>Version</th>
+                                                    <th>Operation</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingFour">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    REJECTED LIST
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel"
+                             aria-labelledby="headingFour">
+                            <div class="panel-body">
+                                <div class="col4">
+                                    <div class="item-box">
+                                        <div class="item-con">
+                                            <table class="odd-even" id="tableRejected">
+                                                <thead>
+                                                <tr>
+                                                    <th>Model Name</th>
+                                                    <th>Project</th>
+                                                    <th>Operation</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="../assets2/js/jquery.js"></script>
+<script src="../assets2/js/bootstrap.min.js"></script>
+
+<script language="JavaScript">
+
+    var token = GetQueryString("token");
+
+    var salesData = [
+        {label: "Waiting", value: 3, color: "#3366CC"},
+        {label: "Reject", value: 5, color: "#DC3912"},
+        {label: "Approval", value: 1, color: "#109618"}
+    ];
+
+    var modelTypeList;
+
+
+    var svg = d3.select("#pie").append("svg").attr("width", 700).attr("height", 300);
+
+    svg.append("g").attr("id", "salesDonut");
+    Donut3D.draw("salesDonut", randomData(), 150, 150, 130, 100, 30, 0.4);
+
+    Donut3D.draw("salesDonut", salesData, 150, 150, 130, 100, 30, 0.4);
+
+    initApproralCenterInfo();
+    initModelTypeList();
+
+
+
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
+    function initApproralCenterInfo() {
+        $("#tableNew .data").remove();
+        $("#tableApproval .data").remove();
+        $("#tableRejected .data").remove();
+
+
+        $.ajax({
+            url: "/rest/models",
+            contentType: 'application/json',
+            dataType: "json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("AUTH_TOKEN", token);
+            },
+            type: "GET",
+            success: function (data) {
+                ajaxMessageReader(data, function (data) {
+                    salesData[0].value = data['newModels'].length;
+                    salesData[1].value = data['approvalModels'].length;
+                    salesData[2].value = data['rejectedModels'].length;
+                    $("#newModelNum").text(salesData[0].value);
+                    $("#approvalModelNum").text(salesData[1].value);
+                    $("#rejectedModelNum").text(salesData[2].value);
+                    $("#todoNum").text(salesData[0].value);
+                    Donut3D.draw("salesDonut", salesData, 150, 150, 130, 100, 30, 0.4);
+
+                    <!-- waiting list -->
+                    for (var i = 0; i < data["newModels"].length; i++) {
+                        var tr = "<tr class='data'><td>" + data["newModels"][i].modelName + "</td><td>" + data["newModels"][i].project + "</td><td>" +
+                            "<select id=\"modelType" + data["newModels"][i].modelId + "\" >" +
+                            "</select>" +
+                            "</td> <td>" +
+                            "<select id=\"version" + data["newModels"][i].modelId +"\" style=\"color: black;\">\n" +
+                            "<option value=\"1\">\n" +
+                            "Small Update\n" +
+                            "</option>\n" +
+                            "<option value=\"2\">\n" +
+                            "Large Update\n" +
+                            "</option>\n" +
+                            "</select>" +
+                            "</td>  " +
+                            "<td>\n" +
+                            " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
+                            "<button type=\"button\" class=\"btn btn-success\" onclick='UpdateDecision(" + data["newModels"][i].modelId + ",1)'>Approve</button>" +
+                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(" + data["newModels"][i].modelId + ",0)'>Reject</button>" +
+                            "</div>" +
+                            "</td></tr>";
+
+                        $("#tableNew").append(tr);
+
+                        for (var j = 0; j < modelTypeList.length; j++) {
+                            var option = document.createElement("OPTION");
+                            option.text = modelTypeList[j]['name'];
+                            option.value = modelTypeList[j]['id'];
+                            document.getElementById("modelType" + data["newModels"][i].modelId).options.add(option);
+                        }
+
+                    }
+
+                    <!-- approval list -->
+                    for (var i = 0; i < data["approvalModels"].length; i++) {
+                        var tr = "<tr class='data'><td>" + data["approvalModels"][i].modelName + "</td><td>" + data["approvalModels"][i].project + "</td><td>" + data["approvalModels"][i].modelType + "</td> <td>" + data["approvalModels"][i].version + "</td>  " +
+                            "<td>\n" +
+                            " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
+                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(" + data["approvalModels"][i].modelId + ",-1)'>Undo</button>" +
+                            "</div>" +
+                            "</td></tr>";
+                        $("#tableApproval").append(tr);
+                    }
+
+                    <!-- approval list -->
+                    for (var i = 0; i < data["rejectedModels"].length; i++) {
+                        var tr = "<tr class='data'><td>" + data["rejectedModels"][i].modelName + "</td><td>" + data["rejectedModels"][i].project + "</td>" +
+                            "<td>\n" +
+                            " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
+                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(" + data["rejectedModels"][i].modelId + ",-1)'>Undo</button>" +
+                            "</div>" +
+                            "</td></tr>";
+                        $("#tableRejected").append(tr);
+                    }
+
+
+                })
+            },
+            error: function (data) {
+            }
+        })
+    }
+
+    function initModelTypeList() {
+        $.ajax({
+            url: "/rest/models/modeltypes",
+            contentType: 'application/json',
+            dataType: "json",
+            type: "GET",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("AUTH_TOKEN", token);
+            },
+            success: function (data) {
+                ajaxMessageReader(data, function (data) {
+                    modelTypeList = data;
+                })
+            },
+            error: function (data) {
+            }
+        })
+    }
+
+    function UpdateDecision(id,status) {
+        var decision='';
+        if(status==0){
+            decision="Rejected";
+        }else if(status==1){
+            decision="Approval";
+        }else if(status==-1){
+            decision="Undo";
+        }
+        $.ajax({
+            url: "/rest/models/"+id+"",
+            contentType: 'application/json',
+            dataType: "json",
+            data:
+                JSON.stringify({
+                    modelId: id,
+                    modelTypeId: parseInt($("#modelType"+id).val()),
+                    status:decision,
+                    bigVersion:parseInt($("#version"+id).val())
+                }),
+            type: "PUT",
+            timeout: 0,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("AUTH_TOKEN", token);
+            },
+            success: function (data) {
+                ajaxMessageReader(data, function (data) {
+                    initApproralCenterInfo();
+                })
+            },
+            error: function (data) {
+            }
+        })
+    }
+
+    function randomData() {
+        return salesData.map(function (d) {
+            return {label: d.label, value: 1000 * Math.random(), color: d.color};
+        });
+    }
+
+    function ajaxMessageReader(response, func) {
+        if (response.code == "400") {
+        } else if (response.code == "200") {
+            func(response.data);
+        }
+
+        /* func(response);*/
+    }
+</script>
+
+</body>
+</html>

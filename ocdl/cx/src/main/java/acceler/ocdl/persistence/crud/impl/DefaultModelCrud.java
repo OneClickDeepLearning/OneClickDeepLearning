@@ -66,6 +66,16 @@ public class DefaultModelCrud implements ModelCrud {
         return smallest;
     }
 
+    @Override
+    public Model getById(Long modelId) {
+        Optional<Model> modelOption = Optional.ofNullable(getById(modelId));
+        if (modelOption.isPresent()) {
+            return modelOption.get();
+        } else {
+            return null;
+        }
+    }
+
 
 
 

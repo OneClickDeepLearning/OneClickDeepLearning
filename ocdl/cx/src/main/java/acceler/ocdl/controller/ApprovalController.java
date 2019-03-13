@@ -27,7 +27,7 @@ import java.util.Map;
 
 
 @Controller
-@RequestMapping(path = "/models")
+@RequestMapping(path = "/rest/models")
 public class ApprovalController {
 
     @Autowired
@@ -45,6 +45,7 @@ public class ApprovalController {
 
         Response.Builder responseBuilder = Response.getBuilder();
         Long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
+
 
         Map<String, List<ModelDto>> models = new HashMap<String, List<ModelDto>>();
 
@@ -83,7 +84,7 @@ public class ApprovalController {
                 }
                 rejectModelDtos.add(m.convert2ModelDto());
             });
-            models.put("rejectedModel", rejectModelDtos);
+            models.put("rejectedModels", rejectModelDtos);
 
             responseBuilder.setCode(Response.Code.SUCCESS)
                     .setData(models);
@@ -131,7 +132,17 @@ public class ApprovalController {
 
         try {
             Long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
-            Model model = incomeModelDto.convert2Model();
+            Model updateModel = modelCrud.getById(modelId);
+            updateModel.setId(modelId);
+            updateModel.setModelTypeId(incomeModelDto.getModelTypeId());
+
+            if (incomeModelDto.getStatus().equals("Approval")) {
+                updateModel.setStatus(Model.Status.APPROVAL);
+            } else if (incomeModelDto.getStatus().equals("Reject")) {
+                updateModel.setStatus(Model.Status.REJECT);
+            } else {
+                updateModel.setStatus(Model.Status.NEW);
+            }
 
             Long bigVersion = 1L;
             Long smallVersion = 0L;
@@ -143,16 +154,15 @@ public class ApprovalController {
                 smallVersion = modelCrud.getSmallVersion(modelId, projectId, bigVersion) + 1;
             }
 
-            model.setBigVersion(bigVersion);
-            model.setSmallVersion(smallVersion);
+            updateModel.setBigVersion(bigVersion);
+            updateModel.setSmallVersion(smallVersion);
 
-            Model reModel = modelCrud.updateModel(modelId, model);
+            Model reModel = modelCrud.updateModel(modelId, updateModel);
             reModel.setProject(projectCrud.fineById(reModel.getProjectId()));
             reModel.setModelType(modelTypeCrud.findById(reModel.getModelTypeId()));
 
             responseBuilder.setCode(Response.Code.SUCCESS)
                     .setData(reModel.convert2ModelDto());
-
         } catch (Exception e) {
 
             responseBuilder.setCode(Response.Code.ERROR)
