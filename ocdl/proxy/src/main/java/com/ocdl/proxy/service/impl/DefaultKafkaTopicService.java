@@ -44,7 +44,8 @@ public class DefaultKafkaTopicService implements KafkaTopicService {
         int partitions = 1;
         int replication = 1;
         Properties topicConfig = new Properties(); // add per-topic configurations settings here
-        AdminUtils.createTopic(zkUtils, topic, partitions, replication, topicConfig);
+//        AdminUtils.createTopic(zkUtils, topic, partitions, replication, topicConfig);
+
         zkClient.close();
     }
 }
