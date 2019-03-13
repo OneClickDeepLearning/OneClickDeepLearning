@@ -110,7 +110,7 @@ public class User {
         User user = (User) o;
 
         return userId.equals(user.userId);
-        
+
     }
 
     @Override
