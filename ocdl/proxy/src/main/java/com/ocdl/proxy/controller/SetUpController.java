@@ -40,7 +40,8 @@ public final class SetUpController {
             String gitUrl = "http://ec2-54-89-140-122.compute-1.amazonaws.com/git/" + projectName;
 
             String topic = projectName+"_jkmsg";
-            kafkaTopicService.createTopic(topic);
+//            kafkaTopicService.createTopic(topic);
+            CmdHelper.runCommand("add_kafka_topic.sh", topic, path.toString());
 
             String outputFileName = topic + ".txt";
             jenkinsService.generateXML(projectName, gitUrl, topic, outputFileName);
