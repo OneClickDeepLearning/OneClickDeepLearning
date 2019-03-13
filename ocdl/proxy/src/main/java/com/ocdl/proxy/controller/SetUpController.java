@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 
 @Controller
@@ -36,16 +38,26 @@ public final class SetUpController {
             System.out.println("This is the Laucher........................");
             Path path= Paths.get("/home/ec2-user/OneClickDLTemp/ocdl/proxy/src/main/resources");
 
-            CmdHelper.runCommand("laucher.sh", projectName, path.toString());
+            ArrayList<String> args = new ArrayList<String>();
+            args.add(projectName);
+            CmdHelper.runCommand("laucher.sh", args, path.toString());
             String gitUrl = "http://ec2-54-89-140-122.compute-1.amazonaws.com/git/" + projectName;
+
 
             String topic = projectName+"_jkmsg";
 //            kafkaTopicService.createTopic(topic);
-            CmdHelper.runCommand("add_kafka_topic.sh", topic, path.toString());
+            args.clear();
+            args.add(topic);
+            CmdHelper.runCommand("add_kafka_topic.sh", args, path.toString());
 
             String outputFileName = topic + ".txt";
             String xml = jenkinsService.generateXML(projectName, gitUrl, topic, outputFileName);
             jenkinsService.createJob(projectName, xml);
+
+            args.clear();
+            args.add(outputFileName);
+            args.add(topic);
+            CmdHelper.runCommand("runKafkaConnector.sh", args, path.toString());
 
             builder.setCode(Response.Code.SUCCESS);
 

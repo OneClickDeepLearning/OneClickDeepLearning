@@ -7,11 +7,17 @@ import java.util.List;
 
 public class CmdHelper {
 
-    public static String runCommand(String script, String args, String path) {
+    public static String runCommand(String script, List<String> args, String path) {
         Process p = null;
 
         try {
-            String cmd = "sh " + script + " " + args;
+
+            String cmd = "sh " + script + " ";
+            for (String arg : args) {
+                cmd = cmd + arg + " ";
+            }
+
+            cmd = cmd.trim();
 
             File f = null;
             if(path != null){
