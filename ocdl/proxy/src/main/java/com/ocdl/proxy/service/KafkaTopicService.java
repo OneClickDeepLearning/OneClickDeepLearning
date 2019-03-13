@@ -1,4 +1,4 @@
-package acceler.ocdl.service;
+package com.ocdl.proxy.service;
 
 public interface KafkaTopicService {
 

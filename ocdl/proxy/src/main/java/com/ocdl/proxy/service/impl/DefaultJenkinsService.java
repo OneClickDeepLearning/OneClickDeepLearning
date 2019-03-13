@@ -1,6 +1,6 @@
-package acceler.ocdl.service.impl;
+package com.ocdl.proxy.service.impl;
 
-import acceler.ocdl.service.JenkinsService;
+import com.ocdl.proxy.service.JenkinsService;
 import com.offbytwo.jenkins.JenkinsServer;
 import com.offbytwo.jenkins.model.Job;
 import org.springframework.beans.factory.annotation.Value;
@@ -90,9 +90,9 @@ public class DefaultJenkinsService implements JenkinsService {
     @Override
     public void creatConn() {
 
-        System.out.println(url);
-        System.out.println(userName);
-        System.out.println(password);
+//        System.out.println(url);
+//        System.out.println(userName);
+//        System.out.println(password);
 
         try {
             if (jenkins == null){
@@ -142,19 +142,14 @@ public class DefaultJenkinsService implements JenkinsService {
     @Override
     public void createJob(String jobName, String xml) {
 
+        creatConn();
+
         try{
             jenkins.createJob(jobName, xml, true);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
-
-
-
-
-
-
-
 
 
 }

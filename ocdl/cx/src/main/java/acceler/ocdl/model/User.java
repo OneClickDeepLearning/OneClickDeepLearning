@@ -19,6 +19,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "project_id")
+    private Long projectId;
+
 
     private int type;
     private Role role;
@@ -26,22 +29,24 @@ public class User {
     public User() {
     }
 
-    public User(String userName, String account, String password, int type, Role role) {
+    public User(String userName, String account, String password, int type, Role role, Long projectId) {
         this.userName = userName;
         this.account = account;
         this.password = password;
         this.type = type;
         this.role = role;
+        this.projectId = projectId;
     }
 
 
-    public User(Long userId, String userName, String account, String password, int type, Role role) {
+    public User(Long userId, String userName, String account, String password, int type, Role role, Long projectId) {
         this.userId = userId;
         this.userName = userName;
         this.account = account;
         this.password = password;
         this.type = type;
         this.role = role;
+        this.projectId = projectId;
     }
 
     public Long getUserId() {
@@ -92,6 +97,10 @@ public class User {
         this.role = role;
     }
 
+    public Long getProjectId() { return projectId; }
+
+    public void setProjectId(Long projectId) { this.projectId = projectId; }
+
 
     @Override
     public boolean equals(Object o) {
@@ -101,6 +110,7 @@ public class User {
         User user = (User) o;
 
         return userId.equals(user.userId);
+
     }
 
     @Override
