@@ -38,7 +38,7 @@ public class DefaultModelService implements ModelService {
                 continue;
             String srcFileName = modelFile.getName();
             StringBuilder command = new StringBuilder();
-            command.append("\\cp ");
+            command.append("cp ");
             command.append(srcFileName);
             command.append(" ");
             command.append(user.getProjectId().toString());
