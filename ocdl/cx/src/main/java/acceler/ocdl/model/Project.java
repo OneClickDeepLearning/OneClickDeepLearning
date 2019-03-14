@@ -80,7 +80,6 @@ public class Project {
     public ProjectConfigurationDto convert2ProjectDto(){
 
         ProjectConfigurationDto p = new ProjectConfigurationDto();
-        p.setProjectId(this.projectId);
         p.setProjectName(this.projectName);
         p.setGitPath(this.gitPath);
         p.setK8Url(this.k8Url);

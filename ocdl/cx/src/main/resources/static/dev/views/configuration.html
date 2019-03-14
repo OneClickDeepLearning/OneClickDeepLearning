@@ -129,17 +129,19 @@
 <script src="../assets2/js/jquery.singlePageNav.min.js"></script>
 
 <script language="JavaScript">
-    window.onload = function () {
-        initConfigInfo();
-    }
-    
-    
+    var token = GetQueryString("token");
+    initConfigInfo();
+
+
     function initConfigInfo() {
         $.ajax({
-            url: "/configuration?action=getAllProject",
+            url: "/rest/projects",
             contentType: 'application/json',
             dataType: "json",
-            type: "POST",
+            type: "GET",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("AUTH_TOKEN", token);
+            },
             success: function(data) {
                 ajaxMessageReader(data,function (data) {
                     var projectName=$("#name");
@@ -147,11 +149,12 @@
                     var k8Url= $("#k8Url");
                     var git = $("#git");
                     var templatePath = $("#templateUrl");
-                    projectName.val(data[3].projectName);
-                    k8Url.val(data[3].k8Url);
-                    git.val(data[3].git);
-                    templatePath.val(data[3].templateUrl);
-                    projectName2.text(data[3].projectName);
+
+                    projectName.val(data['projectName']);
+                    k8Url.val(data['k8Url']);
+                    git.val(data['gitPath']);
+                    templatePath.val(data['templatePath']);
+                    projectName2.text(data['projectName']);
 
                 })
             },
@@ -162,27 +165,26 @@
     
     function updateConfiguration() {
         $.ajax({
-            url: "/configuration?action=updateProject",
+            url: "/rest/projects/config",
             contentType: 'application/json',
             dataType: "json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("AUTH_TOKEN", token);
+            },
             data:
                 JSON.stringify({
-                    name: $("#name").val(),
-                    git: $("#git").val(),
-                    k8: $("#k8Url").val(),
-                    template: $("#templateUrl").val(),
-                    suffix:$("#suffix").val()
+                    projectName: $("#name").val(),
+                    gitPath: $("#git").val(),
+                    k8Url: $("#k8Url").val(),
+                    templatePath: $("#templateUrl").val(),
+               /*     suffix:$("#suffix").val()*/
                 }),
-            type: "POST",
+            type: "PUT",
             timeout: 0,
             success: function(data){
                 ajaxMessageReader(data,function (data) {
-                    if (data["isSuccess"]=="true"){
                         $("#projectName").text($("#name").val());
                         alert("Update Successful");
-                    }else{
-                        alert("Update Fail");
-                    }
                 })
             },
             error: function (data) {
@@ -190,13 +192,18 @@
         })
     }
     function ajaxMessageReader(response, func){
-        /*		if(response.code=="400"){
+        		if(response.code=="400"){
                     alert(response.get("message"));
                 }else if(response.code=="200"){
                     func(response.data);
-                }*/
+                }
+    }
 
-        func(response);
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
     }
 </script>
 

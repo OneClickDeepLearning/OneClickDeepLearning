@@ -60,9 +60,8 @@
 			<ul id="nav-menu" class="nav navbar-nav navbar-right">
 				<li><a href="#">FILE</a></li>
 				<li><a href="#">MODIFY</a></li>
-				<li><a href="#" onclick="forwardTo('views/configuration.html')">CONFIGURE</a></li>
-				<li><a href="#" class="nav-link" data-toggle="modal" data-target="#RegistrationModal">SIGN UP</a></li>
-				<li><a href="#" class="nav-link" data-toggle="modal" data-target="#LogInModal">SIGN IN</a></li>
+				<li><a id="signInBtn" href="#" class="nav-link" data-toggle="modal" data-target="#RegistrationModal">SIGN UP</a></li>
+				<li><a id="signUpBtn" href="#" class="nav-link" data-toggle="modal" data-target="#LogInModal">SIGN IN</a></li>
 			</ul>
 		</div>
 	</div>
@@ -521,6 +520,15 @@
 		li_1.appendChild(a);
 		document.getElementById(parent).appendChild(li_1);
 	}
+	function ShowConfigurationPortal(content, parent){
+		var li_1=document.createElement("li");
+		var a=document.createElement("a");
+		a.setAttribute("onclick","forwardTo('views/configuration.html?token="+token+"')");
+		a.setAttribute("href","#");
+		a.innerHTML=content;
+		li_1.appendChild(a);
+		document.getElementById(parent).appendChild(li_1);
+	}
 
 	function ajaxMessageReader(response, func){
 		if(response.code=="400"){
@@ -586,6 +594,7 @@
 					if(data['role']=="MANAGER"){
 						ShowApprovalPortal("MODEL CENTER","nav-menu");
 					}
+					ShowConfigurationPortal("CONFIGURE","nav-menu");
 
 
 					var username=$("#username");
