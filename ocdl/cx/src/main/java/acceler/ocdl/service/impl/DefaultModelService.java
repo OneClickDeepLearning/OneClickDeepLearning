@@ -19,7 +19,7 @@ import java.util.List;
 public class DefaultModelService implements ModelService {
 
     @Autowired
-    private ModelCrud modelCrud;
+    private DefaultModelCrud modelCrud;
 
     @Override
     public boolean copyModels(User user){

@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class DefaultModelServiceTest {
     @Autowired
-    private ModelService service;
+    private DefaultModelService service;
 
     @Test
     public void copyModels() {
