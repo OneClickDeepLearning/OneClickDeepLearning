@@ -46,7 +46,7 @@ public class DefaultModelService implements ModelService {
             command.append(user.getUserId().toString());
             command.append("_");
             command.append(srcFileName);
-
+            System.out.println(command.toString());
             cmdHelper.runCommand(file,command.toString(),std,stderr);
         }
 
