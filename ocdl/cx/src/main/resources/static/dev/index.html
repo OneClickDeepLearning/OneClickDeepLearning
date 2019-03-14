@@ -311,7 +311,7 @@
 											</div>
 											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 												<div class="temp-login-button-wrap">
-													<button class="btn btn-info temp-form-button" type="button">sign up</button>
+													<button class="btn btn-info temp-form-button" type="button" >sign up</button>
 												</div>
 											</div>
 										</div>
@@ -337,7 +337,7 @@
 		<div class="modal-dialog">
 			<!-- Modal content-->
 			<div class="modal-content temp-custom-modal-content">
-				<button type="button" class="close temp-custom-close-button" data-dismiss="modal">&times;</button>
+				<button id="closeLogin" type="button" class="close temp-custom-close-button" data-dismiss="modal">&times;</button>
 				<div class="modal-body temp-custom-modal-body">
 					<div class="temp-login-form-wrapper">
 						<div class="row custom-row">
@@ -551,6 +551,9 @@
 					}),
 			type: "POST",
 			timeout: 0,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("AUTH_TOKEN", token);
+            },
 			success: function(data){
 				ajaxMessageReader(data,function (data) {
 				})
@@ -607,6 +610,10 @@
 					rescource.removeClass('status_NoneR');
 					rescource.addClass('status_cpu');
 					card.removeClass('unlog');
+
+					$("#signInBtn").addClass("hide");
+					$("#signUpBtn").addClass("hide");
+					$("#closeLogin").click();
 				})
 			},
 
@@ -646,18 +653,21 @@
 
 	function submitToGit(){
 		$.ajax({
-			url: "/model?action=push",
+			url: "/rest/model",
 			contentType: 'application/json',
 			dataType: "json",
 			data:
 					JSON.stringify({
 						userId: user_id
 					}),
-			type: "POST",
+			type: "PUT",
 			timeout: 0,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("AUTH_TOKEN", token);
+            },
 			success: function(data){
 				ajaxMessageReader(data,function (data) {
-					alert(data.data[0]);
+					alert("Push successful!");
 				})
 			},
 			error: function () {
@@ -665,12 +675,12 @@
 		})
 	}
 
-	function selectJupyterServer(userId,userAccount,userPassword){
-		var server = 0;
+	function selectJupyterServer(){
+		var server = "cpu";
 		if($("#serverCtl").hasClass('toggle--on')){
-			server = 0;
+			server = "cpu";
 		}else{
-			server = 1;
+			server = "gpu";
 		}
 		$.ajax({
 			url: "/container?action=request",
@@ -678,22 +688,26 @@
 			dataType: "json",
 			data:
 					JSON.stringify({
-						userId: userId,
-						account: userAccount,
-						password: userPassword,
-						type: server
+                        rscType:server
 					}),
-			type: "POST",
+			type: "GET",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("AUTH_TOKEN", token);
+            },
 
 			timeout: 0,
 
 			success: function(data) {
 				ajaxMessageReader(data,function (data) {
-					if(server==0){
-						$('#jupyterFrame').attr('src', "http://"+data.data[0]+"/notebooks/Untitled.ipynb");
-					}else{
-						$('#jupyterFrame').attr('src', "http://66.131.186.246:5501/notebooks/Untitled.ipynb");
-					}
+				    if(data["url"].contains(".")){
+                        if(server==0){
+                            $('#jupyterFrame').attr('src', "http://"+data+"/notebooks/Untitled.ipynb");
+                        }else{
+                            $('#jupyterFrame').attr('src', "http://"+data+"/notebooks/Untitled.ipynb");
+                        }
+                    }else{
+				        alert(data['url']);
+                    }
 				})
 
 
