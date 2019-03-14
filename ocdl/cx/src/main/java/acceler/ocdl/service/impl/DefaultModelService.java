@@ -1,9 +1,14 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.model.Model;
 import acceler.ocdl.model.User;
+import acceler.ocdl.persistence.crud.ModelCrud;
+import acceler.ocdl.persistence.crud.impl.DefaultModelCrud;
 import acceler.ocdl.service.ModelService;
 import acceler.ocdl.utils.CmdHelper;
 import acceler.ocdl.utils.impl.DefaultCmdHelper;
+import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -13,8 +18,12 @@ import java.util.List;
 @Service
 public class DefaultModelService implements ModelService {
 
+    @Autowired
+    private ModelCrud modelCrud;
+
     @Override
     public boolean copyModels(User user){
+
 
 //        CmdHelper.runCommand("cd /home/ec2-user/model_repo/models/" + userId + "/ && ");
 //
@@ -50,6 +59,16 @@ public class DefaultModelService implements ModelService {
 
             System.out.println(command.toString());
             cmdHelper.runCommand(file,command.toString(),std,stderr);
+
+            Model model = new Model();
+            model.setName(srcFileName);
+            model.setModelTypeId(-1L);
+            model.setProjectId(user.getProjectId());
+            model.setUrl("/home/ec2-user/stage/" + userspace);
+            model.setStatus(Model.Status.NEW);
+
+            modelCrud.createModel(model);
+
         }
 
         if(!stderr.toString().equals("")){
