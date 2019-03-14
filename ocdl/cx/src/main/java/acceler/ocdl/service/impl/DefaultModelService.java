@@ -41,11 +41,13 @@ public class DefaultModelService implements ModelService {
             command.append("cp ");
             command.append(srcFileName);
             command.append(" ");
+            command.append(destPath);
             command.append(user.getProjectId().toString());
             command.append("_");
             command.append(user.getUserId().toString());
             command.append("_");
             command.append(srcFileName);
+
             System.out.println(command.toString());
             cmdHelper.runCommand(file,command.toString(),std,stderr);
         }
