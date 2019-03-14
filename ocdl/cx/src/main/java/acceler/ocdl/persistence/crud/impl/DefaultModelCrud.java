@@ -66,10 +66,14 @@ public class DefaultModelCrud implements ModelCrud {
         return smallest;
     }
 
-
-
-
-
-
+    @Override
+    public Model getById(Long modelId) {
+        Optional<Model> modelOption = modelDao.findById(modelId);
+        if (modelOption.isPresent()) {
+            return modelOption.get();
+        } else {
+            return null;
+        }
+    }
 
 }

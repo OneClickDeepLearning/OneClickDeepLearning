@@ -8,15 +8,10 @@ public class ProjectConfigurationDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
-    private Long projectId;
     private String projectName;
     private String k8Url;
     private String templatePath;
     private String gitPath;
-
-    public Long getProjectId() { return projectId; }
-
-    public void setProjectId(Long projectId) { this.projectId = projectId; }
 
     public String getProjectName() {
         return projectName;
@@ -49,7 +44,6 @@ public class ProjectConfigurationDto implements Serializable {
     public Project convert2Project() {
 
         Project project = new Project();
-        project.setProjectId(this.projectId);
         project.setProjectName(this.projectName);
         project.setK8Url(this.k8Url);
         project.setTemplatePath(this.templatePath);

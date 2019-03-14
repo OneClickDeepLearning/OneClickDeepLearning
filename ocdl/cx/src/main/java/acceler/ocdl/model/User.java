@@ -22,8 +22,9 @@ public class User {
     @Column(name = "project_id")
     private Long projectId;
 
-
+    @Transient
     private int type;
+    @Column(name = "role")
     private Role role;
 
     public User() {
@@ -120,7 +121,7 @@ public class User {
 
 
     public enum Role {
-        MANAGER, DEVELOPER, TEST;
+        TEST, DEVELOPER,MANAGER;
 
         public static Role getRole(String role) {
 

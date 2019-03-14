@@ -17,4 +17,6 @@ public interface ModelCrud {
     Long getBigVersion(Long modelTypeId, Long projectId);
 
     Long getSmallVersion(Long modelTypeId, Long projectId, Long bigVersion);
+
+    public Model getById(Long modelId);
 }

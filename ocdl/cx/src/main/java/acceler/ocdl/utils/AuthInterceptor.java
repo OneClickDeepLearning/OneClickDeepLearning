@@ -2,12 +2,14 @@ package acceler.ocdl.utils;
 
 import acceler.ocdl.model.User;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Component
 public final class AuthInterceptor extends HandlerInterceptorAdapter {
     private static final String AUTH_TOKEN_HEADER = "AUTH_TOKEN";
 
