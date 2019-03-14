@@ -137,7 +137,7 @@ public class ApprovalController {
 
             if (incomeModelDto.getStatus().equals("Approval")) {
                 updateModel.setStatus(Model.Status.APPROVAL);
-                
+
             } else if (incomeModelDto.getStatus().equals("Reject")) {
                 updateModel.setStatus(Model.Status.REJECT);
             } else {
