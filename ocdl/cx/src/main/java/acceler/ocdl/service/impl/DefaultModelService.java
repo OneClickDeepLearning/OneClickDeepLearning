@@ -21,6 +21,10 @@ public class DefaultModelService implements ModelService {
     @Autowired
     private DefaultModelCrud modelCrud;
 
+    public DefaultModelService(){
+
+    }
+
     @Override
     public boolean copyModels(User user){
 

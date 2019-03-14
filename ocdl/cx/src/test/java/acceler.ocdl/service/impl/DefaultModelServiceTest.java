@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.Assert.*;
 
 public class DefaultModelServiceTest {
-    
+
     @Test
     public void copyModels() {
         DefaultModelService service = new DefaultModelService();
