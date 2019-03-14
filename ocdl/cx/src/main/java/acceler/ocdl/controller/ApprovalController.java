@@ -137,6 +137,7 @@ public class ApprovalController {
 
             if (incomeModelDto.getStatus().equals("Approval")) {
                 updateModel.setStatus(Model.Status.APPROVAL);
+                
             } else if (incomeModelDto.getStatus().equals("Reject")) {
                 updateModel.setStatus(Model.Status.REJECT);
             } else {
@@ -146,12 +147,24 @@ public class ApprovalController {
             Long bigVersion = 1L;
             Long smallVersion = 0L;
 
+            StringBuilder newModelName = new StringBuilder();
+
+            newModelName.append(modelTypeCrud.findById(updateModel.getModelTypeId()).getName());
+            newModelName.append("_v");
+            newModelName.append(updateModel.getBigVersion().toString());
+            newModelName.append(".v");
+            newModelName.append(updateModel.getSmallVersion().toString());
+
+
+
             if (incomeModelDto.getBigVersion() == 1){
                 bigVersion = modelCrud.getBigVersion(modelId, projectId) + 1;
             } else {
                 bigVersion = modelCrud.getBigVersion(modelId, projectId);
                 smallVersion = modelCrud.getSmallVersion(modelId, projectId, bigVersion) + 1;
             }
+
+
 
             updateModel.setBigVersion(bigVersion);
             updateModel.setSmallVersion(smallVersion);

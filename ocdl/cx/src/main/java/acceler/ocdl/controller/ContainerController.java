@@ -10,9 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
-@RequestMapping(path = "/container")
+@RequestMapping(path = "/rest/container")
 public final class ContainerController {
 
     @Autowired
@@ -46,7 +48,7 @@ public final class ContainerController {
 //    }
 
     @ResponseBody
-    @RequestMapping(params = "action=request", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.GET)
     public final Response requestContainer(@RequestBody String rscType,HttpServletRequest request) {
 //        List<String> result = new ArrayList<>();
         User user = (User) request.getAttribute("CURRENT_USER");
@@ -58,24 +60,21 @@ public final class ContainerController {
 //            result.add(serverIp+":"+assign.toString());
 //        }
 //        return result;
+        Map<String, Object> result = new HashMap<>();
+        result.put("url",assign);
 
-        if (assign == null) {
-            return Response.getBuilder()
-                    .setCode(Response.Code.ERROR)
-                    .setMessage("None Container Assigned")
-                    .build();
-        } else {
-            return Response.getBuilder()
-                    .setCode(Response.Code.SUCCESS)
-                    .setData(assign)
-                    .build();
-        }
+        return Response.getBuilder()
+                .setCode(Response.Code.SUCCESS)
+                .setData(result)
+                .build();
+
     }
 
 
-//    @ResponseBody
-//    @RequestMapping(params = "action=release", method = RequestMethod.POST)
-//    public final void releaseContainer(@RequestBody User user) {
-//        containerService.releaseContainer(user);
-//    }
+    @ResponseBody
+    @RequestMapping(params = "/release", method = RequestMethod.DELETE)
+    public final void releaseContainer(@RequestBody String rscType,HttpServletRequest request) {
+        User user = (User) request.getAttribute("CURRENT_USER");
+        kubernetesService.releaseDockerContainer(rscType,user);
+    }
 }

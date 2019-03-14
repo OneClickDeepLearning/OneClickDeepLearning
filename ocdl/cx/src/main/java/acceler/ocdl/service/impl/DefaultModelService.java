@@ -18,8 +18,8 @@ import java.util.List;
 @Service
 public class DefaultModelService implements ModelService {
 
-//    @Autowired
-//    private DefaultModelCrud modelCrud;
+    @Autowired
+    private ModelCrud modelCrud;
 
     public DefaultModelService(){
 
@@ -64,14 +64,14 @@ public class DefaultModelService implements ModelService {
             System.out.println(command.toString());
             cmdHelper.runCommand(file,command.toString(),std,stderr);
 
-//            Model model = new Model();
-//            model.setName(srcFileName);
-//            model.setModelTypeId(-1L);
-//            model.setProjectId(user.getProjectId());
-//            model.setUrl("/home/ec2-user/stage/" + userspace);
-//            model.setStatus(Model.Status.NEW);
-//
-//            modelCrud.createModel(model);
+            Model model = new Model();
+            model.setName(srcFileName);
+            model.setModelTypeId(-1L);
+            model.setProjectId(user.getProjectId());
+            model.setUrl("/home/ec2-user/stage/" + userspace);
+            model.setStatus(Model.Status.NEW);
+
+            modelCrud.createModel(model);
 
         }
 
