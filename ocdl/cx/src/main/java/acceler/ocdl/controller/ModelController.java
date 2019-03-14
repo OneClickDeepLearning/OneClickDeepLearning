@@ -1,5 +1,6 @@
 package acceler.ocdl.controller;
 
+import acceler.ocdl.model.User;
 import acceler.ocdl.service.ModelService;
 import acceler.ocdl.dto.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,26 +22,19 @@ public final class ModelController {
 
     @ResponseBody
     @RequestMapping(params = "action=push", method = RequestMethod.POST)
-    public final Response queryPushModels(@RequestBody String userId, HttpServletRequest request) {
-//        List<String> result = new ArrayList<>();
-//        if(modelService.pushModels(userId)) {
-//            result.add("push succeeded");
-//        } else{
-//            result.add("push failed");
-//        }
-//        return result;
+    public final Response queryPushModels(HttpServletRequest request) {
 
-        request.getAttribute("CURRENT_USER");
+        User user = (User) request.getAttribute("CURRENT_USER");
 
-        if(modelService.pushModels(userId)) {
+        if(modelService.copyModels(user)) {
             return Response.getBuilder()
                     .setCode(Response.Code.SUCCESS)
-                    .setData("push succeeded")
+                    .setData("copy succeeded")
                     .build();
         } else{
             return Response.getBuilder()
                     .setCode(Response.Code.ERROR)
-                    .setMessage("push failed")
+                    .setMessage("copy failed")
                     .build();
         }
 

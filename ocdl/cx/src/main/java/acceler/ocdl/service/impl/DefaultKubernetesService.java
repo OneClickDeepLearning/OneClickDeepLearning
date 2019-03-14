@@ -46,13 +46,7 @@ public class DefaultKubernetesService implements KubernetesService {
 
         StringBuilder std = new StringBuilder();
         StringBuilder stderr = new StringBuilder();
-
-        File file = new File("/home/ec2-user/hdfsmnt");
-        String copyCommand = "hadoop fs -get /userSpace/" + nameSpace + " userSpace/";
-        cmdHelper.runCommand(file,copyCommand,std,stderr);
-        System.out.println(copyCommand);
-
-        file = new File("/home/ec2-user/k8s/deployment");
+        File file = new File("/home/ec2-user/k8s/deployment");
         stderr = new StringBuilder();
         std = new StringBuilder();
 
