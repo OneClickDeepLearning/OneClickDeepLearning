@@ -377,10 +377,10 @@
                             "</select>" +
                             "</td> <td>" +
                             "<select id=\"version" + data["newModels"][i].modelId +"\" style=\"color: black;\">\n" +
-                            "<option value=\"1\">\n" +
+                            "<option value=\"2\">\n" +
                             "Small Update\n" +
                             "</option>\n" +
-                            "<option value=\"2\">\n" +
+                            "<option value=\"1\">\n" +
                             "Large Update\n" +
                             "</option>\n" +
                             "</select>" +
@@ -454,13 +454,18 @@
 
     function UpdateDecision(id,status) {
         var decision='';
+        var modelType=-1;
+        var bigVersion=-1;
         if(status==0){
-            decision="Rejected";
+            decision="Reject";
         }else if(status==1){
             decision="Approval";
+            modelType=parseInt($("#modelType"+id).val());
+            bigVersion = parseInt($("#version"+id).val());
         }else if(status==-1){
             decision="Undo";
         }
+
         $.ajax({
             url: "/rest/models/"+id+"",
             contentType: 'application/json',
@@ -468,9 +473,9 @@
             data:
                 JSON.stringify({
                     modelId: id,
-                    modelTypeId: parseInt($("#modelType"+id).val()),
+                    modelTypeId: modelType,
                     status:decision,
-                    bigVersion:parseInt($("#version"+id).val())
+                    bigVersion:bigVersion
                 }),
             type: "PUT",
             timeout: 0,

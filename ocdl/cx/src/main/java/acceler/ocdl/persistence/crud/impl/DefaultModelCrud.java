@@ -68,18 +68,12 @@ public class DefaultModelCrud implements ModelCrud {
 
     @Override
     public Model getById(Long modelId) {
-        Optional<Model> modelOption = Optional.ofNullable(getById(modelId));
+        Optional<Model> modelOption = modelDao.findById(modelId);
         if (modelOption.isPresent()) {
             return modelOption.get();
         } else {
             return null;
         }
     }
-
-
-
-
-
-
 
 }
