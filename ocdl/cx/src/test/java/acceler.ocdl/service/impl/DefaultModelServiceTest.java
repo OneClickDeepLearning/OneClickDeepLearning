@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.Assert.*;
 
 public class DefaultModelServiceTest {
-    @Autowired DefaultModelService service;
+    @Autowired
+    private DefaultModelService service;
 
     @Test
     public void copyModels() {
@@ -18,7 +19,7 @@ public class DefaultModelServiceTest {
         User user2 = new User();
         user2.setProjectId(2L);
         user2.setUserId(1002L);
-        
+
         service.copyModels(user1);
         service.copyModels(user1);
 
