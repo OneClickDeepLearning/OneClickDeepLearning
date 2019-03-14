@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class DefaultModelServiceTest {
 
-    private DefaultModelService service = new DefaultModelService();
+    private ModelService service = new DefaultModelService();
 
     @Test
     public void copyModels() {
