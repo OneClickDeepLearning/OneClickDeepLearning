@@ -1,8 +1,10 @@
 package acceler.ocdl.service;
 
+import acceler.ocdl.model.User;
+
 import java.util.List;
 
 public interface ModelService {
 
-    public boolean pushModels(String userId);
+    public boolean copyModels(User user);
 }

@@ -13,7 +13,6 @@ import acceler.ocdl.model.User;
 import acceler.ocdl.persistence.crud.ModelCrud;
 import acceler.ocdl.persistence.crud.ModelTypeCrud;
 import acceler.ocdl.persistence.crud.ProjectCrud;
-import com.sun.xml.internal.ws.client.sei.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
