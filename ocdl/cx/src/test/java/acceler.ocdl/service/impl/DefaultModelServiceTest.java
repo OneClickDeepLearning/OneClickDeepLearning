@@ -17,10 +17,7 @@ public class DefaultModelServiceTest {
     public void copyModels() {
         User user1 = new User();
         user1.setProjectId(1L);
-        user1.setUserId(1001L);
-        User user2 = new User();
-        user2.setProjectId(2L);
-        user2.setUserId(1002L);
+        user1.setUserId(3L);
 
         service.copyModels(user1);
         service.copyModels(user1);

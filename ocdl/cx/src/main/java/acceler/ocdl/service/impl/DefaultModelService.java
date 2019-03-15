@@ -32,10 +32,7 @@ public class DefaultModelService implements ModelService {
 
         String userspace = user.getProjectId().toString() + "-" + user.getUserId().toString();
         String destPath = "/home/ec2-user/stage/";
-        DefaultCmdHelper cmdHelper = new DefaultCmdHelper();
         File file = new File("/home/hadoop/nfs_hdfs/UserSpace/" + userspace);
-        StringBuilder stderr = new StringBuilder();
-        StringBuilder std = new StringBuilder();
 
         File[] files = file.listFiles();
         if(files == null)
@@ -51,30 +48,17 @@ public class DefaultModelService implements ModelService {
             newFileName.append("_");
             newFileName.append(srcFileName);
 
-            StringBuilder command = new StringBuilder();
-            command.append("mv ");
-            command.append(srcFileName);
-            command.append(" ");
-            command.append(destPath);
-            command.append(newFileName.toString());
-
-            System.out.println("[debug]" + command.toString());
-            cmdHelper.runCommand(file,command.toString(),std,stderr);
-
-            Model model = new Model();
-            model.setName(newFileName.toString());
-            model.setModelTypeId(-1L);
-            model.setProjectId(user.getProjectId());
-            model.setUrl("/home/ec2-user/stage/" + userspace);
-            model.setStatus(Model.Status.NEW);
-
-            modelCrud.createModel(model);
-
-        }
-
-        if(!stderr.toString().equals("")){
-            System.out.println(stderr.toString());
-            return false;
+            if(modelFile.renameTo(new File(destPath + newFileName.toString()))){
+                Model model = new Model();
+                model.setName(newFileName.toString());
+                model.setModelTypeId(-1L);
+                model.setProjectId(user.getProjectId());
+                model.setUrl("/home/ec2-user/stage/" + userspace);
+                model.setStatus(Model.Status.NEW);
+                modelCrud.createModel(model);
+            } else {
+                return false;
+            }
         }
         return true;
     }
