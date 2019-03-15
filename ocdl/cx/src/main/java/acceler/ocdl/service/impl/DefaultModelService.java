@@ -48,6 +48,9 @@ public class DefaultModelService implements ModelService {
             newFileName.append("_");
             newFileName.append(srcFileName);
 
+            System.out.println("[debug]" + srcFileName);
+            System.out.println("[debug] "+ newFileName);
+
             if(modelFile.renameTo(new File(destPath + newFileName.toString()))){
                 Model model = new Model();
                 model.setName(newFileName.toString());
@@ -56,6 +59,9 @@ public class DefaultModelService implements ModelService {
                 model.setUrl("/home/ec2-user/stage/" + userspace);
                 model.setStatus(Model.Status.NEW);
                 modelCrud.createModel(model);
+
+                System.out.println("[debug]" + "ok!");
+
             } else {
                 return false;
             }
