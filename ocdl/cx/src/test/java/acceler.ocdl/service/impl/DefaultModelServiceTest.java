@@ -22,8 +22,8 @@ public class DefaultModelServiceTest {
         user1.setProjectId(1L);
         user1.setUserId(3L);
 
-        service.copyModels(user1);
-        service.copyModels(user1);
+        assertTrue(service.copyModels(user1));
+        assertTrue(service.copyModels(user1));
 
     }
 }
