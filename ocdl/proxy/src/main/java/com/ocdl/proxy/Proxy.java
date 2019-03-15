@@ -26,7 +26,10 @@ public class Proxy implements ProxyCallBack{
     @Resource
     MessageTransferService msgTransfer;
 
+    @Value("${jenkins.server.workspacePath}")
     public static String SOURCE;
+
+    @Value("${S3.server.bucketName}")
     public static String BUCKETNAME;
 
     public Proxy() {
@@ -35,10 +38,9 @@ public class Proxy implements ProxyCallBack{
         curModel = new HashMap<>();
     }
 
-    @Value("${jenkins.server.workspacePath}")
+
     public static void setSOURCE(String SOURCE) { Proxy.SOURCE = SOURCE; }
 
-    @Value("${S3.server.bucketName}")
     public static void setBUCKETNAME(String BUCKETNAME) { Proxy.BUCKETNAME = BUCKETNAME; }
 
     public void run() {
@@ -60,7 +62,9 @@ public class Proxy implements ProxyCallBack{
 
         System.out.println("=================================================================");
 
+        System.out.println("SOURTH:" + SOURCE);
         String[] projectInfo = msg.split(" ");
+        System.out.println(projectInfo);
         Path path = Paths.get(SOURCE, projectInfo[0]);
 
         HashMap<String, Set<String>> preModel = null;
@@ -72,6 +76,7 @@ public class Proxy implements ProxyCallBack{
             preModels.put(projectInfo[0].trim(), preModel);
         }
         printModelMap(preModel);
+
 
         curModel = FileTool.listModel(path.toString());
         System.out.println("CurModel is: ");
@@ -98,7 +103,6 @@ public class Proxy implements ProxyCallBack{
 
             });
         }
-
 
         preModel.clear();
         for (String key : curModel.keySet()) {

@@ -9,6 +9,8 @@ public class FileTool {
 
     public static HashMap<String, Set<String>> listModel(String source) {
 
+        System.out.println("the file source is: " + source);
+
         HashMap<String, Set<String>> models = new HashMap<String, Set<String>>();
 
         File jkModel = new File(source);
