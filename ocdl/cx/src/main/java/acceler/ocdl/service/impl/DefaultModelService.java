@@ -92,10 +92,10 @@ public class DefaultModelService implements ModelService {
         cmdHelper.runCommand(file, "git push",std,stderr);
         System.out.println(stderr.toString());
 
-        if(!stderr.toString().equals("")) {
-            System.out.println(stderr.toString());
-            return false;
-        }
+//        if(!stderr.toString().equals("")) {
+//            System.out.println(stderr.toString());
+//            return false;
+//        }
         return true;
     }
 

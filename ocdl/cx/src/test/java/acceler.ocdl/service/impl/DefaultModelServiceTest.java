@@ -36,6 +36,6 @@ public class DefaultModelServiceTest {
         Model model = new Model();
         model.setName("1_3_test1.model");
         model.setProjectId(1L);
-        assertTrue(service.pushModel(model,"testModel"));
+        assertTrue(service.pushModel(model,"modelTest"));
     }
 }
