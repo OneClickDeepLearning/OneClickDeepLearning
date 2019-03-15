@@ -1,17 +1,15 @@
 package com.ocdl.proxy.util;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class FileTool {
 
-    public static HashMap<String, Set<String>> listModel(String source) {
+    public static Set<String> listModel(String source) {
 
         System.out.println("the file source is: " + source);
 
-        HashMap<String, Set<String>> models = new HashMap<String, Set<String>>();
+        Set<String> models = new HashSet<String>();
 
         File jkModel = new File(source);
         if (! jkModel.isDirectory()) {
@@ -22,21 +20,22 @@ public class FileTool {
 
         for (File f : files) {
 
-            if (isModelDirectory(f)) {
-
-                // if f not in the models, creat a new key-value pairs
-                if ( !models.containsKey(f.getName())) {
-                    models.put(f.getName(), new HashSet<>());
-                }
-
-                for (File m : f.listFiles()) {
-                    if (isModel(m)) {
-                        models.get(f.getName()).add(m.getName());
-                    }
-                }
+            if (isModel(f)) {
+                models.add(f.getName());
             }
         }
         return models;
+
+    }
+
+    public static Set<String> getNewModels(Set<String> curModel, Set<String> preModel) {
+
+        Set<String> newModel = new HashSet<>();
+
+        newModel.addAll(curModel);
+        newModel.removeAll(preModel);
+
+        return newModel;
 
     }
 
@@ -71,8 +70,8 @@ public class FileTool {
 
     private static Boolean isModel(File f) {
 
-        if (f.getName().startsWith(".") || f.isDirectory()) return false;
-        return true;
+        if (f.getName().endsWith(".model")) return true;
+        return false;
 
     }
 

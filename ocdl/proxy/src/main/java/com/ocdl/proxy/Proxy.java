@@ -12,13 +12,14 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 @Component
 public class Proxy implements ProxyCallBack{
 
-    HashMap<String, HashMap<String, Set<String>>> preModels;
-    HashMap<String, Set<String>> curModel;
+    HashMap<String, Set<String>> preModels;
+    Set<String> curModel;
 
     @Resource
     StorageService storage;
@@ -33,7 +34,7 @@ public class Proxy implements ProxyCallBack{
     public Proxy() {
         // create the preModel and curModel
         preModels = new HashMap<>();
-        curModel = new HashMap<>();
+        curModel = new HashSet<>();
     }
 
 //    @Value("${jenkins.server.workspacePath}")
@@ -70,61 +71,56 @@ public class Proxy implements ProxyCallBack{
         System.out.println(projectInfo[0] + "   " + projectInfo[1]);
         Path path = Paths.get(SOURCE, projectInfo[0]);
 
-        HashMap<String, Set<String>> preModel = null;
+        Set<String> preModel = null;
         System.out.println("PreModel is: ");
         if (preModels.containsKey(projectInfo[0].trim())) {
             preModel = preModels.get(projectInfo[0].trim());
         } else {
-            preModel = new HashMap<String, Set<String>>();
+            preModel = new HashSet<String>();
             preModels.put(projectInfo[0].trim(), preModel);
         }
-        printModelMap(preModel);
+        System.out.println(preModel);
 
 
         curModel = FileTool.listModel(path.toString());
         System.out.println("CurModel is: ");
-        printModelMap(curModel);
+        System.out.println(curModel);
 
-        HashMap<String, Set<String>> newModel = FileTool.getNewModels(curModel, preModel);
+        Set<String> newModel = FileTool.getNewModels(curModel, preModel);
 
-        for (String directory : newModel.keySet()) {
+        newModel.stream().forEach( v -> {
 
-            newModel.get(directory).stream().forEach( v -> {
+            File model = new File(Paths.get(path.toString(), v).toString());
 
-                File model = new File(Paths.get(SOURCE, directory, v).toString());
+            // upload file to S3
+            storage.createStorage();
+            String modelName = v;
+            storage.uploadObject(BUCKETNAME, modelName, model);
 
-                // upload file to S3
-                storage.createStorage();
-                String modelName = directory+ "_" + v;
-                storage.uploadObject(BUCKETNAME, modelName, model);
+            // send message in kafka
+            msgTransfer.createProducer();
+            String content = modelName + " " + storage.getObkectUrl(BUCKETNAME, modelName);
+            msgTransfer.send(projectInfo[1], content);
+            System.out.println("produce message send...   ");
 
-                // send message in kafka
-                msgTransfer.createProducer();
-                String content = modelName + " " + storage.getObkectUrl(BUCKETNAME, modelName);
-                msgTransfer.send(projectInfo[1], content);
-                System.out.println("produce message send...   ");
-
-            });
-        }
+        });
 
         preModel.clear();
-        for (String key : curModel.keySet()) {
-            preModel.put(key, curModel.get(key));
-        }
+        preModel.addAll(curModel);
         curModel.clear();
 
         System.out.println("=================================================================");
     }
 
 
-    private void printModelMap( HashMap<String, Set<String>> models) {
-
-        models.keySet().stream().forEach(key -> {
-            System.out.println(key + ": ");
-            System.out.print(models.get(key));
-            System.out.println();
-        });
-    }
+//    private void printModelMap( HashMap<String, Set<String>> models) {
+//
+//        models.keySet().stream().forEach(key -> {
+//            System.out.println(key + ": ");
+//            System.out.print(models.get(key));
+//            System.out.println();
+//        });
+//    }
 
 
 
