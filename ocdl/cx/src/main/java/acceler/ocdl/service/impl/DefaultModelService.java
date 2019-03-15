@@ -28,14 +28,6 @@ public class DefaultModelService implements ModelService {
     @Override
     public boolean copyModels(User user){
 
-
-//        CmdHelper.runCommand("cd /home/ec2-user/model_repo/models/" + userId + "/ && ");
-//
-//        CmdHelper.runCommand("git add .");
-//
-//	    CmdHelper.runCommand("git commit -m \"newmodels\"");
-//        CmdHelper.runCommand("git push new master");
-
         String userspace = user.getProjectId().toString() + "-" + user.getUserId().toString();
         String destPath = "/home/ec2-user/stage/";
         DefaultCmdHelper cmdHelper = new DefaultCmdHelper();
@@ -51,7 +43,7 @@ public class DefaultModelService implements ModelService {
                 continue;
             String srcFileName = modelFile.getName();
             StringBuilder command = new StringBuilder();
-            command.append("cp ");
+            command.append("mv ");
             command.append(srcFileName);
             command.append(" ");
             command.append(destPath);
@@ -61,7 +53,7 @@ public class DefaultModelService implements ModelService {
             command.append("_");
             command.append(srcFileName);
 
-            System.out.println(command.toString());
+            System.out.println("[debug]" + command.toString());
             cmdHelper.runCommand(file,command.toString(),std,stderr);
 
             Model model = new Model();
@@ -79,6 +71,38 @@ public class DefaultModelService implements ModelService {
             System.out.println(stderr.toString());
             return false;
         }
+        return true;
+    }
+
+    public boolean pushModel(Model updateModel, String newModelName){
+
+        File file = new File("/home/ec2-user/stage/");
+        StringBuilder stderr = new StringBuilder();
+        StringBuilder std = new StringBuilder();
+        DefaultCmdHelper cmdHelper = new DefaultCmdHelper();
+
+        String repoPath = "/home/ec2-user/models/" + updateModel.getProjectId().toString();
+
+        StringBuilder command = new StringBuilder();
+        command.append("cp ");
+        command.append(updateModel.getName());
+        command.append(" ");
+        command.append(repoPath);
+        command.append("/");
+        command.append(newModelName);
+
+        System.out.println("[debug]" + command.toString());
+        cmdHelper.runCommand(file,command.toString(),std,stderr);
+
+
+        file = new File(repoPath);
+        cmdHelper.runCommand(file,"git pull");
+        cmdHelper.runCommand(file,"git add .");
+        cmdHelper.runCommand(file,"git commit -m \"new model\"");
+        cmdHelper.runCommand(file, "git push");
+
+        if(!stderr.toString().equals(""))
+            return false;
         return true;
     }
 
