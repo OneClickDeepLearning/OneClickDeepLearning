@@ -44,22 +44,25 @@ public class DefaultModelService implements ModelService {
             if(modelFile.isDirectory() || !isModelFile(modelFile.getName()))
                 continue;
             String srcFileName = modelFile.getName();
+            StringBuilder newFileName = new StringBuilder();
+            newFileName.append(user.getProjectId().toString());
+            newFileName.append("_");
+            newFileName.append(user.getUserId().toString());
+            newFileName.append("_");
+            newFileName.append(srcFileName);
+
             StringBuilder command = new StringBuilder();
             command.append("mv ");
             command.append(srcFileName);
             command.append(" ");
             command.append(destPath);
-            command.append(user.getProjectId().toString());
-            command.append("_");
-            command.append(user.getUserId().toString());
-            command.append("_");
-            command.append(srcFileName);
+            command.append(newFileName.toString());
 
             System.out.println("[debug]" + command.toString());
             cmdHelper.runCommand(file,command.toString(),std,stderr);
 
             Model model = new Model();
-            model.setName(srcFileName);
+            model.setName(newFileName.toString());
             model.setModelTypeId(-1L);
             model.setProjectId(user.getProjectId());
             model.setUrl("/home/ec2-user/stage/" + userspace);
