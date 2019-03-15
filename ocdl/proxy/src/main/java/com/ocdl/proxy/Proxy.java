@@ -26,11 +26,9 @@ public class Proxy implements ProxyCallBack{
     @Resource
     MessageTransferService msgTransfer;
 
-    @Value("${jenkins.server.workspacePath}")
-    public static String SOURCE;
 
-    @Value("${S3.server.bucketName}")
-    public static String BUCKETNAME;
+    public static String SOURCE = "/var/lib/jenkins/workspace";
+    public static String BUCKETNAME = "ocdl-model";
 
     public Proxy() {
         // create the preModel and curModel
@@ -38,12 +36,16 @@ public class Proxy implements ProxyCallBack{
         curModel = new HashMap<>();
     }
 
-
-    public static void setSOURCE(String SOURCE) { Proxy.SOURCE = SOURCE; }
-
-    public static void setBUCKETNAME(String BUCKETNAME) { Proxy.BUCKETNAME = BUCKETNAME; }
+//    @Value("${jenkins.server.workspacePath}")
+//    public static void setSOURCE(String SOURCE) { Proxy.SOURCE = SOURCE; }
+//
+//    @Value("${S3.server.bucketName}")
+//    public static void setBUCKETNAME(String BUCKETNAME) { Proxy.BUCKETNAME = BUCKETNAME; }
 
     public void run() {
+
+        System.out.println(SOURCE);
+        System.out.println(BUCKETNAME);
 
         Proxy proxy = this;
 
@@ -64,7 +66,8 @@ public class Proxy implements ProxyCallBack{
 
         System.out.println("SOURTH:" + SOURCE);
         String[] projectInfo = msg.split(" ");
-        System.out.println(projectInfo);
+        System.out.println("project info: ");
+        System.out.println(projectInfo[0] + "   " + projectInfo[1]);
         Path path = Paths.get(SOURCE, projectInfo[0]);
 
         HashMap<String, Set<String>> preModel = null;
