@@ -10,11 +10,14 @@ import static org.junit.Assert.*;
 
 public class DefaultModelServiceTest {
 
-    @Autowired
-    private ModelService service;
+//    @Autowired
+//    private ModelService service;
 
     @Test
     public void copyModels() {
+
+        DefaultModelService service = new DefaultModelService();
+
         User user1 = new User();
         user1.setProjectId(1L);
         user1.setUserId(3L);
