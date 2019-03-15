@@ -28,6 +28,8 @@ public class DefaultModelService implements ModelService {
     @Override
     public boolean copyModels(User user){
 
+        System.out.println("[debug]" + "in copyModel method");
+
         String userspace = user.getProjectId().toString() + "-" + user.getUserId().toString();
         String destPath = "/home/ec2-user/stage/";
         DefaultCmdHelper cmdHelper = new DefaultCmdHelper();
