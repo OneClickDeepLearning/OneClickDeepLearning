@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 @Controller
-@RequestMapping(path = "/projects")
+@RequestMapping(path = "/rest/projects")
 public class ConfigurationController {
 
     @Autowired
@@ -57,6 +57,7 @@ public class ConfigurationController {
 
         try{
             Project updatedProject = updatedProjectConfig.convert2Project();
+            updatedProject.setProjectId(projectId);
 
             Project reProject = projectCrud.updateProjct(projectId, updatedProject);
             responseBuilder.setCode(Response.Code.SUCCESS)

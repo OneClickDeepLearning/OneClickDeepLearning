@@ -23,25 +23,29 @@ public class User {
     private Long projectId;
 
     @Transient
+    private int type;
+    @Column(name = "role")
     private Role role;
 
     public User() {
     }
 
-    public User(String userName, String account, String password, Role role, Long projectId) {
+    public User(String userName, String account, String password, int type, Role role, Long projectId) {
         this.userName = userName;
         this.account = account;
         this.password = password;
+        this.type = type;
         this.role = role;
         this.projectId = projectId;
     }
 
 
-    public User(Long userId, String userName, String account, String password, Role role, Long projectId) {
+    public User(Long userId, String userName, String account, String password, int type, Role role, Long projectId) {
         this.userId = userId;
         this.userName = userName;
         this.account = account;
         this.password = password;
+        this.type = type;
         this.role = role;
         this.projectId = projectId;
     }
@@ -78,6 +82,14 @@ public class User {
         this.password = password;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     public Role getRole() {
         return role;
     }
@@ -109,7 +121,7 @@ public class User {
 
 
     public enum Role {
-        MANAGER, DEVELOPER, TEST;
+        TEST, DEVELOPER,MANAGER;
 
         public static Role getRole(String role) {
 

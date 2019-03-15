@@ -1,0 +1,284 @@
+a:hover,a:focus{
+    text-decoration: none;
+    outline: none;
+}
+#accordion .panel{
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    margin-bottom: -5px;
+}
+#accordion .panel-heading{
+    padding: 0;
+    border-radius: 0;
+    border: none;
+    text-align: center;
+}
+#accordion .panel-title a{
+    display: block;
+    padding: 25px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background: #333;
+    border-bottom: 1px solid #4a4a4a;
+    position: relative;
+    transition: all 0.5s ease 0s;
+}
+#accordion .panel-title a:hover{
+    background: #4a4a4a;
+}
+#accordion .panel-title a:after,
+#accordion .panel-title a.collapsed:after{
+    content: "\f067";
+    font-family: FontAwesome;
+    font-size: 15px;
+    font-weight: 200;
+    position: absolute;
+    top: 25px;
+    left: 15px;
+    transform: rotate(135deg);
+    transition: all 0.5s ease 0s;
+}
+#accordion .panel-title a.collapsed:after{
+    transform: rotate(0deg);
+}
+#accordion .panel-body{
+    background: #167ea0;
+    padding: 0 0 0 0px;
+    border: none;
+    position: relative;
+}
+#accordion .panel-body p{
+    font-size: 14px;
+    color: #fff;
+    line-height: 25px;
+    background: #3296b7;
+    padding: 30px;
+    margin: 0;
+}
+#accordion .panel-collapse .panel-body p{
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.5s ease-in-out 0s;
+}
+#accordion .panel-collapse.in .panel-body p{
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+
+
+
+.item-box{
+    background: #191f28;
+    border-radius: 5px;
+    height: 100%;
+    padding-top: 0px;
+}
+.item-box>.item-title{
+    height: 60px;
+    padding-top: 10px;
+    margin-top: -60px;
+    line-height: 50px;
+    padding-left: 14px;
+    color: #aaa;
+    font-weight: 600;
+}
+.item-box>.item-title.tc{
+    text-align: center;
+    padding-left: 0;
+}
+.item-con{
+    height: 100%;
+    position: relative;
+}
+
+
+/* table - Start -----------------------------------------------------------------S*/
+table{
+    color: #ccc;
+    width: 100%;
+}
+table.widauto{
+    width: unset;
+}
+table tr{
+    height: 40px;
+    line-height: 40px;
+}
+table td{
+    padding: 0 14px;
+}
+
+table.border td , table.border th{
+    border:solid 1px #555;
+}
+
+table.odd-even thead tr{
+    background: rgba(255, 255, 255, 0.1);
+}
+table.odd-even tbody tr:nth-child(2n+1){
+}
+table.odd-even tbody tr:nth-child(2n){
+    background: rgba(170, 170, 170, 0.1);
+}
+
+table.border-bottom thead tr{
+    background: rgba(255, 255, 255, 0.1);
+}
+table.border-bottom tbody tr{
+    border-bottom: solid 1px #555;
+}
+th{
+    text-align: center !important;
+}
+
+.paging{
+    height: 100%;
+    padding: 0 25px 60px 25px;
+}
+.paging .scroll-bar , .select .scroll-bar{
+    width: 6px;
+}
+
+.table-foot
+{
+    position: absolute;
+    width: 100%;
+    height: 60px;
+    bottom: 0;
+    left: 0;
+    padding: 13px 20px;
+}
+.table-foot>.size , .table-foot>.number{
+    height: 34px;
+}
+.table-foot>.size{
+    width: 40%;
+}
+.table-foot>.number{
+    width: 60%;
+}
+.table-foot>.size{
+    float: left;
+    line-height: 34px;
+}
+.table-foot>.size>span{
+    margin-right:20px;
+}
+.table-foot>.number{
+    float: right;
+    padding: 1px 0;
+    text-align: right;
+}
+.table-foot>.number>a{
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    margin-left: 8px;
+    text-align: center;
+    line-height: 30px;
+    vertical-align: top;
+}
+.table-foot>.number>.a-prev , .table-foot>.number>.a-next , .table-foot>.number>.a-num{
+
+    border: solid 1px #5a6882;
+    background: rgba(255,255,255,0.05);
+}
+.table-foot>.number>.a-num.active{
+    background: #21a6df;
+    border-color: #21a6df;
+    color: #fff;
+}
+
+.table-foot .ps{
+    display: inline-block;
+    height: 34px;
+    width: 54px;
+    background: rgba(255,255,255,0.05);
+    border: solid 1px #5a6882;
+    border-radius: 1px;
+    margin-left: 7px;
+    text-align: center;
+    position: relative;
+}
+.table-foot .ps:after{
+    content: "";
+    border-bottom: solid 4px #e5e5e5;
+    border-left: solid 4px transparent;
+    border-right: solid 4px transparent;
+    margin-left: 4px;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 15px;
+}
+.table-foot .ps ul{
+    display: none;
+    position: absolute;
+    width: 54px;
+    left: -1px;
+    top: -97px;
+    background: #323955;
+    border: solid 1px #5a6882;
+    padding: 1px;
+}
+.table-foot .ps ul li{
+    line-height: 30px;
+}
+.table-foot .ps ul li.active{
+    background: #21a6df;
+}
+.table-foot .a-prev,.table-foot .a-next{
+    position: relative;
+}
+.table-foot .a-prev:before, .table-foot .a-prev:after, .table-foot .a-next:before , .table-foot .a-next:after{
+    content: "";
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-top: solid 1px #aaa;
+    border-left: solid 1px #aaa;
+    position: absolute;
+    top: 10px;
+}
+.table-foot .a-prev:before, .table-foot .a-prev:after{
+    transform: rotate(-45deg);
+}
+.table-foot .a-next:before , .table-foot .a-next:after{
+    transform: rotate(135deg);
+}
+.table-foot .a-prev:before{
+    left: 9px;
+}
+.table-foot .a-prev:after{
+    left: 15px;
+}
+.table-foot .a-next:before{
+    left: 6px;
+}
+.table-foot .a-next:after{
+    left: 12px;
+}
+
+/* table - End -----------------------------------------------------------------E*/
+
+
+
+.pie-line{
+    opacity: .6;
+    stroke: #eee;
+    stroke-width: 2px;
+    fill: none;
+}
+.pie-line-point{
+    fill:#eee;
+    opacity: 0.6;
+}
+.pie-text{
+    fill:#eee;
+    font-family: "微软雅黑";
+    font-size: 14px;
+    font-weight: normal;
+}

@@ -30,10 +30,10 @@ public class AuthController {
     private UserCrud userCrud;
 
     @Autowired
-    private ProjectCrud projectCrud;
+    private SecurityUtil securityUtil;
 
     @Autowired
-    private SecurityUtil securityUtil;
+    private ProjectCrud projectCrud;
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     @ResponseBody
@@ -53,10 +53,10 @@ public class AuthController {
         } else {
             User loginUser = this.userCrud.getUserByAccountAndPassword(credential.account, credential.password);
             String token = securityUtil.requestToken(loginUser);
-
             Map<String, Object> result = new HashMap<>();
             result.put("userName", loginUser.getUserName());
             result.put("token", token);
+            result.put("role",loginUser.getRole());
 
             String projectName = projectCrud.fineById(loginUser.getProjectId()).getProjectName();
             result.put("projectName", projectName);

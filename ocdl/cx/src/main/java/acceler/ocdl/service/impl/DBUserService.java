@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DBUserService implements UserService {
-
     @Autowired
     private UserCrud userCrud;
 
