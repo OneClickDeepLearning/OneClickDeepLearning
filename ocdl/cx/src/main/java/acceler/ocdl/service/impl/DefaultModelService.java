@@ -10,8 +10,9 @@ import acceler.ocdl.utils.impl.DefaultCmdHelper;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.apache.commons.io.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,21 +51,10 @@ public class DefaultModelService implements ModelService {
 
             System.out.println("[debug]" + srcFileName);
             System.out.println("[debug]" + newFileName);
-
-            String newFile = destPath + newFileName.toString();
-            System.out.println(newFile);
-            if(modelFile.renameTo(new File(newFile))){
-//                Model model = new Model();
-//                model.setName(newFileName.toString());
-//                model.setModelTypeId(-1L);
-//                model.setProjectId(user.getProjectId());
-//                model.setUrl("/home/ec2-user/stage/" + userspace);
-//                model.setStatus(Model.Status.NEW);
-//                modelCrud.createModel(model);
-
-                System.out.println("[debug]" + "ok!");
-
-            } else {
+            
+            try {
+                FileUtils.moveFile(modelFile,new File(destPath + newFileName.toString()));
+            } catch (IOException e){
                 return false;
             }
         }
