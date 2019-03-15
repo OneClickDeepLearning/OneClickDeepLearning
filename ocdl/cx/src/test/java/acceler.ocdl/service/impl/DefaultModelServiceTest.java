@@ -1,5 +1,6 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.model.Model;
 import acceler.ocdl.model.User;
 import acceler.ocdl.service.KubernetesService;
 import acceler.ocdl.service.ModelService;
@@ -25,5 +26,16 @@ public class DefaultModelServiceTest {
         assertTrue(service.copyModels(user1));
         assertTrue(service.copyModels(user1));
 
+    }
+
+    @Test
+    public void pushModel() {
+
+        DefaultModelService service = new DefaultModelService();
+
+        Model model = new Model();
+        model.setName("1_3_test1.model");
+        model.setProjectId(1L);
+        assertTrue(service.pushModel(model,"testModel"));
     }
 }

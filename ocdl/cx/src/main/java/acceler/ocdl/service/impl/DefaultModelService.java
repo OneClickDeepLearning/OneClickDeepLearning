@@ -51,42 +51,42 @@ public class DefaultModelService implements ModelService {
 
             System.out.println("[debug]" + srcFileName);
             System.out.println("[debug]" + newFileName);
-            
+
             try {
                 FileUtils.moveFile(modelFile,new File(destPath + newFileName.toString()));
             } catch (IOException e){
                 return false;
             }
+            Model model = new Model();
+            model.setName(newFileName.toString());
+            model.setModelTypeId(-1L);
+            model.setProjectId(user.getProjectId());
+            model.setUrl("/home/ec2-user/stage/" + userspace);
+            model.setStatus(Model.Status.NEW);
+            modelCrud.createModel(model);
         }
         return true;
     }
 
     public boolean pushModel(Model updateModel, String newModelName){
 
-        File file = new File("/home/ec2-user/stage/");
-        StringBuilder stderr = new StringBuilder();
-        StringBuilder std = new StringBuilder();
-        DefaultCmdHelper cmdHelper = new DefaultCmdHelper();
 
         String repoPath = "/home/ec2-user/models/" + updateModel.getProjectId().toString();
+        File stageFile = new File("/home/ec2-user/stage/" + updateModel.getName());
+        try {
+            FileUtils.copyFile(stageFile,new File(repoPath + "/" + newModelName));
+        } catch (IOException e){
+            return false;
+        }
 
-        StringBuilder command = new StringBuilder();
-        command.append("cp ");
-        command.append(updateModel.getName());
-        command.append(" ");
-        command.append(repoPath);
-        command.append("/");
-        command.append(newModelName);
-
-        System.out.println("[debug]" + command.toString());
-        cmdHelper.runCommand(file,command.toString(),std,stderr);
-
-
-        file = new File(repoPath);
-        cmdHelper.runCommand(file,"git pull");
-        cmdHelper.runCommand(file,"git add .");
-        cmdHelper.runCommand(file,"git commit -m \"new model\"");
-        cmdHelper.runCommand(file, "git push");
+        DefaultCmdHelper cmdHelper = new DefaultCmdHelper();
+        File file = new File(repoPath);
+        StringBuilder stderr = new StringBuilder();
+        StringBuilder std = new StringBuilder();
+        cmdHelper.runCommand(file,"git pull",std,stderr);
+        cmdHelper.runCommand(file,"git add .",std,stderr);
+        cmdHelper.runCommand(file,"git commit -m \"new model\"",std,stderr);
+        cmdHelper.runCommand(file, "git push",std,stderr);
 
         if(!stderr.toString().equals(""))
             return false;
