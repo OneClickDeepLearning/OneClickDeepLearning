@@ -11,5 +11,5 @@ public interface MessageTransferService {
 
     public void createProducer();
 
-    public void send(Topic topic, String data);
+    public void send(String topic, String data);
 }

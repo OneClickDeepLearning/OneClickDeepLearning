@@ -69,12 +69,14 @@ public class KafkaService implements MessageTransferService {
     }
 
     @Override
-    public void send(Topic topic, String data) {
+    public void send(String topic, String data) {
 
         try {
-            producer.send(new ProducerRecord<String, String>(topic.toString(), data));
+            producer.send(new ProducerRecord<String, String>(topic, data));
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            producer.close();
         }
     }
 

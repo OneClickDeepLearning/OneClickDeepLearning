@@ -9,6 +9,7 @@ import com.ocdl.proxy.service.MessageTransferService;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Set;
@@ -16,7 +17,7 @@ import java.util.Set;
 @Component
 public class Proxy implements ProxyCallBack{
 
-    HashMap<String, Set<String>> preModel;
+    HashMap<String, HashMap<String, Set<String>>> preModels;
     HashMap<String, Set<String>> curModel;
 
     @Resource
@@ -30,14 +31,14 @@ public class Proxy implements ProxyCallBack{
 
     public Proxy() {
         // create the preModel and curModel
-        preModel = new HashMap<String, Set<String>>();
-        curModel = new HashMap<String, Set<String>>();
+        preModels = new HashMap<>();
+        curModel = new HashMap<>();
     }
 
-    @Value("jenkins.server.workspacePath")
+    @Value("${jenkins.server.workspacePath}")
     public static void setSOURCE(String SOURCE) { Proxy.SOURCE = SOURCE; }
 
-    @Value("S3.server.bucketName")
+    @Value("${S3.server.bucketName}")
     public static void setBUCKETNAME(String BUCKETNAME) { Proxy.BUCKETNAME = BUCKETNAME; }
 
     public void run() {
@@ -59,10 +60,20 @@ public class Proxy implements ProxyCallBack{
 
         System.out.println("=================================================================");
 
+        String[] projectInfo = msg.split(" ");
+        Path path = Paths.get(SOURCE, projectInfo[0]);
+
+        HashMap<String, Set<String>> preModel = null;
         System.out.println("PreModel is: ");
+        if (preModels.containsKey(projectInfo[0].trim())) {
+            preModel = preModels.get(projectInfo[0].trim());
+        } else {
+            preModel = new HashMap<String, Set<String>>();
+            preModels.put(projectInfo[0].trim(), preModel);
+        }
         printModelMap(preModel);
 
-        curModel = FileTool.listModel(SOURCE);
+        curModel = FileTool.listModel(path.toString());
         System.out.println("CurModel is: ");
         printModelMap(curModel);
 
@@ -82,7 +93,7 @@ public class Proxy implements ProxyCallBack{
                 // send message in kafka
                 msgTransfer.createProducer();
                 String content = modelName + " " + storage.getObkectUrl(BUCKETNAME, modelName);
-                msgTransfer.send(Topic.mdmsg, content);
+                msgTransfer.send(projectInfo[1], content);
                 System.out.println("produce message send...   ");
 
             });
@@ -90,9 +101,9 @@ public class Proxy implements ProxyCallBack{
 
 
         preModel.clear();
-        curModel.keySet().stream().forEach(key -> {
+        for (String key : curModel.keySet()) {
             preModel.put(key, curModel.get(key));
-        });
+        }
         curModel.clear();
 
         System.out.println("=================================================================");
