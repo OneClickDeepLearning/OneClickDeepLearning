@@ -49,16 +49,16 @@ public class DefaultModelService implements ModelService {
             newFileName.append(srcFileName);
 
             System.out.println("[debug]" + srcFileName);
-            System.out.println("[debug] "+ newFileName);
+            System.out.println("[debug]" + newFileName);
 
             if(modelFile.renameTo(new File(destPath + newFileName.toString()))){
-                Model model = new Model();
-                model.setName(newFileName.toString());
-                model.setModelTypeId(-1L);
-                model.setProjectId(user.getProjectId());
-                model.setUrl("/home/ec2-user/stage/" + userspace);
-                model.setStatus(Model.Status.NEW);
-                modelCrud.createModel(model);
+//                Model model = new Model();
+//                model.setName(newFileName.toString());
+//                model.setModelTypeId(-1L);
+//                model.setProjectId(user.getProjectId());
+//                model.setUrl("/home/ec2-user/stage/" + userspace);
+//                model.setStatus(Model.Status.NEW);
+//                modelCrud.createModel(model);
 
                 System.out.println("[debug]" + "ok!");
 
