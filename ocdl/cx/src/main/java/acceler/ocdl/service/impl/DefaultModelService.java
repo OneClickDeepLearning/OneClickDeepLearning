@@ -51,7 +51,9 @@ public class DefaultModelService implements ModelService {
             System.out.println("[debug]" + srcFileName);
             System.out.println("[debug]" + newFileName);
 
-            if(modelFile.renameTo(new File(destPath + newFileName.toString()))){
+            String newFile = destPath + newFileName.toString();
+            System.out.println(newFile);
+            if(modelFile.renameTo(new File(newFile))){
 //                Model model = new Model();
 //                model.setName(newFileName.toString());
 //                model.setModelTypeId(-1L);
