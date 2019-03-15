@@ -84,12 +84,14 @@ public class DefaultModelService implements ModelService {
         StringBuilder stderr = new StringBuilder();
         StringBuilder std = new StringBuilder();
         cmdHelper.runCommand(file,"git pull",std,stderr);
-        cmdHelper.runCommand(file,"git add .",std,stderr);
+        cmdHelper.runCommand(file,"git add --all",std,stderr);
         cmdHelper.runCommand(file,"git commit -m \"new model\"",std,stderr);
         cmdHelper.runCommand(file, "git push",std,stderr);
 
-        if(!stderr.toString().equals(""))
+        if(!stderr.toString().equals("")) {
+            System.out.println(stderr.toString());
             return false;
+        }
         return true;
     }
 
