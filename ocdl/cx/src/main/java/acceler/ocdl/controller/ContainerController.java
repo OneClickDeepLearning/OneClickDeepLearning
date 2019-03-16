@@ -61,6 +61,13 @@ public final class ContainerController {
 //            result.add(serverIp+":"+assign.toString());
 //        }
 //        return result;
+
+        if(assign == null)
+            return Response.getBuilder()
+                    .setCode(Response.Code.ERROR)
+                    .setMessage("Container launch failed")
+                    .build();
+
         Map<String, Object> result = new HashMap<>();
         result.put("url",assign);
 
@@ -68,7 +75,6 @@ public final class ContainerController {
                 .setCode(Response.Code.SUCCESS)
                 .setData(result)
                 .build();
-
     }
 
 
