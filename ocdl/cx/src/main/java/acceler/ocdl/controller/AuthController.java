@@ -4,6 +4,7 @@ import acceler.ocdl.dto.Response;
 import acceler.ocdl.model.User;
 import acceler.ocdl.persistence.crud.ProjectCrud;
 import acceler.ocdl.persistence.crud.UserCrud;
+import acceler.ocdl.service.KubernetesService;
 import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class AuthController {
     @Autowired
     private ProjectCrud projectCrud;
 
+    @Autowired
+    private KubernetesService kubernetesService;
+
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Response login(@RequestBody UserCredentials credential) {
@@ -57,9 +61,11 @@ public class AuthController {
             result.put("userName", loginUser.getUserName());
             result.put("token", token);
             result.put("role",loginUser.getRole());
-
             String projectName = projectCrud.fineById(loginUser.getProjectId()).getProjectName();
             result.put("projectName", projectName);
+
+            String containerUrl = kubernetesService.launchDockerContainer("cpu",loginUser);
+            result.put("url",containerUrl);
 
             respBuilder.setCode(Response.Code.SUCCESS);
             respBuilder.setData(result);
