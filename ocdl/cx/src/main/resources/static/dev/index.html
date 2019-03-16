@@ -697,15 +697,11 @@
 
 			success: function(data) {
 				ajaxMessageReader(data,function (data) {
-				    if(data["url"].contains(".")){
-                        if(server==0){
-                            $('#jupyterFrame').attr('src', "http://"+data+"/notebooks/Untitled.ipynb");
-                        }else{
-                            $('#jupyterFrame').attr('src', "http://"+data+"/notebooks/Untitled.ipynb");
-                        }
-                    }else{
+/*				    if(data["url"].contains(".")){*/
+                            $('#jupyterFrame').attr('src', "http://"+data["url"]+"/notebooks/Untitled.ipynb");
+/*                    }else{
 				        alert(data['url']);
-                    }
+                    }*/
 				})
 
 
