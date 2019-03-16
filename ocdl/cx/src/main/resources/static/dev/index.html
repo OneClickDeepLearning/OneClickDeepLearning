@@ -614,6 +614,8 @@
 					$("#signInBtn").addClass("hide");
 					$("#signUpBtn").addClass("hide");
 					$("#closeLogin").click();
+
+					selectJupyterServer();
 				})
 			},
 
@@ -683,13 +685,9 @@
 			server = "gpu";
 		}
 		$.ajax({
-			url: "/rest/container",
+			url: "/rest/container/"+server,
 			contentType: 'application/json',
 			dataType: "json",
-			data:
-					JSON.stringify({
-						rscType:server
-					}),
 			type: "POST",
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("AUTH_TOKEN", token);
