@@ -1,5 +1,6 @@
 package com.ocdl.proxy.controller;
 
+import com.ocdl.proxy.dto.ProjectDto;
 import com.ocdl.proxy.service.JenkinsService;
 import com.ocdl.proxy.service.KafkaTopicService;
 import com.ocdl.proxy.util.CmdHelper;
@@ -28,8 +29,8 @@ public final class SetUpController {
     KafkaTopicService kafkaTopicService;
 
     @ResponseBody
-    @RequestMapping(path="/{projectName}", params = "action=setuplaucher", method = RequestMethod.POST)
-    public final Response setUpLaucher(@PathVariable("projectName") String projectName){
+    @RequestMapping(params = "action=setuplaucher", method = RequestMethod.POST)
+    public final Response setUpLaucher(ProjectDto projectDto){
 
         Response.Builder builder = Response.getBuilder();
 
@@ -39,25 +40,20 @@ public final class SetUpController {
             Path path= Paths.get("/home/ec2-user/OneClickDLTemp/ocdl/proxy/src/main/resources");
 
             ArrayList<String> args = new ArrayList<String>();
-            args.add(projectName);
+            args.add(projectDto.getId().toString());
             CmdHelper.runCommand("laucher.sh", args, path.toString());
-            String gitUrl = "http://ec2-54-89-140-122.compute-1.amazonaws.com/git/" + projectName;
+            String gitUrl = "http://ec2-54-89-140-122.compute-1.amazonaws.com/git/" + projectDto.getId();
 
 
-            String topic = projectName+"_jkmsg";
+            String topic = projectDto.getId() + " " + projectDto.getName();
 //            kafkaTopicService.createTopic(topic);
             args.clear();
             args.add(topic);
             CmdHelper.runCommand("add_kafka_topic.sh", args, path.toString());
 
-            String outputFileName = topic + ".txt";
-            String xml = jenkinsService.generateXML(projectName, gitUrl, topic, outputFileName);
-            jenkinsService.createJob(projectName, xml);
-
-            args.clear();
-            args.add(outputFileName);
-            args.add(topic);
-            CmdHelper.runCommand("runKafkaConnector.sh", args, path.toString());
+            String outputFileName = "jkmsg.txt";
+            String xml = jenkinsService.generateXML(projectDto.getId().toString(), gitUrl, topic, outputFileName);
+            jenkinsService.createJob(projectDto.getId().toString(), xml);
 
             builder.setCode(Response.Code.SUCCESS);
 
