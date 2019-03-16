@@ -70,12 +70,18 @@ public class DefaultModelService implements ModelService {
 
     public boolean pushModel(Model updateModel, String newModelName){
 
+        System.out.println("[debug]" + updateModel.getProjectId());
+        System.out.println("[debug]" + newModelName);
+        System.out.println("[debug]" + updateModel.getName());
+
+
 
         String repoPath = "/home/ec2-user/models/" + updateModel.getProjectId().toString();
         File stageFile = new File("/home/ec2-user/stage/" + updateModel.getName());
         try {
             FileUtils.copyFile(stageFile,new File(repoPath + "/" + newModelName));
         } catch (IOException e){
+            e.printStackTrace();
             System.out.println("[debug]" + e.getMessage());
             return false;
         }
