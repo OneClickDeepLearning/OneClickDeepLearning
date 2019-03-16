@@ -76,6 +76,7 @@ public class DefaultModelService implements ModelService {
         try {
             FileUtils.copyFile(stageFile,new File(repoPath + "/" + newModelName));
         } catch (IOException e){
+            System.out.println("[debug]" + e.getMessage());
             return false;
         }
 

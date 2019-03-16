@@ -56,7 +56,7 @@ public class ApprovalController {
 
             Project project = projectCrud.fineById(projectId);
 
-            List<Model> newModels= modelCrud.getModels(Model.Status.NEW);
+            List<Model> newModels= modelCrud.getModels(Model.Status.NEW, projectId);
             List<ModelDto> newModelDtos = new ArrayList<ModelDto>();
             for (Model m : newModels) {
                 m.setProject(project);
@@ -67,7 +67,7 @@ public class ApprovalController {
             }
             models.put("newModels", newModelDtos);
 
-            List<Model> approvalModels= modelCrud.getModels(Model.Status.APPROVAL);
+            List<Model> approvalModels= modelCrud.getModels(Model.Status.APPROVAL, projectId);
             List<ModelDto> approvalModelDtos = new ArrayList<ModelDto>();
             approvalModels.stream().forEach(m -> {
                 m.setProject(project);
@@ -78,7 +78,7 @@ public class ApprovalController {
             });
             models.put("approvalModels", approvalModelDtos);
 
-            List<Model> rejectModels= modelCrud.getModels(Model.Status.REJECT);
+            List<Model> rejectModels= modelCrud.getModels(Model.Status.REJECT, projectId);
             List<ModelDto> rejectModelDtos = new ArrayList<ModelDto>();
             rejectModels.stream().forEach(m -> {
                 m.setProject(project);
@@ -142,7 +142,12 @@ public class ApprovalController {
             if (incomeModelDto.getStatus().equals("Approval")) {
                 updateModel.setStatus(Model.Status.APPROVAL);
 
+                System.out.println("[debug]" + updateModel.getStatus());
+
                 modelService.pushModel(updateModel,getNewModelName(updateModel));
+
+                System.out.println("[debug]" + "continue");
+
 
             } else if (incomeModelDto.getStatus().equals("Reject")) {
                 updateModel.setStatus(Model.Status.REJECT);

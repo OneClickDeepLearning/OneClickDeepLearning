@@ -40,9 +40,9 @@ public class DefaultModelCrud implements ModelCrud {
     }
 
     @Override
-    public List<Model> getModels(Model.Status status) {
+    public List<Model> getModels(Model.Status status, Long projectId) {
 
-        return  modelDao.findByStatus(status);
+        return  modelDao.findByStatusAndProjectId(status, projectId);
     }
 
     @Override

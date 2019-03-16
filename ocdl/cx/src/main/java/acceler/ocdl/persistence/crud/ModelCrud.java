@@ -12,7 +12,7 @@ public interface ModelCrud {
 
     Model updateModel(Long id, Model upadataModelInfo);
 
-    List<Model> getModels(Model.Status status);
+    List<Model> getModels(Model.Status status, Long projectId);
 
     Long getBigVersion(Long modelTypeId, Long projectId);
 
