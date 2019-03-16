@@ -199,6 +199,7 @@ public class ApprovalController {
         newModelName.append(updateModel.getBigVersion().toString());
         newModelName.append(".v");
         newModelName.append(updateModel.getSmallVersion().toString());
+        newModelName.append(".model");
 
         System.out.println("[debugNewModelName]" + newModelName.toString());
 
