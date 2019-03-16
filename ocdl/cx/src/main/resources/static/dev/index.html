@@ -531,10 +531,10 @@
 	}
 
 	function ajaxMessageReader(response, func){
-		if(response.code=="400"){
-			alert(response.get("message"));
-		}else if(response.code=="200"){
+		if(response.code=="200"){
 			func(response.data);
+		}else{
+			alert(response.get("message"));
 		}
 
 /*		func(response);*/
@@ -697,18 +697,12 @@
 
 			success: function(data) {
 				ajaxMessageReader(data,function (data) {
-				    if(data["url"].contains(".")){
-                        if(server==0){
-                            $('#jupyterFrame').attr('src', "http://"+data+"/notebooks/Untitled.ipynb");
-                        }else{
-                            $('#jupyterFrame').attr('src', "http://"+data+"/notebooks/Untitled.ipynb");
-                        }
-                    }else{
+/*				    if(data["url"].contains(".")){*/
+                            $('#jupyterFrame').attr('src', "http://"+data["url"]+"/notebooks/Untitled.ipynb");
+/*                    }else{
 				        alert(data['url']);
-                    }
+                    }*/
 				})
-
-
 			},
 			error: function () {
 			}
