@@ -10,16 +10,17 @@ import acceler.ocdl.utils.impl.DefaultCmdHelper;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.apache.commons.io.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class DefaultModelService implements ModelService {
 
-//    @Autowired
-//    private DefaultModelCrud modelCrud;
+    @Autowired
+    private ModelCrud modelCrud;
 
     public DefaultModelService(){
 
@@ -28,20 +29,11 @@ public class DefaultModelService implements ModelService {
     @Override
     public boolean copyModels(User user){
 
-
-//        CmdHelper.runCommand("cd /home/ec2-user/model_repo/models/" + userId + "/ && ");
-//
-//        CmdHelper.runCommand("git add .");
-//
-//	    CmdHelper.runCommand("git commit -m \"newmodels\"");
-//        CmdHelper.runCommand("git push new master");
+        System.out.println("[debug]" + "in copyModel method");
 
         String userspace = user.getProjectId().toString() + "-" + user.getUserId().toString();
         String destPath = "/home/ec2-user/stage/";
-        DefaultCmdHelper cmdHelper = new DefaultCmdHelper();
         File file = new File("/home/hadoop/nfs_hdfs/UserSpace/" + userspace);
-        StringBuilder stderr = new StringBuilder();
-        StringBuilder std = new StringBuilder();
 
         File[] files = file.listFiles();
         if(files == null)
@@ -50,35 +42,60 @@ public class DefaultModelService implements ModelService {
             if(modelFile.isDirectory() || !isModelFile(modelFile.getName()))
                 continue;
             String srcFileName = modelFile.getName();
-            StringBuilder command = new StringBuilder();
-            command.append("cp ");
-            command.append(srcFileName);
-            command.append(" ");
-            command.append(destPath);
-            command.append(user.getProjectId().toString());
-            command.append("_");
-            command.append(user.getUserId().toString());
-            command.append("_");
-            command.append(srcFileName);
+            StringBuilder newFileName = new StringBuilder();
+            newFileName.append(user.getProjectId().toString());
+            newFileName.append("_");
+            newFileName.append(user.getUserId().toString());
+            newFileName.append("_");
+            newFileName.append(srcFileName);
 
-            System.out.println(command.toString());
-            cmdHelper.runCommand(file,command.toString(),std,stderr);
+            System.out.println("[debug]" + srcFileName);
+            System.out.println("[debug]" + newFileName);
 
-//            Model model = new Model();
-//            model.setName(srcFileName);
-//            model.setModelTypeId(-1L);
-//            model.setProjectId(user.getProjectId());
-//            model.setUrl("/home/ec2-user/stage/" + userspace);
-//            model.setStatus(Model.Status.NEW);
-//
-//            modelCrud.createModel(model);
-
+            try {
+                FileUtils.moveFile(modelFile,new File(destPath + newFileName.toString()));
+            } catch (IOException e){
+                return false;
+            }
+            Model model = new Model();
+            model.setName(newFileName.toString());
+            model.setModelTypeId(-1L);
+            model.setProjectId(user.getProjectId());
+            model.setUrl("/home/ec2-user/stage/" + userspace);
+            model.setStatus(Model.Status.NEW);
+            modelCrud.createModel(model);
         }
+        return true;
+    }
 
-        if(!stderr.toString().equals("")){
-            System.out.println(stderr.toString());
+    public boolean pushModel(Model updateModel, String newModelName){
+
+
+        String repoPath = "/home/ec2-user/models/" + updateModel.getProjectId().toString();
+        File stageFile = new File("/home/ec2-user/stage/" + updateModel.getName());
+        try {
+            FileUtils.copyFile(stageFile,new File(repoPath + "/" + newModelName));
+        } catch (IOException e){
             return false;
         }
+
+        DefaultCmdHelper cmdHelper = new DefaultCmdHelper();
+        File file = new File(repoPath);
+        StringBuilder stderr = new StringBuilder();
+        StringBuilder std = new StringBuilder();
+        cmdHelper.runCommand(file,"git pull",std,stderr);
+        System.out.println(stderr.toString());
+        cmdHelper.runCommand(file,"git add --all",std,stderr);
+        System.out.println(stderr.toString());
+        cmdHelper.runCommand(file,"git commit -m \"newmodel\"",std,stderr);
+        System.out.println(stderr.toString());
+        cmdHelper.runCommand(file, "git push",std,stderr);
+        System.out.println(stderr.toString());
+
+//        if(!stderr.toString().equals("")) {
+//            System.out.println(stderr.toString());
+//            return false;
+//        }
         return true;
     }
 

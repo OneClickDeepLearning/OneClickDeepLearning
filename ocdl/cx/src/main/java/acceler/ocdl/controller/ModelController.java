@@ -14,14 +14,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping(path = "/model")
+@RequestMapping(path = "/rest/model")
 public final class ModelController {
 
     @Autowired
     private ModelService modelService;
 
     @ResponseBody
-    @RequestMapping(params = "action=push", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.PUT)
     public final Response queryPushModels(HttpServletRequest request) {
 
         User user = (User) request.getAttribute("CURRENT_USER");
@@ -37,7 +37,5 @@ public final class ModelController {
                     .setMessage("copy failed")
                     .build();
         }
-
-
     }
 }

@@ -75,14 +75,16 @@ public class ConfigurationController {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
-    public final Response getAllProject(HttpServletRequest request) {
+    public final Response getAllProject() {
 
         Response.Builder responseBuilder = Response.getBuilder();
-        Long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
+
+//        // TODO userId should be get in context
+//        Long userId = 1L;
 
         try{
 
-            Project project = projectCrud.fineById(projectId);
+            Project project = projectCrud.fineById(3L);
             ProjectConfigurationDto projectDto = project.convert2ProjectDto();
 
             responseBuilder.setCode(Response.Code.SUCCESS)

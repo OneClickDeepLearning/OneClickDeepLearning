@@ -77,7 +77,7 @@
 				<label class="col-md-4">Status: <label id="status" class="status_disconnected"></label></label>
 			</div>
 			<div class="col-md-2 col-sm-3 col-xs-3">
-				<a id="serverCtl" href="javascript:selectJupyterServer(user_id,user_account,user_password);" class="toggle toggle--on navbar-right"></a>
+				<a id="serverCtl" href="javascript:selectJupyterServer();" class="toggle toggle--on navbar-right"></a>
 			</div>
 			<div class="col-md-2 col-sm-3 col-xs-3" style="height:40px;">
 			<!--	<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button>-->
@@ -683,14 +683,14 @@
 			server = "gpu";
 		}
 		$.ajax({
-			url: "/container?action=request",
+			url: "/rest/container",
 			contentType: 'application/json',
 			dataType: "json",
 			data:
 					JSON.stringify({
-                        rscType:server
+						rscType:server
 					}),
-			type: "GET",
+			type: "POST",
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("AUTH_TOKEN", token);
             },
@@ -722,7 +722,7 @@
 		user_account='u1001';
 		user_password='p1001';
 
-		selectJupyterServer(user_id,user_account,user_password);
+		selectJupyterServer();
 		var username=$("#username");
 		var status=$("#status");
 		var rescource=$("#rescourse");
@@ -749,7 +749,7 @@
 		user_account='u1002';
 		user_password='p1002';
 
-		selectJupyterServer(user_id,user_account,user_password);
+		selectJupyterServer();
 		var username=$("#username");
 		var status=$("#status");
 		var rescource=$("#rescourse");
