@@ -30,6 +30,7 @@ public class DefaultKubernetesService implements KubernetesService {
 
         System.out.println("[debug]" + user.getUserId());
         System.out.println("[debug]" + user.getProjectId());
+        System.out.println("[debug]" + rscType);
 
         if(rscType.equals("cpu") && cpuAssigned.containsKey(user))
             return cpuAssigned.get(user);
@@ -55,9 +56,15 @@ public class DefaultKubernetesService implements KubernetesService {
 
         StringBuilder command = new StringBuilder();
         command.append("sh ").append(rscType).append("_makeDeploy.sh ").append(nameSpace);
+
+        System.out.println("[debug]" + command.toString());
+
         cmdHelper.runCommand(file,command.toString(), std, stderr);
         command = new StringBuilder();
         command.append("kubectl create -f ").append(nameSpace).append("-deploy-").append(rscType).append(".yaml");
+
+        System.out.println("[debug]" + command.toString());
+
         cmdHelper.runCommand(file, command.toString(),std,stderr);
 
         std = new StringBuilder();

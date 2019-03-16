@@ -63,7 +63,7 @@ public class AuthController {
             result.put("role",loginUser.getRole());
             String projectName = projectCrud.fineById(loginUser.getProjectId()).getProjectName();
             result.put("projectName", projectName);
-            
+
             respBuilder.setCode(Response.Code.SUCCESS);
             respBuilder.setData(result);
         }
