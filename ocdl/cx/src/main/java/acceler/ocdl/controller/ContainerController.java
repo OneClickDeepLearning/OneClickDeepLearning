@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,8 +49,8 @@ public final class ContainerController {
 //    }
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.POST)
-    public final Response requestContainer(HttpServletRequest request,@RequestBody String rscType) {
+    @RequestMapping(path = "/{rscType}", method = RequestMethod.POST)
+    public final Response requestContainer(HttpServletRequest request, @PathVariable("rscType") String rscType) {
 //        List<String> result = new ArrayList<>();
         User user = (User) request.getAttribute("CURRENT_USER");
 
@@ -72,7 +73,7 @@ public final class ContainerController {
 
 
     @ResponseBody
-    @RequestMapping(params = "/release", method = RequestMethod.DELETE)
+    @RequestMapping(params = "/release/", method = RequestMethod.DELETE)
     public final void releaseContainer(@RequestBody String rscType,HttpServletRequest request) {
         User user = (User) request.getAttribute("CURRENT_USER");
         kubernetesService.releaseDockerContainer(rscType,user);
