@@ -69,12 +69,14 @@ public class KafkaService implements MessageTransferService {
     }
 
     @Override
-    public void send(Topic topic, String data) {
+    public void send(String topic, String data) {
 
         try {
-            producer.send(new ProducerRecord<String, String>(topic.toString(), data));
+            producer.send(new ProducerRecord<String, String>(topic, data));
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            producer.close();
         }
     }
 
@@ -91,7 +93,12 @@ public class KafkaService implements MessageTransferService {
             for (ConsumerRecord<String, String> record : records) {
                 // recieve the jkmsg, just a msg told that it has new model
                 System.out.printf("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value());
-                proxyCallBack.processMsg(record.value());
+
+                int posPaylod = record.value().indexOf("payload");
+                int start = record.value().indexOf("\"", posPaylod) + 3;
+                int end = record.value().indexOf("\"", start);
+                String msg = record.value().substring(start, end);
+                proxyCallBack.processMsg(msg);
             }
         }
     }

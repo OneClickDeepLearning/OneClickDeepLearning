@@ -64,9 +64,6 @@ public class AuthController {
             String projectName = projectCrud.fineById(loginUser.getProjectId()).getProjectName();
             result.put("projectName", projectName);
 
-            String containerUrl = kubernetesService.launchDockerContainer("cpu",loginUser);
-            result.put("url",containerUrl);
-
             respBuilder.setCode(Response.Code.SUCCESS);
             respBuilder.setData(result);
         }
