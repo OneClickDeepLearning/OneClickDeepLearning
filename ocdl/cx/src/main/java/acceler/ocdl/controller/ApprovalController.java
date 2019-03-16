@@ -144,6 +144,19 @@ public class ApprovalController {
 
                 System.out.println("[debug]" + updateModel.getStatus());
 
+                Long bigVersion = 1L;
+                Long smallVersion = 0L;
+
+                if (incomeModelDto.getBigVersion() == 1){
+                    bigVersion = modelCrud.getBigVersion(modelId, projectId) + 1;
+                } else {
+                    bigVersion = modelCrud.getBigVersion(modelId, projectId);
+                    smallVersion = modelCrud.getSmallVersion(modelId, projectId, bigVersion) + 1;
+                }
+
+                updateModel.setBigVersion(bigVersion);
+                updateModel.setSmallVersion(smallVersion);
+
                 modelService.pushModel(updateModel,getNewModelName(updateModel));
 
                 System.out.println("[debug]" + "continue");
@@ -154,19 +167,6 @@ public class ApprovalController {
             } else {
                 updateModel.setStatus(Model.Status.NEW);
             }
-
-            Long bigVersion = 1L;
-            Long smallVersion = 0L;
-
-            if (incomeModelDto.getBigVersion() == 1){
-                bigVersion = modelCrud.getBigVersion(modelId, projectId) + 1;
-            } else {
-                bigVersion = modelCrud.getBigVersion(modelId, projectId);
-                smallVersion = modelCrud.getSmallVersion(modelId, projectId, bigVersion) + 1;
-            }
-
-            updateModel.setBigVersion(bigVersion);
-            updateModel.setSmallVersion(smallVersion);
 
             Model reModel = modelCrud.updateModel(modelId, updateModel);
             reModel.setProject(projectCrud.fineById(reModel.getProjectId()));
