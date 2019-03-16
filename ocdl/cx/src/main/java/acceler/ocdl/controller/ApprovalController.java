@@ -185,7 +185,16 @@ public class ApprovalController {
     private String getNewModelName(Model updateModel){
         StringBuilder newModelName = new StringBuilder();
 
-        newModelName.append(modelTypeCrud.findById(updateModel.getModelTypeId()).getName());
+        System.out.println("[debugGetNewName]");
+
+        ModelType modelType = modelTypeCrud.findById(updateModel.getModelTypeId());
+        System.out.println(modelType.getName());
+
+
+//        String name = modelTypeCrud.findById(updateModel.getModelTypeId()).getName();
+//        System.out.println(name);
+
+        newModelName.append(modelType.getName());
         newModelName.append("_v");
         newModelName.append(updateModel.getBigVersion().toString());
         newModelName.append(".v");
