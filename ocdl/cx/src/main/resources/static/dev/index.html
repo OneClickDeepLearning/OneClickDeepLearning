@@ -445,7 +445,7 @@
 					addSpan(li_1,content);
 					document.getElementById(parent).appendChild(li_1);
 				}
-				
+
 
 				function initProjectName() {
 					$.ajax({
@@ -561,7 +561,7 @@
 			error: function (data) {
 			}
 		})
-		
+
 	}
 	function checkLogin() {
 		if($("#username").val()==''){
@@ -623,6 +623,8 @@
 			}
 		})
 	}
+
+
 	function getCode(name,type) {
 		$.ajax({
 			url: "/template?action=testTemplates",
@@ -658,10 +660,6 @@
 			url: "/rest/model",
 			contentType: 'application/json',
 			dataType: "json",
-			data:
-					JSON.stringify({
-						userId: user_id
-					}),
 			type: "PUT",
 			timeout: 0,
             beforeSend: function (xhr) {
@@ -708,7 +706,7 @@
 			}
 		})
 	}
-	
+
 	$('#login_f').on('click', function(e){
 		user_id='1001';
 		user_account='u1001';
@@ -728,7 +726,7 @@
 
 
 	});
-	
+
 	/*$("#configButton").on('click',function (e) {
 		window.top.location.href="views/configuration.html";
 	})*/
