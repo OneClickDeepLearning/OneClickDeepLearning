@@ -28,6 +28,9 @@ public class DefaultKubernetesService implements KubernetesService {
     public String launchDockerContainer(String rscType, User user) throws KuberneteException{
 
 
+        System.out.println("[debug]" + user.getUserId());
+        System.out.println("[debug]" + user.getProjectId());
+
         if(rscType.equals("cpu") && cpuAssigned.containsKey(user))
             return cpuAssigned.get(user);
         else if(rscType.equals("gpu") && gpuAssigned.containsKey(user))
