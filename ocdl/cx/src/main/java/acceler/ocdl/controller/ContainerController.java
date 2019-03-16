@@ -48,8 +48,8 @@ public final class ContainerController {
 //    }
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.GET)
-    public final Response requestContainer(@RequestBody String rscType,HttpServletRequest request) {
+    @RequestMapping(method = RequestMethod.POST)
+    public final Response requestContainer(HttpServletRequest request,@RequestBody String rscType) {
 //        List<String> result = new ArrayList<>();
         User user = (User) request.getAttribute("CURRENT_USER");
 
