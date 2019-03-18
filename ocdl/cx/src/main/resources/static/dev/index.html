@@ -445,7 +445,7 @@
 					addSpan(li_1,content);
 					document.getElementById(parent).appendChild(li_1);
 				}
-				
+
 
 				function initProjectName() {
 					$.ajax({
@@ -531,10 +531,10 @@
 	}
 
 	function ajaxMessageReader(response, func){
-		if(response.code=="400"){
-			alert(response.get("message"));
-		}else if(response.code=="200"){
+		if(response.code=="200"){
 			func(response.data);
+		}else{
+			alert(response.get("message"));
 		}
 
 /*		func(response);*/
@@ -561,7 +561,7 @@
 			error: function (data) {
 			}
 		})
-		
+
 	}
 	function checkLogin() {
 		if($("#username").val()==''){
@@ -623,6 +623,8 @@
 			}
 		})
 	}
+
+
 	function getCode(name,type) {
 		$.ajax({
 			url: "/template?action=testTemplates",
@@ -658,10 +660,6 @@
 			url: "/rest/model",
 			contentType: 'application/json',
 			dataType: "json",
-			data:
-					JSON.stringify({
-						userId: user_id
-					}),
 			type: "PUT",
 			timeout: 0,
             beforeSend: function (xhr) {
@@ -685,13 +683,9 @@
 			server = "gpu";
 		}
 		$.ajax({
-			url: "/rest/container",
+			url: "/rest/container/"+server,
 			contentType: 'application/json',
 			dataType: "json",
-			data:
-					JSON.stringify({
-						rscType:server
-					}),
 			type: "POST",
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("AUTH_TOKEN", token);
@@ -701,24 +695,18 @@
 
 			success: function(data) {
 				ajaxMessageReader(data,function (data) {
-				    if(data["url"].contains(".")){
-                        if(server==0){
-                            $('#jupyterFrame').attr('src', "http://"+data+"/notebooks/Untitled.ipynb");
-                        }else{
-                            $('#jupyterFrame').attr('src', "http://"+data+"/notebooks/Untitled.ipynb");
-                        }
-                    }else{
+/*				    if(data["url"].contains(".")){*/
+                            $('#jupyterFrame').attr('src', "http://"+data["url"]+"/notebooks/Untitled.ipynb");
+/*                    }else{
 				        alert(data['url']);
-                    }
+                    }*/
 				})
-
-
 			},
 			error: function () {
 			}
 		})
 	}
-	
+
 	$('#login_f').on('click', function(e){
 		user_id='1001';
 		user_account='u1001';
@@ -738,7 +726,7 @@
 
 
 	});
-	
+
 	/*$("#configButton").on('click',function (e) {
 		window.top.location.href="views/configuration.html";
 	})*/

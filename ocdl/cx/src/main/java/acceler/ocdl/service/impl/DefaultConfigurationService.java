@@ -44,6 +44,8 @@ public class DefaultConfigurationService implements ConfigurationService {
         return (String) p.get("project.name");
     }
 
+    //FIXME: Property 本身是线程安全的类， 但读写IO部分不是线程安全的
+    //FIXME: 建议对Property对象 p 加锁: 1. Property本身是 hashTable, 以它加锁，可允许重入，防死锁
     public void update(String key, String value) {
         p.setProperty(key, value);
         FileOutputStream oFile = null;
@@ -64,6 +66,7 @@ public class DefaultConfigurationService implements ConfigurationService {
         }
     }
 
+    //FIXME: 把它作为一个全局的@Bean，放到main class 下面
     @Override
     public Map RequestAllConfigurationInfo() {
         Map<String, String> result = new HashMap<>();
