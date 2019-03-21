@@ -6,6 +6,7 @@ import acceler.ocdl.dto.ModelTypeDto;
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.exception.DatabaseException;
 
+import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.model.Model;
 import acceler.ocdl.model.ModelType;
 import acceler.ocdl.model.Project;
@@ -49,57 +50,51 @@ public class ApprovalController {
         Map<String, List<ModelDto>> models = new HashMap<String, List<ModelDto>>();
 
         try {
-            //FIXME: 所有数据库的select必须check null,再做操作, throw NotFoundException
             Project project = projectCrud.fineById(projectId);
 
-            List<Model> newModels= modelCrud.getModels(Model.Status.NEW, projectId);
-            List<ModelDto> newModelDtos = new ArrayList<ModelDto>();
-            for (Model m : newModels) {
-                m.setProject(project);
-                if (m.getModelTypeId() != null) {
-                    //FIXME: @Query in repo interface
-                    m.setModelType(modelTypeCrud.findById(m.getModelTypeId()));
-                }
-                newModelDtos.add(m.convert2ModelDto());
+            if (project == null) {
+
+                String msg = String.format("Project(id: %s) not found.", projectId);
+                String responseMsg = String.format("Project(id: %s) not found.", projectId);
+                throw new NotFoundException(msg, responseMsg);
             }
+
+            List<Model> newModels= modelCrud.getModels(Model.Status.NEW, projectId);
+            List<ModelDto> newModelDtos = convert2modelDtos(newModels, project);
             models.put("newModels", newModelDtos);
 
             List<Model> approvalModels= modelCrud.getModels(Model.Status.APPROVAL, projectId);
-            List<ModelDto> approvalModelDtos = new ArrayList<ModelDto>();
-            //FIXME: list.forEach()
-            //FIXME: .filter() : != null
-            approvalModels.stream().forEach(m -> {
-                m.setProject(project);
-                if (m.getModelTypeId() != null) {
-                    m.setModelType(modelTypeCrud.findById(m.getModelTypeId()));
-                }
-                approvalModelDtos.add(m.convert2ModelDto());
-            });
+            List<ModelDto> approvalModelDtos = convert2modelDtos(approvalModels, project);
             models.put("approvalModels", approvalModelDtos);
 
             List<Model> rejectModels= modelCrud.getModels(Model.Status.REJECT, projectId);
-            List<ModelDto> rejectModelDtos = new ArrayList<ModelDto>();
-            //FIXME: encapsulate method
-            rejectModels.stream().forEach(m -> {
-                m.setProject(project);
-                if (m.getModelTypeId() != null) {
-                    m.setModelType(modelTypeCrud.findById(m.getModelTypeId()));
-                }
-                rejectModelDtos.add(m.convert2ModelDto());
-            });
+            List<ModelDto> rejectModelDtos = convert2modelDtos(rejectModels, project);
             models.put("rejectedModels", rejectModelDtos);
 
             responseBuilder.setCode(Response.Code.SUCCESS)
                     .setData(models);
 
-            //FIXME: not allow to catch Exception here, specific Exception
-        } catch (Exception e) {
+        } catch (NotFoundException e) {
             responseBuilder.setCode(Response.Code.ERROR)
                     .setMessage(e.getMessage());
 
-        }
+        } 
 
         return responseBuilder.build();
+    }
+
+    private List<ModelDto> convert2modelDtos(List<Model> models, Project project) {
+
+        List<ModelDto> modelDtos = new ArrayList<>();
+        models.stream().filter(m -> m.getModelTypeId() != null)
+                .forEach(m -> m.setModelType(modelTypeCrud.findById(m.getModelTypeId())));
+
+        models.forEach(m -> {
+            m.setProject(project);
+            modelDtos.add(m.convert2ModelDto());
+        });
+
+        return modelDtos;
     }
 
 
@@ -135,19 +130,20 @@ public class ApprovalController {
         try {
             Long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
             Model updateModel = modelCrud.getById(modelId);
-            //FIXME: check null
+            if (updateModel == null) {
+                String msg = String.format("Model(id: %s ) not found", modelId);
+                String responseMsg = String.format("Model(id: %s ) not found", modelId);
+                throw new NotFoundException(msg, responseMsg);
+            }
             updateModel.setId(modelId);
             updateModel.setModelTypeId(incomeModelDto.getModelTypeId());
 
             if (incomeModelDto.getStatus().equals("Approval")) {
                 updateModel.setStatus(Model.Status.APPROVAL);
 
-                //System.out.println("[debug]" + updateModel.getStatus());
-                //FIXME:String.format("kubernete exception: %s", message)
-                //FIXME: 每个string都是个储存在永生代的对象, GC 很伤
+                //System.out.println(String.format("kubernete exception: %s", message));
                 modelService.pushModel(updateModel,getNewModelName(updateModel));
-
-                System.out.println("[debug]" + "continue");
+                System.out.println("[debug] continue");
 
 
             } else if (incomeModelDto.getStatus().equals("Reject")) {
@@ -155,43 +151,50 @@ public class ApprovalController {
             } else {
                 updateModel.setStatus(Model.Status.NEW);
             }
-
-            //FIXME: long 还是 Long, GC 很伤， 没用必要wrapped obj 就不要
-            Long bigVersion = 1L;
-            Long smallVersion = 0L;
-
-            //FIXME: dto 防止 null,且 .getBigVersion() 也可能为 null, 这样它会自动变成0，不符合业务逻辑
-            //FIXME: if(incomeModelDto && incomeModelDto.getBigVersion() && incomeModelDto.getBigVersion() == 1)
-            if (incomeModelDto.getBigVersion() == 1){
-                bigVersion = modelCrud.getBigVersion(modelId, projectId) + 1;
-            } else {
-                bigVersion = modelCrud.getBigVersion(modelId, projectId);
-                smallVersion = modelCrud.getSmallVersion(modelId, projectId, bigVersion) + 1;
+            
+            long bigVersion = 1L;
+            long smallVersion = 0L;
+            
+            if (incomeModelDto != null && incomeModelDto.getBigVersion() >= 0) {
+                
+                if (incomeModelDto.getBigVersion() == 1){
+                    bigVersion = modelCrud.getBigVersion(modelId, projectId) + 1;
+                } else {
+                    bigVersion = modelCrud.getBigVersion(modelId, projectId);
+                    smallVersion = modelCrud.getSmallVersion(modelId, projectId, bigVersion) + 1;
+                }
             }
 
             updateModel.setBigVersion(bigVersion);
             updateModel.setSmallVersion(smallVersion);
-            //FIXME: naming 不怕长， 怕没自解释性， 我看了就不知道reModel 代表啥
-            Model reModel = modelCrud.updateModel(modelId, updateModel);
-            reModel.setProject(projectCrud.fineById(reModel.getProjectId()));
-            reModel.setModelType(modelTypeCrud.findById(reModel.getModelTypeId()));
+            
+            Model updatedModel = modelCrud.updateModel(modelId, updateModel);
+            updatedModel.setProject(projectCrud.fineById(updatedModel.getProjectId()));
+            updatedModel.setModelType(modelTypeCrud.findById(updatedModel.getModelTypeId()));
 
             responseBuilder.setCode(Response.Code.SUCCESS)
-                    .setData(reModel.convert2ModelDto());
-            //FIXME: remove Exception
-        } catch (Exception e) {
+                    .setData(updatedModel.convert2ModelDto());
+
+        } catch (NotFoundException e) {
 
             responseBuilder.setCode(Response.Code.ERROR)
                     .setMessage(e.getMessage());
         }
+
         return responseBuilder.build();
     }
 
     private String getNewModelName(Model updateModel){
         StringBuilder newModelName = new StringBuilder();
 
-        //FIXME: 数据库读取都必须防止null, 如果数据库没该id, 马上就NPE
-        newModelName.append(modelTypeCrud.findById(updateModel.getModelTypeId()).getName());
+        ModelType modelType = modelTypeCrud.findById(updateModel.getModelTypeId());
+        if (modelType == null) {
+            String msg = String.format("Model Type (id: %s ) not found", updateModel.getModelTypeId());
+            String responseMsg = String.format("Model Type (id: %s ) not found", updateModel.getModelTypeId());
+            throw new NotFoundException(msg, responseMsg);
+        }
+
+        newModelName.append(modelType.getName());
         newModelName.append("_v");
         newModelName.append(updateModel.getBigVersion().toString());
         newModelName.append(".v");
