@@ -8,7 +8,7 @@ public class ModelDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long modelId;
+    private long modelId;
     private String modelName;
     private String modelType;
     private String project;
@@ -16,9 +16,9 @@ public class ModelDto implements Serializable {
     private String status;
     private String version;
 
-    public Long getModelId() { return modelId; }
+    public long getModelId() { return modelId; }
 
-    public void setModelId(Long modelId) { this.modelId = modelId; }
+    public void setModelId(long modelId) { this.modelId = modelId; }
 
     public String getModelName() { return modelName; }
 

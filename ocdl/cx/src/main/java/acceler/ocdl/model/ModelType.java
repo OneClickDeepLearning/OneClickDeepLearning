@@ -10,19 +10,19 @@ public class ModelType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long modelTypeId;
+    private long modelTypeId;
 
     @Column(name = "name")
     private String modelTypeName;
 
     @Column(name = "project_id")
-    private Long projectId;
+    private long projectId;
 
-    public Long getModelTypeId() {
+    public long getModelTypeId() {
         return modelTypeId;
     }
 
-    public void setModelTypeId(Long modelTypeId) {
+    public void setModelTypeId(long modelTypeId) {
         this.modelTypeId = modelTypeId;
     }
 
@@ -34,11 +34,11 @@ public class ModelType {
         this.modelTypeName = name;
     }
 
-    public Long getProjectId() {
+    public long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Long projectId) {
+    public void setProjectId(long projectId) {
         this.projectId = projectId;
     }
 

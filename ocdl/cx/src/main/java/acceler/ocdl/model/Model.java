@@ -16,16 +16,16 @@ public class Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private long id;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "model_type_id")
-    private Long modelTypeId;
+    private long modelTypeId;
 
     @Column(name = "project_id")
-    private Long projectId;
+    private long projectId;
 
     @Column(name = "url")
     private String url;
@@ -35,10 +35,10 @@ public class Model {
     private Status status;
 
     @Column(name = "big_version")
-    private Long bigVersion;
+    private long bigVersion;
 
     @Column(name = "small_version")
-    private Long smallVersion;
+    private long smallVersion;
 
     @Transient
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -52,11 +52,11 @@ public class Model {
 
     public Model(){}
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -68,19 +68,19 @@ public class Model {
         this.name = name;
     }
 
-    public Long getModelTypeId() {
+    public long getModelTypeId() {
         return modelTypeId;
     }
 
-    public void setModelTypeId(Long modelTypeId) {
+    public void setModelTypeId(long modelTypeId) {
         this.modelTypeId = modelTypeId;
     }
 
-    public Long getProjectId() {
+    public long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Long projectId) {
+    public void setProjectId(long projectId) {
         this.projectId = projectId;
     }
 
@@ -100,19 +100,19 @@ public class Model {
         this.status = status;
     }
 
-    public Long getBigVersion() {
+    public long getBigVersion() {
         return bigVersion;
     }
 
-    public void setBigVersion(Long bigVersion) {
+    public void setBigVersion(long bigVersion) {
         this.bigVersion = bigVersion;
     }
 
-    public Long getSmallVersion() {
+    public long getSmallVersion() {
         return smallVersion;
     }
 
-    public void setSmallVersion(Long smallVersion) {
+    public void setSmallVersion(long smallVersion) {
         this.smallVersion = smallVersion;
     }
 
@@ -152,7 +152,7 @@ public class Model {
         modelDto.setUrl(this.url);
         modelDto.setStatus(this.status.toString());
 
-        if (bigVersion != null && smallVersion != null) {
+        if (bigVersion != -1L && smallVersion != -1L) {
             modelDto.setVersion(bigVersion + "." + smallVersion);
         }
 

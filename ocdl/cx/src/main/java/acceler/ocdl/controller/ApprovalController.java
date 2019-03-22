@@ -26,6 +26,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static acceler.ocdl.dto.Response.*;
 
 
 @Controller
@@ -49,8 +50,8 @@ public class ApprovalController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     public final Response getModelList(HttpServletRequest request) {
-        Response.Builder responseBuilder = Response.getBuilder();
-        Long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
+        Builder responseBuilder = getBuilder();
+        long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
 
         Map<String, List<ModelDto>> models = new HashMap<String, List<ModelDto>>();
 
@@ -91,7 +92,7 @@ public class ApprovalController {
     private List<ModelDto> convert2modelDtos(List<Model> models, Project project) {
 
         List<ModelDto> modelDtos = new ArrayList<>();
-        models.stream().filter(m -> m.getModelTypeId() != null)
+        models.stream().filter(m -> m.getModelTypeId() != -1)
                 .forEach(m -> m.setModelType(modelTypeCrud.findById(m.getModelTypeId())));
 
         models.forEach(m -> {
@@ -106,8 +107,8 @@ public class ApprovalController {
     @RequestMapping(path = "/modeltypes", method = RequestMethod.GET)
     public final Response getModeltype(HttpServletRequest request) {
 
-        Response.Builder responseBuilder = Response.getBuilder();
-        Long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
+        Builder responseBuilder = getBuilder();
+        long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
 
         try {
             List<ModelType> modelTypes = modelTypeCrud.getModelTypes(projectId);
@@ -128,11 +129,11 @@ public class ApprovalController {
 
     @ResponseBody
     @RequestMapping(path = "/{modelId}",  method = RequestMethod.PUT)
-    public final Response pushDecision(HttpServletRequest request, @PathVariable("modelId") Long modelId, @RequestBody IncomeModelDto incomeModelDto) {
-        Response.Builder responseBuilder = Response.getBuilder();
+    public final Response pushDecision(HttpServletRequest request, @PathVariable("modelId") long modelId, @RequestBody IncomeModelDto incomeModelDto) {
+        Builder responseBuilder = getBuilder();
 
         try {
-            Long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
+            long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
             Model updateModel = modelCrud.getById(modelId);
             if (updateModel == null) {
                 String msg = String.format("Model(id: %s ) not found", modelId);
@@ -161,10 +162,30 @@ public class ApprovalController {
             if (incomeModelDto != null && incomeModelDto.getBigVersion() >= 0) {
                 
                 if (incomeModelDto.getBigVersion() == 1){
-                    bigVersion = modelCrud.getBigVersion(modelId, projectId) + 1;
+                    long currentBigVersion = modelCrud.getBigVersion(modelId, projectId);
+                    if (currentBigVersion >= 0) {
+                        bigVersion = currentBigVersion + 1;
+                    } else {
+                        bigVersion = 1L;
+                    }
+                    smallVersion = 0L;
+
                 } else {
-                    bigVersion = modelCrud.getBigVersion(modelId, projectId);
-                    smallVersion = modelCrud.getSmallVersion(modelId, projectId, bigVersion) + 1;
+                    long currentBigVersion = modelCrud.getBigVersion(modelId, projectId);
+
+                    if (currentBigVersion >= 0){
+                        bigVersion = currentBigVersion;
+                    } else {
+                        currentBigVersion = 0L;
+                    }
+
+                    long currentSmallVersion = modelCrud.getSmallVersion(modelId, projectId, bigVersion);
+
+                    if (currentSmallVersion >= 0) {
+                        smallVersion = modelCrud.getSmallVersion(modelId, projectId, bigVersion) + 1;
+                    } else {
+                        smallVersion = 1L;
+                    }
                 }
             }
 
@@ -199,9 +220,9 @@ public class ApprovalController {
 
         newModelName.append(modelType.getName());
         newModelName.append("_v");
-        newModelName.append(updateModel.getBigVersion().toString());
+        newModelName.append(String .valueOf(updateModel.getBigVersion()));
         newModelName.append(".");
-        newModelName.append(updateModel.getSmallVersion().toString());
+        newModelName.append(String .valueOf(updateModel.getSmallVersion()));
         return newModelName.toString();
     }
 

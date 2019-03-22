@@ -8,7 +8,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long userId;
+    private long userId;
 
     @Column(name = "name")
     private String userName;
@@ -20,7 +20,7 @@ public class User {
     private String password;
 
     @Column(name = "project_id")
-    private Long projectId;
+    private long projectId;
 
     @Transient
     private int type;
@@ -30,7 +30,7 @@ public class User {
     public User() {
     }
 
-    public User(String userName, String account, String password, int type, Role role, Long projectId) {
+    public User(String userName, String account, String password, int type, Role role, long projectId) {
         this.userName = userName;
         this.account = account;
         this.password = password;
@@ -40,7 +40,7 @@ public class User {
     }
 
 
-    public User(Long userId, String userName, String account, String password, int type, Role role, Long projectId) {
+    public User(long userId, String userName, String account, String password, int type, Role role, long projectId) {
         this.userId = userId;
         this.userName = userName;
         this.account = account;
@@ -50,11 +50,11 @@ public class User {
         this.projectId = projectId;
     }
 
-    public Long getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
@@ -98,9 +98,9 @@ public class User {
         this.role = role;
     }
 
-    public Long getProjectId() { return projectId; }
+    public long getProjectId() { return projectId; }
 
-    public void setProjectId(Long projectId) { this.projectId = projectId; }
+    public void setProjectId(long projectId) { this.projectId = projectId; }
 
 
     @Override
@@ -110,14 +110,14 @@ public class User {
 
         User user = (User) o;
 
-        return userId.equals(user.userId);
+        return userId==user.userId? true : false;
 
     }
 
-    @Override
-    public int hashCode() {
-        return userId.hashCode();
-    }
+//    @Override
+//    public int hashCode() {
+//        return userId.hashCode();
+//    }
 
 
     public enum Role {

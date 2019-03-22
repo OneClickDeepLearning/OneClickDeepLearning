@@ -25,17 +25,15 @@ public final class ModelController {
     public final Response queryPushModels(HttpServletRequest request) {
 
         User user = (User) request.getAttribute("CURRENT_USER");
+        Response.Builder builder = Response.getBuilder();
 
         if(modelService.copyModels(user)) {
-            return Response.getBuilder()
-                    .setCode(Response.Code.SUCCESS)
-                    .setData("copy succeeded")
-                    .build();
+            builder.setCode(Response.Code.SUCCESS)
+                    .setData("copy succeeded");
         } else{
-            return Response.getBuilder()
-                    .setCode(Response.Code.ERROR)
-                    .setMessage("copy failed")
-                    .build();
+            builder.setCode(Response.Code.ERROR)
+                    .setMessage("copy failed");
         }
+        return builder.build();
     }
 }

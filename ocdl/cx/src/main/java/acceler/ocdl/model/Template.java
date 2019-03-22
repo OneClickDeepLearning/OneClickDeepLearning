@@ -5,7 +5,7 @@ import java.sql.Blob;
 public class Template {
 
     //column: id, name, file, model_suffix, desp
-    private Long templateId;
+    private long templateId;
     private String templateName;
     private byte[] file;
     private String suffix;
@@ -20,11 +20,11 @@ public class Template {
         this.desp = desp;
     }
 
-    public Long getTemplateId() {
+    public long getTemplateId() {
         return templateId;
     }
 
-    public void setTemplateId(Long templateId) {
+    public void setTemplateId(long templateId) {
         this.templateId = templateId;
     }
 
