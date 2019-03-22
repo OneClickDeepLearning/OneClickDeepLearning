@@ -27,7 +27,7 @@ public class ConfigurationController {
     public Response updateProjectNames(HttpServletRequest request, @RequestBody Map<String, String> projectName) {
 
         Response.Builder responseBuilder = Response.getBuilder();
-        Long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
+        long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
 
         try{
             Project project = new Project();
@@ -53,7 +53,7 @@ public class ConfigurationController {
     public Response updateProject(HttpServletRequest request, @RequestBody ProjectConfigurationDto updatedProjectConfig) {
 
         Response.Builder responseBuilder = Response.getBuilder();
-        Long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
+        long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
 
         try{
             Project updatedProject = updatedProjectConfig.convert2Project();
@@ -75,16 +75,14 @@ public class ConfigurationController {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
-    public final Response getAllProject() {
+    public final Response getAllProject(HttpServletRequest request) {
 
         Response.Builder responseBuilder = Response.getBuilder();
-
-//        // TODO userId should be get in context
-//        Long userId = 1L;
+        long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
 
         try{
 
-            Project project = projectCrud.fineById(3L);
+            Project project = projectCrud.fineById(projectId);
             ProjectConfigurationDto projectDto = project.convert2ProjectDto();
 
             responseBuilder.setCode(Response.Code.SUCCESS)

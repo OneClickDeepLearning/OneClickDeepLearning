@@ -23,11 +23,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 
 @Controller
 @RequestMapping(path = "/rest/models")
 public class ApprovalController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ApprovalController.class);
 
     @Autowired
     private ModelTypeCrud modelTypeCrud;
@@ -97,7 +102,6 @@ public class ApprovalController {
         return modelDtos;
     }
 
-
     @ResponseBody
     @RequestMapping(path = "/modeltypes", method = RequestMethod.GET)
     public final Response getModeltype(HttpServletRequest request) {
@@ -141,10 +145,9 @@ public class ApprovalController {
             if (incomeModelDto.getStatus().equals("Approval")) {
                 updateModel.setStatus(Model.Status.APPROVAL);
 
-                //System.out.println(String.format("kubernete exception: %s", message));
+                logger.debug("--Model push start--");
                 modelService.pushModel(updateModel,getNewModelName(updateModel));
-                System.out.println("[debug] continue");
-
+                logger.debug("--Model push finished--");
 
             } else if (incomeModelDto.getStatus().equals("Reject")) {
                 updateModel.setStatus(Model.Status.REJECT);
@@ -197,7 +200,7 @@ public class ApprovalController {
         newModelName.append(modelType.getName());
         newModelName.append("_v");
         newModelName.append(updateModel.getBigVersion().toString());
-        newModelName.append(".v");
+        newModelName.append(".");
         newModelName.append(updateModel.getSmallVersion().toString());
         return newModelName.toString();
     }
