@@ -63,7 +63,7 @@ public class ApprovalController {
                 if (m.getModelTypeId() != null) {
                     m.setModelType(modelTypeCrud.findById(m.getModelTypeId()));
                 }
-                newModelDtos.add(m.convert2ModelDto());
+   /*             newModelDtos.add(m.convert2ModelDto());*/
             }
             models.put("newModels", newModelDtos);
 
@@ -74,7 +74,7 @@ public class ApprovalController {
                 if (m.getModelTypeId() != null) {
                     m.setModelType(modelTypeCrud.findById(m.getModelTypeId()));
                 }
-                approvalModelDtos.add(m.convert2ModelDto());
+/*                approvalModelDtos.add(m.convert2ModelDto());*/
             });
             models.put("approvalModels", approvalModelDtos);
 
@@ -85,7 +85,7 @@ public class ApprovalController {
                 if (m.getModelTypeId() != null) {
                     m.setModelType(modelTypeCrud.findById(m.getModelTypeId()));
                 }
-                rejectModelDtos.add(m.convert2ModelDto());
+       /*         rejectModelDtos.add(m.convert2ModelDto());*/
             });
             models.put("rejectedModels", rejectModelDtos);
 
@@ -167,8 +167,8 @@ public class ApprovalController {
             reModel.setProject(projectCrud.fineById(reModel.getProjectId()));
             reModel.setModelType(modelTypeCrud.findById(reModel.getModelTypeId()));
 
-            responseBuilder.setCode(Response.Code.SUCCESS)
-                    .setData(reModel.convert2ModelDto());
+      /*      responseBuilder.setCode(Response.Code.SUCCESS)
+                    .setData(reModel.convert2ModelDto());*/
         } catch (Exception e) {
 
             responseBuilder.setCode(Response.Code.ERROR)
