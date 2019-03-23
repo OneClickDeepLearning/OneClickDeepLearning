@@ -2,11 +2,9 @@ package acceler.ocdl.persistence.crud.impl;
 
 import acceler.ocdl.model.User;
 import acceler.ocdl.persistence.crud.UserCrud;
-import acceler.ocdl.persistence.dao.UserDao;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

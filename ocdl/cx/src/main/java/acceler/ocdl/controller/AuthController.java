@@ -57,12 +57,11 @@ public class AuthController {
         } else {
             User loginUser = this.userCrud.getUserByAccountAndPassword(credential.account, credential.password);
             String token = securityUtil.requestToken(loginUser);
+
             Map<String, Object> result = new HashMap<>();
             result.put("userName", loginUser.getUserName());
             result.put("token", token);
             result.put("role",loginUser.getRole());
-            String projectName = projectCrud.fineById(loginUser.getProjectId()).getProjectName();
-            result.put("projectName", projectName);
 
             String containerUrl = kubernetesService.launchDockerContainer("cpu",loginUser);
             result.put("url",containerUrl);
