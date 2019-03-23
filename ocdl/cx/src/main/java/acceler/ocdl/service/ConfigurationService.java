@@ -1,9 +1,9 @@
 package acceler.ocdl.service;
 
-import java.util.Map;
+import acceler.ocdl.model.Project;
 
 public interface ConfigurationService {
     public String RequestProjectName();
-    public Map RequestAllConfigurationInfo();
-    public void update(String key, String value);
+    public Project RequestAllConfigurationInfo();
+    public void updateProject(Project project);
 }

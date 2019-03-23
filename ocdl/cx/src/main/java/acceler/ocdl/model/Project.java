@@ -3,14 +3,15 @@ package acceler.ocdl.model;
 import acceler.ocdl.dto.ProjectConfigurationDto;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
-public class Project {
+public class Project implements Serializable {
     private String projectName;
     private String gitPath;
     private String k8Url;
     private String templatePath;
     private String description;
-    private String surffix;//FIXME
+    private String suffix;
     private String modelType;
 
     public String getProjectName() {
@@ -53,13 +54,6 @@ public class Project {
         this.description = description;
     }
 
-    public String getSurffix() {
-        return surffix;
-    }
-
-    public void setSurffix(String surffix) {
-        this.surffix = surffix;
-    }
 
     public String getModelType() {
         return modelType;
@@ -67,5 +61,13 @@ public class Project {
 
     public void setModelType(String modelType) {
         this.modelType = modelType;
+    }
+
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
     }
 }

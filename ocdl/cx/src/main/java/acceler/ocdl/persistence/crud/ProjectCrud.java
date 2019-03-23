@@ -4,11 +4,9 @@ import acceler.ocdl.model.Project;
 
 public interface ProjectCrud {
 
-    Project createProject(Project projectInfo);
+    Project updateProjct(Project updatedProjectInfo);
 
-    Project updateProjct(Long id, Project updatedProjectInfo);
+    Project updateProjectName(String name);
 
-    Project updateProjectName(Long id, Project updatedProjectInfo);
-
-    Project fineById(Long id);
+    Project getProjectConfiguration();
 }

@@ -10,25 +10,19 @@ import java.util.Optional;
 @Service
 public class DefaultProjectCrud implements ProjectCrud{
 
+
     @Override
-    public Project createProject(Project projectInfo) {
+    public Project updateProjct(Project updatedProjectInfo) {
         return null;
     }
 
     @Override
-    public Project updateProjct(Long id, Project updatedProjectInfo) {
+    public Project updateProjectName(String name) {
         return null;
     }
 
     @Override
-    public Project updateProjectName(Long id, Project updatedProjectInfo) {
-
+    public Project getProjectConfiguration() {
         return null;
     }
-
-    @Override
-    public Project fineById(Long id) {
-        return null;
-    }
-
 }
