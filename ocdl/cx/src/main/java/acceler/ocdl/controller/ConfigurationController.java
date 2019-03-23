@@ -27,13 +27,10 @@ public class ConfigurationController {
     public Response updateProjectNames(HttpServletRequest request, @RequestBody Map<String, String> projectName) {
 
         Response.Builder responseBuilder = Response.getBuilder();
-        long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
 
         try{
             Project project = new Project();
             project.setProjectName(projectName.get("projectName"));
-
-            Project reProject = projectCrud.updateProjectName(projectId, project);
 
 /*            responseBuilder.setCode(Response.Code.SUCCESS)
                     .setData(reProject.convert2ProjectDto());*/
@@ -53,13 +50,11 @@ public class ConfigurationController {
     public Response updateProject(HttpServletRequest request, @RequestBody ProjectConfigurationDto updatedProjectConfig) {
 
         Response.Builder responseBuilder = Response.getBuilder();
-        long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
 
         try{
             Project updatedProject = updatedProjectConfig.convert2Project();
   /*          updatedProject.setProjectId(projectId);*/
 
-            Project reProject = projectCrud.updateProjct(projectId, updatedProject);
             responseBuilder.setCode(Response.Code.SUCCESS);
 /*                    .setData(reProject.convert2ProjectDto());*/
 
@@ -78,7 +73,6 @@ public class ConfigurationController {
     public final Response getAllProject(HttpServletRequest request) {
 
         Response.Builder responseBuilder = Response.getBuilder();
-        long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
 
         try{
 
