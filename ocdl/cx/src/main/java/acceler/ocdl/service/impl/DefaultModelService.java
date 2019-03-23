@@ -22,20 +22,20 @@ public class DefaultModelService implements ModelService {
     @Autowired
     private ModelCrud modelCrud;
 
-    public DefaultModelService(){
-
-    }
+    public DefaultModelService(){ }
 
     @Override
     public boolean copyModels(User user){
 
         System.out.println("[debug]" + "in copyModel method");
-
         String userspace = user.getProjectId().toString() + "-" + user.getUserId().toString();
+        //FIXME: 该对象必须是 private static final
         String destPath = "/home/ec2-user/stage/";
+        //FIXME: private static final String : "/home/hadoop/nfs_hdfs/UserSpace/"
         File file = new File("/home/hadoop/nfs_hdfs/UserSpace/" + userspace);
 
         File[] files = file.listFiles();
+        //FIXME: 少用单行缺{} 语法糖
         if(files == null)
             return false;
         for(File modelFile: files){
@@ -55,8 +55,10 @@ public class DefaultModelService implements ModelService {
             try {
                 FileUtils.moveFile(modelFile,new File(destPath + newFileName.toString()));
             } catch (IOException e){
+                //FIXME: throw exception at first
                 return false;
             }
+            //FIXME: if moving file fails, doesn't write to DB
             Model model = new Model();
             model.setName(newFileName.toString());
             model.setModelTypeId(-1L);
@@ -69,18 +71,21 @@ public class DefaultModelService implements ModelService {
     }
 
     public boolean pushModel(Model updateModel, String newModelName){
-
-
+        //FIXME: private static final  "/home/ec2-user/models/"
         String repoPath = "/home/ec2-user/models/" + updateModel.getProjectId().toString();
+        //FIXME: need to check file.exists(), throw NotFoundException
         File stageFile = new File("/home/ec2-user/stage/" + updateModel.getName());
         try {
             FileUtils.copyFile(stageFile,new File(repoPath + "/" + newModelName));
         } catch (IOException e){
+            //FIXME: throw one self-defined exception
+            System.out.println("[debug]" + e.getMessage());
             return false;
         }
 
         DefaultCmdHelper cmdHelper = new DefaultCmdHelper();
         File file = new File(repoPath);
+        //FIXME: check file.exists()
         StringBuilder stderr = new StringBuilder();
         StringBuilder std = new StringBuilder();
         cmdHelper.runCommand(file,"git pull",std,stderr);
@@ -97,6 +102,7 @@ public class DefaultModelService implements ModelService {
 
     private boolean isModelFile(String fileName){
 
+        //FIXME: private static final, 从文件读取这个配置
         List<String> modelIndex = new ArrayList<>();
         modelIndex.add(".model");
 

@@ -2,59 +2,33 @@ package acceler.ocdl.model;
 
 import javax.persistence.*;
 
-@Entity
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long userId;
+    private long userId;
 
-    @Column(name = "name")
     private String userName;
 
-    @Column(name = "account")
     private String account;
 
-    @Column(name = "password")
     private String password;
 
-    @Column(name = "project_id")
-    private Long projectId;
-
-    @Transient
-    private int type;
-    @Column(name = "role")
     private Role role;
 
     public User() {
     }
 
-    public User(String userName, String account, String password, int type, Role role, Long projectId) {
+    public User(String userName, String account, String password, Role role) {
         this.userName = userName;
         this.account = account;
         this.password = password;
-        this.type = type;
         this.role = role;
-        this.projectId = projectId;
     }
 
-
-    public User(Long userId, String userName, String account, String password, int type, Role role, Long projectId) {
-        this.userId = userId;
-        this.userName = userName;
-        this.account = account;
-        this.password = password;
-        this.type = type;
-        this.role = role;
-        this.projectId = projectId;
-    }
-
-    public Long getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
@@ -82,41 +56,12 @@ public class User {
         this.password = password;
     }
 
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
     public Role getRole() {
         return role;
     }
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public Long getProjectId() { return projectId; }
-
-    public void setProjectId(Long projectId) { this.projectId = projectId; }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        return userId.equals(user.userId);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return userId.hashCode();
     }
 
 

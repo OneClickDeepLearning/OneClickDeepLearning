@@ -10,7 +10,7 @@ public class Project {
     private String k8Url;
     private String templatePath;
     private String description;
-    private String surffix;
+    private String surffix;//FIXME
     private String modelType;
 
     public String getProjectName() {

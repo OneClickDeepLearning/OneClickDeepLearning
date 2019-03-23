@@ -11,8 +11,13 @@ public class InterceptorUtil extends WebMvcConfigurerAdapter {
     @Resource
     private AuthInterceptor authInterceptor;
 
+    @Resource
+    private ManagerAuthInterceptor managerAuthInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor).addPathPatterns("/rest/**").excludePathPatterns("/rest/auth/login");
+        //manager authorization interceptor setup
+        registry.addInterceptor(managerAuthInterceptor).addPathPatterns(ManagerAuthInterceptor.INTERCEPTED_URLS).excludePathPatterns(ManagerAuthInterceptor.EXCEPTED_URLS);
     }
 }

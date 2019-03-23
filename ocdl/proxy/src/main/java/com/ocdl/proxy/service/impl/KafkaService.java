@@ -75,8 +75,6 @@ public class KafkaService implements MessageTransferService {
             producer.send(new ProducerRecord<String, String>(topic, data));
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            producer.close();
         }
     }
 

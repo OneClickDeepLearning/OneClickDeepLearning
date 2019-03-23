@@ -7,12 +7,12 @@ import java.io.Serializable;
 public class IncomeModelDto {
 
 
-    private Long modelId;
-    private Long modelTypeId;
+    private long modelId;
+    private long modelTypeId;
     private String status;
-    private int bigVersion;
+    private int bigVersion = -1;
 
-    public Long getModelId() {
+    public long getModelId() {
         return modelId;
     }
 
@@ -21,7 +21,7 @@ public class IncomeModelDto {
     }
 
 
-    public Long getModelTypeId() {
+    public long getModelTypeId() {
         return modelTypeId;
     }
 
