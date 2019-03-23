@@ -63,9 +63,6 @@ public class AuthController {
             result.put("token", token);
             result.put("role",loginUser.getRole());
 
-            String containerUrl = kubernetesService.launchDockerContainer("cpu",loginUser);
-            result.put("url",containerUrl);
-
             respBuilder.setCode(Response.Code.SUCCESS);
             respBuilder.setData(result);
         }

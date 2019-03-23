@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,8 +49,8 @@ public final class ContainerController {
 //    }
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.POST)
-    public final Response requestContainer(HttpServletRequest request,@RequestBody String rscType) {
+    @RequestMapping(path = "/{rscType}", method = RequestMethod.POST)
+    public final Response requestContainer(HttpServletRequest request, @PathVariable("rscType") String rscType) {
 //        List<String> result = new ArrayList<>();
         User user = (User) request.getAttribute("CURRENT_USER");
 
@@ -60,6 +61,13 @@ public final class ContainerController {
 //            result.add(serverIp+":"+assign.toString());
 //        }
 //        return result;
+
+        if(assign == null)
+            return Response.getBuilder()
+                    .setCode(Response.Code.ERROR)
+                    .setMessage("Container launch failed")
+                    .build();
+
         Map<String, Object> result = new HashMap<>();
         result.put("url",assign);
 
@@ -67,12 +75,11 @@ public final class ContainerController {
                 .setCode(Response.Code.SUCCESS)
                 .setData(result)
                 .build();
-
     }
 
 
     @ResponseBody
-    @RequestMapping(params = "/release", method = RequestMethod.DELETE)
+    @RequestMapping(params = "/release/", method = RequestMethod.DELETE)
     public final void releaseContainer(@RequestBody String rscType,HttpServletRequest request) {
         User user = (User) request.getAttribute("CURRENT_USER");
         kubernetesService.releaseDockerContainer(rscType,user);

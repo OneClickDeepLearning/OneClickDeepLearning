@@ -136,29 +136,4 @@ public class Model {
         NEW, APPROVAL, REJECT
     }
 
-    public ModelDto convert2ModelDto() {
-        ModelDto modelDto = new ModelDto();
-
-        System.out.println(this.modelType);
-
-        modelDto.setModelId(this.id);
-        modelDto.setModelName(this.name);
-
-        if (this.modelType != null) {
-            modelDto.setModelType(this.modelType.getName());
-        }
-
-        modelDto.setProject(this.project.getProjectName());
-        modelDto.setUrl(this.url);
-        modelDto.setStatus(this.status.toString());
-
-        if (bigVersion != -1L && smallVersion != -1L) {
-            modelDto.setVersion(bigVersion + "." + smallVersion);
-        }
-
-        return modelDto;
-    }
-
-
-
 }

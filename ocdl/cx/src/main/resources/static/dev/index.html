@@ -58,7 +58,7 @@
 		</div>
 		<div class="collapse navbar-collapse">
 			<ul id="nav-menu" class="nav navbar-nav navbar-right">
-				<li><a href="#">FILE</a></li>
+				<li><a id="dataUploadBtn" href="#" class="nav-link" data-toggle="modal" data-target="#FileModal">DATA UPLOAD</a></li>
 				<li><a href="#">MODIFY</a></li>
 				<li><a id="signInBtn" href="#" class="nav-link" data-toggle="modal" data-target="#RegistrationModal">SIGN UP</a></li>
 				<li><a id="signUpBtn" href="#" class="nav-link" data-toggle="modal" data-target="#LogInModal">SIGN IN</a></li>
@@ -338,6 +338,84 @@
 			<!-- Modal content-->
 			<div class="modal-content temp-custom-modal-content">
 				<button id="closeLogin" type="button" class="close temp-custom-close-button" data-dismiss="modal">&times;</button>
+				<div class="modal-body temp-custom-modal-body">
+					<div class="temp-login-form-wrapper">
+						<div class="row custom-row">
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 temp-form-column-wrap-image">
+								<div class="temp-login-column-wrap-image">
+									<div class="temp-form-inner-wrapper">
+										<h2>Sign in</h2>
+										<p>If you don't have an OCDL account, please Sign up first.</p>
+										<p class="temp-heading-for-icon">sign in with social media</p>
+										<div class="temp-anchor-wrap temp-reg-anchor-wrap">
+											<a href="#" class=" temp-anchor text-left">
+                        <span class="temp-social-icon-wrap">
+                          <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </span>
+												<span>sign in with facebook</span>
+											</a>
+											<a href="#" class="temp-anchor temp-icon-color text-left">
+                        <span class="temp-social-icon-wrap">
+                          <i class="fa fa-google" aria-hidden="true"></i>
+                        </span>
+												<span>sign in with google</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+								<div class="temp-form-column-wrap">
+									<h2>Sign In</h2>
+									<form name="login_form" method="post">
+										<div class="form-group">
+                      <span class="temp-span-wrap temp-span-input-label-wrap">
+                        <input id="data_username" name="account" class="temp_input_field" type="text" required >
+                        <label class="temp_input_label">
+                          <span class="temp_input_label-content">Username</span>
+                        </label>
+                      </span>
+										</div>
+										<div class="form-group">
+                      <span class="temp-span-wrap temp-span-input-label-wrap">
+                        <input id="data_pwd" name="password" class="temp_input_field" type="password" required >
+                        <label class="temp_input_label">
+                          <span class="temp_input_label-content">Password</span>
+                        </label>
+                      </span>
+										</div>
+										<div class="form-group">
+											<label class="temp-checkbox-wrap">
+												<input  name="signup_agree_checkbox" value="1" type="checkbox">
+												Remember me
+												<span class="checkmark"></span>
+											</label>
+											<label class="pull-right label-content-color custom-form-label2">
+												<a href="#">Forget your password?</a>
+											</label>
+										</div>
+										<div class="temp-login-button-wrap">
+											<button class="btn btn-info temp-form-button" type="button" onclick="signIn()">Sign In</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--====  End of login form modal  ====-->
+
+<!-- Modal -->
+<div class="modal fade" id="FileModal" role="dialog">
+	<div class="temp-custom-modal-wrap">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content temp-custom-modal-content">
+				<button id="closeFile" type="button" class="close temp-custom-close-button" data-dismiss="modal">&times;</button>
 				<div class="modal-body temp-custom-modal-body">
 					<div class="temp-login-form-wrapper">
 						<div class="row custom-row">

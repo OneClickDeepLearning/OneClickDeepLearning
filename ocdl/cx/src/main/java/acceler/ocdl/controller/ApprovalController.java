@@ -57,24 +57,39 @@ public class ApprovalController {
 
         try {
             Project project = projectCrud.fineById(projectId);
-
-            if (project == null) {
-
-                String msg = String.format("Project(id: %s) not found.", projectId);
-                String responseMsg = String.format("Project(id: %s) not found.", projectId);
-                throw new NotFoundException(msg, responseMsg);
+            List<Model> newModels= modelCrud.getModels(Model.Status.NEW);
+            List<ModelDto> newModelDtos = new ArrayList<ModelDto>();
+            for (Model m : newModels) {
+                m.setProject(project);
+                if (m.getModelTypeId() != null) {
+                    m.setModelType(modelTypeCrud.findById(m.getModelTypeId()));
+                }
+   /*             newModelDtos.add(m.convert2ModelDto());*/
             }
 
             List<Model> newModels= modelCrud.getModels(Model.Status.NEW, projectId);
             List<ModelDto> newModelDtos = convert2modelDtos(newModels, project);
             models.put("newModels", newModelDtos);
-
-            List<Model> approvalModels= modelCrud.getModels(Model.Status.APPROVAL, projectId);
-            List<ModelDto> approvalModelDtos = convert2modelDtos(approvalModels, project);
+            List<Model> approvalModels= modelCrud.getModels(Model.Status.APPROVAL);
+            List<ModelDto> approvalModelDtos = new ArrayList<ModelDto>();
+            approvalModels.stream().forEach(m -> {
+                m.setProject(project);
+                if (m.getModelTypeId() != null) {
+                    m.setModelType(modelTypeCrud.findById(m.getModelTypeId()));
+                }
+/*                approvalModelDtos.add(m.convert2ModelDto());*/
+            });
             models.put("approvalModels", approvalModelDtos);
 
-            List<Model> rejectModels= modelCrud.getModels(Model.Status.REJECT, projectId);
-            List<ModelDto> rejectModelDtos = convert2modelDtos(rejectModels, project);
+            List<Model> rejectModels= modelCrud.getModels(Model.Status.REJECT);
+            List<ModelDto> rejectModelDtos = new ArrayList<ModelDto>();
+            rejectModels.stream().forEach(m -> {
+                m.setProject(project);
+                if (m.getModelTypeId() != null) {
+                    m.setModelType(modelTypeCrud.findById(m.getModelTypeId()));
+                }
+       /*         rejectModelDtos.add(m.convert2ModelDto());*/
+            });
             models.put("rejectedModels", rejectModelDtos);
 
             responseBuilder.setCode(Response.Code.SUCCESS)
@@ -196,10 +211,9 @@ public class ApprovalController {
             updatedModel.setProject(projectCrud.fineById(updatedModel.getProjectId()));
             updatedModel.setModelType(modelTypeCrud.findById(updatedModel.getModelTypeId()));
 
-            responseBuilder.setCode(Response.Code.SUCCESS)
-                    .setData(updatedModel.convert2ModelDto());
-
-        } catch (NotFoundException e) {
+      /*      responseBuilder.setCode(Response.Code.SUCCESS)
+                    .setData(reModel.convert2ModelDto());*/
+        } catch (Exception e) {
 
             responseBuilder.setCode(Response.Code.ERROR)
                     .setMessage(e.getMessage());

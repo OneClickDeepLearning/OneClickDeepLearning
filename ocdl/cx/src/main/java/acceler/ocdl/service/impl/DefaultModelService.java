@@ -89,13 +89,9 @@ public class DefaultModelService implements ModelService {
         StringBuilder stderr = new StringBuilder();
         StringBuilder std = new StringBuilder();
         cmdHelper.runCommand(file,"git pull",std,stderr);
-        System.out.println(stderr.toString());
         cmdHelper.runCommand(file,"git add --all",std,stderr);
-        System.out.println(stderr.toString());
         cmdHelper.runCommand(file,"git commit -m \"newmodel\"",std,stderr);
-        System.out.println(stderr.toString());
         cmdHelper.runCommand(file, "git push",std,stderr);
-        System.out.println(stderr.toString());
 
 //        if(!stderr.toString().equals("")) {
 //            System.out.println(stderr.toString());
