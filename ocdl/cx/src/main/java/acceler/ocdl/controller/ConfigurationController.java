@@ -35,8 +35,8 @@ public class ConfigurationController {
 
             Project reProject = projectCrud.updateProjectName(projectId, project);
 
-            responseBuilder.setCode(Response.Code.SUCCESS)
-                    .setData(reProject.convert2ProjectDto());
+/*            responseBuilder.setCode(Response.Code.SUCCESS)
+                    .setData(reProject.convert2ProjectDto());*/
 
         } catch (Exception e) {
 
@@ -57,11 +57,11 @@ public class ConfigurationController {
 
         try{
             Project updatedProject = updatedProjectConfig.convert2Project();
-            updatedProject.setProjectId(projectId);
+  /*          updatedProject.setProjectId(projectId);*/
 
             Project reProject = projectCrud.updateProjct(projectId, updatedProject);
-            responseBuilder.setCode(Response.Code.SUCCESS)
-                    .setData(reProject.convert2ProjectDto());
+            responseBuilder.setCode(Response.Code.SUCCESS);
+/*                    .setData(reProject.convert2ProjectDto());*/
 
         } catch (Exception e) {
 
@@ -82,11 +82,11 @@ public class ConfigurationController {
 
         try{
 
-            Project project = projectCrud.fineById(projectId);
-            ProjectConfigurationDto projectDto = project.convert2ProjectDto();
 
-            responseBuilder.setCode(Response.Code.SUCCESS)
-                    .setData(projectDto);
+            Project project = projectCrud.fineById(3L);
+/*            ProjectConfigurationDto projectDto = project.convert2ProjectDto();*/
+/*            responseBuilder.setCode(Response.Code.SUCCESS)
+                    .setData(projectDto);*/
 
         } catch (Exception e) {
             responseBuilder.setCode(Response.Code.ERROR)
