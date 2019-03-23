@@ -40,7 +40,7 @@ public class DefaultKubernetesService implements KubernetesService {
         String url = null;
         String ip;
         String port;
-        String nameSpace = user.getProjectId().toString() + "-" + user.getUserId().toString();
+/*        String nameSpace = user.getProjectId().toString() + "-" + user.getUserId().toString();*/
 
         //FIXME: bean, 不要自己创建
         DefaultCmdHelper cmdHelper = new DefaultCmdHelper();
@@ -53,13 +53,13 @@ public class DefaultKubernetesService implements KubernetesService {
         //std = new StringBuilder();
 
         StringBuilder command = new StringBuilder();
-        command.append("sh ").append(rscType).append("_makeDeploy.sh ").append(nameSpace);
+/*        command.append("sh ").append(rscType).append("_makeDeploy.sh ").append(nameSpace);*/
 
         System.out.println("[debug]" + command.toString());
 
         cmdHelper.runCommand(file,command.toString(), std, stderr);
         command = new StringBuilder();
-        command.append("kubectl create -f ").append(nameSpace).append("-deploy-").append(rscType).append(".yaml");
+/*        command.append("kubectl create -f ").append(nameSpace).append("-deploy-").append(rscType).append(".yaml");*/
 
         System.out.println("[debug]" + command.toString());
 
@@ -67,12 +67,12 @@ public class DefaultKubernetesService implements KubernetesService {
 
         std = new StringBuilder();
         command = new StringBuilder();
-        command.append("sh getIp.sh ").append(nameSpace).append(" ").append(rscType);
+/*        command.append("sh getIp.sh ").append(nameSpace).append(" ").append(rscType);*/
         cmdHelper.runCommand(file, command.toString(), std, stderr);
         ip = ipMap.get(std.toString());
         std = new StringBuilder();
         command = new StringBuilder();
-        command.append("sh getPort.sh ").append(nameSpace).append(" ").append(rscType);
+/*        command.append("sh getPort.sh ").append(nameSpace).append(" ").append(rscType);*/
         cmdHelper.runCommand(file, command.toString(), std, stderr);
         port = std.toString();
 

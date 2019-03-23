@@ -1,79 +1,36 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.model.Project;
+import acceler.ocdl.persistence.crud.ProjectCrud;
+import acceler.ocdl.persistence.crud.UserCrud;
 import acceler.ocdl.service.ConfigurationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
 
 
 @Service
 public class DefaultConfigurationService implements ConfigurationService {
 
-    /*    @Value("${project.name}")
-        private String projectName;
-        */
-    public static final Properties p = new Properties();
-    public static final String path = "/application.properties";
 
-    public void initProperties() {
-        FileInputStream fis = null;
-        String configPath = null;
-        try {
-            configPath = java.net.URLDecoder.decode(getClass().getResource(path).getPath(), "utf-8");
-            fis = new FileInputStream(configPath);
-            p.load(fis);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fis.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
+    @Autowired
+    private ProjectCrud projectCrud;
 
     @Override
     public String RequestProjectName() {
-        initProperties();
-        return (String) p.get("project.name");
+        Project project = projectCrud.getProjectConfiguration();
+        return project.getProjectName();
     }
 
-    //FIXME: Property 本身是线程安全的类， 但读写IO部分不是线程安全的
-    //FIXME: 建议对Property对象 p 加锁: 1. Property本身是 hashTable, 以它加锁，可允许重入，防死锁
-    public void update(String key, String value) {
-        p.setProperty(key, value);
-        FileOutputStream oFile = null;
-        String configPath = null;
-        try {
-            configPath = java.net.URLDecoder.decode(getClass().getResource(path).getPath(), "utf-8");
-            oFile = new FileOutputStream(configPath);
-            //将Properties中的属性列表（键和元素对）写入输出流
-            p.store(oFile, "");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                oFile.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    //FIXME: 把它作为一个全局的@Bean，放到main class 下面
     @Override
-    public Map RequestAllConfigurationInfo() {
-        Map<String, String> result = new HashMap<>();
-        result.put("projectName", (String) p.get("project.name"));
-        result.put("k8url", (String) p.get("k8.url"));
-        result.put("modelGitAddress", (String) p.get("model.git.address"));
-        result.put("templatePath", (String) p.get("template.path"));
-        return result;
+    public Project RequestAllConfigurationInfo() {
+        return projectCrud.getProjectConfiguration();
+    }
+
+    @Override
+    public void updateProject(Project project) {
+        projectCrud.updateProjct(project);
+    }
+    public void updateProjectName(String name){
+        projectCrud.updateProjectName(name);
     }
 }
