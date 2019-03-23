@@ -1,22 +1,20 @@
 package acceler.ocdl.persistence.crud;
 
 import acceler.ocdl.model.Model;
+import acceler.ocdl.model.ModelType;
 
 import java.util.List;
 import java.util.Map;
 
 public interface ModelCrud {
 
+//    Model updateModel(Long id, Model upadataModelInfo);
 
-    Model createModel(Model modelInfo);
+    public List<Model> getModels(Model.Status status);
 
-    Model updateModel(Long id, Model upadataModelInfo);
+    public int getBigVersion(ModelType modelType);
 
-    List<Model> getModels(Model.Status status, Long projectId);
+    public int getSmallVersion(ModelType modelType);
 
-    Long getBigVersion(Long modelTypeId, Long projectId);
-
-    Long getSmallVersion(Long modelTypeId, Long projectId, Long bigVersion);
-
-    public Model getById(Long modelId);
+    public Model getById(long modelId);
 }
