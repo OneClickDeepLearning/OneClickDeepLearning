@@ -4,19 +4,15 @@ import acceler.ocdl.dto.ModelTypeDto;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "model_type")
 public class ModelType {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+
     private long modelTypeId;
 
-    @Column(name = "name")
     private String modelTypeName;
 
-    @Column(name = "project_id")
-    private long projectId;
+    private int currentBigVersion;
+
+    private int currentSmallVersion;
 
     public long getModelTypeId() {
         return modelTypeId;
@@ -26,28 +22,27 @@ public class ModelType {
         this.modelTypeId = modelTypeId;
     }
 
-    public String getName() {
+    public String getModelTypeName() {
         return modelTypeName;
     }
 
-    public void setName(String name) {
-        this.modelTypeName = name;
+    public void setModelTypeName(String modelTypeName) {
+        this.modelTypeName = modelTypeName;
     }
 
-    public long getProjectId() {
-        return projectId;
+    public int getCurrentBigVersion() {
+        return currentBigVersion;
     }
 
-    public void setProjectId(long projectId) {
-        this.projectId = projectId;
+    public void setCurrentBigVersion(int currentBigVersion) {
+        this.currentBigVersion = currentBigVersion;
     }
 
-    public ModelTypeDto convert2ModelDto() {
-        ModelTypeDto modelTypeDto = new ModelTypeDto();
-        modelTypeDto.setId(this.modelTypeId);
-        modelTypeDto.setName(this.modelTypeName);
-
-        return modelTypeDto;
+    public int getCurrentSmallVersion() {
+        return currentSmallVersion;
     }
 
+    public void setCurrentSmallVersion(int currentSmallVersion) {
+        this.currentSmallVersion = currentSmallVersion;
+    }
 }

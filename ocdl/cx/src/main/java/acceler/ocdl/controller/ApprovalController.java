@@ -4,15 +4,12 @@ import acceler.ocdl.dto.IncomeModelDto;
 import acceler.ocdl.dto.ModelDto;
 import acceler.ocdl.dto.ModelTypeDto;
 import acceler.ocdl.dto.Response;
-import acceler.ocdl.exception.DatabaseException;
 
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.model.Model;
 import acceler.ocdl.model.ModelType;
 import acceler.ocdl.model.Project;
-import acceler.ocdl.model.User;
 import acceler.ocdl.persistence.crud.ModelCrud;
-import acceler.ocdl.persistence.crud.ModelTypeCrud;
 import acceler.ocdl.persistence.crud.ProjectCrud;
 import acceler.ocdl.service.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +48,6 @@ public class ApprovalController {
     @RequestMapping(method = RequestMethod.GET)
     public final Response getModelList(HttpServletRequest request) {
         Builder responseBuilder = getBuilder();
-        long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
 
         Map<String, List<ModelDto>> models = new HashMap<String, List<ModelDto>>();
 
@@ -61,7 +57,7 @@ public class ApprovalController {
             List<ModelDto> newModelDtos = new ArrayList<ModelDto>();
             for (Model m : newModels) {
                 m.setProject(project);
-                if (m.getModelTypeId() != null) {
+                if (m.getModelTypeId() != -1) {
                     m.setModelType(modelTypeCrud.findById(m.getModelTypeId()));
                 }
    /*             newModelDtos.add(m.convert2ModelDto());*/
@@ -123,7 +119,6 @@ public class ApprovalController {
     public final Response getModeltype(HttpServletRequest request) {
 
         Builder responseBuilder = getBuilder();
-        long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
 
         try {
             List<ModelType> modelTypes = modelTypeCrud.getModelTypes(projectId);
@@ -148,7 +143,6 @@ public class ApprovalController {
         Builder responseBuilder = getBuilder();
 
         try {
-            long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
             Model updateModel = modelCrud.getById(modelId);
             if (updateModel == null) {
                 String msg = String.format("Model(id: %s ) not found", modelId);
@@ -177,7 +171,7 @@ public class ApprovalController {
             if (incomeModelDto != null && incomeModelDto.getBigVersion() >= 0) {
                 
                 if (incomeModelDto.getBigVersion() == 1){
-                    long currentBigVersion = modelCrud.getBigVersion(modelId, projectId);
+                    long currentBigVersion = modelCrud.getBigVersion(modelTypeId);
                     if (currentBigVersion >= 0) {
                         bigVersion = currentBigVersion + 1;
                     } else {
