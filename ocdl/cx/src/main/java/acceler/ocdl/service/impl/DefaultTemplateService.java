@@ -16,6 +16,7 @@ import java.util.List;
 @Service
 public class DefaultTemplateService implements TemplateService {
 
+    //FIXME: ""这个对象没用就不要声明出来
     private String templatePath = "";
 
     @Override
@@ -51,6 +52,7 @@ public class DefaultTemplateService implements TemplateService {
     @Override
     public List<String> getTemplates2(String name,String type) {
         List<String> result = new ArrayList<>();
+        //FIXME: StringBuilder
         String code = "";
         try { // 防止文件建立或读取失败，用catch捕捉错误并打印，也可以throw
 

@@ -30,10 +30,10 @@ public class S3Service implements StorageService {
     public S3Service() {
     }
 
-    @Value("S3.server.accesskey")
+    @Value("${S3.server.accesskey}")
     public void setAccesskey(String accesskey) { this.accesskey = accesskey; }
 
-    @Value("S3.server.secretkey")
+    @Value("${S3.server.secretkey}")
     public void setSecretkey(String secretkey) { this.secretkey = secretkey; }
 
     @Override

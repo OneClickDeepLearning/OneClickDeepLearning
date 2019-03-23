@@ -1,30 +1,39 @@
 package acceler.ocdl.model;
 
+import acceler.ocdl.dto.ProjectConfigurationDto;
+
+import javax.persistence.*;
+
+@Entity
 public class Project {
 
-    private int projectId;
-    private String projectName;
-    private String git;
-    private String k8Url;
-    private String templateUrl;
-    private String desp;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private long projectId;
 
+    @Column(name = "name")
+    private String projectName;
+
+    @Column(name = "git_path")
+    private String gitPath;
+
+    @Column(name = "k8_url")
+    private String k8Url;
+
+    @Column(name = "template_path")
+    private String templatePath;
+
+    @Column(name = "description")
+    private String description;
 
     public Project() {}
 
-    public Project(String projectName, String git, String k8Url, String templateUrl, String desp) {
-        this.projectName = projectName;
-        this.git = git;
-        this.k8Url = k8Url;
-        this.templateUrl = templateUrl;
-        this.desp = desp;
-    }
-
-    public int getProjectId() {
+    public long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(int projectId) {
+    public void setProjectId(long projectId) {
         this.projectId = projectId;
     }
 
@@ -36,12 +45,12 @@ public class Project {
         this.projectName = projectName;
     }
 
-    public String getGit() {
-        return git;
+    public String getGitPath() {
+        return gitPath;
     }
 
-    public void setGit(String git) {
-        this.git = git;
+    public void setGitPath(String gitPath) {
+        this.gitPath = gitPath;
     }
 
     public String getK8Url() {
@@ -52,20 +61,31 @@ public class Project {
         this.k8Url = k8Url;
     }
 
-    public String getTemplateUrl() {
-        return templateUrl;
+    public String getTemplatePath() {
+        return templatePath;
     }
 
-    public void setTemplateUrl(String templateUrl) {
-        this.templateUrl = templateUrl;
+    public void setTemplatePath(String templatePath) {
+        this.templatePath = templatePath;
     }
 
-    public String getDesp() {
-        return desp;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesp(String desp) {
-        this.desp = desp;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public ProjectConfigurationDto convert2ProjectDto(){
+
+        ProjectConfigurationDto p = new ProjectConfigurationDto();
+        p.setProjectName(this.projectName);
+        p.setGitPath(this.gitPath);
+        p.setK8Url(this.k8Url);
+        p.setTemplatePath(this.templatePath);
+
+        return p;
     }
 
 }
