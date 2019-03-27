@@ -2,25 +2,16 @@ package acceler.ocdl.model;
 
 import acceler.ocdl.dto.ModelTypeDto;
 
-import javax.persistence.*;
-
 public class ModelType {
 
-    private long modelTypeId;
+//    private long modelTypeId;
 
     private String modelTypeName;
 
-    private int currentBigVersion;
+    private int currentBigVersion = -1;
 
-    private int currentSmallVersion;
+    private int currentSmallVersion = -1;
 
-    public long getModelTypeId() {
-        return modelTypeId;
-    }
-
-    public void setModelTypeId(long modelTypeId) {
-        this.modelTypeId = modelTypeId;
-    }
 
     public String getModelTypeName() {
         return modelTypeName;
