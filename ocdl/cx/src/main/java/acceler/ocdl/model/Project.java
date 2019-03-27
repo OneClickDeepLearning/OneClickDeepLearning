@@ -1,11 +1,11 @@
 package acceler.ocdl.model;
 
 import acceler.ocdl.dto.ProjectConfigurationDto;
-
-import javax.persistence.*;
 import java.io.Serializable;
 
 public class Project implements Serializable {
+
+
     private String projectName;
     private String gitPath;
     private String k8Url;
@@ -69,5 +69,17 @@ public class Project implements Serializable {
 
     public void setSuffix(String suffix) {
         this.suffix = suffix;
+    }
+
+
+    public ProjectConfigurationDto convert2ProjectDto() {
+
+        ProjectConfigurationDto projectConfigurationDto = new ProjectConfigurationDto();
+        projectConfigurationDto.setProjectName(this.getProjectName());
+        projectConfigurationDto.setK8Url(this.getK8Url());
+        projectConfigurationDto.setGitPath(this.getGitPath());
+        projectConfigurationDto.setTemplatePath(this.getTemplatePath());
+
+        return projectConfigurationDto;
     }
 }

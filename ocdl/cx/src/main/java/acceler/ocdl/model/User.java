@@ -1,10 +1,8 @@
 package acceler.ocdl.model;
 
-import javax.persistence.*;
-
 public class User {
 
-    private long userId;
+    private Long userId;
 
     private String userName;
 
@@ -24,11 +22,11 @@ public class User {
         this.role = role;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -63,6 +61,7 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
 
 
     public enum Role {
