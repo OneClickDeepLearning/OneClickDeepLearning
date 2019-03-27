@@ -17,9 +17,9 @@ class Persistence {
 
     private static final Logger logger = LoggerFactory.getLogger(Persistence.class);
 
-    public final String projectSerializableFile = "cx/src/main/resources/persistence/projectConfiguration";
-    public final String userListSerializableFile = "cx/src/main/resources/persistence/user";
-    public final String modelTypesListSerializableFile = "cx/src/main/resources/persistence/modeltypes";
+    public final String projectSerializableFile = "/home/ec2-user/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/projectConfiguration";
+    public final String userListSerializableFile = "/home/ec2-user/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/user";
+    public final String modelTypesListSerializableFile = "/home/ec2-user/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/modeltypes";
 
     private Project project;
     private Vector<User> userList;
