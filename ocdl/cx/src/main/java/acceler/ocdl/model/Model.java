@@ -1,14 +1,9 @@
 package acceler.ocdl.model;
 
-import javax.persistence.*;
 
 public class Model {
 
-    private long id;
-
     private String name;
-
-    private long modelTypeId;
 
     private String url;
 
@@ -22,14 +17,6 @@ public class Model {
 
 
     public Model(){}
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

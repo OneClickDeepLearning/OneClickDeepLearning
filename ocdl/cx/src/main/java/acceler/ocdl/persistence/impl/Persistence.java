@@ -1,6 +1,7 @@
-package acceler.ocdl.persistence;
+package acceler.ocdl.persistence.impl;
 
 import acceler.ocdl.exception.OcdlException;
+import acceler.ocdl.model.ModelType;
 import acceler.ocdl.model.Project;
 import acceler.ocdl.model.User;
 import org.springframework.stereotype.Component;
@@ -11,11 +12,13 @@ import java.util.Vector;
 
 @Component
 class Persistence {
+
     public final static String projectSerializableFile = "";
     public final static String userListSerializableFile = "";
 
     private Project project;
     private Vector<User> userList;
+    private Vector<ModelType> modelTypes;
 
     public Persistence() {
         this.project = (Project) loadingObject(projectSerializableFile);
@@ -29,6 +32,8 @@ class Persistence {
     List<User> getUserList() {
         return userList;
     }
+
+    List<ModelType> getModelTypes() {return modelTypes;}
 
     void persistentUserList() {
         dumpObject(this.userList, userListSerializableFile);
@@ -53,7 +58,7 @@ class Persistence {
         }
     }
 
-    private void dumpObject(Object object, String filePath) {
+    public void dumpObject(Object object, String filePath) {
         try {
             FileOutputStream fileOut = new FileOutputStream(filePath);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);

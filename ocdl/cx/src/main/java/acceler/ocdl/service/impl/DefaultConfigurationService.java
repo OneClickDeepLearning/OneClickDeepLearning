@@ -1,8 +1,7 @@
 package acceler.ocdl.service.impl;
 
 import acceler.ocdl.model.Project;
-import acceler.ocdl.persistence.crud.ProjectCrud;
-import acceler.ocdl.persistence.crud.UserCrud;
+import acceler.ocdl.persistence.ProjectCrud;
 import acceler.ocdl.service.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

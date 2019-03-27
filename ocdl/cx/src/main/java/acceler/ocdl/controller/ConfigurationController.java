@@ -3,11 +3,9 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.ProjectConfigurationDto;
 import acceler.ocdl.dto.Response;
-import acceler.ocdl.exception.DatabaseException;
 import acceler.ocdl.model.Project;
-import acceler.ocdl.model.User;
-import acceler.ocdl.persistence.Persistence;
-import acceler.ocdl.persistence.crud.ProjectCrud;
+import acceler.ocdl.model.User;;
+import acceler.ocdl.persistence.ProjectCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,21 +28,17 @@ public class ConfigurationController {
 
         Response.Builder responseBuilder = Response.getBuilder();
 
-        try{
-            Persistence.getProject().setProjectName(projectName.get("projectName"));
-            Map<String,String > result = new HashMap<>();
-            result.put("projectName",Persistence.getProject().getProjectName());
+        projectCrud.updateProjectName(projectName.get("projectName"));
 
+        try {
             responseBuilder.setCode(Response.Code.SUCCESS)
-                    .setData(result);
+                    .setData(projectName);
 
-        } catch (Exception e) {
-
+        }catch (Exception e){
             responseBuilder.setCode(Response.Code.ERROR)
-                    .setMessage(e.getMessage());
-
+                    .setData(e);
         }
-        return responseBuilder.build();
+        return responseBuilder.setCode(Response.Code.SUCCESS).build();
     }
 
 
@@ -54,41 +48,23 @@ public class ConfigurationController {
 
         Response.Builder responseBuilder = Response.getBuilder();
 
-        try{
-            Project updatedProject = updatedProjectConfig.convert2Project();
-  /*          updatedProject.setProjectId(projectId);*/
+        projectCrud.updateProjct(updatedProjectConfig.convert2Project());
 
-            responseBuilder.setCode(Response.Code.SUCCESS);
-/*                    .setData(reProject.convert2ProjectDto());*/
-
-        } catch (Exception e) {
-
-            responseBuilder.setCode(Response.Code.ERROR)
-                    .setMessage(e.getMessage());
-
-        }
-        return responseBuilder.build();
+        return responseBuilder.setCode(Response.Code.SUCCESS).build();
     }
 
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
-    public final Response getAllProject(HttpServletRequest request) {
+    public final Response getProjectConfig(HttpServletRequest request) {
 
         Response.Builder responseBuilder = Response.getBuilder();
 
-        try{
+        Project project = projectCrud.getProjectConfiguration();
+        ProjectConfigurationDto projectDto = project.convert2ProjectDto();
 
-
-            Project project = projectCrud.fineById(3L);
-/*            ProjectConfigurationDto projectDto = project.convert2ProjectDto();*/
-/*            responseBuilder.setCode(Response.Code.SUCCESS)
-                    .setData(projectDto);*/
-
-        } catch (Exception e) {
-            responseBuilder.setCode(Response.Code.ERROR)
-                    .setMessage(e.getMessage());
-        }
+        responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(projectDto);
 
         return responseBuilder.build();
     }

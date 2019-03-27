@@ -50,6 +50,5 @@ public class ProjectConfigurationDto implements Serializable {
         project.setGitPath(this.gitPath);
 
         return project;
-
     }
 }

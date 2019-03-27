@@ -1,11 +1,10 @@
-package acceler.ocdl.persistence.crud.impl;
+package acceler.ocdl.persistence.impl;
 
 import acceler.ocdl.model.User;
-import acceler.ocdl.persistence.Persistence;
-import acceler.ocdl.persistence.crud.UserCrud;
+
+import acceler.ocdl.persistence.UserCrud;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +15,7 @@ public class DefaultUserCrud implements UserCrud {
 
     public User getUserById(long userId) {
 
-        List<User> users = persistence.getUser();
+        List<User> users = persistence.getUserList();
 
         Optional<User> user = users.stream().filter(u -> u.getUserId() == userId)
                 .findAny();
@@ -26,9 +25,9 @@ public class DefaultUserCrud implements UserCrud {
     }
 
 
-    public User getUserByAccountAndPassword(String account, String password, List<User> users) {
+    public User getUserByAccountAndPassword(String account, String password) {
 
-        List<User> users = persistence.getUser();
+        List<User> users = persistence.getUserList();
 
         Optional<User> user = users.stream().filter(u -> u.getAccount().equals(account) && u.getPassword().equals(password))
                 .findAny();

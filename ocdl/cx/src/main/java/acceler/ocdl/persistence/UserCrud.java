@@ -1,4 +1,4 @@
-package acceler.ocdl.persistence.crud;
+package acceler.ocdl.persistence;
 
 import acceler.ocdl.model.User;
 
@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface UserCrud {
 
-    User getUserById(Long userId);
+    User getUserById(long userId);
 
     User getUserByAccountAndPassword(String account, String password);
 }
