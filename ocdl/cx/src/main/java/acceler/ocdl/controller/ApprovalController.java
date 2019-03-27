@@ -135,9 +135,11 @@ public class ApprovalController {
             int bigVersion = 1;
             int smallVersion = 0;
 
+
             int[] currentVersion = modelTypeCrud.getVersion(incomeModelDto.getModelType());
             int currentBigVersion = currentVersion[0];
             int currentSmallVersion = currentVersion[1];
+
 
             if (incomeModelDto.getBigVersion() == 1) {
 
@@ -149,6 +151,7 @@ public class ApprovalController {
                 smallVersion = 0;
 
             } else {
+
 
                 if (currentBigVersion >= 0){
                     bigVersion = currentBigVersion;
@@ -170,6 +173,7 @@ public class ApprovalController {
             newModelName.append(smallVersion);
 
 
+
             String newPushName = getNewPushedModelName(incomeModelDto.getModelType(), String.valueOf(bigVersion), String.valueOf(smallVersion));
             modelService.pushModel(source.toString(), newPushName);
         }
@@ -185,7 +189,10 @@ public class ApprovalController {
         newModelName.append(bigVersion);
         newModelName.append(".");
         newModelName.append(smallVersion);
+
         return newModelName.toString();
+
+
     }
 
 }

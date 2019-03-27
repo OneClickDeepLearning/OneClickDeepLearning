@@ -5,7 +5,6 @@ import java.io.Serializable;
 
 public class Project implements Serializable {
 
-
     private String projectName;
     private String gitPath;
     private String k8Url;
@@ -53,7 +52,6 @@ public class Project implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     public String getModelType() {
         return modelType;

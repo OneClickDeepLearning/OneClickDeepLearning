@@ -2,7 +2,10 @@ package acceler.ocdl.model;
 
 import acceler.ocdl.dto.ModelTypeDto;
 
-public class ModelType {
+import java.io.Serializable;
+
+public class ModelType implements Serializable {
+
 
 //    private long modelTypeId;
 
@@ -11,7 +14,6 @@ public class ModelType {
     private int currentBigVersion = -1;
 
     private int currentSmallVersion = -1;
-
 
     public String getModelTypeName() {
         return modelTypeName;

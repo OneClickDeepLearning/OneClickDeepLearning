@@ -96,17 +96,21 @@ public class DefaultModelService implements ModelService {
 
         String repoPath = Paths.get(gitRepoPath, projectCrud.getProjectName()).toString();
 
+
         File stageFile = new File(sourcePath);
         if (stageFile == null) {
             logger.error("Cannot find the model that need to be pushed.");
             throw new NotFoundException("Cannot find the model that need to be pushed.", "Cannot find the model that need to be pushed.");
         }
 
+
         try {
             FileUtils.copyFile(stageFile,new File(repoPath + "/" + newModelName));
         } catch (IOException e){
+
             logger.error(e.getMessage());
             //FIXME: throw one self-defined exception
+
             return false;
         }
 

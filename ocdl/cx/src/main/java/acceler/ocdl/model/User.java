@@ -1,6 +1,8 @@
 package acceler.ocdl.model;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     private Long userId;
 

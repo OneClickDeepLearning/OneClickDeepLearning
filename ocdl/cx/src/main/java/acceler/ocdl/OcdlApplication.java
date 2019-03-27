@@ -14,6 +14,7 @@ public class OcdlApplication {
     public static void main(String[] args){
 
         SpringApplication.run(OcdlApplication.class, args);
+        System.out.println("--Application Started--");
         logger.debug("--Application Started--");
     }
 

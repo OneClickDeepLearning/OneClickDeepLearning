@@ -67,6 +67,7 @@ public class AuthController {
             result.put("token", token);
             result.put("role",loginUser.getRole());
 
+
             respBuilder.setCode(Response.Code.SUCCESS);
             respBuilder.setData(result);
         }
