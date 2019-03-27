@@ -419,20 +419,30 @@
 				<div class="modal-body temp-custom-modal-body">
 					<div class="temp-login-form-wrapper">
 						<div class="row custom-row">
+							<div class=" col-xs-12 temp-form-column-wrap-image">
+								<div class="temp-login-column-wrap-image">
+									<div class="temp-form-inner-wrapper">
+										<h2>Data Upload</h2>
+                                        <form enctype="multipart/form-data">
+                                            <input id="file" type="file" multiple="multiple" name="file" accept="*.*">
 
-							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-								<div class="temp-form-column-wrap">
-									<h2>Data Upload</h2>
-									<p>If you don't have an OCDL account, please Sign up first.</p>
-									<form enctype="multipart/form-data">
-										<input id="file" type="file" multiple="multiple" name="file" accept="...">
+											<div class="temp-anchor-wrap temp-reg-anchor-wrap">
+												<a href="#" class=" temp-anchor text-left" type="submit">
+                        <span class="temp-social-icon-wrap">
+                          <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                        </span>
+													<span>Upload</span>
+												</a>
+												<a href="#" type="submit" class="temp-anchor temp-icon-color text-left">
+													<span class="temp-social-icon-wrap">
+													  <i class="fa fa-share" aria-hidden="true"></i>
+													</span>
+													<span>Close</span>
+												</a>
+											</div>
+                                        </form>
 
-										<div class="temp-login-button-wrap">
-											<button class="btn btn-info temp-form-button" type="submit" onclick="signIn()">Upload</button>
-										</div>
-									</form>
-
-
+									</div>
 								</div>
 							</div>
 						</div>

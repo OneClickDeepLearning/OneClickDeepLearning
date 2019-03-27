@@ -4,7 +4,7 @@ import acceler.ocdl.model.Project;
 
 public interface ProjectCrud {
 
-    Project updateProjct(Project updatedProjectInfo);
+    Project updateProject(Project updatedProjectInfo);
 
     Project updateProjectName(String name);
 

@@ -13,7 +13,7 @@ public class DefaultProjectCrud implements ProjectCrud{
     private Persistence persistence;
 
     @Override
-    public Project updateProjct(Project updatedProjectInfo) {
+    public Project updateProject(Project updatedProjectInfo) {
 
         Project project = persistence.getProject();
         project.setProjectName(updatedProjectInfo.getProjectName());
