@@ -2,52 +2,40 @@ package acceler.ocdl.model;
 
 import acceler.ocdl.dto.ModelTypeDto;
 
-import javax.persistence.*;
+import java.io.Serializable;
 
-@Entity
-@Table(name = "model_type")
-public class ModelType {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long modelTypeId;
+public class ModelType implements Serializable {
 
-    @Column(name = "name")
+
+//    private long modelTypeId;
+
     private String modelTypeName;
 
-    @Column(name = "project_id")
-    private Long projectId;
+    private int currentBigVersion = -1;
 
-    public Long getModelTypeId() {
-        return modelTypeId;
-    }
+    private int currentSmallVersion = -1;
 
-    public void setModelTypeId(Long modelTypeId) {
-        this.modelTypeId = modelTypeId;
-    }
-
-    public String getName() {
+    public String getModelTypeName() {
         return modelTypeName;
     }
 
-    public void setName(String name) {
-        this.modelTypeName = name;
+    public void setModelTypeName(String modelTypeName) {
+        this.modelTypeName = modelTypeName;
     }
 
-    public Long getProjectId() {
-        return projectId;
+    public int getCurrentBigVersion() {
+        return currentBigVersion;
     }
 
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
+    public void setCurrentBigVersion(int currentBigVersion) {
+        this.currentBigVersion = currentBigVersion;
     }
 
-    public ModelTypeDto convert2ModelDto() {
-        ModelTypeDto modelTypeDto = new ModelTypeDto();
-        modelTypeDto.setId(this.modelTypeId);
-        modelTypeDto.setName(this.modelTypeName);
-
-        return modelTypeDto;
+    public int getCurrentSmallVersion() {
+        return currentSmallVersion;
     }
 
+    public void setCurrentSmallVersion(int currentSmallVersion) {
+        this.currentSmallVersion = currentSmallVersion;
+    }
 }

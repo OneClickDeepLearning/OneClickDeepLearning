@@ -1,41 +1,17 @@
 package acceler.ocdl.model;
 
 import acceler.ocdl.dto.ProjectConfigurationDto;
+import java.io.Serializable;
 
-import javax.persistence.*;
+public class Project implements Serializable {
 
-@Entity
-public class Project {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long projectId;
-
-    @Column(name = "name")
     private String projectName;
-
-    @Column(name = "git_path")
     private String gitPath;
-
-    @Column(name = "k8_url")
     private String k8Url;
-
-    @Column(name = "template_path")
     private String templatePath;
-
-    @Column(name = "description")
     private String description;
-
-    public Project() {}
-
-    public Long getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
-    }
+    private String suffix;
+    private String modelType;
 
     public String getProjectName() {
         return projectName;
@@ -77,15 +53,31 @@ public class Project {
         this.description = description;
     }
 
-    public ProjectConfigurationDto convert2ProjectDto(){
-
-        ProjectConfigurationDto p = new ProjectConfigurationDto();
-        p.setProjectName(this.projectName);
-        p.setGitPath(this.gitPath);
-        p.setK8Url(this.k8Url);
-        p.setTemplatePath(this.templatePath);
-
-        return p;
+    public String getModelType() {
+        return modelType;
     }
 
+    public void setModelType(String modelType) {
+        this.modelType = modelType;
+    }
+
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
+    }
+
+
+    public ProjectConfigurationDto convert2ProjectDto() {
+
+        ProjectConfigurationDto projectConfigurationDto = new ProjectConfigurationDto();
+        projectConfigurationDto.setProjectName(this.getProjectName());
+        projectConfigurationDto.setK8Url(this.getK8Url());
+        projectConfigurationDto.setGitPath(this.getGitPath());
+        projectConfigurationDto.setTemplatePath(this.getTemplatePath());
+
+        return projectConfigurationDto;
+    }
 }

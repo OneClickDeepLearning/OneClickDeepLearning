@@ -2,11 +2,13 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.model.User;
-import acceler.ocdl.persistence.crud.ProjectCrud;
-import acceler.ocdl.persistence.crud.UserCrud;
+import acceler.ocdl.persistence.ProjectCrud;
+import acceler.ocdl.persistence.UserCrud;
 import acceler.ocdl.service.KubernetesService;
 import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.SecurityUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -23,6 +25,8 @@ import java.util.Map;
 @Controller
 @RequestMapping(path = "/rest/auth")
 public class AuthController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     private UserService userService;
@@ -57,12 +61,12 @@ public class AuthController {
         } else {
             User loginUser = this.userCrud.getUserByAccountAndPassword(credential.account, credential.password);
             String token = securityUtil.requestToken(loginUser);
+
             Map<String, Object> result = new HashMap<>();
             result.put("userName", loginUser.getUserName());
             result.put("token", token);
             result.put("role",loginUser.getRole());
-            String projectName = projectCrud.fineById(loginUser.getProjectId()).getProjectName();
-            result.put("projectName", projectName);
+
 
             respBuilder.setCode(Response.Code.SUCCESS);
             respBuilder.setData(result);

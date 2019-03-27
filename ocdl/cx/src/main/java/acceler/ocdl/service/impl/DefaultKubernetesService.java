@@ -16,7 +16,7 @@ public class DefaultKubernetesService implements KubernetesService {
 
     private static final Map<User, String> cpuAssigned = new ConcurrentHashMap<>();
     private static final Map<User, String> gpuAssigned = new ConcurrentHashMap<>();
-    private static final Map<Integer, String> models = new ConcurrentHashMap<>();
+    //private static final Map<Integer, String> models = new ConcurrentHashMap<>();
     private static final Map<String,String> ipMap = new HashMap<>();
 
     public DefaultKubernetesService() {
@@ -25,12 +25,10 @@ public class DefaultKubernetesService implements KubernetesService {
         ipMap.put("10.8.0.10", "66.131.186.246");
     }
 
+    //FIXME: 建议这个方法在任何情况下都不返回null, 在null 情况下 throw exception
     public String launchDockerContainer(String rscType, User user) throws KuberneteException{
 
-
-        System.out.println("[debug]" + user.getUserId());
-        System.out.println("[debug]" + user.getProjectId());
-        System.out.println("[debug]" + rscType);
+        //FIXME: 定义EnumType,在controller做string到 enum的转化
 
         if(rscType.equals("cpu") && cpuAssigned.containsKey(user))
             return cpuAssigned.get(user);
@@ -44,24 +42,30 @@ public class DefaultKubernetesService implements KubernetesService {
         String url = null;
         String ip;
         String port;
-        String nameSpace = user.getProjectId().toString() + "-" + user.getUserId().toString();
+/*        String nameSpace = user.getProjectId().toString() + "-" + user.getUserId().toString();*/
 
+        //FIXME: bean, 不要自己创建
         DefaultCmdHelper cmdHelper = new DefaultCmdHelper();
 
         StringBuilder std = new StringBuilder();
         StringBuilder stderr = new StringBuilder();
+        //FIXME: private static final
         File file = new File("/home/ec2-user/k8s/deployment");
-        stderr = new StringBuilder();
-        std = new StringBuilder();
+        //stderr = new StringBuilder();
+        //std = new StringBuilder();
 
         StringBuilder command = new StringBuilder();
-        command.append("sh ").append(rscType).append("_makeDeploy.sh ").append(nameSpace);
+
+/*        command.append("sh ").append(rscType).append("_makeDeploy.sh ").append(nameSpace);*/
+
 
         System.out.println("[debug]" + command.toString());
 
         cmdHelper.runCommand(file,command.toString(), std, stderr);
         command = new StringBuilder();
-        command.append("kubectl create -f ").append(nameSpace).append("-deploy-").append(rscType).append(".yaml");
+
+/*        command.append("kubectl create -f ").append(nameSpace).append("-deploy-").append(rscType).append(".yaml");*/
+
 
         System.out.println("[debug]" + command.toString());
 
@@ -69,12 +73,12 @@ public class DefaultKubernetesService implements KubernetesService {
 
         std = new StringBuilder();
         command = new StringBuilder();
-        command.append("sh getIp.sh ").append(nameSpace).append(" ").append(rscType);
+/*        command.append("sh getIp.sh ").append(nameSpace).append(" ").append(rscType);*/
         cmdHelper.runCommand(file, command.toString(), std, stderr);
         ip = ipMap.get(std.toString());
         std = new StringBuilder();
         command = new StringBuilder();
-        command.append("sh getPort.sh ").append(nameSpace).append(" ").append(rscType);
+/*        command.append("sh getPort.sh ").append(nameSpace).append(" ").append(rscType);*/
         cmdHelper.runCommand(file, command.toString(), std, stderr);
         port = std.toString();
 
@@ -85,6 +89,8 @@ public class DefaultKubernetesService implements KubernetesService {
 
         url = ip + ":" + port;
 
+        //FIXME: 建议重写user
+        //FIXME: synchronized ? , cocurrentHashMap 本身已经线程安全
         if(rscType.equals("cpu")) {
             synchronized (this) {
                 cpuAssigned.put(user, url);
@@ -96,12 +102,10 @@ public class DefaultKubernetesService implements KubernetesService {
         }
 
         System.out.println(url);
-
         return url;
     }
 
     public void releaseDockerContainer(String rscType, User user) throws KuberneteException{
 
     }
-
 }

@@ -58,7 +58,7 @@
 		</div>
 		<div class="collapse navbar-collapse">
 			<ul id="nav-menu" class="nav navbar-nav navbar-right">
-				<li><a href="#">FILE</a></li>
+				<li><a id="dataUploadBtn" href="#" class="nav-link" data-toggle="modal" data-target="#FileModal">DATA UPLOAD</a></li>
 				<li><a href="#">MODIFY</a></li>
 				<li><a id="signInBtn" href="#" class="nav-link" data-toggle="modal" data-target="#RegistrationModal">SIGN UP</a></li>
 				<li><a id="signUpBtn" href="#" class="nav-link" data-toggle="modal" data-target="#LogInModal">SIGN IN</a></li>
@@ -398,6 +398,41 @@
 											<button class="btn btn-info temp-form-button" type="button" onclick="signIn()">Sign In</button>
 										</div>
 									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--====  End of login form modal  ====-->
+
+<!-- Modal -->
+<div class="modal fade" id="FileModal" role="dialog">
+	<div class="temp-custom-modal-wrap">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content temp-custom-modal-content">
+				<button id="closeFile" type="button" class="close temp-custom-close-button" data-dismiss="modal">&times;</button>
+				<div class="modal-body temp-custom-modal-body">
+					<div class="temp-login-form-wrapper">
+						<div class="row custom-row">
+
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+								<div class="temp-form-column-wrap">
+									<h2>Data Upload</h2>
+									<p>If you don't have an OCDL account, please Sign up first.</p>
+									<form enctype="multipart/form-data">
+										<input id="file" type="file" multiple="multiple" name="file" accept="...">
+
+										<div class="temp-login-button-wrap">
+											<button class="btn btn-info temp-form-button" type="submit" onclick="signIn()">Upload</button>
+										</div>
+									</form>
+
+
 								</div>
 							</div>
 						</div>
