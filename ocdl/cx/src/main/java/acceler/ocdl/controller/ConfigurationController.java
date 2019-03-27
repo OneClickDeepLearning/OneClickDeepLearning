@@ -6,6 +6,7 @@ import acceler.ocdl.dto.Response;
 import acceler.ocdl.exception.DatabaseException;
 import acceler.ocdl.model.Project;
 import acceler.ocdl.model.User;
+import acceler.ocdl.persistence.Persistence;
 import acceler.ocdl.persistence.crud.ProjectCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -29,11 +31,12 @@ public class ConfigurationController {
         Response.Builder responseBuilder = Response.getBuilder();
 
         try{
-            Project project = new Project();
-            project.setProjectName(projectName.get("projectName"));
+            Persistence.getProject().setProjectName(projectName.get("projectName"));
+            Map<String,String > result = new HashMap<>();
+            result.put("projectName",Persistence.getProject().getProjectName());
 
-/*            responseBuilder.setCode(Response.Code.SUCCESS)
-                    .setData(reProject.convert2ProjectDto());*/
+            responseBuilder.setCode(Response.Code.SUCCESS)
+                    .setData(result);
 
         } catch (Exception e) {
 
