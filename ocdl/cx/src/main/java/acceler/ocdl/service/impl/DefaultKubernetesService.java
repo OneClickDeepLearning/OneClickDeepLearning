@@ -27,7 +27,9 @@ public class DefaultKubernetesService implements KubernetesService {
 
     //FIXME: 建议这个方法在任何情况下都不返回null, 在null 情况下 throw exception
     public String launchDockerContainer(String rscType, User user) throws KuberneteException{
+
         //FIXME: 定义EnumType,在controller做string到 enum的转化
+
         if(rscType.equals("cpu") && cpuAssigned.containsKey(user))
             return cpuAssigned.get(user);
         else if(rscType.equals("gpu") && gpuAssigned.containsKey(user))
@@ -53,13 +55,17 @@ public class DefaultKubernetesService implements KubernetesService {
         //std = new StringBuilder();
 
         StringBuilder command = new StringBuilder();
+
 /*        command.append("sh ").append(rscType).append("_makeDeploy.sh ").append(nameSpace);*/
+
 
         System.out.println("[debug]" + command.toString());
 
         cmdHelper.runCommand(file,command.toString(), std, stderr);
         command = new StringBuilder();
+
 /*        command.append("kubectl create -f ").append(nameSpace).append("-deploy-").append(rscType).append(".yaml");*/
+
 
         System.out.println("[debug]" + command.toString());
 
