@@ -4,38 +4,46 @@ import acceler.ocdl.model.Model;
 
 import java.io.Serializable;
 
-public class IncomeModelDto {
+public class IncomeModelDto implements Serializable{
 
+    private static final long serialVersionUID = 1L;
 
-    private long modelId;
-    private long modelTypeId;
-    private String status;
+    private String modelName;
+    private String modelType;
+    private String preStatus;
+    private String destStatus;
     private int bigVersion = -1;
 
-    public long getModelId() {
-        return modelId;
+    public String getModelName() {
+        return modelName;
     }
 
-    public void setModelId(Long modelId) {
-        this.modelId = modelId;
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
     }
 
-
-    public long getModelTypeId() {
-        return modelTypeId;
+    public String getModelType() {
+        return modelType;
     }
 
-    public void setModelTypeId(Long modelTypeId) {
-        this.modelTypeId = modelTypeId;
+    public void setModelType(String modelType) {
+        this.modelType = modelType;
     }
 
-
-    public String getStatus() {
-        return status;
+    public String getPreStatus() {
+        return preStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setPreStatus(String preStatus) {
+        this.preStatus = preStatus;
+    }
+
+    public String getDestStatus() {
+        return destStatus;
+    }
+
+    public void setDestStatus(String destStatus) {
+        this.destStatus = destStatus;
     }
 
     public int getBigVersion() {
@@ -45,15 +53,5 @@ public class IncomeModelDto {
     public void setBigVersion(int bigVersion) {
         this.bigVersion = bigVersion;
     }
-
-    public Model convert2Model() {
-        Model model = new Model();
-
-        model.setId(this.modelId);
-        model.setModelTypeId(this.modelTypeId);
-        model.setStatus(Model.Status.valueOf(this.status.toUpperCase()));
-
-        return model;
-
-    }
 }
+

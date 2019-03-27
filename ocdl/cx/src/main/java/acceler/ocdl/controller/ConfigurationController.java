@@ -3,16 +3,16 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.ProjectConfigurationDto;
 import acceler.ocdl.dto.Response;
-import acceler.ocdl.exception.DatabaseException;
 import acceler.ocdl.model.Project;
-import acceler.ocdl.model.User;
-import acceler.ocdl.persistence.crud.ProjectCrud;
+import acceler.ocdl.model.User;;
+import acceler.ocdl.persistence.ProjectCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -27,24 +27,18 @@ public class ConfigurationController {
     public Response updateProjectNames(HttpServletRequest request, @RequestBody Map<String, String> projectName) {
 
         Response.Builder responseBuilder = Response.getBuilder();
-        long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
 
-        try{
-            Project project = new Project();
-            project.setProjectName(projectName.get("projectName"));
+        projectCrud.updateProjectName(projectName.get("projectName"));
 
-            Project reProject = projectCrud.updateProjectName(projectId, project);
-
+        try {
             responseBuilder.setCode(Response.Code.SUCCESS)
-                    .setData(reProject.convert2ProjectDto());
+                    .setData(projectName);
 
-        } catch (Exception e) {
-
+        }catch (Exception e){
             responseBuilder.setCode(Response.Code.ERROR)
-                    .setMessage(e.getMessage());
-
+                    .setData(e);
         }
-        return responseBuilder.build();
+        return responseBuilder.setCode(Response.Code.SUCCESS).build();
     }
 
 
@@ -53,45 +47,24 @@ public class ConfigurationController {
     public Response updateProject(HttpServletRequest request, @RequestBody ProjectConfigurationDto updatedProjectConfig) {
 
         Response.Builder responseBuilder = Response.getBuilder();
-        long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
 
-        try{
-            Project updatedProject = updatedProjectConfig.convert2Project();
-            updatedProject.setProjectId(projectId);
+        projectCrud.updateProject(updatedProjectConfig.convert2Project());
 
-            Project reProject = projectCrud.updateProjct(projectId, updatedProject);
-            responseBuilder.setCode(Response.Code.SUCCESS)
-                    .setData(reProject.convert2ProjectDto());
-
-        } catch (Exception e) {
-
-            responseBuilder.setCode(Response.Code.ERROR)
-                    .setMessage(e.getMessage());
-
-        }
-        return responseBuilder.build();
+        return responseBuilder.setCode(Response.Code.SUCCESS).build();
     }
 
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
-    public final Response getAllProject(HttpServletRequest request) {
+    public final Response getProjectConfig(HttpServletRequest request) {
 
         Response.Builder responseBuilder = Response.getBuilder();
-        long projectId = ((User)request.getAttribute("CURRENT_USER")).getProjectId();
 
-        try{
+        Project project = projectCrud.getProjectConfiguration();
+        ProjectConfigurationDto projectDto = project.convert2ProjectDto();
 
-            Project project = projectCrud.fineById(projectId);
-            ProjectConfigurationDto projectDto = project.convert2ProjectDto();
-
-            responseBuilder.setCode(Response.Code.SUCCESS)
-                    .setData(projectDto);
-
-        } catch (Exception e) {
-            responseBuilder.setCode(Response.Code.ERROR)
-                    .setMessage(e.getMessage());
-        }
+        responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(projectDto);
 
         return responseBuilder.build();
     }
