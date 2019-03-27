@@ -4,6 +4,8 @@ import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.model.ModelType;
 import acceler.ocdl.model.Project;
 import acceler.ocdl.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -13,9 +15,11 @@ import java.util.Vector;
 @Component
 class Persistence {
 
-    public final String projectSerializableFile = "/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/projectConfiguration";
-    public final String userListSerializableFile = "/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/user";
-    public final String modelTypesListSerializableFile = "/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/modeltypes";
+    private static final Logger logger = LoggerFactory.getLogger(Persistence.class);
+
+    public final String projectSerializableFile = "cx/src/main/resources/persistence/projectConfiguration";
+    public final String userListSerializableFile = "cx/src/main/resources/persistence/user";
+    public final String modelTypesListSerializableFile = "cx/src/main/resources/persistence/modeltypes";
 
     private Project project;
     private Vector<User> userList;
@@ -24,7 +28,7 @@ class Persistence {
 //    public Persistence() {}
 
     public Persistence() {
-        System.out.println("project----------------");
+        logger.error("project----------------");
         this.project = (Project) loadingObject(projectSerializableFile);
         this.userList = (Vector<User>)loadingObject(userListSerializableFile);
         this.modelTypes = (Vector<ModelType>)loadingObject(modelTypesListSerializableFile);
@@ -50,17 +54,17 @@ class Persistence {
 
     private Object loadingObject(String filePath) {
         try {
-            System.out.println("file Path: ============================");
-            System.out.println(filePath);
+            logger.error("file Path: ============================");
+            logger.error(filePath);
 
             final FileInputStream fileIn = new FileInputStream(filePath);
 
             final ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-            System.out.println("initialize the file object input stream");
+            logger.error("initialize the file object input stream");
 
             Object object = objectIn.readObject();
 
-            System.out.println("read");
+            logger.error("read");
 
             fileIn.close();
             objectIn.close();
