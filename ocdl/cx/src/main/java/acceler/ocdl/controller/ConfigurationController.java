@@ -48,7 +48,7 @@ public class ConfigurationController {
 
         Response.Builder responseBuilder = Response.getBuilder();
 
-        projectCrud.updateProjct(updatedProjectConfig.convert2Project());
+        projectCrud.updateProject(updatedProjectConfig.convert2Project());
 
         return responseBuilder.setCode(Response.Code.SUCCESS).build();
     }
