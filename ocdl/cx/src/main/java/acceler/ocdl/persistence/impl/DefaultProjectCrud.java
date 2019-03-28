@@ -21,6 +21,8 @@ public class DefaultProjectCrud implements ProjectCrud{
         project.setTemplatePath(updatedProjectInfo.getTemplatePath());
         project.setK8Url(updatedProjectInfo.getK8Url());
 
+        persistence.persistentProject();
+
         return project;
     }
 
@@ -29,6 +31,8 @@ public class DefaultProjectCrud implements ProjectCrud{
 
         Project project = persistence.getProject();
         project.setProjectName(name);
+
+        persistence.persistentProject();
 
         return project;
     }
