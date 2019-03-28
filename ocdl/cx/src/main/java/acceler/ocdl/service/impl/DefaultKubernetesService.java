@@ -27,9 +27,6 @@ public class DefaultKubernetesService implements KubernetesService {
     @Autowired
     private ProjectCrud projectCrud;
 
-    @Autowired
-    private CmdHelper cmdHelper;
-
     private static final Map<Long, String> cpuAssigned = new ConcurrentHashMap<>();
     private static final Map<Long, String> gpuAssigned = new ConcurrentHashMap<>();
     private static final Map<String,String> ipMap = new HashMap<String, String>(){
