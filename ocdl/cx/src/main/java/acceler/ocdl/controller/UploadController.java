@@ -27,7 +27,7 @@ import static acceler.ocdl.dto.Response.getBuilder;
 public class UploadController {
 
     private static final Logger logger = LoggerFactory.getLogger(acceler.ocdl.controller.AuthController.class);
-    private String filePath="E:/springUpload";
+    private String filePath="D:/springUpload";
 
     @RequestMapping("/upload")
     public Response  springUpload(HttpServletRequest request)
