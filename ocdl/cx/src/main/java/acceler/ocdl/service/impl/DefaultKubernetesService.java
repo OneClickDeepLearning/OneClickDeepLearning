@@ -82,7 +82,7 @@ public class DefaultKubernetesService implements KubernetesService {
         port = getPort(service);
         ip = ipMap.get(getCpuIp(user));
         url = ip + ":" + port;
-        gpuAssigned.put(userId,url);
+        cpuAssigned.put(userId,url);
         System.out.println("[dubug] " + url);
         return url;
     }
