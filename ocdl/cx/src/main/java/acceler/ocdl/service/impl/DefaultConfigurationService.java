@@ -27,7 +27,7 @@ public class DefaultConfigurationService implements ConfigurationService {
 
     @Override
     public void updateProject(Project project) {
-        projectCrud.updateProjct(project);
+        projectCrud.updateProject(project);
     }
     public void updateProjectName(String name){
         projectCrud.updateProjectName(name);

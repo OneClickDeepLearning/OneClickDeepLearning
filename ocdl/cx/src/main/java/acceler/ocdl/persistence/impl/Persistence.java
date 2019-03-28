@@ -17,9 +17,9 @@ class Persistence {
 
     private static final Logger logger = LoggerFactory.getLogger(Persistence.class);
 
-    public final String projectSerializableFile = "/home/ec2-user/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/projectConfiguration";
-    public final String userListSerializableFile = "/home/ec2-user/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/user";
-    public final String modelTypesListSerializableFile = "/home/ec2-user/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/modeltypes";
+    public final String projectSerializableFile = getClass().getResource("/persistence/projectConfiguration").getPath();
+    public final String userListSerializableFile = getClass().getResource("/persistence/user").getPath();
+    public final String modelTypesListSerializableFile = getClass().getResource("/persistence/modeltypes").getPath();
 
     private Project project;
     private Vector<User> userList;
@@ -29,6 +29,7 @@ class Persistence {
 
     public Persistence() {
         logger.debug("project----------------");
+
         this.project = (Project) loadingObject(projectSerializableFile);
         this.userList = (Vector<User>)loadingObject(userListSerializableFile);
         this.modelTypes = (Vector<ModelType>)loadingObject(modelTypesListSerializableFile);
