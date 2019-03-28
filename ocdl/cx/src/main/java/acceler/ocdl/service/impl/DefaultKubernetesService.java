@@ -64,6 +64,7 @@ public class DefaultKubernetesService implements KubernetesService {
         ip = ipMap.get(getGpuIp(user));
         url = ip + ":" + port;
         gpuAssigned.put(userId,url);
+        System.out.println("[dubug] " + url);
         return url;
     }
 
@@ -86,6 +87,7 @@ public class DefaultKubernetesService implements KubernetesService {
         ip = ipMap.get(getCpuIp(user));
         url = ip + ":" + port;
         gpuAssigned.put(userId,url);
+        System.out.println("[dubug] " + url);
         return url;
     }
 

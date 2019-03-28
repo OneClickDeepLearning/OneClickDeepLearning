@@ -55,8 +55,12 @@ public final class ContainerController {
     public final Response requestContainer(HttpServletRequest request, @PathVariable("rscType") String rscType) {
 
         User user = (User) request.getAttribute("CURRENT_USER");
+        String assign;
 
-        String assign = kubernetesService.launchDockerContainer(getResourceType(rscType),user);
+        if(getResourceType(rscType).equals(ResourceType.GPU))
+            assign = kubernetesService.launchGpuContainer(user);
+        else
+            assign = kubernetesService.launchCpuContainer(user);
 
         if(assign == null)
             return Response.getBuilder()
