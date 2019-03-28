@@ -10,8 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class DefaultModelTypeCrud implements ModelTypeCrud {
@@ -69,5 +68,28 @@ public class DefaultModelTypeCrud implements ModelTypeCrud {
 
         modelType.setCurrentBigVersion(bigVersion);
         modelType.setCurrentSmallVersion(smallVersion);
+    }
+
+    @Override
+    public void updateModelTypes(String modelTypeInfo) {
+
+        Set<String> modelTypeInfoSet = new HashSet<>(Arrays.asList(modelTypeInfo.split(";")));
+
+        List<ModelType> modelTypes = persistence.getModelTypes();
+
+        modelTypes.forEach(mt -> {
+            modelTypeInfoSet.remove(mt.getModelTypeName());
+        });
+
+        modelTypeInfoSet.forEach(mt -> {
+
+            ModelType modelType = new ModelType();
+            modelType.setModelTypeName(mt);
+            modelType.setCurrentBigVersion(-1);
+            modelType.setCurrentSmallVersion(-1);
+            modelTypes.add(modelType);
+        });
+
+        persistence.persistentModelTypes();
     }
 }

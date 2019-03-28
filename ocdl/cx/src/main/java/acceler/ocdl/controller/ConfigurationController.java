@@ -54,7 +54,7 @@ public class ConfigurationController {
 
         projectCrud.updateProject(updatedProjectConfig.convert2Project());
 
-        //FIXME: update modelTypes
+        modelTypeCrud.updateModelTypes(updatedProjectConfig.getModelTypes());
 
         return responseBuilder.setCode(Response.Code.SUCCESS).build();
     }
