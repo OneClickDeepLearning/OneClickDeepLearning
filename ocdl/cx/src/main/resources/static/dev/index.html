@@ -515,7 +515,7 @@
 
 				function initTemplateList(){
 					$.ajax({
-						url: "/template?status=getnames",
+						url: "/rest/template/names",
 						contentType: 'application/json',
 						dataType: "json",
 						type: "GET",
@@ -672,7 +672,7 @@
 
 	function getCode(name,type) {
 		$.ajax({
-			url: "/template?action=testTemplates",
+			url: "/template/templates",
 			contentType: 'application/json',
 			dataType: "json",
 			data:
@@ -680,7 +680,7 @@
 						name: name,
 						type: type
 					}),
-			type: "POST",
+			type: "GET",
 			success:function (data) {
 				ajaxMessageReader(data,function (data) {
 					var  code = $("#code");
