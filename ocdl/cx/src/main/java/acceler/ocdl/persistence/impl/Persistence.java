@@ -29,10 +29,21 @@ class Persistence {
 
     public Persistence() {
         logger.debug("project----------------");
+        String projectSerializableFileUT8=null;
+        String userListSerializableFileUT8=null;
+        String modelTypesListSerializableFileUT8=null;
 
-        this.project = (Project) loadingObject(projectSerializableFile);
-        this.userList = (Vector<User>)loadingObject(userListSerializableFile);
-        this.modelTypes = (Vector<ModelType>)loadingObject(modelTypesListSerializableFile);
+        try {
+            projectSerializableFileUT8 = java.net.URLDecoder.decode(projectSerializableFile,"utf-8");
+            userListSerializableFileUT8 = java.net.URLDecoder.decode(userListSerializableFile,"utf-8");
+            modelTypesListSerializableFileUT8 = java.net.URLDecoder.decode(modelTypesListSerializableFile,"utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        this.project = (Project) loadingObject(projectSerializableFileUT8);
+        this.userList = (Vector<User>)loadingObject(userListSerializableFileUT8);
+        this.modelTypes = (Vector<ModelType>)loadingObject(modelTypesListSerializableFileUT8);
     }
 
     Project getProject() {
@@ -81,8 +92,10 @@ class Persistence {
     }
 
     public void dumpProject(Project project, String filePath) {
+        String encodePath= null;
         try {
-            FileOutputStream fileOut = new FileOutputStream(filePath);
+            encodePath= java.net.URLDecoder.decode(projectSerializableFile,"utf-8");
+            FileOutputStream fileOut = new FileOutputStream(encodePath);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(project);
             fileOut.close();
@@ -93,8 +106,11 @@ class Persistence {
     }
 
     public void dumpUsers(Vector<User> users, String filePath) {
+        String encodePath= null;
+
         try {
-            FileOutputStream fileOut = new FileOutputStream(filePath);
+            encodePath= java.net.URLDecoder.decode(projectSerializableFile,"utf-8");
+            FileOutputStream fileOut = new FileOutputStream(encodePath);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(users);
             fileOut.close();
@@ -105,8 +121,10 @@ class Persistence {
     }
 
     public void dumpModelTypes(Vector<ModelType> modelTypes, String filePath) {
+        String encodePath= null;
         try {
-            FileOutputStream fileOut = new FileOutputStream(filePath);
+            encodePath= java.net.URLDecoder.decode(projectSerializableFile,"utf-8");
+            FileOutputStream fileOut = new FileOutputStream(encodePath);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(modelTypes);
             fileOut.close();
