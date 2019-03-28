@@ -12,6 +12,8 @@ public class ProjectConfigurationDto implements Serializable {
     private String k8Url;
     private String templatePath;
     private String gitPath;
+    private String suffix;
+    private String modelTypes;
 
     public String getProjectName() {
         return projectName;
@@ -41,6 +43,16 @@ public class ProjectConfigurationDto implements Serializable {
 
     public void setGitPath(String gitPath) { this.gitPath = gitPath; }
 
+    public String getSuffix() { return suffix; }
+
+    public void setSuffix(String suffix) { this.suffix = suffix; }
+
+    public String getModelTypes() { return modelTypes; }
+
+    public void setModelTypes(String modelTypes) {
+        this.modelTypes = modelTypes;
+    }
+
     public Project convert2Project() {
 
         Project project = new Project();
@@ -48,6 +60,7 @@ public class ProjectConfigurationDto implements Serializable {
         project.setK8Url(this.k8Url);
         project.setTemplatePath(this.templatePath);
         project.setGitPath(this.gitPath);
+        project.setSuffix(this.suffix);
 
         return project;
     }

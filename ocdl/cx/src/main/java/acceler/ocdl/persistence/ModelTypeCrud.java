@@ -13,4 +13,6 @@ public interface ModelTypeCrud {
     int[] getVersion(String modelTypeName);
 
     void setVersion(String modelTypeName, int bigVersion, int smallVersion);
+
+    void updateModelTypes(String modelTypeInfo);
 }

@@ -11,7 +11,6 @@ public class Project implements Serializable {
     private String templatePath;
     private String description;
     private String suffix;
-    private String modelType;
 
     public String getProjectName() {
         return projectName;
@@ -51,14 +50,6 @@ public class Project implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getModelType() {
-        return modelType;
-    }
-
-    public void setModelType(String modelType) {
-        this.modelType = modelType;
     }
 
     public String getSuffix() {
