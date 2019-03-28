@@ -5,6 +5,7 @@ import acceler.ocdl.dto.ProjectConfigurationDto;
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.model.Project;
 import acceler.ocdl.model.User;;
+import acceler.ocdl.persistence.ModelTypeCrud;
 import acceler.ocdl.persistence.ProjectCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,9 @@ public class ConfigurationController {
 
     @Autowired
     private ProjectCrud projectCrud;
+
+    @Autowired
+    private ModelTypeCrud modelTypeCrud;
 
     @RequestMapping(path = "/config/name", method = RequestMethod.PUT)
     @ResponseBody
@@ -49,6 +53,8 @@ public class ConfigurationController {
         Response.Builder responseBuilder = Response.getBuilder();
 
         projectCrud.updateProject(updatedProjectConfig.convert2Project());
+
+        //FIXME: update modelTypes
 
         return responseBuilder.setCode(Response.Code.SUCCESS).build();
     }
