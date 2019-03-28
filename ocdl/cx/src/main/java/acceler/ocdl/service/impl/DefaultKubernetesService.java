@@ -52,7 +52,7 @@ public class DefaultKubernetesService implements KubernetesService {
         String port;
 
         Deployment deployment = createGpuDeployment(user);
-        io.fabric8.kubernetes.api.model.Service service = createService(user);
+        io.fabric8.kubernetes.api.model.Service service = createGpuService(user);
 
         System.out.println("[dubug] " + "Container launched!");
 
@@ -75,7 +75,7 @@ public class DefaultKubernetesService implements KubernetesService {
         String port;
 
         Deployment deployment = createCpuDeployment(user);
-        io.fabric8.kubernetes.api.model.Service service = createService(user);
+        io.fabric8.kubernetes.api.model.Service service = createCpuService(user);
 
         System.out.println("[dubug] " + "Container launched!");
 
@@ -228,7 +228,7 @@ public class DefaultKubernetesService implements KubernetesService {
         return deployment;
     }
 
-    private io.fabric8.kubernetes.api.model.Service createService(User user){
+    private io.fabric8.kubernetes.api.model.Service createCpuService(User user){
 
         String svcId = projectCrud.getProjectName() + "-" + user.getUserId().toString();
 
@@ -246,6 +246,35 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withProtocol("TCP")
                 .endPort()
                 .withSelector(Collections.singletonMap("app","cpu1"))
+                .endSpec()
+                .build();
+
+        try {
+            service = client.services().inNamespace("default").create(service);
+        } catch (KubernetesClientException e){
+            throw new KuberneteException(e.getMessage());
+        }
+        return service;
+    }
+
+    private io.fabric8.kubernetes.api.model.Service createGpuService(User user){
+
+        String svcId = projectCrud.getProjectName() + "-" + user.getUserId().toString();
+
+        io.fabric8.kubernetes.api.model.Service service = new ServiceBuilder()
+                .withApiVersion("v1")
+                .withKind("Service")
+                .withNewMetadata()
+                .withName("svc-" + svcId + "-gpu")
+                .endMetadata()
+                .withNewSpec()
+                .withType("NodePort")
+                .addNewPort()
+                .withPort(8998)
+                .withNewTargetPort(8998)
+                .withProtocol("TCP")
+                .endPort()
+                .withSelector(Collections.singletonMap("app","gpu1"))
                 .endSpec()
                 .build();
 
