@@ -14,8 +14,6 @@ import java.util.*;
 @Service
 public class DefaultModelCrud implements ModelCrud {
 
-
-
     @Autowired
     ModelService modelService;
 
