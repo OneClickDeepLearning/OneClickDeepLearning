@@ -34,14 +34,13 @@ public class DefaultKubernetesService implements KubernetesService {
     private static final Map<Long, String> gpuAssigned = new ConcurrentHashMap<>();
     private static final Map<String,String> ipMap = new HashMap<String, String>(){
         {
-            ipMap.put("10.8.0.1", "3.89.28.106");
-            ipMap.put("10.8.0.6", "3.87.64.159");
-            ipMap.put("10.8.0.10", "66.131.186.246");
+            put("10.8.0.1", "3.89.28.106");
+            put("10.8.0.6", "3.87.64.159");
+            put("10.8.0.10", "66.131.186.246");
         }
     };
 
     private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://10.8.0.1:6443").build());
-
 
 
     public String launchGpuContainer(User user) throws KuberneteException{
