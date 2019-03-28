@@ -4,12 +4,15 @@ package acceler.ocdl.controller;
 import acceler.ocdl.dto.ProjectConfigurationDto;
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.model.Project;
+import acceler.ocdl.model.User;;
 import acceler.ocdl.persistence.ProjectCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -27,8 +30,15 @@ public class ConfigurationController {
 
         projectCrud.updateProjectName(projectName.get("projectName"));
 
-        return responseBuilder.setCode(Response.Code.SUCCESS).build();
+        try {
+            responseBuilder.setCode(Response.Code.SUCCESS)
+                    .setData(projectName);
 
+        }catch (Exception e){
+            responseBuilder.setCode(Response.Code.ERROR)
+                    .setData(e);
+        }
+        return responseBuilder.setCode(Response.Code.SUCCESS).build();
     }
 
 
@@ -38,10 +48,9 @@ public class ConfigurationController {
 
         Response.Builder responseBuilder = Response.getBuilder();
 
-        projectCrud.updateProjct(updatedProjectConfig.convert2Project());
+        projectCrud.updateProject(updatedProjectConfig.convert2Project());
 
         return responseBuilder.setCode(Response.Code.SUCCESS).build();
-
     }
 
 
