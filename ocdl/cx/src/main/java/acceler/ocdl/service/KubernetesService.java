@@ -1,12 +1,15 @@
 package acceler.ocdl.service;
 
 import acceler.ocdl.exception.KuberneteException;
+import acceler.ocdl.model.ResourceType;
 import acceler.ocdl.model.User;
 
 public interface KubernetesService {
 
-    String launchDockerContainer(String rscType, User user) throws KuberneteException;
+    String launchGpuContainer(User user) throws KuberneteException;
 
-    void releaseDockerContainer(String rscType, User user) throws KuberneteException;
+    String launchCpuContainer(User user) throws KuberneteException;
+
+    void releaseDockerContainer(ResourceType rscType, User user) throws KuberneteException;
 
 }
