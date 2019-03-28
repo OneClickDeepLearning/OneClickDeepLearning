@@ -73,22 +73,59 @@ public class DefaultModelTypeCrud implements ModelTypeCrud {
     @Override
     public void updateModelTypes(String modelTypeInfo) {
 
-        Set<String> modelTypeInfoSet = new HashSet<>(Arrays.asList(modelTypeInfo.split(";")));
-
         List<ModelType> modelTypes = persistence.getModelTypes();
 
-        modelTypes.forEach(mt -> {
-            modelTypeInfoSet.remove(mt.getModelTypeName());
-        });
+        List<String> modelTypeStr = getModelTypes();
+        Set<String> preModelTypeSet = new HashSet<>(modelTypeStr);
 
-        modelTypeInfoSet.forEach(mt -> {
+        Set<String> intersection = new HashSet<>();
+        Set<String> newModelTypeSet = new HashSet<>();
 
-            ModelType modelType = new ModelType();
-            modelType.setModelTypeName(mt);
-            modelType.setCurrentBigVersion(-1);
-            modelType.setCurrentSmallVersion(-1);
-            modelTypes.add(modelType);
-        });
+        if (modelTypeInfo.indexOf(";") >= 0) {
+
+            String[] modelTypeInfos = modelTypeInfo.split(";");
+            for (String mt : modelTypeInfos) {
+                if (!mt.trim().equals("")) {
+                    newModelTypeSet.add(mt);
+                }
+            }
+
+            intersection.addAll(newModelTypeSet);
+            intersection.retainAll(preModelTypeSet);
+
+            newModelTypeSet.removeAll(preModelTypeSet);
+
+
+        } else {
+            newModelTypeSet.add(modelTypeInfo.trim());
+
+            intersection.addAll(newModelTypeSet);
+            intersection.retainAll(preModelTypeSet);
+
+            newModelTypeSet.removeAll(preModelTypeSet);
+        }
+
+        if (modelTypes.size() > intersection.size()) {
+            Iterator<ModelType> iterator = modelTypes.iterator();
+            while (iterator.hasNext()){
+                ModelType mt = iterator.next();
+                if (!intersection.contains(mt.getModelTypeName())) {
+                    iterator.remove();
+                }
+            }
+        }
+
+        if (newModelTypeSet.size() > 0) {
+            for (String mt : newModelTypeSet) {
+                if (!mt.trim().equals("")) {
+                    ModelType modelType = new ModelType();
+                    modelType.setModelTypeName(mt);
+                    modelType.setCurrentBigVersion(-1);
+                    modelType.setCurrentSmallVersion(-1);
+                    modelTypes.add(modelType);
+                }
+            }
+        }
 
         persistence.persistentModelTypes();
     }

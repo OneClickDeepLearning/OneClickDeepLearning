@@ -3,6 +3,7 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.ProjectConfigurationDto;
 import acceler.ocdl.dto.Response;
+import acceler.ocdl.model.ModelType;
 import acceler.ocdl.model.Project;
 import acceler.ocdl.model.User;;
 import acceler.ocdl.persistence.ModelTypeCrud;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -68,6 +70,13 @@ public class ConfigurationController {
 
         Project project = projectCrud.getProjectConfiguration();
         ProjectConfigurationDto projectDto = project.convert2ProjectDto();
+
+        List<String> modelTypes = modelTypeCrud.getModelTypes();
+
+        StringBuilder modelTypeBuilder = new StringBuilder();
+        modelTypes.forEach(mt -> modelTypeBuilder.append(mt));
+
+        projectDto.setModelTypes(modelTypeBuilder.toString());
 
         responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(projectDto);

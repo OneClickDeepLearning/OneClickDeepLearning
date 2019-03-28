@@ -20,6 +20,7 @@ public class DefaultProjectCrud implements ProjectCrud{
         project.setGitPath(updatedProjectInfo.getGitPath());
         project.setTemplatePath(updatedProjectInfo.getTemplatePath());
         project.setK8Url(updatedProjectInfo.getK8Url());
+        project.setSuffix(updatedProjectInfo.getSuffix());
 
         persistence.persistentProject();
 

@@ -68,6 +68,7 @@ public class Project implements Serializable {
         projectConfigurationDto.setK8Url(this.getK8Url());
         projectConfigurationDto.setGitPath(this.getGitPath());
         projectConfigurationDto.setTemplatePath(this.getTemplatePath());
+        projectConfigurationDto.setSuffix(this.getSuffix());
 
         return projectConfigurationDto;
     }
