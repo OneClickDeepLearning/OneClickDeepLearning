@@ -20,7 +20,7 @@ public class DefaultModelCrud implements ModelCrud {
     @Override
     public List<ModelDto> getModels(Model.Status status) {
 
-        return modelService.getModels(status.toString());
+        return modelService.getModels(status.toString().toLowerCase());
     }
 
     @Override
