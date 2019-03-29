@@ -49,7 +49,6 @@ public class ApprovalController {
 
         Map<String, List<ModelDto>> models = new HashMap<>();
 
-
         List<ModelDto> newModels= modelCrud.getModels(Model.Status.NEW);
         models.put("newModels", newModels);
 
