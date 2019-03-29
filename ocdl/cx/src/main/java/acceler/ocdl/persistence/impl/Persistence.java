@@ -17,9 +17,9 @@ class Persistence {
 
     private static final Logger logger = LoggerFactory.getLogger(Persistence.class);
 
-    public final String projectSerializableFile = getClass().getResource("/persistence/projectConfiguration").getPath();
-    public final String userListSerializableFile = getClass().getResource("/persistence/user").getPath();
-    public final String modelTypesListSerializableFile = getClass().getResource("/persistence/modeltypes").getPath();
+//    public final String projectSerializableFile = getClass().getResource("/persistence/projectConfiguration").getPath();
+//    public final String userListSerializableFile = getClass().getResource("/persistence/user").getPath();
+//    public final String modelTypesListSerializableFile = getClass().getResource("/persistence/modeltypes").getPath();
 
     private Project project;
     private Vector<User> userList;
@@ -32,6 +32,14 @@ class Persistence {
         String projectSerializableFileUT8=null;
         String userListSerializableFileUT8=null;
         String modelTypesListSerializableFileUT8=null;
+
+        String projectSerializableFile = getClass().getResource("/persistence/projectConfiguration").getPath();
+        String userListSerializableFile = getClass().getResource("/persistence/user").getPath();
+        String modelTypesListSerializableFile = getClass().getResource("/persistence/modeltypes").getPath();
+
+        System.out.println(projectSerializableFile);
+        System.out.println(userListSerializableFile);
+        System.out.println(modelTypesListSerializableFile);
 
         try {
             projectSerializableFileUT8 = java.net.URLDecoder.decode(projectSerializableFile,"utf-8");
