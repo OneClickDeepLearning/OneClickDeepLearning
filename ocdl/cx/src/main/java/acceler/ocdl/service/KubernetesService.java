@@ -10,6 +10,6 @@ public interface KubernetesService {
 
     String launchCpuContainer(User user) throws KuberneteException;
 
-    void releaseDockerContainer(ResourceType rscType, User user) throws KuberneteException;
+    void releaseDockerContainer(User user) throws KuberneteException;
 
 }

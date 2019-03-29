@@ -87,9 +87,7 @@ public class DefaultKubernetesService implements KubernetesService {
         return url;
     }
 
-    public void releaseDockerContainer(ResourceType rscType, User user) throws KuberneteException{
 
-    }
 
     private Deployment createCpuDeployment(User user){
 
@@ -324,5 +322,27 @@ public class DefaultKubernetesService implements KubernetesService {
             throw new KuberneteException(e.getMessage());
         }
         return port;
+    }
+
+    public void releaseDockerContainer(User user) throws KuberneteException{
+
+        String userId = projectCrud.getProjectName() + "-" + user.getUserId().toString();
+
+        try {
+            for(io.fabric8.kubernetes.api.model.Service svc : client.services().inNamespace("default").list().getItems()){
+                System.out.println(svc.getMetadata().getName());
+
+                if(svc.getMetadata().getName().contains(userId))
+                    client.resource(svc).delete();
+            }
+
+            for (Deployment deploy : client.apps().deployments().inNamespace("default").list().getItems()){
+                System.out.println(deploy.getMetadata().getName());
+                if(deploy.getMetadata().getName().contains(userId))
+                    client.resource(deploy).delete();
+            }
+        } catch (KubernetesClientException e){
+            throw new KuberneteException(e.getMessage());
+        }
     }
 }
