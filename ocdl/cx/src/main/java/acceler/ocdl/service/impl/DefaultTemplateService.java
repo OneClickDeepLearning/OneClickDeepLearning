@@ -1,7 +1,9 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.persistence.ProjectCrud;
 import acceler.ocdl.service.TemplateService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.stereotype.Service;
@@ -16,13 +18,13 @@ import java.util.List;
 @Service
 public class DefaultTemplateService implements TemplateService {
 
-    //FIXME: ""这个对象没用就不要声明出来
-    private String templatePath = "";
+    @Autowired
+    private ProjectCrud projectCrud;
 
     @Override
     public List<String> getTemplatesList(String type) {
 
-        List<String> templatesList = getFile(templatePath+type);
+        List<String> templatesList = getFile(projectCrud.getProjectConfiguration().getTemplatePath()+type);
         return templatesList;
     }
 
@@ -57,7 +59,7 @@ public class DefaultTemplateService implements TemplateService {
         try { // 防止文件建立或读取失败，用catch捕捉错误并打印，也可以throw
 
             /* 读入TXT文件 */
-            String pathname = templatePath+type+"//"+ name; // 绝对路径或相对路径都可以，这里是绝对路径，写入文件时演示相对路径
+            String pathname = projectCrud.getProjectConfiguration().getTemplatePath()+type+"//"+ name; // 绝对路径或相对路径都可以，这里是绝对路径，写入文件时演示相对路径
             File filename = new File(pathname); // 要读取以上路径的input。txt文件
             InputStreamReader reader = new InputStreamReader(
                     new FileInputStream(filename)); // 建立一个输入流对象reader
@@ -78,8 +80,4 @@ public class DefaultTemplateService implements TemplateService {
     }
 
 
-    @Value("${template.path}")
-    public void setTemplatePath(String templatePath) {
-        this.templatePath = templatePath;
-    }
 }

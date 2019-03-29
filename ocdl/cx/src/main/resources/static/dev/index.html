@@ -423,17 +423,17 @@
 								<div class="temp-login-column-wrap-image">
 									<div class="temp-form-inner-wrapper">
 										<h2>Data Upload</h2>
-                                        <form enctype="multipart/form-data">
+                                        <form id="fileForm" name="fileForm" enctype="multipart/form-data">
                                             <input id="file" type="file" multiple="multiple" name="file" accept="*.*">
 
 											<div class="temp-anchor-wrap temp-reg-anchor-wrap">
-												<a href="#" class=" temp-anchor text-left" type="submit">
-                        <span class="temp-social-icon-wrap">
-                          <i class="fa fa-cloud-upload" aria-hidden="true"></i>
-                        </span>
+												<a href="#" class=" temp-anchor text-left" onclick="uploadFile()">
+													<span class="temp-social-icon-wrap">
+													  <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+													</span>
 													<span>Upload</span>
 												</a>
-												<a href="#" type="submit" class="temp-anchor temp-icon-color text-left">
+												<a href="#" type="submit" class="temp-anchor temp-icon-color text-left" data-dismiss="modal">
 													<span class="temp-social-icon-wrap">
 													  <i class="fa fa-share" aria-hidden="true"></i>
 													</span>
@@ -494,10 +494,10 @@
 
 				function initProjectName() {
 					$.ajax({
-						url: "/configuration?action=getAllProject",
+						url: "/rest/projects",
 						contentType: 'application/json',
 						dataType: "json",
-						type: "POST",
+						type: "GET",
 						<!-- auth_token add to header -->
 						beforeSend: function(xhr) {
 							xhr.setRequestHeader("AUTH_TOKEN",token);
@@ -515,7 +515,7 @@
 
 				function initTemplateList(){
 					$.ajax({
-						url: "/template?status=getnames",
+						url: "/rest/template/names",
 						contentType: 'application/json',
 						dataType: "json",
 						type: "GET",
@@ -672,7 +672,7 @@
 
 	function getCode(name,type) {
 		$.ajax({
-			url: "/template?action=testTemplates",
+			url: "/template/templates",
 			contentType: 'application/json',
 			dataType: "json",
 			data:
@@ -680,7 +680,7 @@
 						name: name,
 						type: type
 					}),
-			type: "POST",
+			type: "GET",
 			success:function (data) {
 				ajaxMessageReader(data,function (data) {
 					var  code = $("#code");
@@ -822,6 +822,50 @@
 		}); //表单失去焦点文本框变成文本
 
 	});
+
+	function uploadFile(){
+		var form = new FormData($("#fileForm")[0]);
+		$.ajax({
+			url: "/rest/data/upload",
+			contentType: 'false',
+			processData: false,
+			cache: false,
+			type: "POST",
+			data:form,
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader("AUTH_TOKEN", token);
+			},
+			success: function(data){
+				ajaxMessageReader(data,function (data) {
+					alert("Upload successful!");
+				})
+			},
+			error: function () {
+				alert("Upload unsuccessful!");
+			}
+		})
+	}
+
+	var animation=0;
+	function loadAnimationBlue() {
+		if(animation==1){
+			$("#card front").removeClass("green");
+			$("#card front").addClass("blue");
+			setTimeout(loadAnimationGreen(),1000);
+		}
+	}
+	function loadAnimationGreen(){
+		if(animation==1) {
+			$("#card front").removeClass("blue");
+			$("#card front").addClass("green");
+			setTimeout(loadAnimationBlue(), 1000);
+		}
+	}
+	function cancleAnimation() {
+		animation=0;
+		$("#card front").removeClass("blue");
+		$("#card front").removeClass("green");
+	}
 
 
 </script>

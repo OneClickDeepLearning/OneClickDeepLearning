@@ -139,8 +139,13 @@ public class DefaultModelService implements ModelService {
     private boolean isModelFile(String fileName){
 
         //FIXME: private static final, 从文件读取这个配置
+        String[] suffixArray = projectCrud.getProjectConfiguration().getSuffix().split(";");
         List<String> modelIndex = new ArrayList<>();
-        modelIndex.add(".model");
+        for (String s: suffixArray) {
+            if (!s.trim().equals("")) {
+                modelIndex.add(s);
+            }
+        }
 
         for(String index : modelIndex){
             if(fileName.endsWith(index))

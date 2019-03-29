@@ -110,6 +110,7 @@
                             <label class="col-md-4" for="k8Url">K8S URL: </label>    <input id="k8Url" class="col-md-8" type="text" Name="k8Url" placeholder="K8S URL" required="">
                             <label class="col-md-4" for="templateUrl">Template Path: </label>  <input id="templateUrl" class="col-md-8" type="text" Name="templateUrl" placeholder="Template Path" required="">
                             <label class="col-md-4" for="suffix">Model File Suffix: </label>  <input id="suffix" class="col-md-8" type="text" Name="suffix" placeholder="Suffix" required="">
+                            <label class="col-md-4" for="modelType">Model Type: </label>  <input id="modelType" class="col-md-8" type="text" Name="modelType" placeholder="ModelType" required="">
                         </form>
                         <div class="send-button w3layouts agileits">
                                 <input type="submit" value="Confirm" onclick="updateConfiguration()">
@@ -149,6 +150,8 @@
                     var k8Url= $("#k8Url");
                     var git = $("#git");
                     var templatePath = $("#templateUrl");
+                    var suffix = $("#suffix");
+                    var modelType = $("#")
 
                     projectName.val(data['projectName']);
                     k8Url.val(data['k8Url']);
@@ -177,7 +180,8 @@
                     gitPath: $("#git").val(),
                     k8Url: $("#k8Url").val(),
                     templatePath: $("#templateUrl").val(),
-               /*     suffix:$("#suffix").val()*/
+                    suffix:$("#suffix").val(),
+                    modelType:$("#modelType").val()
                 }),
             type: "PUT",
             timeout: 0,
