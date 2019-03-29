@@ -34,19 +34,7 @@ public class DefaultHdfsService implements HdfsService {
         }
     }
 
-    private void downloadFile(String srcPath, String dstPath) throws IOException{
-        FSDataInputStream in = null;
-        FileOutputStream out = null;
-        try {
-            in = hdfs.open(new Path(srcPath));
-            out = new FileOutputStream(dstPath);
-            IOUtils.copyBytes(in, out, 4096, false);
-        } catch (FileNotFoundException e){
-            e.printStackTrace();
-        }
-        IOUtils.closeStream(in);
-        IOUtils.closeStream(out);
-    }
+
 
     private void downloadFolder(String srcPath, String dstPath) throws IOException {
         File dstDir = new File(dstPath);
@@ -65,7 +53,7 @@ public class DefaultHdfsService implements HdfsService {
 
     private void download(String srcPath, String dstPath) throws IOException{
         if (hdfs.isFile(new Path(srcPath))) {
-            downloadFile(srcPath, dstPath);
+            hdfs.copyToLocalFile(false,new Path(srcPath),new Path(dstPath),true);
         } else {
             downloadFolder(srcPath, dstPath);
         }
