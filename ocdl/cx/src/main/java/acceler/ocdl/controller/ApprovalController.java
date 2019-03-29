@@ -43,6 +43,8 @@ public class ApprovalController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     public final Response getModelList(HttpServletRequest request) {
+
+        logger.debug("enter the get model list funciton +++++++++++++++++");
         Builder responseBuilder = getBuilder();
 
         Map<String, List<ModelDto>> models = new HashMap<>();
@@ -68,6 +70,8 @@ public class ApprovalController {
     @RequestMapping(path = "/modeltypes", method = RequestMethod.GET)
     public final Response getModeltype(HttpServletRequest request) {
 
+        logger.debug("enter the get model types funciton +++++++++++++++++");
+
         Builder responseBuilder = getBuilder();
 
         List<String> modelTypes = modelTypeCrud.getModelTypes();
@@ -86,6 +90,7 @@ public class ApprovalController {
     @RequestMapping(path = "/{modelName}",  method = RequestMethod.PUT)
     public final Response pushDecision(HttpServletRequest request, @PathVariable("modelName") String modelName, @RequestBody IncomeModelDto incomeModelDto) {
 
+        logger.debug("enter the get model list funciton +++++++++++++++++");
         Builder responseBuilder = getBuilder();
 
         // if corresponding model file exit
@@ -173,7 +178,7 @@ public class ApprovalController {
             newModelName.append(smallVersion);
 
 
-
+            logger.debug("befor push model to git");
             String newPushName = getNewPushedModelName(incomeModelDto.getModelType(), String.valueOf(bigVersion), String.valueOf(smallVersion));
             modelService.pushModel(source.toString(), newPushName);
         }
