@@ -160,10 +160,12 @@ public class DefaultModelService implements ModelService {
         List<ModelDto> modelDtos = new ArrayList<>();
 
         String stageNewPath = Paths.get(stagePath, status).toString();
+        logger.debug(stageNewPath);
 
         File file = new File(stageNewPath);
         File[] files = file.listFiles();
-        if(files == null) {
+        if(file == null || files == null) {
+            logger.debug("files is none");
             return null;
         }
 
