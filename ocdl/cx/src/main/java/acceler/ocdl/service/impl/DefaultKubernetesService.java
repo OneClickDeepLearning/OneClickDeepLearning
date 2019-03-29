@@ -1,12 +1,10 @@
 package acceler.ocdl.service.impl;
 
 import acceler.ocdl.exception.KuberneteException;
-import acceler.ocdl.model.ResourceType;
 import acceler.ocdl.model.User;
 import acceler.ocdl.persistence.ProjectCrud;
+import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.KubernetesService;
-import acceler.ocdl.utils.CmdHelper;
-import acceler.ocdl.utils.impl.DefaultCmdHelper;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
@@ -26,6 +24,9 @@ public class DefaultKubernetesService implements KubernetesService {
 
     @Autowired
     private ProjectCrud projectCrud;
+
+    @Autowired
+    private HdfsService hdfsService;
 
     private static final Map<Long, String> cpuAssigned = new ConcurrentHashMap<>();
     private static final Map<Long, String> gpuAssigned = new ConcurrentHashMap<>();
@@ -70,9 +71,16 @@ public class DefaultKubernetesService implements KubernetesService {
         if(cpuAssigned.containsKey(userId))
             return cpuAssigned.get(userId);
 
+        String userSpaceId = projectCrud.getProjectName() + "-" + user.getUserId().toString();
         String url;
         String ip;
         String port;
+
+        File userSpace = new File("/home/hadoop/mount/UserSpace/" + userSpaceId);
+        if(!userSpace.exists()){
+            System.out.println("[debug]UserSpace does not exit, loading from HDFS...");
+            hdfsService.downloadUserSpace("hdfs://10.8.0.14:9000/UserSpace/" + userSpaceId, "/home/hadoop/mount/UserSpace/" + userSpaceId);
+        }
 
         Deployment deployment = createCpuDeployment(user);
         io.fabric8.kubernetes.api.model.Service service = createCpuService(user);
