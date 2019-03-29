@@ -17,6 +17,10 @@ class Persistence {
 
     private static final Logger logger = LoggerFactory.getLogger(Persistence.class);
 
+    String projectSerializableFile;
+    String userListSerializableFile;
+    String modelTypesListSerializableFile;
+
 //    public final String projectSerializableFile = getClass().getResource("/persistence/projectConfiguration").getPath();
 //    public final String userListSerializableFile = getClass().getResource("/persistence/user").getPath();
 //    public final String modelTypesListSerializableFile = getClass().getResource("/persistence/modeltypes").getPath();
@@ -33,9 +37,9 @@ class Persistence {
         String userListSerializableFileUT8=null;
         String modelTypesListSerializableFileUT8=null;
 
-        String projectSerializableFile = getClass().getResource("/persistence/projectConfiguration").getPath();
-        String userListSerializableFile = getClass().getResource("/persistence/user").getPath();
-        String modelTypesListSerializableFile = getClass().getResource("/persistence/modeltypes").getPath();
+        projectSerializableFile = getClass().getResource("/persistence/projectConfiguration").getPath();
+        userListSerializableFile = getClass().getResource("/persistence/user").getPath();
+        modelTypesListSerializableFile = getClass().getResource("/persistence/modeltypes").getPath();
 
         System.out.println(projectSerializableFile);
         System.out.println(userListSerializableFile);
