@@ -463,7 +463,8 @@
         }else if(status==1){
             decision="Approval";
             modelType=$("#modelType"+id).val();
-            bigVersion = parseInt($("#version"+id).val());
+            var index=document.getElementById("version"+id).selectedIndex;
+            bigVersion = parseInt(document.getElementById("version"+id).options[index].value);
         }else if(status==-1){
             decision="Undo";
         }
