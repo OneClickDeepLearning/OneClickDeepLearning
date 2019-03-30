@@ -63,13 +63,18 @@ public class DefaultKubernetesService implements KubernetesService {
         Deployment deployment = createGpuDeployment(user);
         io.fabric8.kubernetes.api.model.Service service = createGpuService(user);
 
-        System.out.println("[dubug] " + "Container launched!");
+        System.out.println("[debug] " + "Container launched!");
 
         port = getPort(service);
         ip = ipMap.get(getGpuIp(user));
         url = ip + ":" + port;
+
+        if(ip == null || port == null){
+            throw new KuberneteException("Container url unreachable, please try again.");
+        }
+
         gpuAssigned.put(userId,url);
-        System.out.println("[dubug] " + url);
+        System.out.println("[debug] " + url);
         return url;
     }
 
@@ -93,13 +98,19 @@ public class DefaultKubernetesService implements KubernetesService {
         Deployment deployment = createCpuDeployment(user);
         io.fabric8.kubernetes.api.model.Service service = createCpuService(user);
 
-        System.out.println("[dubug] " + "Container launched!");
+        System.out.println("[debug] " + "Container launched!");
 
         port = getPort(service);
         ip = ipMap.get(getCpuIp(user));
         url = ip + ":" + port;
+
+        //get ip or port before container is really launched
+        if(ip == null || port == null){
+            throw new KuberneteException("Container url unreachable, please try again.");
+        }
+
         cpuAssigned.put(userId,url);
-        System.out.println("[dubug] " + url);
+        System.out.println("[debug] " + url);
         return url;
     }
 
