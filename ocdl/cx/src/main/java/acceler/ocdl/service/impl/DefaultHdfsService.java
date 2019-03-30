@@ -37,6 +37,22 @@ public class DefaultHdfsService implements HdfsService {
         }
     }
 
+    public void uploadFile (String srcPath, String dstPath) throws HdfsException{
+        String user = "hadoop";
+        conf.set("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem");
+
+        try {
+            URI uri = new URI("hdfs://10.8.0.14:9000");
+            hdfs = FileSystem.get(uri,conf,user);
+
+            //upload file to hdfs, do not delete src file, do not overwrite
+            hdfs.copyFromLocalFile(false,false,new Path(srcPath),new Path(dstPath));
+
+        } catch (URISyntaxException | InterruptedException | IOException e){
+            throw new HdfsException(e.getMessage());
+        }
+    }
+
     //Download the whole folder from hdfs
     private void downloadFolder(String srcPath, String dstPath) throws IOException {
         File dstDir = new File(dstPath);
@@ -55,6 +71,7 @@ public class DefaultHdfsService implements HdfsService {
 
     private void download(String srcPath, String dstPath) throws IOException{
         if (hdfs.isFile(new Path(srcPath))) {
+            //download file from hdfs, do not delete src file
             hdfs.copyToLocalFile(false,new Path(srcPath),new Path(dstPath),true);
         } else {
             downloadFolder(srcPath, dstPath);
