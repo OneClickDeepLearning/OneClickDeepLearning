@@ -166,7 +166,7 @@
 								</div>
 							</div>
 					</div>
-					<div class="front" style="overflow:auto;">
+					<div id="cardJupyter" class="front" style="overflow:auto;">
 						<!--			        <iframe sandbox="allow-forms allow-same-origin allow-scripts"
                                             src="http://localhost:8889/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>-->
 						<iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
@@ -755,9 +755,10 @@
 			type: "POST",
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("AUTH_TOKEN", token);
-				document.body.append($("<div id='shadow' style='width:100%;height:100%;"+
+				$("#shadow").remove();//结束时移除遮罩层
+				document.getElementById("cardJupyter").append($("<div id='shadow' style='width:100%;height:100%;"+
 						"position:fixed;top:0px;left:0px;background-color:rgba(100,100,100,0.3);"+
-						"z-index:"+Number.MAX_SAFE_INTEGER+"'></div>")[0]);
+						"z-index:"+Number.MAX_SAFE_INTEGER+"'><h1>Loading Server...</h1> </div>")[0]);
             },
 
 			timeout: 0,
@@ -772,6 +773,9 @@
 				})
 			},
 			error: function () {
+				document.getElementById("cardJupyter").append($("<div id='shadow' style='width:100%;height:100%;"+
+						"position:absolute;top:0px;left:0px;background-color:rgba(100,100,100,0.3);"+
+						"z-index:"+Number.MAX_SAFE_INTEGER+"'><h1>Server Loading Fail</h1> </div>")[0]);
 			},
 			complete:function(){
 				$("#shadow").remove();//结束时移除遮罩层

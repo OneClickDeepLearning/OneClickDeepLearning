@@ -462,7 +462,7 @@
             decision="Reject";
         }else if(status==1){
             decision="Approval";
-            modelType=parseInt($("#modelType"+id).val());
+            modelType=$("#modelType"+id).val();
             bigVersion = parseInt($("#version"+id).val());
         }else if(status==-1){
             decision="Undo";
@@ -475,9 +475,9 @@
             data:
                 JSON.stringify({
                     modelName: id,
-                    modelTypeId: modelType,
-                    status:decision,
-                    currentStatus:origin,
+                    modelType: modelType,
+                    destStatus:decision,
+                    preStatus:origin,
                     bigVersion:bigVersion
                 }),
             type: "PUT",
