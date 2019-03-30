@@ -75,11 +75,9 @@ public class ApprovalController {
 
         List<String> modelTypes = modelTypeCrud.getModelTypes();
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("modelTypes", modelTypes);
 
         responseBuilder.setCode(Response.Code.SUCCESS)
-                .setData(result);
+                .setData(modelTypes);
 
         return responseBuilder.build();
     }

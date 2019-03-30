@@ -396,8 +396,8 @@
 
                         for (var j = 0; j < modelTypeList.length; j++) {
                             var option = document.createElement("OPTION");
-                            option.text = modelTypeList[j]['name'];
-                            option.value = modelTypeList[j]['id'];
+                            option.text = modelTypeList[j];
+                            option.value = modelTypeList[j];
                             document.getElementById("modelType" + data["newModels"][i].modelId).options.add(option);
                         }
 
@@ -444,13 +444,14 @@
             },
             success: function (data) {
                 ajaxMessageReader(data, function (data) {
-                    modelTypeList = data['modelTypes'];
+                    modelTypeList = data;
                 })
             },
             error: function (data) {
             }
         })
     }
+
 
     function UpdateDecision(id,status,origin) {
         var decision='';
