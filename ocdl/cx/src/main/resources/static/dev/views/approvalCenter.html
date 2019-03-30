@@ -332,9 +332,9 @@
     Donut3D.draw("salesDonut", randomData(), 150, 150, 130, 100, 30, 0.4);
 
     Donut3D.draw("salesDonut", salesData, 150, 150, 130, 100, 30, 0.4);
-
-    initApproralCenterInfo();
     initModelTypeList();
+
+
 
 
 
@@ -387,8 +387,8 @@
                             "</td>  " +
                             "<td>\n" +
                             " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
-                            "<button type=\"button\" class=\"btn btn-success\" onclick='UpdateDecision(" + data["newModels"][i].modelName+"_"+data["newModels"][i].timeStamp + ",1,'new')'>Approve</button>" +
-                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(" + data["newModels"][i].modelName + "_"+data["newModels"][i].timeStamp+",0,'new')'>Reject</button>" +
+                            "<button type=\"button\" class=\"btn btn-success\" onclick='UpdateDecision(" + data["newModels"][i].modelName+"_"+data["newModels"][i].timeStamp + ",1,\"new\")'>Approve</button>" +
+                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(" + data["newModels"][i].modelName + "_"+data["newModels"][i].timeStamp+",0,,\"new\")'>Reject</button>" +
                             "</div>" +
                             "</td></tr>";
 
@@ -408,7 +408,7 @@
                         var tr = "<tr class='data'><td>" + data["approvalModels"][i].modelName + "</td><td>" + data["approvalModels"][i].project + "</td><td>" + data["approvalModels"][i].modelType + "</td> <td>" + data["approvalModels"][i].version + "</td>  " +
                             "<td>\n" +
                             " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
-                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(" + data["newModels"][i].modelName+"_"+data["newModels"][i].timeStamp + ",-1,'approval')'>Undo</button>" +
+                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(" + data["newModels"][i].modelName+"_"+data["newModels"][i].timeStamp + ",-1,,\"approval\")'>Undo</button>" +
                             "</div>" +
                             "</td></tr>";
                         $("#tableApproval").append(tr);
@@ -419,7 +419,7 @@
                         var tr = "<tr class='data'><td>" + data["rejectedModels"][i].modelName + "</td><td>" + data["rejectedModels"][i].project + "</td>" +
                             "<td>\n" +
                             " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
-                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(" + data["newModels"][i].modelName+"_"+data["newModels"][i].timeStamp + ",-1,'reject')'>Undo</button>" +
+                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(" + data["newModels"][i].modelName+"_"+data["newModels"][i].timeStamp + ",-1,,\"reject\")'>Undo</button>" +
                             "</div>" +
                             "</td></tr>";
                         $("#tableRejected").append(tr);
@@ -445,6 +445,7 @@
             success: function (data) {
                 ajaxMessageReader(data, function (data) {
                     modelTypeList = data;
+                    initApproralCenterInfo();
                 })
             },
             error: function (data) {
