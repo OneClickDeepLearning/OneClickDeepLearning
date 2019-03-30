@@ -17,9 +17,15 @@ class Persistence {
 
     private static final Logger logger = LoggerFactory.getLogger(Persistence.class);
 
-    public final String projectSerializableFile = getClass().getResource("/persistence/projectConfiguration").getPath();
-    public final String userListSerializableFile = getClass().getResource("/persistence/user").getPath();
-    public final String modelTypesListSerializableFile = getClass().getResource("/persistence/modeltypes").getPath();
+    // Linux
+/*    public final String projectSerializableFile = "/home/ec2-user/ocdl/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/projectConfiguration";
+    public final String userListSerializableFile = "/home/ec2-user/ocdl/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/user";
+    public final String modelTypesListSerializableFile = "/home/ec2-user/ocdl/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/modeltypes";*/
+
+    //windows
+   public final String projectSerializableFile = getClass().getResource("/persistence/projectConfiguration").getPath();
+   public final String userListSerializableFile = getClass().getResource("/persistence/user").getPath();
+   public final String modelTypesListSerializableFile = getClass().getResource("/persistence/modeltypes").getPath();
 
     private Project project;
     private Vector<User> userList;
@@ -32,6 +38,10 @@ class Persistence {
         String projectSerializableFileUT8=null;
         String userListSerializableFileUT8=null;
         String modelTypesListSerializableFileUT8=null;
+        System.out.println(projectSerializableFile);
+        System.out.println(userListSerializableFile);
+        System.out.println(modelTypesListSerializableFile);
+
 
         try {
             projectSerializableFileUT8 = java.net.URLDecoder.decode(projectSerializableFile,"utf-8");
@@ -40,6 +50,10 @@ class Persistence {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+
+        System.out.println(projectSerializableFileUT8);
+        System.out.println(userListSerializableFileUT8);
+        System.out.println(modelTypesListSerializableFileUT8);
 
         this.project = (Project) loadingObject(projectSerializableFileUT8);
         this.userList = (Vector<User>)loadingObject(userListSerializableFileUT8);
