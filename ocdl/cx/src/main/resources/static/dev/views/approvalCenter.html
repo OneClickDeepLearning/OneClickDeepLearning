@@ -462,9 +462,10 @@
             decision="Reject";
         }else if(status==1){
             decision="Approval";
-            modelType=$("#modelType"+id).val();
-            var index=document.getElementById("version"+id).selectedIndex;
-            bigVersion = parseInt(document.getElementById("version"+id).options[index].value);
+            var indexModel=document.getElementById("modelType"+id).selectedIndex;
+            modelType=document.getElementById("modelType"+id).options[indexModel].value;
+            var indexVersion=document.getElementById("version"+id).selectedIndex;
+            bigVersion = parseInt(document.getElementById("version"+id).options[indexVersion].value);
         }else if(status==-1){
             decision="Undo";
         }
