@@ -151,13 +151,15 @@
                     var git = $("#git");
                     var templatePath = $("#templateUrl");
                     var suffix = $("#suffix");
-                    var modelType = $("#")
+                    var modelType = $("#modelType");
 
                     projectName.val(data['projectName']);
                     k8Url.val(data['k8Url']);
                     git.val(data['gitPath']);
                     templatePath.val(data['templatePath']);
                     projectName2.text(data['projectName']);
+                    suffix.val(data['suffix']);
+                    modelType.val(data['modelTypes']);
 
                 })
             },
@@ -181,7 +183,7 @@
                     k8Url: $("#k8Url").val(),
                     templatePath: $("#templateUrl").val(),
                     suffix:$("#suffix").val(),
-                    modelType:$("#modelType").val()
+                    modelTypes:$("#modelType").val()
                 }),
             type: "PUT",
             timeout: 0,
