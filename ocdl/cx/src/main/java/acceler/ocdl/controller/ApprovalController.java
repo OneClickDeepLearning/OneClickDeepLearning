@@ -93,7 +93,7 @@ public class ApprovalController {
         Builder responseBuilder = getBuilder();
 
         // if corresponding model file exit
-        if (! modelCrud.modelExist(modelName, incomeModelDto.getDestStatus())) {
+        if (! modelCrud.modelExist(modelName, incomeModelDto.getDestStatus().toLowerCase())) {
             logger.error("Cannot find the model File");
             responseBuilder.setCode(Response.Code.ERROR)
                     .setMessage("Cannot find the model File");
