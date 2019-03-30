@@ -74,7 +74,10 @@ public class ConfigurationController {
         List<String> modelTypes = modelTypeCrud.getModelTypes();
 
         StringBuilder modelTypeBuilder = new StringBuilder();
-        modelTypes.forEach(mt -> modelTypeBuilder.append(mt));
+        modelTypes.forEach(mt -> {
+            modelTypeBuilder.append(mt);
+            modelTypeBuilder.append("; ");
+        });
 
         projectDto.setModelTypes(modelTypeBuilder.toString());
 
