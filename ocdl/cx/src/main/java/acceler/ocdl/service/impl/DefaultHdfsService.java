@@ -1,5 +1,6 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.exception.HdfsException;
 import acceler.ocdl.service.HdfsService;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
@@ -17,25 +18,26 @@ import java.net.URISyntaxException;
 public class DefaultHdfsService implements HdfsService {
 
     private Configuration conf = new Configuration();
-    private final String user = "hadoop";
+
     private FileSystem hdfs;
 
-    public void downloadUserSpace(String srcPath, String dstPath){
-
+    public void downloadUserSpace(String srcPath, String dstPath) throws HdfsException{
+        String user = "hadoop";
+        //without this configuration, will throw exception: java.io.IOException: No FileSystem for scheme: hdfs
         conf.set("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem");
 
         try {
             URI uri = new URI("hdfs://10.8.0.14:9000");
+            //Returns the configured filesystem implementation.
             hdfs = FileSystem.get(uri,conf,user);
             download(srcPath,dstPath);
 
         } catch (URISyntaxException | InterruptedException | IOException e){
-            e.printStackTrace();
+            throw new HdfsException(e.getMessage());
         }
     }
 
-
-
+    //Download the whole folder from hdfs
     private void downloadFolder(String srcPath, String dstPath) throws IOException {
         File dstDir = new File(dstPath);
         if (!dstDir.exists()) {

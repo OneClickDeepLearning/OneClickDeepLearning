@@ -1,5 +1,6 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.exception.HdfsException;
 import acceler.ocdl.exception.KuberneteException;
 import acceler.ocdl.model.User;
 import acceler.ocdl.persistence.ProjectCrud;
@@ -41,16 +42,23 @@ public class DefaultKubernetesService implements KubernetesService {
     private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://10.8.0.1:6443").build());
 
 
-    public String launchGpuContainer(User user) throws KuberneteException{
+    public String launchGpuContainer(User user) throws KuberneteException, HdfsException {
         Long userId = user.getUserId();
         if(gpuAssigned.containsKey(userId))
             return gpuAssigned.get(userId);
         else if(gpuAssigned.size() == 1)
             throw new KuberneteException("No more GPU resource!");
 
+        String userSpaceId = projectCrud.getProjectName() + "-" + user.getUserId().toString();
         String url;
         String ip;
         String port;
+
+        File userSpace = new File("/home/hadoop/mount/UserSpace/" + userSpaceId);
+        if(!userSpace.exists()){
+            System.out.println("[debug]UserSpace does not exit, loading from HDFS...");
+            hdfsService.downloadUserSpace("hdfs://10.8.0.14:9000/UserSpace/" + userSpaceId, "/home/hadoop/mount/UserSpace/" + userSpaceId);
+        }
 
         Deployment deployment = createGpuDeployment(user);
         io.fabric8.kubernetes.api.model.Service service = createGpuService(user);
@@ -65,7 +73,7 @@ public class DefaultKubernetesService implements KubernetesService {
         return url;
     }
 
-    public String launchCpuContainer(User user) throws KuberneteException{
+    public String launchCpuContainer(User user) throws KuberneteException, HdfsException{
 
         Long userId = user.getUserId();
         if(cpuAssigned.containsKey(userId))
@@ -94,8 +102,6 @@ public class DefaultKubernetesService implements KubernetesService {
         System.out.println("[dubug] " + url);
         return url;
     }
-
-
 
     private Deployment createCpuDeployment(User user){
 
@@ -306,7 +312,6 @@ public class DefaultKubernetesService implements KubernetesService {
         StringBuilder podId = new StringBuilder();
         podId.append(projectCrud.getProjectName()).append("-").append(user.getUserId().toString()).append("-deploy-gpu");
 
-
         for(Pod pod : client.pods().inNamespace("default").list().getItems()){
             if(pod.getMetadata().getName().contains(podId.toString())){
                 return pod.getStatus().getHostIP();
@@ -320,7 +325,6 @@ public class DefaultKubernetesService implements KubernetesService {
 
         StringBuilder podId = new StringBuilder();
         podId.append(projectCrud.getProjectName()).append("-").append(user.getUserId().toString()).append("-deploy-cpu");
-
 
         for(Pod pod : client.pods().inNamespace("default").list().getItems()){
             if(pod.getMetadata().getName().contains(podId.toString())){
