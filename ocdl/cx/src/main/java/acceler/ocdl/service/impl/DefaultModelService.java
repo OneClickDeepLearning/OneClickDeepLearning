@@ -139,8 +139,13 @@ public class DefaultModelService implements ModelService {
     private boolean isModelFile(String fileName){
 
         //FIXME: private static final, 从文件读取这个配置
+        String[] suffixArray = projectCrud.getProjectConfiguration().getSuffix().split(";");
         List<String> modelIndex = new ArrayList<>();
-        modelIndex.add(".model");
+        for (String s: suffixArray) {
+            if (!s.trim().equals("")) {
+                modelIndex.add(s);
+            }
+        }
 
         for(String index : modelIndex){
             if(fileName.endsWith(index))
@@ -155,22 +160,19 @@ public class DefaultModelService implements ModelService {
         List<ModelDto> modelDtos = new ArrayList<>();
 
         String stageNewPath = Paths.get(stagePath, status).toString();
+        logger.debug(stageNewPath);
 
         File file = new File(stageNewPath);
         File[] files = file.listFiles();
-        if(files == null) {
+        if(file == null || files == null) {
+            logger.debug("files is none");
             return null;
         }
 
         for (File f : files) {
 
-            String[] modelInfo = f.getName().split("_");
 
-            ModelDto modelDto = new ModelDto();
-            modelDto.setModelName(modelInfo[0]);
-            modelDto.setTimeStamp(modelInfo[1]);
-            modelDto.setModelType(modelInfo[2]);
-            modelDto.setVersion(modelInfo[3]);
+            ModelDto modelDto = parseFileName(f.getName());
             modelDto.setStatus(status);
 
             modelDtos.add(modelDto);
@@ -212,6 +214,35 @@ public class DefaultModelService implements ModelService {
 
         logger.info("File renamed and moved successfully");
         return true;
+    }
+
+
+    private ModelDto parseFileName(String fileName) {
+
+        ModelDto modelDto = new ModelDto();
+
+        // remove suffix
+        int posDot = fileName.indexOf(".");
+        if (posDot >= 0) {
+            fileName = fileName.substring(0, posDot);
+        }
+
+        String[] modelInfo = fileName.trim().split("_");
+
+        if (modelInfo.length == 2) {
+            modelDto.setModelName(modelInfo[0]);
+            modelDto.setTimeStamp(modelInfo[1]);
+            modelDto.setModelType("");
+            modelDto.setVersion("");
+        } else {
+            modelDto.setModelName(modelInfo[0]);
+            modelDto.setTimeStamp(modelInfo[1]);
+            modelDto.setModelType(modelInfo[2]);
+            modelDto.setVersion(modelInfo[3]);
+        }
+
+        return modelDto;
+
     }
 
 }

@@ -423,24 +423,30 @@
 								<div class="temp-login-column-wrap-image">
 									<div class="temp-form-inner-wrapper">
 										<h2>Data Upload</h2>
-                                        <form enctype="multipart/form-data">
+                                      <!--  <form id="fileForm" action="/data/upload" name="fileForm" enctype="multipart/form-data" method="POST">
                                             <input id="file" type="file" multiple="multiple" name="file" accept="*.*">
 
 											<div class="temp-anchor-wrap temp-reg-anchor-wrap">
-												<a href="#" class=" temp-anchor text-left" type="submit">
-                        <span class="temp-social-icon-wrap">
-                          <i class="fa fa-cloud-upload" aria-hidden="true"></i>
-                        </span>
+												<input class=" temp-anchor text-left" type="submit">
+													<span class="temp-social-icon-wrap">
+													  <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+													</span>
 													<span>Upload</span>
-												</a>
-												<a href="#" type="submit" class="temp-anchor temp-icon-color text-left">
+												</input>
+												<a href="#" type="submit" class="temp-anchor temp-icon-color text-left" data-dismiss="modal">
 													<span class="temp-social-icon-wrap">
 													  <i class="fa fa-share" aria-hidden="true"></i>
 													</span>
 													<span>Close</span>
 												</a>
 											</div>
-                                        </form>
+                                        </form>-->
+
+										<form method="POST" enctype="multipart/form-data" action="/rest/data/upload" target="uploadiframe">
+											文件:<input type="file" name="file" /> <input type="submit"  value="上传" />
+										</form>
+										<iframe id="uploadiframe" name="uploadiframe">
+										</iframe>
 
 									</div>
 								</div>
@@ -494,10 +500,10 @@
 
 				function initProjectName() {
 					$.ajax({
-						url: "/configuration?action=getAllProject",
+						url: "/rest/projects",
 						contentType: 'application/json',
 						dataType: "json",
-						type: "POST",
+						type: "GET",
 						<!-- auth_token add to header -->
 						beforeSend: function(xhr) {
 							xhr.setRequestHeader("AUTH_TOKEN",token);
@@ -515,7 +521,7 @@
 
 				function initTemplateList(){
 					$.ajax({
-						url: "/template?status=getnames",
+						url: "/rest/template/names",
 						contentType: 'application/json',
 						dataType: "json",
 						type: "GET",
@@ -672,7 +678,7 @@
 
 	function getCode(name,type) {
 		$.ajax({
-			url: "/template?action=testTemplates",
+			url: "/template/templates",
 			contentType: 'application/json',
 			dataType: "json",
 			data:
@@ -680,7 +686,7 @@
 						name: name,
 						type: type
 					}),
-			type: "POST",
+			type: "GET",
 			success:function (data) {
 				ajaxMessageReader(data,function (data) {
 					var  code = $("#code");
@@ -822,6 +828,54 @@
 		}); //表单失去焦点文本框变成文本
 
 	});
+
+/*	function uploadFile(){
+		var form = new FormData($("#fileForm")[0]);
+        var file = $("#file")[0].files;
+        document.body.append($("<div id='shadow' style='width:100%;height:100%;"+
+            "position:fixed;top:0px;left:0px;background-color:rgba(100,100,100,0.3);"+
+            "z-index:"+Number.MAX_SAFE_INTEGER+"'></div>")[0]);
+		$.ajax({
+			url: "/rest/data/upload",
+			type:"POST",
+			timeout:5000,
+			data:form,
+			processData:false,
+			contentType:false,//这两行是上传文件时才需要加的
+			success: function(data){
+				ajaxMessageReader(data,function (data) {
+					alert("Upload successful!");
+				})
+			},
+			error: function () {
+				alert("Upload unsuccessful!");
+			},
+			complete:function(){
+				$("#shadow").remove();//结束时移除遮罩层
+			}
+		})
+	}*/
+
+	var animation=0;
+	function loadAnimationBlue() {
+		if(animation==1){
+			$("#card front").removeClass("green");
+			$("#card front").addClass("blue");
+			setTimeout(loadAnimationGreen(),1000);
+		}
+	}
+	function loadAnimationGreen(){
+		if(animation==1) {
+			$("#card front").removeClass("blue");
+			$("#card front").addClass("green");
+			setTimeout(loadAnimationBlue(), 1000);
+		}
+	}
+	function cancleAnimation() {
+		animation=0;
+		$("#card front").removeClass("blue");
+		$("#card front").removeClass("green");
+	}
 
 
 </script>

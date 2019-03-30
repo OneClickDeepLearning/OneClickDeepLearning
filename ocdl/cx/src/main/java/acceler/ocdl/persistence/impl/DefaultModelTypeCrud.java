@@ -7,16 +7,17 @@ import acceler.ocdl.model.ModelType;
 import acceler.ocdl.persistence.ModelTypeCrud;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class DefaultModelTypeCrud implements ModelTypeCrud {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultModelTypeCrud.class);
 
+    @Autowired
     private Persistence persistence;
 
 
@@ -67,5 +68,65 @@ public class DefaultModelTypeCrud implements ModelTypeCrud {
 
         modelType.setCurrentBigVersion(bigVersion);
         modelType.setCurrentSmallVersion(smallVersion);
+    }
+
+    @Override
+    public void updateModelTypes(String modelTypeInfo) {
+
+        List<ModelType> modelTypes = persistence.getModelTypes();
+
+        List<String> modelTypeStr = getModelTypes();
+        Set<String> preModelTypeSet = new HashSet<>(modelTypeStr);
+
+        Set<String> intersection = new HashSet<>();
+        Set<String> newModelTypeSet = new HashSet<>();
+
+        if (modelTypeInfo.indexOf(";") >= 0) {
+
+            String[] modelTypeInfos = modelTypeInfo.split(";");
+            for (String mt : modelTypeInfos) {
+                if (!mt.trim().equals("")) {
+                    newModelTypeSet.add(mt);
+                }
+            }
+
+            intersection.addAll(newModelTypeSet);
+            intersection.retainAll(preModelTypeSet);
+
+            newModelTypeSet.removeAll(preModelTypeSet);
+
+
+        } else {
+            newModelTypeSet.add(modelTypeInfo.trim());
+
+            intersection.addAll(newModelTypeSet);
+            intersection.retainAll(preModelTypeSet);
+
+            newModelTypeSet.removeAll(preModelTypeSet);
+        }
+
+        if (modelTypes.size() > intersection.size()) {
+            Iterator<ModelType> iterator = modelTypes.iterator();
+            while (iterator.hasNext()){
+                ModelType mt = iterator.next();
+                if (!intersection.contains(mt.getModelTypeName())) {
+                    iterator.remove();
+                }
+            }
+        }
+
+        if (newModelTypeSet.size() > 0) {
+            for (String mt : newModelTypeSet) {
+                if (!mt.trim().equals("")) {
+                    ModelType modelType = new ModelType();
+                    modelType.setModelTypeName(mt);
+                    modelType.setCurrentBigVersion(-1);
+                    modelType.setCurrentSmallVersion(-1);
+                    modelTypes.add(modelType);
+                }
+            }
+        }
+
+        persistence.persistentModelTypes();
     }
 }

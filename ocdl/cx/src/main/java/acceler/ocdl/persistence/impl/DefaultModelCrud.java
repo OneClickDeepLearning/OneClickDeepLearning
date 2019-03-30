@@ -14,15 +14,13 @@ import java.util.*;
 @Service
 public class DefaultModelCrud implements ModelCrud {
 
-
-
     @Autowired
     ModelService modelService;
 
     @Override
     public List<ModelDto> getModels(Model.Status status) {
 
-        return modelService.getModels(status.toString());
+        return modelService.getModels(status.toString().toLowerCase());
     }
 
     @Override

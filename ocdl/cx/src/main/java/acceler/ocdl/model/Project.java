@@ -11,7 +11,6 @@ public class Project implements Serializable {
     private String templatePath;
     private String description;
     private String suffix;
-    private String modelType;
 
     public String getProjectName() {
         return projectName;
@@ -53,14 +52,6 @@ public class Project implements Serializable {
         this.description = description;
     }
 
-    public String getModelType() {
-        return modelType;
-    }
-
-    public void setModelType(String modelType) {
-        this.modelType = modelType;
-    }
-
     public String getSuffix() {
         return suffix;
     }
@@ -77,6 +68,7 @@ public class Project implements Serializable {
         projectConfigurationDto.setK8Url(this.getK8Url());
         projectConfigurationDto.setGitPath(this.getGitPath());
         projectConfigurationDto.setTemplatePath(this.getTemplatePath());
+        projectConfigurationDto.setSuffix(this.getSuffix());
 
         return projectConfigurationDto;
     }
