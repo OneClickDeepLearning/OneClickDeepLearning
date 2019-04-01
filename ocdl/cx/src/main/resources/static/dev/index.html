@@ -482,6 +482,7 @@
 <script src="assets2/js/jquery.js"></script>
 <script src="assets2/js/bootstrap.min.js"></script>
 <script src="assets2/js/jquery.singlePageNav.min.js"></script>
+<script src="assets2/js/enviroment.js"></script>
 <script src="assets2/js/typed.js"></script>
 <script src="assets2/js/wow.min.js"></script>
 <script src="assets2/js/custom.js"></script>
@@ -515,18 +516,14 @@
 
 				function initProjectName() {
 					$.ajax({
-						url: "/rest/projects",
+						url: enviorment.API.PROJECT,
 						contentType: 'application/json',
 						dataType: "json",
 						type: "GET",
-						<!-- auth_token add to header -->
-						beforeSend: function(xhr) {
-							xhr.setRequestHeader("AUTH_TOKEN",token);
-						},
 						success: function(data) {
 							ajaxMessageReader(data,function (data) {
 								var projectName=$("#projectName");
-								projectName.text(data[3].projectName);
+								projectName.text("Project: "+data.projectName);
 							})
 						},
 						error: function (data) {
@@ -536,7 +533,7 @@
 
 				function initTemplateList(){
 					$.ajax({
-						url: "/rest/template/names",
+						url: enviorment.API.TEMPLATE_LIST,
 						contentType: 'application/json',
 						dataType: "json",
 						type: "GET",
@@ -608,7 +605,7 @@
 
 	function changeProjectName() {
 		$.ajax({
-			url: "/configuration?action=updateProjectName",
+			url: enviorment.API.PROJECT_NAME,
 			contentType: 'application/json',
 			dataType: "json",
 			data:
@@ -644,7 +641,7 @@
 		console.log($("#data_pwd").val());
 
 		$.ajax({
-			url: "/rest/auth/login",
+			url: enviorment.API.LOGIN,
 			contentType: 'application/json',
 			dataType: "json",
 			type: "POST",
@@ -693,7 +690,7 @@
 
 	function getCode(name,type) {
 		$.ajax({
-			url: "/template/templates",
+			url: enviorment.API.TEMPLATE_CODE,
 			contentType: 'application/json',
 			dataType: "json",
 			data:
@@ -723,7 +720,7 @@
 
 	function submitToGit(){
 		$.ajax({
-			url: "/rest/model",
+			url: enviorment.API.MODEL,
 			contentType: 'application/json',
 			dataType: "json",
 			type: "PUT",
@@ -749,7 +746,7 @@
 			server = "gpu";
 		}
 		$.ajax({
-			url: "/rest/container/"+server,
+			url: enviorment.API.JUPYTER_SERVER+server,
 			contentType: 'application/json',
 			dataType: "json",
 			type: "POST",
@@ -783,61 +780,15 @@
 		})
 	}
 
-	$('#login_f').on('click', function(e){
-		user_id='1001';
-		user_account='u1001';
-		user_password='p1001';
 
-		selectJupyterServer();
-		var username=$("#username");
-		var status=$("#status");
-		var rescource=$("#rescourse");
-		var card=$("#card");
-		username.text(user_account);
-		status.removeClass('status_disconnected');
-		status.addClass('status_connected');
-		rescource.removeClass('status_NoneR');
-		rescource.addClass('status_cpu');
-		card.removeClass('unlog');
-
-
-	});
-
-	/*$("#configButton").on('click',function (e) {
-		window.top.location.href="views/configuration.html";
-	})*/
 	function forwardTo(url){
 		window.top.location.href=url;
 	}
 
-	$('#login_t').on('click', function(e){
-		user_id='1002';
-		user_account='u1002';
-		user_password='p1002';
-
-		selectJupyterServer();
-		var username=$("#username");
-		var status=$("#status");
-		var rescource=$("#rescourse");
-		var card=$("#card");
-		username.text(user_account);
-		status.removeClass('status_disconnected');
-		status.addClass('status_connected');
-		rescource.removeClass('status_NoneR');
-		rescource.addClass('status_cpu');
-		card.removeClass('unlog');
-		ShowApprovalPortal("MODEL CENTER","nav-menu");
-
-	});
-
-
-
-
-
 	$('#projectName').click(function(){
 		var td=$(this); //为后面文本框变成文本铺垫
 		var text=$(this).text();
-		var input=$('<input type="text" class="edit" value="'+text+'">');
+		var input=$('<input type="text" class="edit" value="'+text.slice(9)+'">');
 		$(this).html( input );
 
 		$('input').click(function(){
@@ -848,38 +799,11 @@
 
 		$('input').blur(function(){
 			var nextxt=$(this).val();
-			td.html(nextxt);
+			td.html("Project: "+nextxt);
 			changeProjectName();
 		}); //表单失去焦点文本框变成文本
 
 	});
-
-/*	function uploadFile(){
-		var form = new FormData($("#fileForm")[0]);
-        var file = $("#file")[0].files;
-        document.body.append($("<div id='shadow' style='width:100%;height:100%;"+
-            "position:fixed;top:0px;left:0px;background-color:rgba(100,100,100,0.3);"+
-            "z-index:"+Number.MAX_SAFE_INTEGER+"'></div>")[0]);
-		$.ajax({
-			url: "/rest/data/upload",
-			type:"POST",
-			timeout:5000,
-			data:form,
-			processData:false,
-			contentType:false,//这两行是上传文件时才需要加的
-			success: function(data){
-				ajaxMessageReader(data,function (data) {
-					alert("Upload successful!");
-				})
-			},
-			error: function () {
-				alert("Upload unsuccessful!");
-			},
-			complete:function(){
-				$("#shadow").remove();//结束时移除遮罩层
-			}
-		})
-	}*/
 
 	var animation=0;
 	function loadAnimationBlue() {

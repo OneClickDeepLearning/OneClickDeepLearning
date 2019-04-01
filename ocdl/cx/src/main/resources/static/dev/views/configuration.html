@@ -136,7 +136,7 @@
 
     function initConfigInfo() {
         $.ajax({
-            url: "/rest/projects",
+            url: enviorment.API.PROJECT,
             contentType: 'application/json',
             dataType: "json",
             type: "GET",
@@ -170,7 +170,7 @@
     
     function updateConfiguration() {
         $.ajax({
-            url: "/rest/projects/config",
+            url: enviorment.API.PROJECT_UPDATE,
             contentType: 'application/json',
             dataType: "json",
             beforeSend: function (xhr) {

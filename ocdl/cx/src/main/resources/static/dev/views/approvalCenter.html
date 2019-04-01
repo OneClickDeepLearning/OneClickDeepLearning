@@ -352,7 +352,7 @@
 
 
         $.ajax({
-            url: "/rest/models",
+            url: enviorment.API.MODEL,
             contentType: 'application/json',
             dataType: "json",
             beforeSend: function (xhr) {
@@ -435,7 +435,7 @@
 
     function initModelTypeList() {
         $.ajax({
-            url: "/rest/models/modeltypes",
+            url: enviorment.API.MODEL_TYPE,
             contentType: 'application/json',
             dataType: "json",
             type: "GET",
@@ -471,7 +471,7 @@
         }
 
         $.ajax({
-            url: "/rest/models/"+id+"",
+            url: enviorment.API.MODEL+id+"",
             contentType: 'application/json',
             dataType: "json",
             data:
