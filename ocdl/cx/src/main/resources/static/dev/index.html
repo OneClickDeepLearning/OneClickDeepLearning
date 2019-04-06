@@ -7,6 +7,9 @@
 <meta name="description" content="">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="google-signin-scope" content="profile email">
+	<meta name="google-signin-client_id" content="727934601599-nvka5h36h2affhicjatvmummdhk4eanr.apps.googleusercontent.com">
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
 
 <link rel="stylesheet" href="assets2/css/animate.min.css">
 <link rel="stylesheet" href="assets2/css/bootstrap.min.css">
@@ -23,13 +26,6 @@
 
 </head>
 <body id="top">
-<script language="JavaScript">
-	var user_name='';
-	var project_name='';
-	var list;
-	var token='';
-
-</script>
 
 <!-- start preloader -->
 <div class="preloader">
@@ -69,12 +65,13 @@
 <!-- end navigation -->
 <!-- start header -->
 <header style="background-color:#000000;">
+
 	<div class="container" >
 		<div class="row" style="display:flex;justify-content:center;align-items:center;">
 			<div id="informationBlock" style="margin: auto;" class="col-md-6 col-sm-3 col-xs-3">
-				<label class="col-md-4">User: <label id="username" style="color: #47C6F8">TempUser</label></label>
-				<label class="col-md-4">Rescourse: <label id="rescourse" style="color: #47C6F8" class="status_NoneR"></label></label>
-				<label class="col-md-4">Status: <label id="status" class="status_disconnected"></label></label>
+
+				<label class="col-md-6">Rescourse: <label id="rescourse" style="color: #47C6F8" class="status_NoneR"></label></label>
+				<label class="col-md-6">Status: <label id="status" class="status_disconnected"></label></label>
 			</div>
 			<div class="col-md-2 col-sm-3 col-xs-3">
 				<a id="serverCtl" href="javascript:selectJupyterServer();" class="toggle toggle--on navbar-right"></a>
@@ -94,12 +91,11 @@
 				</p>
 			</div>
 			<div class="col-md-2 col-sm-3 col-xs-3">
-				<ul class="social-icon">
-					<li><span>Sign in with </span></li>
-					<li><a id="login_f" href="#" class="fa fa-facebook"></a></li>
-					<li><a id="login_t" href="#" class="fa fa-twitter"></a></li>
-				</ul>
-
+				<div id="userinfo">
+					<img id="profileImage" src="" style="height: 30px;width: 30px;" class="hide">
+				 <label id="username" style="color: #47C6F8"></label>
+					<button style="color: black">Logout</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -348,6 +344,9 @@
 										<p>If you don't have an OCDL account, please Sign up first.</p>
 										<p class="temp-heading-for-icon">sign in with social media</p>
 										<div class="temp-anchor-wrap temp-reg-anchor-wrap">
+
+											<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+
 											<a href="#" class=" temp-anchor text-left">
                         <span class="temp-social-icon-wrap">
                           <i class="fa fa-facebook" aria-hidden="true"></i>
@@ -494,337 +493,9 @@
 <script src="assets2/js/menu.js"></script>
 <script language="javascript" src="assets2/js/secondlayernav.js"></script>
 <script language="javascript" src="assets2/js/login.js"></script>
+<script language="JavaScript" src="assets2/js/index.js"></script>
 <script language="javascript">
-	window.onload = function () {
-/*				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
-				dp.SyntaxHighlighter.HighlightAll('code');*/
-				initTemplateList();
-				initProjectName();
-				function addSpan(li,text){
-					var span_1=document.createElement("span");
-					span_1.innerHTML=text;
-					li.appendChild(span_1);
-				}
-				function addLi(content, parent){
-					var li_1=document.createElement("li");
-					li_1.setAttribute("class","d-secondNav s-secondNav");
-					li_1.setAttribute("onclick","javascript:getCode('"+content+"','"+parent+"');");
-					addSpan(li_1,content);
-					document.getElementById(parent).appendChild(li_1);
-				}
 
-
-				function initProjectName() {
-					$.ajax({
-						url: enviorment.API.PROJECT,
-						contentType: 'application/json',
-						dataType: "json",
-						type: "GET",
-						success: function(data) {
-							ajaxMessageReader(data,function (data) {
-								var projectName=$("#projectName");
-								projectName.text("Project: "+data.projectName);
-							})
-						},
-						error: function (data) {
-						}
-					})
-				}
-
-				function initTemplateList(){
-					$.ajax({
-						url: enviorment.API.TEMPLATE_LIST,
-						contentType: 'application/json',
-						dataType: "json",
-						type: "GET",
-						success:function (data) {
-							ajaxMessageReader(data,function (data) {
-								var layerList=data[0];
-								var blockList=data[1];
-								var networksList=data[2];
-								var frameworks = data[3];
-								for(var i=0; i<layerList.length;i++){
-									addLi(layerList[i],"Layers");
-								}
-								for(var i=0; i<blockList.length;i++){
-									addLi(blockList[i],"Blocks");
-								}
-								for(var i=0; i<networksList.length;i++){
-									addLi(networksList[i],"Networks");
-								}
-								for(var i=0; i<frameworks.length;i++){
-									addLi(frameworks[i],"Frameworks");
-								}
-							})
-						},
-
-						error: function (data) {
-						}
-					})
-				}
-			}
-
-/*
-	$('#serverCtl').on('click', function(e){
-		if($("#serverCtl").hasClass('toggle--on')){
-			selectJupyterServer(0); //Connect CPU Server
-		}else {
-			selectJupyterServer(1); //Connect GPU Server
-		}
-
-	});*/
-
-	function ShowApprovalPortal(content, parent) {
-		var li_1=document.createElement("li");
-		var a=document.createElement("a");
-		a.setAttribute("onclick","forwardTo('views/approvalCenter.html?token="+token+"')");
-		a.setAttribute("href","#");
-		a.innerHTML=content;
-		li_1.appendChild(a);
-		document.getElementById(parent).appendChild(li_1);
-	}
-	function ShowConfigurationPortal(content, parent){
-		var li_1=document.createElement("li");
-		var a=document.createElement("a");
-		a.setAttribute("onclick","forwardTo('views/configuration.html?token="+token+"')");
-		a.setAttribute("href","#");
-		a.innerHTML=content;
-		li_1.appendChild(a);
-		document.getElementById(parent).appendChild(li_1);
-	}
-
-	function ajaxMessageReader(response, func){
-		if(response.code=="200"){
-			func(response.data);
-		}else{
-			alert(response.get("message"));
-		}
-
-/*		func(response);*/
-	}
-
-	function changeProjectName() {
-		$.ajax({
-			url: enviorment.API.PROJECT_NAME,
-			contentType: 'application/json',
-			dataType: "json",
-			data:
-					JSON.stringify({
-						name: $("#projectName").text()
-					}),
-			type: "POST",
-			timeout: 0,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("AUTH_TOKEN", token);
-            },
-			success: function(data){
-				ajaxMessageReader(data,function (data) {
-				})
-			},
-			error: function (data) {
-			}
-		})
-
-	}
-	function checkLogin() {
-		if($("#username").val()==''){
-			alert("please input the username");
-			return false;
-		}else if($("password").val()==''){
-			alert("please input the password");
-			return false;
-		}
-	}
-
-	function signIn() {
-		console.log($("#data_username").val());
-		console.log($("#data_pwd").val());
-
-		$.ajax({
-			url: enviorment.API.LOGIN,
-			contentType: 'application/json',
-			dataType: "json",
-			type: "POST",
-			data:
-					JSON.stringify({
-						account: $("#data_username").val(),
-						password: $("#data_pwd").val()
-					}),
-			success:function (data) {
-				ajaxMessageReader(data,function (data) {
-					token=data['token'];
-					user_name=data['userName'];
-					project_name=data['projectName'];
-					var projectName=$("#projectName");
-					projectName.text(project_name);
-					if(data['role']=="MANAGER"){
-						ShowApprovalPortal("MODEL CENTER","nav-menu");
-					}
-					ShowConfigurationPortal("CONFIGURE","nav-menu");
-
-
-					var username=$("#username");
-					var status=$("#status");
-					var rescource=$("#rescourse");
-					var card=$("#card");
-					username.text(user_name);
-					status.removeClass('status_disconnected');
-					status.addClass('status_connected');
-					rescource.removeClass('status_NoneR');
-					rescource.addClass('status_cpu');
-					card.removeClass('unlog');
-
-					$("#signInBtn").addClass("hide");
-					$("#signUpBtn").addClass("hide");
-					$("#closeLogin").click();
-
-					selectJupyterServer();
-				})
-			},
-
-			error: function (data) {
-			}
-		})
-	}
-
-
-	function getCode(name,type) {
-		$.ajax({
-			url: enviorment.API.TEMPLATE_CODE,
-			contentType: 'application/json',
-			dataType: "json",
-			data:
-					JSON.stringify({
-						name: name,
-						type: type
-					}),
-			type: "GET",
-			success:function (data) {
-				ajaxMessageReader(data,function (data) {
-					var  code = $("#code");
-					$(".dp-highlighter").remove();
-					code.text(data[0]);
-					dp.SyntaxHighlighter.ClipboardSwf = 'assets2/js/clipboard.swf';
-					dp.SyntaxHighlighter.HighlightAll('code');
-					jsAnimateMenu();
-					if(document.getElementById("card").className.search("flip") === -1){
-						flipPanel();
-					}
-				})
-			},
-
-			error: function (data) {
-			}
-		})
-	}
-
-	function submitToGit(){
-		$.ajax({
-			url: enviorment.API.MODEL,
-			contentType: 'application/json',
-			dataType: "json",
-			type: "PUT",
-			timeout: 0,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("AUTH_TOKEN", token);
-            },
-			success: function(data){
-				ajaxMessageReader(data,function (data) {
-					alert("Push successful!");
-				})
-			},
-			error: function () {
-			}
-		})
-	}
-
-	function selectJupyterServer(){
-		var server = "cpu";
-		if($("#serverCtl").hasClass('toggle--on')){
-			server = "cpu";
-		}else{
-			server = "gpu";
-		}
-		$.ajax({
-			url: enviorment.API.JUPYTER_SERVER+server,
-			contentType: 'application/json',
-			dataType: "json",
-			type: "POST",
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("AUTH_TOKEN", token);
-				$("#shadow").remove();//结束时移除遮罩层
-				document.getElementById("cardJupyter").append($("<div id='shadow' style='width:100%;height:100%;"+
-						"position:fixed;top:0px;left:0px;background-color:rgba(100,100,100,0.3);"+
-						"z-index:"+Number.MAX_SAFE_INTEGER+"'><h1>Loading Server...</h1> </div>")[0]);
-            },
-
-			timeout: 0,
-
-			success: function(data) {
-				ajaxMessageReader(data,function (data) {
-/*				    if(data["url"].contains(".")){*/
-                            $('#jupyterFrame').attr('src', "http://"+data["url"]+"/notebooks/Untitled.ipynb");
-/*                    }else{
-				        alert(data['url']);
-                    }*/
-				})
-			},
-			error: function () {
-				document.getElementById("cardJupyter").append($("<div id='shadow' style='width:100%;height:100%;"+
-						"position:absolute;top:0px;left:0px;background-color:rgba(100,100,100,0.3);"+
-						"z-index:"+Number.MAX_SAFE_INTEGER+"'><h1>Server Loading Fail</h1> </div>")[0]);
-			},
-			complete:function(){
-				$("#shadow").remove();//结束时移除遮罩层
-			}
-		})
-	}
-
-
-	function forwardTo(url){
-		window.top.location.href=url;
-	}
-
-	$('#projectName').click(function(){
-		var td=$(this); //为后面文本框变成文本铺垫
-		var text=$(this).text();
-		var input=$('<input type="text" class="edit" value="'+text.slice(9)+'">');
-		$(this).html( input );
-
-		$('input').click(function(){
-			return false;
-		}); //阻止表单默认点击行为
-
-		$('input').select(); //点击自动全选中表单的内容
-
-		$('input').blur(function(){
-			var nextxt=$(this).val();
-			td.html("Project: "+nextxt);
-			changeProjectName();
-		}); //表单失去焦点文本框变成文本
-
-	});
-
-	var animation=0;
-	function loadAnimationBlue() {
-		if(animation==1){
-			$("#card front").removeClass("green");
-			$("#card front").addClass("blue");
-			setTimeout(loadAnimationGreen(),1000);
-		}
-	}
-	function loadAnimationGreen(){
-		if(animation==1) {
-			$("#card front").removeClass("blue");
-			$("#card front").addClass("green");
-			setTimeout(loadAnimationBlue(), 1000);
-		}
-	}
-	function cancleAnimation() {
-		animation=0;
-		$("#card front").removeClass("blue");
-		$("#card front").removeClass("green");
-	}
 
 
 </script>
