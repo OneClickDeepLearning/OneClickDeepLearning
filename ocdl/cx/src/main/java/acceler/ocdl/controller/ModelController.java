@@ -125,6 +125,7 @@ public final class ModelController {
 
         long time = new Date().getTime();
         newModelName.append(String.valueOf(time));
+        newModelName.append("_");
 
         // when approval, the file name will be FN_TS_MT_V*.*.suffix
         if (incomeModelDto.getDestStatus().equals("approval")){
