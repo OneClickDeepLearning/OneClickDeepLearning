@@ -49,7 +49,7 @@ public final class ContainerController {
 //    }
 
     @ResponseBody
-    @RequestMapping(path = "/{rscType}", method = RequestMethod.POST)
+    @RequestMapping(path = "/type/{rscType}", method = RequestMethod.POST)
     public final Response requestContainer(HttpServletRequest request, @PathVariable("rscType") String rscType) {
 //        List<String> result = new ArrayList<>();
         User user = (User) request.getAttribute("CURRENT_USER");
