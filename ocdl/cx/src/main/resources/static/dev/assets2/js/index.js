@@ -235,7 +235,7 @@ function submitToGit(){
         url: enviorment.API.MODEL,
         contentType: 'application/json',
         dataType: "json",
-        type: "PUT",
+        type: "POST",
         timeout: 0,
         beforeSend: function (xhr) {
             xhr.setRequestHeader("AUTH_TOKEN", token);
