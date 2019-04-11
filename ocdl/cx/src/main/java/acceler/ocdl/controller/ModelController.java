@@ -71,7 +71,7 @@ public final class ModelController {
 
     @ResponseBody
     @RequestMapping(path = "/{modelId}",  method = RequestMethod.PUT)
-    public final Response pushDecision(@PathVariable("modelName") String modelName, @RequestBody IncomeModelDto incomeModelDto) {
+    public final Response pushDecision(@PathVariable("modelId") String modelName, @RequestBody IncomeModelDto incomeModelDto) {
 
         logger.debug("enter the get model list funciton +++++++++++++++++");
         Response.Builder responseBuilder = getBuilder();
