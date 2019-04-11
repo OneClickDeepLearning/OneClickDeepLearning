@@ -155,7 +155,7 @@ function UpdateDecision(id,status,origin) {
     }
 
     $.ajax({
-        url: enviorment.API.MODEL+id+"",
+        url: enviorment.API.MODEL+"/"+id+"",
         contentType: 'application/json',
         dataType: "json",
         data:
