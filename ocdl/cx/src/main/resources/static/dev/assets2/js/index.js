@@ -258,7 +258,7 @@ function selectJupyterServer(){
         server = "gpu";
     }
     $.ajax({
-        url: enviorment.API.JUPYTER_SERVER+server,
+        url: enviorment.API.JUPYTER_SERVER+"/"+server,
         contentType: 'application/json',
         dataType: "json",
         type: "POST",

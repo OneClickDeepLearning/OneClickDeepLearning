@@ -8,7 +8,7 @@
 	cursor: pointer;
 	padding: 6px 20px;
 	display: inline-block;
-	margin: 6px 12px;
+	margin: 0px 12px;
 	text-transform: uppercase;
 	letter-spacing: 1px;
 	font-weight: 700;
@@ -31,7 +31,7 @@
 
 /* Button 1 */
 .btn-1 {
-	border: 3px solid #fff;
+	border: 1px solid #fff;
 	color: #fff;
 }
 /* Button 1e */
