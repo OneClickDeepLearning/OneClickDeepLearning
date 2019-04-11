@@ -22,6 +22,7 @@
 	<link href="assets2/css/menu.css" rel="stylesheet">
 	<link href="assets2/css/infoStatus.css" rel="stylesheet">
 	<link href="assets2/css/login.css" rel="stylesheet">
+	<link href="assets2/css/userLoginBtn.css" rel = "stylesheet">
 
 
 </head>
@@ -91,7 +92,17 @@
 				</p>
 			</div>
 			<div class="col-md-2 col-sm-3 col-xs-3">
-				<div id="userinfo">
+				<div class="userBlock">
+					<!-- Top Navigation -->
+					<div class="color-1" style="background: black">
+						<p>
+							<button class="btn btn-1 btn-1e">SignUp</button>
+							<button class="btn btn-1 btn-1e">SignIn</button>
+						</p>
+					</div>
+				</div><!-- /container -->
+
+				<div id="userinfo" class="hide">
 					<img id="profileImage" src="" style="height: 30px;width: 30px;" class="hide">
 				 <label id="username" style="color: #47C6F8"></label>
 					<button style="color: black">Logout</button>
