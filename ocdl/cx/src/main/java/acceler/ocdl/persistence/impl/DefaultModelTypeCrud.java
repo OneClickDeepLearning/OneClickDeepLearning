@@ -85,10 +85,12 @@ public class DefaultModelTypeCrud implements ModelTypeCrud {
 
             String[] modelTypeInfos = modelTypeInfo.split(";");
             for (String mt : modelTypeInfos) {
+                
                 if (!mt.trim().equals("")) {
-                    newModelTypeSet.add(mt);
+                    newModelTypeSet.add(mt.trim());
                 }
             }
+
 
             intersection.addAll(newModelTypeSet);
             intersection.retainAll(preModelTypeSet);
