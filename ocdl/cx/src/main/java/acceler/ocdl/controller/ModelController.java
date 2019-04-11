@@ -71,22 +71,22 @@ public final class ModelController {
 
     @ResponseBody
     @RequestMapping(path = "/{modelId}",  method = RequestMethod.PUT)
-    public final Response pushDecision(@PathVariable("modelId") String modelName, @RequestBody IncomeModelDto incomeModelDto) {
+    public final Response pushDecision(@PathVariable("modelId") String modelId, @RequestBody IncomeModelDto incomeModelDto) {
 
         logger.debug("enter the get model list funciton +++++++++++++++++");
         Response.Builder responseBuilder = getBuilder();
 
         // if corresponding model file exit
-        if (! modelCrud.modelExist(modelName, incomeModelDto.getDestStatus())) {
+        if (! modelCrud.modelExist(modelId, incomeModelDto.getDestStatus())) {
             logger.error("Cannot find the model File");
             responseBuilder.setCode(Response.Code.ERROR)
                     .setMessage("Cannot find the model File");
         }
 
         String stagePath = "/home/ec2-user/stage/";
-        Path source = Paths.get(stagePath, incomeModelDto.getPreStatus(), incomeModelDto.getModelName());
+        Path source = Paths.get(stagePath, incomeModelDto.getPreStatus(), modelId);
 
-        String newModelName = getNewModelName(incomeModelDto, source);
+        String newModelName = getNewModelName(modelId, incomeModelDto, source);
         Path target = Paths.get(stagePath, incomeModelDto.getDestStatus(), newModelName);
 
         boolean success = modelCrud.moveModel(source, target);
@@ -105,9 +105,18 @@ public final class ModelController {
 
     }
 
-    private String getNewModelName(IncomeModelDto incomeModelDto, Path source) {
+    private String getNewModelName(String modelId, IncomeModelDto incomeModelDto, Path source) {
 
-        String[] modelInfo = incomeModelDto.getModelName().split("_");
+        String suffix = "";
+        String modelName = "";
+        // remove suffix
+        int posDot = modelId.lastIndexOf(".");
+        if (posDot >= 0) {
+            suffix = modelId.substring(posDot);
+            modelName = modelId.substring(0, posDot);
+        }
+
+        String[] modelInfo = modelName.split("_");
 
         StringBuilder newModelName = new StringBuilder();
         // when new or reject, the file name will be FN_TS.suffix
@@ -165,6 +174,8 @@ public final class ModelController {
             String newPushName = getNewPushedModelName(incomeModelDto.getModelType(), String.valueOf(bigVersion), String.valueOf(smallVersion));
             modelService.pushModel(source.toString(), newPushName);
         }
+
+        newModelName.append(suffix);
 
         return newModelName.toString();
     }
