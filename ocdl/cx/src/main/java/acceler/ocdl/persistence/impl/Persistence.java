@@ -56,8 +56,11 @@ class Persistence {
         System.out.println(modelTypesListSerializableFileUT8);
 
         this.project = (Project) loadingObject(projectSerializableFileUT8);
+        System.out.println("project");
         this.userList = (Vector<User>)loadingObject(userListSerializableFileUT8);
+        System.out.println("user");
         this.modelTypes = (Vector<ModelType>)loadingObject(modelTypesListSerializableFileUT8);
+        System.out.println("modelType");
     }
 
     Project getProject() {
@@ -148,41 +151,41 @@ class Persistence {
         }
     }
 
-//    public void createObject(Object object, String filePath) {
-//        try {
-//            FileOutputStream fileOut = new FileOutputStream(filePath);
-//            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-//            objectOut.writeObject(object);
-//            fileOut.close();
-//            objectOut.close();
-//        } catch (IOException ex) {
-//            throw new OcdlException("[ERROR] Object dumping failed");
-//        }
-//    }
-//
-//    public void createUser(Vector<User> users, String filePath) {
-//        try {
-//            FileOutputStream fileOut = new FileOutputStream(filePath);
-//            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-//            objectOut.writeObject(users);
-//            fileOut.close();
-//            objectOut.close();
-//        } catch (IOException ex) {
-//            throw new OcdlException("[ERROR] Object dumping failed");
-//        }
-//    }
-//
-//    public void createModelTypes(Vector<ModelType> modelTypes, String filePath) {
-//        try {
-//            FileOutputStream fileOut = new FileOutputStream(filePath);
-//            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-//            objectOut.writeObject(modelTypes);
-//            fileOut.close();
-//            objectOut.close();
-//        } catch (IOException ex) {
-//            throw new OcdlException("[ERROR] Object dumping failed");
-//        }
-//    }
+    public void createObject(Object object, String filePath) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(filePath);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(object);
+            fileOut.close();
+            objectOut.close();
+        } catch (IOException ex) {
+            throw new OcdlException("[ERROR] Object dumping failed");
+        }
+    }
+
+    public void createUser(Vector<User> users, String filePath) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(filePath);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(users);
+            fileOut.close();
+            objectOut.close();
+        } catch (IOException ex) {
+            throw new OcdlException("[ERROR] Object dumping failed");
+        }
+    }
+
+    public void createModelTypes(Vector<ModelType> modelTypes, String filePath) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(filePath);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(modelTypes);
+            fileOut.close();
+            objectOut.close();
+        } catch (IOException ex) {
+            throw new OcdlException("[ERROR] Object dumping failed");
+        }
+    }
 
 
 }
