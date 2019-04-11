@@ -18,14 +18,14 @@ class Persistence {
     private static final Logger logger = LoggerFactory.getLogger(Persistence.class);
 
     // Linux
-/*    public final String projectSerializableFile = "/home/ec2-user/ocdl/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/projectConfiguration";
+    public final String projectSerializableFile = "/home/ec2-user/ocdl/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/projectConfiguration";
     public final String userListSerializableFile = "/home/ec2-user/ocdl/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/user";
-    public final String modelTypesListSerializableFile = "/home/ec2-user/ocdl/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/modeltypes";*/
+    public final String modelTypesListSerializableFile = "/home/ec2-user/ocdl/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/modeltypes";
 
     //windows
-   public final String projectSerializableFile = getClass().getResource("/persistence/projectConfiguration").getPath();
-   public final String userListSerializableFile = getClass().getResource("/persistence/user").getPath();
-   public final String modelTypesListSerializableFile = getClass().getResource("/persistence/modeltypes").getPath();
+//   public final String projectSerializableFile = getClass().getResource("/persistence/projectConfiguration").getPath();
+//   public final String userListSerializableFile = getClass().getResource("/persistence/user").getPath();
+//   public final String modelTypesListSerializableFile = getClass().getResource("/persistence/modeltypes").getPath();
 
     private Project project;
     private Vector<User> userList;

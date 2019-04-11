@@ -44,7 +44,7 @@ public class ProjectController {
         Response.Builder responseBuilder = getBuilder();
 
         List<String> modelTypes = modelTypeCrud.getModelTypes();
-        
+
         responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(modelTypes);
 
