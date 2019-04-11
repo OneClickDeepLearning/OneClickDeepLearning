@@ -121,6 +121,7 @@ public final class ModelController {
         StringBuilder newModelName = new StringBuilder();
         // when new or reject, the file name will be FN_TS.suffix
         newModelName.append(modelInfo[0]);
+        newModelName.append("_");
 
         long time = new Date().getTime();
         newModelName.append(String.valueOf(time));
