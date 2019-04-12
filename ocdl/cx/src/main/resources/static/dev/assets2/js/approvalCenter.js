@@ -143,19 +143,19 @@ function UpdateDecision(id,status,origin) {
     var modelType=-1;
     var bigVersion=-1;
     if(status==0){
-        decision="Reject";
+        decision="reject";
     }else if(status==1){
-        decision="Approval";
+        decision="approval";
         var indexModel=document.getElementById("modelType"+id).selectedIndex;
         modelType=document.getElementById("modelType"+id).options[indexModel].value;
         var indexVersion=document.getElementById("version"+id).selectedIndex;
         bigVersion = parseInt(document.getElementById("version"+id).options[indexVersion].value);
     }else if(status==-1){
-        decision="Undo";
+        decision="new";
     }
 
     $.ajax({
-        url: enviorment.API.MODEL+id+"",
+        url: enviorment.API.MODEL+"/"+id+"",
         contentType: 'application/json',
         dataType: "json",
         data:
@@ -189,6 +189,7 @@ function randomData() {
 
 function ajaxMessageReader(response, func) {
     if (response.code == "400") {
+        alert(response.get("message"));
     } else if (response.code == "200") {
         func(response.data);
     }

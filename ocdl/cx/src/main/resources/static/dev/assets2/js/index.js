@@ -124,7 +124,7 @@ function changeProjectName() {
             JSON.stringify({
                 name: $("#projectName").text()
             }),
-        type: "POST",
+        type: "PUT",
         timeout: 0,
         beforeSend: function (xhr) {
             xhr.setRequestHeader("AUTH_TOKEN", token);
@@ -235,7 +235,7 @@ function submitToGit(){
         url: enviorment.API.MODEL,
         contentType: 'application/json',
         dataType: "json",
-        type: "PUT",
+        type: "POST",
         timeout: 0,
         beforeSend: function (xhr) {
             xhr.setRequestHeader("AUTH_TOKEN", token);
@@ -258,7 +258,7 @@ function selectJupyterServer(){
         server = "gpu";
     }
     $.ajax({
-        url: enviorment.API.JUPYTER_SERVER+server,
+        url: enviorment.API.JUPYTER_SERVER+"/"+server,
         contentType: 'application/json',
         dataType: "json",
         type: "POST",
