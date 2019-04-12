@@ -57,8 +57,8 @@
 			<ul id="nav-menu" class="nav navbar-nav navbar-right">
 				<li><a id="dataUploadBtn" href="#" class="nav-link" data-toggle="modal" data-target="#FileModal">DATA UPLOAD</a></li>
 				<li><a href="#">MODIFY</a></li>
-				<li><a id="signInBtn" href="#" class="nav-link" data-toggle="modal" data-target="#RegistrationModal">SIGN UP</a></li>
-				<li><a id="signUpBtn" href="#" class="nav-link" data-toggle="modal" data-target="#LogInModal">SIGN IN</a></li>
+<!--				<li><a id="signInBtn" href="#" class="nav-link" data-toggle="modal" data-target="#RegistrationModal">SIGN UP</a></li>
+				<li><a id="signUpBtn" href="#" class="nav-link" data-toggle="modal" data-target="#LogInModal">SIGN IN</a></li>-->
 			</ul>
 		</div>
 	</div>
@@ -66,9 +66,8 @@
 <!-- end navigation -->
 <!-- start header -->
 <header style="background-color:#000000;">
-
 	<div class="container" >
-		<div class="row" style="display:flex;justify-content:center;align-items:center;">
+		<div class="row" class="" style="display:flex;justify-content:center;align-items:center;">
 			<div id="informationBlock" style="" class="col-md-4 col-sm-3 col-xs-3">
 
 				<label class="col-md-6">Rescourse: <label id="rescourse" style="color: #47C6F8" class="status_NoneR"></label></label>
@@ -94,8 +93,8 @@
 					<!-- Top Navigation -->
 					<div class="color-1" style="background: black">
 						<p>
-							<button class="btn btn-1 btn-1e">SignUp</button>
-							<button class="btn btn-1 btn-1e">SignIn</button>
+							<button class="btn btn-1 btn-1e" id="signUpBtn" data-toggle="modal" data-target="#RegistrationModal">SignUp</button>
+							<button class="btn btn-1 btn-1e"  id="signInBtn" href="#" class="nav-link" data-toggle="modal" data-target="#LogInModal">SignIn</button>
 						</p>
 					</div>
 				</div><!-- /container -->
@@ -108,6 +107,7 @@
 			</div>
 		</div>
 	</div>
+	<div></div>
 </header>
 <!-- end header -->
 
