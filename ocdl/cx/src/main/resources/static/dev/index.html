@@ -88,7 +88,7 @@
 				</span>
 
 				<span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
-					<a  class="hi-icon hi-icon-refresh roundA" data-toggle="modal" data-target="#FileModal">Upload</a>
+					<a  class="hi-icon hi-icon-archive roundA" data-toggle="modal" data-target="#FileModal">Upload</a>
 				</span>
 				</p>
 			</div>
@@ -96,8 +96,8 @@
 				<div class="userBlock">
 					<!-- Top Navigation -->
 					<div class="color-1" style="background: black">
-						<p>
-							<button class="btn btn-1 btn-1e" id="signUpBtn" data-toggle="modal" data-target="#RegistrationModal">SignUp</button>
+						<p style="text-align: right">
+							<button class="btn btn-1 btn-1e" id="signUpBtn" data-toggle="modal" data-target="#RegistrationModal" style="color: #47C6F8; border-color: #47C6F8;">SignUp</button>
 							<button class="btn btn-1 btn-1e"  id="signInBtn" href="#" class="nav-link" data-toggle="modal" data-target="#LogInModal">SignIn</button>
 						</p>
 					</div>
@@ -453,19 +453,23 @@
 												</a>
 											</div>
                                         </form>-->
-										<iframe id="uploadiframe" name="uploadiframe">
-											Please Select your file or drag the file into this box to upload.
-										</iframe>
-										<form method="PUT" enctype="multipart/form-data" action="/rest/data/upload" target="uploadiframe">
-											文件:<input type="file" name="file" /> <input type="submit"  value="上传" />
+
+										<form id="uploadForm" method="POST" enctype="multipart/form-data" action="/rest/data/upload" target="uploadiframe">
+											File:<input type="file" id="file" name="file" style="display:none" onchange="changeAgentContent()" />
+											<input type="text" value="" disabled id="fileAgent" style="color: black"/>
+											<input type="button" onclick="document.getElementById('file').click()" value="Browse..."  style="color: black"/>
+
 											<div class="temp-anchor-wrap temp-reg-anchor-wrap">
-												<input class=" temp-anchor text-left" type="submit">
+												<a  href="javascript:upload()" class="temp-anchor text-left" type="submit">
 												<span class="temp-social-icon-wrap">
 													  <i class="fa fa-cloud-upload" aria-hidden="true"></i>
 													</span>
 												<span>Upload</span>
-												</input>
-												<a href="#" type="submit" class="temp-anchor temp-icon-color text-left" data-dismiss="modal">
+												</a>
+
+
+
+												<a href="#"  class="temp-anchor temp-icon-color text-left" data-dismiss="modal">
 													<span class="temp-social-icon-wrap">
 													  <i class="fa fa-share" aria-hidden="true"></i>
 													</span>
@@ -507,9 +511,53 @@
 <script language="javascript" src="assets2/js/secondlayernav.js"></script>
 <script language="javascript" src="assets2/js/login.js"></script>
 <script language="JavaScript" src="assets2/js/index.js"></script>
-<script language="javascript">
+
+<script type="text/javascript">
+	function changeAgentContent(){
+		document.getElementById("fileAgent").value = document.getElementById("file").value;
+	}
+
+	function upload(){
+		var url ="";
+		$.ajax({
+			url: '/rest/data/upload',
+			data: formData,
+			type: "PUT",
+			contentType: false,//这里
+			processData: false,//这两个一定设置为false
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader("AUTH_TOKEN", token);
+			},
+			success: function (info) {
+				alert(info);
+			}
+		});
+	}
 
 
+	function toHdfs(url){
+		var formData = new FormData();
+		formData.append("file", document.getElementById("file").files[0]);
+		$.ajax({
+			url: url,
+			data: formData,
+			type: "PUT",
+			contentType: false,//这里
+			processData: false,//这两个一定设置为false
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader("AUTH_TOKEN", token);
+			},
+			success: function (info) {
+				alert(info);
+				if (info == "success") {
+					alert("成功上传");
+				} else {
+					alert(info);
+				}
+			}
+		});
+
+	}
 
 </script>
 

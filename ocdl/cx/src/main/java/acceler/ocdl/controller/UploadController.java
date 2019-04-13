@@ -37,9 +37,8 @@ public class UploadController {
     private HdfsService hdfsService;
 
     private static final Logger logger = LoggerFactory.getLogger(acceler.ocdl.controller.AuthController.class);
-    private String filePath="D:/springUpload";
 
-    @RequestMapping("/upload")
+    @RequestMapping(path="/upload", method = RequestMethod.POST)
     public Response  springUpload(@RequestParam("file") MultipartFile file)
     {
 
