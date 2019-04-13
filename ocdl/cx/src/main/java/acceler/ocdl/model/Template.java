@@ -1,23 +1,24 @@
 package acceler.ocdl.model;
 
-import java.sql.Blob;
+import java.io.Serializable;
 
-public class Template {
+public class Template implements Serializable {
+    private static final long serialVersionUID = -2767605614048989439L;
 
-    //column: id, name, file, model_suffix, desp
     private long templateId;
     private String templateName;
     private byte[] file;
     private String suffix;
-    private String desp;
+    private String description;
 
-    public Template() {}
+    public Template() {
+    }
 
-    public Template(String templateName, byte[] file, String suffix, String desp) {
+    public Template(String templateName, byte[] file, String suffix, String description) {
         this.templateName = templateName;
         this.file = file;
         this.suffix = suffix;
-        this.desp = desp;
+        this.description = description;
     }
 
     public long getTemplateId() {
@@ -52,11 +53,11 @@ public class Template {
         this.suffix = suffix;
     }
 
-    public String getDesp() {
-        return desp;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesp(String desp) {
-        this.desp = desp;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

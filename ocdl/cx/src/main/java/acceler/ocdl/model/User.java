@@ -1,73 +1,65 @@
 package acceler.ocdl.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class User implements Serializable {
+    private static final long serialVersionUID = -2767605614048989439L;
+    private static List<User> userListStorage = new ArrayList<>();
+    private static ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
+    @Getter
+    @Setter
     private Long userId;
 
+    @Getter
+    @Setter
     private String userName;
 
-    private String account;
+    @Getter
+    @Setter
+    private OauthSource oauthSource;
 
-    private String password;
-
+    @Getter
+    @Setter
     private Role role;
 
     public User() {
     }
 
-    public User(String userName, String account, String password, Role role) {
-        this.userName = userName;
-        this.account = account;
-        this.password = password;
-        this.role = role;
+    public User deepCopy(){
+        User copy = new User();
+        copy.userId = this.userId;
+        copy.userName = this.userName;
+        copy.oauthSource = this.oauthSource;
+
+        return copy;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
+    public Optional<User> getUserByOauthInfo(String userName, OauthSource oauthSource){
+        Optional<User> userOpt = getRealUserByOauthInfo(userName, oauthSource);
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+        User copy = userOpt.map(User::deepCopy).orElse(null);
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
+        return Optional.ofNullable(copy);
     }
 
 
+    private Optional<User> getRealUserByOauthInfo(String userName, OauthSource oauthSource) {
+        lock.readLock().lock();
+        Optional<User> userOpt = userListStorage.stream().filter(user -> (user.userName.equals(userName) && user.oauthSource == oauthSource)).findFirst();
+        lock.readLock().unlock();
+        return userOpt;
+    }
 
     public enum Role {
-        TEST, DEVELOPER,MANAGER;
+        TEST, DEVELOPER, MANAGER;
 
         public static Role getRole(String role) {
 
@@ -81,5 +73,9 @@ public class User implements Serializable {
             }
             return null;
         }
+    }
+
+    public enum OauthSource {
+        GITHUB, GOOGLE
     }
 }

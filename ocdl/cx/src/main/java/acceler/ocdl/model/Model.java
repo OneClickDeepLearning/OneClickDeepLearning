@@ -1,66 +1,22 @@
 package acceler.ocdl.model;
 
+import lombok.*;
 
-public class Model {
-
-    private String name;
-
-    private String url;
-
-    private Status status;
-
-    private long bigVersion;
-
-    private long smallVersion;
-
-    private ModelType modelType;
+import java.io.Serializable;
 
 
-    public Model(){}
+public abstract class Model implements Serializable {
+    protected static final long serialVersionUID = -2767605614048989439L;
 
-    public String getName() {
-        return name;
+    @Getter
+    @Setter
+    protected String name;
+
+    @Getter
+    protected Status status;
+
+
+    public enum Status {
+        NEW, APPROVED, REJECTED
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) { this.url = url; }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public long getBigVersion() {
-        return bigVersion;
-    }
-
-    public void setBigVersion(long bigVersion) { this.bigVersion = bigVersion; }
-
-    public long getSmallVersion() {
-        return smallVersion;
-    }
-
-    public void setSmallVersion(long smallVersion) {
-        this.smallVersion = smallVersion;
-    }
-
-    public ModelType getModelType() { return modelType; }
-
-    public void setModelType(ModelType modelType) { this.modelType = modelType; }
-
-
-    public static enum Status {
-        NEW, APPROVAL, REJECT
-    }
-
 }

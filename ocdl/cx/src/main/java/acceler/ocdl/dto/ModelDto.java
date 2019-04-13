@@ -1,11 +1,8 @@
 package acceler.ocdl.dto;
 
-import acceler.ocdl.model.Model;
-
 import java.io.Serializable;
 
 public class ModelDto implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     private String modelName;

@@ -147,7 +147,7 @@
                 ajaxMessageReader(data,function (data) {
                     var projectName=$("#name");
                     var projectName2=$("#projectName");
-                    var k8Url= $("#k8Url");
+                    var k8MasterUri= $("#k8MasterUri");
                     var git = $("#git");
                     var templatePath = $("#templateUrl");
                     var suffix = $("#suffix");
@@ -180,7 +180,7 @@
                 JSON.stringify({
                     projectName: $("#name").val(),
                     gitPath: $("#git").val(),
-                    k8Url: $("#k8Url").val(),
+                    k8Url: $("#k8MasterUri").val(),
                     templatePath: $("#templateUrl").val(),
                     suffix:$("#suffix").val(),
                     modelTypes:$("#modelType").val()

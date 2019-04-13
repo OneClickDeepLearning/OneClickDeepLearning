@@ -1,9 +1,7 @@
 package acceler.ocdl.persistence.impl;
 
-
-import acceler.ocdl.controller.AuthController;
 import acceler.ocdl.exception.NotFoundException;
-import acceler.ocdl.model.ModelType;
+import acceler.ocdl.model.Algorithm;
 import acceler.ocdl.persistence.ModelTypeCrud;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,66 +12,55 @@ import java.util.*;
 
 @Component
 public class DefaultModelTypeCrud implements ModelTypeCrud {
-
     private static final Logger logger = LoggerFactory.getLogger(DefaultModelTypeCrud.class);
 
     @Autowired
     private Persistence persistence;
 
-
     @Override
     public List<String> getModelTypes() {
-
-        List<ModelType>  modelTypes = persistence.getModelTypes();
+        List<Algorithm>  modelTypes = persistence.getModelTypes();
         List<String> result = new ArrayList<>();
-        for (ModelType mt : modelTypes) {
-            result.add(mt.getModelTypeName());
+        for (Algorithm mt : modelTypes) {
+            result.add(mt.getAlgorithmName());
         }
-
         return result;
     }
 
     @Override
-    public ModelType getModelType(String modelTypeName) {
-        ModelType modelType = persistence.getModelTypes().stream()
-                .filter(mt -> mt.getModelTypeName().equals(modelTypeName))
-                .findAny()
-                .get();
+    public Algorithm getModelType(String modelTypeName) {
+        Optional<Algorithm> modelType = persistence.getModelTypes().stream()
+                .filter(mt -> mt.getAlgorithmName().equals(modelTypeName))
+                .findAny();
 
-        if (modelType == null) {
+        if (!modelType.isPresent()) {
             logger.error("Cannot find such model type!");
             throw new NotFoundException("Cannot find such model type!", "Cannot find such model type!");
         }
-        return modelType;
+        return modelType.get();
     }
-
 
     @Override
     public int[] getVersion(String modelTypeName) {
-
-        ModelType modelType = getModelType(modelTypeName);
-
+        Algorithm modelType = getModelType(modelTypeName);
         int[] result = new int[2];
-        result[0] = modelType.getCurrentBigVersion();
-        result[1] = modelType.getCurrentSmallVersion();
-
+        result[0] = modelType.getCurrentReleasedVersion();
+        result[1] = modelType.getCurrentCachedVersion();
         return result;
-
     }
 
     @Override
     public void setVersion(String modelTypeName, int bigVersion, int smallVersion) {
+        Algorithm modelType = getModelType(modelTypeName);
 
-        ModelType modelType = getModelType(modelTypeName);
-
-        modelType.setCurrentBigVersion(bigVersion);
-        modelType.setCurrentSmallVersion(smallVersion);
+        modelType.setCurrentReleasedVersion(bigVersion);
+        modelType.setCurrentCachedVersion(smallVersion);
+        //TODO: persistent
     }
 
     @Override
     public void updateModelTypes(String modelTypeInfo) {
-
-        List<ModelType> modelTypes = persistence.getModelTypes();
+        List<Algorithm> modelTypes = persistence.getModelTypes();
 
         List<String> modelTypeStr = getModelTypes();
         Set<String> preModelTypeSet = new HashSet<>(modelTypeStr);
@@ -81,8 +68,7 @@ public class DefaultModelTypeCrud implements ModelTypeCrud {
         Set<String> intersection = new HashSet<>();
         Set<String> newModelTypeSet = new HashSet<>();
 
-        if (modelTypeInfo.indexOf(";") >= 0) {
-
+        if (modelTypeInfo.contains(";")) {
             String[] modelTypeInfos = modelTypeInfo.split(";");
             for (String mt : modelTypeInfos) {
                 if (!mt.trim().equals("")) {
@@ -94,8 +80,6 @@ public class DefaultModelTypeCrud implements ModelTypeCrud {
             intersection.retainAll(preModelTypeSet);
 
             newModelTypeSet.removeAll(preModelTypeSet);
-
-
         } else {
             newModelTypeSet.add(modelTypeInfo.trim());
 
@@ -106,10 +90,10 @@ public class DefaultModelTypeCrud implements ModelTypeCrud {
         }
 
         if (modelTypes.size() > intersection.size()) {
-            Iterator<ModelType> iterator = modelTypes.iterator();
+            Iterator<Algorithm> iterator = modelTypes.iterator();
             while (iterator.hasNext()){
-                ModelType mt = iterator.next();
-                if (!intersection.contains(mt.getModelTypeName())) {
+                Algorithm mt = iterator.next();
+                if (!intersection.contains(mt.getAlgorithmName())) {
                     iterator.remove();
                 }
             }
@@ -118,10 +102,10 @@ public class DefaultModelTypeCrud implements ModelTypeCrud {
         if (newModelTypeSet.size() > 0) {
             for (String mt : newModelTypeSet) {
                 if (!mt.trim().equals("")) {
-                    ModelType modelType = new ModelType();
-                    modelType.setModelTypeName(mt);
-                    modelType.setCurrentBigVersion(-1);
-                    modelType.setCurrentSmallVersion(-1);
+                    Algorithm modelType = new Algorithm();
+                    modelType.setAlgorithmName(mt);
+                    modelType.setCurrentReleasedVersion(-1);
+                    modelType.setCurrentCachedVersion(-1);
                     modelTypes.add(modelType);
                 }
             }
