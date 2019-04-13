@@ -55,7 +55,7 @@
 		</div>
 		<div class="collapse navbar-collapse">
 			<ul id="nav-menu" class="nav navbar-nav navbar-right">
-				<li><a id="dataUploadBtn" href="#" class="nav-link" data-toggle="modal" data-target="#FileModal">DATA UPLOAD</a></li>
+				<li><a href="#" class="nav-link" data-toggle="modal" data-target="#FileModal">DATA UPLOAD</a></li>
 				<li><a href="#">MODIFY</a></li>
 <!--				<li><a id="signInBtn" href="#" class="nav-link" data-toggle="modal" data-target="#RegistrationModal">SIGN UP</a></li>
 				<li><a id="signUpBtn" href="#" class="nav-link" data-toggle="modal" data-target="#LogInModal">SIGN IN</a></li>-->
@@ -85,6 +85,10 @@
 
 					<span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
 					<a  id="flapBtn"  href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
+				</span>
+
+				<span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
+					<a  class="hi-icon hi-icon-refresh roundA" data-toggle="modal" data-target="#FileModal">Upload</a>
 				</span>
 				</p>
 			</div>
@@ -452,7 +456,7 @@
 										<iframe id="uploadiframe" name="uploadiframe">
 											Please Select your file or drag the file into this box to upload.
 										</iframe>
-										<form method="POST" enctype="multipart/form-data" action="/rest/data/upload" target="uploadiframe">
+										<form method="PUT" enctype="multipart/form-data" action="/rest/data/upload" target="uploadiframe">
 											文件:<input type="file" name="file" /> <input type="submit"  value="上传" />
 											<div class="temp-anchor-wrap temp-reg-anchor-wrap">
 												<input class=" temp-anchor text-left" type="submit">
