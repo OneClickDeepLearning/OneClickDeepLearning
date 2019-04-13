@@ -1,22 +1,13 @@
 package acceler.ocdl.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.Date;
 
 public class ApprovedModel extends Model implements Cloneable {
 
-    @Getter
-    @Setter
     private long releasedVersion;
 
-    @Getter
-    @Setter
     private long cachedVersion;
 
-    @Getter
-    @Setter
     private Date approvedTime;
 
 
@@ -35,5 +26,29 @@ public class ApprovedModel extends Model implements Cloneable {
         copy.setApprovedTime(this.approvedTime);
 
         return copy;
+    }
+
+    public long getReleasedVersion() {
+        return this.releasedVersion;
+    }
+
+    public long getCachedVersion() {
+        return this.cachedVersion;
+    }
+
+    public Date getApprovedTime() {
+        return this.approvedTime;
+    }
+
+    public void setReleasedVersion(long releasedVersion) {
+        this.releasedVersion = releasedVersion;
+    }
+
+    public void setCachedVersion(long cachedVersion) {
+        this.cachedVersion = cachedVersion;
+    }
+
+    public void setApprovedTime(Date approvedTime) {
+        this.approvedTime = approvedTime;
     }
 }

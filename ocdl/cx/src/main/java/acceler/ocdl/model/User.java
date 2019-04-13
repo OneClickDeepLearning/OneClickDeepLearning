@@ -1,8 +1,5 @@
 package acceler.ocdl.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,20 +11,12 @@ public class User implements Serializable {
     private static List<User> userListStorage = new ArrayList<>();
     private static ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
-    @Getter
-    @Setter
     private Long userId;
 
-    @Getter
-    @Setter
     private String userName;
 
-    @Getter
-    @Setter
     private OauthSource oauthSource;
 
-    @Getter
-    @Setter
     private Role role;
 
     public User() {
@@ -56,6 +45,38 @@ public class User implements Serializable {
         Optional<User> userOpt = userListStorage.stream().filter(user -> (user.userName.equals(userName) && user.oauthSource == oauthSource)).findFirst();
         lock.readLock().unlock();
         return userOpt;
+    }
+
+    public Long getUserId() {
+        return this.userId;
+    }
+
+    public String getUserName() {
+        return this.userName;
+    }
+
+    public OauthSource getOauthSource() {
+        return this.oauthSource;
+    }
+
+    public Role getRole() {
+        return this.role;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setOauthSource(OauthSource oauthSource) {
+        this.oauthSource = oauthSource;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public enum Role {

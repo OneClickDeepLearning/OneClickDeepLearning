@@ -1,10 +1,7 @@
 package acceler.ocdl.model;
 
-import lombok.Getter;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -13,19 +10,14 @@ public class Project implements Serializable {
     private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
     private static final Project projectData = new Project();
 
-    @Getter
     private String projectName;
 
-    @Getter
     private String gitRepoURI;
 
-    @Getter
     private String k8MasterUri;
 
-    @Getter
     private String templatePath;
 
-    @Getter
     private String description;
 
     private List<String> suffixes;
@@ -71,5 +63,25 @@ public class Project implements Serializable {
         projectData.suffixes.clear();
         projectData.suffixes.addAll(newSuffixes);
         lock.writeLock().unlock();
+    }
+
+    public String getProjectName() {
+        return this.projectName;
+    }
+
+    public String getGitRepoURI() {
+        return this.gitRepoURI;
+    }
+
+    public String getK8MasterUri() {
+        return this.k8MasterUri;
+    }
+
+    public String getTemplatePath() {
+        return this.templatePath;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 }
