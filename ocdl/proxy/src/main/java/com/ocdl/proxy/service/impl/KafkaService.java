@@ -93,6 +93,7 @@ public class KafkaService implements MessageTransferService {
                 System.out.printf("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value());
 
                 int posPaylod = record.value().indexOf("payload");
+                // payload should be the form of "projectName + "_" + send_topic"
                 int start = record.value().indexOf("\"", posPaylod) + 3;
                 int end = record.value().indexOf("\"", start);
                 String msg = record.value().substring(start, end);
