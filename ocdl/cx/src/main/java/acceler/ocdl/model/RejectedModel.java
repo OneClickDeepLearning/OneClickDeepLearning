@@ -1,8 +1,6 @@
 package acceler.ocdl.model;
 
 import acceler.ocdl.exception.ExistedException;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,8 +17,6 @@ public class RejectedModel extends Model {
     private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
 
-    @Getter
-    @Setter
     private Date rejectedTime;
 
     public RejectedModel() {
@@ -96,5 +92,13 @@ public class RejectedModel extends Model {
         lock.readLock().unlock();
 
         return modelOpt;
+    }
+
+    public Date getRejectedTime() {
+        return this.rejectedTime;
+    }
+
+    public void setRejectedTime(Date rejectedTime) {
+        this.rejectedTime = rejectedTime;
     }
 }

@@ -1,8 +1,6 @@
 package acceler.ocdl.model;
 
 import acceler.ocdl.exception.ExistedException;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,8 +16,6 @@ public class NewModel extends Model {
     private static final List<NewModel> newModelStorage = new ArrayList<>();
     private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
-    @Getter
-    @Setter
     private Date commitTime;
 
 
@@ -109,5 +105,13 @@ public class NewModel extends Model {
         lock.readLock().unlock();
 
         return modelOpt;
+    }
+
+    public Date getCommitTime() {
+        return this.commitTime;
+    }
+
+    public void setCommitTime(Date commitTime) {
+        this.commitTime = commitTime;
     }
 }

@@ -1,7 +1,6 @@
 package acceler.ocdl.model;
 
 import acceler.ocdl.exception.ExistedException;
-import lombok.Getter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,13 +21,10 @@ public class Algorithm implements Serializable {
     private final AtomicLong cachedVersionGenerator;
 
 
-    @Getter
     private String algorithmName;
 
-    @Getter
     private Long currentReleasedVersion;
 
-    @Getter
     private Long currentCachedVersion;
 
     private List<ApprovedModel> belongingModels;
@@ -142,6 +138,18 @@ public class Algorithm implements Serializable {
         lock.readLock().lock();
 
         return algorithmOpt;
+    }
+
+    public String getAlgorithmName() {
+        return this.algorithmName;
+    }
+
+    public Long getCurrentReleasedVersion() {
+        return this.currentReleasedVersion;
+    }
+
+    public Long getCurrentCachedVersion() {
+        return this.currentCachedVersion;
     }
 
 
