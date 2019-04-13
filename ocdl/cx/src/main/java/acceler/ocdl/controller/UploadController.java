@@ -14,12 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
@@ -38,16 +41,50 @@ public class UploadController {
     private String filePath="D:/springUpload";
 
     @RequestMapping("/upload")
-    public Response  springUpload(@RequestBody Map<String,String> param, HttpServletRequest request)
+    public Response  springUpload(@RequestParam("file") MultipartFile file)
     {
-       String fileName = param.get("filename");
 
-       String url =  hdfsService.uploadFile(fileName);
+        if(!file.isEmpty()){
+            String fileName = file.getName();
 
-       return Response.getBuilder()
-               .setCode(Response.Code.SUCCESS)
-               .setData(url)
-               .build();
+//                BufferedOutputStream out = new BufferedOutputStream(
+//                        new FileOutputStream(new File(filePath+file.getOriginalFilename())));
+//                out.write(file.getBytes());
+
+
+            String result =  hdfsService.uploadFile(fileName,file);
+
+//                out.flush();
+//                out.close();
+
+            if (result.equals("success"))
+
+                return Response.getBuilder()
+                    .setCode(Response.Code.SUCCESS)
+                    .setData(result)
+                    .build();
+
+            else
+
+                return Response.getBuilder()
+                        .setCode(Response.Code.ERROR)
+                        .setData(result)
+                        .build();
+
+
+
+        } else {
+            return Response.getBuilder()
+                    .setCode(Response.Code.ERROR)
+                    .setData("Empty file!")
+                    .build();
+        }
+
+
+
+
+
+
     }
 }
 

@@ -7,12 +7,12 @@ import org.apache.hadoop.fs.*;
 import org.apache.hadoop.io.IOUtils;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -70,7 +70,7 @@ public class DefaultHdfsService implements HdfsService {
      * @return url of the datanode where the file data is to be written
      * @throws HdfsException
      */
-    public String uploadFile(String fileName) throws HdfsException{
+    public String uploadFile(String fileName, MultipartFile file) throws HdfsException{
 
         StringBuilder url = new StringBuilder();
         url.append("http://52.203.173.33:50070/webhdfs/v1/CommonSpace/").append(fileName).append("?op=CREATE&user.name=hadoop");
@@ -79,12 +79,32 @@ public class DefaultHdfsService implements HdfsService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        String dataNodeUrl = "";
+
         ResponseEntity<String> responseEntity = restTemplate.exchange(url.toString(), HttpMethod.PUT,entity,String.class);
         try {
-            return responseEntity.getHeaders().get("Location").get(0);
+             dataNodeUrl = responseEntity.getHeaders().get("Location").get(0);
         } catch (NullPointerException e){
             throw new HdfsException("Location value is null in response entity from uploadFile method");
         }
+
+        headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("file", file);
+
+        HttpEntity<MultiValueMap<String, Object>> requestEntity
+                = new HttpEntity<>(body, headers);
+
+        restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate
+                .postForEntity(dataNodeUrl, requestEntity, String.class);
+
+        return response.getStatusCode().toString();
+
+
     }
 
     //Download the whole folder from hdfs
