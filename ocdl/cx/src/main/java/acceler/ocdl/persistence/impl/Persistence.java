@@ -56,11 +56,8 @@ class Persistence {
         System.out.println(modelTypesListSerializableFileUT8);
 
         this.project = (Project) loadingObject(projectSerializableFileUT8);
-        System.out.println("project");
         this.userList = (Vector<User>)loadingObject(userListSerializableFileUT8);
-        System.out.println("user");
         this.modelTypes = (Vector<ModelType>)loadingObject(modelTypesListSerializableFileUT8);
-        System.out.println("modelType");
     }
 
     Project getProject() {

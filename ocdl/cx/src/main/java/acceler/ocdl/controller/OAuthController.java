@@ -22,20 +22,11 @@ import java.util.Map;
 @RequestMapping(path = "/oauth")
 public class OAuthController {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private UserCrud userCrud;
-
-    @Autowired
-    private SecurityUtil securityUtil;
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Response login(@RequestBody Map<String,String> param) {
         final Response.Builder respBuilder = Response.getBuilder();
-
 
         System.out.println(param.get("id"));
         respBuilder.setCode(Response.Code.SUCCESS);

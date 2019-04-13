@@ -4,10 +4,8 @@ package acceler.ocdl.controller;
 import acceler.ocdl.dto.ProjectConfigurationDto;
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.model.Project;
-import acceler.ocdl.persistence.ModelCrud;
 import acceler.ocdl.persistence.ModelTypeCrud;
 import acceler.ocdl.persistence.ProjectCrud;
-import acceler.ocdl.service.ModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 

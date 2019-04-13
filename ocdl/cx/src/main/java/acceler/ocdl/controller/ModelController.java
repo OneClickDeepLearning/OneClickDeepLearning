@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -151,7 +150,6 @@ public final class ModelController {
 
             } else {
 
-
                 if (currentBigVersion >= 0){
                     bigVersion = currentBigVersion;
                 } else {
@@ -173,7 +171,7 @@ public final class ModelController {
 
 
             logger.debug("befor push model to git");
-            String newPushName = getNewPushedModelName(incomeModelDto.getModelType(), String.valueOf(bigVersion), String.valueOf(smallVersion));
+            String newPushName = getNewPushedModelName(incomeModelDto.getModelType(), String.valueOf(bigVersion), String.valueOf(smallVersion), suffix);
             modelService.pushModel(source.toString(), newPushName);
         }
 
@@ -182,7 +180,7 @@ public final class ModelController {
         return newModelName.toString();
     }
 
-    private String getNewPushedModelName(String modelType, String bigVersion, String smallVersion ){
+    private String getNewPushedModelName(String modelType, String bigVersion, String smallVersion, String suffix ){
         StringBuilder newModelName = new StringBuilder();
 
         newModelName.append(modelType);
@@ -190,6 +188,7 @@ public final class ModelController {
         newModelName.append(bigVersion);
         newModelName.append(".");
         newModelName.append(smallVersion);
+        newModelName.append(suffix);
 
         return newModelName.toString();
     }
