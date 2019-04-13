@@ -28,6 +28,13 @@ public class DefaultHdfsService implements HdfsService {
 
     private FileSystem hdfs;
 
+    private static final Map<String,String> ipMap = new HashMap<String, String>(){
+        {
+            put("hadoop-slave-1", "3.92.26.165");
+            put("hadoop-slave-2", "34.229.23.136");
+        }
+    };
+
     public void downloadUserSpace(String srcPath, String dstPath) throws HdfsException{
         String user = "hadoop";
         //without this configuration, will throw exception: java.io.IOException: No FileSystem for scheme: hdfs
@@ -70,10 +77,11 @@ public class DefaultHdfsService implements HdfsService {
      * @return url of the datanode where the file data is to be written
      * @throws HdfsException
      */
-    public String uploadFile(String fileName, MultipartFile file) throws HdfsException{
+    public String uploadFile(MultipartFile file) throws HdfsException{
 
         StringBuilder url = new StringBuilder();
-        url.append("http://52.203.173.33:50070/webhdfs/v1/CommonSpace/").append(fileName).append("?op=CREATE&user.name=hadoop");
+        String fileName = file.getName();
+        url.append("http://52.203.173.33:50070/webhdfs/v1/CommonSpace/").append(fileName).append("?op=CREATE&user.name=hadoop&overwrite=true");
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -89,21 +97,18 @@ public class DefaultHdfsService implements HdfsService {
             throw new HdfsException("Location value is null in response entity from uploadFile method");
         }
 
-        headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        if(responseEntity.getStatusCode() != HttpStatus.TEMPORARY_REDIRECT){
+            return "Uploading failed";
+        }else {
+            for(String nodeName : ipMap.keySet()){
+                if(dataNodeUrl.contains(nodeName)){
+                    dataNodeUrl.replaceAll(nodeName,ipMap.get(nodeName));
+                    break;
+                }
+            }
 
-        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("file", file);
-
-        HttpEntity<MultiValueMap<String, Object>> requestEntity
-                = new HttpEntity<>(body, headers);
-
-        restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate
-                .postForEntity(dataNodeUrl, requestEntity, String.class);
-
-        return response.getStatusCode().toString();
-
+        }
+        return dataNodeUrl;
 
     }
 

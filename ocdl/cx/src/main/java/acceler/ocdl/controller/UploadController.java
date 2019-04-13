@@ -45,33 +45,12 @@ public class UploadController {
     {
 
         if(!file.isEmpty()){
-            String fileName = file.getName();
 
-//                BufferedOutputStream out = new BufferedOutputStream(
-//                        new FileOutputStream(new File(filePath+file.getOriginalFilename())));
-//                out.write(file.getBytes());
-
-
-            String result =  hdfsService.uploadFile(fileName,file);
-
-//                out.flush();
-//                out.close();
-
-            if (result.equals("success"))
-
-                return Response.getBuilder()
-                    .setCode(Response.Code.SUCCESS)
-                    .setData(result)
-                    .build();
-
-            else
-
-                return Response.getBuilder()
-                        .setCode(Response.Code.ERROR)
-                        .setData(result)
-                        .build();
-
-
+            String result =  hdfsService.uploadFile(file);
+            return Response.getBuilder()
+                .setCode(Response.Code.SUCCESS)
+                .setData(result)
+                .build();
 
         } else {
             return Response.getBuilder()
