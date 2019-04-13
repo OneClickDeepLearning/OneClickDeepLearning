@@ -15,11 +15,10 @@ import java.util.*;
 public class DefaultModelCrud implements ModelCrud {
 
     @Autowired
-    ModelService modelService;
+    private ModelService modelService;
 
     @Override
     public List<ModelDto> getModels(Model.Status status) {
-
         return modelService.getModels(status.toString().toLowerCase());
     }
 
@@ -28,15 +27,13 @@ public class DefaultModelCrud implements ModelCrud {
         return modelService.modelExist(modelName, status);
     }
 
-
     @Override
     public boolean moveModel(Path source, Path target) {
-
         try {
             modelService.moveFile(source, target);
             return true;
         } catch (IOException e) {
-            return  false;
+            return false;
         }
     }
 

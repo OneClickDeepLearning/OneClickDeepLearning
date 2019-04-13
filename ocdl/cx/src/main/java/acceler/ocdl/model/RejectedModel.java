@@ -1,0 +1,100 @@
+package acceler.ocdl.model;
+
+import acceler.ocdl.exception.ExistedException;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import static acceler.ocdl.utils.TimeUtil.currentTime;
+
+
+public class RejectedModel extends Model {
+
+    private static final List<RejectedModel> rejectedModelStorage = new ArrayList<>();
+    private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+
+
+    @Getter
+    @Setter
+    private Date rejectedTime;
+
+    public RejectedModel() {
+        super();
+        this.status = Status.REJECTED;
+    }
+
+    public NewModel convertToNewModel() {
+        NewModel newModel = new NewModel();
+        newModel.setName(this.name);
+        newModel.status = Status.NEW;
+        newModel.setCommitTime(currentTime());
+        return newModel;
+    }
+
+    public RejectedModel deepCopy() {
+        RejectedModel copy = new RejectedModel();
+        copy.setName(this.name);
+        copy.status = Status.REJECTED;
+        copy.setRejectedTime(this.rejectedTime);
+
+        return copy;
+    }
+
+
+    /**
+     * all static methods return real-time status of data, automatically synchronized with persistence.
+     * to protect real-time data object, only return deep copy of the object.
+     */
+
+    public static Optional<RejectedModel> getRejectedModelByName(String name) {
+        Optional<RejectedModel> modelOpt = getRealModelByName(name);
+
+        RejectedModel copy = modelOpt.map(RejectedModel::deepCopy).orElse(null);
+
+        return Optional.ofNullable(copy);
+    }
+
+    public static boolean existRejectedModel(RejectedModel model) {
+        return getRealModelByName(model.name).isPresent();
+    }
+
+    public static void addToStorage(RejectedModel model) {
+        if (existRejectedModel(model)) {
+            throw new ExistedException();
+        }
+
+        lock.writeLock().lock();
+        rejectedModelStorage.add(model);
+        //TODO: persistence
+        lock.writeLock().unlock();
+    }
+
+    public static Optional<RejectedModel> removeFromStorage(String name) {
+        Optional<RejectedModel> modelOpt = getRealModelByName(name);
+
+        lock.writeLock().lock();
+        modelOpt.ifPresent(rejectedModelStorage::remove);
+        lock.writeLock().unlock();
+
+        RejectedModel copy = modelOpt.map(RejectedModel::deepCopy).orElse(null);
+
+        return Optional.ofNullable(copy);
+    }
+
+
+    /**
+     * warning: methods below return real object of real-time data, be careful to be expose reference.
+     */
+    private static Optional<RejectedModel> getRealModelByName(String name) {
+        lock.readLock().lock();
+        Optional<RejectedModel> modelOpt = rejectedModelStorage.stream().filter(m -> (m.name.equals(name))).findFirst();
+        lock.readLock().unlock();
+
+        return modelOpt;
+    }
+}

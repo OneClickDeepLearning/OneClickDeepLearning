@@ -1,4 +1,4 @@
-package acceler.ocdl.utils.impl;
+package acceler.ocdl.utils;
 
 import acceler.ocdl.utils.CommandHelper;
 import org.springframework.stereotype.Component;

@@ -14,27 +14,24 @@ public class DefaultProjectCrud implements ProjectCrud{
 
     @Override
     public Project updateProject(Project updatedProjectInfo) {
-
         Project project = persistence.getProject();
         project.setProjectName(updatedProjectInfo.getProjectName());
-        project.setGitPath(updatedProjectInfo.getGitPath());
+        project.setGitRepoURI(updatedProjectInfo.getGitRepoURI());
         project.setTemplatePath(updatedProjectInfo.getTemplatePath());
-        project.setK8Url(updatedProjectInfo.getK8Url());
+        project.setK8MasterUri(updatedProjectInfo.getK8MasterUri());
         project.setSuffix(updatedProjectInfo.getSuffix());
 
         persistence.persistentProject();
-
         return project;
     }
 
+    //FIXME: refectory: why provide updateProjectName?
     @Override
     public Project updateProjectName(String name) {
-
         Project project = persistence.getProject();
         project.setProjectName(name);
 
         persistence.persistentProject();
-
         return project;
     }
 

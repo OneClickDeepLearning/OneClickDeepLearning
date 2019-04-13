@@ -1,75 +1,75 @@
 package acceler.ocdl.model;
 
-import acceler.ocdl.dto.ProjectConfigurationDto;
+import lombok.Getter;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Project implements Serializable {
+    private static final long serialVersionUID = -2767605614048989439L;
+    private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+    private static final Project projectData = new Project();
 
+    @Getter
     private String projectName;
-    private String gitPath;
-    private String k8Url;
+
+    @Getter
+    private String gitRepoURI;
+
+    @Getter
+    private String k8MasterUri;
+
+    @Getter
     private String templatePath;
+
+    @Getter
     private String description;
-    private String suffix;
 
-    public String getProjectName() {
-        return projectName;
+    private List<String> suffixes;
+
+    private Project() {
+        this.suffixes = new ArrayList<>();
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
+    public Project deepCopy() {
+        Project copy = new Project();
+        copy.projectName = this.projectName;
+        copy.gitRepoURI = this.gitRepoURI;
+        copy.k8MasterUri = this.k8MasterUri;
+        copy.templatePath = this.templatePath;
+        copy.description = this.description;
+        copy.suffixes = new ArrayList<>();
+        copy.suffixes.addAll(this.suffixes);
+
+        return copy;
     }
 
-    public String getGitPath() {
-        return gitPath;
+    public Project getProjectInfo() {
+        lock.readLock().lock();
+        Project copy = projectData.deepCopy();
+        lock.readLock().unlock();
+
+        return copy;
     }
 
-    public void setGitPath(String gitPath) {
-        this.gitPath = gitPath;
+    public void setProjectData(Project projectInfo) {
+        lock.writeLock().lock();
+        projectData.projectName = projectInfo.projectName;
+        projectData.gitRepoURI = projectInfo.gitRepoURI;
+        projectData.k8MasterUri = projectInfo.k8MasterUri;
+        projectData.templatePath = projectInfo.templatePath;
+        projectData.description = projectInfo.description;
+        setSuffixesOfProject(projectInfo.suffixes);
+        lock.writeLock().unlock();
     }
 
-    public String getK8Url() {
-        return k8Url;
-    }
-
-    public void setK8Url(String k8Url) {
-        this.k8Url = k8Url;
-    }
-
-    public String getTemplatePath() {
-        return templatePath;
-    }
-
-    public void setTemplatePath(String templatePath) {
-        this.templatePath = templatePath;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getSuffix() {
-        return suffix;
-    }
-
-    public void setSuffix(String suffix) {
-        this.suffix = suffix;
-    }
-
-
-    public ProjectConfigurationDto convert2ProjectDto() {
-
-        ProjectConfigurationDto projectConfigurationDto = new ProjectConfigurationDto();
-        projectConfigurationDto.setProjectName(this.getProjectName());
-        projectConfigurationDto.setK8Url(this.getK8Url());
-        projectConfigurationDto.setGitPath(this.getGitPath());
-        projectConfigurationDto.setTemplatePath(this.getTemplatePath());
-        projectConfigurationDto.setSuffix(this.getSuffix());
-
-        return projectConfigurationDto;
+    public void setSuffixesOfProject(List<String> newSuffixes) {
+        lock.writeLock().lock();
+        projectData.suffixes.clear();
+        projectData.suffixes.addAll(newSuffixes);
+        lock.writeLock().unlock();
     }
 }
