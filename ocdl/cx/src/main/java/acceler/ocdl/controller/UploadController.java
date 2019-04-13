@@ -14,19 +14,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Iterator;
 import java.util.Map;
 
 import static acceler.ocdl.dto.Response.getBuilder;
 
-@Controller
+@RestController
 @RequestMapping(path = "/rest/data")
 public class UploadController {
 
@@ -35,7 +36,7 @@ public class UploadController {
     private HdfsService hdfsService;
 
     private static final Logger logger = LoggerFactory.getLogger(acceler.ocdl.controller.AuthController.class);
-    private String filePath="D:/springUpload";
+    private String filePath="";
 
     @RequestMapping("/upload")
     public Response  springUpload(@RequestBody Map<String,String> param, HttpServletRequest request)
