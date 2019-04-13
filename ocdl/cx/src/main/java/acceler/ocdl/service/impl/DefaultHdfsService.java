@@ -98,7 +98,7 @@ public class DefaultHdfsService implements HdfsService {
         }
 
         if(responseEntity.getStatusCode() != HttpStatus.TEMPORARY_REDIRECT){
-            return "Uploading failed";
+            throw new HdfsException("uploading file step one failed");
         }else {
             for(String nodeName : ipMap.keySet()){
                 if(dataNodeUrl.contains(nodeName)){
