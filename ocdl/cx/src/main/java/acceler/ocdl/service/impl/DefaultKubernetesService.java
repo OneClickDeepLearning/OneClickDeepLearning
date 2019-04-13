@@ -118,11 +118,11 @@ public class DefaultKubernetesService implements KubernetesService {
         String ip;
         String port;
 
-        File userSpace = new File("/home/hadoop/mount/UserSpace/" + userSpaceId);
-        if(!userSpace.exists()){
-            System.out.println("[debug]UserSpace does not exit, loading from HDFS...");
-            hdfsService.downloadUserSpace("hdfs://10.8.0.14:9000/UserSpace/" + userSpaceId, "/home/hadoop/mount/UserSpace/" + userSpaceId);
-        }
+//        File userSpace = new File("/home/hadoop/mount/UserSpace/" + userSpaceId);
+//        if(!userSpace.exists()){
+//            System.out.println("[debug]UserSpace does not exit, loading from HDFS...");
+//            hdfsService.downloadUserSpace("hdfs://10.8.0.14:9000/UserSpace/" + userSpaceId, "/home/hadoop/mount/UserSpace/" + userSpaceId);
+//        }
 
         Deployment deployment = createCpuDeployment(user);
         io.fabric8.kubernetes.api.model.Service service = createCpuService(user);
@@ -193,14 +193,16 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withName("model")
                 .withNewNfs()
                 .withServer("3.89.28.106")
-                .withPath("/home/hadoop/mount/UserSpace/" + depolyId)
+                //.withPath("/home/hadoop/mount/UserSpace/" + depolyId)
+                .withPath("/home/hadoop/nfs_hdfs/UserSpace/" + depolyId)
                 .endNfs()
                 .endVolume()
                 .addNewVolume()
                 .withName("dataset")
                 .withNewNfs()
                 .withServer("3.89.28.106")
-                .withPath("/home/hadoop/mount/CommonSpace")
+                //.withPath("/home/hadoop/mount/CommonSpace")
+                .withPath("/home/hadoop/nfs_hdfs/CommonSpace")
                 .endNfs()
                 .endVolume()
 
