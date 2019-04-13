@@ -60,6 +60,16 @@ public class DefaultHdfsService implements HdfsService {
         }
     }
 
+    /**
+     * WebHDFS Create and Write to a File needs two steps
+     * step one: Submit a HTTP PUT request without automatically following redirects and without sending the file data
+     * the request is redirected to a datanode where the file data is to be written
+     * step two:  Submit another HTTP PUT request using the URL in the Location header with the file data to be written
+     * this function returns the URL in the location header
+     * @param fileName the file name to be uploaded to hdfs
+     * @return url of the datanode where the file data is to be written
+     * @throws HdfsException
+     */
     public String uploadFile(String fileName) throws HdfsException{
 
         StringBuilder url = new StringBuilder();
