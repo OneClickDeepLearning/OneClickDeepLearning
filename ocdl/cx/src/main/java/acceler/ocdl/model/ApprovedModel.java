@@ -2,7 +2,7 @@ package acceler.ocdl.model;
 
 import java.util.Date;
 
-public class ApprovedModel extends Model implements Cloneable {
+public class  ApprovedModel extends Model implements Cloneable {
 
     private long releasedVersion;
 

@@ -29,6 +29,7 @@ public class Algorithm implements Serializable {
 
     private List<ApprovedModel> belongingModels;
 
+    private boolean active;
 
     public Algorithm() {
         this.belongingModels = new ArrayList<>();

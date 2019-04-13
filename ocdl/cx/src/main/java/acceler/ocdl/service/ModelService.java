@@ -1,6 +1,7 @@
 package acceler.ocdl.service;
 
 import acceler.ocdl.dto.ModelDto;
+import acceler.ocdl.model.Algorithm;
 import acceler.ocdl.model.Model;
 import acceler.ocdl.model.User;
 
@@ -10,13 +11,23 @@ import java.util.List;
 
 public interface ModelService {
 
-    public boolean copyModels(User user);
+    /*
+        User choose specific models, modify name to "model_name + timestamp" and move them from userspace to /stage/new.
+     */
+    void initModelToStage(User user);
 
-    public boolean pushModel(String source, String newModelName);
+    void approvalModel(Model model, String algorithmName, Algorithm.UpgradeVersion version);
 
-    List<ModelDto> getModels(String status);
+    void rejectModel(Model model);
 
-    boolean modelExist(String modelName, String preStatus);
+    void undo(Model model);
 
-    boolean moveFile(Path source, Path target) throws IOException;
+    void pushModeltoGit(String source, String newModelName);
+
+    List<Model> getModelsByStatus(Model.Status status);
+
+    boolean existModel(String modelName, Model.Status status);
+
+
+
 }
