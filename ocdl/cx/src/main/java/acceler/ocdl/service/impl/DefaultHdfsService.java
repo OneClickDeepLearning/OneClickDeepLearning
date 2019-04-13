@@ -5,14 +5,21 @@ import acceler.ocdl.service.HdfsService;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
 import org.apache.hadoop.io.IOUtils;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Service
 public class DefaultHdfsService implements HdfsService {
@@ -50,6 +57,23 @@ public class DefaultHdfsService implements HdfsService {
 
         } catch (URISyntaxException | InterruptedException | IOException e){
             throw new HdfsException(e.getMessage());
+        }
+    }
+
+    public String uploadFile(String fileName) throws HdfsException{
+
+        StringBuilder url = new StringBuilder();
+        url.append("http://52.203.173.33:50070/webhdfs/v1/CommonSpace/").append(fileName).append("?op=CREATE&user.name=hadoop");
+
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url.toString(), HttpMethod.PUT,entity,String.class);
+        try {
+            return responseEntity.getHeaders().get("Location").get(0);
+        } catch (NullPointerException e){
+            throw new HdfsException("Location value is null in response entity from uploadFile method");
         }
     }
 
