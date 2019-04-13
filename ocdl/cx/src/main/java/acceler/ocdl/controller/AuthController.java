@@ -37,12 +37,6 @@ public class AuthController {
     @Autowired
     private SecurityUtil securityUtil;
 
-    @Autowired
-    private ProjectCrud projectCrud;
-
-    @Autowired
-    private KubernetesService kubernetesService;
-
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Response login(@RequestBody UserCredentials credential) {

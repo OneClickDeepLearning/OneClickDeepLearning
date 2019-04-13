@@ -3,6 +3,7 @@ package acceler.ocdl.service.impl;
 import acceler.ocdl.dto.ModelDto;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.exception.OcdlException;
+import acceler.ocdl.model.Model;
 import acceler.ocdl.model.User;
 import acceler.ocdl.persistence.ModelCrud;
 import acceler.ocdl.persistence.ProjectCrud;
@@ -166,6 +167,7 @@ public class DefaultModelService implements ModelService {
         for (File f : files) {
 
             ModelDto modelDto = parseFileName(f.getName());
+            modelDto.setModelId(f.getName());
             modelDto.setStatus(status);
 
             modelDtos.add(modelDto);
@@ -197,6 +199,10 @@ public class DefaultModelService implements ModelService {
 
     @Override
     public boolean moveFile(Path source, Path target) throws IOException{
+        System.out.println("enter move file function");
+
+        System.out.println("source:" + source.toString());
+        System.out.println("target:" + target.toString());
 
         Path temp = Files.move(source, target);
 
@@ -215,7 +221,7 @@ public class DefaultModelService implements ModelService {
         ModelDto modelDto = new ModelDto();
 
         // remove suffix
-        int posDot = fileName.indexOf(".");
+        int posDot = fileName.lastIndexOf(".");
         if (posDot >= 0) {
             fileName = fileName.substring(0, posDot);
         }

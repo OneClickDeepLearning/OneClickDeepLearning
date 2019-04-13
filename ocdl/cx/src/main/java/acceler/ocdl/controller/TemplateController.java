@@ -20,8 +20,8 @@ public final class TemplateController {
     private TemplateService databaseService;
 
     @ResponseBody
-    @RequestMapping(path = "/names", method = RequestMethod.GET)
-    public final Response queryTemplatesNames(HttpServletRequest request){
+    @RequestMapping(path = "/file", method = RequestMethod.GET)
+    public final Response getTemplateFiles(HttpServletRequest request){
         List<List<String>> result = new ArrayList<List<String>>();
         result.add( databaseService.getTemplatesList("Layers"));
         result.add(databaseService.getTemplatesList("Blocks"));
@@ -35,24 +35,14 @@ public final class TemplateController {
     }
 
     @ResponseBody
-    @RequestMapping(path = "/templates", method = RequestMethod.GET)
-    public final Response testTemplates(@RequestBody Map<String,String> param){
+    @RequestMapping(path = "/code", method = RequestMethod.GET)
+    public final Response getTemplateCode(@RequestBody Map<String,String> param){
         List<String> templates = new ArrayList <String>();
         templates = databaseService.getTemplates2(param.get("name"),param.get("type"));
 
         return Response.getBuilder()
                 .setCode(Response.Code.SUCCESS)
                 .setData(templates)
-                .build();
-    }
-
-    /**
-     * example of controller
-     * */
-    public final Response controllerExample(){
-        String reponse = "hello world";
-        return Response.getBuilder()
-                .setCode(Response.Code.SUCCESS)
                 .build();
     }
 }

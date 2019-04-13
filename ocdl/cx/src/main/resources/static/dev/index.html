@@ -7,6 +7,9 @@
 <meta name="description" content="">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="google-signin-scope" content="profile email">
+	<meta name="google-signin-client_id" content="727934601599-nvka5h36h2affhicjatvmummdhk4eanr.apps.googleusercontent.com">
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
 
 <link rel="stylesheet" href="assets2/css/animate.min.css">
 <link rel="stylesheet" href="assets2/css/bootstrap.min.css">
@@ -19,17 +22,11 @@
 	<link href="assets2/css/menu.css" rel="stylesheet">
 	<link href="assets2/css/infoStatus.css" rel="stylesheet">
 	<link href="assets2/css/login.css" rel="stylesheet">
+	<link href="assets2/css/userLoginBtn.css" rel = "stylesheet">
 
 
 </head>
 <body id="top">
-<script language="JavaScript">
-	var user_name='';
-	var project_name='';
-	var list;
-	var token='';
-
-</script>
 
 <!-- start preloader -->
 <div class="preloader">
@@ -60,8 +57,8 @@
 			<ul id="nav-menu" class="nav navbar-nav navbar-right">
 				<li><a id="dataUploadBtn" href="#" class="nav-link" data-toggle="modal" data-target="#FileModal">DATA UPLOAD</a></li>
 				<li><a href="#">MODIFY</a></li>
-				<li><a id="signInBtn" href="#" class="nav-link" data-toggle="modal" data-target="#RegistrationModal">SIGN UP</a></li>
-				<li><a id="signUpBtn" href="#" class="nav-link" data-toggle="modal" data-target="#LogInModal">SIGN IN</a></li>
+<!--				<li><a id="signInBtn" href="#" class="nav-link" data-toggle="modal" data-target="#RegistrationModal">SIGN UP</a></li>
+				<li><a id="signUpBtn" href="#" class="nav-link" data-toggle="modal" data-target="#LogInModal">SIGN IN</a></li>-->
 			</ul>
 		</div>
 	</div>
@@ -70,11 +67,11 @@
 <!-- start header -->
 <header style="background-color:#000000;">
 	<div class="container" >
-		<div class="row" style="display:flex;justify-content:center;align-items:center;">
-			<div id="informationBlock" style="margin: auto;" class="col-md-6 col-sm-3 col-xs-3">
-				<label class="col-md-4">User: <label id="username" style="color: #47C6F8">TempUser</label></label>
-				<label class="col-md-4">Rescourse: <label id="rescourse" style="color: #47C6F8" class="status_NoneR"></label></label>
-				<label class="col-md-4">Status: <label id="status" class="status_disconnected"></label></label>
+		<div class="row" class="" style="display:flex;justify-content:center;align-items:center;">
+			<div id="informationBlock" style="" class="col-md-4 col-sm-3 col-xs-3">
+
+				<label class="col-md-6">Rescourse: <label id="rescourse" style="color: #47C6F8" class="status_NoneR"></label></label>
+				<label class="col-md-6">Status: <label id="status" class="status_disconnected"></label></label>
 			</div>
 			<div class="col-md-2 col-sm-3 col-xs-3">
 				<a id="serverCtl" href="javascript:selectJupyterServer();" class="toggle toggle--on navbar-right"></a>
@@ -89,20 +86,28 @@
 					<span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
 					<a  id="flapBtn"  href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
 				</span>
-
-
 				</p>
 			</div>
-			<div class="col-md-2 col-sm-3 col-xs-3">
-				<ul class="social-icon">
-					<li><span>Sign in with </span></li>
-					<li><a id="login_f" href="#" class="fa fa-facebook"></a></li>
-					<li><a id="login_t" href="#" class="fa fa-twitter"></a></li>
-				</ul>
+			<div class="col-md-4 col-sm-3 col-xs-3">
+				<div class="userBlock">
+					<!-- Top Navigation -->
+					<div class="color-1" style="background: black">
+						<p>
+							<button class="btn btn-1 btn-1e" id="signUpBtn" data-toggle="modal" data-target="#RegistrationModal">SignUp</button>
+							<button class="btn btn-1 btn-1e"  id="signInBtn" href="#" class="nav-link" data-toggle="modal" data-target="#LogInModal">SignIn</button>
+						</p>
+					</div>
+				</div><!-- /container -->
 
+				<div id="userinfo" class="hide">
+					<img id="profileImage" src="" style="height: 30px;width: 30px;" class="hide">
+				 <label id="username" style="color: #47C6F8"></label>
+					<button style="color: black">Logout</button>
+				</div>
 			</div>
 		</div>
 	</div>
+	<div></div>
 </header>
 <!-- end header -->
 
@@ -166,7 +171,7 @@
 								</div>
 							</div>
 					</div>
-					<div class="front" style="overflow:auto;">
+					<div id="cardJupyter" class="front" style="overflow:auto;">
 						<!--			        <iframe sandbox="allow-forms allow-same-origin allow-scripts"
                                             src="http://localhost:8889/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>-->
 						<iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
@@ -348,6 +353,9 @@
 										<p>If you don't have an OCDL account, please Sign up first.</p>
 										<p class="temp-heading-for-icon">sign in with social media</p>
 										<div class="temp-anchor-wrap temp-reg-anchor-wrap">
+
+											<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+
 											<a href="#" class=" temp-anchor text-left">
                         <span class="temp-social-icon-wrap">
                           <i class="fa fa-facebook" aria-hidden="true"></i>
@@ -441,12 +449,27 @@
 												</a>
 											</div>
                                         </form>-->
-
+										<iframe id="uploadiframe" name="uploadiframe">
+											Please Select your file or drag the file into this box to upload.
+										</iframe>
 										<form method="POST" enctype="multipart/form-data" action="/rest/data/upload" target="uploadiframe">
 											文件:<input type="file" name="file" /> <input type="submit"  value="上传" />
+											<div class="temp-anchor-wrap temp-reg-anchor-wrap">
+												<input class=" temp-anchor text-left" type="submit">
+												<span class="temp-social-icon-wrap">
+													  <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+													</span>
+												<span>Upload</span>
+												</input>
+												<a href="#" type="submit" class="temp-anchor temp-icon-color text-left" data-dismiss="modal">
+													<span class="temp-social-icon-wrap">
+													  <i class="fa fa-share" aria-hidden="true"></i>
+													</span>
+													<span>Close</span>
+												</a>
+											</div>
 										</form>
-										<iframe id="uploadiframe" name="uploadiframe">
-										</iframe>
+
 
 									</div>
 								</div>
@@ -467,6 +490,7 @@
 <script src="assets2/js/jquery.js"></script>
 <script src="assets2/js/bootstrap.min.js"></script>
 <script src="assets2/js/jquery.singlePageNav.min.js"></script>
+<script src="assets2/js/enviroment.js"></script>
 <script src="assets2/js/typed.js"></script>
 <script src="assets2/js/wow.min.js"></script>
 <script src="assets2/js/custom.js"></script>
@@ -478,404 +502,9 @@
 <script src="assets2/js/menu.js"></script>
 <script language="javascript" src="assets2/js/secondlayernav.js"></script>
 <script language="javascript" src="assets2/js/login.js"></script>
+<script language="JavaScript" src="assets2/js/index.js"></script>
 <script language="javascript">
-	window.onload = function () {
-/*				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
-				dp.SyntaxHighlighter.HighlightAll('code');*/
-				initTemplateList();
-				initProjectName();
-				function addSpan(li,text){
-					var span_1=document.createElement("span");
-					span_1.innerHTML=text;
-					li.appendChild(span_1);
-				}
-				function addLi(content, parent){
-					var li_1=document.createElement("li");
-					li_1.setAttribute("class","d-secondNav s-secondNav");
-					li_1.setAttribute("onclick","javascript:getCode('"+content+"','"+parent+"');");
-					addSpan(li_1,content);
-					document.getElementById(parent).appendChild(li_1);
-				}
 
-
-				function initProjectName() {
-					$.ajax({
-						url: "/rest/projects",
-						contentType: 'application/json',
-						dataType: "json",
-						type: "GET",
-						<!-- auth_token add to header -->
-						beforeSend: function(xhr) {
-							xhr.setRequestHeader("AUTH_TOKEN",token);
-						},
-						success: function(data) {
-							ajaxMessageReader(data,function (data) {
-								var projectName=$("#projectName");
-								projectName.text(data[3].projectName);
-							})
-						},
-						error: function (data) {
-						}
-					})
-				}
-
-				function initTemplateList(){
-					$.ajax({
-						url: "/rest/template/names",
-						contentType: 'application/json',
-						dataType: "json",
-						type: "GET",
-						success:function (data) {
-							ajaxMessageReader(data,function (data) {
-								var layerList=data[0];
-								var blockList=data[1];
-								var networksList=data[2];
-								var frameworks = data[3];
-								for(var i=0; i<layerList.length;i++){
-									addLi(layerList[i],"Layers");
-								}
-								for(var i=0; i<blockList.length;i++){
-									addLi(blockList[i],"Blocks");
-								}
-								for(var i=0; i<networksList.length;i++){
-									addLi(networksList[i],"Networks");
-								}
-								for(var i=0; i<frameworks.length;i++){
-									addLi(frameworks[i],"Frameworks");
-								}
-							})
-						},
-
-						error: function (data) {
-						}
-					})
-				}
-			}
-
-/*
-	$('#serverCtl').on('click', function(e){
-		if($("#serverCtl").hasClass('toggle--on')){
-			selectJupyterServer(0); //Connect CPU Server
-		}else {
-			selectJupyterServer(1); //Connect GPU Server
-		}
-
-	});*/
-
-	function ShowApprovalPortal(content, parent) {
-		var li_1=document.createElement("li");
-		var a=document.createElement("a");
-		a.setAttribute("onclick","forwardTo('views/approvalCenter.html?token="+token+"')");
-		a.setAttribute("href","#");
-		a.innerHTML=content;
-		li_1.appendChild(a);
-		document.getElementById(parent).appendChild(li_1);
-	}
-	function ShowConfigurationPortal(content, parent){
-		var li_1=document.createElement("li");
-		var a=document.createElement("a");
-		a.setAttribute("onclick","forwardTo('views/configuration.html?token="+token+"')");
-		a.setAttribute("href","#");
-		a.innerHTML=content;
-		li_1.appendChild(a);
-		document.getElementById(parent).appendChild(li_1);
-	}
-
-	function ajaxMessageReader(response, func){
-		if(response.code=="200"){
-			func(response.data);
-		}else{
-			alert(response.get("message"));
-		}
-
-/*		func(response);*/
-	}
-
-	function changeProjectName() {
-		$.ajax({
-			url: "/configuration?action=updateProjectName",
-			contentType: 'application/json',
-			dataType: "json",
-			data:
-					JSON.stringify({
-						name: $("#projectName").text()
-					}),
-			type: "POST",
-			timeout: 0,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("AUTH_TOKEN", token);
-            },
-			success: function(data){
-				ajaxMessageReader(data,function (data) {
-				})
-			},
-			error: function (data) {
-			}
-		})
-
-	}
-	function checkLogin() {
-		if($("#username").val()==''){
-			alert("please input the username");
-			return false;
-		}else if($("password").val()==''){
-			alert("please input the password");
-			return false;
-		}
-	}
-
-	function signIn() {
-		console.log($("#data_username").val());
-		console.log($("#data_pwd").val());
-
-		$.ajax({
-			url: "/rest/auth/login",
-			contentType: 'application/json',
-			dataType: "json",
-			type: "POST",
-			data:
-					JSON.stringify({
-						account: $("#data_username").val(),
-						password: $("#data_pwd").val()
-					}),
-			success:function (data) {
-				ajaxMessageReader(data,function (data) {
-					token=data['token'];
-					user_name=data['userName'];
-					project_name=data['projectName'];
-					var projectName=$("#projectName");
-					projectName.text(project_name);
-					if(data['role']=="MANAGER"){
-						ShowApprovalPortal("MODEL CENTER","nav-menu");
-					}
-					ShowConfigurationPortal("CONFIGURE","nav-menu");
-
-
-					var username=$("#username");
-					var status=$("#status");
-					var rescource=$("#rescourse");
-					var card=$("#card");
-					username.text(user_name);
-					status.removeClass('status_disconnected');
-					status.addClass('status_connected');
-					rescource.removeClass('status_NoneR');
-					rescource.addClass('status_cpu');
-					card.removeClass('unlog');
-
-					$("#signInBtn").addClass("hide");
-					$("#signUpBtn").addClass("hide");
-					$("#closeLogin").click();
-
-					selectJupyterServer();
-				})
-			},
-
-			error: function (data) {
-			}
-		})
-	}
-
-
-	function getCode(name,type) {
-		$.ajax({
-			url: "/template/templates",
-			contentType: 'application/json',
-			dataType: "json",
-			data:
-					JSON.stringify({
-						name: name,
-						type: type
-					}),
-			type: "GET",
-			success:function (data) {
-				ajaxMessageReader(data,function (data) {
-					var  code = $("#code");
-					$(".dp-highlighter").remove();
-					code.text(data[0]);
-					dp.SyntaxHighlighter.ClipboardSwf = 'assets2/js/clipboard.swf';
-					dp.SyntaxHighlighter.HighlightAll('code');
-					jsAnimateMenu();
-					if(document.getElementById("card").className.search("flip") === -1){
-						flipPanel();
-					}
-				})
-			},
-
-			error: function (data) {
-			}
-		})
-	}
-
-	function submitToGit(){
-		$.ajax({
-			url: "/rest/model",
-			contentType: 'application/json',
-			dataType: "json",
-			type: "PUT",
-			timeout: 0,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("AUTH_TOKEN", token);
-            },
-			success: function(data){
-				ajaxMessageReader(data,function (data) {
-					alert("Push successful!");
-				})
-			},
-			error: function () {
-			}
-		})
-	}
-
-	function selectJupyterServer(){
-		var server = "cpu";
-		if($("#serverCtl").hasClass('toggle--on')){
-			server = "cpu";
-		}else{
-			server = "gpu";
-		}
-		$.ajax({
-			url: "/rest/container/"+server,
-			contentType: 'application/json',
-			dataType: "json",
-			type: "POST",
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("AUTH_TOKEN", token);
-            },
-
-			timeout: 0,
-
-			success: function(data) {
-				ajaxMessageReader(data,function (data) {
-/*				    if(data["url"].contains(".")){*/
-                            $('#jupyterFrame').attr('src', "http://"+data["url"]+"/notebooks/Untitled.ipynb");
-/*                    }else{
-				        alert(data['url']);
-                    }*/
-				})
-			},
-			error: function () {
-			}
-		})
-	}
-
-	$('#login_f').on('click', function(e){
-		user_id='1001';
-		user_account='u1001';
-		user_password='p1001';
-
-		selectJupyterServer();
-		var username=$("#username");
-		var status=$("#status");
-		var rescource=$("#rescourse");
-		var card=$("#card");
-		username.text(user_account);
-		status.removeClass('status_disconnected');
-		status.addClass('status_connected');
-		rescource.removeClass('status_NoneR');
-		rescource.addClass('status_cpu');
-		card.removeClass('unlog');
-
-
-	});
-
-	/*$("#configButton").on('click',function (e) {
-		window.top.location.href="views/configuration.html";
-	})*/
-	function forwardTo(url){
-		window.top.location.href=url;
-	}
-
-	$('#login_t').on('click', function(e){
-		user_id='1002';
-		user_account='u1002';
-		user_password='p1002';
-
-		selectJupyterServer();
-		var username=$("#username");
-		var status=$("#status");
-		var rescource=$("#rescourse");
-		var card=$("#card");
-		username.text(user_account);
-		status.removeClass('status_disconnected');
-		status.addClass('status_connected');
-		rescource.removeClass('status_NoneR');
-		rescource.addClass('status_cpu');
-		card.removeClass('unlog');
-		ShowApprovalPortal("MODEL CENTER","nav-menu");
-
-	});
-
-
-
-
-
-	$('#projectName').click(function(){
-		var td=$(this); //为后面文本框变成文本铺垫
-		var text=$(this).text();
-		var input=$('<input type="text" class="edit" value="'+text+'">');
-		$(this).html( input );
-
-		$('input').click(function(){
-			return false;
-		}); //阻止表单默认点击行为
-
-		$('input').select(); //点击自动全选中表单的内容
-
-		$('input').blur(function(){
-			var nextxt=$(this).val();
-			td.html(nextxt);
-			changeProjectName();
-		}); //表单失去焦点文本框变成文本
-
-	});
-
-/*	function uploadFile(){
-		var form = new FormData($("#fileForm")[0]);
-        var file = $("#file")[0].files;
-        document.body.append($("<div id='shadow' style='width:100%;height:100%;"+
-            "position:fixed;top:0px;left:0px;background-color:rgba(100,100,100,0.3);"+
-            "z-index:"+Number.MAX_SAFE_INTEGER+"'></div>")[0]);
-		$.ajax({
-			url: "/rest/data/upload",
-			type:"POST",
-			timeout:5000,
-			data:form,
-			processData:false,
-			contentType:false,//这两行是上传文件时才需要加的
-			success: function(data){
-				ajaxMessageReader(data,function (data) {
-					alert("Upload successful!");
-				})
-			},
-			error: function () {
-				alert("Upload unsuccessful!");
-			},
-			complete:function(){
-				$("#shadow").remove();//结束时移除遮罩层
-			}
-		})
-	}*/
-
-	var animation=0;
-	function loadAnimationBlue() {
-		if(animation==1){
-			$("#card front").removeClass("green");
-			$("#card front").addClass("blue");
-			setTimeout(loadAnimationGreen(),1000);
-		}
-	}
-	function loadAnimationGreen(){
-		if(animation==1) {
-			$("#card front").removeClass("blue");
-			$("#card front").addClass("green");
-			setTimeout(loadAnimationBlue(), 1000);
-		}
-	}
-	function cancleAnimation() {
-		animation=0;
-		$("#card front").removeClass("blue");
-		$("#card front").removeClass("green");
-	}
 
 
 </script>
