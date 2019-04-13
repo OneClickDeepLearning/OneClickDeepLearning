@@ -9,11 +9,10 @@ import static org.junit.Assert.*;
 public class DefaultHdfsServiceTest {
 
 
-/*    @Test
+    @Test
     public void uploadFile() {
-
-        DefaultHdfsService service = new DefaultHdfsService();
-        String url = service.uploadFile("test.txt");
-        System.out.println(url);
-    }*/
+//        DefaultHdfsService service = new DefaultHdfsService();
+//        String url = service.uploadFile("test.txt");
+//        System.out.println(url);
+    }
 }
