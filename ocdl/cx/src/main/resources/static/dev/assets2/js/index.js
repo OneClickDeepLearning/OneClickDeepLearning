@@ -124,7 +124,7 @@ function changeProjectName() {
             JSON.stringify({
                 name: $("#projectName").text()
             }),
-        type: "POST",
+        type: "PUT",
         timeout: 0,
         beforeSend: function (xhr) {
             xhr.setRequestHeader("AUTH_TOKEN", token);
