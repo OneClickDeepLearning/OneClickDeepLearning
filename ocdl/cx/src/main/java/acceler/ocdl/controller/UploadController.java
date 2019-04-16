@@ -1,27 +1,12 @@
 package acceler.ocdl.controller;
 
-import acceler.ocdl.dto.Response;
-import acceler.ocdl.model.User;
-import acceler.ocdl.persistence.ProjectCrud;
-import acceler.ocdl.persistence.UserCrud;
-import acceler.ocdl.service.KubernetesService;
-import acceler.ocdl.service.UserService;
-import acceler.ocdl.utils.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.util.Iterator;
-
-import static acceler.ocdl.dto.Response.getBuilder;
 
 @RestController
 @RequestMapping(path = "/rest/data")
