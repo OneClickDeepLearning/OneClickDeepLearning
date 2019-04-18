@@ -1,5 +1,7 @@
 package acceler.ocdl.controller;
 
+import acceler.ocdl.exception.KuberneteException;
+import acceler.ocdl.model.ResourceType;
 import acceler.ocdl.model.User;
 import acceler.ocdl.service.ContainerService;
 import acceler.ocdl.dto.Response;
@@ -51,16 +53,14 @@ public final class ContainerController {
     @ResponseBody
     @RequestMapping(path = "/{rscType}", method = RequestMethod.POST)
     public final Response requestContainer(HttpServletRequest request, @PathVariable("rscType") String rscType) {
-//        List<String> result = new ArrayList<>();
-        User user = (User) request.getAttribute("CURRENT_USER");
 
-        String assign = kubernetesService.launchDockerContainer(rscType,user);
-//        if (assign == null) {
-//            result.add("None Container Assigned");
-//        } else {
-//            result.add(serverIp+":"+assign.toString());
-//        }
-//        return result;
+        User user = (User) request.getAttribute("CURRENT_USER");
+        String assign;
+
+        if(getResourceType(rscType).equals(ResourceType.GPU))
+            assign = kubernetesService.launchGpuContainer(user);
+        else
+            assign = kubernetesService.launchCpuContainer(user);
 
         if(assign == null)
             return Response.getBuilder()
@@ -81,7 +81,17 @@ public final class ContainerController {
     @ResponseBody
     @RequestMapping(params = "/release/", method = RequestMethod.DELETE)
     public final void releaseContainer(@RequestBody String rscType,HttpServletRequest request) {
-        User user = (User) request.getAttribute("CURRENT_USER");
-        kubernetesService.releaseDockerContainer(rscType,user);
+//        User user = (User) request.getAttribute("CURRENT_USER");
+//        kubernetesService.releaseDockerContainer(getResourceType(rscType),user);
+    }
+
+    private ResourceType getResourceType(String rscType){
+
+        if(rscType.equals("gpu"))
+            return ResourceType.GPU;
+        else if(rscType.equals("cpu"))
+            return ResourceType.CPU;
+        else
+            throw new KuberneteException("Invalid type of resource!");
     }
 }

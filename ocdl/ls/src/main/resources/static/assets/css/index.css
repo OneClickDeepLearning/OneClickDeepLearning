@@ -1,0 +1,44 @@
+
+body,html{
+    margin: 0 auto;
+}
+.up-header {
+    width:600px;
+    text-align: center;
+}
+.up-content {
+    min-height: 200px;
+    border: 1px solid #CCCCCC;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #FAFAFA;
+    color: #999;
+    font-size: 20px;
+    text-align: center;
+}
+.up-area {
+    border: 2px dashed #ccc;
+    margin: 10px 20px 20px 20px;
+    width: 300px;
+    min-height: 200px;
+    line-height: 100px;
+    background-color: #fff;
+}
+.list-group {
+    margin: 0px auto;;
+    width: 200px;
+    min-height: 100px;
+    padding: 10px;
+}
+img {
+    max-width: 100%;
+}
+.btn {
+
+}
+.close {
+    margin-left: 550px;
+    margin-top: -20px;
+}

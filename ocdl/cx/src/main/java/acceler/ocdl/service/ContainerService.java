@@ -4,6 +4,7 @@ import acceler.ocdl.model.User;
 
 import java.util.List;
 
+@Deprecated
 public interface ContainerService {
 
     public boolean hasAssignedContainer(User user);

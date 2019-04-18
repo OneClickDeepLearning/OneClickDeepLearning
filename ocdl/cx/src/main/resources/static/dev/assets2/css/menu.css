@@ -190,6 +190,10 @@ body.openmenu {
     content: "\e007";
 }
 
+hi-icon-archive:before {
+    content: "\e00f";
+}
+
 .no-touch a:hover,
 .no-touch a:active {
     color: #333;
