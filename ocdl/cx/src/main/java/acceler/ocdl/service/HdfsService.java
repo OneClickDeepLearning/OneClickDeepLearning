@@ -11,5 +11,5 @@ public interface HdfsService {
 
     public void uploadFile(String srcPath, String dstPath) throws HdfsException;
 
-    public String uploadFile(MultipartFile file) throws HdfsException;
+    public String uploadFile(String file) throws HdfsException;
 }

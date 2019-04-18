@@ -28,7 +28,7 @@ import java.util.Map;
 
 import static acceler.ocdl.dto.Response.getBuilder;
 
-@Controller
+@RestController
 @RequestMapping(path = "/rest/data")
 public class UploadController {
 
@@ -38,13 +38,14 @@ public class UploadController {
 
     private static final Logger logger = LoggerFactory.getLogger(acceler.ocdl.controller.AuthController.class);
 
-    @RequestMapping(path="/upload", method = RequestMethod.POST)
-    public Response  springUpload(@RequestParam("file") MultipartFile file)
+    @RequestMapping(path="/upload", method = RequestMethod.PUT)
+    @ResponseBody
+    public Response springUpload(@RequestBody Map<String,String> file)
     {
-
         if(!file.isEmpty()){
 
-            String result =  hdfsService.uploadFile(file);
+            String result =  hdfsService.uploadFile(file.get("file"));
+
             return Response.getBuilder()
                 .setCode(Response.Code.SUCCESS)
                 .setData(result)

@@ -460,7 +460,7 @@
 											<input type="button" onclick="document.getElementById('file').click()" value="Browse..."  style="color: black"/>
 
 											<div class="temp-anchor-wrap temp-reg-anchor-wrap">
-												<a  href="javascript:upload()" class="temp-anchor text-left" type="submit">
+												<a  href="javascript:upload()" class="temp-anchor text-left">
 												<span class="temp-social-icon-wrap">
 													  <i class="fa fa-cloud-upload" aria-hidden="true"></i>
 													</span>
@@ -519,17 +519,28 @@
 
 	function upload(){
 		var url ="";
+		var file = document.getElementById("fileAgent").value = document.getElementById("file").value.split("\\");
+		var fileName=file[file.length-1];
 		$.ajax({
 			url: '/rest/data/upload',
-			data: formData,
+			contentType: 'application/json',
+			dataType: "json",
+			data:
+					JSON.stringify({
+						file: fileName
+					}),
 			type: "PUT",
-			contentType: false,//这里
-			processData: false,//这两个一定设置为false
+			timeout: 0,
 			beforeSend: function (xhr) {
 				xhr.setRequestHeader("AUTH_TOKEN", token);
 			},
 			success: function (info) {
-				alert(info);
+				ajaxMessageReader(info,function (data) {
+					url = data;
+					toHdfs(data);
+				})
+			},
+			error: function (resp) {
 			}
 		});
 	}
@@ -544,9 +555,6 @@
 			type: "PUT",
 			contentType: false,//这里
 			processData: false,//这两个一定设置为false
-			beforeSend: function (xhr) {
-				xhr.setRequestHeader("AUTH_TOKEN", token);
-			},
 			success: function (info) {
 				alert(info);
 				if (info == "success") {
@@ -556,7 +564,6 @@
 				}
 			}
 		});
-
 	}
 
 </script>

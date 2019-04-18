@@ -77,10 +77,9 @@ public class DefaultHdfsService implements HdfsService {
      * @return url of the datanode where the file data is to be written
      * @throws HdfsException
      */
-    public String uploadFile(MultipartFile file) throws HdfsException{
+    public String uploadFile(String fileName) throws HdfsException{
 
-        StringBuilder url = new StringBuilder();
-        String fileName = file.getName();
+     /*   StringBuilder url = new StringBuilder();
         url.append("http://52.203.173.33:50070/webhdfs/v1/CommonSpace/").append(fileName).append("?op=CREATE&user.name=hadoop&overwrite=true");
 
         RestTemplate restTemplate = new RestTemplate();
@@ -97,18 +96,18 @@ public class DefaultHdfsService implements HdfsService {
             throw new HdfsException("Location value is null in response entity from uploadFile method");
         }
 
-        if(responseEntity.getStatusCode() != HttpStatus.TEMPORARY_REDIRECT){
-            throw new HdfsException("uploading file step one failed");
-        }else {
-            for(String nodeName : ipMap.keySet()){
-                if(dataNodeUrl.contains(nodeName)){
-                    dataNodeUrl.replaceAll(nodeName,ipMap.get(nodeName));
-                    break;
-                }
+        for(String nodeName : ipMap.keySet()){
+            if(dataNodeUrl.contains(nodeName)){
+                dataNodeUrl.replaceAll(nodeName,ipMap.get(nodeName));
+                break;
             }
-
         }
-        return dataNodeUrl;
+
+        System.out.println("Resp:"+responseEntity.getStatusCode());*/
+
+
+        String result ="http://3.92.26.165:50075/webhdfs/v1/CommonSpace/" + fileName + "?op=CREATE&user.name=hadoop&namenoderpcaddress=hadoop-master:9000&createflag=&createparent=true&overwrite=true";
+        return result;
 
     }
 
