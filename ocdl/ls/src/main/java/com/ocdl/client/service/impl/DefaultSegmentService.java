@@ -4,6 +4,8 @@ package com.ocdl.client.service.impl;
 import com.ocdl.client.service.SegmentService;
 import com.ocdl.client.util.CmdHelper;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Paths;
 
@@ -19,7 +21,7 @@ public class DefaultSegmentService implements SegmentService {
     }
 
 
-    public String run(String pictureName) {
+    public File run(String pictureName) {
 
         StringBuilder cmd = new StringBuilder();
         cmd.append("python3 ");
@@ -39,7 +41,7 @@ public class DefaultSegmentService implements SegmentService {
         System.out.println(result.isEmpty());
         System.out.println(result);
 
-        return outputPictureName;
+        return new File(Paths.get(SEGPICBASEPATH, outputPictureName).toString());
     }
 
 
