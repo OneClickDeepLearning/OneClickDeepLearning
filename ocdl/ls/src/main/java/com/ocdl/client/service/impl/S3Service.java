@@ -21,7 +21,6 @@ import java.util.List;
 @Component
 public class S3Service implements StorageService {
 
-    // todo: modify the accesskey and secretkey
     private String accesskey;
     private String secretkey;
 
@@ -40,10 +39,13 @@ public class S3Service implements StorageService {
     public void createStorage() {
 
         if (s3client == null) {
+//            accesskey = "AKIAJMVONNFPI6FOUNUQ";
+//            secretkey = "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";
+
             System.out.println("create the S3 services  ====================================");
             AWSCredentials credentials = new BasicAWSCredentials(accesskey, secretkey);
 
-            // todo: change the regions if you don't use us_east_virginia
+            //change the regions if you don't use us_east_virginia
             s3client = AmazonS3ClientBuilder
                     .standard()
                     .withCredentials(new AWSStaticCredentialsProvider(credentials))
@@ -80,9 +82,9 @@ public class S3Service implements StorageService {
     }
 
     @Override
-    public void uploadObject(String bucketName, String modelName, File file) {
+    public void uploadObject(String bucketName, String fileName, File file) {
 
-        s3client.putObject(new PutObjectRequest(bucketName, modelName,file)
+        s3client.putObject(new PutObjectRequest(bucketName, fileName,file)
                 .withCannedAcl(CannedAccessControlList.PublicRead)
         );
     }
