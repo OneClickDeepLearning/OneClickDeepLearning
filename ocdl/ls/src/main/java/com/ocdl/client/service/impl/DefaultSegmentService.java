@@ -4,7 +4,6 @@ package com.ocdl.client.service.impl;
 import com.ocdl.client.service.SegmentService;
 import com.ocdl.client.util.CmdHelper;
 import org.springframework.stereotype.Service;
-
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Paths;
 
