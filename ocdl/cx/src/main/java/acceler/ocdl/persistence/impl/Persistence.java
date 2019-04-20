@@ -1,7 +1,7 @@
 package acceler.ocdl.persistence.impl;
 
 import acceler.ocdl.exception.OcdlException;
-import acceler.ocdl.model.ModelType;
+import acceler.ocdl.model.Algorithm;
 import acceler.ocdl.model.Project;
 import acceler.ocdl.model.User;
 import org.slf4j.Logger;
@@ -14,34 +14,30 @@ import java.util.Vector;
 
 @Component
 class Persistence {
-
     private static final Logger logger = LoggerFactory.getLogger(Persistence.class);
 
     // Linux
-/*    public final String projectSerializableFile = "/home/ec2-user/ocdl/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/projectConfiguration";
+    public final String projectSerializableFile = "/home/ec2-user/ocdl/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/projectConfiguration";
     public final String userListSerializableFile = "/home/ec2-user/ocdl/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/user";
-    public final String modelTypesListSerializableFile = "/home/ec2-user/ocdl/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/modeltypes";*/
+    public final String modelTypesListSerializableFile = "/home/ec2-user/ocdl/OneClickDLTemp/ocdl/cx/src/main/resources/persistence/modeltypes";
 
     //windows
-   public final String projectSerializableFile = getClass().getResource("/persistence/projectConfiguration").getPath();
-   public final String userListSerializableFile = getClass().getResource("/persistence/user").getPath();
-   public final String modelTypesListSerializableFile = getClass().getResource("/persistence/modeltypes").getPath();
+//   public final String projectSerializableFile = getClass().getResource("/persistence/projectConfiguration").getPath();
+//   public final String userListSerializableFile = getClass().getResource("/persistence/user").getPath();
+//   public final String modelTypesListSerializableFile = getClass().getResource("/persistence/modeltypes").getPath();
 
     private Project project;
     private Vector<User> userList;
-    private Vector<ModelType> modelTypes;
-
-//    public Persistence() {}
+    private Vector<Algorithm> modelTypes;
 
     public Persistence() {
         logger.debug("project----------------");
-        String projectSerializableFileUT8=null;
-        String userListSerializableFileUT8=null;
-        String modelTypesListSerializableFileUT8=null;
+        String projectSerializableFileUT8 = null;
+        String userListSerializableFileUT8 = null;
+        String modelTypesListSerializableFileUT8 = null;
         System.out.println(projectSerializableFile);
         System.out.println(userListSerializableFile);
         System.out.println(modelTypesListSerializableFile);
-
 
         try {
             projectSerializableFileUT8 = java.net.URLDecoder.decode(projectSerializableFile,"utf-8");
@@ -57,7 +53,7 @@ class Persistence {
 
         this.project = (Project) loadingObject(projectSerializableFileUT8);
         this.userList = (Vector<User>)loadingObject(userListSerializableFileUT8);
-        this.modelTypes = (Vector<ModelType>)loadingObject(modelTypesListSerializableFileUT8);
+        this.modelTypes = (Vector<Algorithm>)loadingObject(modelTypesListSerializableFileUT8);
     }
 
     Project getProject() {
@@ -68,7 +64,7 @@ class Persistence {
         return userList;
     }
 
-    List<ModelType> getModelTypes() {return modelTypes;}
+    List<Algorithm> getModelTypes() {return modelTypes;}
 
     void persistentUserList() {
         dumpUsers(this.userList, userListSerializableFile);
@@ -134,7 +130,7 @@ class Persistence {
         }
     }
 
-    public void dumpModelTypes(Vector<ModelType> modelTypes, String filePath) {
+    public void dumpModelTypes(Vector<Algorithm> modelTypes, String filePath) {
         String encodePath= null;
         try {
             encodePath= java.net.URLDecoder.decode(projectSerializableFile,"utf-8");
@@ -148,41 +144,39 @@ class Persistence {
         }
     }
 
-//    public void createObject(Object object, String filePath) {
-//        try {
-//            FileOutputStream fileOut = new FileOutputStream(filePath);
-//            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-//            objectOut.writeObject(object);
-//            fileOut.close();
-//            objectOut.close();
-//        } catch (IOException ex) {
-//            throw new OcdlException("[ERROR] Object dumping failed");
-//        }
-//    }
-//
-//    public void createUser(Vector<User> users, String filePath) {
-//        try {
-//            FileOutputStream fileOut = new FileOutputStream(filePath);
-//            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-//            objectOut.writeObject(users);
-//            fileOut.close();
-//            objectOut.close();
-//        } catch (IOException ex) {
-//            throw new OcdlException("[ERROR] Object dumping failed");
-//        }
-//    }
-//
-//    public void createModelTypes(Vector<ModelType> modelTypes, String filePath) {
-//        try {
-//            FileOutputStream fileOut = new FileOutputStream(filePath);
-//            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-//            objectOut.writeObject(modelTypes);
-//            fileOut.close();
-//            objectOut.close();
-//        } catch (IOException ex) {
-//            throw new OcdlException("[ERROR] Object dumping failed");
-//        }
-//    }
+    public void createObject(Object object, String filePath) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(filePath);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(object);
+            fileOut.close();
+            objectOut.close();
+        } catch (IOException ex) {
+            throw new OcdlException("[ERROR] Object dumping failed");
+        }
+    }
 
+    public void createUser(Vector<User> users, String filePath) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(filePath);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(users);
+            fileOut.close();
+            objectOut.close();
+        } catch (IOException ex) {
+            throw new OcdlException("[ERROR] Object dumping failed");
+        }
+    }
 
+    public void createModelTypes(Vector<ModelType> modelTypes, String filePath) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(filePath);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(modelTypes);
+            fileOut.close();
+            objectOut.close();
+        } catch (IOException ex) {
+            throw new OcdlException("[ERROR] Object dumping failed");
+        }
+    }
 }

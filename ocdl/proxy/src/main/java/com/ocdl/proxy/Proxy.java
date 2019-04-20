@@ -66,7 +66,7 @@ public class Proxy implements ProxyCallBack{
         System.out.println("=================================================================");
 
         System.out.println("SOURTH:" + SOURCE);
-        String[] projectInfo = msg.split(" ");
+        String[] projectInfo = msg.split("_");
         System.out.println("project info: ");
         System.out.println(projectInfo[0] + "   " + projectInfo[1]);
         Path path = Paths.get(SOURCE, projectInfo[0]);

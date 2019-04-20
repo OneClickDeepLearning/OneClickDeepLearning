@@ -7,7 +7,6 @@ import java.io.Serializable;
 public class ProjectConfigurationDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-
     private String projectName;
     private String k8Url;
     private String templatePath;
@@ -57,9 +56,9 @@ public class ProjectConfigurationDto implements Serializable {
 
         Project project = new Project();
         project.setProjectName(this.projectName);
-        project.setK8Url(this.k8Url);
+        project.setK8MasterUri(this.k8Url);
         project.setTemplatePath(this.templatePath);
-        project.setGitPath(this.gitPath);
+        project.setGitRepoURI(this.gitPath);
         project.setSuffix(this.suffix);
 
         return project;

@@ -2,13 +2,13 @@ package acceler.ocdl.service.impl;
 
 import acceler.ocdl.model.Project;
 import acceler.ocdl.persistence.ProjectCrud;
-import acceler.ocdl.service.ConfigurationService;
+import acceler.ocdl.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class DefaultConfigurationService implements ConfigurationService {
+public class DefaultProjectService implements ProjectService {
 
 
     @Autowired
