@@ -12,13 +12,9 @@ import java.nio.file.Paths;
 @Service
 public class DefaultSegmentService implements SegmentService {
 
-    private final String MODELBASEPATH = java.net.URLDecoder.decode( getClass().getResource("/models/lesion_segmentation").getPath()+"/","utf-8");;
-    private final String PICBASEPATH = java.net.URLDecoder.decode(getClass().getResource("/pictures").getPath()+"/","utf-8");
-    private final String SEGPICBASEPATH = java.net.URLDecoder.decode(getClass().getResource("/pictures_segmentation").getPath()+"/","utf-8");
-
-    public DefaultSegmentService() throws UnsupportedEncodingException {
-        System.out.println("Fail to initial the filePath");
-    }
+    private final String MODELBASEPATH = "/models/lesion_segmentation";
+    private final String PICBASEPATH = "/pictures";
+    private final String SEGPICBASEPATH = "/pictures_segmentation";
 
 
     public File run(String pictureName) {
