@@ -40,38 +40,6 @@ public class Client {
             }
         })).start();
 
-        // ask for a text
-        String pwd = CmdHelper.runCommand("pwd");
-        System.out.println("the pwd is:");
-        System.out.println(pwd);
-
-        System.out.println(MODELPATH);
-        String path = Paths.get(MODELPATH, "Sentence2label").toString();
-        File file = new File(path);
-        if (file.exists()) {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Please input the text: ");
-            String request = scanner.nextLine();
-
-            StringBuilder cmd = new StringBuilder();
-            cmd.append("python3 ");
-            cmd.append(Paths.get(MODELPATH,"Sentence2label/sentence2vec.py"));
-            cmd.append(" -s ");
-            cmd.append(request);
-            cmd.append(" -w2v_path ");
-            cmd.append(Paths.get(MODELPATH, "Sentence2label/models/CBOW.model").toString());
-            cmd.append(" -stopword ");
-            cmd.append(Paths.get(MODELPATH, "Sentence2label/data/baidu+chuanda.txt").toString());
-            cmd.append(" -model_path ");
-            cmd.append(Paths.get(MODELPATH, "Sentence2label/models/80000NN.h5py"));
-            cmd.append(" -label_file ");
-            cmd.append(Paths.get(MODELPATH, "Sentence2label/data/all_labels.txt"));
-
-            String result = CmdHelper.runCommand(cmd.toString());
-            System.out.println("The result is: ");
-            System.out.println(result.isEmpty());
-            System.out.println(result);
-        }
 
     }
 
