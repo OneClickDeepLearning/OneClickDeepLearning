@@ -1,5 +1,5 @@
 .status_disconnected:after{
-    content: 'Disconnected';
+    content: 'None';
     color: red;
 }
 .status_connected:after{
