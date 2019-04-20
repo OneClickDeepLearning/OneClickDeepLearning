@@ -20,13 +20,13 @@ public class PictureController {
     @RequestMapping(method = RequestMethod.POST)
     public final Response uploadPicture() {
 
-        logger.debug("enter the get model types funciton +++++++++++++++++");
+        logger.debug("enter the upload funciton +++++++++++++++++");
 
         Response.Builder responseBuilder = Response.getBuilder();
 
         //TODO func details
 
-        responseBuilder.setCode(Response.Code.SUCCESS)
+        responseBuilder.setCode(Response.Code.SUCCESS);
 
         return responseBuilder.build();
     }
