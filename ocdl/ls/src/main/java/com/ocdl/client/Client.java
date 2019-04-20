@@ -19,6 +19,7 @@ public class Client {
     private static final Logger logger = LoggerFactory.getLogger(Client.class);
     private final String MODELPATH = getClass().getResource("/models").getPath();
 
+
     @Autowired
     private ConsumerService consumer;
 
@@ -39,8 +40,6 @@ public class Client {
                 consumer.run(client);
             }
         })).start();
-
-
     }
 
     public void downloadModel(String msg) {
