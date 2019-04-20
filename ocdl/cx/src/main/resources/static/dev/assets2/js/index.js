@@ -12,6 +12,7 @@ window.onload = function () {
                     dp.SyntaxHighlighter.HighlightAll('code');*/
     initTemplateList();
     initProjectName();
+
     function addSpan(li,text){
         var span_1=document.createElement("span");
         span_1.innerHTML=text;
@@ -175,7 +176,6 @@ function signIn() {
                 ShowConfigurationPortal("CONFIGURE","nav-menu");
 
 
-                var username=$("#username");
                 var status=$("#status");
                 var rescource=$("#rescourse");
                 var card=$("#card");
@@ -186,9 +186,12 @@ function signIn() {
                 rescource.addClass('status_cpu');
                 card.removeClass('unlog');
 
-                $("#signInBtn").addClass("hide");
-                $("#signUpBtn").addClass("hide");
+                $("#loginBtnGroup").slideDown();
+    /*            $("#signInBtn").addClass("hide");
+                $("#signUpBtn").addClass("hide");*/
                 $("#closeLogin").click();
+
+                $("#userinfo").removeClass("hide");
 
                 selectJupyterServer();
             })
@@ -355,6 +358,8 @@ function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
     console.log("ID Token: " + id_token);
 
+   /* $("#userinfo").show(1000);*/
+    $("#userinfo").slideDown();
     $.ajax({
         url: '/oauth/login',
         contentType: 'application/json',
@@ -383,12 +388,22 @@ function onSignIn(googleUser) {
             rescource.addClass('status_cpu');
             card.removeClass('unlog');
 
-            $("#signInBtn").addClass("hide");
-            $("#signUpBtn").addClass("hide");
+            $("#loginBtnGroup").slideUp();
+    /*        $("#signInBtn").addClass("hide");
+            $("#signUpBtn").addClass("hide");*/
             $("#closeLogin").click();
         },
         error: function () {
         }
     })
 
+}
+
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        console.log('User signed out.');
+    });
+    $("#userinfo").slideUp();
+    $("#loginBtnGroup").slideDown();
 }

@@ -4,15 +4,19 @@ package com.ocdl.client.service.impl;
 import com.ocdl.client.service.SegmentService;
 import com.ocdl.client.util.CmdHelper;
 import org.springframework.stereotype.Service;
-
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Paths;
 
 @Service
 public class DefaultSegmentService implements SegmentService {
 
-    private final String MODELBASEPATH = getClass().getResource("/models/lesion_segmentation").getPath();
-    private final String PICBASEPATH = getClass().getResource("/pictures").getPath();
-    private final String SEGPICBASEPATH = getClass().getResource("/pictures_segmentation").getPath();
+    private final String MODELBASEPATH = java.net.URLDecoder.decode( getClass().getResource("/models/lesion_segmentation").getPath()+"/","utf-8");;
+    private final String PICBASEPATH = java.net.URLDecoder.decode(getClass().getResource("/pictures").getPath()+"/","utf-8");
+    private final String SEGPICBASEPATH = java.net.URLDecoder.decode(getClass().getResource("/pictures_segmentation").getPath()+"/","utf-8");
+
+    public DefaultSegmentService() throws UnsupportedEncodingException {
+        System.out.println("Fail to initial the filePath");
+    }
 
 
     public String run(String pictureName) {
