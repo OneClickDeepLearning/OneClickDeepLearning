@@ -9,12 +9,7 @@ import java.io.*;
 
 @Service
 public class DefaultFileSaveService implements FileSaveService {
-    private String filePath=java.net.URLDecoder.decode(getClass().getResource("/pictures").getPath()+"/","utf-8");;
-
-    public DefaultFileSaveService() throws UnsupportedEncodingException {
-        System.out.println("Fail to initial the filePath");
-    }
-
+    private String filePath="pictures";
 
     public String saveFile(MultipartFile file) {
         String resultMessage = "";
@@ -22,7 +17,7 @@ public class DefaultFileSaveService implements FileSaveService {
             try {
                 System.out.println(file.getSize());
                 BufferedOutputStream out = new BufferedOutputStream(
-                        new FileOutputStream(new File(filePath + file.getOriginalFilename())));
+                        new FileOutputStream(new File(filePath +"//"+ file.getOriginalFilename())));
                 System.out.println(filePath + file.getOriginalFilename());
                 out.write(file.getBytes());
                 out.flush();
