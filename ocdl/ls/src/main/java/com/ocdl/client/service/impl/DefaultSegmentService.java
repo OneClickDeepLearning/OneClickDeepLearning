@@ -12,9 +12,13 @@ import java.nio.file.Paths;
 @Service
 public class DefaultSegmentService implements SegmentService {
 
-    private final String MODELBASEPATH = "models/lesion_segmentation";
-    private final String PICBASEPATH = "pictures";
-    private final String SEGPICBASEPATH = "pictures_segmentation";
+//    private final String MODELBASEPATH = "models/lesion_segmentation";
+//    private final String PICBASEPATH = "pictures";
+//    private final String SEGPICBASEPATH = "pictures_segmentation";
+
+    private final String MODELBASEPATH = "src/main/resources/models/lesion_segmentation";
+    private final String PICBASEPATH = "src/main/resources/pictures";
+    private final String SEGPICBASEPATH = "src/main/resources/pictures_segmentation";
 
 
     public File run(String pictureName) {

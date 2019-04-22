@@ -9,7 +9,8 @@ import java.io.*;
 
 @Service
 public class DefaultFileSaveService implements FileSaveService {
-    private String filePath="pictures";
+//    private String filePath="pictures";
+    private String filePath="src/main/resources/pictures";
 
     public String saveFile(MultipartFile file) {
         String resultMessage = "";
@@ -17,7 +18,7 @@ public class DefaultFileSaveService implements FileSaveService {
             try {
                 System.out.println(file.getSize());
                 BufferedOutputStream out = new BufferedOutputStream(
-                        new FileOutputStream(new File(filePath +"//"+ file.getOriginalFilename())));
+                        new FileOutputStream(new File(filePath +"/"+ file.getOriginalFilename())));
                 System.out.println(filePath + file.getOriginalFilename());
                 out.write(file.getBytes());
                 out.flush();
