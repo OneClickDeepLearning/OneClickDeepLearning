@@ -40,11 +40,11 @@
       <div class="row">
         <!-- 拖拽图片到这来 -->
         <div class="col-md-6  up-content  dragFile">
-          <p style="margin-top:10px;">Drag your training data Here!</p>
+          <p style="margin-top:10px;">Drag your Testing data Here!</p>
           <div class="up-area">
             <input type="file" style="display:none;" id="fileDrag" name="fileDragselect" multiple>
             <div class="row">
-              <ul class="list-group clearfix list-drag list-btn">
+              <ul id="testList" class="list-group clearfix list-drag list-btn">
               </ul>
             </div>
           </div>
@@ -61,7 +61,17 @@
           <p style="margin-top:10px;">Result</p>
           <div class="up-area">
             <div class="row">
-              <ul class="list-group clearfix list-btn">
+              <ul id="resultList" class="list-group clearfix list-btn">
+                <li class="list-group-item" id="segamentationLoading" style="display: none">
+<!--                  <div>
+                    <img src="https://ocdl-client.s3.amazonaws.com/ISIC_copy_seg.png" alt="文件">
+                  </div>
+                  <h6>ISIC_0012346.jpg</h6>
+                  <h6 style="font-size:10px">Size: 2493191 B</h6>-->
+                  <div>
+                    <img src="assets/images/ajax-loader.gif" alt="loading">
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
@@ -73,36 +83,37 @@
 
 
     function modelTest() {
+      var formData = new FormData();
       formData.append("file", document.getElementById("fileInput").files[0]);
       $.ajax({
         url: "/rest/picture",
         data: formData,
         type: "POST",
+        beforeSend: function(XMLHttpRequest){
+          $("#segamentationLoading").show();
+        },
+        timeout:0,
         contentType: false,//这里
         processData: false,//这两个一定设置为false
-        success: function (info) {
-          alert(info);
-          if (info == "success") {
-            alert("成功上传");
-          } else {
-            alert(info);
-          }
+        success: function (data) {
+          ajaxMessageReader(data,function (data) {
+            appendURLFile(data,"#resultList");
+            alert("Result has been returned!");
+          })
+        },
+        complete: function(XMLHttpRequest, textStatus){
+          $("#segamentationLoading").hide();
         }
       });
     }
 
-
-
-
-    var formData = new FormData();
     //点击本地上传文件
     $('#btn').click( () => {
       $('#fileInput').click();
     })
     $('#fileInput').change( (event) => {
-
       var files = event.target.files;
-      appendFile(files, '.list-btn');
+      appendFile(files, '#testList');
     })
 
 
@@ -113,10 +124,9 @@
     }, false);
     dragbox.addEventListener('drop', function (e) {
       e.preventDefault(); // 阻止默认事件
-      var length = document.getElementById("fileInput").length;
       var files = e.dataTransfer.files; //获取文件
-      formData.append("file", files[0]);
-      appendFile(files, '.list-btn')
+      document.getElementById("fileInput").files=files;
+      appendFile(files, '#testList')
       // code
     }, false);
 
@@ -128,10 +138,33 @@
               <div>
                 <img src="${url}" alt="文件" />
               </div>
+              <h6>`+file.name+`</h6>
+              <h6 style="font-size:10px">Size: `+file.size+` B</h6>
             </li>
           `;
-        $(listName).append(liStr);
+        $(listName)[0].innerHTML=liStr;
       }
+    }
+
+    function appendURLFile (url, listName) {
+        let liStr = `
+            <li class="list-group-item">
+              <div>
+                <img src="`+url+`" alt="file" />
+              </div>
+            </li>
+          `;
+        $(listName)[0].innerHTML=liStr;
+    }
+
+    function ajaxMessageReader(response, func){
+      if(response.code=="200"){
+        func(response.data);
+      }else{
+        alert(response.get("message"));
+      }
+
+      /*		func(response);*/
     }
 
   </script>
