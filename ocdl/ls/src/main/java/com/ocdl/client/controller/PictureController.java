@@ -50,7 +50,7 @@ public class PictureController {
 
         if (resultMessage.equals("success")) {
             responseBuilder.setCode(Response.Code.SUCCESS)
-                    .setMessage(url);
+                    .setData(url);
         } else {
 
             responseBuilder.setCode(Response.Code.ERROR);
