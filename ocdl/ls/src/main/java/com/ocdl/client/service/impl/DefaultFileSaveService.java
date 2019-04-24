@@ -1,6 +1,7 @@
 package com.ocdl.client.service.impl;
 
 import com.ocdl.client.service.FileSaveService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,8 +10,9 @@ import java.io.*;
 
 @Service
 public class DefaultFileSaveService implements FileSaveService {
-//    private String filePath="pictures";
-    private String filePath="src/main/resources/pictures";
+
+    @Value("${pictures.path}")
+    private String filePath;
 
     public String saveFile(MultipartFile file) {
         String resultMessage = "";
