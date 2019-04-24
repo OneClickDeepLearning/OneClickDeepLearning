@@ -19,6 +19,7 @@ public class DefaultSegmentService implements SegmentService {
     private final String MODELBASEPATH = "src/main/resources/models/lesion_segmentation";
     private final String PICBASEPATH = "src/main/resources/pictures";
     private final String SEGPICBASEPATH = "src/main/resources/pictures_segmentation";
+    private final String GROUNDTRUTHBASEPATH = "src/main/resources/ISIC2018_Task1_Training_GroundTruth";
 
 
     public File run(String pictureName) {
@@ -38,8 +39,15 @@ public class DefaultSegmentService implements SegmentService {
 
         System.out.println(pictureName);
         String outputPictureName = pictureName.substring(0, pictureName.lastIndexOf(".")) + "_seg.png";
+        System.out.println(outputPictureName);
         cmd.append(" ");
         cmd.append(Paths.get(SEGPICBASEPATH, outputPictureName));
+
+        String groundTruthName = pictureName.substring(0, pictureName.lastIndexOf(".")) + "_segmentation.png";
+        System.out.println(groundTruthName);
+        cmd.append(" ");
+        cmd.append(Paths.get(GROUNDTRUTHBASEPATH, groundTruthName));
+
 
         String result = CmdHelper.runCommand(cmd.toString());
         System.out.println("If has result:" + !result.isEmpty());

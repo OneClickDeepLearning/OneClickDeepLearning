@@ -50,14 +50,15 @@ plt.savefig(sys.argv[3])
 
 
 # ground_truth = mpimg.imread('./ISIC_0000000_segmentation.png')
-# ground_truth = trans.resize(ground_truth, (768,1024))
-# eval = jaccard_distance(output_data.reshape(768,1024), ground_truth.astype('float32'))
-#
-# sess = tf.Session()
-# with sess.as_default():
-# eval = np.average(eval.eval())
-#
-# plt.title('Jaccord Index: '+str(eval))
-# plt.show()
+ground_truth = mpimg.imread(sys.argv[4])
+ground_truth = trans.resize(ground_truth, (768,1024))
+eval = jaccard_distance(output_data.reshape(768,1024), ground_truth.astype('float32'))
+
+sess = tf.Session()
+with sess.as_default():
+    eval = np.average(eval.eval())
+
+plt.title('Jaccord Index: '+str(eval))
+plt.show()
 
 
