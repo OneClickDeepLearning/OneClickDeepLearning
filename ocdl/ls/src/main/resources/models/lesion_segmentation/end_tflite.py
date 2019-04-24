@@ -46,8 +46,6 @@ output_image = output_data.reshape(768,1024) * 255
 print(output_image.shape)
 
 plt.imshow(output_image)
-plt.savefig(sys.argv[3])
-
 
 # ground_truth = mpimg.imread('./ISIC_0000000_segmentation.png')
 ground_truth = mpimg.imread(sys.argv[4])
@@ -59,6 +57,6 @@ with sess.as_default():
     eval = np.average(eval.eval())
 
 plt.title('Jaccord Index: '+str(eval))
-plt.show()
+plt.savefig(sys.argv[3])
 
 
