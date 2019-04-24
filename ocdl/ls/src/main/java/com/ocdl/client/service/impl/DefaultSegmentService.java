@@ -3,6 +3,7 @@ package com.ocdl.client.service.impl;
 
 import com.ocdl.client.service.SegmentService;
 import com.ocdl.client.util.CmdHelper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -16,10 +17,17 @@ public class DefaultSegmentService implements SegmentService {
 //    private final String PICBASEPATH = "pictures";
 //    private final String SEGPICBASEPATH = "pictures_segmentation";
 
-    private final String MODELBASEPATH = "src/main/resources/models/lesion_segmentation";
-    private final String PICBASEPATH = "src/main/resources/pictures";
-    private final String SEGPICBASEPATH = "src/main/resources/pictures_segmentation";
-    private final String GROUNDTRUTHBASEPATH = "src/main/resources/ISIC2018_Task1_Training_GroundTruth";
+    @Value("${models.path}")
+    private String MODELBASEPATH;
+
+    @Value("${pictures.path}")
+    private String PICBASEPATH;
+
+    @Value("${segmentation.path}")
+    private String SEGPICBASEPATH;
+
+    @Value("${ground.truth.path}")
+    private String GROUNDTRUTHBASEPATH;
 
 
     public File run(String pictureName) {
