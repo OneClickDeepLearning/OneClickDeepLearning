@@ -39,8 +39,6 @@ public class S3Service implements StorageService {
     public void createStorage() {
 
         if (s3client == null) {
-//            accesskey = "AKIAJMVONNFPI6FOUNUQ";
-//            secretkey = "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";
 
             System.out.println("create the S3 services  ====================================");
             AWSCredentials credentials = new BasicAWSCredentials(accesskey, secretkey);
