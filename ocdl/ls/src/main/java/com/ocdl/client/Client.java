@@ -17,6 +17,7 @@ import java.util.Scanner;
 public class Client {
 
     private static final Logger logger = LoggerFactory.getLogger(Client.class);
+
     private final String MODELPATH = getClass().getResource("/models").getPath();
 
 
@@ -27,8 +28,7 @@ public class Client {
 
     public void run() {
 
-        logger.debug("Client is running....");
-        System.out.println("Client is running....");
+        logger.info("Client is running....");
 
         // run consumer in a separated thread
         Client client = this;
@@ -47,14 +47,12 @@ public class Client {
         String modelName = modelInfo[0].trim();
         String url = modelInfo[1].trim();
 
-        System.out.println("waiting for download the latest model:");
+        logger.info("waiting for download the latest model:");
 
         try {
-            FileTool.downLoadFromUrl(url, modelName, MODELPATH );
-
+            FileTool.downLoadFromUrl(url, modelName, MODELPATH);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
-            System.out.println("download failure");
+            logger.error("download failure" + e.getMessage());
         }
     }
 

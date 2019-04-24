@@ -8,16 +8,20 @@ import java.util.Properties;
 import com.ocdl.client.Client;
 import com.ocdl.client.service.ConsumerService;
 import org.apache.kafka.clients.consumer.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DefaultKafkaConsumerService implements ConsumerService {
 
+    private static final Logger logger = LoggerFactory.getLogger(DefaultKafkaConsumerService.class);
+
     private Consumer<String, String> consumer;
 
-    private static String group = "js_group_anyway6";
+    private String group = "js_group_anyway6";
 
-    private static String VSTOPIC = "mdmsg";
+    private String VSTOPIC = "mdmsg";
 
     public DefaultKafkaConsumerService() {
         createConsumerInstance();
@@ -45,17 +49,17 @@ public class DefaultKafkaConsumerService implements ConsumerService {
     @Override
     public void run(Client client) {
 
-        System.out.println("starting kafka consumer...");
+        logger.info("starting kafka consumer...");
         this.consumer.subscribe(Arrays.asList(VSTOPIC));
 
         while (true) {
 
-            System.out.println("waiting message ....");
+            logger.info("waiting message ....");
             ConsumerRecords<String, String> records = consumer.poll(Duration.of(1, ChronoUnit.DAYS));
             for (ConsumerRecord<String, String> record : records) {
 
                 // message format: "fileName url"
-                System.out.printf("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value());
+                logger.info("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value());
 
                 client.downloadModel(record.value());
             }
