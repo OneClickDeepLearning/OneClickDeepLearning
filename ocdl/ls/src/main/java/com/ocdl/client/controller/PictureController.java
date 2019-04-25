@@ -36,6 +36,7 @@ public class PictureController {
     public final Response uploadPicture(@RequestParam("file") MultipartFile file) {
 
         Response.Builder responseBuilder = Response.getBuilder();
+        // exception control
         String resultMessage = fileSaveService.saveFile(file);
 
         //run python to get output picture
@@ -47,14 +48,12 @@ public class PictureController {
         storageService.uploadObject(bucketName, outputImage.getName(), outputImage);
         String url = storageService.getObkectUrl(bucketName, outputImage.getName());
 
-
         if (resultMessage.equals("success")) {
             responseBuilder.setCode(Response.Code.SUCCESS)
                     .setData(url);
         } else {
-
-            responseBuilder.setCode(Response.Code.ERROR);
-            responseBuilder.setData(resultMessage);
+            responseBuilder.setCode(Response.Code.ERROR)
+                    .setData(resultMessage);
         }
 
         return responseBuilder.build();

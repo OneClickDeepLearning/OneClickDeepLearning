@@ -1,17 +1,12 @@
 package com.ocdl.client;
 
 import com.ocdl.client.service.ConsumerService;
-import com.ocdl.client.util.CmdHelper;
 import com.ocdl.client.util.FileTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Scanner;
 
 @Component
 public class Client {
@@ -43,7 +38,10 @@ public class Client {
     }
 
     public void downloadModel(String msg) {
-        String[] modelInfo = msg.split(" ");
+        String[] modelInfo = msg.split("\\s+");
+        if (modelInfo.length == 0) {
+            return;
+        }
         String modelName = modelInfo[0].trim();
         String url = modelInfo[1].trim();
 

@@ -20,19 +20,23 @@ public class DefaultFileSaveService implements FileSaveService {
             try {
                 System.out.println(file.getSize());
                 BufferedOutputStream out = new BufferedOutputStream(
+                        //Paths.get()
                         new FileOutputStream(new File(filePath +"/"+ file.getOriginalFilename())));
+                //logger
                 System.out.println(filePath + file.getOriginalFilename());
                 out.write(file.getBytes());
                 out.flush();
                 out.close();
+                //logger : file name + status
                 System.out.println("finish write");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 resultMessage = e.getMessage();
-            } catch (IOException e) {
+            } catch (IOException e) {//child class of IO exception
                 e.printStackTrace();
                 resultMessage = e.getMessage();
-            }
+            } //finally{close}
+
             resultMessage = "success";
         } else {
             resultMessage = "Empty File!";
