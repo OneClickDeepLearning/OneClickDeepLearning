@@ -36,12 +36,8 @@ public class FileTool {
             // write file
             transferFromIn2Out(inputStream, outputStream);
         } finally {
-            if (inputStream != null) {
-                inputStream.close();
-            }
-            if (outputStream != null) {
-                outputStream.close();
-            }
+            if (inputStream != null) { inputStream.close(); }
+            if (outputStream != null) { outputStream.close(); }
         }
 
         // if download file is zip file, unzip
@@ -81,7 +77,6 @@ public class FileTool {
         OutputStream outputStream = null;
 
         try {
-
             zip = new ZipFile(zipPath);
             for (Enumeration entries = zip.entries(); entries.hasMoreElements(); ) {
                 ZipEntry entry = (ZipEntry) entries.nextElement();
@@ -101,18 +96,12 @@ public class FileTool {
                 transferFromIn2Out(inputStream, outputStream);
 
             }
-            logger.info("Unzip Finished");
 
+            logger.info("Unzip Finished");
         } finally {
-            if (zip != null) {
-                zip.close();
-            }
-            if (inputStream != null) {
-                inputStream.close();
-            }
-            if (outputStream != null) {
-                outputStream.close();
-            }
+            if (zip != null) { zip.close(); }
+            if (inputStream != null) { inputStream.close(); }
+            if (outputStream != null) { outputStream.close(); }
         }
     }
 

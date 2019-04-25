@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping(path = "/rest/picture")
@@ -35,6 +37,8 @@ public class PictureController {
     @RequestMapping(method = RequestMethod.POST)
     public final Response uploadPicture(@RequestParam("file") MultipartFile file) {
 
+        long startTime = System.currentTimeMillis();
+
         Response.Builder responseBuilder = Response.getBuilder();
         // exception control
         String resultMessage = fileSaveService.saveFile(file);
@@ -48,9 +52,16 @@ public class PictureController {
         storageService.uploadObject(bucketName, outputImage.getName(), outputImage);
         String url = storageService.getObkectUrl(bucketName, outputImage.getName());
 
+        long endTime = System.currentTimeMillis();
+
+        // format return data
+        Map<String, String> returnData = new HashMap<>();
+        returnData.put("url", url);
+        returnData.put("eta", Long.toString(endTime-startTime));
+
         if (resultMessage.equals("success")) {
             responseBuilder.setCode(Response.Code.SUCCESS)
-                    .setData(url);
+                    .setData(returnData);
         } else {
             responseBuilder.setCode(Response.Code.ERROR)
                     .setData(resultMessage);
