@@ -35,6 +35,8 @@ public class PictureController {
 
     private String success = "success";
 
+    private String bucketName = "ocdl-client";
+
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public final Response uploadPicture(@RequestParam("file") MultipartFile file) {
@@ -49,7 +51,6 @@ public class PictureController {
         File outputImage = segmentService.run(file.getOriginalFilename());
 
         //upload to S3
-        String bucketName = "ocdl-client";
         storageService.createStorage();
         storageService.uploadObject(bucketName, outputImage.getName(), outputImage);
         String url = storageService.getObkectUrl(bucketName, outputImage.getName());

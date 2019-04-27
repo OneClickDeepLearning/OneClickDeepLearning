@@ -60,8 +60,9 @@ public class DefaultSegmentService implements SegmentService {
         cmd.append(" ");
         cmd.append(Paths.get(GROUNDTRUTHBASEPATH, groundTruthName));
 
-
+        System.out.println(cmd.toString());
         commandHelper.runCommand(new File(WORKSPACEPATH),cmd.toString());
+
 
         return new File(Paths.get(SEGPICBASEPATH, outputPictureName).toString());
     }
