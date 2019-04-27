@@ -17,10 +17,10 @@ def jaccard_distance(y_true, y_pred, smooth=1):
 
 def getMemCpu():
     info = psutil.virtual_memory()
-    print u'Memory use：',psutil.Process(os.getpid()).memory_info().rss
-    print u'Total memory：',info.total
-    print u'Memory percentage：',info.percent
-    print u'Num of cpu：',psutil.cpu_count()
+    print "Memory use：", psutil.Process(os.getpid()).memory_info().rss
+    print "Total memory：",info.total
+    print "Memory percentage：",info.percent
+    print "Num of cpu：",psutil.cpu_count()
 
 
 model_path = sys.argv[1]
