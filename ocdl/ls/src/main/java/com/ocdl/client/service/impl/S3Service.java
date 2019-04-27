@@ -51,7 +51,7 @@ public class S3Service implements StorageService {
                     .withCredentials(new AWSStaticCredentialsProvider(credentials))
                     .withRegion(Regions.US_EAST_1)
                     .build();
-            s3client.setS3ClientOptions(S3ClientOptions.builder().setPathStyleAccess(true).disableChunkedEncoding().build());
+
         }
     }
 
