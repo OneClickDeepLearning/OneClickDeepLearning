@@ -9,6 +9,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
+import com.amazonaws.services.s3.S3ClientOptions;
 import com.amazonaws.services.s3.model.*;
 import com.ocdl.client.Client;
 import com.ocdl.client.service.StorageService;
@@ -50,6 +51,7 @@ public class S3Service implements StorageService {
                     .withCredentials(new AWSStaticCredentialsProvider(credentials))
                     .withRegion(Regions.US_EAST_1)
                     .build();
+            s3client.setS3ClientOptions(S3ClientOptions.builder().setPathStyleAccess(true).disableChunkedEncoding().build());
         }
     }
 

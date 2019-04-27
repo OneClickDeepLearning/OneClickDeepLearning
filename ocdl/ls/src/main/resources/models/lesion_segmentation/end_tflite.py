@@ -1,5 +1,6 @@
 import sys
 import os
+import psutil
 
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
@@ -13,6 +14,13 @@ def jaccard_distance(y_true, y_pred, smooth=1):
     sum_ = keras.sum(keras.abs(y_true) + keras.abs(y_pred), axis=-1)
     jac = (intersection + smooth) / (sum_ - intersection + smooth)
     return (1 - jac) * smooth
+
+def getMemCpu():
+    info = psutil.virtual_memory()
+    print u'内存使用：',psutil.Process(os.getpid()).memory_info().rss
+    print u'总内存：',info.total
+    print u'内存占比：',info.percent
+    print u'cpu个数：',psutil.cpu_count()
 
 
 model_path = sys.argv[1]
@@ -38,10 +46,15 @@ test_pic = trans.resize(test_pic,(768,1024))
 
 input_image = test_pic.reshape(-1,768,1024,3)
 input_image = input_image.astype('float32')
+print("Before:")
+getMemCpu()
 tflite_model.set_tensor(input_details[0]['index'], input_image)
 
 tflite_model.invoke()
+
 output_data = tflite_model.get_tensor(output_details[0]['index'])
+print("After:")
+getMemCpu()
 print(output_data.shape)
 
 output_image = output_data.reshape(768,1024) * 255
