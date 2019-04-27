@@ -47,12 +47,10 @@ public class DefaultKafkaConsumerService implements ConsumerService {
     @Value("${value.deserializer.class.config}")
     private String valueDeserializerClassConfig;
 
-    public DefaultKafkaConsumerService() {
-        createConsumerInstance();
-    }
+    public DefaultKafkaConsumerService() { }
 
     @Override
-    public void createConsumer() { }
+    public void createConsumer() { if (consumer == null) createConsumerInstance();}
 
     private void createConsumerInstance() {
         Properties props = new Properties();
@@ -70,7 +68,7 @@ public class DefaultKafkaConsumerService implements ConsumerService {
     @Override
     public void run(Client client) {
 
-        if (consumer == null) createConsumerInstance();
+        createConsumer();
 
         logger.info("starting kafka consumer...");
         this.consumer.subscribe(Arrays.asList(topic));
