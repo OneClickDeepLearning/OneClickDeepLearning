@@ -19,8 +19,6 @@ public class ClientApplication implements CommandLineRunner {
     }
 
     public void run(String... args) throws Exception {
-
         client.run();
-
     }
 }

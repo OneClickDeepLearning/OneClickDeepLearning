@@ -1,4 +1,5 @@
 import sys
+import os
 
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
@@ -13,12 +14,14 @@ def jaccard_distance(y_true, y_pred, smooth=1):
     jac = (intersection + smooth) / (sum_ - intersection + smooth)
     return (1 - jac) * smooth
 
-# print(tf.__version__)
 
+model_path = sys.argv[1]
+test_pic_path = sys.argv[2]
+output_image_path = sys.argv[3]
+ground_truth_path = sys.argv[4]
 
 # Load TFLite model and allocate tensors.
-tflite_model = tf.contrib.lite.Interpreter(model_path=sys.argv[1])
-# tflite_model = tf.contrib.lite.Interpreter(model_path="unet_membrane.tflite")
+tflite_model = tf.contrib.lite.Interpreter(model_path=model_path)
 tflite_model.allocate_tensors()
 
 # Get input and output tensors.
@@ -28,8 +31,7 @@ output_details = tflite_model.get_output_details()
 print(str(output_details))
 
 # Test model on random input data.
-test_pic = mpimg.imread(sys.argv[2])
-# test_pic = mpimg.imread('./ISIC_0000000.jpg')
+test_pic = mpimg.imread(test_pic_path)
 test_pic = test_pic / 255
 test_pic = trans.resize(test_pic,(768,1024))
 
@@ -46,18 +48,19 @@ output_image = output_data.reshape(768,1024) * 255
 print(output_image.shape)
 
 plt.imshow(output_image)
-plt.savefig(sys.argv[3])
 
+if os.path.exists(ground_truth_path):
 
-# ground_truth = mpimg.imread('./ISIC_0000000_segmentation.png')
-# ground_truth = trans.resize(ground_truth, (768,1024))
-# eval = jaccard_distance(output_data.reshape(768,1024), ground_truth.astype('float32'))
-#
-# sess = tf.Session()
-# with sess.as_default():
-# eval = np.average(eval.eval())
-#
-# plt.title('Jaccord Index: '+str(eval))
-# plt.show()
+    ground_truth = mpimg.imread(ground_truth_path)
+    ground_truth = trans.resize(ground_truth, (768,1024))
+    eval = jaccard_distance(output_data.reshape(768,1024), ground_truth.astype('float32'))
+
+    sess = tf.Session()
+    with sess.as_default():
+        eval = np.average(eval.eval())
+
+    plt.title('Jaccord Index: '+str(eval))
+
+plt.savefig(output_image_path)
 
 

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping(path = "/rest/picture")
@@ -31,30 +33,41 @@ public class PictureController {
     @Autowired
     private StorageService storageService;
 
+    private String success = "success";
+
+    private String bucketName = "ocdl-client";
+
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public final Response uploadPicture(@RequestParam("file") MultipartFile file) {
 
+        long startTime = System.currentTimeMillis();
+
         Response.Builder responseBuilder = Response.getBuilder();
+        // exception control
         String resultMessage = fileSaveService.saveFile(file);
 
         //run python to get output picture
         File outputImage = segmentService.run(file.getOriginalFilename());
 
         //upload to S3
-        String bucketName = "ocdl-client";
         storageService.createStorage();
         storageService.uploadObject(bucketName, outputImage.getName(), outputImage);
         String url = storageService.getObkectUrl(bucketName, outputImage.getName());
 
+        long endTime = System.currentTimeMillis();
 
-        if (resultMessage.equals("success")) {
+        // format return data
+        Map<String, String> returnData = new HashMap<>();
+        returnData.put("url", url);
+        returnData.put("eta", Long.toString(endTime-startTime));
+
+        if (resultMessage.equals(success)) {
             responseBuilder.setCode(Response.Code.SUCCESS)
-                    .setMessage(url);
+                    .setData(returnData);
         } else {
-
-            responseBuilder.setCode(Response.Code.ERROR);
-            responseBuilder.setData(resultMessage);
+            responseBuilder.setCode(Response.Code.ERROR)
+                    .setData(resultMessage);
         }
 
         return responseBuilder.build();

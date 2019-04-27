@@ -1,6 +1,7 @@
 package com.ocdl.client.service.impl;
 
 import com.ocdl.client.service.FileSaveService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,7 +10,9 @@ import java.io.*;
 
 @Service
 public class DefaultFileSaveService implements FileSaveService {
-    private String filePath="pictures";
+
+    @Value("${pictures.path}")
+    private String filePath;
 
     public String saveFile(MultipartFile file) {
         String resultMessage = "";
@@ -17,19 +20,23 @@ public class DefaultFileSaveService implements FileSaveService {
             try {
                 System.out.println(file.getSize());
                 BufferedOutputStream out = new BufferedOutputStream(
-                        new FileOutputStream(new File(filePath +"//"+ file.getOriginalFilename())));
+                        //Paths.get()
+                        new FileOutputStream(new File(filePath +"/"+ file.getOriginalFilename())));
+                //logger
                 System.out.println(filePath + file.getOriginalFilename());
                 out.write(file.getBytes());
                 out.flush();
                 out.close();
+                //logger : file name + status
                 System.out.println("finish write");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 resultMessage = e.getMessage();
-            } catch (IOException e) {
+            } catch (IOException e) {//child class of IO exception
                 e.printStackTrace();
                 resultMessage = e.getMessage();
-            }
+            } //finally{close}
+
             resultMessage = "success";
         } else {
             resultMessage = "Empty File!";

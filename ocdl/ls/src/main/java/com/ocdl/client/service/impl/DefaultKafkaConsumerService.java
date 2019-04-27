@@ -8,55 +8,82 @@ import java.util.Properties;
 import com.ocdl.client.Client;
 import com.ocdl.client.service.ConsumerService;
 import org.apache.kafka.clients.consumer.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DefaultKafkaConsumerService implements ConsumerService {
 
+    private static final Logger logger = LoggerFactory.getLogger(DefaultKafkaConsumerService.class);
+
     private Consumer<String, String> consumer;
 
-    private static String group = "js_group_anyway6";
+    @Value("${kafka.group}")
+    private String group;
 
-    private static String VSTOPIC = "mdmsg";
+    @Value("${kafka.topic}")
+    private String topic;
 
-    public DefaultKafkaConsumerService() {
-        createConsumerInstance();
+    @Value("${bootstrap.servers.config}")
+    private String bootstrapServersConfig;
 
-    }
+    @Value("${auto.offset.reset.config}")
+    private String autoOffsetResetConfig;
+
+    @Value("${enable.auto.commit.config}")
+    private String enableAutoCommitConfig;
+
+    @Value("${auto.commit.interval.ms.config}")
+    private String autoCommitIntervalMsConfig;
+
+    @Value("${session.timeout.ms.config}")
+    private String sessionTimeoutMsConfig;
+
+    @Value("${key.deserializer.class.config}")
+    private String keyDeserializerClassConfig;
+
+    @Value("${value.deserializer.class.config}")
+    private String valueDeserializerClassConfig;
+
+    public DefaultKafkaConsumerService() { }
 
     @Override
-    public void createConsumer() {
-        if (consumer == null) createConsumerInstance();
-    }
+    public void createConsumer() { if (consumer == null) createConsumerInstance();}
 
     private void createConsumerInstance() {
         Properties props = new Properties();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "ec2-54-89-140-122.compute-1.amazonaws.com:9092");
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServersConfig);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, group);
-        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest"); //earliest
-        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true"); // 自动commit
-        props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000"); // 自动commit的间隔
-        props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "30000");
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetResetConfig); //earliest
+        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, enableAutoCommitConfig); // 自动commit
+        props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, autoCommitIntervalMsConfig); // 自动commit的间隔
+        props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, sessionTimeoutMsConfig);
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, keyDeserializerClassConfig);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, valueDeserializerClassConfig);
         consumer = new KafkaConsumer<String, String>(props);
     }
 
     @Override
     public void run(Client client) {
 
-        System.out.println("starting kafka consumer...");
-        this.consumer.subscribe(Arrays.asList(VSTOPIC));
+        createConsumer();
+
+        logger.info("starting kafka consumer...");
+        this.consumer.subscribe(Arrays.asList(topic));
 
         while (true) {
-
-            System.out.println("waiting message ....");
+            logger.info("waiting message ....");
             ConsumerRecords<String, String> records = consumer.poll(Duration.of(1, ChronoUnit.DAYS));
             for (ConsumerRecord<String, String> record : records) {
 
                 // message format: "fileName url"
-                System.out.printf("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value());
+                logger.info("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value());
 
+                if (record.value().trim().equals("")) {
+                    continue;
+                }
                 client.downloadModel(record.value());
             }
         }
