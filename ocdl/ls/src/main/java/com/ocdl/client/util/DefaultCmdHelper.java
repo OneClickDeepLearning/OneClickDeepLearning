@@ -9,6 +9,8 @@ public class DefaultCmdHelper implements CommandHelper {
 
     @Override
     public void runCommand(final File workspaceDirectory, String command) {
+        System.out.println("command is:" + command);
+
         final StringBuilder std = new StringBuilder();
         final StringBuilder stderr = new StringBuilder();
         runCommand(workspaceDirectory, command, std, stderr);
