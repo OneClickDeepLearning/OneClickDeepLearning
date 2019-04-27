@@ -4,6 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>acceler</groupId>
     <artifactId>ocdl</artifactId>
+    <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <name>ocdl</name>
     <description>odcl whole project</description>
@@ -15,6 +16,7 @@
     <modules>
         <module>cx</module>
         <module>proxy</module>
+        <module>ls</module>
     </modules>
 
 </project>

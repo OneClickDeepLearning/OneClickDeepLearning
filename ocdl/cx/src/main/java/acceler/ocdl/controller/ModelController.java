@@ -85,21 +85,17 @@ public final class ModelController {
         boolean success = modelCrud.moveModel(source, target);
 
         if (success == true) {
-
             responseBuilder.setCode(Response.Code.SUCCESS);
 
         } else {
-
             responseBuilder.setCode(Response.Code.ERROR)
                     .setMessage("Fail to move file");
         }
 
         return responseBuilder.build();
-
     }
 
     private String getNewModelName(String modelId, IncomeModelDto incomeModelDto, Path source) {
-
         String suffix = "";
         String modelName = "";
         // remove suffix
@@ -206,7 +202,4 @@ public final class ModelController {
         }
         return builder.build();
     }
-
-
-
 }

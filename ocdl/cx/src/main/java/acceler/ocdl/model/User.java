@@ -40,6 +40,7 @@ public class User implements Serializable {
     }
 
 
+
     private Optional<User> getRealUserByOauthInfo(String userName, OauthSource oauthSource) {
         lock.readLock().lock();
         Optional<User> userOpt = userListStorage.stream().filter(user -> (user.authServerUserId.equals(userName) && user.oauthSource == oauthSource)).findFirst();
