@@ -202,12 +202,11 @@
                 <!--	<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button>-->
                 <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
 					<a href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Git</a>
-
 				</span>
 
-                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
+<!--                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
 					<a id="flapBtn" href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
-				</span>
+				</span>-->
 
                 <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
 					<a class="hi-icon hi-icon-archive roundA" data-toggle="modal" data-target="#FileModal">Upload</a>
@@ -337,7 +336,10 @@
                 <div class="tab" role="tabpanel">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#Section1" aria-controls="home" role="tab"
+                        <li role="presentation" class="active"><a href="#Section0" aria-controls="home" role="tab"
+                                                                  data-toggle="tab"><i class="fa fa-home"></i><span>Welcome</span></a>
+                        </li>
+                        <li role="presentation"><a href="#Section1" aria-controls="home" role="tab"
                                                                   data-toggle="tab"><i class="fa fa-home"></i><span>IDE (Jupyter)</span></a>
                         </li>
                         <li role="presentation"><a href="#Section2" aria-controls="profile" role="tab"
@@ -350,7 +352,37 @@
                     <!-- Tab panes -->
                     <div class="tab-content tabs" style="height: 600px; box-shadow: 0 0 10px rgba(0,0,0,1);">
 
-                        <div role="tabpanel" class="tab-pane fade in active" id="Section1">
+                        <div role="tabpanel" class="tab-pane fade in active" id="Section0">
+                            <div class="cover" style="overflow:auto;">
+                                <div class="">
+                                    <div class="col-md-12">
+                                        <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">OUR
+                                            <span>AWESOME</span> THINGS</h2>
+                                    </div>
+                                    <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+                                        <i class="fa fa-laptop"></i>
+                                        <h4>One Click Deep learning</h4>
+                                        <p>We can help you to deploy deep learning project in a convenient, fast and reliable
+                                            way. We're totally offering more than 50 templates, 20 type of networks, 30 kinds of
+                                            layers and 20 kinds blocks templates for you. From training to assessment, all you
+                                            need to you is just one click. </p>
+                                    </div>
+                                    <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.9s">
+                                        <i class="fa fa-cloud"></i>
+                                        <h4>Distributed Computing</h4>
+                                        <p>Don't have a powerful computing resource? We offered distributed computing resource
+                                            for your training task, </p>
+                                    </div>
+                                    <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+                                        <i class="fa fa-cog"></i>
+                                        <h4>Container friendly</h4>
+                                        <p>Easy packing of deep learning stacks rapid development across multiple platforms</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="Section1">
                             <iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
                                     src="http://localhost:8888/notebooks/Untitled.ipynb" style="height:550px; width:100%"></iframe>
                         </div>

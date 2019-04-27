@@ -132,8 +132,8 @@ h2 span
 header
 	{
 		min-height: 20px;
-		padding-top: 18px;
-		padding-bottom: 10px;
+		padding-top: 8px;
+		padding-bottom: 5px;
 		z-index: 102;
 		position: relative;
 	}
