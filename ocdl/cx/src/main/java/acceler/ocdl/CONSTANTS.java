@@ -11,12 +11,18 @@ public interface CONSTANTS {
     interface NAME_FORMAT {
         String USER_SPACE = "{projectName}-{userId}";
         String STAGED_MODEL = "{fileName}-{timestamp}";
+
+        interface MODEL_FILE {
+            String NEW_MODEL = "{modelName}_{commitTime}";
+            String REJECTED_MODEL = "{modelName}_{rejectedTime}";
+            String APPROVED_MODEL = "{modelName}_{approvedTime}_{algorithm}_{releaseVersion}_{cachedVersion}";
+        }
     }
 
-    interface PERSISTANCE {
+    interface PERSISTENCE {
         String _BASE = "./resource/persistence";
-        String ALGORITHMS = "/algorithms";
-        String PROJECT = "/project";
-        String USERS = "/users";
+        String ALGORITHMS = _BASE + "/algorithms";
+        String PROJECT = _BASE + "/project";
+        String USERS = _BASE + "/users";
     }
 }

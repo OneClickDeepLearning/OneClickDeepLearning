@@ -2,7 +2,6 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.model.User;
-import acceler.ocdl.persistence.UserCrud;
 import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.SecurityUtil;
 import org.slf4j.Logger;
@@ -28,8 +27,6 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserCrud userCrud;
 
     @Autowired
     private SecurityUtil securityUtil;

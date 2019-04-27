@@ -26,7 +26,7 @@ public interface ModelService {
      * @param algorithmName the name of algorithm that chose when approve
      * @param version the version that chose when approve
      */
-    void approvalModel(Model model, String algorithmName, Algorithm.UpgradeVersion version);
+    void approveModel(NewModel model, String algorithmName, Algorithm.UpgradeVersion version);
 
     /**
      * reject model
@@ -34,7 +34,7 @@ public interface ModelService {
      * he format of the fileName = "modelName" + "timestamp" + "suffix"
      * @param model model that need to reject
      */
-    void rejectModel(Model model);
+    void rejectModel(NewModel model);
 
     /**
      * reject model
@@ -47,10 +47,9 @@ public interface ModelService {
     /**
      * push model to git repository
      * copy model file from folder "approval" to git repository, and git push
-     * @param source the path of the model that need to push to git
-     * @param newModelName = "algorithm" + "version" + "suffix" (the format of version = "v*.*")
+     * @param modelName = "algorithm" + "version" + "suffix" (the format of version = "v*.*")
      */
-    void pushModeltoGit(String source, String newModelName);
+    void pushModelToGit(String modelName);
 
     /**
      * get models by status
