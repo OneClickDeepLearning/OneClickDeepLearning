@@ -68,7 +68,7 @@ function appendURLFile(url, listName,eta) {
               <div>
                 <img src="` + url + `" alt="file" />
               </div>
-               <h6 style="font-size:10px">ETA: ` + eta + ` B</h6>
+               <h6 style="font-size:10px">ETA: ` + eta + ` ms</h6>
             </li>
           `;
     $(listName)[0].innerHTML = liStr;
