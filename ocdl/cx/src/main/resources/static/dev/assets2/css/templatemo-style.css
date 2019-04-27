@@ -199,7 +199,7 @@ header .social-icon li a
 	z-index: 1000;
 }
 .sticky {	
-	position: fixed;
+/*	position: fixed;*/
 	left: 0;
 	top: 0;	
 }
