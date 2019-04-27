@@ -8,8 +8,8 @@ import acceler.ocdl.utils.CommandHelper;
 import acceler.ocdl.utils.TimeUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -17,12 +17,10 @@ import java.util.Date;
 import java.util.List;
 
 public class DefaultModelServiceImpl implements ModelService {
-
     private static final Logger log = Logger.getLogger(DefaultModelServiceImpl.class);
 
-    @Resource
+    @Autowired
     private CommandHelper commandHelper;
-
 
     @Override
     public void initModelToStage(User user) {
@@ -73,7 +71,7 @@ public class DefaultModelServiceImpl implements ModelService {
 
         ApprovedModel approvedModel = algorithm.approveModel(model, version);
 
-        //TODO: move file from new area to approval area
+
 
         algorithm.persistApprovalModel(approvedModel);
 
