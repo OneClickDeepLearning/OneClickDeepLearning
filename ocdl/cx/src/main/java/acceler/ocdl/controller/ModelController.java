@@ -4,8 +4,6 @@ import acceler.ocdl.dto.IncomeModelDto;
 import acceler.ocdl.dto.ModelDto;
 import acceler.ocdl.model.Model;
 import acceler.ocdl.model.User;
-import acceler.ocdl.persistence.ModelCrud;
-import acceler.ocdl.persistence.ModelTypeCrud;
 import acceler.ocdl.service.ModelService;
 import acceler.ocdl.dto.Response;
 import org.slf4j.Logger;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.QueryParam;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
@@ -37,16 +36,6 @@ public final class ModelController {
     @Autowired
     private ModelService modelService;
 
-    @Autowired
-    private ModelCrud modelCrud;
-
-    @Autowired
-    private ModelTypeCrud modelTypeCrud;
-
-
-    /*
-        get all models
-     */
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     public final Response getModelList() {
@@ -74,7 +63,8 @@ public final class ModelController {
 
     @ResponseBody
     @RequestMapping(path = "/{modelId}",  method = RequestMethod.PUT)
-    public final Response pushDecision(@PathVariable("modelId") String modelId, @RequestBody IncomeModelDto incomeModelDto) {
+    public final Response pushDecision(@PathVariable("modelId") String modelId, @RequestBody IncomeModelDto incomeModelDto,
+                                       @QueryParam("from") String from, @QueryParam("to")String to) {
 
         logger.debug("enter the get model list funciton +++++++++++++++++");
         Response.Builder responseBuilder = getBuilder();
