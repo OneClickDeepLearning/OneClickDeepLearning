@@ -52,9 +52,7 @@ public class DefaultKafkaConsumerService implements ConsumerService {
     }
 
     @Override
-    public void createConsumer() {
-        if (consumer == null) createConsumerInstance();
-    }
+    public void createConsumer() { }
 
     private void createConsumerInstance() {
         Properties props = new Properties();
@@ -71,6 +69,8 @@ public class DefaultKafkaConsumerService implements ConsumerService {
 
     @Override
     public void run(Client client) {
+
+        if (consumer == null) createConsumerInstance();
 
         logger.info("starting kafka consumer...");
         this.consumer.subscribe(Arrays.asList(topic));

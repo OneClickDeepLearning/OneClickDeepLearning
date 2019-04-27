@@ -33,6 +33,8 @@ public class PictureController {
     @Autowired
     private StorageService storageService;
 
+    private String success = "success";
+
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public final Response uploadPicture(@RequestParam("file") MultipartFile file) {
@@ -59,7 +61,7 @@ public class PictureController {
         returnData.put("url", url);
         returnData.put("eta", Long.toString(endTime-startTime));
 
-        if (resultMessage.equals("success")) {
+        if (resultMessage.equals(success)) {
             responseBuilder.setCode(Response.Code.SUCCESS)
                     .setData(returnData);
         } else {
