@@ -3,12 +3,9 @@ package acceler.ocdl.service.impl;
 import acceler.ocdl.dto.ModelDto;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.exception.OcdlException;
-import acceler.ocdl.model.Model;
 import acceler.ocdl.model.User;
-import acceler.ocdl.persistence.ModelCrud;
-import acceler.ocdl.persistence.ProjectCrud;
 import acceler.ocdl.service.ModelService;
-import acceler.ocdl.utils.impl.DefaultCmdHelper;
+import acceler.ocdl.utils.DefaultCmdHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +17,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,12 +29,6 @@ public class DefaultModelService implements ModelService {
     private static final String userspacePath = "/home/hadoop/nfs_hdfs/UserSpace/";
     private static final String stagePath = "/home/ec2-user/stage/";
     private static final String gitRepoPath = "/home/ec2-user/models/";
-
-    @Autowired
-    private ModelCrud modelCrud;
-
-    @Autowired
-    private ProjectCrud projectCrud;
 
     public DefaultModelService(){ }
 

@@ -3,6 +3,7 @@ package acceler.ocdl.utils;
 import java.io.*;
 import java.util.List;
 
+@Deprecated
 public class CmdHelper {
 
     public static String runCommand(List<String> cmds) {

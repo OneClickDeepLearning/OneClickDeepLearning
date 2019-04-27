@@ -2,9 +2,7 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.model.User;
-import acceler.ocdl.persistence.ProjectCrud;
 import acceler.ocdl.persistence.UserCrud;
-import acceler.ocdl.service.KubernetesService;
 import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.SecurityUtil;
 import org.slf4j.Logger;
@@ -25,7 +23,6 @@ import java.util.Map;
 @Controller
 @RequestMapping(path = "/rest/auth")
 public class AuthController {
-
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
@@ -36,6 +33,7 @@ public class AuthController {
 
     @Autowired
     private SecurityUtil securityUtil;
+
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     @ResponseBody
@@ -57,7 +55,7 @@ public class AuthController {
             String token = securityUtil.requestToken(loginUser);
 
             Map<String, Object> result = new HashMap<>();
-            result.put("userName", loginUser.getUserName());
+            result.put("userName", loginUser.getAuthServerUserId());
             result.put("token", token);
             result.put("role",loginUser.getRole());
 

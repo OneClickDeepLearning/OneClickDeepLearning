@@ -18,7 +18,6 @@ public class DBUserService implements UserService {
         return user != null;
     }
 
-
     public User getUserByCredentials(AuthController.UserCredentials loginUser) {
         return userCrud.getUserByAccountAndPassword(loginUser.account, loginUser.password);
     }
