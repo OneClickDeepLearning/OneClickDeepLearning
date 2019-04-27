@@ -43,4 +43,8 @@ public interface CONSTANTS {
     interface MACHINE{
         int GPU_AMOUNT = 1;
     }
+
+    interface HADOOPMASTER{
+        String ADDRESS = "hdfs://10.8.0.14:9000";
+    }
 }
