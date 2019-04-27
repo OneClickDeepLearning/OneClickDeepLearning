@@ -13,7 +13,7 @@ function modelTest() {
         processData: false,//这两个一定设置为false
         success: function (data) {
             ajaxMessageReader(data, function (data) {
-                appendURLFile(data.get("url"), "#resultList",data.get("eta"));
+                appendURLFile(data['url'], "#resultList",data['eta']);
                 alert("Result has been returned!");
             })
         },
