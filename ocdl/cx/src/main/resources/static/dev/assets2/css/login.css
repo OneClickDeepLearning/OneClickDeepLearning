@@ -2,7 +2,6 @@
 =            button style    www.bootstrapmb.com        =
 ====================================*/
 .temp-form-button {
-  background-color: #1786A8;
   border: 0 !important;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -13,6 +12,7 @@
   transition-duration: 0.3s;
   transition-property: color;
   box-shadow: 1px 3px 6px #bababa;
+  background-color: #1786A8;
 }
 .temp-form-button:hover {
   background-color: #1786A8;

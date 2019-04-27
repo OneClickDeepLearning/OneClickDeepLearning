@@ -23,6 +23,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * KubernetesService is responsible for launching and releasing
+ * CPU or GPU container based on user information
+ */
 @Service
 public class DefaultKubernetesService implements KubernetesService {
 
@@ -44,24 +48,50 @@ public class DefaultKubernetesService implements KubernetesService {
     private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + CONSTANTS.IP.VIRTUAL.MASTER + ":6443").build());
 
 
+    /**
+     * launch a GPU container for user
+     * @param user userId is required to determine corresponding userspace
+     * @return url the address of the launched container format is ip:port
+     * @throws KuberneteException
+     * @throws HdfsException
+     */
     public String launchGpuContainer(User user) throws KuberneteException, HdfsException {
         Long userId = user.getUserId();
+        //container is already launched for user or not
         if(gpuAssigned.containsKey(userId))
             return gpuAssigned.get(userId);
-        else if(gpuAssigned.size() == CONSTANTS.MACHINE.GPU_AMOUNT)
+
+        //only one gpu resource can be accessed at a time
+        else if(gpuAssigned.size() == 1)
             throw new KuberneteException("No more GPU resource!");
 
         String url;
         String ip;
         String port;
 
+        File userSpace = new File("/home/hadoop/mount/UserSpace/" + userSpaceId);
+
+        //if user space for given user does not exists in local file system, download from HDFS
+        if(!userSpace.exists()){
+            System.out.println("[debug]UserSpace does not exit, loading from HDFS...");
+            hdfsService.downloadUserSpace("hdfs://10.8.0.14:9000/UserSpace/" + userSpaceId, "/home/hadoop/mount/UserSpace/" + userSpaceId);
+        }
+
+        //create a kubernetes deployment
+
         Deployment deployment = createGpuDeployment(user);
+
+        //create a kubernetes service
         io.fabric8.kubernetes.api.model.Service service = createGpuService(user);
 
         log.debug("Container launched!");
 
+        //get the port number for launched container
         port = getPort(service);
+
+        //get the ip address for launched container
         ip = ipMap.get(getGpuIp(user));
+
         url = ip + ":" + port;
 
         if(ip == null || port == null){
@@ -73,6 +103,13 @@ public class DefaultKubernetesService implements KubernetesService {
         return url;
     }
 
+    /**
+     * launch a CPU container for user
+     * @param user userId is required to determine corresponding userspace
+     * @return url the address of the launched container format is ip:port
+     * @throws KuberneteException
+     * @throws HdfsException
+     */
     public String launchCpuContainer(User user) throws KuberneteException, HdfsException{
 
         Long userId = user.getUserId();
@@ -83,6 +120,12 @@ public class DefaultKubernetesService implements KubernetesService {
         String url;
         String ip;
         String port;
+
+//        File userSpace = new File("/home/hadoop/mount/UserSpace/" + userSpaceId);
+//        if(!userSpace.exists()){
+//            System.out.println("[debug]UserSpace does not exit, loading from HDFS...");
+//            hdfsService.downloadUserSpace("hdfs://10.8.0.14:9000/UserSpace/" + userSpaceId, "/home/hadoop/mount/UserSpace/" + userSpaceId);
+//        }
 
         Deployment deployment = createCpuDeployment(user);
         io.fabric8.kubernetes.api.model.Service service = createCpuService(user);
@@ -109,6 +152,7 @@ public class DefaultKubernetesService implements KubernetesService {
 
         String depolyId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
 
+        //set parameters for kubernetes deployment
         Deployment deployment = new DeploymentBuilder()
                 .withApiVersion("apps/v1")
                 .withKind("Deployment")
@@ -145,15 +189,40 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withImagePullPolicy("Never")
                 .endContainer()
 
+
                 .addToVolumes()
                 .addNewVolume()
                 .withName("model")
-                .withNewNfs()
-                .withServer(CONSTANTS.IP.PUBLIC.MASTER)
-                .withPath("/home/hadoop/mount/UserSpace/" + depolyId)
-                .endNfs()
+
+                .withNewHostPath()
+                .withPath("/home/hadoop/nfs_hdfs/UserSpace/" + depolyId)
+                .endHostPath()
+                .endVolume()
+                .addNewVolume()
+                .withName("dataset")
+                .withNewHostPath()
+                .withPath("/home/hadoop/nfs_hdfs/CommonSpace")
+                .endHostPath()
                 .endVolume()
 
+
+//                .addToVolumes()
+//                .addNewVolume()
+//                .withName("model")
+//                .withNewNfs()
+//                .withServer("3.89.28.106")
+//                //.withPath("/home/hadoop/mount/UserSpace/" + depolyId)
+//                .withPath("/home/hadoop/nfs_hdfs/UserSpace/" + depolyId)
+//                .endNfs()
+//                .endVolume()
+//                .addNewVolume()
+//                .withName("dataset")
+//                .withNewNfs()
+//                .withServer("3.89.28.106")
+//                //.withPath("/home/hadoop/mount/CommonSpace")
+//                .withPath("/home/hadoop/nfs_hdfs/CommonSpace")
+//                .endNfs()
+//                .endVolume()
 
                 .endSpec()
                 .endTemplate()
@@ -211,11 +280,35 @@ public class DefaultKubernetesService implements KubernetesService {
                 .addToVolumes()
                 .addNewVolume()
                 .withName("model")
-                .withNewNfs()
-                .withServer(CONSTANTS.IP.PUBLIC.MASTER)
-                .withPath("/home/hadoop/mount/UserSpace/" + depolyId)
-                .endNfs()
+
+                .withNewHostPath()
+                .withPath("/home/hadoop/nfs_hdfs/UserSpace/" + depolyId)
+                .endHostPath()
                 .endVolume()
+                .addNewVolume()
+                .withName("dataset")
+                .withNewHostPath()
+                .withPath("/home/hadoop/nfs_hdfs/CommonSpace")
+                .endHostPath()
+                .endVolume()
+
+
+
+//                .addToVolumes()
+//                .addNewVolume()
+//                .withName("model")
+//                .withNewNfs()
+//                .withServer("3.89.28.106")
+//                .withPath("/home/hadoop/mount/UserSpace/" + depolyId)
+//                .endNfs()
+//                .endVolume()
+//                .addNewVolume()
+//                .withName("dataset")
+//                .withNewNfs()
+//                .withServer("3.89.28.106")
+//                .withPath("/home/hadoop/mount/CommonSpace")
+//                .endNfs()
+//                .endVolume()
 
                 .endSpec()
                 .endTemplate()
@@ -234,6 +327,7 @@ public class DefaultKubernetesService implements KubernetesService {
 
         String svcId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
 
+        //set parameters for kubernetes service
         io.fabric8.kubernetes.api.model.Service service = new ServiceBuilder()
                 .withApiVersion("v1")
                 .withKind("Service")
@@ -288,6 +382,11 @@ public class DefaultKubernetesService implements KubernetesService {
         return service;
     }
 
+    /**
+     * get the ip address for launched GPU container
+     * @param user user information
+     * @return ip address for launched GPU container
+     */
     public String getGpuIp(User user){
         StringBuilder podId = new StringBuilder();
         String userSpace = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
@@ -302,6 +401,11 @@ public class DefaultKubernetesService implements KubernetesService {
         throw new KuberneteException("Can not find container's IP address");
     }
 
+    /**
+     * get the ip address for launched CPU container
+     * @param user user information
+     * @return ip address for launched CPU container
+     */
     public String getCpuIp(User user){
 
         StringBuilder podId = new StringBuilder();
@@ -319,6 +423,12 @@ public class DefaultKubernetesService implements KubernetesService {
         throw new KuberneteException("Can not find container's IP address");
     }
 
+
+    /**
+     * get the port number for launched container
+     * @param service kubernetes service for launched container
+     * @return port number for launched container
+     */
     private String getPort(io.fabric8.kubernetes.api.model.Service service) {
 
         String port;
@@ -330,18 +440,24 @@ public class DefaultKubernetesService implements KubernetesService {
         return port;
     }
 
+    /**
+     * release user's containers
+     * @param user user information
+     * @throws KuberneteException
+     */
     public void releaseDockerContainer(User user) throws KuberneteException{
 
         String userId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
 
         try {
+            //release all user's kubernetes service
             for(io.fabric8.kubernetes.api.model.Service svc : client.services().inNamespace("default").list().getItems()){
                 System.out.println(svc.getMetadata().getName());
 
                 if(svc.getMetadata().getName().contains(userId))
                     client.resource(svc).delete();
             }
-
+            //release all user's kubernetes deployment
             for (Deployment deploy : client.apps().deployments().inNamespace("default").list().getItems()){
                 System.out.println(deploy.getMetadata().getName());
                 if(deploy.getMetadata().getName().contains(userId))
