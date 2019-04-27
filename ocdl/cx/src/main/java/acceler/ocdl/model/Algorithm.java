@@ -36,7 +36,6 @@ public class Algorithm implements Serializable {
         this.cachedVersionGenerator = new AtomicLong(0);
     }
 
-
     /**
      * To protect dirty model data in memory, only expose copy of these model
      */
@@ -126,7 +125,7 @@ public class Algorithm implements Serializable {
     }
 
     private static void persistence() {
-        File dumpFile = new File(CONSTANTS.PERSISTANCE.ALGORITHMS);
+        File dumpFile = new File(CONSTANTS.PERSISTENCE.ALGORITHMS);
         SerializationUtils.dump(algorithmStorage, dumpFile);
     }
 
@@ -165,7 +164,8 @@ public class Algorithm implements Serializable {
     }
 
     public static Optional<Algorithm> getAlgorithmByName(String algorithmName) {
-        Optional<Algorithm> algorithmOpt = getRealAlgothmByName(algorithmName);
+
+        Optional<Algorithm> algorithmOpt = getRealAlgorithmByName(algorithmName);
 
         Algorithm copy = algorithmOpt.map(Algorithm::deepCopy).orElse(null);
 
@@ -173,7 +173,7 @@ public class Algorithm implements Serializable {
     }
 
     public static boolean existAlgorithm(String algorithmName) {
-        return getRealAlgothmByName(algorithmName).isPresent();
+        return getRealAlgorithmByName(algorithmName).isPresent();
     }
 
     public static void addNewAlgorithm(Algorithm newAlgorithm) {
@@ -194,7 +194,6 @@ public class Algorithm implements Serializable {
         return targetOpt.orElseThrow(() -> (new NotFoundException("", "")));
     }
 
-
     /**
      * warning: return real object of real-time data
      */
@@ -209,7 +208,7 @@ public class Algorithm implements Serializable {
     /**
      * warning: return real object of real-time data
      */
-    private static Optional<Algorithm> getRealAlgothmByName(String algorithmName) {
+    private static Optional<Algorithm> getRealAlgorithmByName(String algorithmName) {
         lock.readLock().lock();
         Optional<Algorithm> algorithmOpt = algorithmStorage.stream().filter(a -> a.algorithmName.equals(algorithmName)).findFirst();
         lock.readLock().lock();
@@ -229,11 +228,8 @@ public class Algorithm implements Serializable {
         return this.currentCachedVersion;
     }
 
-
     public enum UpgradeVersion {
         RELEASE_VERSION,
         CACHED_VERSION
     }
-
-
 }

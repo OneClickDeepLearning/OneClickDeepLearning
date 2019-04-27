@@ -12,6 +12,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @Service
+@Deprecated
 public class DefaultHdfsService implements HdfsService {
 
     private Configuration conf = new Configuration();

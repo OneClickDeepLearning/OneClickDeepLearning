@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +24,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class DefaultKubernetesService implements KubernetesService {
-
     Logger log = LoggerFactory.getLogger(DefaultKubernetesService.class);
 
     @Autowired
@@ -33,7 +31,7 @@ public class DefaultKubernetesService implements KubernetesService {
 
     private static final Map<Long, String> cpuAssigned = new ConcurrentHashMap<>();
     private static final Map<Long, String> gpuAssigned = new ConcurrentHashMap<>();
-    private static final Map<String,String> ipMap = new HashMap<String, String>(){
+    private static final Map<String, String> ipMap = new HashMap<String, String>() {
         {
             put(CONSTANTS.IP.VIRTUAL.MASTER, CONSTANTS.IP.PUBLIC.MASTER);
             put(CONSTANTS.IP.VIRTUAL.CPU, CONSTANTS.IP.PUBLIC.CPU);
@@ -43,19 +41,19 @@ public class DefaultKubernetesService implements KubernetesService {
 
     private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + CONSTANTS.IP.VIRTUAL.MASTER + ":6443").build());
 
-
     public String launchGpuContainer(User user) throws KuberneteException, HdfsException {
         Long userId = user.getUserId();
-        if(gpuAssigned.containsKey(userId))
+        if (gpuAssigned.containsKey(userId)) {
             return gpuAssigned.get(userId);
-        else if(gpuAssigned.size() == CONSTANTS.MACHINE.GPU_AMOUNT)
+        } else if (gpuAssigned.size() == CONSTANTS.MACHINE.GPU_AMOUNT){
             throw new KuberneteException("No more GPU resource!");
+        }
 
         String url;
         String ip;
         String port;
 
-        Deployment deployment = createGpuDeployment(user);
+        createGpuDeployment(user);
         io.fabric8.kubernetes.api.model.Service service = createGpuService(user);
 
         log.debug("Container launched!");
@@ -64,20 +62,21 @@ public class DefaultKubernetesService implements KubernetesService {
         ip = ipMap.get(getGpuIp(user));
         url = ip + ":" + port;
 
-        if(ip == null || port == null){
+        if (ip == null || port == null) {
             throw new KuberneteException("Container url unreachable, please try again.");
         }
 
-        gpuAssigned.put(userId,url);
+        gpuAssigned.put(userId, url);
         log.debug(url);
+
         return url;
     }
 
-    public String launchCpuContainer(User user) throws KuberneteException, HdfsException{
-
+    public String launchCpuContainer(User user) throws KuberneteException, HdfsException {
         Long userId = user.getUserId();
-        if(cpuAssigned.containsKey(userId))
+        if (cpuAssigned.containsKey(userId)) {
             return cpuAssigned.get(userId);
+        }
 
         String userSpaceId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
         String url;
@@ -94,19 +93,18 @@ public class DefaultKubernetesService implements KubernetesService {
         url = ip + ":" + port;
 
         //get ip or port before container is really launched
-        if(ip == null || port == null){
+        if (ip == null || port == null) {
             throw new KuberneteException("Container url unreachable, please try again.");
         }
 
-        cpuAssigned.put(userId,url);
+        cpuAssigned.put(userId, url);
 
         log.debug("container address: " + url);
 
         return url;
     }
 
-    private Deployment createCpuDeployment(User user){
-
+    private Deployment createCpuDeployment(User user) {
         String depolyId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
 
         Deployment deployment = new DeploymentBuilder()
@@ -114,16 +112,16 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withKind("Deployment")
                 .withNewMetadata()
                 .withName(depolyId + "-deploy-cpu")
-                .addToLabels("app","cpu1")
+                .addToLabels("app", "cpu1")
                 .endMetadata()
                 .withNewSpec()
                 .withReplicas(1)
                 .withNewSelector()
-                .addToMatchLabels("app","cpu1")
+                .addToMatchLabels("app", "cpu1")
                 .endSelector()
                 .withNewTemplate()
                 .withNewMetadata()
-                .addToLabels("app","cpu1")
+                .addToLabels("app", "cpu1")
                 .endMetadata()
                 .withNewSpec()
                 .withNodeName(CONSTANTS.IP.VIRTUAL.GPU)//GPU node address
@@ -154,7 +152,6 @@ public class DefaultKubernetesService implements KubernetesService {
                 .endNfs()
                 .endVolume()
 
-
                 .endSpec()
                 .endTemplate()
                 .endSpec()
@@ -162,14 +159,14 @@ public class DefaultKubernetesService implements KubernetesService {
 
         try {
             deployment = client.apps().deployments().inNamespace("default").create(deployment);
-        } catch (KubernetesClientException e){
+        } catch (KubernetesClientException e) {
             throw new KuberneteException(e.getMessage());
         }
+
         return deployment;
     }
 
-    private Deployment createGpuDeployment(User user){
-
+    private Deployment createGpuDeployment(User user) {
         String depolyId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
 
         Deployment deployment = new DeploymentBuilder()
@@ -177,16 +174,16 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withKind("Deployment")
                 .withNewMetadata()
                 .withName(depolyId + "-deploy-gpu")
-                .addToLabels("app","gpu1")
+                .addToLabels("app", "gpu1")
                 .endMetadata()
                 .withNewSpec()
                 .withReplicas(1)
                 .withNewSelector()
-                .addToMatchLabels("app","gpu1")
+                .addToMatchLabels("app", "gpu1")
                 .endSelector()
                 .withNewTemplate()
                 .withNewMetadata()
-                .addToLabels("app","gpu1")
+                .addToLabels("app", "gpu1")
                 .endMetadata()
                 .withNewSpec()
                 .withNodeName(CONSTANTS.IP.VIRTUAL.GPU)//GPU node address
@@ -221,17 +218,16 @@ public class DefaultKubernetesService implements KubernetesService {
                 .endTemplate()
                 .endSpec()
                 .build();
-
         try {
             deployment = client.apps().deployments().inNamespace("default").create(deployment);
-        } catch (KubernetesClientException e){
+        } catch (KubernetesClientException e) {
             throw new KuberneteException(e.getMessage());
         }
+
         return deployment;
     }
 
-    private io.fabric8.kubernetes.api.model.Service createCpuService(User user){
-
+    private io.fabric8.kubernetes.api.model.Service createCpuService(User user) {
         String svcId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
 
         io.fabric8.kubernetes.api.model.Service service = new ServiceBuilder()
@@ -247,20 +243,20 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withNewTargetPort(8998)
                 .withProtocol("TCP")
                 .endPort()
-                .withSelector(Collections.singletonMap("app","cpu1"))
+                .withSelector(Collections.singletonMap("app", "cpu1"))
                 .endSpec()
                 .build();
 
         try {
             service = client.services().inNamespace("default").create(service);
-        } catch (KubernetesClientException e){
+        } catch (KubernetesClientException e) {
             throw new KuberneteException(e.getMessage());
         }
+
         return service;
     }
 
-    private io.fabric8.kubernetes.api.model.Service createGpuService(User user){
-
+    private io.fabric8.kubernetes.api.model.Service createGpuService(User user) {
         String svcId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
 
         io.fabric8.kubernetes.api.model.Service service = new ServiceBuilder()
@@ -276,25 +272,26 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withNewTargetPort(8998)
                 .withProtocol("TCP")
                 .endPort()
-                .withSelector(Collections.singletonMap("app","gpu1"))
+                .withSelector(Collections.singletonMap("app", "gpu1"))
                 .endSpec()
                 .build();
 
         try {
             service = client.services().inNamespace("default").create(service);
-        } catch (KubernetesClientException e){
+        } catch (KubernetesClientException e) {
             throw new KuberneteException(e.getMessage());
         }
+
         return service;
     }
 
-    public String getGpuIp(User user){
+    public String getGpuIp(User user) {
         StringBuilder podId = new StringBuilder();
         String userSpace = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
         podId.append(userSpace).append("-deploy-gpu");
 
-        for(Pod pod : client.pods().inNamespace("default").list().getItems()){
-            if(pod.getMetadata().getName().contains(podId.toString())){
+        for (Pod pod : client.pods().inNamespace("default").list().getItems()) {
+            if (pod.getMetadata().getName().contains(podId.toString())) {
                 return pod.getStatus().getHostIP();
             }
         }
@@ -302,7 +299,7 @@ public class DefaultKubernetesService implements KubernetesService {
         throw new KuberneteException("Can not find container's IP address");
     }
 
-    public String getCpuIp(User user){
+    public String getCpuIp(User user) {
 
         StringBuilder podId = new StringBuilder();
 
@@ -310,8 +307,8 @@ public class DefaultKubernetesService implements KubernetesService {
 
         podId.append(userSpace).append("-deploy-cpu");
 
-        for(Pod pod : client.pods().inNamespace("default").list().getItems()){
-            if(pod.getMetadata().getName().contains(podId.toString())){
+        for (Pod pod : client.pods().inNamespace("default").list().getItems()) {
+            if (pod.getMetadata().getName().contains(podId.toString())) {
                 return pod.getStatus().getHostIP();
             }
         }
@@ -324,32 +321,31 @@ public class DefaultKubernetesService implements KubernetesService {
         String port;
         try {
             port = service.getSpec().getPorts().get(0).getNodePort().toString();
-        } catch (KubernetesClientException e){
+        } catch (KubernetesClientException e) {
             throw new KuberneteException(e.getMessage());
         }
         return port;
     }
 
-    public void releaseDockerContainer(User user) throws KuberneteException{
+    public void releaseDockerContainer(User user) throws KuberneteException {
 
         String userId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
 
         try {
-            for(io.fabric8.kubernetes.api.model.Service svc : client.services().inNamespace("default").list().getItems()){
+            for (io.fabric8.kubernetes.api.model.Service svc : client.services().inNamespace("default").list().getItems()) {
                 System.out.println(svc.getMetadata().getName());
 
-                if(svc.getMetadata().getName().contains(userId))
+                if (svc.getMetadata().getName().contains(userId))
                     client.resource(svc).delete();
             }
 
-            for (Deployment deploy : client.apps().deployments().inNamespace("default").list().getItems()){
+            for (Deployment deploy : client.apps().deployments().inNamespace("default").list().getItems()) {
                 System.out.println(deploy.getMetadata().getName());
-                if(deploy.getMetadata().getName().contains(userId))
+                if (deploy.getMetadata().getName().contains(userId))
                     client.resource(deploy).delete();
             }
-        } catch (KubernetesClientException e){
+        } catch (KubernetesClientException e) {
             throw new KuberneteException(e.getMessage());
         }
     }
-
 }
