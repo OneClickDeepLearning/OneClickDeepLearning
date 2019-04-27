@@ -18,12 +18,132 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="assets2/css/templatemo-style.css">
     <link rel="stylesheet" href="assets2/css/SwitchServer.css">
-    <link href="assets2/css/flipycard.css" rel="stylesheet">
+    <!--    <link href="assets2/css/flipycard.css" rel="stylesheet">-->
     <link href="assets2/css/SyntaxHighlighter.css" type="text/css" rel="stylesheet">
     <link href="assets2/css/menu.css" rel="stylesheet">
     <link href="assets2/css/infoStatus.css" rel="stylesheet">
     <link href="assets2/css/login.css" rel="stylesheet">
     <link href="assets2/css/userLoginBtn.css" rel="stylesheet">
+
+
+    <style type="text/css">
+        .jupyterContainerLarge {
+            margin: 0;
+            width: 100%;
+            transition-property: margin, width;
+            transition-duration: 500ms;
+
+        }
+
+
+        a:hover, a:focus {
+            outline: none;
+            text-decoration: none;
+        }
+
+        .tab .nav-tabs {
+            padding-left: 15px;
+            border-bottom: 4px solid #1786A8;
+        }
+
+        .tab .nav-tabs li a {
+            color: #fff;
+            padding: 10px 20px;
+            margin-right: 10px;
+            background: #1786A8;
+            text-shadow: 1px 1px 2px #000;
+            border: none;
+            border-radius: 0;
+            opacity: 0.5;
+            position: relative;
+            transition: all 0.3s ease 0s;
+        }
+
+        .tab .nav-tabs li a:hover {
+            background: #1786A8;
+            opacity: 0.8;
+        }
+
+        .tab .nav-tabs li.active a {
+            opacity: 1;
+        }
+
+        .tab .nav-tabs li.active a,
+        .tab .nav-tabs li.active a:hover,
+        .tab .nav-tabs li.active a:focus {
+            color: #fff;
+            background: #1786A8;
+            border: none;
+            border-radius: 0;
+        }
+
+        .tab .nav-tabs li a:before,
+        .tab .nav-tabs li a:after {
+            content: "";
+            border-top: 42px solid transparent;
+            position: absolute;
+            top: -2px;
+        }
+
+        .tab .nav-tabs li a:before {
+            border-right: 15px solid #1786A8;
+            left: -15px;
+        }
+
+        .tab .nav-tabs li a:after {
+            border-left: 15px solid #1786A8;
+            right: -15px;
+        }
+
+        .tab .nav-tabs li a i,
+        .tab .nav-tabs li.active a i {
+            display: inline-block;
+            padding-right: 5px;
+            font-size: 15px;
+            text-shadow: none;
+        }
+
+        .tab .nav-tabs li a span {
+            display: inline-block;
+            font-size: 14px;
+            letter-spacing: -9px;
+            opacity: 0;
+            transition: all 0.3s ease 0s;
+        }
+
+        .tab .nav-tabs li a:hover span,
+        .tab .nav-tabs li.active a span {
+            letter-spacing: 1px;
+            opacity: 1;
+            transition: all 0.3s ease 0s;
+        }
+
+        .tab .tab-content {
+            padding: 30px;
+            background: #fff;
+            font-size: 16px;
+            color: #6c6c6c;
+            line-height: 25px;
+        }
+
+        .tab .tab-content h3 {
+            font-size: 24px;
+            margin-top: 0;
+        }
+
+        @media only screen and (max-width: 479px) {
+            .tab .nav-tabs li {
+                width: 100%;
+                margin-bottom: 5px;
+                text-align: center;
+            }
+
+            .tab .nav-tabs li a span {
+                letter-spacing: 1px;
+                opacity: 1;
+            }
+        }
+    </style>
 
 
 </head>
@@ -43,7 +163,7 @@
 
 
 <!-- start navigation -->
-<nav  id="OCDLNav" class="navbar navbar-default templatemo-nav" role="navigation">
+<nav id="OCDLNav" class="navbar navbar-default templatemo-nav" role="navigation">
     <div class="container">
         <div class="navbar-header">
             <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -82,12 +202,11 @@
                 <!--	<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button>-->
                 <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
 					<a href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Git</a>
-
 				</span>
 
-                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
+<!--                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
 					<a id="flapBtn" href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
-				</span>
+				</span>-->
 
                 <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
 					<a class="hi-icon hi-icon-archive roundA" data-toggle="modal" data-target="#FileModal">Upload</a>
@@ -99,7 +218,7 @@
                 </p>
             </div>
             <div class="col-md-4 col-sm-3 col-xs-3">
-                <div  class="userBlock">
+                <div class="userBlock">
                     <!-- Top Navigation -->
                     <div id="loginBtnGroup" class="color-1" style="background: black">
                         <p style="text-align: right">
@@ -112,11 +231,11 @@
                             </button>
                         </p>
                     </div>
-                    <div id="userinfo"  style="display: none;" >
+                    <div id="userinfo" style="display: none;">
                         <p style="text-align: right">
                             <img id="profileImage" src="" style="height: 30px;width: 30px;" class="hide">
                             <label id="username" style="color: #47C6F8"></label>
-                            <button class="btn btn-1 btn-1e"  onclick="signOut()">Logout</button>
+                            <button class="btn btn-1 btn-1e" onclick="signOut()">Logout</button>
                         </p>
                     </div>
                 </div><!-- /container -->
@@ -165,52 +284,121 @@
 
 
 <!-- start home -->
-<section id="service">
-    <div class="container">
+<section id="">
+    <div id="serviceContainer" class="container">
         <div class="row">
-            <div id="con">
-                <div id="card" class="card col-xs-11 col-xs-offset-1 unlog" style="height:600px;">
-                    <div class="cover" style="overflow:auto;">
-                        <div class="">
-                            <div class="col-md-12">
-                                <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">OUR
-                                    <span>AWESOME</span> THINGS</h2>
-                            </div>
-                            <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
-                                <i class="fa fa-laptop"></i>
-                                <h4>One Click Deep learning</h4>
-                                <p>We can help you to deploy deep learning project in a convenient, fast and reliable
-                                    way. We're totally offering more than 50 templates, 20 type of networks, 30 kinds of
-                                    layers and 20 kinds blocks templates for you. From training to assessment, all you
-                                    need to you is just one click. </p>
-                            </div>
-                            <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.9s">
-                                <i class="fa fa-cloud"></i>
-                                <h4>Distributed Computing</h4>
-                                <p>Don't have a powerful computing resource? We offered distributed computing resource
-                                    for your training task, </p>
-                            </div>
-                            <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
-                                <i class="fa fa-cog"></i>
-                                <h4>Container friendly</h4>
-                                <p>Easy packing of deep learning stacks rapid development across multiple platforms</p>
+            <!--       <div id="con">
+                       <div id="card" class="card col-xs-11 col-xs-offset-1 unlog" style="height:600px;">
+                           <div class="cover" style="overflow:auto;">
+                               <div class="">
+                                   <div class="col-md-12">
+                                       <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">OUR
+                                           <span>AWESOME</span> THINGS</h2>
+                                   </div>
+                                   <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+                                       <i class="fa fa-laptop"></i>
+                                       <h4>One Click Deep learning</h4>
+                                       <p>We can help you to deploy deep learning project in a convenient, fast and reliable
+                                           way. We're totally offering more than 50 templates, 20 type of networks, 30 kinds of
+                                           layers and 20 kinds blocks templates for you. From training to assessment, all you
+                                           need to you is just one click. </p>
+                                   </div>
+                                   <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.9s">
+                                       <i class="fa fa-cloud"></i>
+                                       <h4>Distributed Computing</h4>
+                                       <p>Don't have a powerful computing resource? We offered distributed computing resource
+                                           for your training task, </p>
+                                   </div>
+                                   <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+                                       <i class="fa fa-cog"></i>
+                                       <h4>Container friendly</h4>
+                                       <p>Easy packing of deep learning stacks rapid development across multiple platforms</p>
+                                   </div>
+                               </div>
+                           </div>
+                           <div id="cardJupyter" class="front" style="overflow:auto;">
+                               &lt;!&ndash;			        <iframe sandbox="allow-forms allow-same-origin allow-scripts"
+                                                   src="http://localhost:8889/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>&ndash;&gt;
+                               <iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
+                                       src="" style="height:100%; width:100%"></iframe>
+                           </div>
+                           <div class="back" style="overflow:auto;">
+                               <div id="aaa">
+                                   <pre id="code" name="code" class="python" cols="60" rows="10">
+                                   </pre>
+                               </div>
+                           </div>
+                       </div>
+
+                   </div>-->
+
+            <div class="col-md-offset-1 col-md-10">
+                <div class="tab" role="tabpanel">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#Section0" aria-controls="home" role="tab"
+                                                                  data-toggle="tab"><i class="fa fa-home"></i><span>Welcome</span></a>
+                        </li>
+                        <li role="presentation"><a href="#Section1" aria-controls="home" role="tab"
+                                                                  data-toggle="tab"><i class="fa fa-home"></i><span>IDE (Jupyter)</span></a>
+                        </li>
+                        <li role="presentation"><a href="#Section2" aria-controls="profile" role="tab"
+                                                   data-toggle="tab"><i
+                                class="fa fa-globe"></i><span>File System</span></a></li>
+                        <li role="presentation"><a href="#Section3" aria-controls="messages" role="tab"
+                                                   data-toggle="tab"><i
+                                class="fa fa-briefcase"></i><span>Code Templates</span></a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content tabs" style="height: 600px; box-shadow: 0 0 10px rgba(0,0,0,1);">
+
+                        <div role="tabpanel" class="tab-pane fade in active" id="Section0">
+                            <div class="cover" style="overflow:auto;">
+                                <div class="">
+                                    <div class="col-md-12">
+                                        <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">OUR
+                                            <span>AWESOME</span> THINGS</h2>
+                                    </div>
+                                    <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+                                        <i class="fa fa-laptop"></i>
+                                        <h4>One Click Deep learning</h4>
+                                        <p>We can help you to deploy deep learning project in a convenient, fast and reliable
+                                            way. We're totally offering more than 50 templates, 20 type of networks, 30 kinds of
+                                            layers and 20 kinds blocks templates for you. From training to assessment, all you
+                                            need to you is just one click. </p>
+                                    </div>
+                                    <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.9s">
+                                        <i class="fa fa-cloud"></i>
+                                        <h4>Distributed Computing</h4>
+                                        <p>Don't have a powerful computing resource? We offered distributed computing resource
+                                            for your training task, </p>
+                                    </div>
+                                    <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+                                        <i class="fa fa-cog"></i>
+                                        <h4>Container friendly</h4>
+                                        <p>Easy packing of deep learning stacks rapid development across multiple platforms</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="cardJupyter" class="front" style="overflow:auto;">
-                        <!--			        <iframe sandbox="allow-forms allow-same-origin allow-scripts"
-                                            src="http://localhost:8889/notebooks/Untitled.ipynb" style="height:100%; width:100%"></iframe>-->
-                        <iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
-                                src="" style="height:100%; width:100%"></iframe>
-                    </div>
-                    <div class="back" style="overflow:auto;">
-                        <div id="aaa">
-							<pre id="code" name="code" class="python" cols="60" rows="10">
-							</pre>
+
+                        <div role="tabpanel" class="tab-pane fade" id="Section1">
+                            <iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
+                                    src="http://localhost:8888/notebooks/Untitled.ipynb" style="height:550px; width:100%"></iframe>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="Section2">
+                            <iframe id="fileFrame" sandbox="allow-forms allow-same-origin allow-scripts"
+                                    src="http://3.89.28.106:19999/overview" style="height:550px; width:100%"></iframe>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="Section3">
+                            <div id="aaa">
+                                   <pre id="code" name="code" class="python" cols="60" rows="10" style="height: 550px">
+                                   </pre>
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -388,7 +576,8 @@
                                         <p class="temp-heading-for-icon">sign in with social media</p>
                                         <div class="temp-anchor-wrap temp-reg-anchor-wrap">
 
-                                            <div id="g_btn" class="g-signin2" style="display: none" data-onsuccess="onSignIn" data-theme="dark"></div>
+                                            <div id="g_btn" class="g-signin2" style="display: none"
+                                                 data-onsuccess="onSignIn" data-theme="dark"></div>
 
                                             <a href="#" class=" temp-anchor text-left">
                         <span class="temp-social-icon-wrap">
@@ -396,7 +585,8 @@
                         </span>
                                                 <span>sign in with facebook</span>
                                             </a>
-                                            <a href="javascript: g_login()" class="temp-anchor temp-icon-color text-left">
+                                            <a href="javascript: g_login()"
+                                               class="temp-anchor temp-icon-color text-left">
                         <span class="temp-social-icon-wrap">
                           <i class="fa fa-google" aria-hidden="true"></i>
                         </span>
@@ -574,12 +764,23 @@
             }
         });
     }
-    
+
     function g_login() {
         $("#g_btn div").click();
     }
+
     function hideNav() {
         $("#OCDLNav").slideToggle();
+        jupyterContainerLargeToggle("#serviceContainer");
+
+    }
+
+    function jupyterContainerLargeToggle(id) {
+        if ($(id).is('.jupyterContainerLarge')) {
+            $(id).removeClass("jupyterContainerLarge");
+        } else {
+            $(id).addClass("jupyterContainerLarge");
+        }
     }
 
 </script>
