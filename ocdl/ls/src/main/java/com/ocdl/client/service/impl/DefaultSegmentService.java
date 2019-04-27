@@ -49,14 +49,12 @@ public class DefaultSegmentService implements SegmentService {
         cmd.append(" ");
         cmd.append(Paths.get(PICBASEPATH, pictureName));
 
-        //System.out.println(pictureName);
+
         String outputPictureName = pictureName.substring(0, pictureName.lastIndexOf(".")) + "_seg.png";
-        //System.out.println(outputPictureName);
         cmd.append(" ");
         cmd.append(Paths.get(SEGPICBASEPATH, outputPictureName));
 
         String groundTruthName = pictureName.substring(0, pictureName.lastIndexOf(".")) + "_segmentation.png";
-        System.out.println(groundTruthName);
         cmd.append(" ");
         cmd.append(Paths.get(GROUNDTRUTHBASEPATH, groundTruthName));
 
