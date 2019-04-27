@@ -2,60 +2,25 @@ package com.ocdl.client.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.EmbeddedValueResolverAware;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringValueResolver;
 
-@Component
-public class SpringContextUtil implements ApplicationContextAware ,EmbeddedValueResolverAware {
+import java.io.*;
+import java.util.Properties;
+
+public class SpringContextUtil {
 
     private static Logger logger = LoggerFactory.getLogger(SpringContextUtil.class);
-
-    // Spring应用上下文环境
-    private static ApplicationContext applicationContext;
-
-    private static StringValueResolver stringValueResolver;
+    static Properties prop = new Properties();
+    static String path;
 
     /**
-     * 实现ApplicationContextAware接口的回调方法。设置上下文环境
-     *
-     * @param applicationContext
-     */
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        SpringContextUtil.applicationContext = applicationContext;
-    }
-
-    /**
-     * @return ApplicationContext
-     */
-    public static ApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
-
-    /**
-     * 获取对象
-     *
-     * @param name
-     * @return Object
-     * @throws BeansException
-     */
-    public static Object getBean(String name) throws BeansException {
-        return applicationContext.getBean(name);
-    }
-
-
-    /**
-     * 动态获取配置文件中的值
-     * @param name
-     * @return
+     * Be used to get the properties of the project
+     * @param name key to get the property value
+     * @return value
      */
     public static String getPropertiesValue(String name) {
+        // 文件输出流
         try {
-            name = "${" + name + "}";
-            return stringValueResolver.resolveStringValue(name);
+            return prop.getProperty(name);
         } catch (Exception e) {
             logger.error(String.format("当前环境变量中没有{%s}的配置", name));
             // 获取失败则返回null
@@ -63,8 +28,60 @@ public class SpringContextUtil implements ApplicationContextAware ,EmbeddedValue
         }
     }
 
-    @Override
-    public void setEmbeddedValueResolver(StringValueResolver stringValueResolver) {
-        this.stringValueResolver = stringValueResolver;
+    /**
+     * Be used to change the property in the property instance
+     * @param key key value of the property pair
+     * @param value value value of the property pair
+     * @return True: change successful  False: change failed
+     */
+    public static Boolean changeProp(String key, String value) {
+        prop.setProperty(key, value);
+        // 文件输出流
+        try {
+            FileOutputStream fos = new FileOutputStream(path);
+            // 将Properties集合保存到流中
+            prop.store(fos, key);
+            fos.close();// 关闭流
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
+
+    /**
+     * Be used to update the property in the memory
+     * @param newPath the property file path
+     */
+    public static void updateProp(String newPath) {
+        String decodedPath = "";
+        try {
+            decodedPath = java.net.URLDecoder.decode(newPath, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            decodedPath = newPath;
+        }
+        if (path == null || "".equals(path)) {
+            path = decodedPath;
+        }
+
+        prop = new Properties();// 属性集合对象
+        FileInputStream fis;
+        try {
+            fis = new FileInputStream(decodedPath);
+            prop.load(fis);// 将属性文件流装载到Properties对象中
+            fis.close();// 关闭流
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+
+
 }

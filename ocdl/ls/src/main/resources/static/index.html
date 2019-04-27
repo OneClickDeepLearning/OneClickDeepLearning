@@ -81,6 +81,60 @@
   </header>
 <script language="javascript" src="assets/js/index.js"></script>
 <script>
+    initProjectName();
+    function initProjectName(){
+        $.ajax({
+            url: '/rest/config/project',
+            contentType: 'application/json',
+            dataType: "json",
+            type: "GET",
+            success: function(data) {
+                ajaxMessageReader(data,function (data) {
+                    var projectName1= $("#titleFirst");
+                    var projectName2 = $("#titleSecond");
+                    console.log(data);
+                    var title=data.split(" ");
+                    if(title.length>1){
+                        projectName2.html(title[1]);
+                    }
+                    projectName1.html(title[0]);
+                })
+            },
+            error: function (data) {
+                var projectName1= $("#titleFirst");
+                var projectName2 = $("#titleSecond");
+                projectName2.html("Segamentation");
+                projectName1.html("Lesion");
+
+            }
+        })
+    }
+
+
+
+    function changeProjectName(projectName) {
+        $.ajax({
+            url: '/rest/config/project',
+            contentType: 'application/json',
+            dataType: "json",
+            data:
+                JSON.stringify({
+                    name: projectName
+                }),
+            type: "PUT",
+            timeout: 0,
+            success: function(data){
+                ajaxMessageReader(data,function (data) {
+                })
+            },
+            error: function (data) {
+            }
+        })
+
+    }
+
+
+
   $("#titleFirst").click(function () {
 
       var td=$(this); //为后面文本框变成文本铺垫
@@ -97,12 +151,14 @@
       $(input).select(); //点击自动全选中表单的内容
 
       $(input).blur(function(){
+          changeProjectName($(this).val());
         var title=$(this).val().split(" ");
         var nextxt=title[0];
         if(title.length>1){
           td2.html(title[1]);
         }
         td.html(nextxt);
+
       }); //表单失去焦点文本框变成文本
   })
   
