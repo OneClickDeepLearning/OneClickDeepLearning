@@ -144,6 +144,7 @@
       var input=$('<input type="text" class="edit" value="'+text+' '+text2+'">');
       $(this).html( input );
 
+      td2.hide();
       $(input).click(function(){
         return false;
       }); //阻止表单默认点击行为
@@ -158,6 +159,7 @@
           td2.html(title[1]);
         }
         td.html(nextxt);
+        td2.show();
 
       }); //表单失去焦点文本框变成文本
   })

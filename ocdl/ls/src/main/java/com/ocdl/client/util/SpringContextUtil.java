@@ -34,20 +34,24 @@ public class SpringContextUtil {
      * @param value value value of the property pair
      * @return True: change successful  False: change failed
      */
-    public static Boolean changeProp(String key, String value) {
+    public synchronized static Boolean changeProp(String key, String value) {
         prop.setProperty(key, value);
         // 文件输出流
+        FileOutputStream fos=null;
         try {
-            FileOutputStream fos = new FileOutputStream(path);
+             fos = new FileOutputStream(path);
             // 将Properties集合保存到流中
             prop.store(fos, key);
-            fos.close();// 关闭流
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
+
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        }finally{
+            try {
+                fos.close();// 关闭流
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return true;
     }
@@ -56,7 +60,7 @@ public class SpringContextUtil {
      * Be used to update the property in the memory
      * @param newPath the property file path
      */
-    public static void updateProp(String newPath) {
+    public synchronized static void updateProp(String newPath) {
         String decodedPath = "";
         try {
             decodedPath = java.net.URLDecoder.decode(newPath, "utf-8");
