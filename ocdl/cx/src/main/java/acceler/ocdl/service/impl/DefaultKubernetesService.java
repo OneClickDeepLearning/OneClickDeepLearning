@@ -22,6 +22,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * KubernetesService is responsible for launching and releasing
+ * CPU or GPU container based on user information
+ */
 @Service
 public class DefaultKubernetesService implements KubernetesService {
     Logger log = LoggerFactory.getLogger(DefaultKubernetesService.class);
@@ -41,19 +45,20 @@ public class DefaultKubernetesService implements KubernetesService {
 
     private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + CONSTANTS.IP.VIRTUAL.MASTER + ":6443").build());
 
+
     public String launchGpuContainer(User user) throws KuberneteException, HdfsException {
         Long userId = user.getUserId();
-        if (gpuAssigned.containsKey(userId)) {
+        if (gpuAssigned.containsKey(userId))
             return gpuAssigned.get(userId);
-        } else if (gpuAssigned.size() == CONSTANTS.MACHINE.GPU_AMOUNT){
+        else if (gpuAssigned.size() == CONSTANTS.MACHINE.GPU_AMOUNT)
             throw new KuberneteException("No more GPU resource!");
-        }
 
         String url;
         String ip;
         String port;
 
         createGpuDeployment(user);
+
         io.fabric8.kubernetes.api.model.Service service = createGpuService(user);
 
         log.debug("Container launched!");
@@ -68,22 +73,30 @@ public class DefaultKubernetesService implements KubernetesService {
 
         gpuAssigned.put(userId, url);
         log.debug(url);
-
         return url;
     }
 
+
+    /**
+     * launch a CPU container for user
+     *
+     * @param user userId is required to determine corresponding userspace
+     * @return url the address of the launched container format is ip:port
+     * @throws KuberneteException
+     * @throws HdfsException
+     */
     public String launchCpuContainer(User user) throws KuberneteException, HdfsException {
         Long userId = user.getUserId();
-        if (cpuAssigned.containsKey(userId)) {
+        if (cpuAssigned.containsKey(userId))
             return cpuAssigned.get(userId);
-        }
 
         String userSpaceId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
         String url;
         String ip;
         String port;
 
-        Deployment deployment = createCpuDeployment(user);
+        createCpuDeployment(user);
+
         io.fabric8.kubernetes.api.model.Service service = createCpuService(user);
 
         log.debug("Container launched!");
@@ -162,7 +175,6 @@ public class DefaultKubernetesService implements KubernetesService {
         } catch (KubernetesClientException e) {
             throw new KuberneteException(e.getMessage());
         }
-
         return deployment;
     }
 
@@ -218,12 +230,12 @@ public class DefaultKubernetesService implements KubernetesService {
                 .endTemplate()
                 .endSpec()
                 .build();
+
         try {
             deployment = client.apps().deployments().inNamespace("default").create(deployment);
         } catch (KubernetesClientException e) {
             throw new KuberneteException(e.getMessage());
         }
-
         return deployment;
     }
 
@@ -252,7 +264,6 @@ public class DefaultKubernetesService implements KubernetesService {
         } catch (KubernetesClientException e) {
             throw new KuberneteException(e.getMessage());
         }
-
         return service;
     }
 
@@ -281,7 +292,6 @@ public class DefaultKubernetesService implements KubernetesService {
         } catch (KubernetesClientException e) {
             throw new KuberneteException(e.getMessage());
         }
-
         return service;
     }
 
