@@ -13,7 +13,7 @@ function modelTest() {
         processData: false,//这两个一定设置为false
         success: function (data) {
             ajaxMessageReader(data, function (data) {
-                appendURLFile(data, "#resultList");
+                appendURLFile(data.get("url"), "#resultList",data.get("eta"));
                 alert("Result has been returned!");
             })
         },
@@ -62,12 +62,13 @@ function appendFile(files, listName) {
     }
 }
 
-function appendURLFile(url, listName) {
+function appendURLFile(url, listName,eta) {
     let liStr = `
             <li class="list-group-item">
               <div>
                 <img src="` + url + `" alt="file" />
               </div>
+              <h6 style="font-size:10px">ETA: \` + eta + \` B</h6>
             </li>
           `;
     $(listName)[0].innerHTML = liStr;
