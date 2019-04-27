@@ -15,7 +15,7 @@
 
 <header>
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#"><span style="color: #47C6F8">Lesion</span> Segmentation</a>
+    <a class="navbar-brand" href="#"><span id="titleFirst" style="color: #47C6F8">Lesion</span> <label id="titleSecond">Segmentation</label></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -80,7 +80,33 @@
     </div>
   </header>
 <script language="javascript" src="assets/js/index.js"></script>
+<script>
+  $("#titleFirst").click(function () {
 
+      var td=$(this); //为后面文本框变成文本铺垫
+      var td2=$("#titleSecond");
+      var text=$(this).text();
+      var text2=$("#titleSecond").text();
+      var input=$('<input type="text" class="edit" value="'+text+' '+text2+'">');
+      $(this).html( input );
+
+      $(input).click(function(){
+        return false;
+      }); //阻止表单默认点击行为
+
+      $(input).select(); //点击自动全选中表单的内容
+
+      $(input).blur(function(){
+        var title=$(this).val().split(" ");
+        var nextxt=title[0];
+        if(title.length>1){
+          td2.html(title[1]);
+        }
+        td.html(nextxt);
+      }); //表单失去焦点文本框变成文本
+  })
+  
+</script>
 
 </body>
 </html>
