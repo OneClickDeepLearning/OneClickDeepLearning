@@ -267,10 +267,6 @@ function selectJupyterServer(){
         type: "POST",
         beforeSend: function (xhr) {
             xhr.setRequestHeader("AUTH_TOKEN", token);
-            $("#shadow").remove();//结束时移除遮罩层
-            document.getElementById("cardJupyter").append($("<div id='shadow' style='width:100%;height:100%;"+
-                "position:fixed;top:0px;left:0px;background-color:rgba(100,100,100,0.3);"+
-                "z-index:"+Number.MAX_SAFE_INTEGER+"'><h1>Loading Server...</h1> </div>")[0]);
         },
 
         timeout: 0,
@@ -290,7 +286,7 @@ function selectJupyterServer(){
                 "z-index:"+Number.MAX_SAFE_INTEGER+"'><h1>Server Loading Fail</h1> </div>")[0]);
         },
         complete:function(){
-            $("#shadow").remove();//结束时移除遮罩层
+
         }
     })
 }

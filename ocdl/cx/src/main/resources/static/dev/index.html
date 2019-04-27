@@ -383,8 +383,22 @@
                         </div>
 
                         <div role="tabpanel" class="tab-pane fade" id="Section1">
-                            <iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
-                                    src="http://localhost:8888/notebooks/Untitled.ipynb" style="height:550px; width:100%"></iframe>
+                            <div id="resourceLoading" class="col-md-12" style="text-align: center;height:550px; width:100%; border: black solid 1px;">
+                                <div class="sk-spinner sk-spinner-wave" style="width: 200px; margin-left:auto;margin-right:auto;margin-top: 100px;">
+                                    <div class="sk-rect1"></div>
+                                    <div class="sk-rect2"></div>
+                                    <div class="sk-rect3"></div>
+                                    <div class="sk-rect4"></div>
+                                    <div class="sk-rect5"></div>
+                                    <div class="sk-rect4"></div>
+                                    <div class="sk-rect3"></div>
+                                    <div class="sk-rect2"></div>
+                                    <div class="sk-rect1"></div>
+                                </div>
+                                <label>Launching the resrouce, please wait..</label>
+                            </div>
+                        <!--    <iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
+                                    src="http://localhost:8888/notebooks/Untitled.ipynb" style="height:550px; width:100%"></iframe>-->
                         </div>
 
                         <div role="tabpanel" class="tab-pane fade" id="Section2">
@@ -643,7 +657,7 @@
 </div>
 <!--====  End of login form modal  ====-->
 
-<!-- Modal -->
+<!-- Upload -->
 <div class="modal fade" id="FileModal" role="dialog">
     <div class="temp-custom-modal-wrap">
         <div class="modal-dialog">
@@ -661,13 +675,23 @@
                                         <h2>Data Upload</h2>
                                         <form id="uploadForm" method="POST" enctype="multipart/form-data"
                                               action="/rest/data/upload" target="uploadiframe">
+
+
+                                            <div class="col-md-7">
                                             File:<input type="file" id="file" name="file" style="display:none"
                                                         onchange="changeAgentContent()"/>
                                             <input type="text" value="" disabled id="fileAgent" style="color: black"/>
                                             <input type="button" onclick="document.getElementById('file').click()"
                                                    value="Browse..." style="color: black"/>
+                                            </div>
 
-                                            <div class="temp-anchor-wrap temp-reg-anchor-wrap">
+                                            <div class=" col-md-5" id="uploadLoading" style="background-color: transparent;display: none;">
+                                                <div>
+                                                    <img src="assets2/images/ajax-loader.gif" alt="loading">
+                                                </div>
+                                            </div>
+
+                                            <div class="temp-anchor-wrap temp-reg-anchor-wrap col-md-12">
                                                 <a href="javascript:upload()" class="temp-anchor text-left">
 												<span class="temp-social-icon-wrap">
 													  <i class="fa fa-cloud-upload" aria-hidden="true"></i>
@@ -682,6 +706,7 @@
                                                     <span>Close</span>
                                                 </a>
                                             </div>
+
                                         </form>
                                     </div>
                                 </div>
@@ -750,10 +775,14 @@
     function toHdfs(url) {
         var formData = new FormData();
         formData.append("file", document.getElementById("file").files[0]);
+
         $.ajax({
             url: url,
             data: formData,
             type: "PUT",
+            beforeSend: function (xhr) {
+                $("#uploadLoading").show();
+            },
             contentType: false,//这里
             processData: false,//这两个一定设置为false
             success: function (info) {
@@ -761,6 +790,9 @@
             },
             error: function (info) {
                 alert(info);
+            },
+            complete:function () {
+                $("#uploadLoading").hide();
             }
         });
     }
