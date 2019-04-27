@@ -19,4 +19,22 @@ public interface CONSTANTS {
         String PROJECT = "/project";
         String USERS = "/users";
     }
+
+    interface IP {
+        interface VIRTUAL {
+            String MASTER = "10.8.0.1";
+            String CPU  = "10.8.0.6";
+            String GPU = "10.8.0.10";
+        }
+
+        interface PUBLIC{
+            String MASTER = "3.89.28.106";
+            String CPU  = "3.87.64.159";
+            String GPU = "66.131.186.246";
+        }
+    }
+
+    interface MACHINE{
+        int GPU_AMOUNT = 1;
+    }
 }
