@@ -22,7 +22,6 @@ public abstract class Model implements Serializable {
         this.name = name;
     }
 
-
     public enum Status {
         NEW, APPROVED, REJECTED
     }

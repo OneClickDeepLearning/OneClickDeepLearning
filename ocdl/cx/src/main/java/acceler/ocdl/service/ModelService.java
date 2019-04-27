@@ -2,6 +2,7 @@ package acceler.ocdl.service;
 
 import acceler.ocdl.model.Algorithm;
 import acceler.ocdl.model.Model;
+import acceler.ocdl.model.NewModel;
 import acceler.ocdl.model.User;
 
 import java.util.List;
@@ -14,8 +15,7 @@ public interface ModelService {
      */
     void initModelToStage(User user);
 
-
-    void approvalModel(Model model, String algorithmName, Algorithm.UpgradeVersion version);
+    void approveModel(NewModel model, String algorithmName, Algorithm.UpgradeVersion version);
 
     void rejectModel(Model model);
 
@@ -26,6 +26,4 @@ public interface ModelService {
     List<Model> getModelsByStatus(Model.Status status);
 
     boolean existModel(String modelName, Model.Status status);
-
-
 }

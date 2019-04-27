@@ -13,9 +13,9 @@ public class User implements Serializable {
 
     private Long userId;
 
-    private String userName;
-
     private OauthSource oauthSource;
+
+    private String authServerUserId;
 
     private Role role;
 
@@ -25,7 +25,7 @@ public class User implements Serializable {
     public User deepCopy(){
         User copy = new User();
         copy.userId = this.userId;
-        copy.userName = this.userName;
+        copy.authServerUserId = this.authServerUserId;
         copy.oauthSource = this.oauthSource;
 
         return copy;
@@ -42,7 +42,7 @@ public class User implements Serializable {
 
     private Optional<User> getRealUserByOauthInfo(String userName, OauthSource oauthSource) {
         lock.readLock().lock();
-        Optional<User> userOpt = userListStorage.stream().filter(user -> (user.userName.equals(userName) && user.oauthSource == oauthSource)).findFirst();
+        Optional<User> userOpt = userListStorage.stream().filter(user -> (user.authServerUserId.equals(userName) && user.oauthSource == oauthSource)).findFirst();
         lock.readLock().unlock();
         return userOpt;
     }
@@ -51,8 +51,8 @@ public class User implements Serializable {
         return this.userId;
     }
 
-    public String getUserName() {
-        return this.userName;
+    public String getAuthServerUserId() {
+        return this.authServerUserId;
     }
 
     public OauthSource getOauthSource() {
@@ -67,8 +67,8 @@ public class User implements Serializable {
         this.userId = userId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setAuthServerUserId(String authServerUserId) {
+        this.authServerUserId = authServerUserId;
     }
 
     public void setOauthSource(OauthSource oauthSource) {
