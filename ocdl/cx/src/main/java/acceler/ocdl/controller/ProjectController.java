@@ -37,14 +37,11 @@ public class ProjectController {
     @RequestMapping(path = "/algorithm", method = RequestMethod.GET)
     public final Response getAlgorithm() {
 
-        logger.debug("enter the get model types funciton +++++++++++++++++");
-
         Response.Builder responseBuilder = getBuilder();
 
-        List<Algorithm> modelTypes = algorithmService.getAllAlgorithm();
-
+        List<Algorithm> algorithms = algorithmService.getAllAlgorithm();
         responseBuilder.setCode(Response.Code.SUCCESS)
-                .setData(modelTypes);
+                .setData(algorithms);
 
         return responseBuilder.build();
     }
@@ -57,16 +54,9 @@ public class ProjectController {
         Response.Builder responseBuilder = Response.getBuilder();
 
         Project project = projectService.getProjectConfiguration();
-        ProjectConfigurationDto projectDto = project.convert2ProjectDto();
+        List<Algorithm> algorithms = algorithmService.getAllAlgorithm();
 
-        List<String> modelTypes = modelTypeCrud.getModelTypes();
-
-        StringBuilder modelTypeBuilder = new StringBuilder();
-        modelTypes.forEach(mt -> {
-            modelTypeBuilder.append(mt);
-            modelTypeBuilder.append("; ");
-        });
-        projectDto.setModelTypes(modelTypeBuilder.toString());
+        ProjectConfigurationDto projectDto = project.convert2ProjectDto(algorithms);
 
         responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(projectDto);
@@ -79,14 +69,11 @@ public class ProjectController {
     public Response updateProject(@RequestBody ProjectConfigurationDto updatedProjectConfig) {
 
         Response.Builder responseBuilder = Response.getBuilder();
-
-        projectCrud.updateProject(updatedProjectConfig.convert2Project());
-
-        modelTypeCrud.updateModelTypes(updatedProjectConfig.getModelTypes());
+        projectService.updateProjectConfiguration(updatedProjectConfig.convert2Project());
+        algorithmService.updateAlgorithmList(updatedProjectConfig.getAlgorithmStrList(), updatedProjectConfig.getForceRemoved());
 
         return responseBuilder.setCode(Response.Code.SUCCESS).build();
     }
-
 
 
     @RequestMapping(path = "/config/name", method = RequestMethod.PUT)
@@ -95,25 +82,17 @@ public class ProjectController {
 
         Response.Builder responseBuilder = Response.getBuilder();
 
-        projectCrud.updateProjectName(projectName.get("projectName"));
-
-        try {
+        if (!"".equals(projectName) && projectName != null) {
+            Project project = new Project();
+            project.setProjectName(projectName.get("projectName"));
             responseBuilder.setCode(Response.Code.SUCCESS)
                     .setData(projectName);
-
-        }catch (Exception e){
-            responseBuilder.setCode(Response.Code.ERROR)
-                    .setData(e);
+        } else {
+            responseBuilder.setCode(Response.Code.ERROR).setMessage("ProjectName can not be empty");
         }
-        return responseBuilder.setCode(Response.Code.SUCCESS).build();
-    }
 
-    @RequestMapping(path = "/data", method = RequestMethod.POST)
-    @ResponseBody
-    public Response uploadData() {
-
-        Response.Builder responseBuilder = Response.getBuilder();
         return responseBuilder.build();
     }
+
 
 }
