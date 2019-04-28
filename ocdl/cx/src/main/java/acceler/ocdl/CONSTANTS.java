@@ -17,6 +17,8 @@ public interface CONSTANTS {
     interface PERSISTANCE {
         String _BASE = "./resource/persistence";
         String ALGORITHMS = "/algorithms";
+        String NEW_MODELS = "/new_models";
+        String REJECTED_MODELS = "/rejected_models";
         String PROJECT = "/project";
         String USERS = "/users";
     }

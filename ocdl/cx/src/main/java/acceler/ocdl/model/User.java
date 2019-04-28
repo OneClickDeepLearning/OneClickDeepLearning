@@ -1,5 +1,9 @@
 package acceler.ocdl.model;
 
+import acceler.ocdl.CONSTANTS;
+import acceler.ocdl.utils.SerializationUtils;
+
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -99,5 +103,12 @@ public class User implements Serializable {
 
     public enum OauthSource {
         GITHUB, GOOGLE
+    }
+
+    private static void persistence(){
+        lock.writeLock().lock();
+        File dumpFile = new File(CONSTANTS.PERSISTANCE.USERS);
+        SerializationUtils.dump(userListStorage, dumpFile);
+        lock.writeLock().unlock();
     }
 }

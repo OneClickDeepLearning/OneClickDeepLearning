@@ -120,7 +120,7 @@ public class Algorithm implements Serializable {
 
     private static void persistence() {
         lock.writeLock().lock();
-        File dumpFile = new File(CONSTANTS.PERSISTENCE.ALGORITHMS);
+        File dumpFile = new File(CONSTANTS.PERSISTANCE.ALGORITHMS);
         SerializationUtils.dump(algorithmStorage, dumpFile);
         lock.writeLock().unlock();
     }
@@ -156,7 +156,11 @@ public class Algorithm implements Serializable {
     }
 
     public static Algorithm[] getAlgorithms() {
-        return (Algorithm[]) algorithmStorage.stream().map(Algorithm::deepCopy).toArray();
+        lock.readLock().lock();
+        Algorithm[] algorithms = (Algorithm[]) algorithmStorage.stream().map(Algorithm::deepCopy).toArray();
+        lock.readLock().unlock();
+
+        return algorithms;
     }
 
     public static Optional<Algorithm> getAlgorithmByName(String algorithmName) {

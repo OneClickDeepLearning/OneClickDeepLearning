@@ -33,7 +33,7 @@ public abstract class Model implements Serializable {
         modelDto.setModelName(model.getName());
         modelDto.setStatus(model.getStatus().toString());
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd::hh:mm:ss");
 
         if (model instanceof NewModel) {
             NewModel newModel = (NewModel)model;

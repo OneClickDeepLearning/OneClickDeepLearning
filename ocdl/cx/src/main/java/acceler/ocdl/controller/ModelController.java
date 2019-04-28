@@ -1,6 +1,5 @@
 package acceler.ocdl.controller;
 
-import acceler.ocdl.OcdlApplication;
 import acceler.ocdl.dto.ModelDto;
 import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.model.Algorithm;
@@ -20,10 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 import static acceler.ocdl.dto.Response.getBuilder;
@@ -31,15 +27,14 @@ import static acceler.ocdl.dto.Response.getBuilder;
 @Controller
 @RequestMapping(path = "/rest/model")
 public final class ModelController {
-
     private static final Logger logger = LoggerFactory.getLogger(ModelController.class);
 
     @Autowired
     private ModelService modelService;
 
-    private String newStr = "new";
-    private String approvalStr = "approval";
-    private String rejectStr = "reject";
+    private final static String newStr = "new";
+    private final static String approvalStr = "approval";
+    private final static String rejectStr = "reject";
 
     /**
      * Get all models
@@ -48,7 +43,6 @@ public final class ModelController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     public final Response getModelList() {
-
         logger.debug("enter the get model list funciton");
         Response.Builder responseBuilder = getBuilder();
 
@@ -67,8 +61,7 @@ public final class ModelController {
 
         return responseBuilder.build();
     }
-
-
+    
     /**
      * The dicision could be approve, reject and undo.
      * @param modelDto model info

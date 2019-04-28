@@ -1,5 +1,9 @@
 package acceler.ocdl.model;
 
+import acceler.ocdl.CONSTANTS;
+import acceler.ocdl.utils.SerializationUtils;
+
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +23,7 @@ public class Project implements Serializable {
     private List<String> suffixes;
 
 
-    private Project() {
+    public Project() {
         this.suffixes = new ArrayList<>();
     }
 
@@ -101,5 +105,12 @@ public class Project implements Serializable {
         List<String> suffixes = projectData.suffixes;
         lock.readLock().unlock();
         return suffixes.toArray(new String[0]);
+    }
+
+    private static void persistence(){
+        lock.writeLock().lock();
+        File dumpFile = new File(CONSTANTS.PERSISTANCE.PROJECT);
+        SerializationUtils.dump(projectData, dumpFile);
+        lock.writeLock().lock();
     }
 }
