@@ -1,8 +1,11 @@
 package acceler.ocdl.controller;
 
-import acceler.ocdl.dto.IncomeModelDto;
+import acceler.ocdl.OcdlApplication;
 import acceler.ocdl.dto.ModelDto;
+import acceler.ocdl.exception.OcdlException;
+import acceler.ocdl.model.Algorithm;
 import acceler.ocdl.model.Model;
+import acceler.ocdl.model.NewModel;
 import acceler.ocdl.model.User;
 import acceler.ocdl.service.ModelService;
 import acceler.ocdl.dto.Response;
@@ -17,13 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static acceler.ocdl.dto.Response.getBuilder;
 
@@ -36,23 +37,30 @@ public final class ModelController {
     @Autowired
     private ModelService modelService;
 
+    private String newStr = "new";
+    private String approvalStr = "approval";
+    private String rejectStr = "reject";
+
+    /**
+     * Get all models
+     * @return
+     */
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     public final Response getModelList() {
 
-        logger.debug("enter the get model list funciton +++++++++++++++++");
+        logger.debug("enter the get model list funciton");
         Response.Builder responseBuilder = getBuilder();
 
         Map<String, List<ModelDto>> models = new HashMap<>();
+        List<Model> newModels= modelService.getModelsByStatus(Model.Status.NEW);
+        models.put("newModels", convert2ListModelDto(newModels));
 
-        List<ModelDto> newModels= modelCrud.getModels(Model.Status.NEW);
-        models.put("newModels", newModels);
+        List<Model> approvedModels= modelService.getModelsByStatus(Model.Status.APPROVED);
+        models.put("approvalModels", convert2ListModelDto(approvedModels));
 
-        List<ModelDto> approvalModels= modelCrud.getModels(Model.Status.APPROVAL);
-        models.put("approvalModels", approvalModels);
-
-        List<ModelDto> rejectModels= modelCrud.getModels(Model.Status.REJECT);
-        models.put("rejectedModels", rejectModels);
+        List<Model> rejectedModels= modelService.getModelsByStatus(Model.Status.REJECTED);
+        models.put("rejectedModels", convert2ListModelDto(rejectedModels));
 
         responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(models);
@@ -61,145 +69,64 @@ public final class ModelController {
     }
 
 
+    /**
+     * The dicision could be approve, reject and undo.
+     * @param modelDto model info
+     *                 Note: modelDto.status == from;
+     *                       modelDto.algorithm is needed only when from=new && to=approval, the value is algorithm name;
+     *                       modelDto.version is needed only when from=new && to=approval, the value is "RELEASE_VERSION" or "CACHED_VERSION";
+     * @param from from status
+     * @param to to status
+     * @return
+     */
     @ResponseBody
-    @RequestMapping(path = "/{modelId}",  method = RequestMethod.PUT)
-    public final Response pushDecision(@PathVariable("modelId") String modelId, @RequestBody IncomeModelDto incomeModelDto,
-                                       @QueryParam("from") String from, @QueryParam("to")String to) {
+    @RequestMapping(path = "/{status}",  method = RequestMethod.PUT)
+    public final Response pushDecision(@RequestBody ModelDto modelDto,
+                                       @QueryParam("fromStatus")String from, @QueryParam("toStatus")String to) {
 
         logger.debug("enter the get model list funciton +++++++++++++++++");
         Response.Builder responseBuilder = getBuilder();
 
-        // if corresponding model file exit
-        if (! modelCrud.modelExist(modelId, incomeModelDto.getDestStatus())) {
-            logger.error("Cannot find the model File");
-            responseBuilder.setCode(Response.Code.ERROR)
-                    .setMessage("Cannot find the model File");
-        }
-
-        String stagePath = "/home/ec2-user/stage/";
-        Path source = Paths.get(stagePath, incomeModelDto.getPreStatus(), modelId);
-
-        String newModelName = getNewModelName(modelId, incomeModelDto, source);
-        Path target = Paths.get(stagePath, incomeModelDto.getDestStatus(), newModelName);
-
-        boolean success = modelCrud.moveModel(source, target);
-
-        if (success == true) {
-            responseBuilder.setCode(Response.Code.SUCCESS);
-
+        if (from.equals(newStr) && to.equals(approvalStr)) {
+            modelService.approveModel((NewModel) modelDto.convertToModel(),modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(modelDto.getVersion()));
+        } else if (from.equals(newStr) && to.equals(rejectStr)) {
+            modelService.rejectModel((NewModel) modelDto.convertToModel());
+        } else if ((from.equals(approvalStr) || from.equals(toString())) && to.equals(newStr)) {
+            modelService.undo(modelDto.convertToModel());
         } else {
-            responseBuilder.setCode(Response.Code.ERROR)
-                    .setMessage("Fail to move file");
+            throw new OcdlException("Invalid From/To parameters.");
         }
+
+        responseBuilder.setCode(Response.Code.SUCCESS);
 
         return responseBuilder.build();
-    }
 
-    private String getNewModelName(String modelId, IncomeModelDto incomeModelDto, Path source) {
-        String suffix = "";
-        String modelName = "";
-        // remove suffix
-        int posDot = modelId.lastIndexOf(".");
-        if (posDot >= 0) {
-            suffix = modelId.substring(posDot);
-            modelName = modelId.substring(0, posDot);
-        }
-
-        String[] modelInfo = modelName.split("_");
-
-        StringBuilder newModelName = new StringBuilder();
-        // when new or reject, the file name will be FN_TS.suffix
-        newModelName.append(modelInfo[0]);
-        newModelName.append("_");
-
-        long time = new Date().getTime();
-        newModelName.append(String.valueOf(time));
-        newModelName.append("_");
-
-        // when approval, the file name will be FN_TS_MT_V*.*.suffix
-        if (incomeModelDto.getDestStatus().equals("approval")){
-            newModelName.append(incomeModelDto.getModelType());
-
-            int bigVersion = 1;
-            int smallVersion = 0;
-
-
-            int[] currentVersion = modelTypeCrud.getVersion(incomeModelDto.getModelType());
-            int currentBigVersion = currentVersion[0];
-            int currentSmallVersion = currentVersion[1];
-
-
-            if (incomeModelDto.getBigVersion() == 1) {
-
-                if (currentBigVersion >= 0) {
-                    bigVersion = currentBigVersion + 1;
-                } else {
-                    bigVersion = 1;
-                }
-                smallVersion = 0;
-
-            } else {
-
-                if (currentBigVersion >= 0){
-                    bigVersion = currentBigVersion;
-                } else {
-                    currentBigVersion = 0;
-                }
-
-                if (currentSmallVersion >= 0) {
-                    smallVersion = currentSmallVersion + 1;
-                } else {
-                    smallVersion = 1;
-                }
-            }
-
-            modelTypeCrud.setVersion(incomeModelDto.getModelType(), bigVersion, smallVersion);
-            newModelName.append("_v");
-            newModelName.append(bigVersion);
-            newModelName.append(".");
-            newModelName.append(smallVersion);
-
-
-            logger.debug("befor push model to git");
-            String newPushName = getNewPushedModelName(incomeModelDto.getModelType(), String.valueOf(bigVersion), String.valueOf(smallVersion), suffix);
-            modelService.pushModel(source.toString(), newPushName);
-        }
-
-        newModelName.append(suffix);
-
-        return newModelName.toString();
-    }
-
-    private String getNewPushedModelName(String modelType, String bigVersion, String smallVersion, String suffix ){
-        StringBuilder newModelName = new StringBuilder();
-
-        newModelName.append(modelType);
-        newModelName.append("_v");
-        newModelName.append(bigVersion);
-        newModelName.append(".");
-        newModelName.append(smallVersion);
-        newModelName.append(suffix);
-
-        return newModelName.toString();
     }
 
 
-    /*
-      move model from user space to stage
-     */
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public final Response queryPushModels(HttpServletRequest request) {
+    public final Response initModelToStage(HttpServletRequest request) {
         User user = (User) request.getAttribute("CURRENT_USER");
         Response.Builder builder = Response.getBuilder();
 
-        if(modelService.copyModels(user)) {
-            builder.setCode(Response.Code.SUCCESS)
-                    .setData("copy succeeded");
-        } else{
-            builder.setCode(Response.Code.ERROR)
-                    .setMessage("copy failed");
-        }
+        modelService.initModelToStage(user);
+
+        builder.setCode(Response.Code.SUCCESS);
         return builder.build();
     }
+
+
+    private List<ModelDto> convert2ListModelDto(List<Model> modelList) {
+
+        List<ModelDto> modelDtoList = new ArrayList<>();
+
+        modelList.forEach(model -> {
+            ModelDto modelDto = model.convertToModelDto(model);
+            modelDtoList.add(modelDto);
+        });
+
+        return modelDtoList;
+    }
+
 }

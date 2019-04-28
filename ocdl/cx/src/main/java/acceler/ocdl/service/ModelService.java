@@ -37,7 +37,7 @@ public interface ModelService {
     void rejectModel(NewModel model);
 
     /**
-     * reject model
+     * undo model
      * move model file from folder "approval" or "reject"  to folder "new" and update the model object
      * the format of the fileName = "modelName" + "timestamp"
      * @param model model that need to undo
