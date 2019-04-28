@@ -3,9 +3,9 @@ package acceler.ocdl.controller;
 import acceler.ocdl.dto.ModelDto;
 import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.model.Algorithm;
+import acceler.ocdl.model.InnerUser;
 import acceler.ocdl.model.Model;
 import acceler.ocdl.model.NewModel;
-import acceler.ocdl.model.User;
 import acceler.ocdl.service.ModelService;
 import acceler.ocdl.dto.Response;
 import org.slf4j.Logger;
@@ -100,10 +100,10 @@ public final class ModelController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public final Response initModelToStage(HttpServletRequest request) {
-        User user = (User) request.getAttribute("CURRENT_USER");
+        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
         Response.Builder builder = Response.getBuilder();
 
-        modelService.initModelToStage(user);
+        modelService.initModelToStage(innerUser);
 
         builder.setCode(Response.Code.SUCCESS);
         return builder.build();

@@ -26,8 +26,8 @@ public class DefaultModelServiceImpl implements ModelService {
     private CommandHelper commandHelper;
 
     @Override
-    public void initModelToStage(User user) {
-        final String userSpaceName = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
+    public void initModelToStage(InnerUser innerUser) {
+        final String userSpaceName = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(innerUser.getUserId()));
         final File userSpace = new File(userSpaceName);
 
         if (userSpace.isDirectory()) {

@@ -3,8 +3,8 @@ package acceler.ocdl.service.impl;
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.exception.HdfsException;
 import acceler.ocdl.exception.KuberneteException;
+import acceler.ocdl.model.InnerUser;
 import acceler.ocdl.model.Project;
-import acceler.ocdl.model.User;
 import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.KubernetesService;
 import io.fabric8.kubernetes.api.model.Pod;
@@ -46,8 +46,8 @@ public class DefaultKubernetesService implements KubernetesService {
     private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + CONSTANTS.IP.VIRTUAL.MASTER + ":6443").build());
 
 
-    public String launchGpuContainer(User user) throws KuberneteException, HdfsException {
-        Long userId = user.getUserId();
+    public String launchGpuContainer(InnerUser innerUser) throws KuberneteException, HdfsException {
+        Long userId = innerUser.getUserId();
         if (gpuAssigned.containsKey(userId))
             return gpuAssigned.get(userId);
         else if (gpuAssigned.size() == CONSTANTS.MACHINE.GPU_AMOUNT)
@@ -57,14 +57,14 @@ public class DefaultKubernetesService implements KubernetesService {
         String ip;
         String port;
 
-        createGpuDeployment(user);
+        createGpuDeployment(innerUser);
 
-        io.fabric8.kubernetes.api.model.Service service = createGpuService(user);
+        io.fabric8.kubernetes.api.model.Service service = createGpuService(innerUser);
 
         log.debug("Container launched!");
 
         port = getPort(service);
-        ip = ipMap.get(getGpuIp(user));
+        ip = ipMap.get(getGpuIp(innerUser));
         url = ip + ":" + port;
 
         if (ip == null || port == null) {
@@ -78,31 +78,31 @@ public class DefaultKubernetesService implements KubernetesService {
 
 
     /**
-     * launch a CPU container for user
+     * launch a CPU container for innerUser
      *
-     * @param user userId is required to determine corresponding userspace
+     * @param innerUser userId is required to determine corresponding userspace
      * @return url the address of the launched container format is ip:port
      * @throws KuberneteException
      * @throws HdfsException
      */
-    public String launchCpuContainer(User user) throws KuberneteException, HdfsException {
-        Long userId = user.getUserId();
+    public String launchCpuContainer(InnerUser innerUser) throws KuberneteException, HdfsException {
+        Long userId = innerUser.getUserId();
         if (cpuAssigned.containsKey(userId))
             return cpuAssigned.get(userId);
 
-        String userSpaceId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
+        String userSpaceId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(innerUser.getUserId()));
         String url;
         String ip;
         String port;
 
-        createCpuDeployment(user);
+        createCpuDeployment(innerUser);
 
-        io.fabric8.kubernetes.api.model.Service service = createCpuService(user);
+        io.fabric8.kubernetes.api.model.Service service = createCpuService(innerUser);
 
         log.debug("Container launched!");
 
         port = getPort(service);
-        ip = ipMap.get(getCpuIp(user));
+        ip = ipMap.get(getCpuIp(innerUser));
         url = ip + ":" + port;
 
         //get ip or port before container is really launched
@@ -117,8 +117,8 @@ public class DefaultKubernetesService implements KubernetesService {
         return url;
     }
 
-    private Deployment createCpuDeployment(User user) {
-        String depolyId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
+    private Deployment createCpuDeployment(InnerUser innerUser) {
+        String depolyId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(innerUser.getUserId()));
 
         Deployment deployment = new DeploymentBuilder()
                 .withApiVersion("apps/v1")
@@ -178,8 +178,8 @@ public class DefaultKubernetesService implements KubernetesService {
         return deployment;
     }
 
-    private Deployment createGpuDeployment(User user) {
-        String depolyId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
+    private Deployment createGpuDeployment(InnerUser innerUser) {
+        String depolyId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(innerUser.getUserId()));
 
         Deployment deployment = new DeploymentBuilder()
                 .withApiVersion("apps/v1")
@@ -239,8 +239,8 @@ public class DefaultKubernetesService implements KubernetesService {
         return deployment;
     }
 
-    private io.fabric8.kubernetes.api.model.Service createCpuService(User user) {
-        String svcId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
+    private io.fabric8.kubernetes.api.model.Service createCpuService(InnerUser innerUser) {
+        String svcId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(innerUser.getUserId()));
 
         io.fabric8.kubernetes.api.model.Service service = new ServiceBuilder()
                 .withApiVersion("v1")
@@ -267,8 +267,8 @@ public class DefaultKubernetesService implements KubernetesService {
         return service;
     }
 
-    private io.fabric8.kubernetes.api.model.Service createGpuService(User user) {
-        String svcId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
+    private io.fabric8.kubernetes.api.model.Service createGpuService(InnerUser innerUser) {
+        String svcId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(innerUser.getUserId()));
 
         io.fabric8.kubernetes.api.model.Service service = new ServiceBuilder()
                 .withApiVersion("v1")
@@ -295,9 +295,9 @@ public class DefaultKubernetesService implements KubernetesService {
         return service;
     }
 
-    public String getGpuIp(User user) {
+    public String getGpuIp(InnerUser innerUser) {
         StringBuilder podId = new StringBuilder();
-        String userSpace = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
+        String userSpace = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(innerUser.getUserId()));
         podId.append(userSpace).append("-deploy-gpu");
 
         for (Pod pod : client.pods().inNamespace("default").list().getItems()) {
@@ -309,11 +309,11 @@ public class DefaultKubernetesService implements KubernetesService {
         throw new KuberneteException("Can not find container's IP address");
     }
 
-    public String getCpuIp(User user) {
+    public String getCpuIp(InnerUser innerUser) {
 
         StringBuilder podId = new StringBuilder();
 
-        String userSpace = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
+        String userSpace = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(innerUser.getUserId()));
 
         podId.append(userSpace).append("-deploy-cpu");
 
@@ -337,9 +337,9 @@ public class DefaultKubernetesService implements KubernetesService {
         return port;
     }
 
-    public void releaseDockerContainer(User user) throws KuberneteException {
+    public void releaseDockerContainer(InnerUser innerUser) throws KuberneteException {
 
-        String userId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(user.getUserId()));
+        String userId = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(innerUser.getUserId()));
 
         try {
             for (io.fabric8.kubernetes.api.model.Service svc : client.services().inNamespace("default").list().getItems()) {
