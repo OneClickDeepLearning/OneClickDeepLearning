@@ -2,6 +2,7 @@ package acceler.ocdl.service;
 
 import acceler.ocdl.model.Algorithm;
 import acceler.ocdl.model.Model;
+import acceler.ocdl.model.NewModel;
 import acceler.ocdl.model.User;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public interface ModelService {
      * @param user used for get userspace path, userspacePath = "HDFS path" + "projectName-userID"
      */
     void initModelToStage(User user);
+
 
     /**
      * approval model
@@ -35,7 +37,7 @@ public interface ModelService {
     void rejectModel(Model model);
 
     /**
-     * reject model
+     * undo model
      * move model file from folder "approval" or "reject"  to folder "new" and update the model object
      * the format of the fileName = "modelName" + "timestamp"
      * @param model model that need to undo
@@ -64,6 +66,4 @@ public interface ModelService {
      * @return true exist the model file; else not exist.
      */
     boolean existModel(String modelName, Model.Status status);
-
-
 }

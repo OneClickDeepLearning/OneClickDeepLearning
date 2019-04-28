@@ -60,7 +60,7 @@ public class AuthController {
             String token = securityUtil.requestToken(loginUser);
 
             Map<String, Object> result = new HashMap<>();
-            result.put("userName", loginUser.getUserName());
+            result.put("userName", loginUser.getAuthServerUserId());
             result.put("token", token);
             result.put("role",loginUser.getRole());
 

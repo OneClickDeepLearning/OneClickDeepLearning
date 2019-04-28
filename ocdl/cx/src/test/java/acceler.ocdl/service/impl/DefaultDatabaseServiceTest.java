@@ -103,7 +103,7 @@ public class DefaultDatabaseServiceTest {
         User user = db.getUserInfo("test");
         System.out.println("the user info is: ");
         System.out.println(user.getUserId());
-        System.out.println(user.getUserName());
+        System.out.println(user.getAuthServerUserId());
         System.out.println(user.getPassword());
         System.out.println(user.getRole());
 
@@ -184,7 +184,7 @@ public class DefaultDatabaseServiceTest {
     public void getProjectManager() {
 
         User user = db.getProjectManager(3);
-        assertEquals("test", user.getUserName());
+        assertEquals("test", user.getAuthServerUserId());
     }
 
 

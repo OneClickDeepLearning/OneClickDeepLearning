@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class  ApprovedModel extends Model implements Cloneable {
 
-    private long releasedVersion;
+    private Long releasedVersion;
 
-    private long cachedVersion;
+    private Long cachedVersion;
 
     private Date approvedTime;
 
@@ -28,11 +28,16 @@ public class  ApprovedModel extends Model implements Cloneable {
         return copy;
     }
 
-    public long getReleasedVersion() {
+    //TODO:
+    public NewModel convertToNewModel(){
+        return new NewModel();
+    }
+
+    public Long getReleasedVersion() {
         return this.releasedVersion;
     }
 
-    public long getCachedVersion() {
+    public Long getCachedVersion() {
         return this.cachedVersion;
     }
 
@@ -40,11 +45,11 @@ public class  ApprovedModel extends Model implements Cloneable {
         return this.approvedTime;
     }
 
-    public void setReleasedVersion(long releasedVersion) {
+    void setReleasedVersion(Long releasedVersion) {
         this.releasedVersion = releasedVersion;
     }
 
-    public void setCachedVersion(long cachedVersion) {
+    void setCachedVersion(Long cachedVersion) {
         this.cachedVersion = cachedVersion;
     }
 
