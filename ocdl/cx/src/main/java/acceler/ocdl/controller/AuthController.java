@@ -26,7 +26,7 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
-
+    
     @Autowired
     private SecurityUtil securityUtil;
 
