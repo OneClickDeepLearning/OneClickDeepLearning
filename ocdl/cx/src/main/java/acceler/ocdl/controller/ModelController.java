@@ -37,10 +37,6 @@ public final class ModelController {
     @Autowired
     private ModelService modelService;
 
-    private String newStr = "new";
-    private String approvalStr = "approval";
-    private String rejectStr = "reject";
-
     /**
      * Get all models
      * @return
@@ -87,11 +83,11 @@ public final class ModelController {
         logger.debug("enter the get model list funciton +++++++++++++++++");
         Response.Builder responseBuilder = getBuilder();
 
-        if (from.equals(newStr) && to.equals(approvalStr)) {
+        if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.APPROVED.name())) {
             modelService.approveModel((NewModel) modelDto.convertToModel(),modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(modelDto.getVersion()));
-        } else if (from.equals(newStr) && to.equals(rejectStr)) {
+        } else if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.REJECTED.name())) {
             modelService.rejectModel((NewModel) modelDto.convertToModel());
-        } else if ((from.equals(approvalStr) || from.equals(toString())) && to.equals(newStr)) {
+        } else if ((from.toUpperCase().equals(Model.Status.APPROVED.name()) || from.toUpperCase().equals(Model.Status.REJECTED.name())) && to.toUpperCase().equals(Model.Status.NEW.name())) {
             modelService.undo(modelDto.convertToModel());
         } else {
             throw new OcdlException("Invalid From/To parameters.");
