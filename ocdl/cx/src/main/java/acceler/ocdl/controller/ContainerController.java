@@ -20,33 +20,6 @@ public final class ContainerController {
     @Autowired
     private KubernetesService kubernetesService;
 
-//    private String serverIp;
-//
-//    @Value("${local.ip}")
-//    public void setServerIp(String serverIp) {
-//        this.serverIp = serverIp;
-//        System.out.println(this.serverIp);
-//    }
-//
-//    @ResponseBody
-//    @RequestMapping(params = "status=all", method = RequestMethod.GET)
-//    public final Response queryUsingPorts() {
-//        return Response.getBuilder()
-//                .setCode(Response.Code.SUCCESS)
-//                .setData(containerService.getAssignedContainers())
-//                .build();
-//    }
-//
-//    @ResponseBody
-//    @RequestMapping(params = "status=free", method = RequestMethod.GET)
-//    public final Response queryAvailablePortsCount() {
-//        return Response.getBuilder()
-//                .setCode(Response.Code.SUCCESS)
-//                .setData(containerService.getAvailableContainers().size())
-//                .build();
-//
-//    }
-
     @ResponseBody
     @RequestMapping(path = "/type/{rscType}", method = RequestMethod.POST)
     public final Response requestContainer(HttpServletRequest request, @PathVariable("rscType") String rscType) {

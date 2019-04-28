@@ -28,11 +28,7 @@ public class AuthController {
     private UserService userService;
 
     @Autowired
-    private UserCrud userCrud;
-
-    @Autowired
     private SecurityUtil securityUtil;
-
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     @ResponseBody

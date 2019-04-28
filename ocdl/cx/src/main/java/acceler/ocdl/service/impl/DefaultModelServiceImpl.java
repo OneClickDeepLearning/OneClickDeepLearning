@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 public class DefaultModelServiceImpl implements ModelService {
+
     private static final Logger log = Logger.getLogger(DefaultModelServiceImpl.class);
 
     @Autowired

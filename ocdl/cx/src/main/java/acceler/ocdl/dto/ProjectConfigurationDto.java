@@ -11,6 +11,10 @@ public class ProjectConfigurationDto implements Serializable {
     private String k8Url;
     private String templatePath;
     private String gitPath;
+
+    /**
+     * suffixes split by ';'
+     */
     private String suffix;
     private String modelTypes;
 
@@ -53,7 +57,6 @@ public class ProjectConfigurationDto implements Serializable {
     }
 
     public Project convert2Project() {
-
         Project project = new Project();
         project.setProjectName(this.projectName);
         project.setK8MasterUri(this.k8Url);
