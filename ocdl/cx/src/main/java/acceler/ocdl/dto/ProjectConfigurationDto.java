@@ -3,6 +3,8 @@ package acceler.ocdl.dto;
 import acceler.ocdl.model.Project;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProjectConfigurationDto implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -13,6 +15,7 @@ public class ProjectConfigurationDto implements Serializable {
     private String gitPath;
     private String suffix;
     private String modelTypes;
+    private String algorithm;
 
     public String getProjectName() {
         return projectName;
@@ -38,29 +41,58 @@ public class ProjectConfigurationDto implements Serializable {
         this.templatePath = templatePath;
     }
 
-    public String getGitPath() { return gitPath; }
+    public String getGitPath() {
+        return gitPath;
+    }
 
-    public void setGitPath(String gitPath) { this.gitPath = gitPath; }
+    public void setGitPath(String gitPath) {
+        this.gitPath = gitPath;
+    }
 
-    public String getSuffix() { return suffix; }
+    public String getSuffix() {
+        return suffix;
+    }
 
-    public void setSuffix(String suffix) { this.suffix = suffix; }
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
+    }
 
-    public String getModelTypes() { return modelTypes; }
+    public String getModelTypes() {
+        return modelTypes;
+    }
 
     public void setModelTypes(String modelTypes) {
         this.modelTypes = modelTypes;
     }
 
     public Project convert2Project() {
+        List<String> suffixesList = new ArrayList<String>();
+        String[] suffixesStr = suffix.split(";");
+
+        for (int i = 0; i < suffixesStr.length; i++) {
+            if(!"".equals(suffixesStr[i])){
+
+            }
+        }
 
         Project project = new Project();
-        project.setProjectName(this.projectName);
-        project.setK8MasterUri(this.k8Url);
-        project.setTemplatePath(this.templatePath);
-        project.setGitRepoURI(this.gitPath);
-        project.setSuffix(this.suffix);
+        project.setTemplatePath(templatePath);
+        project.setGitRepoURI(gitPath);
+        project.setK8MasterUri(k8Url);
+        project.setProjectName(projectName);
+
+        project.setSuffixes();
+
 
         return project;
+    }
+
+
+    public String getAlgorithm() {
+        return algorithm;
+    }
+
+    public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
     }
 }

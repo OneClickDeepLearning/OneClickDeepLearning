@@ -2,7 +2,11 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.ProjectConfigurationDto;
 import acceler.ocdl.dto.Response;
+import acceler.ocdl.model.Algorithm;
 import acceler.ocdl.model.Project;
+import acceler.ocdl.service.AlgorithmService;
+import acceler.ocdl.service.ModelService;
+import acceler.ocdl.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,10 @@ public class ProjectController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
+    @Autowired
+    private ProjectService projectService;
+    @Autowired
+    private AlgorithmService algorithmService;
 
     @ResponseBody
     @RequestMapping(path = "/algorithm", method = RequestMethod.GET)
@@ -33,7 +41,7 @@ public class ProjectController {
 
         Response.Builder responseBuilder = getBuilder();
 
-        List<String> modelTypes = modelTypeCrud.getModelTypes();
+        List<Algorithm> modelTypes = algorithmService.getAllAlgorithm();
 
         responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(modelTypes);
@@ -48,7 +56,7 @@ public class ProjectController {
 
         Response.Builder responseBuilder = Response.getBuilder();
 
-        Project project = projectCrud.getProjectConfiguration();
+        Project project = projectService.getProjectConfiguration();
         ProjectConfigurationDto projectDto = project.convert2ProjectDto();
 
         List<String> modelTypes = modelTypeCrud.getModelTypes();
@@ -58,7 +66,6 @@ public class ProjectController {
             modelTypeBuilder.append(mt);
             modelTypeBuilder.append("; ");
         });
-
         projectDto.setModelTypes(modelTypeBuilder.toString());
 
         responseBuilder.setCode(Response.Code.SUCCESS)
