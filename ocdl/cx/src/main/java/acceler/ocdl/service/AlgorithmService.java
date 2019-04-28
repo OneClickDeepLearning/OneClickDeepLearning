@@ -28,6 +28,6 @@ public interface AlgorithmService {
      * @param forceRemove is force removed
      * @return list of updated algorithm name
      */
-    List<String> updateAlgorithmList(List<String> algorithms);
+    List<String> updateAlgorithmList(List<String> algorithms, boolean forceRemove);
 
 }
