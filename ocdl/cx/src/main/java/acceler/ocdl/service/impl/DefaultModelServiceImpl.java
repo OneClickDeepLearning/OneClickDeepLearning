@@ -9,6 +9,7 @@ import acceler.ocdl.utils.TimeUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class DefaultModelServiceImpl implements ModelService {
     private static final Logger log = Logger.getLogger(DefaultModelServiceImpl.class);
 

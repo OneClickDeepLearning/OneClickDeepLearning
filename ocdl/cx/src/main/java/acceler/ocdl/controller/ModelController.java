@@ -5,6 +5,7 @@ import acceler.ocdl.dto.ModelDto;
 import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.model.Algorithm;
 import acceler.ocdl.model.Model;
+import acceler.ocdl.model.NewModel;
 import acceler.ocdl.model.User;
 import acceler.ocdl.service.ModelService;
 import acceler.ocdl.dto.Response;
@@ -87,9 +88,9 @@ public final class ModelController {
         Response.Builder responseBuilder = getBuilder();
 
         if (from.equals(newStr) && to.equals(approvalStr)) {
-            modelService.approvalModel(modelDto.convertToModel(),modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(modelDto.getVersion()));
+            modelService.approveModel((NewModel) modelDto.convertToModel(),modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(modelDto.getVersion()));
         } else if (from.equals(newStr) && to.equals(rejectStr)) {
-            modelService.rejectModel(modelDto.convertToModel());
+            modelService.rejectModel((NewModel) modelDto.convertToModel());
         } else if ((from.equals(approvalStr) || from.equals(toString())) && to.equals(newStr)) {
             modelService.undo(modelDto.convertToModel());
         } else {
