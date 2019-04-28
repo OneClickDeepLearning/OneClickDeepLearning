@@ -2,7 +2,6 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.model.User;
-import acceler.ocdl.persistence.UserCrud;
 import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.SecurityUtil;
 import org.slf4j.Logger;
@@ -34,11 +33,6 @@ public class AuthController {
     @Autowired
     private SecurityUtil securityUtil;
 
-    @Autowired
-    private ProjectCrud projectCrud;
-
-    @Autowired
-    private KubernetesService kubernetesService;
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     @ResponseBody

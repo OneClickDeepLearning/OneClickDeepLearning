@@ -1,9 +1,5 @@
 package acceler.ocdl.model;
 
-import acceler.ocdl.CONSTANTS;
-import acceler.ocdl.dto.ModelDto;
-import com.amazonaws.services.opsworks.model.App;
-
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

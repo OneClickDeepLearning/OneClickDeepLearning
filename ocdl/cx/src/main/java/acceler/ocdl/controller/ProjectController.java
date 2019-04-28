@@ -24,11 +24,6 @@ public class ProjectController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
-    @Autowired
-    private ModelTypeCrud modelTypeCrud;
-
-    @Autowired
-    private ProjectCrud projectCrud;
 
     @ResponseBody
     @RequestMapping(path = "/algorithm", method = RequestMethod.GET)
