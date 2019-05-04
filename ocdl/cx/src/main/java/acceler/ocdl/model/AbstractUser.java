@@ -18,14 +18,14 @@ public abstract class AbstractUser implements Serializable {
     protected Long userId;
     protected Role role;
 
-    public abstract AbstractUser deepCopy();
-
     private static void persistence() {
         lock.writeLock().lock();
         File dumpFile = new File(CONSTANTS.PERSISTANCE.USERS);
         SerializationUtils.dump(userListStorage, dumpFile);
         lock.writeLock().unlock();
     }
+
+    public abstract AbstractUser deepCopy();
 
     public enum Role {
         TEST, DEVELOPER, MANAGER

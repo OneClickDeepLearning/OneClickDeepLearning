@@ -1,6 +1,7 @@
 package acceler.ocdl.model;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 public class InnerUser extends AbstractUser implements Serializable {
     private String userName;
@@ -9,6 +10,7 @@ public class InnerUser extends AbstractUser implements Serializable {
     public InnerUser() {
     }
 
+    @Override
     public InnerUser deepCopy() {
         InnerUser copy = new InnerUser();
         copy.userId = this.userId;
@@ -17,7 +19,35 @@ public class InnerUser extends AbstractUser implements Serializable {
         return copy;
     }
 
-    private InnerUser[] getRealInnerUser() {
+    private static InnerUser[] getRealInnerUser() {
         return (InnerUser[]) userListStorage.stream().filter(u -> u instanceof InnerUser).toArray();
+    }
+
+    public static Optional<InnerUser> getUserByUserName(String userName) {
+        final InnerUser[] realInnerUsers = getRealInnerUser();
+        InnerUser target = null;
+        for (InnerUser user : realInnerUsers) {
+            if (user.userName.equals(userName)) {
+                target = user.deepCopy();
+                break;
+            }
+        }
+        return Optional.ofNullable(target);
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

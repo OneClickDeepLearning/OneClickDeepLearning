@@ -17,20 +17,43 @@ public class OauthUser extends AbstractUser implements Serializable {
         return copy;
     }
 
-    public static Optional<OauthSource> getUserByOauthInfo(String userName, OauthSource oauthSource) {
-
-        Optional<AbstractUser> userOpt = getRealUserByOauthInfo(userName, oauthSource);
-
-        AbstractUser copy = userOpt.map(OauthUser::deepCopy).orElse(null);
-
-        return Optional.ofNullable(copy);
+    public static OauthUser[] getOauthUsers() {
+        return (OauthUser[]) userListStorage.stream().filter(user -> (user instanceof OauthUser)).toArray();
     }
 
-    private static Optional<AbstractUser> getRealUserByOauthInfo(String authServerUserId, OauthSource oauthSource) {
+    public static boolean existUser(OauthUser.OauthSource source, String sourceUserId){
         return userListStorage.stream()
-                .filter(u -> u instanceof OauthUser)
-                .filter(u -> ((OauthUser) u).authServerUserId.equals(authServerUserId) && ((OauthUser) u).oauthSource == oauthSource)
-                .findFirst();
+                .filter(abstractUser -> abstractUser instanceof OauthUser)
+                .filter(u -> ((OauthUser) u).getOauthSource() == source)
+                .anyMatch(u -> ((OauthUser) u).getAuthServerUserId().equals(sourceUserId));
+    }
+
+    public static Optional<OauthUser> getUserBySourceID(OauthUser.OauthSource source, String sourceId) {
+        OauthUser[] oauthUsers = getOauthUsers();
+        OauthUser target = null;
+        for (OauthUser user : oauthUsers) {
+            if (user.getOauthSource() == source && user.getOauthSource().equals(sourceId)) {
+                target = user.deepCopy();
+                break;
+            }
+        }
+        return Optional.ofNullable(target);
+    }
+
+    public OauthSource getOauthSource() {
+        return oauthSource;
+    }
+
+    public void setOauthSource(OauthSource oauthSource) {
+        this.oauthSource = oauthSource;
+    }
+
+    public String getAuthServerUserId() {
+        return authServerUserId;
+    }
+
+    public void setAuthServerUserId(String authServerUserId) {
+        this.authServerUserId = authServerUserId;
     }
 
     public enum OauthSource {

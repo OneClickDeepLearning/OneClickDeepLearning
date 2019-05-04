@@ -4,29 +4,32 @@ import acceler.ocdl.controller.AuthController;
 import acceler.ocdl.exception.ExistedException;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.model.InnerUser;
+import acceler.ocdl.model.OauthUser;
 import acceler.ocdl.service.UserService;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class DBUserService implements UserService {
 
     @Override
     public boolean credentialCheck(AuthController.UserCredentials loginUser) {
-        InnerUser innerUser = this.userCrud.getUserByAccountAndPassword(loginUser.account, loginUser.password);
-        return innerUser != null;
-    }
-
-    public InnerUser getUserByCredentials(AuthController.UserCredentials loginUser) {
-        return userCrud.getUserByAccountAndPassword(loginUser.account, loginUser.password);
+        Optional<InnerUser> targetUserOpt = InnerUser.getUserByUserName(loginUser.account);
+        return targetUserOpt.map(innerUser -> innerUser.getPassword().equals(loginUser.password)).orElse(false);
     }
 
     @Override
-    public InnerUser getUserBySourceID(InnerUser.OauthSource source, String ID) throws NotFoundException {
-        return null;
+    public OauthUser getUserBySourceID(OauthUser.OauthSource source, String ID) throws NotFoundException {
+        Optional<OauthUser> targetUserOpt = OauthUser.getUserBySourceID(source, ID);
+        return targetUserOpt.orElseThrow(() -> new NotFoundException("User Not Found", "User Not Found"));
     }
 
     @Override
-    public InnerUser createUser(String ID, InnerUser.OauthSource source) throws ExistedException {
-        return null;
+    public OauthUser createUser(String ID, OauthUser.OauthSource source) throws ExistedException {
+        if (OauthUser.existUser(source, ID)){
+            throw new ExistedException();
+        }
+
     }
 }
