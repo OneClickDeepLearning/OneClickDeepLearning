@@ -46,5 +46,6 @@ public interface CONSTANTS {
 
     interface HADOOPMASTER{
         String ADDRESS = "hdfs://10.8.0.14:9000";
+        String USERDIR = "/UserSpace/";
     }
 }

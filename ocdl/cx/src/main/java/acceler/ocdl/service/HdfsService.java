@@ -8,6 +8,6 @@ public interface HdfsService {
 
     //public void uploadFile(String srcPath, String dstPath) throws HdfsException;
 
-    public void createUserSpace(String userSpace);
+    public void createDir(String userSpace);
 
 }
