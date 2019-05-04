@@ -31,6 +31,19 @@
     <script type="text/javascript" src="js/nav.js"></script>
 
     <style type="text/css">
+
+        <!--    -->
+
+        .lightMode {
+            background-color: #1786A8;
+            transition: background-color 1s;
+        }
+
+        .darkMode {
+            background-color: #000000;
+            transition: background-color 1s;
+        }
+
         .jupyterContainerLarge {
             margin: 0;
             width: 100%;
@@ -43,6 +56,8 @@
             transition-duration: 0.5s;
         }
 
+
+        <!--     -->
         a:hover, a:focus {
             outline: none;
             text-decoration: none;
@@ -150,6 +165,9 @@
                 opacity: 1;
             }
         }
+
+
+
     </style>
 
 
@@ -193,7 +211,7 @@
 </nav>
 <!-- end navigation -->
 <!-- start header -->
-<header style="background-color:#000000;">
+<header id="operationBar" class="darkMode">
     <div class="container">
         <div class="row" class="" style="display:flex;justify-content:center;align-items:center;">
             <div id="informationBlock" style="" class="col-md-4 col-sm-3 col-xs-3">
@@ -236,7 +254,7 @@
             <div class="col-md-3 col-sm-3 col-xs-3">
                 <div class="userBlock">
                     <!-- Top Navigation -->
-                    <div id="loginBtnGroup" class="color-1" style="background: black">
+                    <div id="loginBtnGroup" class="color-1">
                         <p style="text-align: right">
                             <button class="btn btn-1 btn-1e" id="signUpBtn" data-toggle="modal"
                                     data-target="#RegistrationModal" style="color: #47C6F8; border-color: #47C6F8;">
@@ -831,6 +849,7 @@
 
     function hideNav() {
         $("#OCDLNav").slideToggle();
+        lightModeToggler();
         jupyterContainerLargeToggle("#serviceContainer");
 
     }
@@ -863,6 +882,20 @@
     $("#hideNavBtn").mouseleave(function () {
         $("#hideNavTag").hide(200);
     })
+
+    function lightModeToggler(){
+        var operationBar = $("#operationBar");
+
+        if(operationBar.hasClass('lightMode')){
+            operationBar.addClass('darkMode');
+            operationBar.removeClass('lightMode');
+
+        }else if(operationBar.hasClass('darkMode')){
+            operationBar.addClass('lightMode');
+            operationBar.removeClass('darkMode');
+
+        }
+    }
 
 </script>
 
