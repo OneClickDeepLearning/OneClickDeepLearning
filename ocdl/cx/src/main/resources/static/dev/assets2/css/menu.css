@@ -67,6 +67,8 @@ body.openmenu {
   -webkit-box-shadow: 3px 0 7px rgba(0,0,0,0.55);
   -moz-box-shadow: 3px 0 7px rgba(0,0,0,0.55);
   box-shadow: 3px 0 7px rgba(0,0,0,0.55);
+    transition-property:padding;
+    transition-duration: 1s;
 }
 #hamburgermenu ul {
   z-index: 101;
@@ -79,9 +81,9 @@ body.openmenu {
 #hamburgermenu ul li a {
   display: block;
   min-width: 130px;
-  padding: 18px 8px;
+  padding: 15px 6px;
   color: #cdcdcd;
-  font-size: 1.45em;
+  font-size: 1.20em;
   font-weight: bold;
   text-decoration: none;
   text-align: center;
@@ -185,13 +187,11 @@ body.openmenu {
     content: "\e002";
 }
 
-
-.hi-icon-refresh:before {
-    content: "\e007";
-}
-
-hi-icon-archive:before {
+.hi-icon-archive:before {
     content: "\e00f";
+}
+.hi-icon-dev:before {
+    content: "\e00a";
 }
 
 .no-touch a:hover,

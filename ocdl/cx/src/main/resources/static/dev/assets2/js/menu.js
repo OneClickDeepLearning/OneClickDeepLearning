@@ -23,14 +23,7 @@
       jsAnimateMenu('close');
     }
   });
-  
-  $('#hideNavBtn').on('click',function(e){
-  	if($nav.hasClass('hideNav')) {
-  		jsAnimateNav('open');
-  	}else {
-  		jsAnimateNav("close");
-  	}
-  });
+
 
 /*	$(".d-secondNav").on('click',function(e){
 		jsAnimateMenu('close');
