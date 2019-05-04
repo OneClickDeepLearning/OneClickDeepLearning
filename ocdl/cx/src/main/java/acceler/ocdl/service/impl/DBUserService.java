@@ -20,7 +20,6 @@ public class DBUserService implements UserService {
         return userCrud.getUserByAccountAndPassword(loginUser.account, loginUser.password);
     }
 
-
     @Override
     public InnerUser getUserBySourceID(InnerUser.OauthSource source, String ID) throws NotFoundException {
         return null;

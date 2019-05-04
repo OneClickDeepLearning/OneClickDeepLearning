@@ -181,12 +181,14 @@ public class Project implements Serializable {
         for (String str : suffixes) {
             suffixesStr += str + ";";
         }
+
         projectDto.setAlgorithm(algorithmsStr);
         projectDto.setSuffix(suffixesStr);
         projectDto.setGitPath(gitRepoURI);
         projectDto.setK8Url(k8MasterUri);
         projectDto.setProjectName(projectName);
         projectDto.setTemplatePath(templatePath);
+
         return projectDto;
     }
 }
