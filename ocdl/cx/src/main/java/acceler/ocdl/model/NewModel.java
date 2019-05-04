@@ -79,7 +79,6 @@ public class NewModel extends Model {
             throw new ExistedException();
         }
 
-
         newModelStorage.add(model);
         persistence();
     }
@@ -119,5 +118,13 @@ public class NewModel extends Model {
 
     public void setCommitTime(Date commitTime) {
         this.commitTime = commitTime;
+    }
+
+    public static NewModel[] getAllNewModels(){
+        lock.readLock().lock();
+        NewModel[] newModels = (NewModel[]) newModelStorage.stream().map(NewModel::deepClone).toArray();
+        lock.readLock().unlock();
+
+        return newModels;
     }
 }

@@ -1,6 +1,7 @@
 package acceler.ocdl.service.impl;
 
 import acceler.ocdl.CONSTANTS;
+import acceler.ocdl.dto.ModelDto;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.model.*;
 import acceler.ocdl.service.ModelService;
@@ -13,9 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class DefaultModelServiceImpl implements ModelService {
@@ -73,8 +72,6 @@ public class DefaultModelServiceImpl implements ModelService {
         Algorithm algorithm = Algorithm.getAlgorithmByName(algorithmName).orElseThrow(() -> (new NotFoundException("Not found algorithm:" + algorithmName, "algorithm not found")));
 
         ApprovedModel approvedModel = algorithm.approveModel(model, version);
-
-
 
         algorithm.persistApprovalModel(approvedModel);
 
@@ -159,13 +156,61 @@ public class DefaultModelServiceImpl implements ModelService {
     }
 
     @Override
-    public List<Model> getModelsByStatus(Model.Status status) {
-        return null;
+    public ModelDto[] getModelsByStatus(Model.Status status) {
+
+        List<ModelDto> modelDtoList = null;
+
+        switch (status) {
+            case NEW:
+                Model[] newModels = NewModel.getAllNewModels();
+                modelDtoList = convertModelsToModelDtoList(newModels);
+                break;
+            case REJECTED:
+                Model[] rejectedModels = RejectedModel.getAllRejectedModels();
+                modelDtoList = convertModelsToModelDtoList(rejectedModels);
+                break;
+            case APPROVED:
+                Map<String, Model[]> approvedModelMap = Algorithm.getAllAlgorithmAndModels();
+                modelDtoList = convertModelsToModelDtoList(approvedModelMap);
+                break;
+        }
+
+        return (ModelDto[]) modelDtoList.toArray();
+
     }
 
-    @Override
-    public boolean existModel(String modelName, Model.Status status) {
-        return false;
+    /**
+     * Convert NewModel[] and RejectedModel[] to ModelDto[]
+     * @param modelArray
+     * @return
+     */
+    private List<ModelDto> convertModelsToModelDtoList(Model[] modelArray) {
+
+        List<ModelDto> modelDtoList = new ArrayList<>();
+
+        for (Model model : modelArray) {
+            ModelDto modelDto = model.convertToModelDto(model);
+            modelDtoList.add(modelDto);
+        }
+
+        return modelDtoList;
+    }
+
+
+    /**
+     * Convert Map<AlgorithmName, ApprovedModel[]> to ModelDto[]
+     * @param modelMap
+     * @return
+     */
+    private ModelDto[] convertModelsToModelDtoArray(Map<String, Model[]> modelMap) {
+
+        Set<ModelDto> modelDtoSet = new HashSet<>();
+        for (String algorithmName : modelMap.keySet()) {
+            List<ModelDto> modelDtoList = convertModelsToModelDtoList(modelMap.get(algorithmName));
+            modelDtoSet.addAll(modelDtoList);
+        }
+
+        return (ModelDto[]) modelDtoSet.toArray();
     }
 
 

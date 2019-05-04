@@ -1,5 +1,6 @@
 package acceler.ocdl.service;
 
+import acceler.ocdl.dto.ModelDto;
 import acceler.ocdl.model.Algorithm;
 import acceler.ocdl.model.Model;
 import acceler.ocdl.model.NewModel;
@@ -56,13 +57,6 @@ public interface ModelService {
      * @param status specific status
      * @return list of Model
      */
-    List<Model> getModelsByStatus(Model.Status status);
+    ModelDto[] getModelsByStatus(Model.Status status);
 
-    /**
-     * verify is the file of model is exist in status folder
-     * @param modelName the name of the model
-     * @param status the status of the model
-     * @return true exist the model file; else not exist.
-     */
-    boolean existModel(String modelName, Model.Status status);
 }
