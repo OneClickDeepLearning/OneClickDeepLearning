@@ -6,8 +6,6 @@ import acceler.ocdl.model.Model;
 import acceler.ocdl.model.NewModel;
 import acceler.ocdl.model.InnerUser;
 
-import java.util.List;
-
 public interface ModelService {
 
     /**
