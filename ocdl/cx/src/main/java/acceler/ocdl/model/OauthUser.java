@@ -13,7 +13,6 @@ public class OauthUser extends AbstractUser implements Serializable {
         copy.userId = this.userId;
         copy.oauthSource = this.oauthSource;
         copy.authServerUserId = this.authServerUserId;
-
         return copy;
     }
 
@@ -21,7 +20,7 @@ public class OauthUser extends AbstractUser implements Serializable {
         return (OauthUser[]) userListStorage.stream().filter(user -> (user instanceof OauthUser)).toArray();
     }
 
-    public static boolean existUser(OauthUser.OauthSource source, String sourceUserId){
+    public static boolean existUser(OauthUser.OauthSource source, String sourceUserId) {
         return userListStorage.stream()
                 .filter(abstractUser -> abstractUser instanceof OauthUser)
                 .filter(u -> ((OauthUser) u).getOauthSource() == source)
@@ -38,6 +37,16 @@ public class OauthUser extends AbstractUser implements Serializable {
             }
         }
         return Optional.ofNullable(target);
+    }
+
+    public static OauthUser createNewUser(OauthUser.OauthSource source, String sourceId) {
+        OauthUser newUser = new OauthUser();
+        newUser.setUserId(AbstractUser.getUniqueUserId());
+        newUser.setRole(Role.DEVELOPER);
+        newUser.setOauthSource(source);
+        newUser.setAuthServerUserId(sourceId);
+        AbstractUser.insertUserToStorage(newUser);
+        return newUser;
     }
 
     public OauthSource getOauthSource() {
