@@ -104,7 +104,7 @@ public class RejectedModel extends Model {
 
     private static void persistence(){
         lock.writeLock().lock();
-        File dumpFile = new File(CONSTANTS.PERSISTANCE.REJECTED_MODELS);
+        File dumpFile = new File(CONSTANTS.PERSISTENCE.REJECTED_MODELS);
         SerializationUtils.dump(rejectedModelStorage, dumpFile);
         lock.writeLock().unlock();
     }
