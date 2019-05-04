@@ -10,9 +10,11 @@ public interface UserService {
 
     boolean credentialCheck(AuthController.UserCredentials loginUser);
 
-    InnerUser getUserByUsernameAndPwd(String userName, String password) throws NotFoundException;
+    InnerUser getUserByUsername(String userName) throws NotFoundException;
 
     OauthUser getUserBySourceID(OauthUser.OauthSource source, String ID) throws NotFoundException;
 
     OauthUser createUser(OauthUser.OauthSource source, String ID) throws ExistedException;
+
+    InnerUser createUser(String userName, String password) throws ExistedException;
 }

@@ -7,8 +7,7 @@ public class InnerUser extends AbstractUser implements Serializable {
     private String userName;
     private String password;
 
-    public InnerUser() {
-    }
+    public InnerUser() { }
 
     @Override
     public InnerUser deepCopy() {
@@ -17,10 +16,6 @@ public class InnerUser extends AbstractUser implements Serializable {
         copy.userName = this.userName;
         copy.password = this.password;
         return copy;
-    }
-
-    private static InnerUser[] getRealInnerUser() {
-        return (InnerUser[]) userListStorage.stream().filter(u -> u instanceof InnerUser).toArray();
     }
 
     public static Optional<InnerUser> getUserByUserName(String userName) {
@@ -33,6 +28,26 @@ public class InnerUser extends AbstractUser implements Serializable {
             }
         }
         return Optional.ofNullable(target);
+    }
+
+    public static boolean existUser(String userName) {
+        return userListStorage.stream()
+                .filter(abstractUser -> abstractUser instanceof InnerUser)
+                .anyMatch(user -> ((InnerUser) user).getUserName().equals(userName));
+    }
+
+    public static InnerUser createNewUser(String userName, String password) {
+        InnerUser newUser = new InnerUser();
+        newUser.setUserId(AbstractUser.getUniqueUserId());
+        newUser.setRole(Role.DEVELOPER);
+        newUser.setUserName(userName);
+        newUser.setPassword(password);
+        AbstractUser.insertUserToStorage(newUser);
+        return newUser;
+    }
+
+    private static InnerUser[] getRealInnerUser() {
+        return (InnerUser[]) userListStorage.stream().filter(u -> u instanceof InnerUser).toArray();
     }
 
     public String getUserName() {

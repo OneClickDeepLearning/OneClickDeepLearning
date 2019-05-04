@@ -5,7 +5,6 @@ import acceler.ocdl.dto.Response;
 import acceler.ocdl.model.Algorithm;
 import acceler.ocdl.model.Project;
 import acceler.ocdl.service.AlgorithmService;
-import acceler.ocdl.service.ModelService;
 import acceler.ocdl.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

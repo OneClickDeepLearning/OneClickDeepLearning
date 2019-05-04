@@ -46,11 +46,11 @@ public class AuthController {
             respBuilder.setMessage("incorrect account & password");
             return respBuilder.build();
         } else {
-            InnerUser loginInnerUser = InnerUser.getUserByUserName(credential.account);
+            InnerUser loginInnerUser = userService.getUserByUsername(credential.account);
             String token = securityUtil.requestToken(loginInnerUser);
 
             Map<String, Object> result = new HashMap<>();
-            result.put("userName", loginInnerUser.getAuthServerUserId());
+            result.put("userId", loginInnerUser.getUserId());
             result.put("token", token);
             result.put("role", loginInnerUser.getRole());
 
@@ -63,19 +63,19 @@ public class AuthController {
 
     @RequestMapping(path = "/login", method = RequestMethod.POST, params = "oauth")
     @ResponseBody
-    public Response login(@RequestBody Map<String,String> param) {
+    public Response login(@RequestBody Map<String, String> param) {
         final Response.Builder respBuilder = Response.getBuilder();
         respBuilder.setCode(Response.Code.SUCCESS);
         return respBuilder.build();
     }
 
     @RequestMapping(path = "/logout")
-    public void logout(HttpServletRequest request, HttpServletResponse response){
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
         InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
-        if (innerUser != null){
+        if (innerUser != null) {
             securityUtil.releaseToken(innerUser);
             response.setStatus(HttpServletResponse.SC_OK);
-        }else{
+        } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
