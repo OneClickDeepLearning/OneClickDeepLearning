@@ -170,7 +170,6 @@ public class Project implements Serializable {
         lock.writeLock().lock();
     }
 
-
     public ProjectConfigurationDto convert2ProjectDto(List<Algorithm> algorithms) {
         String algorithmsStr = "";
         String suffixesStr = "";
