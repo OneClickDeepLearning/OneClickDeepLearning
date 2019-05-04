@@ -108,4 +108,12 @@ public class RejectedModel extends Model {
         SerializationUtils.dump(rejectedModelStorage, dumpFile);
         lock.writeLock().unlock();
     }
+
+    public static RejectedModel[] getAllRejectedModels() {
+        lock.readLock().lock();
+        RejectedModel[] rejectedModels = (RejectedModel[])rejectedModelStorage.stream().map(RejectedModel::deepCopy).toArray();
+        lock.readLock().unlock();
+
+        return rejectedModels;
+    }
 }

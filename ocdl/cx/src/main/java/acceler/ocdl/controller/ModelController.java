@@ -106,16 +106,4 @@ public final class ModelController {
     }
 
 
-    private List<ModelDto> convert2ListModelDto(List<Model> modelList) {
-
-        List<ModelDto> modelDtoList = new ArrayList<>();
-
-        modelList.forEach(model -> {
-            ModelDto modelDto = model.convertToModelDto(model);
-            modelDtoList.add(modelDto);
-        });
-
-        return modelDtoList;
-    }
-
 }

@@ -7,10 +7,7 @@ import acceler.ocdl.utils.SerializationUtils;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -200,6 +197,20 @@ public class Algorithm implements Serializable {
         lock.readLock().unlock();
 
         return modelOpt;
+    }
+
+    /**
+     *
+     * @return Map<algorithmName, belongingApprovedModels>
+     */
+    public static Map<String, Model[]> getAllAlgorithmAndModels() {
+        Map<String, Model[]> approvedModels = new HashMap<>();
+
+        for (Algorithm algorithm : algorithmStorage) {
+            approvedModels.put(algorithm.getAlgorithmName(), algorithm.getBelongingModels());
+        }
+
+        return approvedModels;
     }
 
     /**
