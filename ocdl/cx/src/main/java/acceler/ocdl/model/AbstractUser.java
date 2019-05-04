@@ -25,6 +25,10 @@ public abstract class AbstractUser implements Serializable {
         lock.writeLock().unlock();
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
     public abstract AbstractUser deepCopy();
 
     public enum Role {
