@@ -126,7 +126,7 @@ public class Algorithm implements Serializable {
     }
 
     private static void persistence() {
-        File dumpFile = new File(CONSTANTS.PERSISTANCE.ALGORITHMS);
+        File dumpFile = new File(CONSTANTS.PERSISTENCE.ALGORITHMS);
         SerializationUtils.dump(algorithmStorage, dumpFile);
     }
 

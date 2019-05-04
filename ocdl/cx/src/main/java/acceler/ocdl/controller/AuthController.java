@@ -27,10 +27,8 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-
     @Autowired
     private SecurityUtil securityUtil;
-
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     @ResponseBody
@@ -55,7 +53,6 @@ public class AuthController {
             result.put("userName", loginUser.getAuthServerUserId());
             result.put("token", token);
             result.put("role",loginUser.getRole());
-
 
             respBuilder.setCode(Response.Code.SUCCESS);
             respBuilder.setData(result);

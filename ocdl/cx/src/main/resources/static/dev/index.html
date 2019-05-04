@@ -25,6 +25,10 @@
     <link href="assets2/css/login.css" rel="stylesheet">
     <link href="assets2/css/userLoginBtn.css" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="css/nav.css">
+    <link rel="stylesheet" type="text/css" href="font/iconfont.css">
+    <script src="../dev/assets2/js/jquery.js"></script>
+    <script type="text/javascript" src="js/nav.js"></script>
 
     <style type="text/css">
         .jupyterContainerLarge {
@@ -34,7 +38,10 @@
             transition-duration: 500ms;
 
         }
-
+        #serviceContainer {
+            transition-property: width, height, padding-left, margin;
+            transition-duration: 0.5s;
+        }
 
         a:hover, a:focus {
             outline: none;
@@ -163,7 +170,7 @@
 
 
 <!-- start navigation -->
-<nav id="OCDLNav" class="navbar navbar-default templatemo-nav" role="navigation">
+<nav id="OCDLNav" class=" navbar-default templatemo-nav" role="navigation">
     <div class="container">
         <div class="navbar-header">
             <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -171,7 +178,7 @@
                 <span class="icon icon-bar"></span>
                 <span class="icon icon-bar"></span>
             </button>
-            <img href="#" alt="OCDL" class="navbar-brand" src="assets2/images/Brand4.png"/>
+            <img href="#" alt="OCDL" class="navbar-brand" style="padding-left: 0px;" src="assets2/images/Brand4.png"/>
             <label id="projectName" style="color: black; margin-top: 30px; margin-left: 20px;"></label>
         </div>
         <div class="collapse navbar-collapse">
@@ -198,26 +205,35 @@
             <div class="col-md-2 col-sm-3 col-xs-3">
                 <a id="serverCtl" href="javascript:selectJupyterServer();" class="toggle toggle--on navbar-right"></a>
             </div>
-            <div class="col-md-3 col-sm-3 col-xs-3" style="height:40px;">
+            <div class="col-md-4 col-sm-3 col-xs-3" style="height:40px;">
                 <!--	<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button>-->
-                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
-					<a href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Git</a>
-				</span>
+                <span  style="float:left;display: inline-block; width:auto; height:auto;padding:0px;">
+                    <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
+                        <a id="gitBtn" href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Git</a>
+                    </span>
+                </span>
+                <span id="gitTag" style="padding-left:0px; height:100%;float:left;padding-top:10px;display: none;">Git</span>
 
-<!--                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
-					<a id="flapBtn" href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
-				</span>-->
+                <!--                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
+                                    <a id="flapBtn" href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
+                                </span>-->
 
-                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
-					<a class="hi-icon hi-icon-archive roundA" data-toggle="modal" data-target="#FileModal">Upload</a>
-				</span>
+                <span  style="float:left;display: inline-block; width:auto; height:auto;padding:0px;">
+                    <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
+                        <a id="uploadBtn" class="hi-icon hi-icon-archive roundA" data-toggle="modal" data-target="#FileModal">Upload</a>
+                    </span>
+                </span>
+                <span id="uploadTag" style="padding-left:0px; height:100%;float:left;padding-top:10px;display: none;">Upload</span>
 
-                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
-					<a id="hideNavBtn" href="javascript:hideNav()" class="hi-icon hi-icon-archive roundA">Flap</a>
-				</span>
+                <span  style="float:left;display: inline-block; width:auto; height:auto;padding:0px;">
+                    <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
+                        <a id="hideNavBtn" href="javascript:hideNav()" class="hi-icon hi-icon-dev roundA">DevMode</a>
+                    </span>
+                </span>
+                <span id="hideNavTag" style="padding-left:0px; height:100%;float:left;padding-top:10px; display: none;">DevMode</span>
                 </p>
             </div>
-            <div class="col-md-4 col-sm-3 col-xs-3">
+            <div class="col-md-3 col-sm-3 col-xs-3">
                 <div class="userBlock">
                     <!-- Top Navigation -->
                     <div id="loginBtnGroup" class="color-1" style="background: black">
@@ -252,9 +268,7 @@
 </header>
 <!-- end header -->
 
-
 <a href="#" class="menubtn">menu</a>
-<!-- use captain icon for toggle menu -->
 <div id="hamburgermenu">
     <ul>
         <li><a class="d-firstNav s-firstNav" href="#">Framework</a>
@@ -265,7 +279,6 @@
         <li><a class="d-firstNav s-firstNav" href="#">Layer</a>
             <ul id="Layers" class="d-firstDrop s-firstDrop">
             </ul>
-
         </li>
         <li><a class="d-firstNav s-firstNav" href="#">Block</a>
             <ul id="Blocks" class="d-firstDrop s-firstDrop">
@@ -340,7 +353,8 @@
                                                                   data-toggle="tab"><i class="fa fa-home"></i><span>Welcome</span></a>
                         </li>
                         <li role="presentation"><a href="#Section1" aria-controls="home" role="tab"
-                                                                  data-toggle="tab"><i class="fa fa-home"></i><span>IDE (Jupyter)</span></a>
+                                                   data-toggle="tab"><i
+                                class="fa fa-home"></i><span>IDE (Jupyter)</span></a>
                         </li>
                         <li role="presentation"><a href="#Section2" aria-controls="profile" role="tab"
                                                    data-toggle="tab"><i
@@ -362,29 +376,36 @@
                                     <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
                                         <i class="fa fa-laptop"></i>
                                         <h4>One Click Deep learning</h4>
-                                        <p>We can help you to deploy deep learning project in a convenient, fast and reliable
-                                            way. We're totally offering more than 50 templates, 20 type of networks, 30 kinds of
-                                            layers and 20 kinds blocks templates for you. From training to assessment, all you
+                                        <p>We can help you to deploy deep learning project in a convenient, fast and
+                                            reliable
+                                            way. We're totally offering more than 50 templates, 20 type of networks,
+                                            30 kinds of
+                                            layers and 20 kinds blocks templates for you. From training to
+                                            assessment, all you
                                             need to you is just one click. </p>
                                     </div>
                                     <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.9s">
                                         <i class="fa fa-cloud"></i>
                                         <h4>Distributed Computing</h4>
-                                        <p>Don't have a powerful computing resource? We offered distributed computing resource
+                                        <p>Don't have a powerful computing resource? We offered distributed
+                                            computing resource
                                             for your training task, </p>
                                     </div>
                                     <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
                                         <i class="fa fa-cog"></i>
                                         <h4>Container friendly</h4>
-                                        <p>Easy packing of deep learning stacks rapid development across multiple platforms</p>
+                                        <p>Easy packing of deep learning stacks rapid development across multiple
+                                            platforms</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div role="tabpanel" class="tab-pane fade" id="Section1">
-                            <div id="resourceLoading" class="col-md-12" style="text-align: center;height:550px; width:100%; border: black solid 1px;">
-                                <div class="sk-spinner sk-spinner-wave" style="width: 200px; margin-left:auto;margin-right:auto;margin-top: 100px;">
+                            <div id="resourceLoading" class="col-md-12"
+                                 style="text-align: center;height:550px; width:100%; border: black solid 1px;">
+                                <div class="sk-spinner sk-spinner-wave"
+                                     style="width: 200px; margin-left:auto;margin-right:auto;margin-top: 100px;">
                                     <div class="sk-rect1"></div>
                                     <div class="sk-rect2"></div>
                                     <div class="sk-rect3"></div>
@@ -397,13 +418,14 @@
                                 </div>
                                 <label>Launching the resrouce, please wait..</label>
                             </div>
-                        <!--    <iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
-                                    src="http://localhost:8888/notebooks/Untitled.ipynb" style="height:550px; width:100%"></iframe>-->
+                            <!--    <iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
+                                        src="http://localhost:8888/notebooks/Untitled.ipynb" style="height:550px; width:100%"></iframe>-->
                         </div>
 
                         <div role="tabpanel" class="tab-pane fade" id="Section2">
                             <iframe id="fileFrame" sandbox="allow-forms allow-same-origin allow-scripts"
-                                    src="http://3.89.28.106:19999/overview" style="height:550px; width:100%"></iframe>
+                                    src="http://3.89.28.106:19999/overview"
+                                    style="height:550px; width:100%"></iframe>
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="Section3">
                             <div id="aaa">
@@ -426,7 +448,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
-                <p class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">Copyright &copy; 2019.Concordia Team
+                <p class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">Copyright &copy; 2019.Concordia
+                    Team
                     <label style="color:#28a7e9;">Acceler8</label> All rights reserved.
             </div>
         </div>
@@ -678,14 +701,17 @@
 
 
                                             <div class="col-md-7">
-                                            File:<input type="file" id="file" name="file" style="display:none"
-                                                        onchange="changeAgentContent()"/>
-                                            <input type="text" value="" disabled id="fileAgent" style="color: black"/>
-                                            <input type="button" onclick="document.getElementById('file').click()"
-                                                   value="Browse..." style="color: black"/>
+                                                File:<input type="file" id="file" name="file" style="display:none"
+                                                            onchange="changeAgentContent()"/>
+                                                <input type="text" value="" disabled id="fileAgent"
+                                                       style="color: black"/>
+                                                <input type="button"
+                                                       onclick="document.getElementById('file').click()"
+                                                       value="Browse..." style="color: black"/>
                                             </div>
 
-                                            <div class=" col-md-5" id="uploadLoading" style="background-color: transparent;display: none;">
+                                            <div class=" col-md-5" id="uploadLoading"
+                                                 style="background-color: transparent;display: none;">
                                                 <div>
                                                     <img src="assets2/images/ajax-loader.gif" alt="loading">
                                                 </div>
@@ -719,6 +745,8 @@
     </div>
 </div>
 <!--====  End of login form modal  ====-->
+
+</div>
 
 
 <script src="assets2/js/jquery.js"></script>
@@ -791,7 +819,7 @@
             error: function (info) {
                 alert(info);
             },
-            complete:function () {
+            complete: function () {
                 $("#uploadLoading").hide();
             }
         });
@@ -810,10 +838,31 @@
     function jupyterContainerLargeToggle(id) {
         if ($(id).is('.jupyterContainerLarge')) {
             $(id).removeClass("jupyterContainerLarge");
+            $("#hamburgermenu").css("padding-top",150);
         } else {
             $(id).addClass("jupyterContainerLarge");
+            $("#hamburgermenu").css("padding-top",50);
         }
     }
+
+    $("#gitBtn").mouseenter(function () {
+        $("#gitTag").show(200);
+    })
+    $("#gitBtn").mouseleave(function () {
+        $("#gitTag").hide(200);
+    })
+    $("#uploadBtn").mouseenter(function () {
+        $("#uploadTag").show(200);
+    })
+    $("#uploadBtn").mouseleave(function () {
+        $("#uploadTag").hide(200);
+    })
+    $("#hideNavBtn").mouseenter(function () {
+        $("#hideNavTag").show(200);
+    })
+    $("#hideNavBtn").mouseleave(function () {
+        $("#hideNavTag").hide(200);
+    })
 
 </script>
 
