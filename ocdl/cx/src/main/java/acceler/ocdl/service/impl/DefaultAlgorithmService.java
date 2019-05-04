@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class DefaultAlgorithmService implements AlgorithmService {
 
     @Override
     public List<Algorithm> getAllAlgorithm() {
+
         return Arrays.asList(Algorithm.getAlgorithms());
     }
 
@@ -27,7 +29,29 @@ public class DefaultAlgorithmService implements AlgorithmService {
     }
 
     @Override
-    public List<String> updateAlgorithmList(List<String> algorithms, boolean forceRemove) {
-        return null;
+    public List<String> updateAlgorithmList(List<String> algorithms, boolean forceRemove ) {
+
+        // Add algorithm that is not exist in the current Algorithms
+        algorithms.stream()
+                .filter(algorithmName -> Algorithm.existAlgorithm(algorithmName))
+                .forEach(algorithmName -> {
+                    Algorithm addedAlgorithm = new Algorithm();
+                    addedAlgorithm.setAlgorithmName(algorithmName);
+                    Algorithm.addNewAlgorithm(addedAlgorithm);
+                });
+
+        // if force remove, then remove the models that not in the algorithms list but in the current algorithm
+        if (forceRemove) {
+            Algorithm[] currentAlgorithms = Algorithm.getAlgorithms();
+            Arrays.stream(currentAlgorithms)
+                    .filter(m -> algorithms.contains(m.getAlgorithmName()))
+                    .forEach(m -> Algorithm.removeAlgorithm(m.getAlgorithmName()));
+        }
+
+        // Get updated algorithm name list
+        List<String> updatedAlgorithmNames = new ArrayList<>();
+        Arrays.stream(Algorithm.getAlgorithms()).forEach(m -> updatedAlgorithmNames.add(m.getAlgorithmName()));
+
+        return updatedAlgorithmNames;
     }
 }

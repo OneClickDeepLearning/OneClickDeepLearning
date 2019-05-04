@@ -42,20 +42,18 @@ public final class ModelController {
         logger.debug("enter the get model list funciton");
         Response.Builder responseBuilder = getBuilder();
 
-        Map<String, List<ModelDto>> models = new HashMap<>();
-        List<Model> newModels= modelService.getModelsByStatus(Model.Status.NEW);
-        models.put("newModels", convert2ListModelDto(newModels));
+        Map<String, ModelDto[]> models = new HashMap<>();
+        ModelDto[] newModels= modelService.getModelsByStatus(Model.Status.NEW);
+        models.put("newModels", newModels);
 
-        List<Model> approvedModels= modelService.getModelsByStatus(Model.Status.APPROVED);
-        models.put("approvalModels", convert2ListModelDto(approvedModels));
+        ModelDto[] approvedModels= modelService.getModelsByStatus(Model.Status.APPROVED);
+        models.put("approvalModels", approvedModels);
 
-        List<Model> rejectedModels= modelService.getModelsByStatus(Model.Status.REJECTED);
-        models.put("rejectedModels", convert2ListModelDto(rejectedModels));
+        ModelDto[] rejectedModels= modelService.getModelsByStatus(Model.Status.REJECTED);
+        models.put("rejectedModels", rejectedModels);
 
-        responseBuilder.setCode(Response.Code.SUCCESS)
-                .setData(models);
-
-        return responseBuilder.build();
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(models).build();
     }
     
     /**
@@ -86,9 +84,7 @@ public final class ModelController {
             throw new OcdlException("Invalid From/To parameters.");
         }
 
-        responseBuilder.setCode(Response.Code.SUCCESS);
-
-        return responseBuilder.build();
+        return responseBuilder.setCode(Response.Code.SUCCESS).build();
 
     }
 
@@ -101,8 +97,7 @@ public final class ModelController {
 
         modelService.initModelToStage(innerUser);
 
-        builder.setCode(Response.Code.SUCCESS);
-        return builder.build();
+        return builder.setCode(Response.Code.SUCCESS).build();
     }
 
 

@@ -32,6 +32,10 @@ public class Algorithm implements Serializable {
         this.cachedVersionGenerator = new AtomicLong(0);
     }
 
+    public void setAlgorithmName(String algorithmName) {
+        this.algorithmName = algorithmName;
+    }
+
     /**
      * To protect dirty model data in memory, only expose copy of these model
      */
