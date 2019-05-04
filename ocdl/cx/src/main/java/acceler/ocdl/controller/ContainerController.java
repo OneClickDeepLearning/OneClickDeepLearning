@@ -23,7 +23,8 @@ public final class ContainerController {
     @ResponseBody
     @RequestMapping(path = "/type/{rscType}", method = RequestMethod.POST)
     public final Response requestContainer(HttpServletRequest request, @PathVariable("rscType") String rscType) {
-//        List<String> result = new ArrayList<>();
+        Response.Builder responseBuilder = Response.getBuilder();
+
         InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
         String assign;
 
@@ -32,28 +33,15 @@ public final class ContainerController {
         else
             assign = kubernetesService.launchCpuContainer(innerUser);
 
-        if(assign == null)
-            return Response.getBuilder()
-                    .setCode(Response.Code.ERROR)
-                    .setMessage("Container launch failed")
-                    .build();
+        if(assign == null) {
+             return responseBuilder.setCode(Response.Code.ERROR).setMessage("Container launch failed").build();
+        }
 
         Map<String, Object> result = new HashMap<>();
         result.put("url",assign);
-
-        return Response.getBuilder()
-                .setCode(Response.Code.SUCCESS)
-                .setData(result)
-                .build();
+        return responseBuilder.setCode(Response.Code.SUCCESS).setData(result).build();
     }
 
-
-    @ResponseBody
-    @RequestMapping(params = "/release/", method = RequestMethod.DELETE)
-    public final void releaseContainer(@RequestBody String rscType,HttpServletRequest request) {
-//        InnerUser user = (InnerUser) request.getAttribute("CURRENT_USER");
-//        kubernetesService.releaseDockerContainer(getResourceType(rscType),user);
-    }
 
     private ResourceType getResourceType(String rscType){
 
