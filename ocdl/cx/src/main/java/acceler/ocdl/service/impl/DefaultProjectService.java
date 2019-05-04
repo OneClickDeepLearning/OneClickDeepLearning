@@ -1,9 +1,8 @@
 package acceler.ocdl.service.impl;
 
 import acceler.ocdl.model.Project;
-import acceler.ocdl.persistence.ProjectCrud;
 import acceler.ocdl.service.ProjectService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.netty.util.internal.StringUtil;
 import org.springframework.stereotype.Service;
 
 
@@ -11,25 +10,45 @@ import org.springframework.stereotype.Service;
 public class DefaultProjectService implements ProjectService {
 
 
-    @Autowired
-    private ProjectCrud projectCrud;
-
     @Override
-    public String RequestProjectName() {
-        Project project = projectCrud.getProjectConfiguration();
-        return project.getProjectName();
+    public Project updateProjectConfiguration(Project updatedProjectInfo) {
+
+        Project currentProjectData = Project.getProjectInStorage();
+
+        // get new projectData
+        if (!StringUtil.isNullOrEmpty(updatedProjectInfo.getProjectName())) {
+            currentProjectData.setProjectName(updatedProjectInfo.getProjectName());
+        }
+
+        if (!StringUtil.isNullOrEmpty(updatedProjectInfo.getGitRepoURI())) {
+            currentProjectData.setGitRepoURI(updatedProjectInfo.getGitRepoURI());
+        }
+
+        if (!StringUtil.isNullOrEmpty(updatedProjectInfo.getK8MasterUri())) {
+            currentProjectData.setK8MasterUri(updatedProjectInfo.getK8MasterUri());
+        }
+
+        if (!StringUtil.isNullOrEmpty(updatedProjectInfo.getTemplatePath())) {
+            currentProjectData.setTemplatePath(updatedProjectInfo.getTemplatePath());
+        }
+
+        if (!StringUtil.isNullOrEmpty(updatedProjectInfo.getDescription())) {
+            currentProjectData.setDescription(updatedProjectInfo.getDescription());
+        }
+
+        if (updatedProjectInfo.getSuffixes() != null && updatedProjectInfo.getSuffixes().size() != 0) {
+            currentProjectData.setSuffixes(updatedProjectInfo.getSuffixes());
+        }
+
+        Project.setProjectData(currentProjectData);
+
+        return currentProjectData;
     }
 
-    @Override
-    public Project RequestAllConfigurationInfo() {
-        return projectCrud.getProjectConfiguration();
-    }
 
     @Override
-    public void updateProject(Project project) {
-        projectCrud.updateProject(project);
-    }
-    public void updateProjectName(String name){
-        projectCrud.updateProjectName(name);
+    public Project getProjectConfiguration() {
+        return Project.getProjectInStorage();
+
     }
 }
