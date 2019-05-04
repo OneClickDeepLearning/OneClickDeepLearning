@@ -92,6 +92,10 @@ public class Project implements Serializable {
         return copy;
     }
 
+    public static Project getProjectInStorage() {
+        return projectData.deepCopy();
+    }
+
     public static void setProjectData(Project projectInfo) {
         lock.writeLock().lock();
         projectData.projectName = projectInfo.projectName;
@@ -159,11 +163,12 @@ public class Project implements Serializable {
     }
 
 
-    private static void persistence(){
+    private static void persistence() {
         lock.writeLock().lock();
         File dumpFile = new File(CONSTANTS.PERSISTENCE.PROJECT);
         SerializationUtils.dump(projectData, dumpFile);
         lock.writeLock().lock();
+    }
 
     public ProjectConfigurationDto convert2ProjectDto(List<Algorithm> algorithms) {
         String algorithmsStr = "";

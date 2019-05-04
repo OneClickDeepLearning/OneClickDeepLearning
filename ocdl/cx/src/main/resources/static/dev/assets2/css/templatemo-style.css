@@ -173,6 +173,7 @@ header .social-icon li a
 		border: none;
 		box-shadow: none;
 		margin: 0 !important;
+		position: relative;
 	}
 .navbar-default .navbar-brand
 	{

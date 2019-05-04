@@ -26,12 +26,12 @@ public class DefaultModelServiceImpl implements ModelService {
 
     @Override
     public void initModelToStage(InnerUser innerUser) {
-        final String userSpaceName = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectName()).replace("{{userId}}", String.valueOf(innerUser.getUserId()));
+        final String userSpaceName = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectNameInStorage()).replace("{{userId}}", String.valueOf(innerUser.getUserId()));
         final File userSpace = new File(userSpaceName);
 
         if (userSpace.isDirectory()) {
             File[] files = userSpace.listFiles();
-            List<String> suffixes = Arrays.asList(Project.getModelFileSuffixes());
+            List<String> suffixes = Arrays.asList(Project.getModelFileSuffixesInStorage());
 
             //IO error occures
             if (files == null) {
@@ -152,7 +152,7 @@ public class DefaultModelServiceImpl implements ModelService {
         ApprovedModel approvedModel = Algorithm.getApprovalModelByName(modelName).orElseThrow(() -> (new NotFoundException("Not Found model:" + modelName, "Not found model")));
         //TODO: move file to git repo
         //TODO: read File space from Project.gitrepo
-        pushFileToRemoteGitRepo("{gitrepo}");
+        pushFileToRemoteGitRepo(new File(Project.getGitRepoURIInStorage()));
     }
 
     @Override
@@ -174,7 +174,6 @@ public class DefaultModelServiceImpl implements ModelService {
                 modelDtoList = convertModelsToModelDtoList(approvedModelMap);
                 break;
         }
-
         return (ModelDto[]) modelDtoList.toArray();
 
     }
@@ -202,15 +201,14 @@ public class DefaultModelServiceImpl implements ModelService {
      * @param modelMap
      * @return
      */
-    private ModelDto[] convertModelsToModelDtoArray(Map<String, Model[]> modelMap) {
+    private List<ModelDto> convertModelsToModelDtoList(Map<String, Model[]> modelMap) {
 
-        Set<ModelDto> modelDtoSet = new HashSet<>();
+        List<ModelDto> modelDtoList = new ArrayList<>();
         for (String algorithmName : modelMap.keySet()) {
-            List<ModelDto> modelDtoList = convertModelsToModelDtoList(modelMap.get(algorithmName));
-            modelDtoSet.addAll(modelDtoList);
+            List<ModelDto> modelDtos = convertModelsToModelDtoList(modelMap.get(algorithmName));
+            modelDtoList.addAll(modelDtos);
         }
-
-        return (ModelDto[]) modelDtoSet.toArray();
+        return modelDtoList;
     }
 
 

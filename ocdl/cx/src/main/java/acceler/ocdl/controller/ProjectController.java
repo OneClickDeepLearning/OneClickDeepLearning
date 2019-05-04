@@ -63,6 +63,7 @@ public class ProjectController {
         return responseBuilder.build();
     }
 
+
     @RequestMapping(path = "/config", method = RequestMethod.PUT)
     @ResponseBody
     public Response updateProject(@RequestBody ProjectConfigurationDto updatedProjectConfig) {
@@ -84,6 +85,7 @@ public class ProjectController {
         if (!"".equals(projectName) && projectName != null) {
             Project project = new Project();
             project.setProjectName(projectName.get("projectName"));
+            projectService.updateProjectConfiguration(project);
             responseBuilder.setCode(Response.Code.SUCCESS)
                     .setData(projectName);
         } else {

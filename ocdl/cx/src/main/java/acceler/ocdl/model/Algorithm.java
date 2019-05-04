@@ -121,7 +121,7 @@ public class Algorithm implements Serializable {
 
     private static void persistence() {
         lock.writeLock().lock();
-        File dumpFile = new File(CONSTANTS.PERSISTANCE.ALGORITHMS);
+        File dumpFile = new File(CONSTANTS.PERSISTENCE.ALGORITHMS);
         SerializationUtils.dump(algorithmStorage, dumpFile);
         lock.writeLock().unlock();
     }
