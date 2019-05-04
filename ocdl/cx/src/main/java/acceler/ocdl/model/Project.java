@@ -92,6 +92,10 @@ public class Project implements Serializable {
         return copy;
     }
 
+    public static Project getProjectInStorage() {
+        return projectData.deepCopy();
+    }
+
     public static void setProjectData(Project projectInfo) {
         lock.writeLock().lock();
         projectData.projectName = projectInfo.projectName;
