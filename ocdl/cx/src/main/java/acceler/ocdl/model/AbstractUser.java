@@ -20,7 +20,7 @@ public abstract class AbstractUser implements Serializable {
 
     private static void persistence() {
         lock.writeLock().lock();
-        File dumpFile = new File(CONSTANTS.PERSISTANCE.USERS);
+        File dumpFile = new File(CONSTANTS.PERSISTENCE.USERS);
         SerializationUtils.dump(userListStorage, dumpFile);
         lock.writeLock().unlock();
     }

@@ -18,7 +18,7 @@ public class DefaultHdfsService implements HdfsService {
 
     private FileSystem hdfs;
 
-    public void createDir(String userSpace){
+    public void createDir(String dirName){
         String user = "hadoop";
         //without this configuration, will throw exception: java.io.IOException: No FileSystem for scheme: hdfs
         conf.set("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem");
@@ -27,7 +27,7 @@ public class DefaultHdfsService implements HdfsService {
             URI uri = new URI(CONSTANTS.HADOOPMASTER.ADDRESS);
             //Returns the configured filesystem implementation.
             hdfs = FileSystem.get(uri,conf,user);
-            hdfs.mkdirs(new Path(CONSTANTS.HADOOPMASTER.USERDIR + userSpace));
+            hdfs.mkdirs(new Path(CONSTANTS.HADOOPMASTER.USERDIR + dirName));
 
         } catch (URISyntaxException | InterruptedException | IOException e){
             throw new HdfsException(e.getMessage());

@@ -30,7 +30,7 @@ public class AuthController {
     @Autowired
     private SecurityUtil securityUtil;
 
-    @RequestMapping(path = "/login", method = RequestMethod.POST)
+    @RequestMapping(path = "/login", method = RequestMethod.POST, params = "pwd")
     @ResponseBody
     public Response login(@RequestBody UserCredentials credential) {
         boolean success;
@@ -46,7 +46,7 @@ public class AuthController {
             respBuilder.setMessage("incorrect account & password");
             return respBuilder.build();
         } else {
-            InnerUser loginInnerUser = this.userCrud.getUserByAccountAndPassword(credential.account, credential.password);
+            InnerUser loginInnerUser = InnerUser.getUserByUserName(credential.account);
             String token = securityUtil.requestToken(loginInnerUser);
 
             Map<String, Object> result = new HashMap<>();
@@ -57,6 +57,14 @@ public class AuthController {
             respBuilder.setCode(Response.Code.SUCCESS);
             respBuilder.setData(result);
         }
+        return respBuilder.build();
+    }
+
+    @RequestMapping(path = "/login", method = RequestMethod.POST, params = "oauth")
+    @ResponseBody
+    public Response login(@RequestBody Map<String,String> param) {
+        final Response.Builder respBuilder = Response.getBuilder();
+        respBuilder.setCode(Response.Code.SUCCESS);
         return respBuilder.build();
     }
 
