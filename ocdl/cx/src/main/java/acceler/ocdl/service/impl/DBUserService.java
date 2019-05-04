@@ -26,10 +26,14 @@ public class DBUserService implements UserService {
     }
 
     @Override
-    public OauthUser createUser(String ID, OauthUser.OauthSource source) throws ExistedException {
+    public InnerUser getUserByUsernameAndPwd(String userName, String password) throws NotFoundException {
+        return null;
+    }
+
+    @Override
+    public OauthUser createUser(OauthUser.OauthSource source, String ID) throws ExistedException {
         if (OauthUser.existUser(source, ID)){
             throw new ExistedException();
         }
-
     }
 }

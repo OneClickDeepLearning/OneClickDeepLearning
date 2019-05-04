@@ -11,6 +11,7 @@ public interface CONSTANTS {
     interface NAME_FORMAT {
         String USER_SPACE = "{projectName}-{userId}";
         String STAGED_MODEL = "{fileName}-{timestamp}";
+        String USER_ID = "{type}{userId}";
 
         interface MODEL_FILE {
             String NEW_MODEL = "{modelName}_{commitTime}";
