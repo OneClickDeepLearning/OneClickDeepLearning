@@ -46,9 +46,18 @@ public class PictureController {
         Response.Builder responseBuilder = Response.getBuilder();
         // exception control
         String resultMessage = fileSaveService.saveFile(file);
+        if (!resultMessage.equals(success)) {
+            responseBuilder.setCode(Response.Code.ERROR)
+                    .setMessage(resultMessage);
+        }
+
 
         //run python to get output picture
         File outputImage = segmentService.run(file.getOriginalFilename());
+        if (outputImage == null) {
+            responseBuilder.setCode(Response.Code.ERROR)
+                    .setMessage("Fail to run the model.");
+        }
 
         //upload to S3
         storageService.createStorage();
@@ -62,14 +71,7 @@ public class PictureController {
         returnData.put("url", url);
         returnData.put("eta", Long.toString(endTime-startTime));
 
-        if (resultMessage.equals(success)) {
-            responseBuilder.setCode(Response.Code.SUCCESS)
-                    .setData(returnData);
-        } else {
-            responseBuilder.setCode(Response.Code.ERROR)
-                    .setData(resultMessage);
-        }
-
-        return responseBuilder.build();
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(returnData).build();
     }
 }

@@ -1,21 +1,18 @@
 package acceler.ocdl.model;
 
+import acceler.ocdl.utils.TimeUtil;
+
 import java.util.Date;
 
 public class  ApprovedModel extends Model implements Cloneable {
-
     private Long releasedVersion;
-
     private Long cachedVersion;
-
     private Date approvedTime;
-
 
     public ApprovedModel() {
         super();
         this.status = Status.APPROVED;
     }
-
 
     public ApprovedModel deepCopy() {
         ApprovedModel copy = new ApprovedModel();
@@ -24,12 +21,13 @@ public class  ApprovedModel extends Model implements Cloneable {
         copy.setReleasedVersion(this.releasedVersion);
         copy.setCachedVersion(this.cachedVersion);
         copy.setApprovedTime(this.approvedTime);
-
         return copy;
     }
 
-    //TODO:
     public NewModel convertToNewModel(){
+        NewModel newModel = new NewModel();
+        newModel.setName(this.name);
+        newModel.setCommitTime(TimeUtil.currentTime());
         return new NewModel();
     }
 

@@ -1,7 +1,10 @@
 package acceler.ocdl.model;
 
+import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.exception.ExistedException;
+import acceler.ocdl.utils.SerializationUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,18 +67,15 @@ public class RejectedModel extends Model {
             throw new ExistedException();
         }
 
-        lock.writeLock().lock();
         rejectedModelStorage.add(model);
-        //TODO: persistence
-        lock.writeLock().unlock();
+        persistence();
     }
 
     public static Optional<RejectedModel> removeFromStorage(String name) {
         Optional<RejectedModel> modelOpt = getRealModelByName(name);
 
-        lock.writeLock().lock();
         modelOpt.ifPresent(rejectedModelStorage::remove);
-        lock.writeLock().unlock();
+        persistence();
 
         RejectedModel copy = modelOpt.map(RejectedModel::deepCopy).orElse(null);
 
@@ -100,5 +100,20 @@ public class RejectedModel extends Model {
 
     public void setRejectedTime(Date rejectedTime) {
         this.rejectedTime = rejectedTime;
+    }
+
+    private static void persistence(){
+        lock.writeLock().lock();
+        File dumpFile = new File(CONSTANTS.PERSISTANCE.REJECTED_MODELS);
+        SerializationUtils.dump(rejectedModelStorage, dumpFile);
+        lock.writeLock().unlock();
+    }
+
+    public static RejectedModel[] getAllRejectedModels() {
+        lock.readLock().lock();
+        RejectedModel[] rejectedModels = (RejectedModel[])rejectedModelStorage.stream().map(RejectedModel::deepCopy).toArray();
+        lock.readLock().unlock();
+
+        return rejectedModels;
     }
 }

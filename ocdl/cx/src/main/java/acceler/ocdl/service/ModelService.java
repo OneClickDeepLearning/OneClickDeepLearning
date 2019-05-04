@@ -1,9 +1,10 @@
 package acceler.ocdl.service;
 
+import acceler.ocdl.dto.ModelDto;
 import acceler.ocdl.model.Algorithm;
 import acceler.ocdl.model.Model;
 import acceler.ocdl.model.NewModel;
-import acceler.ocdl.model.User;
+import acceler.ocdl.model.InnerUser;
 
 import java.util.List;
 
@@ -12,9 +13,9 @@ public interface ModelService {
     /**
      * move the model from userspace to stage space, name is formatted at the same time
      * the status of moved model is new, and the format of the fileName = "modelName + timestamp" + "suffix"
-     * @param user used for get userspace path, userspacePath = "HDFS path" + "projectName-userID"
+     * @param innerUser used for get userspace path, userspacePath = "HDFS path" + "projectName-userID"
      */
-    void initModelToStage(User user);
+    void initModelToStage(InnerUser innerUser);
 
 
     /**
@@ -37,7 +38,7 @@ public interface ModelService {
     void rejectModel(NewModel model);
 
     /**
-     * reject model
+     * undo model
      * move model file from folder "approval" or "reject"  to folder "new" and update the model object
      * the format of the fileName = "modelName" + "timestamp"
      * @param model model that need to undo
@@ -56,13 +57,6 @@ public interface ModelService {
      * @param status specific status
      * @return list of Model
      */
-    List<Model> getModelsByStatus(Model.Status status);
+    ModelDto[] getModelsByStatus(Model.Status status);
 
-    /**
-     * verify is the file of model is exist in status folder
-     * @param modelName the name of the model
-     * @param status the status of the model
-     * @return true exist the model file; else not exist.
-     */
-    boolean existModel(String modelName, Model.Status status);
 }
