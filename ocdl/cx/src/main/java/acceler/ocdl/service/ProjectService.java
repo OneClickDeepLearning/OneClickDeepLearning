@@ -10,7 +10,6 @@ public interface ProjectService {
      * @return updatedProject obj
      */
     Project updateProjectConfiguration(Project updatedProjectInfo);
-
     /**
      * get Project obj that contains project configuration info
      * @return Project obj

@@ -1,14 +1,17 @@
 package acceler.ocdl.model;
 
+import acceler.ocdl.CONSTANTS;
+import acceler.ocdl.utils.SerializationUtils;
+
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class User implements Serializable {
-    private static final long serialVersionUID = -2767605614048989439L;
-    private static List<User> userListStorage = new ArrayList<>();
+public class InnerUser extends AbstractUser implements Serializable {
+    private static List<InnerUser> innerUserListStorage = new ArrayList<>();
     private static ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
     private Long userId;
@@ -17,13 +20,11 @@ public class User implements Serializable {
 
     private String authServerUserId;
 
-    private Role role;
-
-    public User() {
+    public InnerUser() {
     }
 
-    public User deepCopy(){
-        User copy = new User();
+    public InnerUser deepCopy(){
+        InnerUser copy = new InnerUser();
         copy.userId = this.userId;
         copy.authServerUserId = this.authServerUserId;
         copy.oauthSource = this.oauthSource;
@@ -31,19 +32,19 @@ public class User implements Serializable {
         return copy;
     }
 
-    public Optional<User> getUserByOauthInfo(String userName, OauthSource oauthSource){
-        Optional<User> userOpt = getRealUserByOauthInfo(userName, oauthSource);
+    public Optional<InnerUser> getUserByOauthInfo(String userName, OauthSource oauthSource){
+        Optional<InnerUser> userOpt = getRealUserByOauthInfo(userName, oauthSource);
 
-        User copy = userOpt.map(User::deepCopy).orElse(null);
+        InnerUser copy = userOpt.map(InnerUser::deepCopy).orElse(null);
 
         return Optional.ofNullable(copy);
     }
 
 
 
-    private Optional<User> getRealUserByOauthInfo(String userName, OauthSource oauthSource) {
+    private Optional<InnerUser> getRealUserByOauthInfo(String userName, OauthSource oauthSource) {
         lock.readLock().lock();
-        Optional<User> userOpt = userListStorage.stream().filter(user -> (user.authServerUserId.equals(userName) && user.oauthSource == oauthSource)).findFirst();
+        Optional<InnerUser> userOpt = innerUserListStorage.stream().filter(user -> (user.authServerUserId.equals(userName) && user.oauthSource == oauthSource)).findFirst();
         lock.readLock().unlock();
         return userOpt;
     }
@@ -99,5 +100,12 @@ public class User implements Serializable {
 
     public enum OauthSource {
         GITHUB, GOOGLE
+    }
+
+    private static void persistence(){
+        lock.writeLock().lock();
+        File dumpFile = new File(CONSTANTS.PERSISTANCE.USERS);
+        SerializationUtils.dump(innerUserListStorage, dumpFile);
+        lock.writeLock().unlock();
     }
 }

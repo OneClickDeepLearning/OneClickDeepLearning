@@ -1,17 +1,18 @@
 package acceler.ocdl.service;
 
 import acceler.ocdl.model.Algorithm;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface AlgorithmService {
 
     /**
      * get the algorithm list
-     * @param containActive is contain inactive algorithm
      * @return list of algorithm
      */
-    List<Algorithm> getAllAlgorithm(boolean containActive);
+    List<Algorithm> getAllAlgorithm();
 
     /**
      * get Algorithm obj by name
