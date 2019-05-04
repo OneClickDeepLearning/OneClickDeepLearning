@@ -14,7 +14,6 @@ def jaccard_distance(y_true, y_pred, smooth=1):
     jac = (intersection + smooth) / (sum_ - intersection + smooth)
     return (1 - jac) * smooth
 
-
 model_path = sys.argv[1]
 test_pic_path = sys.argv[2]
 output_image_path = sys.argv[3]

@@ -14,6 +14,10 @@ public class ProjectConfigurationDto implements Serializable {
     private String k8Url;
     private String templatePath;
     private String gitPath;
+
+    /**
+     * suffixes split by ';'
+     */
     private String suffix;
     private String modelTypes;
     private String algorithm;

@@ -1,6 +1,6 @@
 package acceler.ocdl.utils;
 
-import acceler.ocdl.model.User;
+import acceler.ocdl.model.InnerUser;
 import org.springframework.stereotype.Component;
 
 import java.util.Hashtable;
@@ -12,32 +12,32 @@ public class SecurityUtil {
     private static final String TOKEN_CHARS = "abcdefghijklmnopqrstuvwsyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     private static final int LENGTH_TOKEN = 32;
 
-    private final Map<String, User> inMemoryTokenManager = new Hashtable<>();
+    private final Map<String, InnerUser> inMemoryTokenManager = new Hashtable<>();
 
-    public String requestToken(User user) {
+    public String requestToken(InnerUser innerUser) {
         for (Map.Entry entry : inMemoryTokenManager.entrySet()) {
-            if (((User) entry.getValue()).getUserId().equals(user.getUserId())) {
+            if (((InnerUser) entry.getValue()).getUserId().equals(innerUser.getUserId())) {
                 return (String) entry.getKey();
             }
         }
-        //user never get token
+        //innerUser never get token
         String token = generateToken();
-        this.inMemoryTokenManager.put(token, user);
+        this.inMemoryTokenManager.put(token, innerUser);
         return token;
     }
 
-    public boolean isUserLogin(User user) {
-        return inMemoryTokenManager.values().contains(user);
+    public boolean isUserLogin(InnerUser innerUser) {
+        return inMemoryTokenManager.values().contains(innerUser);
     }
 
-    public User getUserByToken(String token){
+    public InnerUser getUserByToken(String token){
         return this.inMemoryTokenManager.get(token);
     }
 
-    public void releaseToken(User user){
+    public void releaseToken(InnerUser innerUser){
         String token = null;
-        for (Map.Entry<String, User> entry : this.inMemoryTokenManager.entrySet()) {
-            if (user.getUserId().equals(entry.getValue().getUserId())) {
+        for (Map.Entry<String, InnerUser> entry : this.inMemoryTokenManager.entrySet()) {
+            if (innerUser.getUserId().equals(entry.getValue().getUserId())) {
                 token = entry.getKey();
             }
         }

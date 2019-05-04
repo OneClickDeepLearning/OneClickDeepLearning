@@ -1,5 +1,11 @@
 package acceler.ocdl.model;
 
+
+import acceler.ocdl.CONSTANTS;
+import acceler.ocdl.utils.SerializationUtils;
+
+import java.io.File;
+
 import acceler.ocdl.dto.ProjectConfigurationDto;
 
 import java.io.Serializable;
@@ -152,6 +158,13 @@ public class Project implements Serializable {
         return suffixes.toArray(new String[0]);
     }
 
+
+    private static void persistence(){
+        lock.writeLock().lock();
+        File dumpFile = new File(CONSTANTS.PERSISTANCE.PROJECT);
+        SerializationUtils.dump(projectData, dumpFile);
+        lock.writeLock().lock();
+
     public ProjectConfigurationDto convert2ProjectDto(List<Algorithm> algorithms) {
         String algorithmsStr = "";
         String suffixesStr = "";
@@ -168,12 +181,14 @@ public class Project implements Serializable {
         for (String str : suffixes) {
             suffixesStr += str + ";";
         }
+
         projectDto.setAlgorithm(algorithmsStr);
         projectDto.setSuffix(suffixesStr);
         projectDto.setGitPath(gitRepoURI);
         projectDto.setK8Url(k8MasterUri);
         projectDto.setProjectName(projectName);
         projectDto.setTemplatePath(templatePath);
+
         return projectDto;
     }
 }

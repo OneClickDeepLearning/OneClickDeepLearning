@@ -15,7 +15,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Paths;
 
-@Service
+
 public class DefaultSegmentService implements SegmentService {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultKafkaConsumerService.class);
@@ -64,9 +64,6 @@ public class DefaultSegmentService implements SegmentService {
 
         return new File(Paths.get(SEGPICBASEPATH, outputPictureName).toString());
     }
-
-
-
 
 
 }

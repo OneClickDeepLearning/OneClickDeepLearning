@@ -7,10 +7,7 @@ import acceler.ocdl.utils.SerializationUtils;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -27,7 +24,6 @@ public class Algorithm implements Serializable {
     private String algorithmName;
     private Long currentReleasedVersion;
     private Long currentCachedVersion;
-
     private List<ApprovedModel> belongingModels;
 
     public Algorithm() {
@@ -36,6 +32,9 @@ public class Algorithm implements Serializable {
         this.cachedVersionGenerator = new AtomicLong(0);
     }
 
+    public void setAlgorithmName(String algorithmName) {
+        this.algorithmName = algorithmName;
+    }
 
     /**
      * To protect dirty model data in memory, only expose copy of these model
@@ -64,7 +63,6 @@ public class Algorithm implements Serializable {
 
         lock.writeLock().lock();
         this.belongingModels.add(model);
-
         lock.writeLock().unlock();
     }
 
@@ -72,9 +70,7 @@ public class Algorithm implements Serializable {
      * get copy of approved model from algorithm's belongingModels by name
      */
     public Optional<ApprovedModel> getApprovedModelByName(String name) {
-
         Optional<ApprovedModel> modelOpt = getRealModelByName(name);
-
         ApprovedModel copy = modelOpt.map(ApprovedModel::deepCopy).orElse(null);
 
         return Optional.ofNullable(copy);
@@ -95,7 +91,7 @@ public class Algorithm implements Serializable {
         Algorithm target = getRealAlgorithmOfModel(model);
 
         if (target == null) {
-            throw new NotFoundException("", "");
+            throw new NotFoundException("algorithm not found:" + model.getName(), "Algorithm Not Found");
         }
 
         return target.deepCopy();
@@ -109,9 +105,7 @@ public class Algorithm implements Serializable {
 
         targetOpt.ifPresent(approvedModel -> algorithmOfModel.belongingModels.remove(approvedModel));
 
-        lock.writeLock().lock();
         persistence();
-        lock.writeLock().unlock();
     }
 
     private static Algorithm getRealAlgorithmOfModel(ApprovedModel model) {
@@ -126,8 +120,10 @@ public class Algorithm implements Serializable {
     }
 
     private static void persistence() {
+        lock.writeLock().lock();
         File dumpFile = new File(CONSTANTS.PERSISTANCE.ALGORITHMS);
         SerializationUtils.dump(algorithmStorage, dumpFile);
+        lock.writeLock().unlock();
     }
 
     public static Optional<ApprovedModel> getApprovalModelByName(String modelName) {
@@ -161,11 +157,16 @@ public class Algorithm implements Serializable {
     }
 
     public static Algorithm[] getAlgorithms() {
-        return (Algorithm[]) algorithmStorage.stream().map(Algorithm::deepCopy).toArray();
+        lock.readLock().lock();
+        Algorithm[] algorithms = (Algorithm[]) algorithmStorage.stream().map(Algorithm::deepCopy).toArray();
+        lock.readLock().unlock();
+
+        return algorithms;
     }
 
     public static Optional<Algorithm> getAlgorithmByName(String algorithmName) {
-        Optional<Algorithm> algorithmOpt = getRealAlgothmByName(algorithmName);
+
+        Optional<Algorithm> algorithmOpt = getRealAlgorithmByName(algorithmName);
 
         Algorithm copy = algorithmOpt.map(Algorithm::deepCopy).orElse(null);
 
@@ -173,27 +174,23 @@ public class Algorithm implements Serializable {
     }
 
     public static boolean existAlgorithm(String algorithmName) {
-        return getRealAlgothmByName(algorithmName).isPresent();
+        return getRealAlgorithmByName(algorithmName).isPresent();
     }
 
     public static void addNewAlgorithm(Algorithm newAlgorithm) {
         algorithmStorage.add(newAlgorithm);
-        lock.writeLock().lock();
+
         persistence();
-        lock.writeLock().unlock();
     }
 
     public static Algorithm removeAlgorithm(String algorithmName) throws NotFoundException {
         Optional<Algorithm> targetOpt = algorithmStorage.stream().filter(algorithm -> (algorithm.getAlgorithmName().equals(algorithmName))).findFirst();
         targetOpt.ifPresent(algorithmStorage::remove);
 
-        lock.writeLock().lock();
         persistence();
-        lock.writeLock().unlock();
 
         return targetOpt.orElseThrow(() -> (new NotFoundException("", "")));
     }
-
 
     /**
      * warning: return real object of real-time data
@@ -207,9 +204,23 @@ public class Algorithm implements Serializable {
     }
 
     /**
+     *
+     * @return Map<algorithmName, belongingApprovedModels>
+     */
+    public static Map<String, Model[]> getAllAlgorithmAndModels() {
+        Map<String, Model[]> approvedModels = new HashMap<>();
+
+        for (Algorithm algorithm : algorithmStorage) {
+            approvedModels.put(algorithm.getAlgorithmName(), algorithm.getBelongingModels());
+        }
+
+        return approvedModels;
+    }
+
+    /**
      * warning: return real object of real-time data
      */
-    private static Optional<Algorithm> getRealAlgothmByName(String algorithmName) {
+    private static Optional<Algorithm> getRealAlgorithmByName(String algorithmName) {
         lock.readLock().lock();
         Optional<Algorithm> algorithmOpt = algorithmStorage.stream().filter(a -> a.algorithmName.equals(algorithmName)).findFirst();
         lock.readLock().lock();
@@ -229,11 +240,8 @@ public class Algorithm implements Serializable {
         return this.currentCachedVersion;
     }
 
-
     public enum UpgradeVersion {
         RELEASE_VERSION,
         CACHED_VERSION
     }
-
-
 }

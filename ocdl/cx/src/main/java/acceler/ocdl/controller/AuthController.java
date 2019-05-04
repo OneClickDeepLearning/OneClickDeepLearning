@@ -1,7 +1,7 @@
 package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
-import acceler.ocdl.model.User;
+import acceler.ocdl.model.InnerUser;
 import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.SecurityUtil;
 import org.slf4j.Logger;
@@ -27,10 +27,8 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-
     @Autowired
     private SecurityUtil securityUtil;
-
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     @ResponseBody
@@ -48,13 +46,13 @@ public class AuthController {
             respBuilder.setMessage("incorrect account & password");
             return respBuilder.build();
         } else {
-            User loginUser = this.userCrud.getUserByAccountAndPassword(credential.account, credential.password);
-            String token = securityUtil.requestToken(loginUser);
+            InnerUser loginInnerUser = this.userCrud.getUserByAccountAndPassword(credential.account, credential.password);
+            String token = securityUtil.requestToken(loginInnerUser);
 
             Map<String, Object> result = new HashMap<>();
-            result.put("userName", loginUser.getAuthServerUserId());
+            result.put("userName", loginInnerUser.getAuthServerUserId());
             result.put("token", token);
-            result.put("role",loginUser.getRole());
+            result.put("role", loginInnerUser.getRole());
 
 
             respBuilder.setCode(Response.Code.SUCCESS);
@@ -65,9 +63,9 @@ public class AuthController {
 
     @RequestMapping(path = "/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response){
-        User user = (User) request.getAttribute("CURRENT_USER");
-        if (user != null){
-            securityUtil.releaseToken(user);
+        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
+        if (innerUser != null){
+            securityUtil.releaseToken(innerUser);
             response.setStatus(HttpServletResponse.SC_OK);
         }else{
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

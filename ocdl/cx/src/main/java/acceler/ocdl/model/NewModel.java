@@ -1,7 +1,10 @@
 package acceler.ocdl.model;
 
+import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.exception.ExistedException;
+import acceler.ocdl.utils.SerializationUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +15,6 @@ import static acceler.ocdl.utils.TimeUtil.currentTime;
 
 
 public class NewModel extends Model {
-
     private static final List<NewModel> newModelStorage = new ArrayList<>();
     private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
@@ -77,24 +79,27 @@ public class NewModel extends Model {
             throw new ExistedException();
         }
 
-        lock.writeLock().lock();
         newModelStorage.add(model);
-        //TODO: persistence
-        lock.writeLock().unlock();
+        persistence();
     }
 
     public static Optional<NewModel> removeFromStorage(String name) {
         Optional<NewModel> modelOpt = getRealModelByName(name);
 
-        lock.writeLock().lock();
         modelOpt.ifPresent(newModelStorage::remove);
-        lock.writeLock().unlock();
+        persistence();
 
         NewModel copy = modelOpt.map(NewModel::deepClone).orElse(null);
 
         return Optional.ofNullable(copy);
     }
 
+    private static void persistence() {
+        lock.writeLock().lock();
+        File dumpFile = new File(CONSTANTS.PERSISTANCE.NEW_MODELS);
+        SerializationUtils.dump(newModelStorage, dumpFile);
+        lock.writeLock().lock();
+    }
 
     /**
      * warning: methods below return real object of real-time data, be careful to be expose reference.
@@ -113,5 +118,13 @@ public class NewModel extends Model {
 
     public void setCommitTime(Date commitTime) {
         this.commitTime = commitTime;
+    }
+
+    public static NewModel[] getAllNewModels(){
+        lock.readLock().lock();
+        NewModel[] newModels = (NewModel[]) newModelStorage.stream().map(NewModel::deepClone).toArray();
+        lock.readLock().unlock();
+
+        return newModels;
     }
 }
