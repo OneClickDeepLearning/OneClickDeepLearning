@@ -159,11 +159,12 @@ public class Project implements Serializable {
     }
 
 
-    private static void persistence(){
+    private static void persistence() {
         lock.writeLock().lock();
-        File dumpFile = new File(CONSTANTS.PERSISTANCE.PROJECT);
+        File dumpFile = new File(CONSTANTS.PERSISTENCE.PROJECT);
         SerializationUtils.dump(projectData, dumpFile);
         lock.writeLock().lock();
+    }
 
     public ProjectConfigurationDto convert2ProjectDto(List<Algorithm> algorithms) {
         String algorithmsStr = "";
