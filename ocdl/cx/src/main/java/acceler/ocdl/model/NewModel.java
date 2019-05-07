@@ -96,7 +96,7 @@ public class NewModel extends Model {
 
     private static void persistence() {
         lock.writeLock().lock();
-        File dumpFile = new File(CONSTANTS.PERSISTANCE.NEW_MODELS);
+        File dumpFile = new File(CONSTANTS.PERSISTENCE.NEW_MODEL);
         SerializationUtils.dump(newModelStorage, dumpFile);
         lock.writeLock().lock();
     }
