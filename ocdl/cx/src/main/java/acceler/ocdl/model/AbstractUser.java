@@ -2,6 +2,7 @@ package acceler.ocdl.model;
 
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.exception.InitStorageException;
+import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.utils.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,10 +46,15 @@ public abstract class AbstractUser extends Storable implements Serializable {
         lock.writeLock().unlock();
     }
 
-    static void initializeStorage(ArrayList<AbstractUser> users) {
+    static void initializeStorage() {
         if (userListStorage != null) {
-            userListStorage = users;
-            logger.info("SserListStorage instance initialization executed");
+            logger.info("[init] SerListStorage instance initialization executed");
+            File userDataFile = new File(CONSTANTS.PERSISTENCE.USERS);
+            try {
+                userListStorage = (ArrayList) StorageLoader.loadStorage(userDataFile);
+            } catch (NotFoundException nfe) {
+                userListStorage = new ArrayList<>();
+            }
         }
 
         logger.warn("Storage initialization only allow been executed at init time");

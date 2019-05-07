@@ -12,7 +12,7 @@ public class InnerUser extends AbstractUser implements Serializable {
     }
 
     private static InnerUser[] getRealInnerUser() {
-        return (InnerUser[]) getUserListStorage().stream().filter(u -> u instanceof InnerUser).toArray();
+        return getUserListStorage().stream().filter(u -> u instanceof InnerUser).toArray(size -> new InnerUser[size]);
     }
 
     public static Optional<InnerUser> getUserByUserName(String userName) {

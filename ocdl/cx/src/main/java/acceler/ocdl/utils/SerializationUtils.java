@@ -30,7 +30,7 @@ public class SerializationUtils {
         }
     }
 
-    private static Object load(Object target, File sourceFile) throws RuntimeException {
+    public static Object load(File sourceFile) throws RuntimeException {
         FileInputStream fileInputStream = null;
         ObjectInputStream objectInputStream = null;
         Object object = null;
