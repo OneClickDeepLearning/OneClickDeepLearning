@@ -89,10 +89,10 @@ public class ProjectController {
 
         Response.Builder responseBuilder = Response.getBuilder();
 
-        String name = projectName.get("projectName");
+        String name = projectName.get("name");
 
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("updateProjectNames" + name);
+        System.out.println("updateProjectNames:" + name);
 
         if (!StringUtil.isNullOrEmpty(name)) {
             Project project = new Project();
