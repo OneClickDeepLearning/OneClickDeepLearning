@@ -21,7 +21,7 @@ import static acceler.ocdl.utils.TimeUtil.currentTime;
 public class NewModel extends Model {
     private static final Logger logger = LoggerFactory.getLogger(NewModel.class);
 
-    private static List<NewModel> newModelStorage = new ArrayList<>();
+    private static List<NewModel> newModelStorage;
     private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
 
