@@ -27,6 +27,7 @@ public interface CONSTANTS {
         String PROJECT = _BASE + "/project";
         String USERS = _BASE + "/users";
         String NEW_MODEL = _BASE + "/new_model";
+        String REJECTED_MODELS = _BASE + "rejected_model";
     }
 
     interface IP {

@@ -4,10 +4,11 @@ import acceler.ocdl.utils.TimeUtil;
 
 import java.util.Date;
 
-public class  ApprovedModel extends Model implements Cloneable {
+public class ApprovedModel extends Model implements Cloneable {
     private Long releasedVersion;
     private Long cachedVersion;
     private Date approvedTime;
+
 
     public ApprovedModel() {
         super();
@@ -21,13 +22,15 @@ public class  ApprovedModel extends Model implements Cloneable {
         copy.setReleasedVersion(this.releasedVersion);
         copy.setCachedVersion(this.cachedVersion);
         copy.setApprovedTime(this.approvedTime);
+
         return copy;
     }
 
-    public NewModel convertToNewModel(){
+    public NewModel convertToNewModel() {
         NewModel newModel = new NewModel();
         newModel.setName(this.name);
         newModel.setCommitTime(TimeUtil.currentTime());
+
         return new NewModel();
     }
 
@@ -43,15 +46,15 @@ public class  ApprovedModel extends Model implements Cloneable {
         return this.approvedTime;
     }
 
+    public void setApprovedTime(Date approvedTime) {
+        this.approvedTime = approvedTime;
+    }
+
     void setReleasedVersion(Long releasedVersion) {
         this.releasedVersion = releasedVersion;
     }
 
     void setCachedVersion(Long cachedVersion) {
         this.cachedVersion = cachedVersion;
-    }
-
-    public void setApprovedTime(Date approvedTime) {
-        this.approvedTime = approvedTime;
     }
 }

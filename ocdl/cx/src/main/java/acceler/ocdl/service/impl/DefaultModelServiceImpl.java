@@ -120,7 +120,7 @@ public class DefaultModelServiceImpl implements ModelService {
 
     @Override
     public void undo(Model model) {
-        if (model instanceof ApprovedModel && Algorithm.approvalModelExist((ApprovedModel) model)) {
+        if (model instanceof ApprovedModel && Algorithm.existApprovalModel((ApprovedModel) model)) {
             throw new NotFoundException("", "");
         }
 
@@ -137,7 +137,7 @@ public class DefaultModelServiceImpl implements ModelService {
         if (model instanceof ApprovedModel) {
             ApprovedModel approvedModel = (ApprovedModel) model;
             Algorithm algorithm = Algorithm.getAlgorithmOfApprovedModel(approvedModel);
-            algorithm.removeApprovedModelFromAlgorithm(approvedModel);
+            Algorithm.removeApprovedModelFromAlgorithm(algorithm.getAlgorithmName(), approvedModel);
             newModel = approvedModel.convertToNewModel();
         } else {
             RejectedModel.removeFromStorage(model.getName());

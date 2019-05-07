@@ -6,8 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class TimeUtil {
-
-    public static final String DATA_FORMAT = "yyyy-MM-dd";
+    public static final String DATA_FORMAT = "yyyy-mm-dd::hh:mm:ss";
 
 
     public static Date currentTime() {
@@ -16,8 +15,12 @@ public class TimeUtil {
     }
 
     public static Date convertStringToDate(String s) throws ParseException {
-        Date date = null;
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATA_FORMAT);
         return dateFormat.parse(s);
+    }
+
+    public static String convertDateToString(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATA_FORMAT);
+        return dateFormat.format(date);
     }
 }

@@ -40,7 +40,7 @@ public class DefaultProjectService implements ProjectService {
             currentProjectData.setSuffixes(updatedProjectInfo.getSuffixes());
         }
 
-        Project.setProjectData(currentProjectData);
+        Project.setProjectDataStorage(currentProjectData);
 
         return currentProjectData;
     }
