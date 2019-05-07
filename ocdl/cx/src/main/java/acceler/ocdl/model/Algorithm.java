@@ -19,7 +19,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class Algorithm extends Storable implements Serializable {
     private static final Logger logger = LoggerFactory.getLogger(Algorithm.class);
 
-    private static List<Algorithm> algorithmStorage;
+    private static List<Algorithm> algorithmStorage = new ArrayList<>();
     private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
 
@@ -96,7 +96,7 @@ public class Algorithm extends Storable implements Serializable {
     }
 
     public static Algorithm[] getAlgorithms() {
-        return (Algorithm[]) getAlgorithmStorage().stream().map(Algorithm::deepCopy).toArray();
+        return getAlgorithmStorage().stream().map(Algorithm::deepCopy).toArray(size -> new Algorithm[size]);
     }
 
     public static Optional<Algorithm> getAlgorithmByName(String algorithmName) {
