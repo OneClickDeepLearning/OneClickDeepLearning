@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.swing.text.Segment;
@@ -49,12 +50,16 @@ public class FlaskSegmentService implements SegmentService {
         String outputPath = Paths.get(WORKSPACEPATH,SEGPICBASEPATH, basePictureName + "_seg.png").toString();
         String groundTruthPath = Paths.get(WORKSPACEPATH,GROUNDTRUTHBASEPATH, basePictureName + "_segmentation.png").toString();
 
-        String body = String.format("{\"model_path\":\"%s\", \"test_pic_path\":\"%s\", \"output_image_path\":\"%s\", \"ground_truth_path\":\"%s\"}", modelPath, picturePath, outputPath, groundTruthPath);
+        LinkedMultiValueMap body = new LinkedMultiValueMap();
+        body.add("model_path", modelPath);
+        body.add("test_pic_path", picturePath);
+        body.add("output_image_path", outputPath);
+        body.add("ground_truth_path", groundTruthPath);
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        HttpEntity<String> entity = new HttpEntity<String>(body.toString(), headers);
+        HttpEntity entity = new HttpEntity(body, headers);
 
         String responds = restTemplate.exchange(FLASKSEVERURL, HttpMethod.POST, entity, String.class).getBody();
         System.out.println(responds);
