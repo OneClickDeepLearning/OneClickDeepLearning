@@ -19,7 +19,7 @@ public class Project extends Storable implements Serializable {
     private static final Logger logger = LoggerFactory.getLogger(Project.class);
 
     private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
-    private static Project projectDataStorage;
+    private static Project projectDataStorage = new Project();
 
 
     private static Project getProjectDataStorage() {

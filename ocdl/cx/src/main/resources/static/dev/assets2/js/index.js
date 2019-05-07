@@ -154,7 +154,7 @@ function signIn() {
     console.log($("#data_pwd").val());
 
     $.ajax({
-        url: enviorment.API.LOGIN,
+        url: enviorment.API.LOGIN_PWD,
         contentType: 'application/json',
         dataType: "json",
         type: "POST",
@@ -357,7 +357,7 @@ function onSignIn(googleUser) {
    /* $("#userinfo").show(1000);*/
     $("#userinfo").slideDown();
     $.ajax({
-        url: '/oauth/login',
+        url: enviorment.API.LOGIN_OAUTH,
         contentType: 'application/json',
         dataType: "json",
         type: "POST",
