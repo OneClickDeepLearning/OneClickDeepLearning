@@ -55,7 +55,7 @@ public class RejectedModel extends Model {
 
     private static Optional<RejectedModel> getRealModelByName(String name) {
         lock.readLock().lock();
-        Optional<RejectedModel> modelOpt = rejectedModelStorage.stream().filter(m -> (m.name.equals(name))).findFirst();
+        Optional<RejectedModel> modelOpt = getRejectedModelStorage().stream().filter(m -> (m.name.equals(name))).findFirst();
         lock.readLock().unlock();
 
         return modelOpt;
@@ -79,7 +79,7 @@ public class RejectedModel extends Model {
         }
 
         lock.writeLock().lock();
-        rejectedModelStorage.add(model.deepCopy());
+        getRejectedModelStorage().add(model.deepCopy());
         persistence();
         lock.writeLock().unlock();
     }
@@ -88,7 +88,7 @@ public class RejectedModel extends Model {
         Optional<RejectedModel> modelOpt = getRealModelByName(name);
 
         lock.writeLock().lock();
-        modelOpt.ifPresent(rejectedModelStorage::remove);
+        modelOpt.ifPresent(getRejectedModelStorage()::remove);
         persistence();
         lock.writeLock().unlock();
 
@@ -98,7 +98,7 @@ public class RejectedModel extends Model {
 
     public static RejectedModel[] getAllRejectedModels() {
         lock.readLock().lock();
-        RejectedModel[] rejectedModels = rejectedModelStorage.stream().map(RejectedModel::deepCopy).toArray(size -> new RejectedModel[size]);
+        RejectedModel[] rejectedModels = getRejectedModelStorage().stream().map(RejectedModel::deepCopy).toArray(size -> new RejectedModel[size]);
         lock.readLock().unlock();
 
         return rejectedModels;
