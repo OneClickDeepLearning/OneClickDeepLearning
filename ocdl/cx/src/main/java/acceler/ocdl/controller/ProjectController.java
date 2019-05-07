@@ -56,7 +56,11 @@ public class ProjectController {
         Project project = projectService.getProjectConfiguration();
         List<Algorithm> algorithms = algorithmService.getAllAlgorithm();
 
+        System.out.println("getProjectConfig(), before convert 2 DTO" + project.getProjectName());
+
         ProjectConfigurationDto projectDto = project.convert2ProjectDto(algorithms);
+
+        System.out.println("getProjectConfig(), after convert 2 DTO" + projectDto.getProjectName());
 
         responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(projectDto);

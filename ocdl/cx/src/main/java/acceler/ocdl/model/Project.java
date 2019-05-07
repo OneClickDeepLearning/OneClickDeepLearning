@@ -137,13 +137,13 @@ public class Project extends Storable implements Serializable {
 
     public Project deepCopy() {
         Project copy = new Project();
-        copy.projectName = projectDataStorage.projectName;
-        copy.gitRepoURI = projectDataStorage.gitRepoURI;
-        copy.k8MasterUri = projectDataStorage.k8MasterUri;
-        copy.templatePath = projectDataStorage.templatePath;
-        copy.description = projectDataStorage.description;
+        copy.projectName = this.projectName;
+        copy.gitRepoURI = this.gitRepoURI;
+        copy.k8MasterUri = this.k8MasterUri;
+        copy.templatePath = this.templatePath;
+        copy.description = this.description;
         copy.suffixes = new ArrayList<>();
-        copy.suffixes.addAll(projectDataStorage.suffixes);
+        copy.suffixes.addAll(this.suffixes);
 
         return copy;
     }
