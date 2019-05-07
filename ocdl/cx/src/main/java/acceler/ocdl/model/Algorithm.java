@@ -19,7 +19,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class Algorithm extends Storable implements Serializable {
     private static final Logger logger = LoggerFactory.getLogger(Algorithm.class);
 
-    private static List<Algorithm> algorithmStorage = new ArrayList<>();
+    private static List<Algorithm> algorithmStorage;
     private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
 
@@ -32,10 +32,15 @@ public class Algorithm extends Storable implements Serializable {
         return algorithmStorage;
     }
 
-    static void initializeStorage(ArrayList<Algorithm> algorithms) {
+    static void initializeStorage() {
         if (algorithmStorage == null) {
-            algorithmStorage = algorithms;
-            logger.info("AlgorithmStorage instance initialization executed");
+            logger.info("[init] AlgorithmStorage instance initialization executed");
+            File algorithmDataFile = new File(CONSTANTS.PERSISTENCE.ALGORITHMS);
+            try {
+                algorithmStorage = (ArrayList) StorageLoader.loadStorage(algorithmDataFile);
+            } catch (NotFoundException nfe) {
+                algorithmStorage = new ArrayList<>();
+            }
         }
 
         logger.warn("Storage initialization only allow been executed at init time");
@@ -202,7 +207,7 @@ public class Algorithm extends Storable implements Serializable {
     }
 
     private ApprovedModel[] getBelongingModelsCopies() {
-        return (ApprovedModel[]) this.belongingModels.stream().map(ApprovedModel::deepCopy).toArray();
+        return this.belongingModels.stream().map(ApprovedModel::deepCopy).toArray(size -> new ApprovedModel[size]);
     }
 
     public ApprovedModel approveModel(NewModel model, UpgradeVersion version) {

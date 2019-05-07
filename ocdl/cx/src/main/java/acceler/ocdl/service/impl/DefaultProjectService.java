@@ -3,10 +3,12 @@ package acceler.ocdl.service.impl;
 import acceler.ocdl.model.Project;
 import acceler.ocdl.service.ProjectService;
 import io.netty.util.internal.StringUtil;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@DependsOn({"storageLoader"})
 public class DefaultProjectService implements ProjectService {
 
 

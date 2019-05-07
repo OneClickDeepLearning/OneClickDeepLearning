@@ -1,14 +1,23 @@
 package acceler.ocdl.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 
 public class SerializationUtils {
+    public static final Logger logger = LoggerFactory.getLogger(SerializationUtils.class);
 
     public static void dump(Object target, File persistanceFile) throws RuntimeException {
         FileOutputStream fileOutputStream = null;
         ObjectOutputStream objectOutputStream = null;
 
         try {
+            if (!persistanceFile.exists()){
+                logger.info("[Serialization] create a serialization file:" + persistanceFile);
+                persistanceFile.createNewFile();
+            }
+
             fileOutputStream = new FileOutputStream(persistanceFile);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(target);
@@ -30,7 +39,7 @@ public class SerializationUtils {
         }
     }
 
-    private static Object load(Object target, File sourceFile) throws RuntimeException {
+    public static Object load(File sourceFile) throws RuntimeException {
         FileInputStream fileInputStream = null;
         ObjectInputStream objectInputStream = null;
         Object object = null;

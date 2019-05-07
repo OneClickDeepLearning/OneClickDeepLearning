@@ -3,6 +3,7 @@ package acceler.ocdl.model;
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.exception.ExistedException;
 import acceler.ocdl.exception.InitStorageException;
+import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.utils.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,10 +34,15 @@ public class RejectedModel extends Model {
         return rejectedModelStorage;
     }
 
-    static void initializeStorage(ArrayList<RejectedModel> rejectedModels) {
+    static void initializeStorage() {
         if (rejectedModelStorage == null) {
-            rejectedModelStorage = rejectedModels;
-            logger.info("RejectedModelStorage instance initialization executed");
+            logger.info("[init] RejectedModelStorage instance initialization executed");
+            File rejectedModelFile = new File(CONSTANTS.PERSISTENCE.REJECTED_MODELS);
+            try {
+                rejectedModelStorage = (ArrayList) StorageLoader.loadStorage(rejectedModelFile);
+            } catch (NotFoundException nfe) {
+                rejectedModelStorage = new ArrayList<>();
+            }
         }
 
         logger.warn("Storage initialization only allow been executed at init time");
@@ -49,7 +55,7 @@ public class RejectedModel extends Model {
 
     private static Optional<RejectedModel> getRealModelByName(String name) {
         lock.readLock().lock();
-        Optional<RejectedModel> modelOpt = rejectedModelStorage.stream().filter(m -> (m.name.equals(name))).findFirst();
+        Optional<RejectedModel> modelOpt = getRejectedModelStorage().stream().filter(m -> (m.name.equals(name))).findFirst();
         lock.readLock().unlock();
 
         return modelOpt;
@@ -73,7 +79,7 @@ public class RejectedModel extends Model {
         }
 
         lock.writeLock().lock();
-        rejectedModelStorage.add(model.deepCopy());
+        getRejectedModelStorage().add(model.deepCopy());
         persistence();
         lock.writeLock().unlock();
     }
@@ -82,7 +88,7 @@ public class RejectedModel extends Model {
         Optional<RejectedModel> modelOpt = getRealModelByName(name);
 
         lock.writeLock().lock();
-        modelOpt.ifPresent(rejectedModelStorage::remove);
+        modelOpt.ifPresent(getRejectedModelStorage()::remove);
         persistence();
         lock.writeLock().unlock();
 
@@ -92,7 +98,7 @@ public class RejectedModel extends Model {
 
     public static RejectedModel[] getAllRejectedModels() {
         lock.readLock().lock();
-        RejectedModel[] rejectedModels = (RejectedModel[]) rejectedModelStorage.stream().map(RejectedModel::deepCopy).toArray();
+        RejectedModel[] rejectedModels = getRejectedModelStorage().stream().map(RejectedModel::deepCopy).toArray(size -> new RejectedModel[size]);
         lock.readLock().unlock();
 
         return rejectedModels;

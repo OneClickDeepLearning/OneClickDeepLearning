@@ -10,7 +10,7 @@ public class OauthUser extends AbstractUser implements Serializable {
 
 
     private static OauthUser[] getOauthUsers() {
-        return (OauthUser[]) getUserListStorage().stream().filter(user -> (user instanceof OauthUser)).toArray();
+        return getUserListStorage().stream().filter(user -> (user instanceof OauthUser)).toArray(size -> new OauthUser[size]);
     }
 
     public static boolean existUser(OauthUser.OauthSource source, String sourceUserId) {
