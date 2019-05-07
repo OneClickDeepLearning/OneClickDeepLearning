@@ -1,6 +1,5 @@
 package acceler.ocdl.dto;
 
-import acceler.ocdl.model.Algorithm;
 import acceler.ocdl.model.Project;
 
 import java.io.Serializable;

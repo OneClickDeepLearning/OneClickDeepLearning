@@ -2,9 +2,7 @@ package acceler.ocdl.model;
 
 import java.io.Serializable;
 
-public class Template implements Serializable {
-    private static final long serialVersionUID = -2767605614048989439L;
-
+public class Template extends Storable implements Serializable {
     private long templateId;
     private String templateName;
     private byte[] file;

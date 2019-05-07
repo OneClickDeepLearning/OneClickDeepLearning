@@ -1,17 +1,26 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.controller.AuthController;
 import acceler.ocdl.exception.ExistedException;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.model.InnerUser;
 import acceler.ocdl.model.OauthUser;
+import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.UserService;
+import org.apache.hadoop.fs.Path;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@DependsOn({"storageLoader"})
 public class DBUserService implements UserService {
+
+    @Autowired
+    HdfsService hdfsService;
 
     @Override
     public boolean credentialCheck(AuthController.UserCredentials loginUser) {
@@ -26,14 +35,35 @@ public class DBUserService implements UserService {
     }
 
     @Override
-    public InnerUser getUserByUsernameAndPwd(String userName, String password) throws NotFoundException {
-        return null;
+    public InnerUser getUserByUsername(String userName) throws NotFoundException {
+        Optional<InnerUser> targetUserOpt = InnerUser.getUserByUserName(userName);
+        return targetUserOpt.orElseThrow(() -> new NotFoundException("User Not Found", "User Not Found"));
     }
 
     @Override
     public OauthUser createUser(OauthUser.OauthSource source, String ID) throws ExistedException {
-        if (OauthUser.existUser(source, ID)){
+        if (OauthUser.existUser(source, ID)) {
             throw new ExistedException();
         }
+
+        OauthUser newUser = OauthUser.createNewUser(source, ID);
+
+        Path hadoopPath = new Path(CONSTANTS.HDFS.USER_NAME + newUser.getUserId());
+        hdfsService.createDir(hadoopPath);
+
+        return newUser;
+    }
+
+    @Override
+    public InnerUser createUser(String userName, String password) throws ExistedException {
+        if (InnerUser.existUser(userName)){
+            throw new ExistedException();
+        }
+
+        InnerUser newUser = InnerUser.createNewUser(userName, password);
+        Path hadoopPath = new Path(CONSTANTS.HDFS.USER_NAME + newUser.getUserId());
+        hdfsService.createDir(hadoopPath);
+
+        return newUser;
     }
 }

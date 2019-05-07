@@ -4,16 +4,13 @@ import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.dto.ModelDto;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
+import static acceler.ocdl.utils.TimeUtil.convertDateToString;
 
-public abstract class Model implements Serializable {
-    protected static final long serialVersionUID = -2767605614048989439L;
-
+public abstract class Model extends Storable implements Serializable {
     protected String name;
-
     protected Status status;
+
 
     public String getName() {
         return this.name;
@@ -27,26 +24,27 @@ public abstract class Model implements Serializable {
         this.name = name;
     }
 
-    public ModelDto convertToModelDto(Model model) {
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
+    public ModelDto convertToModelDto(Model model) {
         ModelDto modelDto = new ModelDto();
         modelDto.setModelName(model.getName());
         modelDto.setStatus(model.getStatus().toString());
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd::hh:mm:ss");
-
         if (model instanceof NewModel) {
-            NewModel newModel = (NewModel)model;
-            modelDto.setTimeStamp(dateFormat.format(newModel.getCommitTime()));
+            NewModel newModel = (NewModel) model;
+            modelDto.setTimeStamp(convertDateToString(newModel.getCommitTime()));
         } else if (model instanceof RejectedModel) {
-            RejectedModel rejectedModel = (RejectedModel)model;
-            modelDto.setTimeStamp(dateFormat.format(rejectedModel.getRejectedTime()));
+            RejectedModel rejectedModel = (RejectedModel) model;
+            modelDto.setTimeStamp(convertDateToString(rejectedModel.getRejectedTime()));
         } else {
-            ApprovedModel approvedModel = (ApprovedModel)model;
-            modelDto.setTimeStamp(dateFormat.format(approvedModel.getApprovedTime()));
+            ApprovedModel approvedModel = (ApprovedModel) model;
+            modelDto.setTimeStamp(convertDateToString(approvedModel.getApprovedTime()));
             modelDto.setAlgorithm(Algorithm.getAlgorithmOfApprovedModel(approvedModel).getAlgorithmName());
 
-            String version = CONSTANTS.NAME_FORMAT.MODELDTO_VERSION.replace("{release_version}",Long.toString(approvedModel.getReleasedVersion()).replace("{cached_version}", Long.toString(approvedModel.getCachedVersion())));
+            String version = CONSTANTS.NAME_FORMAT.MODELDTO_VERSION.replace("{release_version}", Long.toString(approvedModel.getReleasedVersion()).replace("{cached_version}", Long.toString(approvedModel.getCachedVersion())));
             modelDto.setVersion(version);
         }
 

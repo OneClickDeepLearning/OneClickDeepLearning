@@ -2,7 +2,10 @@ package acceler.ocdl.model;
 
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.exception.ExistedException;
+import acceler.ocdl.exception.InitStorageException;
 import acceler.ocdl.utils.SerializationUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,40 +18,42 @@ import static acceler.ocdl.utils.TimeUtil.currentTime;
 
 
 public class RejectedModel extends Model {
+    private static final Logger logger = LoggerFactory.getLogger(RejectedModel.class);
 
-    private static final List<RejectedModel> rejectedModelStorage = new ArrayList<>();
+    private static List<RejectedModel> rejectedModelStorage;
     private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
 
-    private Date rejectedTime;
+    private static List<RejectedModel> getRejectedModelStorage() {
+        if (rejectedModelStorage == null) {
+            logger.error("RejectedModelStorage instance is null");
+            throw new InitStorageException("RejectedModelStorage instance is null");
+        }
 
-    public RejectedModel() {
-        super();
-        this.status = Status.REJECTED;
+        return rejectedModelStorage;
     }
 
-    public NewModel convertToNewModel() {
-        NewModel newModel = new NewModel();
-        newModel.setName(this.name);
-        newModel.status = Status.NEW;
-        newModel.setCommitTime(currentTime());
-        return newModel;
+    static void initializeStorage(ArrayList<RejectedModel> rejectedModels) {
+        if (rejectedModelStorage == null) {
+            rejectedModelStorage = rejectedModels;
+            logger.info("RejectedModelStorage instance initialization executed");
+        }
+
+        logger.warn("Storage initialization only allow been executed at init time");
     }
 
-    public RejectedModel deepCopy() {
-        RejectedModel copy = new RejectedModel();
-        copy.setName(this.name);
-        copy.status = Status.REJECTED;
-        copy.setRejectedTime(this.rejectedTime);
-
-        return copy;
+    private static void persistence() {
+        File dumpFile = new File(CONSTANTS.PERSISTENCE.REJECTED_MODELS);
+        SerializationUtils.dump(rejectedModelStorage, dumpFile);
     }
 
+    private static Optional<RejectedModel> getRealModelByName(String name) {
+        lock.readLock().lock();
+        Optional<RejectedModel> modelOpt = rejectedModelStorage.stream().filter(m -> (m.name.equals(name))).findFirst();
+        lock.readLock().unlock();
 
-    /**
-     * all static methods return real-time status of data, automatically synchronized with persistence.
-     * to protect real-time data object, only return deep copy of the object.
-     */
+        return modelOpt;
+    }
 
     public static Optional<RejectedModel> getRejectedModelByName(String name) {
         Optional<RejectedModel> modelOpt = getRealModelByName(name);
@@ -67,31 +72,56 @@ public class RejectedModel extends Model {
             throw new ExistedException();
         }
 
-        rejectedModelStorage.add(model);
+        lock.writeLock().lock();
+        rejectedModelStorage.add(model.deepCopy());
         persistence();
+        lock.writeLock().unlock();
     }
 
     public static Optional<RejectedModel> removeFromStorage(String name) {
         Optional<RejectedModel> modelOpt = getRealModelByName(name);
 
+        lock.writeLock().lock();
         modelOpt.ifPresent(rejectedModelStorage::remove);
         persistence();
+        lock.writeLock().unlock();
 
         RejectedModel copy = modelOpt.map(RejectedModel::deepCopy).orElse(null);
-
         return Optional.ofNullable(copy);
     }
 
-
-    /**
-     * warning: methods below return real object of real-time data, be careful to be expose reference.
-     */
-    private static Optional<RejectedModel> getRealModelByName(String name) {
+    public static RejectedModel[] getAllRejectedModels() {
         lock.readLock().lock();
-        Optional<RejectedModel> modelOpt = rejectedModelStorage.stream().filter(m -> (m.name.equals(name))).findFirst();
+        RejectedModel[] rejectedModels = (RejectedModel[]) rejectedModelStorage.stream().map(RejectedModel::deepCopy).toArray();
         lock.readLock().unlock();
 
-        return modelOpt;
+        return rejectedModels;
+    }
+
+
+    private Date rejectedTime;
+
+    public RejectedModel() {
+        super();
+        this.status = Status.REJECTED;
+    }
+
+    public RejectedModel deepCopy() {
+        RejectedModel copy = new RejectedModel();
+        copy.setName(this.name);
+        copy.status = Status.REJECTED;
+        copy.setRejectedTime(this.rejectedTime);
+
+        return copy;
+    }
+
+    public NewModel convertToNewModel() {
+        NewModel newModel = new NewModel();
+        newModel.setName(this.name);
+        newModel.status = Status.NEW;
+        newModel.setCommitTime(currentTime());
+
+        return newModel;
     }
 
     public Date getRejectedTime() {
@@ -100,20 +130,5 @@ public class RejectedModel extends Model {
 
     public void setRejectedTime(Date rejectedTime) {
         this.rejectedTime = rejectedTime;
-    }
-
-    private static void persistence(){
-        lock.writeLock().lock();
-        File dumpFile = new File(CONSTANTS.PERSISTANCE.REJECTED_MODELS);
-        SerializationUtils.dump(rejectedModelStorage, dumpFile);
-        lock.writeLock().unlock();
-    }
-
-    public static RejectedModel[] getAllRejectedModels() {
-        lock.readLock().lock();
-        RejectedModel[] rejectedModels = (RejectedModel[])rejectedModelStorage.stream().map(RejectedModel::deepCopy).toArray();
-        lock.readLock().unlock();
-
-        return rejectedModels;
     }
 }

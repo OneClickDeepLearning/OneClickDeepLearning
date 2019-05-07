@@ -23,7 +23,6 @@ public final class ContainerController {
     @ResponseBody
     @RequestMapping(path = "/type/{rscType}", method = RequestMethod.POST)
     public final Response requestContainer(HttpServletRequest request, @PathVariable("rscType") String rscType) {
-//        List<String> result = new ArrayList<>();
         InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
         String assign;
 
