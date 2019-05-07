@@ -10,11 +10,13 @@ import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.UserService;
 import org.apache.hadoop.fs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@DependsOn({"storageLoader"})
 public class DBUserService implements UserService {
 
     @Autowired
