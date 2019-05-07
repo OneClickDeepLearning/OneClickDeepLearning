@@ -91,6 +91,9 @@ public class ProjectController {
 
         String name = projectName.get("projectName");
 
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("updateProjectNames" + name);
+
         if (!StringUtil.isNullOrEmpty(name)) {
             Project project = new Project();
             project.setProjectName(projectName.get("projectName"));

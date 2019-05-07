@@ -70,6 +70,9 @@ public class Project extends Storable implements Serializable {
         persistence();
 
         lock.writeLock().unlock();
+
+        System.out.println("================================================================");
+        System.out.println("Project.setProjectDataStorage(): " + projectDataStorage.getProjectName());
     }
 
     public static void setSuffixesOfProjectInStorage(List<String> newSuffixes) {
