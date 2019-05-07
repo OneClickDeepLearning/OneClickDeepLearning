@@ -21,7 +21,7 @@ const enviorment = {
 
         /*------ Configure service resource---------*/
         PROJECT: '/rest/project/config',
-        PROJECT_NAME: '/rest/project/name',
+        PROJECT_NAME: '/rest/project/config/name',
         PROJECT_UPDATE: '/rest/project/config',
 
         /* ------- Upload  ---------*/
