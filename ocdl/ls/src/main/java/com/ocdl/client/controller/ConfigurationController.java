@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.io.IOException;
 import java.util.Map;
 
-
+@Deprecated
 @Controller
 @RequestMapping(path = "/rest/config")
 public class ConfigurationController {
@@ -55,7 +55,5 @@ public class ConfigurationController {
         }
         return responseBuilder.build();
     }
-
-
 }
 
