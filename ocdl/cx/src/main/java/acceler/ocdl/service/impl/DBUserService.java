@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-/*@DependsOn({"storageLoader"})*/
+@DependsOn({"storageLoader"})
 public class DBUserService implements UserService {
 
     @Autowired

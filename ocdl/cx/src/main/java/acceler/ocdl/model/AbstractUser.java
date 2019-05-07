@@ -18,7 +18,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public abstract class AbstractUser extends Storable implements Serializable {
     protected static final Logger logger = LoggerFactory.getLogger(AbstractUser.class);
 
-    private static List<AbstractUser> userListStorage = new ArrayList<>();
+    private static List<AbstractUser> userListStorage;
     protected static ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
     protected static AtomicLong userIdGenerator = new AtomicLong(1000);
 
@@ -55,16 +55,15 @@ public abstract class AbstractUser extends Storable implements Serializable {
             } catch (NotFoundException nfe) {
                 userListStorage = new ArrayList<>();
             }
-        }
 
-        //init admin user
-        InnerUser adminUser= new InnerUser();
-        adminUser.setUserName("admin");
-        adminUser.setPassword("admin");
-        adminUser.setRole(Role.MANAGER);
-        adminUser.setUserId(1000L);
-        userListStorage.add(adminUser);
-        
+            //admin user
+            InnerUser adminUser = new InnerUser();
+            adminUser.setUserName("admin");
+            adminUser.setPassword("admin");
+            adminUser.setRole(Role.MANAGER);
+            adminUser.setUserId(1000L);
+            userListStorage.add(adminUser);
+        }
 
         logger.warn("Storage initialization only allow been executed at init time");
     }
