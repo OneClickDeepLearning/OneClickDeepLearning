@@ -13,7 +13,7 @@ import java.io.File;
 public class StorageLoader {
     public static final Logger logger = LoggerFactory.getLogger(StorageLoader.class);
 
-    @Bean(name = "storageLoader")
+    @Bean(name = "storageInit")
     public StorageLoader init() {
         return new StorageLoader();
     }

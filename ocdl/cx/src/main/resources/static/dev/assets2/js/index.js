@@ -179,6 +179,8 @@ function signIn() {
                 var status=$("#status");
                 var rescource=$("#rescourse");
                 var card=$("#card");
+                var username=$("#username");
+
                 username.text(user_name);
                 status.removeClass('status_disconnected');
                 status.addClass('status_connected');
@@ -267,11 +269,13 @@ function selectJupyterServer(){
         type: "POST",
         beforeSend: function (xhr) {
             xhr.setRequestHeader("AUTH_TOKEN", token);
+            $("#resourceLoading").show();
         },
 
         timeout: 0,
 
         success: function(data) {
+            $("#resourceLoading").hide();
             ajaxMessageReader(data,function (data) {
                 /*				    if(data["url"].contains(".")){*/
                 $('#jupyterFrame').attr('src', "http://"+data["url"]+"/notebooks/Untitled.ipynb");
@@ -281,7 +285,8 @@ function selectJupyterServer(){
             })
         },
         error: function () {
-            document.getElementById("cardJupyter").append($("<div id='shadow' style='width:100%;height:100%;"+
+            $("#resourceLoading").hide();
+            document.getElementById("Section1").append($("<div id='shadow' style='width:100%;height:100%;"+
                 "position:absolute;top:0px;left:0px;background-color:rgba(100,100,100,0.3);"+
                 "z-index:"+Number.MAX_SAFE_INTEGER+"'><h1>Server Loading Fail</h1> </div>")[0]);
         },
