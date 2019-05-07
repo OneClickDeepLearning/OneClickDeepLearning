@@ -51,6 +51,8 @@ public class Project extends Storable implements Serializable {
     }
 
     public static Project getProjectInStorage() {
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("Project.getProjectInStorage(): " + projectDataStorage.getProjectName());
         return getProjectDataStorage().deepCopy();
     }
 
