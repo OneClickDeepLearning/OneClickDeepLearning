@@ -47,7 +47,7 @@ public abstract class AbstractUser extends Storable implements Serializable {
     }
 
     static void initializeStorage() {
-        if (userListStorage != null) {
+        if (userListStorage == null) {
             logger.info("[init] SerListStorage instance initialization executed");
             File userDataFile = new File(CONSTANTS.PERSISTENCE.USERS);
             try {
