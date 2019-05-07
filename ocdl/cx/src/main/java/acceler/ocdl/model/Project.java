@@ -3,6 +3,7 @@ package acceler.ocdl.model;
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.dto.ProjectConfigurationDto;
 import acceler.ocdl.exception.InitStorageException;
+import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.utils.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,10 +31,15 @@ public class Project extends Storable implements Serializable {
         return projectDataStorage;
     }
 
-    static void initializeStorage(Project project) {
+    static void initializeStorage() {
         if (projectDataStorage == null) {
-            projectDataStorage = project;
-            logger.info("RejectedModelStorage instance initialization executed");
+            logger.info("[init] RejectedModelStorage instance initialization executed");
+            File projectDataFile = new File(CONSTANTS.PERSISTENCE.PROJECT);
+            try {
+                projectDataStorage = (Project) StorageLoader.loadStorage(projectDataFile);
+            } catch (NotFoundException nfe) {
+                projectDataStorage = new Project();
+            }
         }
 
         logger.warn("Storage initialization only allow been executed at init time");

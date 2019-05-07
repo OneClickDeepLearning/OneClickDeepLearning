@@ -3,6 +3,7 @@ package acceler.ocdl.model;
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.exception.ExistedException;
 import acceler.ocdl.exception.InitStorageException;
+import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.utils.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,10 +34,15 @@ public class NewModel extends Model {
         return newModelStorage;
     }
 
-    static void initializeStorage(ArrayList<NewModel> newModels) {
+    static void initializeStorage() {
         if (newModelStorage == null) {
-            newModelStorage = newModels;
-            logger.info("NewModelStorage instance initialization executed");
+            logger.info("[init] NewModelStorage instance initialization executed");
+            File newModelsFile = new File(CONSTANTS.PERSISTENCE.NEW_MODEL);
+            try {
+                newModelStorage = (ArrayList) StorageLoader.loadStorage(newModelsFile);
+            } catch (NotFoundException nfe) {
+                newModelStorage = new ArrayList<>();
+            }
         }
 
         logger.warn("Storage initialization only allow been executed at init time");
@@ -92,7 +98,7 @@ public class NewModel extends Model {
 
     public static NewModel[] getAllNewModels() {
         lock.readLock().lock();
-        NewModel[] newModels = (NewModel[]) getNewModelStorage().stream().map(NewModel::deepCopy).toArray();
+        NewModel[] newModels = getNewModelStorage().stream().map(NewModel::deepCopy).toArray(size -> new NewModel[size]);
         lock.readLock().unlock();
 
         return newModels;
