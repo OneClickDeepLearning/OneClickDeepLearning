@@ -5,7 +5,8 @@ const enviorment = {
         DELETE_SERVER: '/rest/container',
 
         /*------ Auth service resource---------*/
-        LOGIN: '/rest/auth/login',
+        LOGIN_PWD: '/rest/auth/login?pwd',
+        LOGIN_OAUTH:'/rest/auth/login?oauth',
         LOGOUT: '/rest/auth/logout',
         REGISTER: '/rest/auth/register',
 

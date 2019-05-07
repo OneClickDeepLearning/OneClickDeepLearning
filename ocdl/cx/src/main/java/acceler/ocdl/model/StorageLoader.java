@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class StorageLoader {
 
-    @Bean(name = "storageLoader")
+/*    @Bean(name = "storageLoader")*/
     public StorageLoader init(){
         return new StorageLoader();
     }
