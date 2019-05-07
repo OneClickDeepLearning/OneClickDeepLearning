@@ -57,6 +57,7 @@ public class FlaskSegmentService implements SegmentService {
         HttpEntity<String> entity = new HttpEntity<String>(body.toString(), headers);
 
         String responds = restTemplate.exchange(FLASKSEVERURL, HttpMethod.POST, entity, String.class).getBody();
+        System.out.println(responds);
 
         return new File(Paths.get(SEGPICBASEPATH, basePictureName + "_seg.png").toString());
     }
