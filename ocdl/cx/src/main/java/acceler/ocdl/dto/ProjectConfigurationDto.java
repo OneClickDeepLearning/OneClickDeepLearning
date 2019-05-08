@@ -18,7 +18,6 @@ public class ProjectConfigurationDto implements Serializable {
      * suffixes split by ';'
      */
     private String suffix;
-    private String modelTypes;
     private String algorithm;
 
     private Boolean forceRemoved = false;
@@ -63,21 +62,12 @@ public class ProjectConfigurationDto implements Serializable {
         this.suffix = suffix;
     }
 
-    public String getModelTypes() {
-        return modelTypes;
-    }
-
-    public void setModelTypes(String modelTypes) {
-        this.modelTypes = modelTypes;
-    }
 
     public Project convert2Project() {
         List<String> suffixesList = new ArrayList<String>();
         String[] suffixesStr = suffix.split(";");
 
-        /**
-         * convert suffixesStr into suffixes List;
-         */
+         // convert suffixesStr into suffixes List;
         for (int i = 0; i < suffixesStr.length; i++) {
             if (!"".equals(suffixesStr[i]) && suffixesStr[i] != null) {
                 String tempStr = suffixesStr[i].trim();
@@ -99,7 +89,7 @@ public class ProjectConfigurationDto implements Serializable {
 
     public List<String> getAlgorithmStrList() {
         List<String> algorithmsList = new ArrayList<String>();
-        String algr[] = algorithm.split(";");
+        String algr[] = this.algorithm.split(";");
         for (int i = 0; i < algr.length; i++) {
             String tempStr = algr[i].trim();
             if (!"".equals(tempStr) && tempStr != null) {
