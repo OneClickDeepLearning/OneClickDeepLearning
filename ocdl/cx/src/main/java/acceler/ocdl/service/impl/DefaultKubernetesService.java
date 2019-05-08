@@ -47,7 +47,7 @@ public class DefaultKubernetesService implements KubernetesService {
 
 
     private String getUserSpace(AbstractUser user){
-        return CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectNameInStorage()).replace("{userId}", String.valueOf(user.getUserId()));
+        return (CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectNameInStorage()).replace("{userId}", String.valueOf(user.getUserId()))).toLowerCase();
     }
 
     public String launchGpuContainer(AbstractUser user) throws KuberneteException, HdfsException {
@@ -212,22 +212,22 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withTty(true)
                 .withWorkingDir("/root")
 
-//                .addToVolumeMounts()
-//                .addNewVolumeMount()
-//                .withMountPath("/root/Model")
-//                .withName("model")
-//                .endVolumeMount()
+                .addToVolumeMounts()
+                .addNewVolumeMount()
+                .withMountPath("/root/Model")
+                .withName("model")
+                .endVolumeMount()
                 .withImagePullPolicy("Never")
                 .endContainer()
-//
-//                .addToVolumes()
-//                .addNewVolume()
-//                .withName("model")
-//                .withNewNfs()
-//                .withServer(CONSTANTS.IP.PUBLIC.MASTER)
-//                .withPath("/home/hadoop/mount/UserSpace/" + depolyId)
-//                .endNfs()
-//                .endVolume()
+
+                .addToVolumes()
+                .addNewVolume()
+                .withName("model")
+                .withNewNfs()
+                .withServer(CONSTANTS.IP.PUBLIC.MASTER)
+                .withPath("/home/hadoop/mount/UserSpace/" + depolyId)
+                .endNfs()
+                .endVolume()
 
                 .endSpec()
                 .endTemplate()
