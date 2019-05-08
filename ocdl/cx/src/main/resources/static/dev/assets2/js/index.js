@@ -280,7 +280,7 @@ function selectJupyterServer(){
             $("#jupyterFrame").show();
             ajaxMessageReader(data,function (data) {
                 /*				    if(data["url"].contains(".")){*/
-                $('#jupyterFrame').attr('src', "http://"+data["url"]+"/notebooks/Untitled.ipynb");
+                $('#jupyterFrame').attr('src', "http://"+data["url"]+"/notebooks/MySpace");
                 /*                    }else{
                                         alert(data['url']);
                                     }*/
