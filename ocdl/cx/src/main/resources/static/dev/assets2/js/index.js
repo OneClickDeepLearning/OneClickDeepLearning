@@ -277,6 +277,7 @@ function selectJupyterServer(){
         success: function(data) {
             $("#resourceLoading").hide();
             $("#resourceLoadingBar").hide();
+            $("#jupyterFrame").show();
             ajaxMessageReader(data,function (data) {
                 /*				    if(data["url"].contains(".")){*/
                 $('#jupyterFrame').attr('src', "http://"+data["url"]+"/notebooks/Untitled.ipynb");
@@ -288,6 +289,7 @@ function selectJupyterServer(){
         error: function () {
             $("#resourceLoading").show();
             $("#resourceLoadingBar").hide();
+            $("#jupyterFrame").hide();
             $("#Section1_label").text("Sorry, Fail to load resource!");
         },
         complete:function(){
