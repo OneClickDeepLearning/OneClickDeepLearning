@@ -62,7 +62,7 @@ public class NewModel extends Model {
 
     public static void addToStorage(NewModel model) {
         if (existNewModel(model)) {
-            throw new ExistedException();
+            throw new ExistedException("new model already existed");
         }
 
         lock.writeLock().lock();

@@ -26,7 +26,7 @@ public class StorageLoader {
 
         if (!serializedFile.exists() || !serializedFile.isFile()) {
             logger.warn("serializedFile[" + serializedFile + "] not found");
-            throw new NotFoundException("serializedFile not found", "serializedFile not found");
+            throw new NotFoundException("serializedFile not found");
         }
         data = SerializationUtils.load(serializedFile);
         logger.warn("serializedFile[" + serializedFile + "] load successfully");

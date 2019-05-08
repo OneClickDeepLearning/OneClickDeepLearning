@@ -10,7 +10,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = OcdlException.class)
     public Response exceptionsHandling(OcdlException exception) {
-        String frontErrorMsg= exception.getFrontEndErrorMsg();
+        String frontErrorMsg= exception.getMessage();
 
         return Response.getBuilder()
                 .setCode(Response.Code.ERROR)
