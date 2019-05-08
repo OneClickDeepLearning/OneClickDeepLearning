@@ -176,8 +176,7 @@ public class DefaultModelServiceImpl implements ModelService {
                 modelDtoList = convertModelsToModelDtoList(approvedModelMap);
                 break;
         }
-        return (ModelDto[]) modelDtoList.toArray();
-
+        return  modelDtoList.toArray(new ModelDto[modelDtoList.size()]);
     }
 
     /**
