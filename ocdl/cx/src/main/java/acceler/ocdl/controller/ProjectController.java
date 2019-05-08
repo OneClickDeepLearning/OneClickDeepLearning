@@ -56,13 +56,7 @@ public class ProjectController {
         Project project = projectService.getProjectConfiguration();
         List<Algorithm> algorithms = algorithmService.getAllAlgorithm();
 
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("getProjectConfig(), before convert 2 DTO" + project.getProjectName());
-
         ProjectConfigurationDto projectDto = project.convert2ProjectDto(algorithms);
-
-        System.out.println("getProjectConfig(), after convert 2 DTO" + projectDto.getProjectName());
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
         responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(projectDto);
@@ -88,11 +82,7 @@ public class ProjectController {
     public Response updateProjectNames(@RequestBody Map<String, String> projectName) {
 
         Response.Builder responseBuilder = Response.getBuilder();
-
         String name = projectName.get("name");
-
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("updateProjectNames:" + name);
 
         if (!StringUtil.isNullOrEmpty(name)) {
             Project project = new Project();

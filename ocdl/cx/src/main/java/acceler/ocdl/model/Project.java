@@ -51,8 +51,6 @@ public class Project extends Storable implements Serializable {
     }
 
     public static Project getProjectInStorage() {
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("Project.getProjectInStorage(): " + projectDataStorage.getProjectName());
         return getProjectDataStorage().deepCopy();
     }
 
@@ -71,8 +69,6 @@ public class Project extends Storable implements Serializable {
 
         lock.writeLock().unlock();
 
-        System.out.println("================================================================");
-        System.out.println("Project.setProjectDataStorage(): " + projectDataStorage.getProjectName());
     }
 
     public static void setSuffixesOfProjectInStorage(List<String> newSuffixes) {
