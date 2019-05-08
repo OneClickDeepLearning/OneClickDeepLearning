@@ -422,7 +422,7 @@
                         <div role="tabpanel" class="tab-pane fade" id="Section1">
                             <div id="resourceLoading" class="col-md-12"
                                  style="text-align: center;height:550px; width:100%; border: black solid 1px;">
-                                <div class="sk-spinner sk-spinner-wave"
+                                <div id="resourceLoadingBar" class="sk-spinner sk-spinner-wave"
                                      style="width: 200px; margin-left:auto;margin-right:auto;margin-top: 100px;">
                                     <div class="sk-rect1"></div>
                                     <div class="sk-rect2"></div>
@@ -434,8 +434,9 @@
                                     <div class="sk-rect2"></div>
                                     <div class="sk-rect1"></div>
                                 </div>
-                                <label>Launching the resrouce, please wait..</label>
+                                <label id="Section1_label">Launching the resrouce, please wait..</label>
                             </div>
+
                             <!--    <iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
                                         src="http://localhost:8888/notebooks/Untitled.ipynb" style="height:550px; width:100%"></iframe>-->
                         </div>

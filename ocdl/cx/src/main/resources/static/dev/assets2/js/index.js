@@ -117,13 +117,15 @@ function ajaxMessageReader(response, func){
 }
 
 function changeProjectName() {
+    var name = $("#projectName").text().slice(9);
+
     $.ajax({
         url: enviorment.API.PROJECT_NAME,
         contentType: 'application/json',
         dataType: "json",
         data:
             JSON.stringify({
-                name: $("#projectName").text()
+                name: name
             }),
         type: "PUT",
         timeout: 0,
@@ -270,12 +272,15 @@ function selectJupyterServer(){
         beforeSend: function (xhr) {
             xhr.setRequestHeader("AUTH_TOKEN", token);
             $("#resourceLoading").show();
+            $("#resourceLoadingBar").show();
+            $("#Section1_label").text("Launching the resource, please wait..");
         },
 
         timeout: 0,
 
         success: function(data) {
             $("#resourceLoading").hide();
+            $("#resourceLoadingBar").hide();
             ajaxMessageReader(data,function (data) {
                 /*				    if(data["url"].contains(".")){*/
                 $('#jupyterFrame').attr('src', "http://"+data["url"]+"/notebooks/Untitled.ipynb");
@@ -285,10 +290,9 @@ function selectJupyterServer(){
             })
         },
         error: function () {
-            $("#resourceLoading").hide();
-            document.getElementById("Section1").append($("<div id='shadow' style='width:100%;height:100%;"+
-                "position:absolute;top:0px;left:0px;background-color:rgba(100,100,100,0.3);"+
-                "z-index:"+Number.MAX_SAFE_INTEGER+"'><h1>Server Loading Fail</h1> </div>")[0]);
+            $("#resourceLoading").show();
+            $("#resourceLoadingBar").hide();
+            $("#Section1_label").text("Sorry, Fail to load resource!");
         },
         complete:function(){
 
