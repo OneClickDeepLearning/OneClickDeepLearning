@@ -47,7 +47,7 @@ public class DefaultKubernetesService implements KubernetesService {
 
 
     private String getUserSpace(AbstractUser user){
-        return CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectNameInStorage()).replace("{{userId}}", String.valueOf(user.getUserId()));
+        return CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectNameInStorage()).replace("{userId}", String.valueOf(user.getUserId()));
     }
 
     public String launchGpuContainer(AbstractUser user) throws KuberneteException, HdfsException {
