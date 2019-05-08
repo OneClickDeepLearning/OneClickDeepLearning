@@ -4,17 +4,14 @@ import com.ocdl.client.service.SegmentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import javax.swing.text.Segment;
 import java.io.File;
 import java.nio.file.Paths;
+
 
 @Service
 public class FlaskSegmentService implements SegmentService {
@@ -61,8 +58,9 @@ public class FlaskSegmentService implements SegmentService {
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         HttpEntity entity = new HttpEntity(body, headers);
 
-        String responds = restTemplate.exchange(FLASKSEVERURL, HttpMethod.POST, entity, String.class).getBody();
-        System.out.println(responds);
+        ResponseEntity<String> responds = restTemplate.exchange(FLASKSEVERURL, HttpMethod.POST, entity, String.class);
+        System.out.println("============================================");
+        System.out.println(responds.getBody());
 
         return new File(Paths.get(SEGPICBASEPATH, basePictureName + "_seg.png").toString());
     }
