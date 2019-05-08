@@ -77,7 +77,7 @@ public class FlaskSegmentService implements SegmentService {
             HttpPost post = new HttpPost(FLASKSEVERURL);
 
             // add header
-            post.setHeader("Content-type", "application/json; charset=utf-8");
+            post.setHeader("Content-type", "application/json");
 
             List<NameValuePair> urlParameters = new ArrayList<>();
             urlParameters.add(new BasicNameValuePair("model_path", modelPath));
@@ -90,6 +90,7 @@ public class FlaskSegmentService implements SegmentService {
             HttpResponse response = client.execute(post);
             System.out.println("\nSending 'POST' request to URL : " + FLASKSEVERURL);
             System.out.println("Post parameters : " + post.getEntity());
+            
             System.out.println("Response Code : " +
                     response.getStatusLine().getStatusCode());
 
