@@ -169,9 +169,7 @@ function signIn() {
             ajaxMessageReader(data,function (data) {
                 token=data['token'];
                 user_name=data['userName'];
-                project_name=data['projectName'];
-                var projectName=$("#projectName");
-                projectName.text(project_name);
+
                 if(data['role']=="MANAGER"){
                     ShowApprovalPortal("MODEL CENTER","nav-menu");
                 }
@@ -191,8 +189,6 @@ function signIn() {
                 card.removeClass('unlog');
 
                 $("#loginBtnGroup").slideDown();
-    /*            $("#signInBtn").addClass("hide");
-                $("#signUpBtn").addClass("hide");*/
                 $("#closeLogin").click();
 
                 $("#userinfo").removeClass("hide");
