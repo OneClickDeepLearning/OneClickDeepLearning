@@ -35,7 +35,7 @@ public class DefaultAlgorithmService implements AlgorithmService {
 
         // Add algorithm that is not exist in the current Algorithms
         algorithms.stream()
-                .filter(algorithmName -> Algorithm.existAlgorithm(algorithmName))
+                .filter(algorithmName -> !Algorithm.existAlgorithm(algorithmName))
                 .forEach(algorithmName -> {
                     Algorithm addedAlgorithm = new Algorithm();
                     addedAlgorithm.setAlgorithmName(algorithmName);
