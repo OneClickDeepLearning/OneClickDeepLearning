@@ -8,7 +8,7 @@ import java.io.File;
 public class EnvInitializer {
 
     public EnvInitializer() {
-
+        checkSerializedFileDir();
     }
 
     private void checkSerializedFileDir() {
