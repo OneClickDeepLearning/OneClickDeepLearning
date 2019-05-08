@@ -6,6 +6,7 @@ import acceler.ocdl.model.Algorithm;
 import acceler.ocdl.model.Project;
 import acceler.ocdl.service.AlgorithmService;
 import acceler.ocdl.service.ProjectService;
+import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,8 +82,9 @@ public class ProjectController {
     public Response updateProjectNames(@RequestBody Map<String, String> projectName) {
 
         Response.Builder responseBuilder = Response.getBuilder();
+        String name = projectName.get("name");
 
-        if (!"".equals(projectName) && projectName != null) {
+        if (!StringUtil.isNullOrEmpty(name)) {
             Project project = new Project();
             project.setProjectName(projectName.get("name"));
             projectService.updateProjectConfiguration(project);
@@ -91,9 +93,6 @@ public class ProjectController {
         } else {
             responseBuilder.setCode(Response.Code.ERROR).setMessage("ProjectName can not be empty");
         }
-
         return responseBuilder.build();
     }
-
-
 }

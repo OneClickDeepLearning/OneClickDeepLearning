@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -27,30 +25,39 @@ public class DefaultAlgorithmService implements AlgorithmService {
 
     @Override
     public Algorithm getAlgorithmByName(String algorithmName) {
-        return Algorithm.getAlgorithmByName(algorithmName).orElseThrow(() -> (new NotFoundException("Not found algorithm:" + algorithmName, "algorithm not found")));
+        return Algorithm.getAlgorithmByName(algorithmName).orElseThrow(() -> (new NotFoundException("Not found algorithm:" + algorithmName)));
     }
 
     @Override
-    public List<String> updateAlgorithmList(List<String> algorithms, boolean forceRemove ) {
+    public List<String> updateAlgorithmList(List<String> algorithms, boolean forceRemove) {
+        Algorithm[] existedAlgorithms = Algorithm.getAlgorithms();
+        List<String> overlap = new ArrayList<>();
 
-        // Add algorithm that is not exist in the current Algorithms
-        algorithms.stream()
-                .filter(algorithmName -> !Algorithm.existAlgorithm(algorithmName))
-                .forEach(algorithmName -> {
-                    Algorithm addedAlgorithm = new Algorithm();
-                    addedAlgorithm.setAlgorithmName(algorithmName);
-                    Algorithm.addNewAlgorithm(addedAlgorithm);
-                });
-
-        // if force remove, then remove the models that not in the algorithms list but in the current algorithm
-        if (forceRemove) {
-            Algorithm[] currentAlgorithms = Algorithm.getAlgorithms();
-            Arrays.stream(currentAlgorithms)
-                    .filter(m -> algorithms.contains(m.getAlgorithmName()))
-                    .forEach(m -> Algorithm.removeAlgorithm(m.getAlgorithmName()));
+        for (Algorithm algorithm : existedAlgorithms) {
+            if (algorithms.contains(algorithm.getAlgorithmName())) {
+                overlap.add(algorithm.getAlgorithmName());
+            }
         }
 
-        // Get updated algorithm name list
+        if (forceRemove) {
+            //only need to add new no-existed algorithms
+            for (Algorithm algorithm : existedAlgorithms) {
+                if (!overlap.contains(algorithm.getAlgorithmName())) {
+                    Algorithm.removeAlgorithm(algorithm.getAlgorithmName());
+                }
+            }
+        }
+
+        //new algorithms always need to append
+        for (String s : algorithms) {
+            if (!overlap.contains(s)) {
+                Algorithm newAlgorithm = new Algorithm();
+                newAlgorithm.setAlgorithmName(s);
+                Algorithm.addNewAlgorithm(newAlgorithm);
+            }
+        }
+
+        // get updated algorithm name list
         List<String> updatedAlgorithmNames = new ArrayList<>();
         Arrays.stream(Algorithm.getAlgorithms()).forEach(m -> updatedAlgorithmNames.add(m.getAlgorithmName()));
 

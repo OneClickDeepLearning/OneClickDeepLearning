@@ -68,6 +68,7 @@ public class Project extends Storable implements Serializable {
         persistence();
 
         lock.writeLock().unlock();
+
     }
 
     public static void setSuffixesOfProjectInStorage(List<String> newSuffixes) {

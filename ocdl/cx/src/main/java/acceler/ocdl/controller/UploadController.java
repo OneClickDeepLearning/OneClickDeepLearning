@@ -17,7 +17,7 @@ public class UploadController {
     @Autowired
     private HdfsService hdfsService;
 
-    private static final Logger logger = LoggerFactory.getLogger(acceler.ocdl.controller.AuthController.class);
+    private static final Logger logger = LoggerFactory.getLogger(acceler.ocdl.controller.UploadController.class);
 
     @RequestMapping(path="/upload", method = RequestMethod.PUT)
     @ResponseBody
@@ -38,7 +38,6 @@ public class UploadController {
                     .setData("Empty file!")
                     .build();
         }
-
     }
 }
 
