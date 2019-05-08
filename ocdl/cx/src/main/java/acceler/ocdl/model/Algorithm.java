@@ -67,7 +67,7 @@ public class Algorithm extends Storable implements Serializable {
         Algorithm target = getRealAlgorithmOfModel(model);
 
         if (target == null) {
-            throw new NotFoundException("approved model not found:" + model.getName(), "ApprovedModel Not Found");
+            throw new NotFoundException("approved model not found:" + model.getName());
         }
 
         return target.deepCopy();
@@ -131,7 +131,7 @@ public class Algorithm extends Storable implements Serializable {
         persistence();
         lock.writeLock().unlock();
 
-        return targetOpt.orElseThrow(() -> (new NotFoundException("algorithm not found", "algorithm not found")));
+        return targetOpt.orElseThrow(() -> (new NotFoundException("algorithm not found")));
     }
 
     /**
@@ -165,7 +165,7 @@ public class Algorithm extends Storable implements Serializable {
         Optional<Algorithm> algorithmOpt = getRealAlgorithmByName(algorithmName);
 
         if (!algorithmOpt.isPresent()) {
-            throw new NotFoundException("algorithm not found", "algorithm not found");
+            throw new NotFoundException("algorithm not found");
         }
 
         lock.writeLock().lock();
@@ -227,7 +227,7 @@ public class Algorithm extends Storable implements Serializable {
         }
 
         if (containsModel(model)) {
-            throw new ExistedException();
+            throw new ExistedException("model already existed in algorithm");
         }
 
         ApprovedModel copyOfModel = model.deepCopy(); //avoid any ref outside

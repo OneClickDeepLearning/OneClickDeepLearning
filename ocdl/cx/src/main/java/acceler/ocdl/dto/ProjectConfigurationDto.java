@@ -99,7 +99,7 @@ public class ProjectConfigurationDto implements Serializable {
 
     public List<String> getAlgorithmStrList() {
         List<String> algorithmsList = new ArrayList<String>();
-        String algr[] = algorithm.split(";");
+        String algr[] = this.algorithm.split(";");
         for (int i = 0; i < algr.length; i++) {
             String tempStr = algr[i].trim();
             if (!"".equals(tempStr) && tempStr != null) {
