@@ -22,7 +22,7 @@ public interface CONSTANTS {
     }
 
     interface PERSISTENCE {
-        String _BASE = "resources_cx/persistence";
+        String _BASE = "./resources_cx/persistence";
         String ALGORITHMS = _BASE + "/algorithms";
         String PROJECT = _BASE + "/project";
         String USERS = _BASE + "/users";
