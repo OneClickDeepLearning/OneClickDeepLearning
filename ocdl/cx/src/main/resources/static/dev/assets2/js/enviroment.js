@@ -2,7 +2,7 @@ const enviorment = {
     API:{
         /*------ Jupyter service resource---------*/
         JUPYTER_SERVER: '/rest/container/type/',
-        DELETE_SERVER: '/rest/container',
+        DELETE_SERVER: '/rest/container/release/',
 
         /*------ Auth service resource---------*/
         LOGIN_PWD: '/rest/auth/login?pwd',
