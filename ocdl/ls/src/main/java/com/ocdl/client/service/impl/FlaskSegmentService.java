@@ -6,6 +6,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
@@ -76,27 +77,19 @@ public class FlaskSegmentService implements SegmentService {
             HttpClient client = HttpClientBuilder.create().build();
             HttpPost post = new HttpPost(FLASKSEVERURL);
 
-            // add header
+            // set post request
             post.setHeader("Content-type", "application/json");
+            String body = String.format("{\"model_path\":\"%s\", \"test_pic_path\":\"%s\", \"output_image_path\":\"%s\", \"ground_truth_path\":\"%s\"}", modelPath, picturePath, outputPath, groundTruthPath);
+            StringEntity bodyEntity = new StringEntity(body);
+            post.setEntity(bodyEntity);
 
-            List<NameValuePair> urlParameters = new ArrayList<>();
-            urlParameters.add(new BasicNameValuePair("model_path", modelPath));
-            urlParameters.add(new BasicNameValuePair("test_pic_path", picturePath));
-            urlParameters.add(new BasicNameValuePair("output_image_path", outputPath));
-            urlParameters.add(new BasicNameValuePair("ground_truth_path", groundTruthPath));
-
-            post.setEntity(new UrlEncodedFormEntity(urlParameters));
-
+            // excute post request
             HttpResponse response = client.execute(post);
             System.out.println("\nSending 'POST' request to URL : " + FLASKSEVERURL);
             System.out.println("Post parameters : " + post.getEntity());
-            
-            System.out.println("Response Code : " +
-                    response.getStatusLine().getStatusCode());
+            System.out.println("Response Code : " + response.getStatusLine().getStatusCode());
 
-            BufferedReader rd = new BufferedReader(
-                    new InputStreamReader(response.getEntity().getContent()));
-
+            BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
             StringBuffer result = new StringBuffer();
             String line = "";
             while ((line = rd.readLine()) != null) {
