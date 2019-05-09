@@ -412,6 +412,9 @@ function releaseResource(){
         contentType: 'application/json',
         dataType: "json",
         type: "DELETE",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("AUTH_TOKEN", token);
+        },
         timeout: 0,
         success: function(data){
         },
