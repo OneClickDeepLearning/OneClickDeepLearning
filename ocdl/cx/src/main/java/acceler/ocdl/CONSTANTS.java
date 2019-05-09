@@ -10,7 +10,7 @@ public interface CONSTANTS {
 
     interface NAME_FORMAT {
         String USER_SPACE = "{projectName}-{userId}";
-        String STAGED_MODEL = "{fileName}-{timestamp}";
+        String STAGED_MODEL = "{fileName}-{timestamp}.{suffix}";
         String USER_ID = "{type}{userId}";
         String MODELDTO_VERSION = "v{release_version}.{cached_version}";
 
