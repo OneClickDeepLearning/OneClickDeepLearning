@@ -178,7 +178,6 @@ function signIn() {
 
                 var status=$("#status");
                 var rescource=$("#rescourse");
-                var card=$("#card");
                 var username=$("#username");
 
                 username.text(user_name);
@@ -186,12 +185,11 @@ function signIn() {
                 status.addClass('status_connected');
                 rescource.removeClass('status_NoneR');
                 rescource.addClass('status_cpu');
-                card.removeClass('unlog');
 
-                $("#loginBtnGroup").slideDown();
+                $("#loginBtnGroup").slideUp();
+                $("#userinfo").slideDown();
                 $("#closeLogin").click();
 
-                $("#userinfo").removeClass("hide");
 
                 selectJupyterServer();
             })
@@ -404,4 +402,21 @@ function signOut() {
     });
     $("#userinfo").slideUp();
     $("#loginBtnGroup").slideDown();
+
+    releaseResource();
+}
+
+function releaseResource(){
+    $.ajax({
+        url: enviorment.API.DELETE_SERVER,
+        contentType: 'application/json',
+        dataType: "json",
+        type: "DELETE",
+        timeout: 0,
+        success: function(data){
+        },
+        error: function () {
+            alert("Fail to release user Resources ");
+        }
+    })
 }
