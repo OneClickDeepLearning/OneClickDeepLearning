@@ -1,14 +1,15 @@
 package acceler.ocdl.exception;
 
 public class OcdlException extends RuntimeException {
-    private String frontEndErrorMsg;
 
-    public OcdlException(String frontEndErrorMsg) {
-        super(frontEndErrorMsg);
-        this.frontEndErrorMsg = frontEndErrorMsg;
+    private String promptErrorMessage;
+
+    public OcdlException(String promptErrorMessage) {
+        super(promptErrorMessage);
+        this.promptErrorMessage = promptErrorMessage;
     }
 
-    public String getFrontEndErrorMsg() {
-        return frontEndErrorMsg;
+    public String getMessage() {
+        return promptErrorMessage;
     }
 }

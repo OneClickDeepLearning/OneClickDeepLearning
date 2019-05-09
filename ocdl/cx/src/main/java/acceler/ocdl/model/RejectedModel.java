@@ -75,7 +75,7 @@ public class RejectedModel extends Model {
 
     public static void addToStorage(RejectedModel model) {
         if (existRejectedModel(model)) {
-            throw new ExistedException();
+            throw new ExistedException("rejected model already existed");
         }
 
         lock.writeLock().lock();

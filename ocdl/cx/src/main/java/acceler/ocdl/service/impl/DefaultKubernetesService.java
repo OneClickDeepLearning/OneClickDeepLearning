@@ -47,7 +47,7 @@ public class DefaultKubernetesService implements KubernetesService {
 
 
     private String getUserSpace(AbstractUser user){
-        return CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectNameInStorage()).replace("{{userId}}", String.valueOf(user.getUserId()));
+        return (CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectNameInStorage()).replace("{userId}", String.valueOf(user.getUserId()))).toLowerCase();
     }
 
     public String launchGpuContainer(AbstractUser user) throws KuberneteException, HdfsException {
@@ -206,6 +206,8 @@ public class DefaultKubernetesService implements KubernetesService {
                 .addNewPort()
                 .withContainerPort(8998)
                 .endPort()
+
+
                 .withStdin(true)
                 .withTty(true)
                 .withWorkingDir("/root")

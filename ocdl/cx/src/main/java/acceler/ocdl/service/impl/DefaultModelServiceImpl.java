@@ -71,7 +71,7 @@ public class DefaultModelServiceImpl implements ModelService {
     public void approveModel(NewModel model, String algorithmName, Algorithm.UpgradeVersion version) {
         checkIfNewModelExist(model);
 
-        Algorithm algorithm = Algorithm.getAlgorithmByName(algorithmName).orElseThrow(() -> (new NotFoundException("Not found algorithm:" + algorithmName, "algorithm not found")));
+        Algorithm algorithm = Algorithm.getAlgorithmByName(algorithmName).orElseThrow(() -> (new NotFoundException("Not found algorithm:" + algorithmName)));
 
         ApprovedModel approvedModel = algorithm.approveModel(model, version);
 
@@ -100,7 +100,7 @@ public class DefaultModelServiceImpl implements ModelService {
 
     private void checkIfNewModelExist(NewModel model) {
         if (!NewModel.existNewModel(model)) {
-            throw new NotFoundException("Not Found model:" + model.getName(), "Model Not Found");
+            throw new NotFoundException("Not Found model:" + model.getName());
         }
     }
 
@@ -123,11 +123,11 @@ public class DefaultModelServiceImpl implements ModelService {
     @Override
     public void undo(Model model) {
         if (model instanceof ApprovedModel && Algorithm.existApprovalModel((ApprovedModel) model)) {
-            throw new NotFoundException("", "");
+            throw new NotFoundException("model not found");
         }
 
         if (model instanceof RejectedModel && RejectedModel.existRejectedModel((RejectedModel) model)) {
-            throw new NotFoundException("", "");
+            throw new NotFoundException("model not found");
         }
 
         if (model instanceof NewModel) {
@@ -151,7 +151,7 @@ public class DefaultModelServiceImpl implements ModelService {
 
     @Override
     public void pushModelToGit(String modelName) {
-        ApprovedModel approvedModel = Algorithm.getApprovalModelByName(modelName).orElseThrow(() -> (new NotFoundException("Not Found model:" + modelName, "Not found model")));
+        ApprovedModel approvedModel = Algorithm.getApprovalModelByName(modelName).orElseThrow(() -> (new NotFoundException("Not Found model:" + modelName)));
         //TODO: move file to git repo
         //TODO: read File space from Project.gitrepo
         pushFileToRemoteGitRepo(new File(Project.getGitRepoURIInStorage()));
@@ -176,8 +176,7 @@ public class DefaultModelServiceImpl implements ModelService {
                 modelDtoList = convertModelsToModelDtoList(approvedModelMap);
                 break;
         }
-        return (ModelDto[]) modelDtoList.toArray();
-
+        return  modelDtoList.toArray(new ModelDto[modelDtoList.size()]);
     }
 
     /**

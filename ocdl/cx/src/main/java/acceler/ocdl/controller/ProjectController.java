@@ -86,7 +86,7 @@ public class ProjectController {
 
         if (!StringUtil.isNullOrEmpty(name)) {
             Project project = new Project();
-            project.setProjectName(projectName.get("projectName"));
+            project.setProjectName(projectName.get("name"));
             projectService.updateProjectConfiguration(project);
             responseBuilder.setCode(Response.Code.SUCCESS)
                     .setData(projectName);

@@ -31,19 +31,19 @@ public class DBUserService implements UserService {
     @Override
     public OauthUser getUserBySourceID(OauthUser.OauthSource source, String ID) throws NotFoundException {
         Optional<OauthUser> targetUserOpt = OauthUser.getUserBySourceID(source, ID);
-        return targetUserOpt.orElseThrow(() -> new NotFoundException("User Not Found", "User Not Found"));
+        return targetUserOpt.orElseThrow(() -> new NotFoundException("User Not Found"));
     }
 
     @Override
     public InnerUser getUserByUsername(String userName) throws NotFoundException {
         Optional<InnerUser> targetUserOpt = InnerUser.getUserByUserName(userName);
-        return targetUserOpt.orElseThrow(() -> new NotFoundException("User Not Found", "User Not Found"));
+        return targetUserOpt.orElseThrow(() -> new NotFoundException("User Not Found"));
     }
 
     @Override
     public OauthUser createUser(OauthUser.OauthSource source, String ID) throws ExistedException {
         if (OauthUser.existUser(source, ID)) {
-            throw new ExistedException();
+            throw new ExistedException("Oauth User existed");
         }
 
         OauthUser newUser = OauthUser.createNewUser(source, ID);
@@ -57,7 +57,7 @@ public class DBUserService implements UserService {
     @Override
     public InnerUser createUser(String userName, String password) throws ExistedException {
         if (InnerUser.existUser(userName)){
-            throw new ExistedException();
+            throw new ExistedException("inner user already existed");
         }
 
         InnerUser newUser = InnerUser.createNewUser(userName, password);
