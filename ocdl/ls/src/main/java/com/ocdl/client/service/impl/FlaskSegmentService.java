@@ -1,25 +1,26 @@
 package com.ocdl.client.service.impl;
 
+import com.ocdl.client.service.HttpRequestService;
 import com.ocdl.client.service.SegmentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
-import javax.swing.text.Segment;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
+
+
 
 @Service
 public class FlaskSegmentService implements SegmentService {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultKafkaConsumerService.class);
+
+    @Autowired
+    private HttpRequestService httpRequestService;
 
     @Value("${flask_sever_url}")
     private String FLASKSEVERURL;
@@ -50,20 +51,9 @@ public class FlaskSegmentService implements SegmentService {
         String outputPath = Paths.get(WORKSPACEPATH,SEGPICBASEPATH, basePictureName + "_seg.png").toString();
         String groundTruthPath = Paths.get(WORKSPACEPATH,GROUNDTRUTHBASEPATH, basePictureName + "_segmentation.png").toString();
 
-        LinkedMultiValueMap body = new LinkedMultiValueMap();
-        body.add("model_path", modelPath);
-        body.add("test_pic_path", picturePath);
-        body.add("output_image_path", outputPath);
-        body.add("ground_truth_path", groundTruthPath);
-
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        HttpEntity entity = new HttpEntity(body, headers);
-
-        String responds = restTemplate.exchange(FLASKSEVERURL, HttpMethod.POST, entity, String.class).getBody();
-        System.out.println(responds);
-
+        String body = String.format("{\"model_path\":\"%s\", \"test_pic_path\":\"%s\", \"output_image_path\":\"%s\", \"ground_truth_path\":\"%s\"}", modelPath, picturePath, outputPath, groundTruthPath);
+        httpRequestService.post(FLASKSEVERURL, body);
         return new File(Paths.get(SEGPICBASEPATH, basePictureName + "_seg.png").toString());
+
     }
 }

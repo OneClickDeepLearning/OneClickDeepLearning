@@ -3,6 +3,7 @@ package acceler.ocdl.service.impl;
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.dto.ModelDto;
 import acceler.ocdl.exception.NotFoundException;
+import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.model.*;
 import acceler.ocdl.service.ModelService;
 import acceler.ocdl.utils.CommandHelper;
@@ -28,7 +29,8 @@ public class DefaultModelServiceImpl implements ModelService {
 
     @Override
     public void initModelToStage(InnerUser innerUser) {
-        final String userSpaceName = CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectNameInStorage()).replace("{{userId}}", String.valueOf(innerUser.getUserId()));
+
+        final String userSpaceName = CONSTANTS.APPLICATIONS_DIR.USER_SPACE + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectNameInStorage()).replace("{{userId}}", String.valueOf(innerUser.getUserId()));
         final File userSpace = new File(userSpaceName);
 
         if (userSpace.isDirectory()) {
@@ -38,25 +40,26 @@ public class DefaultModelServiceImpl implements ModelService {
             //IO error occures
             if (files == null) {
                 log.error(String.format("fail in reading directory: %s", userSpaceName));
-                return;
+                throw new OcdlException(String.format("fail in reading directory: %s", userSpaceName));
             }
-
             int current = 0;
-
             try {
                 for (; current < files.length; current++) {
                     File f = files[current];
 
                     if (!f.isDirectory() && isModelFile(suffixes, f.getName())) {
-                        String stagedFilePath = CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{fileName}", f.getName()).replace("{timestamp}", TimeUtil.currentTime().toString());
+                        String suffix = f.getName().substring(f.getName().lastIndexOf("."));
+                        String stagedFilePath = CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE + CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{fileName}", f.getName()).replace("{timestamp}", TimeUtil.currentTime().toString().replace("{suffix}", suffix));
                         FileUtils.moveFile(f, new File(stagedFilePath));
                     }
-
                     persistNewModel(f);
                 }
             } catch (IOException e) {
                 log.error(String.format("fail to create new model, because %s failed to move to stage space", files[current].getName()));
+                throw new OcdlException(String.format("fail to create new model, because %s failed to move to stage space", files[current].getName()));
             }
+        } else {
+            throw new NotFoundException(String.format("%s, Fail to find user space.", innerUser.getUserId()));
         }
     }
 
@@ -71,7 +74,7 @@ public class DefaultModelServiceImpl implements ModelService {
     public void approveModel(NewModel model, String algorithmName, Algorithm.UpgradeVersion version) {
         checkIfNewModelExist(model);
 
-        Algorithm algorithm = Algorithm.getAlgorithmByName(algorithmName).orElseThrow(() -> (new NotFoundException("Not found algorithm:" + algorithmName, "algorithm not found")));
+        Algorithm algorithm = Algorithm.getAlgorithmByName(algorithmName).orElseThrow(() -> (new NotFoundException(String.format("Not found algorithm: %s", algorithmName))));
 
         ApprovedModel approvedModel = algorithm.approveModel(model, version);
 
@@ -100,7 +103,7 @@ public class DefaultModelServiceImpl implements ModelService {
 
     private void checkIfNewModelExist(NewModel model) {
         if (!NewModel.existNewModel(model)) {
-            throw new NotFoundException("Not Found model:" + model.getName(), "Model Not Found");
+            throw new NotFoundException("Not Found model:" + model.getName());
         }
     }
 
@@ -123,11 +126,11 @@ public class DefaultModelServiceImpl implements ModelService {
     @Override
     public void undo(Model model) {
         if (model instanceof ApprovedModel && Algorithm.existApprovalModel((ApprovedModel) model)) {
-            throw new NotFoundException("", "");
+            throw new NotFoundException("model not found");
         }
 
         if (model instanceof RejectedModel && RejectedModel.existRejectedModel((RejectedModel) model)) {
-            throw new NotFoundException("", "");
+            throw new NotFoundException("model not found");
         }
 
         if (model instanceof NewModel) {
@@ -151,7 +154,7 @@ public class DefaultModelServiceImpl implements ModelService {
 
     @Override
     public void pushModelToGit(String modelName) {
-        ApprovedModel approvedModel = Algorithm.getApprovalModelByName(modelName).orElseThrow(() -> (new NotFoundException("Not Found model:" + modelName, "Not found model")));
+        ApprovedModel approvedModel = Algorithm.getApprovalModelByName(modelName).orElseThrow(() -> (new NotFoundException("Not Found model:" + modelName)));
         //TODO: move file to git repo
         //TODO: read File space from Project.gitrepo
         pushFileToRemoteGitRepo(new File(Project.getGitRepoURIInStorage()));
