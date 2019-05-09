@@ -24,7 +24,6 @@ public class NewModel extends Model {
     private static List<NewModel> newModelStorage;
     private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
-
     private static List<NewModel> getNewModelStorage() {
         if (newModelStorage == null) {
             logger.error("NewModelStorage instance is null");
