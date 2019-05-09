@@ -53,12 +53,11 @@ public final class ContainerController {
 
 
     @ResponseBody
-    @RequestMapping(params = "/release/", method = RequestMethod.DELETE)
+    @RequestMapping(path = "/release/", method = RequestMethod.DELETE)
     public final void releaseContainer(HttpServletRequest request) {
-
-        logger.debug("ReleaseContainer start.......");
-        AbstractUser user = (AbstractUser) request.getAttribute("CURRENT_USER");
-        kubernetesService.releaseDockerContainer(user);
+       InnerUser user = (InnerUser) request.getAttribute("CURRENT_USER");
+        System.out.println("testsetestse");
+        kubernetesService.releaseDockerContainer(getResourceType(rscType),user);
     }
 
     private ResourceType getResourceType(String rscType){
