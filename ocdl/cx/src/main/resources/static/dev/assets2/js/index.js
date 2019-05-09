@@ -205,14 +205,9 @@ function signIn() {
 
 function getCode(name,type) {
     $.ajax({
-        url: enviorment.API.TEMPLATE_CODE,
+        url: enviorment.API.TEMPLATE_CODE+"?name="+name+"&type="+type,
         contentType: 'application/json',
         dataType: "json",
-        data:
-            JSON.stringify({
-                name: name,
-                type: type
-            }),
         type: "GET",
         success:function (data) {
             ajaxMessageReader(data,function (data) {

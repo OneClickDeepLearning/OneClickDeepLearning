@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.QueryParam;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,9 +37,9 @@ public final class TemplateController {
 
     @ResponseBody
     @RequestMapping(path = "/code", method = RequestMethod.GET)
-    public final Response getTemplateCode(@RequestBody Map<String,String> param){
+    public final Response getTemplateCode(@QueryParam("name")String name, @QueryParam("type")String type){
         List<String> templates = new ArrayList <String>();
-        templates = databaseService.getTemplates2(param.get("name"),param.get("type"));
+        templates = databaseService.getTemplates2(name,type);
 
         return Response.getBuilder()
                 .setCode(Response.Code.SUCCESS)
