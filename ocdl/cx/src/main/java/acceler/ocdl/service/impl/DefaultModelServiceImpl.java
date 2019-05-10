@@ -46,13 +46,14 @@ public class DefaultModelServiceImpl implements ModelService {
             try {
                 for (; current < files.length; current++) {
                     File f = files[current];
+                    Date commitTime = TimeUtil.currentTime();
 
                     if (!f.isDirectory() && isModelFile(suffixes, f.getName())) {
                         String suffix = f.getName().substring(f.getName().lastIndexOf("."));
-                        String stagedFilePath = CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE + CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{fileName}", f.getName()).replace("{timestamp}", TimeUtil.currentTime().toString().replace("{suffix}", suffix));
+                        String stagedFilePath = CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE + CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{fileName}", f.getName()).replace("{timestamp}", commitTime.toString()).replace("{suffix}", suffix);
                         FileUtils.moveFile(f, new File(stagedFilePath));
                     }
-                    persistNewModel(f);
+                    persistNewModel(f, commitTime);
                 }
             } catch (IOException e) {
                 log.error(String.format("fail to create new model, because %s failed to move to stage space", files[current].getName()));
@@ -63,23 +64,19 @@ public class DefaultModelServiceImpl implements ModelService {
         }
     }
 
-    private void persistNewModel(File modelFile) {
+    private void persistNewModel(File modelFile, Date commitTime) {
         NewModel model = new NewModel();
         model.setName(modelFile.getName());
-        model.setCommitTime(TimeUtil.currentTime());
+        model.setCommitTime(commitTime);
         NewModel.addToStorage(model);
     }
 
     @Override
     public void approveModel(NewModel model, String algorithmName, Algorithm.UpgradeVersion version) {
         checkIfNewModelExist(model);
-
         Algorithm algorithm = Algorithm.getAlgorithmByName(algorithmName).orElseThrow(() -> (new NotFoundException(String.format("Not found algorithm: %s", algorithmName))));
-
         ApprovedModel approvedModel = algorithm.approveModel(model, version);
-
         algorithm.persistApprovalModel(approvedModel);
-
         NewModel.removeFromStorage(model.getName());
     }
 
@@ -117,7 +114,6 @@ public class DefaultModelServiceImpl implements ModelService {
     @Override
     public void rejectModel(NewModel model) {
         checkIfNewModelExist(model);
-
         Date current = TimeUtil.currentTime();
         RejectedModel.addToStorage(model.convertToRejectedModel());
         NewModel.removeFromStorage(model.getName());
