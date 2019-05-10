@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import static acceler.ocdl.utils.TimeUtil.convertDateToString;
 
 public abstract class Model extends Storable implements Serializable {
-    private AtomicLong modelIdGenerator = new AtomicLong(100000);
+    private static final AtomicLong modelIdGenerator = new AtomicLong(100000);
 
     protected Long modelId;
     protected String name;
@@ -39,12 +39,13 @@ public abstract class Model extends Storable implements Serializable {
         this.modelId = modelId;
     }
 
-    public Long generateModelId() {
+    public static Long generateModelId() {
         return modelIdGenerator.incrementAndGet();
     }
 
     public ModelDto convertToModelDto(Model model) {
         ModelDto modelDto = new ModelDto();
+        modelDto.setModelId(model.getModelId().toString());
         modelDto.setModelName(model.getName());
         modelDto.setStatus(model.getStatus().toString());
 

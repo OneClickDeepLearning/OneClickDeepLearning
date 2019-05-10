@@ -10,15 +10,9 @@ public interface CONSTANTS {
 
     interface NAME_FORMAT {
         String USER_SPACE = "{projectName}-{userId}";
-        String STAGED_MODEL = "{fileName}-{timestamp}";
+        String STAGED_MODEL = "{modelId}.{suffix}";
         String USER_ID = "{type}{userId}";
         String MODELDTO_VERSION = "v{release_version}.{cached_version}";
-
-        interface MODEL_FILE {
-            String NEW_MODEL = "{modelName}_{commitTime}";
-            String REJECTED_MODEL = "{modelName}_{rejectedTime}";
-            String APPROVED_MODEL = "{modelName}_{approvedTime}_{algorithm}_{releaseVersion}_{cachedVersion}";
-        }
     }
 
     interface PERSISTENCE {

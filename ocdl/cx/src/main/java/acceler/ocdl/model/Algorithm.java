@@ -57,7 +57,7 @@ public class Algorithm extends Storable implements Serializable {
         lock.readLock().lock();
         for (Algorithm algorithm : getAlgorithmStorage()) {
             for (ApprovedModel m : algorithm.belongingModels) {
-                if (m.getName().equals(model.getName()) && m.getApprovedTime().equals(model.getApprovedTime())) {
+                if (m.getModelId().equals(model.getModelId())) {
                     result = true;
                     break;
                 }
@@ -84,7 +84,7 @@ public class Algorithm extends Storable implements Serializable {
         lock.readLock().lock();
         for (Algorithm algorithm : getAlgorithmStorage()) {
             for (ApprovedModel m : algorithm.belongingModels) {
-                if (m.getName().equals(model.getName()) && m.getApprovedTime().equals(model.getApprovedTime())) {
+                if (m.getModelId().equals(model.getModelId())) {
                     target = algorithm;
                 }
             }
@@ -94,13 +94,13 @@ public class Algorithm extends Storable implements Serializable {
         return target;
     }
 
-    public static Optional<ApprovedModel> getApprovalModelByName(String modelName) {
+    public static Optional<ApprovedModel> getApprovalModelById(Long modelId) {
         ApprovedModel target = null;
 
         lock.readLock().lock();
         for (Algorithm algorithm : getAlgorithmStorage()) {
             for (ApprovedModel m : algorithm.belongingModels) {
-                if (m.getName().equals(modelName)) {
+                if (m.getModelId().equals(modelId)) {
                     target = m.deepCopy();
                     break;
                 }
@@ -188,8 +188,7 @@ public class Algorithm extends Storable implements Serializable {
         lock.writeLock().lock();
 
         algorithmOpt.get().belongingModels.stream()
-                .filter(m -> (m.getName().equals(model.getName())))
-                .filter(m -> m.getApprovedTime().equals(model.getApprovedTime()))
+                .filter(m -> (m.getModelId().equals(model.getModelId())))
                 .findFirst()
                 .ifPresent(targetModel -> algorithmOpt.get().belongingModels.remove(targetModel));
 
@@ -256,7 +255,7 @@ public class Algorithm extends Storable implements Serializable {
     }
 
     public boolean containsModel(Model model) {
-        return getRealAlgorithmByName(this.algorithmName).map(algorithm -> algorithm.belongingModels.stream().anyMatch(m -> m.name.equals(model.name))).orElse(false);
+        return getRealAlgorithmByName(this.algorithmName).map(algorithm -> algorithm.belongingModels.stream().anyMatch(m -> m.getModelId().equals(model.getModelId()))).orElse(false);
     }
 
     public String getAlgorithmName() {

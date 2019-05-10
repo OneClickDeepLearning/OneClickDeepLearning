@@ -169,9 +169,7 @@ function signIn() {
             ajaxMessageReader(data,function (data) {
                 token=data['token'];
                 user_name=data['userName'];
-                project_name=data['projectName'];
-                var projectName=$("#projectName");
-                projectName.text(project_name);
+
                 if(data['role']=="MANAGER"){
                     ShowApprovalPortal("MODEL CENTER","nav-menu");
                 }
@@ -180,7 +178,6 @@ function signIn() {
 
                 var status=$("#status");
                 var rescource=$("#rescourse");
-                var card=$("#card");
                 var username=$("#username");
 
                 username.text(user_name);
@@ -188,14 +185,11 @@ function signIn() {
                 status.addClass('status_connected');
                 rescource.removeClass('status_NoneR');
                 rescource.addClass('status_cpu');
-                card.removeClass('unlog');
 
-                $("#loginBtnGroup").slideDown();
-    /*            $("#signInBtn").addClass("hide");
-                $("#signUpBtn").addClass("hide");*/
+                $("#loginBtnGroup").slideUp();
+                $("#userinfo").slideDown();
                 $("#closeLogin").click();
 
-                $("#userinfo").removeClass("hide");
 
                 selectJupyterServer();
             })
@@ -209,14 +203,9 @@ function signIn() {
 
 function getCode(name,type) {
     $.ajax({
-        url: enviorment.API.TEMPLATE_CODE,
+        url: enviorment.API.TEMPLATE_CODE+"?name="+name+"&type="+type,
         contentType: 'application/json',
         dataType: "json",
-        data:
-            JSON.stringify({
-                name: name,
-                type: type
-            }),
         type: "GET",
         success:function (data) {
             ajaxMessageReader(data,function (data) {
@@ -281,9 +270,10 @@ function selectJupyterServer(){
         success: function(data) {
             $("#resourceLoading").hide();
             $("#resourceLoadingBar").hide();
+            $("#jupyterFrame").show();
             ajaxMessageReader(data,function (data) {
                 /*				    if(data["url"].contains(".")){*/
-                $('#jupyterFrame').attr('src', "http://"+data["url"]+"/notebooks/Untitled.ipynb");
+                $('#jupyterFrame').attr('src', "http://"+data["url"]+"/notebooks/MySpace");
                 /*                    }else{
                                         alert(data['url']);
                                     }*/
@@ -292,6 +282,7 @@ function selectJupyterServer(){
         error: function () {
             $("#resourceLoading").show();
             $("#resourceLoadingBar").hide();
+            $("#jupyterFrame").hide();
             $("#Section1_label").text("Sorry, Fail to load resource!");
         },
         complete:function(){
@@ -411,4 +402,24 @@ function signOut() {
     });
     $("#userinfo").slideUp();
     $("#loginBtnGroup").slideDown();
+
+    releaseResource();
+}
+
+function releaseResource(){
+    $.ajax({
+        url: enviorment.API.DELETE_SERVER,
+        contentType: 'application/json',
+        dataType: "json",
+        type: "DELETE",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("AUTH_TOKEN", token);
+        },
+        timeout: 0,
+        success: function(data){
+        },
+        error: function () {
+            alert("Fail to release user Resources ");
+        }
+    })
 }

@@ -46,9 +46,9 @@ public interface ModelService {
     /**
      * push model to git repository
      * copy model file from folder "approval" to git repository, and git push
-     * @param modelName = "algorithm" + "version" + "suffix" (the format of version = "v*.*")
+     * @param modelId = "algorithm" + "version" + "suffix" (the format of version = "v*.*")
      */
-    void pushModelToGit(String modelName);
+    void pushModelToGit(Long modelId);
 
     /**
      * get models by status
