@@ -347,12 +347,19 @@ public class DefaultKubernetesService implements KubernetesService {
                 if (svc.getMetadata().getName().contains(userId))
                     client.resource(svc).delete();
             }
-
             for (Deployment deploy : client.apps().deployments().inNamespace("default").list().getItems()) {
                 System.out.println(deploy.getMetadata().getName());
                 if (deploy.getMetadata().getName().contains(userId))
                     client.resource(deploy).delete();
             }
+
+            if(cpuAssigned.containsKey(userId)){
+                cpuAssigned.remove(userId);
+            }
+            if(gpuAssigned.containsKey(userId)){
+                gpuAssigned.remove(userId);
+            }
+
         } catch (KubernetesClientException e) {
             throw new KuberneteException(e.getMessage());
         }
