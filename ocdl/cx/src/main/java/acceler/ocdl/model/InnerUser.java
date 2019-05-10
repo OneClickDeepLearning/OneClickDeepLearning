@@ -12,7 +12,11 @@ public class InnerUser extends AbstractUser implements Serializable {
     }
 
     private static InnerUser[] getRealInnerUser() {
-        return getUserListStorage().stream().filter(u -> u instanceof InnerUser).toArray(size -> new InnerUser[size]);
+        lock.readLock().lock();
+        InnerUser[] innerUsers = getUserListStorage().stream().filter(u -> u instanceof InnerUser).toArray(size -> new InnerUser[size]);
+        lock.readLock().unlock();
+
+        return innerUsers;
     }
 
     public static Optional<InnerUser> getUserByUserName(String userName) {
@@ -31,9 +35,13 @@ public class InnerUser extends AbstractUser implements Serializable {
     }
 
     public static boolean existUser(String userName) {
-        return getUserListStorage().stream()
+        lock.readLock().lock();
+        boolean exist = getUserListStorage().stream()
                 .filter(abstractUser -> abstractUser instanceof InnerUser)
                 .anyMatch(user -> ((InnerUser) user).getUserName().equals(userName));
+        lock.readLock().unlock();
+
+        return exist;
     }
 
     public static InnerUser createNewUser(String userName, String password) {

@@ -53,16 +53,16 @@ public class RejectedModel extends Model {
         SerializationUtils.dump(rejectedModelStorage, dumpFile);
     }
 
-    private static Optional<RejectedModel> getRealModelByName(String name) {
+    private static Optional<RejectedModel> getRealModelById(Long modelId) {
         lock.readLock().lock();
-        Optional<RejectedModel> modelOpt = getRejectedModelStorage().stream().filter(m -> (m.name.equals(name))).findFirst();
+        Optional<RejectedModel> modelOpt = getRejectedModelStorage().stream().filter(m -> (m.modelId.equals(modelId))).findFirst();
         lock.readLock().unlock();
 
         return modelOpt;
     }
 
-    public static Optional<RejectedModel> getRejectedModelByName(String name) {
-        Optional<RejectedModel> modelOpt = getRealModelByName(name);
+    public static Optional<RejectedModel> getRejectedModelById(Long modelId) {
+        Optional<RejectedModel> modelOpt = getRealModelById(modelId);
 
         RejectedModel copy = modelOpt.map(RejectedModel::deepCopy).orElse(null);
 
@@ -70,7 +70,7 @@ public class RejectedModel extends Model {
     }
 
     public static boolean existRejectedModel(RejectedModel model) {
-        return getRealModelByName(model.name).isPresent();
+        return getRealModelById(model.modelId).isPresent();
     }
 
     public static void addToStorage(RejectedModel model) {
@@ -84,8 +84,8 @@ public class RejectedModel extends Model {
         lock.writeLock().unlock();
     }
 
-    public static Optional<RejectedModel> removeFromStorage(String name) {
-        Optional<RejectedModel> modelOpt = getRealModelByName(name);
+    public static Optional<RejectedModel> removeFromStorage(Long modelId) {
+        Optional<RejectedModel> modelOpt = getRealModelById(modelId);
 
         lock.writeLock().lock();
         modelOpt.ifPresent(getRejectedModelStorage()::remove);
@@ -114,6 +114,7 @@ public class RejectedModel extends Model {
 
     public RejectedModel deepCopy() {
         RejectedModel copy = new RejectedModel();
+        copy.setModelId(this.modelId);
         copy.setName(this.name);
         copy.status = Status.REJECTED;
         copy.setRejectedTime(this.rejectedTime);
@@ -123,6 +124,7 @@ public class RejectedModel extends Model {
 
     public NewModel convertToNewModel() {
         NewModel newModel = new NewModel();
+        newModel.setModelId(this.modelId);
         newModel.setName(this.name);
         newModel.status = Status.NEW;
         newModel.setCommitTime(currentTime());

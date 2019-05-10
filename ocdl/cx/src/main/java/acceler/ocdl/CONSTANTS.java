@@ -9,17 +9,14 @@ public interface CONSTANTS {
     }
 
     interface NAME_FORMAT {
+
         //TODO replace TestProject
+
         String USER_SPACE = "testproject-{userId}";
-        String STAGED_MODEL = "{fileName}-{timestamp}.{suffix}";
+        String STAGED_MODEL = "{modelId}.{suffix}";
+
         String USER_ID = "{type}{userId}";
         String MODELDTO_VERSION = "v{release_version}.{cached_version}";
-
-        interface MODEL_FILE {
-            String NEW_MODEL = "{modelName}_{commitTime}.{suffix}";
-            String REJECTED_MODEL = "{modelName}_{rejectedTime}.{suffix}";
-            String APPROVED_MODEL = "{modelName}_{approvedTime}_{algorithm}_{releaseVersion}_{cachedVersion}.{suffix}";
-        }
     }
 
     interface PERSISTENCE {

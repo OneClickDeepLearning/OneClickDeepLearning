@@ -47,8 +47,8 @@ public class NewModel extends Model {
         logger.warn("Storage initialization only allow been executed at init time");
     }
 
-    public static Optional<NewModel> getNewModelByName(String name) {
-        Optional<NewModel> modelOpt = getRealModelByName(name);
+    public static Optional<NewModel> getNewModelById(Long modelId) {
+        Optional<NewModel> modelOpt = getRealModelById(modelId);
 
         NewModel copy = modelOpt.map(NewModel::deepCopy).orElse(null);
 
@@ -56,7 +56,7 @@ public class NewModel extends Model {
     }
 
     public static boolean existNewModel(NewModel model) {
-        return getRealModelByName(model.name).isPresent();
+        return getRealModelById(model.modelId).isPresent();
     }
 
     public static void addToStorage(NewModel model) {
@@ -70,8 +70,8 @@ public class NewModel extends Model {
         lock.writeLock().unlock();
     }
 
-    public static Optional<NewModel> removeFromStorage(String name) {
-        Optional<NewModel> modelOpt = getRealModelByName(name);
+    public static Optional<NewModel> removeFromStorage(Long modelId) {
+        Optional<NewModel> modelOpt = getRealModelById(modelId);
 
         lock.writeLock().lock();
         modelOpt.ifPresent(getNewModelStorage()::remove);
@@ -87,9 +87,9 @@ public class NewModel extends Model {
         SerializationUtils.dump(getNewModelStorage(), dumpFile);
     }
 
-    private static Optional<NewModel> getRealModelByName(String name) {
+    private static Optional<NewModel> getRealModelById(Long modelId) {
         lock.readLock().lock();
-        Optional<NewModel> modelOpt = getNewModelStorage().stream().filter(m -> (m.name.equals(name))).findFirst();
+        Optional<NewModel> modelOpt = getNewModelStorage().stream().filter(m -> (m.modelId.equals(modelId))).findFirst();
         lock.readLock().unlock();
 
         return modelOpt;
@@ -115,6 +115,7 @@ public class NewModel extends Model {
     public ApprovedModel convertToApprovedModel(long cachedVersion, long releaseVersion) {
         ApprovedModel model = new ApprovedModel();
 
+        model.setModelId(this.modelId);
         model.setName(this.name);
         model.status = Status.APPROVED;
         model.setApprovedTime(currentTime());
@@ -127,6 +128,7 @@ public class NewModel extends Model {
     public RejectedModel convertToRejectedModel() {
         RejectedModel model = new RejectedModel();
 
+        model.setModelId(this.modelId);
         model.setName(this.name);
         model.status = Status.REJECTED;
         model.setRejectedTime(currentTime());
@@ -136,6 +138,8 @@ public class NewModel extends Model {
 
     public NewModel deepCopy() {
         NewModel copy = new NewModel();
+
+        copy.setModelId(this.modelId);
         copy.setName(this.name);
         copy.status = Status.NEW;
         copy.setCommitTime(this.commitTime);

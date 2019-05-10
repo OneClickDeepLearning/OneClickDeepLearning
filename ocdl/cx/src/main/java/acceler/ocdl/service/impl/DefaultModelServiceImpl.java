@@ -46,14 +46,18 @@ public class DefaultModelServiceImpl implements ModelService {
             try {
                 for (; current < files.length; current++) {
                     File f = files[current];
-                    Date commitTime = TimeUtil.currentTime();
 
                     if (!f.isDirectory() && isModelFile(suffixes, f.getName())) {
+                        Long modelId = Model.generateModelId();
+
                         String suffix = f.getName().substring(f.getName().lastIndexOf("."));
-                        String stagedFilePath = CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE + CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{fileName}", f.getName()).replace("{timestamp}", commitTime.toString()).replace("{suffix}", suffix);
+
+                        String stagedFilePath = CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE +
+                                CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{modelId}", modelId.toString()).replace("{suffix}", suffix);
+
                         FileUtils.moveFile(f, new File(stagedFilePath));
                     }
-                    persistNewModel(f, commitTime);
+                    persistNewModel(f);
                 }
             } catch (IOException e) {
                 log.error(String.format("fail to create new model, because %s failed to move to stage space", files[current].getName()));
@@ -64,10 +68,10 @@ public class DefaultModelServiceImpl implements ModelService {
         }
     }
 
-    private void persistNewModel(File modelFile, Date commitTime) {
+    private void persistNewModel(File modelFile) {
         NewModel model = new NewModel();
         model.setName(modelFile.getName());
-        model.setCommitTime(commitTime);
+        model.setCommitTime(TimeUtil.currentTime());
         NewModel.addToStorage(model);
     }
 
@@ -77,7 +81,7 @@ public class DefaultModelServiceImpl implements ModelService {
         Algorithm algorithm = Algorithm.getAlgorithmByName(algorithmName).orElseThrow(() -> (new NotFoundException(String.format("Not found algorithm: %s", algorithmName))));
         ApprovedModel approvedModel = algorithm.approveModel(model, version);
         algorithm.persistApprovalModel(approvedModel);
-        NewModel.removeFromStorage(model.getName());
+        NewModel.removeFromStorage(model.getModelId());
     }
 
     private void pushFileToRemoteGitRepo(File workDir) {
@@ -116,7 +120,7 @@ public class DefaultModelServiceImpl implements ModelService {
         checkIfNewModelExist(model);
         Date current = TimeUtil.currentTime();
         RejectedModel.addToStorage(model.convertToRejectedModel());
-        NewModel.removeFromStorage(model.getName());
+        NewModel.removeFromStorage(model.getModelId());
     }
 
     @Override
@@ -141,7 +145,7 @@ public class DefaultModelServiceImpl implements ModelService {
             Algorithm.removeApprovedModelFromAlgorithm(algorithm.getAlgorithmName(), approvedModel);
             newModel = approvedModel.convertToNewModel();
         } else {
-            RejectedModel.removeFromStorage(model.getName());
+            RejectedModel.removeFromStorage(model.getModelId());
             newModel = ((RejectedModel) model).convertToNewModel();
         }
 
@@ -149,8 +153,8 @@ public class DefaultModelServiceImpl implements ModelService {
     }
 
     @Override
-    public void pushModelToGit(String modelName) {
-        ApprovedModel approvedModel = Algorithm.getApprovalModelByName(modelName).orElseThrow(() -> (new NotFoundException("Not Found model:" + modelName)));
+    public void pushModelToGit(Long modelId) {
+        ApprovedModel approvedModel = Algorithm.getApprovalModelById(modelId).orElseThrow(() -> (new NotFoundException("Not Found model:" + modelId)));
         //TODO: move file to git repo
         //TODO: read File space from Project.gitrepo
         pushFileToRemoteGitRepo(new File(Project.getGitRepoURIInStorage()));
@@ -175,11 +179,12 @@ public class DefaultModelServiceImpl implements ModelService {
                 modelDtoList = convertModelsToModelDtoList(approvedModelMap);
                 break;
         }
-        return  modelDtoList.toArray(new ModelDto[modelDtoList.size()]);
+        return modelDtoList.toArray(new ModelDto[modelDtoList.size()]);
     }
 
     /**
      * Convert NewModel[] and RejectedModel[] to ModelDto[]
+     *
      * @param modelArray
      * @return
      */
@@ -198,6 +203,7 @@ public class DefaultModelServiceImpl implements ModelService {
 
     /**
      * Convert Map<AlgorithmName, ApprovedModel[]> to ModelDto[]
+     *
      * @param modelMap
      * @return
      */

@@ -17,6 +17,8 @@ public class ApprovedModel extends Model implements Cloneable {
 
     public ApprovedModel deepCopy() {
         ApprovedModel copy = new ApprovedModel();
+
+        copy.setModelId(this.modelId);
         copy.setName(this.name);
         copy.status = Status.APPROVED;
         copy.setReleasedVersion(this.releasedVersion);
@@ -28,6 +30,8 @@ public class ApprovedModel extends Model implements Cloneable {
 
     public NewModel convertToNewModel() {
         NewModel newModel = new NewModel();
+
+        newModel.setModelId(this.modelId);
         newModel.setName(this.name);
         newModel.setCommitTime(TimeUtil.currentTime());
 

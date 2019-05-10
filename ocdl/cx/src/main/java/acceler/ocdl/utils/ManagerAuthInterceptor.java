@@ -12,21 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class ManagerAuthInterceptor extends HandlerInterceptorAdapter {
     static final String[] INTERCEPTED_URLS = {
-            "/rest/auth",
-            "",
-            "",
-            "",
-            ""
+            "/rest/auth"
     };
 
     static final String[] EXCEPTED_URLS = {
-            "",
-            "",
-            ""
     };
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         InnerUser accessInnerUser = (InnerUser) request.getAttribute("CURRENT_USER");
         return accessInnerUser.getRole() == InnerUser.Role.MANAGER;
     }

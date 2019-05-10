@@ -52,15 +52,20 @@ public class Algorithm extends Storable implements Serializable {
     }
 
     public static boolean existApprovalModel(ApprovedModel model) {
+        boolean result = false;
+
+        lock.readLock().lock();
         for (Algorithm algorithm : getAlgorithmStorage()) {
             for (ApprovedModel m : algorithm.belongingModels) {
-                if (m.getName().equals(model.getName()) && m.getApprovedTime().equals(model.getApprovedTime())) {
-                    return true;
+                if (m.getModelId().equals(model.getModelId())) {
+                    result = true;
+                    break;
                 }
             }
         }
+        lock.readLock().unlock();
 
-        return false;
+        return result;
     }
 
     public static Algorithm getAlgorithmOfApprovedModel(ApprovedModel model) throws NotFoundException {
@@ -74,34 +79,44 @@ public class Algorithm extends Storable implements Serializable {
     }
 
     private static Algorithm getRealAlgorithmOfModel(ApprovedModel model) {
+        Algorithm target = null;
+
+        lock.readLock().lock();
         for (Algorithm algorithm : getAlgorithmStorage()) {
             for (ApprovedModel m : algorithm.belongingModels) {
-                if (m.getName().equals(model.getName()) && m.getApprovedTime().equals(model.getApprovedTime())) {
-                    return algorithm;
+                if (m.getModelId().equals(model.getModelId())) {
+                    target = algorithm;
                 }
             }
         }
+        lock.readLock().unlock();
 
-        return null;
+        return target;
     }
 
-    public static Optional<ApprovedModel> getApprovalModelByName(String modelName) {
+    public static Optional<ApprovedModel> getApprovalModelById(Long modelId) {
         ApprovedModel target = null;
 
+        lock.readLock().lock();
         for (Algorithm algorithm : getAlgorithmStorage()) {
             for (ApprovedModel m : algorithm.belongingModels) {
-                if (m.getName().equals(modelName)) {
+                if (m.getModelId().equals(modelId)) {
                     target = m.deepCopy();
                     break;
                 }
             }
         }
+        lock.readLock().unlock();
 
         return Optional.ofNullable(target);
     }
 
     public static Algorithm[] getAlgorithms() {
-        return getAlgorithmStorage().stream().map(Algorithm::deepCopy).toArray(size -> new Algorithm[size]);
+        lock.readLock().lock();
+        Algorithm[] algorithms = getAlgorithmStorage().stream().map(Algorithm::deepCopy).toArray(size -> new Algorithm[size]);
+        lock.readLock().unlock();
+
+        return algorithms;
     }
 
     public static Optional<Algorithm> getAlgorithmByName(String algorithmName) {
@@ -140,6 +155,7 @@ public class Algorithm extends Storable implements Serializable {
     public static Map<String, Model[]> getAllAlgorithmAndModels() {
         Map<String, Model[]> result = new HashMap<>();
 
+        lock.readLock().lock();
         for (Algorithm algorithm : getAlgorithmStorage()) {
             Model[] belongingModelCopies = new Model[algorithm.belongingModels.size()];
 
@@ -149,6 +165,7 @@ public class Algorithm extends Storable implements Serializable {
 
             result.put(algorithm.getAlgorithmName(), belongingModelCopies);
         }
+        lock.readLock().unlock();
 
         return result;
     }
@@ -171,8 +188,7 @@ public class Algorithm extends Storable implements Serializable {
         lock.writeLock().lock();
 
         algorithmOpt.get().belongingModels.stream()
-                .filter(m -> (m.getName().equals(model.getName())))
-                .filter(m -> m.getApprovedTime().equals(model.getApprovedTime()))
+                .filter(m -> (m.getModelId().equals(model.getModelId())))
                 .findFirst()
                 .ifPresent(targetModel -> algorithmOpt.get().belongingModels.remove(targetModel));
 
@@ -239,7 +255,7 @@ public class Algorithm extends Storable implements Serializable {
     }
 
     public boolean containsModel(Model model) {
-        return getRealAlgorithmByName(this.algorithmName).map(algorithm -> algorithm.belongingModels.stream().anyMatch(m -> m.name.equals(model.name))).orElse(false);
+        return getRealAlgorithmByName(this.algorithmName).map(algorithm -> algorithm.belongingModels.stream().anyMatch(m -> m.getModelId().equals(model.getModelId()))).orElse(false);
     }
 
     public String getAlgorithmName() {
