@@ -4,13 +4,16 @@ import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.dto.ModelDto;
 
 import java.io.Serializable;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static acceler.ocdl.utils.TimeUtil.convertDateToString;
 
 public abstract class Model extends Storable implements Serializable {
+    private AtomicLong modelIdGenerator = new AtomicLong(100000);
+
+    protected Long modelId;
     protected String name;
     protected Status status;
-
 
     public String getName() {
         return this.name;
@@ -20,12 +23,24 @@ public abstract class Model extends Storable implements Serializable {
         return this.status;
     }
 
+    public Long getModelId() {
+        return modelId;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public void setModelId(Long modelId) {
+        this.modelId = modelId;
+    }
+
+    public Long generateModelId() {
+        return modelIdGenerator.incrementAndGet();
     }
 
     public ModelDto convertToModelDto(Model model) {

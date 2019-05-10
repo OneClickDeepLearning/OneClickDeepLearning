@@ -5,10 +5,12 @@ import acceler.ocdl.utils.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 
 import java.io.File;
 
 @Configuration
+@DependsOn({"envInitializer"})
 public class StorageLoader {
     public static final Logger logger = LoggerFactory.getLogger(StorageLoader.class);
 
@@ -30,6 +32,7 @@ public class StorageLoader {
         }
         data = SerializationUtils.load(serializedFile);
         logger.warn("serializedFile[" + serializedFile + "] load successfully");
+
         return data;
     }
 }

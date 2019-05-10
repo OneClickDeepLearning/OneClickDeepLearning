@@ -52,15 +52,20 @@ public class Algorithm extends Storable implements Serializable {
     }
 
     public static boolean existApprovalModel(ApprovedModel model) {
+        boolean result = false;
+
+        lock.readLock().lock();
         for (Algorithm algorithm : getAlgorithmStorage()) {
             for (ApprovedModel m : algorithm.belongingModels) {
                 if (m.getName().equals(model.getName()) && m.getApprovedTime().equals(model.getApprovedTime())) {
-                    return true;
+                    result = true;
+                    break;
                 }
             }
         }
+        lock.readLock().unlock();
 
-        return false;
+        return result;
     }
 
     public static Algorithm getAlgorithmOfApprovedModel(ApprovedModel model) throws NotFoundException {
@@ -74,20 +79,25 @@ public class Algorithm extends Storable implements Serializable {
     }
 
     private static Algorithm getRealAlgorithmOfModel(ApprovedModel model) {
+        Algorithm target = null;
+
+        lock.readLock().lock();
         for (Algorithm algorithm : getAlgorithmStorage()) {
             for (ApprovedModel m : algorithm.belongingModels) {
                 if (m.getName().equals(model.getName()) && m.getApprovedTime().equals(model.getApprovedTime())) {
-                    return algorithm;
+                    target = algorithm;
                 }
             }
         }
+        lock.readLock().unlock();
 
-        return null;
+        return target;
     }
 
     public static Optional<ApprovedModel> getApprovalModelByName(String modelName) {
         ApprovedModel target = null;
 
+        lock.readLock().lock();
         for (Algorithm algorithm : getAlgorithmStorage()) {
             for (ApprovedModel m : algorithm.belongingModels) {
                 if (m.getName().equals(modelName)) {
@@ -96,12 +106,17 @@ public class Algorithm extends Storable implements Serializable {
                 }
             }
         }
+        lock.readLock().unlock();
 
         return Optional.ofNullable(target);
     }
 
     public static Algorithm[] getAlgorithms() {
-        return getAlgorithmStorage().stream().map(Algorithm::deepCopy).toArray(size -> new Algorithm[size]);
+        lock.readLock().lock();
+        Algorithm[] algorithms = getAlgorithmStorage().stream().map(Algorithm::deepCopy).toArray(size -> new Algorithm[size]);
+        lock.readLock().unlock();
+
+        return algorithms;
     }
 
     public static Optional<Algorithm> getAlgorithmByName(String algorithmName) {
@@ -140,6 +155,7 @@ public class Algorithm extends Storable implements Serializable {
     public static Map<String, Model[]> getAllAlgorithmAndModels() {
         Map<String, Model[]> result = new HashMap<>();
 
+        lock.readLock().lock();
         for (Algorithm algorithm : getAlgorithmStorage()) {
             Model[] belongingModelCopies = new Model[algorithm.belongingModels.size()];
 
@@ -149,6 +165,7 @@ public class Algorithm extends Storable implements Serializable {
 
             result.put(algorithm.getAlgorithmName(), belongingModelCopies);
         }
+        lock.readLock().unlock();
 
         return result;
     }
