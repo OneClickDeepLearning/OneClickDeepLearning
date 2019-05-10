@@ -9,8 +9,12 @@ public interface CONSTANTS {
     }
 
     interface NAME_FORMAT {
-        String USER_SPACE = "{projectName}-{userId}";
+
+        //TODO replace TestProject
+
+        String USER_SPACE = "testproject-{userId}";
         String STAGED_MODEL = "{modelId}.{suffix}";
+
         String USER_ID = "{type}{userId}";
         String MODELDTO_VERSION = "v{release_version}.{cached_version}";
     }

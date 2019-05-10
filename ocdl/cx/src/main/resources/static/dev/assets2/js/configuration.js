@@ -1,6 +1,11 @@
 var token = GetQueryString("token");
 initConfigInfo();
 
+alert("11"+token);
+
+function jumpTo(path) {
+    window.location.href(path+"?token="+GetQueryString("token"));
+}
 
 function initConfigInfo() {
     $.ajax({
@@ -77,5 +82,5 @@ function GetQueryString(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
     var r = window.location.search.substr(1).match(reg);
     if (r != null) return unescape(r[2]);
-    return null;
+    return '';
 }

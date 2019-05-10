@@ -353,6 +353,7 @@ public class DefaultKubernetesService implements KubernetesService {
                     client.resource(deploy).delete();
             }
 
+            //release resource cache
             if(cpuAssigned.containsKey(userId)){
                 cpuAssigned.remove(userId);
             }
