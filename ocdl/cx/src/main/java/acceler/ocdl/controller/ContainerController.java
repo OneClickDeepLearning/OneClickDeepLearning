@@ -51,7 +51,7 @@ public final class ContainerController {
     @RequestMapping(path = "/release/", method = RequestMethod.DELETE)
     public final void releaseContainer(HttpServletRequest request) {
        InnerUser user = (InnerUser) request.getAttribute("CURRENT_USER");
-        kubernetesService.releaseDockerContainer(user);
+       kubernetesService.releaseDockerContainer(user);
     }
 
     private ResourceType getResourceType(String rscType){
