@@ -16,9 +16,9 @@ public interface CONSTANTS {
         String MODELDTO_VERSION = "v{release_version}.{cached_version}";
 
         interface MODEL_FILE {
-            String NEW_MODEL = "{modelName}_{commitTime}";
-            String REJECTED_MODEL = "{modelName}_{rejectedTime}";
-            String APPROVED_MODEL = "{modelName}_{approvedTime}_{algorithm}_{releaseVersion}_{cachedVersion}";
+            String NEW_MODEL = "{modelName}_{commitTime}.{suffix}";
+            String REJECTED_MODEL = "{modelName}_{rejectedTime}.{suffix}";
+            String APPROVED_MODEL = "{modelName}_{approvedTime}_{algorithm}_{releaseVersion}_{cachedVersion}.{suffix}";
         }
     }
 
