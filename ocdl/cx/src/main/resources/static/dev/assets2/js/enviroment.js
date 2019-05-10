@@ -9,6 +9,7 @@ const enviorment = {
         LOGIN_OAUTH:'/rest/auth/login?oauth',
         LOGOUT: '/rest/auth/logout',
         REGISTER: '/rest/auth/register',
+        USER_INFO_BY_TOKEN: '/rest/auth/me',
 
         /*------ Template service resource---------*/
         TEMPLATE_LIST: '/rest/template/file',

@@ -1,7 +1,7 @@
 var user_name='';
 var project_name='';
 var list;
-var token='';
+var token= GetQueryString("token");
 var id='';
 var profileImage='';
 
@@ -12,6 +12,32 @@ window.onload = function () {
                     dp.SyntaxHighlighter.HighlightAll('code');*/
     initTemplateList();
     initProjectName();
+    initUserInfo();
+    
+    function initUserInfo() {
+        if(token!=''){
+            tradeToken4UsrInfo();
+        }
+    }
+    
+    function tradeToken4UsrInfo() {
+        $.ajax({
+            url: enviorment.API.USER_INFO_BY_TOKEN,
+            contentType: 'application/json',
+            dataType: "json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("AUTH_TOKEN", token);
+            },
+            type: "GET",
+            success: function(data) {
+                ajaxMessageReader(data,function (data) {
+                    afterSignIn(data);
+                })
+            },
+            error: function (data) {
+            }
+        })
+    }
 
     function addSpan(li,text){
         var span_1=document.createElement("span");
@@ -113,7 +139,6 @@ function ajaxMessageReader(response, func){
         alert(response.get("message"));
     }
 
-    /*		func(response);*/
 }
 
 function changeProjectName() {
@@ -141,6 +166,7 @@ function changeProjectName() {
     })
 
 }
+//validation (pending)
 function checkLogin() {
     if($("#username").val()==''){
         alert("please input the username");
@@ -167,37 +193,40 @@ function signIn() {
             }),
         success:function (data) {
             ajaxMessageReader(data,function (data) {
-                token=data['token'];
-                user_name=data['userName'];
+                afterSignIn(data);
 
-                if(data['role']=="MANAGER"){
-                    ShowApprovalPortal("MODEL CENTER","nav-menu");
-                }
-                ShowConfigurationPortal("CONFIGURE","nav-menu");
-
-
-                var status=$("#status");
-                var rescource=$("#rescourse");
-                var username=$("#username");
-
-                username.text(user_name);
-                status.removeClass('status_disconnected');
-                status.addClass('status_connected');
-                rescource.removeClass('status_NoneR');
-                rescource.addClass('status_cpu');
-
-                $("#loginBtnGroup").slideUp();
-                $("#userinfo").slideDown();
-                $("#closeLogin").click();
-
-
-                selectJupyterServer();
             })
         },
 
         error: function (data) {
         }
     })
+}
+
+function afterSignIn(data) {
+    token=data['token'];
+    user_name=data['userName'];
+
+    if(data['role']=="MANAGER"){
+        ShowApprovalPortal("MODEL CENTER","nav-menu");
+    }
+    ShowConfigurationPortal("CONFIGURE","nav-menu");
+
+    var status=$("#status");
+    var rescource=$("#rescourse");
+    var username=$("#username");
+
+    username.text(user_name);
+    status.removeClass('status_disconnected');
+    status.addClass('status_connected');
+    rescource.removeClass('status_NoneR');
+    rescource.addClass('status_cpu');
+
+    $("#loginBtnGroup").slideUp();
+    $("#userinfo").slideDown();
+    $("#closeLogin").click();
+
+    selectJupyterServer();
 }
 
 
@@ -422,4 +451,11 @@ function releaseResource(){
             alert("Fail to release user Resources ");
         }
     })
+}
+
+function GetQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]);
+    return '';
 }
