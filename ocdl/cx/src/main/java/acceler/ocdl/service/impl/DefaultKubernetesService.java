@@ -355,10 +355,10 @@ public class DefaultKubernetesService implements KubernetesService {
 
             //release resource cache
             if(cpuAssigned.containsKey(userId)){
-                cpuAssigned.remove(userId);
+                cpuAssigned.remove(cpuAssigned.get(userId));
             }
             if(gpuAssigned.containsKey(userId)){
-                gpuAssigned.remove(userId);
+                gpuAssigned.remove(gpuAssigned.get(userId));
             }
 
         } catch (KubernetesClientException e) {
