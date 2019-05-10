@@ -2,6 +2,7 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.model.InnerUser;
+import acceler.ocdl.service.KubernetesService;
 import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.SecurityUtil;
 import org.slf4j.Logger;
@@ -29,6 +30,9 @@ public class AuthController {
 
     @Autowired
     private SecurityUtil securityUtil;
+
+    @Autowired
+    private KubernetesService kubernetesService;
 
     @RequestMapping(path = "/login", method = RequestMethod.POST, params = "pwd")
     @ResponseBody
@@ -69,14 +73,26 @@ public class AuthController {
     }
 
     @RequestMapping(path = "/logout")
+    @ResponseBody
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
         if (innerUser != null) {
             securityUtil.releaseToken(innerUser);
             response.setStatus(HttpServletResponse.SC_OK);
+            kubernetesService.releaseDockerContainer(innerUser);
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
+    }
+
+    @RequestMapping(path = "/me", method = RequestMethod.GET)
+    @ResponseBody
+    public Response me(HttpServletRequest request) {
+        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
+        final Response.Builder respBuilder = Response.getBuilder();
+        respBuilder.setData(innerUser);
+        respBuilder.setCode(Response.Code.SUCCESS);
+        return respBuilder.build();
     }
 
     public static class UserCredentials {
