@@ -437,10 +437,10 @@ function signOut() {
 
 function releaseResource(){
     $.ajax({
-        url: enviorment.API.DELETE_SERVER,
+        url: enviorment.API.LOGOUT,
         contentType: 'application/json',
         dataType: "json",
-        type: "DELETE",
+        type: "POST",
         beforeSend: function (xhr) {
             xhr.setRequestHeader("AUTH_TOKEN", token);
         },
