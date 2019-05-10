@@ -11,7 +11,7 @@ import static acceler.ocdl.utils.TimeUtil.convertDateToString;
 public abstract class Model extends Storable implements Serializable {
     private static final AtomicLong modelIdGenerator = new AtomicLong(100000);
 
-    protected long modelId;
+    protected Long modelId;
     protected String name;
     protected Status status;
 
