@@ -1,5 +1,5 @@
 
-.btn {
+.btn2 {
 	border: none;
 	font-family: inherit;
 	font-size: inherit;
@@ -19,7 +19,7 @@
 	transition: all 0.3s;
 }
 
-.btn:after {
+.btn2:after {
 	content: '';
 	position: absolute;
 	z-index: -1;

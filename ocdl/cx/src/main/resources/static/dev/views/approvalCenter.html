@@ -112,11 +112,10 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul id="nav-menu" class="nav navbar-nav navbar-right">
-                <li><a href="#">FILE</a></li>
-                <li><a href="#">MODIFY</a></li>
-                <li><a href="#">TOOLS</a></li>
-                <li><a href="#">TEAM</a></li>
-                <li><a href="#" onclick="forwardTo('/views/configuration.html')">CONFIGURE</a></li>
+                <li><a href="javascript:void(0)" onclick="JumpToWithToken('../index.html')">HOME</a></li>
+                <li><a href="#" onclick="JumpToWithToken('/views/configuration.html')">CONFIGURE</a></li>
+                <li><a href="#about">USER MANAGEMENT</a></li>
+                <li><a href="#contact">CONTACT</a></li>
             </ul>
         </div>
     </div>
@@ -313,6 +312,7 @@
 <script src="../assets2/js/jquery.js"></script>
 <script src="../assets2/js/bootstrap.min.js"></script>
 <script src="../assets2/js/enviroment.js"></script>
+<script src="../assets2/js/commons.js"></script>
 <script src="../assets2/js/approvalCenter.js"></script>
 
 <script language="JavaScript">

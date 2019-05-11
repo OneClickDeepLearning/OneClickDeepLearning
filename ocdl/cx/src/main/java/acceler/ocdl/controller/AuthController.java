@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.QueryParam;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -87,10 +88,15 @@ public class AuthController {
 
     @RequestMapping(path = "/me", method = RequestMethod.GET)
     @ResponseBody
-    public Response me(HttpServletRequest request) {
+    public Response me(HttpServletRequest request, @QueryParam("token")String token) {
         InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
         final Response.Builder respBuilder = Response.getBuilder();
-        respBuilder.setData(innerUser);
+        Map<String, Object> result = new HashMap<>();
+        result.put("userId", innerUser.getUserId());
+        result.put("username",innerUser.getUserName());
+        result.put("token", token);
+        result.put("role", innerUser.getRole());
+        respBuilder.setData(result);
         respBuilder.setCode(Response.Code.SUCCESS);
         return respBuilder.build();
     }

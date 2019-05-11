@@ -22,7 +22,7 @@ window.onload = function () {
     
     function tradeToken4UsrInfo() {
         $.ajax({
-            url: enviorment.API.USER_INFO_BY_TOKEN,
+            url: enviorment.API.USER_INFO_BY_TOKEN+'?token='+token,
             contentType: 'application/json',
             dataType: "json",
             beforeSend: function (xhr) {
@@ -204,7 +204,7 @@ function signIn() {
 }
 
 function afterSignIn(data) {
-    token=data['token'];
+    token = data['token'];
     user_name=data['userName'];
 
     if(data['role']=="MANAGER"){
@@ -244,9 +244,7 @@ function getCode(name,type) {
                 dp.SyntaxHighlighter.ClipboardSwf = 'assets2/js/clipboard.swf';
                 dp.SyntaxHighlighter.HighlightAll('code');
                 jsAnimateMenu();
-                if(document.getElementById("card").className.search("flip") === -1){
-                    flipPanel();
-                }
+                $("#code-template-tab").click();
             })
         },
 
@@ -301,11 +299,8 @@ function selectJupyterServer(){
             $("#resourceLoadingBar").hide();
             $("#jupyterFrame").show();
             ajaxMessageReader(data,function (data) {
-                /*				    if(data["url"].contains(".")){*/
                 $('#jupyterFrame').attr('src', "http://"+data["url"]+"/notebooks/MySpace");
-                /*                    }else{
-                                        alert(data['url']);
-                                    }*/
+                $('#IDE-tab').click();
             })
         },
         error: function () {
@@ -345,7 +340,7 @@ $('#projectName').click(function(){
 
 });
 
-var animation=0;
+/*var animation=0;
 function loadAnimationBlue() {
     if(animation==1){
         $("#card front").removeClass("green");
@@ -364,7 +359,7 @@ function cancleAnimation() {
     animation=0;
     $("#card front").removeClass("blue");
     $("#card front").removeClass("green");
-}
+}*/
 
 function onSignIn(googleUser) {
     // Useful data for your client-side scripts:
@@ -414,8 +409,6 @@ function onSignIn(googleUser) {
             card.removeClass('unlog');
 
             $("#loginBtnGroup").slideUp();
-    /*        $("#signInBtn").addClass("hide");
-            $("#signUpBtn").addClass("hide");*/
             $("#closeLogin").click();
         },
         error: function () {

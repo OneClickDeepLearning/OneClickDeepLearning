@@ -1,5 +1,5 @@
 
-var token = GetQueryString("token");
+
 
 var salesData = [
     {label: "Waiting", value: 3, color: "#3366CC"},
@@ -16,18 +16,15 @@ svg.append("g").attr("id", "salesDonut");
 Donut3D.draw("salesDonut", randomData(), 150, 150, 130, 100, 30, 0.4);
 
 Donut3D.draw("salesDonut", salesData, 150, 150, 130, 100, 30, 0.4);
+
+
+token = GetQueryString("token");
+
+initProjectName();
+initUserInfo();
+
 initModelTypeList();
 
-
-
-
-
-function GetQueryString(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-    var r = window.location.search.substr(1).match(reg);
-    if (r != null) return unescape(r[2]);
-    return '';
-}
 
 function initApproralCenterInfo() {
     $("#tableNew .data").remove();
@@ -155,15 +152,13 @@ function UpdateDecision(id,status,origin) {
     }
 
     $.ajax({
-        url: enviorment.API.MODEL+"/"+id+"",
+        url: enviorment.API.MODEL+"?fromStatus="+origin+"&toStatus="+decision,
         contentType: 'application/json',
         dataType: "json",
         data:
             JSON.stringify({
                 modelId: id,
                 modelType: modelType,
-                destStatus:decision,
-                preStatus:origin,
                 bigVersion:bigVersion
             }),
         type: "PUT",
