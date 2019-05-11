@@ -152,7 +152,7 @@ function UpdateDecision(id,status,origin) {
     }
 
     $.ajax({
-        url: enviorment.API.MODEL+"/"+id+"?fromStatus="+origin+"&toStatus="+decision,
+        url: enviorment.API.MODEL+"/"+id+"?fromStatus="+origin+"&toStatus="+decision+"&upgradeVersion="+bigVersion,
         contentType: 'application/json',
         dataType: "json",
         data:
@@ -160,7 +160,6 @@ function UpdateDecision(id,status,origin) {
                 modelId: id,
                 status: origin,
                 modelType: modelType,
-                version:bigVersion
             }),
         type: "POST",
         timeout: 0,
