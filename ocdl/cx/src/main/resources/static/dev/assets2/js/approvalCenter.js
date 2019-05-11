@@ -159,7 +159,7 @@ function UpdateDecision(id,status,origin) {
             JSON.stringify({
                 modelId: id,
                 status: origin,
-                modelType: modelType,
+                algorithm: modelType
             }),
         type: "POST",
         timeout: 0,
