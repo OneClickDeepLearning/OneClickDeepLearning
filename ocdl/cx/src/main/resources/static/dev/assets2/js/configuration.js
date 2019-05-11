@@ -1,8 +1,13 @@
-var token = GetQueryString("token");
+token = GetQueryString("token");
 initConfigInfo();
+initUserInfo();
 
 
-
+function initUserInfo() {
+    if(token!=''){
+        tradeToken4UsrInfo();
+    }
+}
 function initConfigInfo() {
     $.ajax({
         url: enviorment.API.PROJECT,
@@ -26,7 +31,7 @@ function initConfigInfo() {
                 k8Url.val(data['k8Url']);
                 git.val(data['gitPath']);
                 templatePath.val(data['templatePath']);
-                projectName2.text(data['projectName']);
+                projectName2.text("Project:"+data['projectName']);
                 suffix.val(data['suffix']);
                 algorithm.val(data['algorithm']);
 
@@ -74,13 +79,5 @@ function ajaxMessageReader(response, func){
     }
 }
 
-function GetQueryString(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-    var r = window.location.search.substr(1).match(reg);
-    if (r != null) return unescape(r[2]);
-    return '';
-}
 
-function JumpTo(path){
-    window.location.href = path+"?token="+token;
-}
+

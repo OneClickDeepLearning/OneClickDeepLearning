@@ -18,7 +18,7 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="assets2/css/templatemo-style.css">
     <link rel="stylesheet" href="assets2/css/SwitchServer.css">
-    <!--    <link href="assets2/css/flipycard.css" rel="stylesheet">-->
+
     <link href="assets2/css/SyntaxHighlighter.css" type="text/css" rel="stylesheet">
     <link href="assets2/css/menu.css" rel="stylesheet">
     <link href="assets2/css/infoStatus.css" rel="stylesheet">
@@ -256,11 +256,11 @@
                     <!-- Top Navigation -->
                     <div id="loginBtnGroup" class="color-1">
                         <p style="text-align: right">
-                            <button class="btn btn-1 btn-1e" id="signUpBtn" data-toggle="modal"
+                            <button class="btn2 btn-1 btn-1e" id="signUpBtn" data-toggle="modal"
                                     data-target="#RegistrationModal" style="color: #47C6F8; border-color: #47C6F8;">
                                 SignUp
                             </button>
-                            <button class="btn btn-1 btn-1e" id="signInBtn" href="#" class="nav-link"
+                            <button class="btn2 btn-1 btn-1e" id="signInBtn" href="#" class="nav-link"
                                     data-toggle="modal" data-target="#LogInModal">SignIn
                             </button>
                         </p>
@@ -269,7 +269,7 @@
                         <p style="text-align: right">
                             <img id="profileImage" src="" style="height: 30px;width: 30px;" class="hide">
                             <label id="username" style="color: #47C6F8"></label>
-                            <button class="btn btn-1 btn-1e" onclick="signOut()">Logout</button>
+                            <button class="btn2 btn-1 btn-1e" onclick="signOut()">Logout</button>
                         </p>
                     </div>
                 </div><!-- /container -->
@@ -367,22 +367,22 @@
                 <div class="tab" role="tabpanel">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#Section0" aria-controls="home" role="tab"
+                        <li role="presentation" class="active"><a id="welcome-tab" href="#Section0" aria-controls="home" role="tab"
                                                                   data-toggle="tab"><i class="fa fa-home"></i><span>Welcome</span></a>
                         </li>
-                        <li role="presentation"><a href="#Section1" aria-controls="home" role="tab"
+                        <li role="presentation"><a id="IDE-tab" href="#Section1" aria-controls="home" role="tab"
                                                    data-toggle="tab"><i
                                 class="fa fa-home"></i><span>IDE (Jupyter)</span></a>
                         </li>
-                        <li role="presentation"><a href="#Section2" aria-controls="profile" role="tab"
+                        <li role="presentation"><a id="file-system-tab" href="#Section2" aria-controls="profile" role="tab"
                                                    data-toggle="tab"><i
                                 class="fa fa-globe"></i><span>File System</span></a></li>
-                        <li role="presentation"><a href="#Section3" aria-controls="messages" role="tab"
+                        <li role="presentation"><a id="code-template-tab" href="#Section3" aria-controls="messages" role="tab"
                                                    data-toggle="tab"><i
                                 class="fa fa-briefcase"></i><span>Code Templates</span></a></li>
                     </ul>
                     <!-- Tab panes -->
-                    <div class="tab-content tabs" style="height: 600px; box-shadow: 0 0 10px rgba(0,0,0,1);">
+                    <div class="tab-content tabs" style="height: 600px; box-shadow: 0 0 10px rgba(0,0,0,1); overflow:auto">
 
                         <div role="tabpanel" class="tab-pane fade in active" id="Section0">
                             <div class="cover" style="overflow:auto;">
