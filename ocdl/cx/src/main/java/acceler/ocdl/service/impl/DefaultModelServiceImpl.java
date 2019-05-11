@@ -51,12 +51,13 @@ public class DefaultModelServiceImpl implements ModelService {
                     if (!f.isDirectory() && isModelFile(suffixes, f.getName())) {
                         Long modelId = Model.generateModelId();
 
-                        String suffix = f.getName().substring(f.getName().lastIndexOf("."));
+                        String suffix = f.getName().substring(f.getName().lastIndexOf(".")+1);
 
                         String stagedFilePath = CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE +
                                 CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{modelId}", modelId.toString()).replace("{suffix}", suffix);
 
-                        FileUtils.moveFile(f, new File(stagedFilePath));
+                        File newStagedFilePath = new File(stagedFilePath);
+                        FileUtils.moveFile(f, newStagedFilePath);
                         persistNewModel(f, modelId);
                     }
                 }
