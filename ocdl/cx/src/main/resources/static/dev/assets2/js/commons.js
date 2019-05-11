@@ -95,6 +95,11 @@ function initProjectName() {
 function JumpToWithToken(path){
     window.location.href = path+"?token="+token;
 }
+function initUserInfo() {
+    if(token!=''){
+        tradeToken4UsrInfo();
+    }
+}
 
 function GetQueryString(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
