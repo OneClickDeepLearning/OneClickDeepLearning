@@ -232,6 +232,7 @@ public class Algorithm extends Storable implements Serializable {
         } else {
             this.currentCachedVersion = this.cachedVersionGenerator.getAndIncrement();
         }
+        logger.debug("======" + model.toString());
 
         return model.convertToApprovedModel(this.currentCachedVersion, this.currentReleasedVersion);
     }
