@@ -57,8 +57,8 @@ public class DefaultModelServiceImpl implements ModelService {
                                 CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{modelId}", modelId.toString()).replace("{suffix}", suffix);
 
                         FileUtils.moveFile(f, new File(stagedFilePath));
+                        persistNewModel(f, modelId);
                     }
-                    persistNewModel(f);
                 }
             } catch (IOException e) {
                 log.error(String.format("fail to create new model, because %s failed to move to stage space", files[current].getName()));
@@ -69,8 +69,9 @@ public class DefaultModelServiceImpl implements ModelService {
         }
     }
 
-    private void persistNewModel(File modelFile) {
+    private void persistNewModel(File modelFile, Long modelId) {
         NewModel model = new NewModel();
+        model.setModelId(modelId);
         model.setName(modelFile.getName());
         model.setCommitTime(TimeUtil.currentTime());
         NewModel.addToStorage(model);
