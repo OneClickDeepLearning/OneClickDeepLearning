@@ -421,7 +421,7 @@ function releaseResource(){
         success: function(data){
         },
         error: function () {
-            alert("Fail to release user Resources ");
+            alert("User Resources Released");
         }
     })
 }

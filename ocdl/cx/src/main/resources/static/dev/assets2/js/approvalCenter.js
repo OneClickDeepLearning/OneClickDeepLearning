@@ -53,7 +53,7 @@ function initApproralCenterInfo() {
 
                 <!-- waiting list -->
                 for (var i = 0; i < data["newModels"].length; i++) {
-                    var tr = "<tr class='data'><td>" + data["newModels"][i].modelName + "</td><td>" + data["newModels"][i].project + "</td><td>" +
+                    var tr = "<tr class='data'><td>" + data["newModels"][i].modelName + "</td><td>" +
                         "<select id=\"modelType" + data["newModels"][i].modelId+"\" >" +
                         "</select>" +
                         "</td> <td>" +
@@ -89,7 +89,7 @@ function initApproralCenterInfo() {
                     var tr = "<tr class='data'><td>" + data["approvalModels"][i].modelName + "</td><td>" + data["approvalModels"][i].project + "</td><td>" + data["approvalModels"][i].modelType + "</td> <td>" + data["approvalModels"][i].version + "</td>  " +
                         "<td>\n" +
                         " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
-                        "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["approvalModels"][i].modelId + "\",-1,\"approval\")'>Undo</button>" +
+                        "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["approvalModels"][i].modelId + "\",-1,\"approved\")'>Undo</button>" +
                         "</div>" +
                         "</td></tr>";
                     $("#tableApproval").append(tr);
@@ -100,7 +100,7 @@ function initApproralCenterInfo() {
                     var tr = "<tr class='data'><td>" + data["rejectedModels"][i].modelName + "</td><td>" + data["rejectedModels"][i].project + "</td>" +
                         "<td>\n" +
                         " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
-                        "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["rejectedModels"][i].modelId + "\",-1,\"reject\")'>Undo</button>" +
+                        "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["rejectedModels"][i].modelId + "\",-1,\"rejected\")'>Undo</button>" +
                         "</div>" +
                         "</td></tr>";
                     $("#tableRejected").append(tr);
@@ -140,9 +140,9 @@ function UpdateDecision(id,status,origin) {
     var modelType=-1;
     var bigVersion=-1;
     if(status==0){
-        decision="reject";
+        decision="rejected";
     }else if(status==1){
-        decision="approval";
+        decision="approved";
         var indexModel=document.getElementById("modelType"+id).selectedIndex;
         modelType=document.getElementById("modelType"+id).options[indexModel].value;
         var indexVersion=document.getElementById("version"+id).selectedIndex;
