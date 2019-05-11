@@ -160,7 +160,7 @@ function UpdateDecision(id,status,origin) {
                 modelId: id,
                 status: origin,
                 modelType: modelType,
-                bigVersion:bigVersion
+                version:bigVersion
             }),
         type: "POST",
         timeout: 0,
