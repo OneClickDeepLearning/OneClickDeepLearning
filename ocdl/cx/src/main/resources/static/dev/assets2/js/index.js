@@ -103,6 +103,16 @@ window.onload = function () {
     }
 }
 
+/*
+	$('#serverCtl').on('click', function(e){
+		if($("#serverCtl").hasClass('toggle--on')){
+			selectJupyterServer(0); //Connect CPU Server
+		}else {
+			selectJupyterServer(1); //Connect GPU Server
+		}
+
+	});*/
+
 function ShowApprovalPortal(content, parent) {
     var li_1=document.createElement("li");
     var a=document.createElement("a");
@@ -306,6 +316,9 @@ function selectJupyterServer(){
 }
 
 
+function forwardTo(url){
+    window.top.location.href=url;
+}
 
 $('#projectName').click(function(){
     var td=$(this); //为后面文本框变成文本铺垫
@@ -326,7 +339,6 @@ $('#projectName').click(function(){
     }); //表单失去焦点文本框变成文本
 
 });
-
 
 
 function onSignIn(googleUser) {
