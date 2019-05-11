@@ -74,6 +74,10 @@ public final class ModelController {
         logger.debug("enter the get model list funciton +++++++++++++++++");
         Response.Builder responseBuilder = getBuilder();
 
+        logger.debug("from: " + from);
+        logger.debug("to: " + to);
+        logger.debug(Model.Status.NEW.name());
+
         if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.APPROVED.name())) {
             modelService.approveModel((NewModel) modelDto.convertToModel(),modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(modelDto.getVersion()));
         } else if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.REJECTED.name())) {
