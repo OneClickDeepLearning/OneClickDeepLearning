@@ -140,11 +140,11 @@ public class DefaultModelServiceImpl implements ModelService {
 
     @Override
     public void undo(Model model) {
-        if (model instanceof ApprovedModel && Algorithm.existApprovalModel((ApprovedModel) model)) {
+        if (model instanceof ApprovedModel && !Algorithm.existApprovalModel((ApprovedModel) model)) {
             throw new NotFoundException("model not found");
         }
 
-        if (model instanceof RejectedModel && RejectedModel.existRejectedModel((RejectedModel) model)) {
+        if (model instanceof RejectedModel && !RejectedModel.existRejectedModel((RejectedModel) model)) {
             throw new NotFoundException("model not found");
         }
 

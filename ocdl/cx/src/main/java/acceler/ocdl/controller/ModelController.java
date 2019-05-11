@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.QueryParam;
 import java.util.*;
 
 import static acceler.ocdl.dto.Response.getBuilder;
@@ -81,7 +80,7 @@ public final class ModelController {
             modelService.rejectModel((NewModel) model);
         } else if (from.toUpperCase().equals(Model.Status.REJECTED.name()) && to.toUpperCase().equals(Model.Status.NEW.name())) {
             //TODO refactory
-            Model model = RejectedModel.getRejectedModelById(Long.parseLong(modelDto.getModelId()))
+            RejectedModel model = RejectedModel.getRejectedModelById(Long.parseLong(modelDto.getModelId()))
                     .orElseThrow(()-> new NotFoundException("Fail to found model"));
             modelService.undo(model);
         } else if (from.toUpperCase().equals(Model.Status.APPROVED.name()) && to.toUpperCase().equals(Model.Status.NEW.name())) {
