@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import java.util.*;
 
@@ -68,8 +69,7 @@ public final class ModelController {
      */
     @ResponseBody
     @RequestMapping(path="/{modelId}", method = RequestMethod.POST)
-    public final Response pushDecision(@RequestBody ModelDto modelDto,
-                                       @QueryParam("fromStatus")String from, @QueryParam("toStatus")String to) {
+    public final Response pushDecision(@RequestBody ModelDto modelDto, @RequestParam("fromStatus") String from, @RequestParam("toStatus")String to) {
 
         logger.debug("enter the get model list funciton +++++++++++++++++");
         Response.Builder responseBuilder = getBuilder();
