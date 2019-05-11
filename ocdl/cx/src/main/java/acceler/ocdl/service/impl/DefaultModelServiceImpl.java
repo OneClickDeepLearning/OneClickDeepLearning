@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Service
@@ -84,12 +85,23 @@ public class DefaultModelServiceImpl implements ModelService {
         NewModel.removeFromStorage(model.getModelId());
     }
 
-    private void pushFileToRemoteGitRepo(File workDir) {
+    private void cleanGitRepo(File workDir) {
         StringBuilder stdErrOut = new StringBuilder();
         StringBuilder stdOut = new StringBuilder();
 
         commandHelper.runCommand(workDir, "git pull", stdOut, stdErrOut);
         throwExceptionIfError(stdErrOut);
+
+        try{
+            FileUtils.cleanDirectory(workDir);
+        } catch (IOException e) {
+            throw new OcdlException("Git Repo cannot be clean.");
+        }
+    }
+
+    private void pushFileToRemoteGitRepo(File workDir) {
+        StringBuilder stdErrOut = new StringBuilder();
+        StringBuilder stdOut = new StringBuilder();
 
         commandHelper.runCommand(workDir, "git add --all", stdOut, stdErrOut);
         throwExceptionIfError(stdErrOut);
@@ -155,9 +167,44 @@ public class DefaultModelServiceImpl implements ModelService {
     @Override
     public void pushModelToGit(Long modelId) {
         ApprovedModel approvedModel = Algorithm.getApprovalModelById(modelId).orElseThrow(() -> (new NotFoundException("Not Found model:" + modelId)));
-        //TODO: move file to git repo
-        //TODO: read File space from Project.gitrepo
-        pushFileToRemoteGitRepo(new File(Project.getGitRepoURIInStorage()));
+
+        //TODO: using git local path
+        //clean the git repo first
+        String gitRepoPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.GIT_REPO_SPACE, "1/models").toString();
+
+        //move file to git repo
+        File modelFile = getModelFileInStage(modelId);
+        Optional.ofNullable(modelFile).ifPresent(f -> {
+            String targetPath = Paths.get(gitRepoPath,
+                    CONSTANTS.NAME_FORMAT.GIT_MODEL.replace("algorithm", Algorithm.getAlgorithmOfApprovedModel(approvedModel).getAlgorithmName())
+                            .replace("release_version", approvedModel.getReleasedVersion().toString())
+                            .replace("cached_version", approvedModel.getCachedVersion().toString())
+                            .replace("suffix", f.getName().substring(f.getName().lastIndexOf("."))))
+                    .toString();
+            try {
+                FileUtils.moveFile(f, new File(targetPath));
+            } catch (IOException e) {
+                throw new OcdlException("Fail to move file to Git repo");
+            }
+        });
+        
+        pushFileToRemoteGitRepo(new File(gitRepoPath));
+    }
+
+    /**
+     * Find the exact model file in stage
+     * @param modelId modelId, as well ad the file name
+     * @return
+     */
+    private File getModelFileInStage(Long modelId) {
+
+        File stage = new File(CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE);
+        for (File f : stage.listFiles()) {
+            if (!f.isDirectory() && f.getName().startsWith(modelId.toString())) {
+                return f;
+            }
+        }
+        return null;
     }
 
     @Override
