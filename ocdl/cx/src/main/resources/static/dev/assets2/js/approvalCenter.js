@@ -138,7 +138,7 @@ function initModelTypeList() {
 function UpdateDecision(id,status,origin) {
     var decision='';
     var modelType=-1;
-    var bigVersion=-1;
+    var bigVersion='NONE';
     if(status==0){
         decision="rejected";
     }else if(status==1){
@@ -146,7 +146,7 @@ function UpdateDecision(id,status,origin) {
         var indexModel=document.getElementById("modelType"+id).selectedIndex;
         modelType=document.getElementById("modelType"+id).options[indexModel].value;
         var indexVersion=document.getElementById("version"+id).selectedIndex;
-        bigVersion = parseInt(document.getElementById("version"+id).options[indexVersion].value);
+        bigVersion = document.getElementById("version"+id).options[indexVersion].value;
     }else if(status==-1){
         decision="new";
     }
@@ -159,7 +159,7 @@ function UpdateDecision(id,status,origin) {
             JSON.stringify({
                 modelId: id,
                 status: origin,
-                modelType: modelType,
+                algorithm: modelType
             }),
         type: "POST",
         timeout: 0,
