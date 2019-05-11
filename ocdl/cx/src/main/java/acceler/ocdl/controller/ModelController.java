@@ -66,6 +66,7 @@ public final class ModelController {
     public final Response pushDecision(@RequestBody ModelDto modelDto, HttpServletRequest request) {
         String from = request.getParameter("fromStatus");
         String to = request.getParameter("toStatus");
+        String upgradeVersion = request.getParameter("upgradeVersion");
 
         Response.Builder responseBuilder = getBuilder();
 
@@ -73,7 +74,7 @@ public final class ModelController {
             Model model = NewModel.getNewModelById(Long.parseLong(modelDto.getModelId()))
                     .orElseThrow(()-> new NotFoundException("Fail to found model"));
 
-            modelService.approveModel((NewModel) model,modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(modelDto.getVersion()));
+            modelService.approveModel((NewModel) model,modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(upgradeVersion));
         } else if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.REJECTED.name())) {
             Model model = NewModel.getNewModelById(Long.parseLong(modelDto.getModelId()))
                     .orElseThrow(()-> new NotFoundException("Fail to found model"));
