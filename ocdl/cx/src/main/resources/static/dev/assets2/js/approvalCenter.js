@@ -58,10 +58,10 @@ function initApproralCenterInfo() {
                         "</select>" +
                         "</td> <td>" +
                         "<select id=\"version" + data["newModels"][i].modelId + "\" style=\"color: black;\">\n" +
-                        "<option value=\"2\">\n" +
+                        "<option value=\"CACHED_VERSION\">\n" +
                         "Small Update\n" +
                         "</option>\n" +
-                        "<option value=\"1\">\n" +
+                        "<option value=\"RELEASE_VERSION\">\n" +
                         "Large Update\n" +
                         "</option>\n" +
                         "</select>" +
