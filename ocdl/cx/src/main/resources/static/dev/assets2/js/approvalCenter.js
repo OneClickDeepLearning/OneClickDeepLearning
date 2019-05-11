@@ -152,7 +152,7 @@ function UpdateDecision(id,status,origin) {
     }
 
     $.ajax({
-        url: enviorment.API.MODEL+"?fromStatus="+origin+"&toStatus="+decision,
+        url: enviorment.API.MODEL+"/"+id+"?fromStatus="+origin+"&toStatus="+decision,
         contentType: 'application/json',
         dataType: "json",
         data:
@@ -161,7 +161,7 @@ function UpdateDecision(id,status,origin) {
                 modelType: modelType,
                 bigVersion:bigVersion
             }),
-        type: "PUT",
+        type: "POST",
         timeout: 0,
         beforeSend: function (xhr) {
             xhr.setRequestHeader("AUTH_TOKEN", token);
