@@ -3,11 +3,7 @@ initConfigInfo();
 initUserInfo();
 
 
-function initUserInfo() {
-    if(token!=''){
-        tradeToken4UsrInfo();
-    }
-}
+
 function initConfigInfo() {
     $.ajax({
         url: enviorment.API.PROJECT,
