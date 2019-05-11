@@ -80,7 +80,6 @@ public final class ModelController {
                     .orElseThrow(()-> new NotFoundException("Fail to found model"));
             modelService.rejectModel((NewModel) model);
         } else if (from.toUpperCase().equals(Model.Status.REJECTED.name()) && to.toUpperCase().equals(Model.Status.NEW.name())) {
-            //TODO refactory
             RejectedModel model = RejectedModel.getRejectedModelById(Long.parseLong(modelDto.getModelId()))
                     .orElseThrow(()-> new NotFoundException("Fail to found model"));
             modelService.undo(model);
