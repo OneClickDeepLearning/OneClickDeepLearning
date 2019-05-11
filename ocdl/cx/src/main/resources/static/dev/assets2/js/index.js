@@ -103,16 +103,6 @@ window.onload = function () {
     }
 }
 
-/*
-	$('#serverCtl').on('click', function(e){
-		if($("#serverCtl").hasClass('toggle--on')){
-			selectJupyterServer(0); //Connect CPU Server
-		}else {
-			selectJupyterServer(1); //Connect GPU Server
-		}
-
-	});*/
-
 function ShowApprovalPortal(content, parent) {
     var li_1=document.createElement("li");
     var a=document.createElement("a");
@@ -316,9 +306,6 @@ function selectJupyterServer(){
 }
 
 
-function forwardTo(url){
-    window.top.location.href=url;
-}
 
 $('#projectName').click(function(){
     var td=$(this); //为后面文本框变成文本铺垫
@@ -340,26 +327,7 @@ $('#projectName').click(function(){
 
 });
 
-/*var animation=0;
-function loadAnimationBlue() {
-    if(animation==1){
-        $("#card front").removeClass("green");
-        $("#card front").addClass("blue");
-        setTimeout(loadAnimationGreen(),1000);
-    }
-}
-function loadAnimationGreen(){
-    if(animation==1) {
-        $("#card front").removeClass("blue");
-        $("#card front").addClass("green");
-        setTimeout(loadAnimationBlue(), 1000);
-    }
-}
-function cancleAnimation() {
-    animation=0;
-    $("#card front").removeClass("blue");
-    $("#card front").removeClass("green");
-}*/
+
 
 function onSignIn(googleUser) {
     // Useful data for your client-side scripts:
