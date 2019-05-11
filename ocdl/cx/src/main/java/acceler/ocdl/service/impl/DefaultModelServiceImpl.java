@@ -62,6 +62,7 @@ public class DefaultModelServiceImpl implements ModelService {
                     }
                 }
             } catch (IOException e) {
+                e.printStackTrace();
                 log.error(String.format("fail to create new model, because %s failed to move to stage space", files[current].getName()));
                 throw new OcdlException(String.format("fail to create new model, because %s failed to move to stage space", files[current].getName()));
             }
