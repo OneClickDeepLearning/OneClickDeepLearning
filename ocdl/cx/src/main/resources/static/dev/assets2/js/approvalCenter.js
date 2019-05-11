@@ -158,6 +158,7 @@ function UpdateDecision(id,status,origin) {
         data:
             JSON.stringify({
                 modelId: id,
+                status: origin,
                 modelType: modelType,
                 bigVersion:bigVersion
             }),
