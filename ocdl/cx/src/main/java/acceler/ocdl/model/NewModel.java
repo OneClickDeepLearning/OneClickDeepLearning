@@ -112,7 +112,7 @@ public class NewModel extends Model {
         this.status = Status.NEW;
     }
 
-    public ApprovedModel convertToApprovedModel(Long cachedVersion, Long releaseVersion) {
+    public ApprovedModel convertToApprovedModel(long cachedVersion, long releaseVersion) {
         ApprovedModel model = new ApprovedModel();
 
         model.setModelId(this.modelId);
