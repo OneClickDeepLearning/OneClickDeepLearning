@@ -152,15 +152,13 @@ function UpdateDecision(id,status,origin) {
     }
 
     $.ajax({
-        url: enviorment.API.MODEL+"/"+id+"",
+        url: enviorment.API.MODEL+"?fromStatus="+origin+"&toStatus="+decision,
         contentType: 'application/json',
         dataType: "json",
         data:
             JSON.stringify({
                 modelId: id,
                 modelType: modelType,
-                destStatus:decision,
-                preStatus:origin,
                 bigVersion:bigVersion
             }),
         type: "PUT",
