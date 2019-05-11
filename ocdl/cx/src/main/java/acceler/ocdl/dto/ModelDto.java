@@ -86,16 +86,16 @@ public class ModelDto implements Serializable {
         Model model;
 
         try {
-            if (this.status.equals(Model.Status.NEW.toString())) {
+            if (this.status.toUpperCase().equals(Model.Status.NEW.toString())) {
                 model = new NewModel();
                 model.setModelId(Long.parseLong(this.modelId));
                 model.setName(this.modelName);
                 ((NewModel) model).setCommitTime(TimeUtil.convertStringToDate(this.timeStamp));
-            } else if (this.status.equals(Model.Status.REJECTED.toString())) {
+            } else if (this.status.toUpperCase().equals(Model.Status.REJECTED.toString())) {
                 model = new RejectedModel();
                 model.setName(this.modelName);
                 ((RejectedModel) model).setRejectedTime(TimeUtil.convertStringToDate(this.timeStamp));
-            } else if (this.status.equals(Model.Status.APPROVED.toString())) {
+            } else if (this.status.toUpperCase().equals(Model.Status.APPROVED.toString())) {
                 model = new ApprovedModel();
                 model.setName(this.modelName);
                 ((ApprovedModel) model).setApprovedTime(TimeUtil.convertStringToDate(this.timeStamp));
