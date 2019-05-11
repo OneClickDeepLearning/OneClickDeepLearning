@@ -67,7 +67,7 @@ public final class ModelController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(path = "/{status}",  method = RequestMethod.PUT)
+    @RequestMapping(method = RequestMethod.PUT)
     public final Response pushDecision(@RequestBody ModelDto modelDto,
                                        @QueryParam("fromStatus")String from, @QueryParam("toStatus")String to) {
 
