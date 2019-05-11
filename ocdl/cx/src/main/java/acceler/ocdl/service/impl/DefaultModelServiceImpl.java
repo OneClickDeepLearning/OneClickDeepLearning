@@ -187,7 +187,7 @@ public class DefaultModelServiceImpl implements ModelService {
                 throw new OcdlException("Fail to move file to Git repo");
             }
         });
-        
+
         pushFileToRemoteGitRepo(new File(gitRepoPath));
     }
 
