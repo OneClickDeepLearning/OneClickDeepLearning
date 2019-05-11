@@ -27,7 +27,7 @@ function tradeToken4UsrInfo() {
 
 function afterSignIn(data) {
     token= data['token'];
-    user_name=data['userName'];
+    user_name=data['username'];
 
     var status=$("#status");
     var rescource=$("#rescourse");

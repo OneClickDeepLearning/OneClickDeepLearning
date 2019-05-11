@@ -8,110 +8,100 @@ var profileImage='';
 
 
 window.onload = function () {
-    /*				dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
-                    dp.SyntaxHighlighter.HighlightAll('code');*/
     initTemplateList();
     initProjectName();
     initUserInfo();
-    
-    function initUserInfo() {
-        if(token!=''){
-            tradeToken4UsrInfo();
-        }
-    }
-    
-    function tradeToken4UsrInfo() {
-        $.ajax({
-            url: enviorment.API.USER_INFO_BY_TOKEN+'?token='+token,
-            contentType: 'application/json',
-            dataType: "json",
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("AUTH_TOKEN", token);
-            },
-            type: "GET",
-            success: function(data) {
-                ajaxMessageReader(data,function (data) {
-                    afterSignIn(data);
-                })
-            },
-            error: function (data) {
-            }
-        })
-    }
+}
 
-    function addSpan(li,text){
-        var span_1=document.createElement("span");
-        span_1.innerHTML=text;
-        li.appendChild(span_1);
-    }
-    function addLi(content, parent){
-        var li_1=document.createElement("li");
-        li_1.setAttribute("class","d-secondNav s-secondNav");
-        li_1.setAttribute("onclick","javascript:getCode('"+content+"','"+parent+"');");
-        addSpan(li_1,content);
-        document.getElementById(parent).appendChild(li_1);
-    }
-
-
-    function initProjectName() {
-        $.ajax({
-            url: enviorment.API.PROJECT,
-            contentType: 'application/json',
-            dataType: "json",
-            type: "GET",
-            success: function(data) {
-                ajaxMessageReader(data,function (data) {
-                    var projectName=$("#projectName");
-                    projectName.text("Project: "+data.projectName);
-                })
-            },
-            error: function (data) {
-            }
-        })
-    }
-
-    function initTemplateList(){
-        $.ajax({
-            url: enviorment.API.TEMPLATE_LIST,
-            contentType: 'application/json',
-            dataType: "json",
-            type: "GET",
-            success:function (data) {
-                ajaxMessageReader(data,function (data) {
-                    var layerList=data[0];
-                    var blockList=data[1];
-                    var networksList=data[2];
-                    var frameworks = data[3];
-                    for(var i=0; i<layerList.length;i++){
-                        addLi(layerList[i],"Layers");
-                    }
-                    for(var i=0; i<blockList.length;i++){
-                        addLi(blockList[i],"Blocks");
-                    }
-                    for(var i=0; i<networksList.length;i++){
-                        addLi(networksList[i],"Networks");
-                    }
-                    for(var i=0; i<frameworks.length;i++){
-                        addLi(frameworks[i],"Frameworks");
-                    }
-                })
-            },
-
-            error: function (data) {
-            }
-        })
+function initUserInfo() {
+    if(token!=''){
+        tradeToken4UsrInfo();
     }
 }
 
-/*
-	$('#serverCtl').on('click', function(e){
-		if($("#serverCtl").hasClass('toggle--on')){
-			selectJupyterServer(0); //Connect CPU Server
-		}else {
-			selectJupyterServer(1); //Connect GPU Server
-		}
+function tradeToken4UsrInfo() {
+    $.ajax({
+        url: enviorment.API.USER_INFO_BY_TOKEN+'?token='+token,
+        contentType: 'application/json',
+        dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("AUTH_TOKEN", token);
+        },
+        type: "GET",
+        success: function(data) {
+            ajaxMessageReader(data,function (data) {
+                afterSignIn(data);
+            })
+        },
+        error: function (data) {
+        }
+    })
+}
 
-	});*/
+function addSpan(li,text){
+    var span_1=document.createElement("span");
+    span_1.innerHTML=text;
+    li.appendChild(span_1);
+}
+function addLi(content, parent){
+    var li_1=document.createElement("li");
+    li_1.setAttribute("class","d-secondNav s-secondNav");
+    li_1.setAttribute("onclick","javascript:getCode('"+content+"','"+parent+"');");
+    addSpan(li_1,content);
+    document.getElementById(parent).appendChild(li_1);
+}
+
+
+function initProjectName() {
+    $.ajax({
+        url: enviorment.API.PROJECT,
+        contentType: 'application/json',
+        dataType: "json",
+        type: "GET",
+        success: function(data) {
+            ajaxMessageReader(data,function (data) {
+                var projectName=$("#projectName");
+                projectName.text("Project: "+data.projectName);
+            })
+        },
+        error: function (data) {
+        }
+    })
+}
+
+function initTemplateList(){
+    $.ajax({
+        url: enviorment.API.TEMPLATE_LIST,
+        contentType: 'application/json',
+        dataType: "json",
+        type: "GET",
+        success:function (data) {
+            ajaxMessageReader(data,function (data) {
+                var layerList=data[0];
+                var blockList=data[1];
+                var networksList=data[2];
+                var frameworks = data[3];
+                for(var i=0; i<layerList.length;i++){
+                    addLi(layerList[i],"Layers");
+                }
+                for(var i=0; i<blockList.length;i++){
+                    addLi(blockList[i],"Blocks");
+                }
+                for(var i=0; i<networksList.length;i++){
+                    addLi(networksList[i],"Networks");
+                }
+                for(var i=0; i<frameworks.length;i++){
+                    addLi(frameworks[i],"Frameworks");
+                }
+            })
+        },
+
+        error: function (data) {
+        }
+    })
+}
+
+
 
 function ShowApprovalPortal(content, parent) {
     var li_1=document.createElement("li");
@@ -193,8 +183,8 @@ function signIn() {
             }),
         success:function (data) {
             ajaxMessageReader(data,function (data) {
-                afterSignIn(data);
-
+                token=data['token'];
+                tradeToken4UsrInfo();
             })
         },
 
@@ -205,7 +195,7 @@ function signIn() {
 
 function afterSignIn(data) {
     token = data['token'];
-    user_name=data['userName'];
+    user_name=data['username'];
 
     if(data['role']=="MANAGER"){
         ShowApprovalPortal("MODEL CENTER","nav-menu");

@@ -58,10 +58,10 @@ function initApproralCenterInfo() {
                         "</select>" +
                         "</td> <td>" +
                         "<select id=\"version" + data["newModels"][i].modelId + "\" style=\"color: black;\">\n" +
-                        "<option value=\"2\">\n" +
+                        "<option value=\"CACHED_VERSION\">\n" +
                         "Small Update\n" +
                         "</option>\n" +
-                        "<option value=\"1\">\n" +
+                        "<option value=\"RELEASE_VERSION\">\n" +
                         "Large Update\n" +
                         "</option>\n" +
                         "</select>" +
@@ -152,7 +152,7 @@ function UpdateDecision(id,status,origin) {
     }
 
     $.ajax({
-        url: enviorment.API.MODEL+"/"+id+"?fromStatus="+origin+"&toStatus="+decision,
+        url: enviorment.API.MODEL+"/"+id+"?fromStatus="+origin+"&toStatus="+decision+"&upgradeVersion="+bigVersion,
         contentType: 'application/json',
         dataType: "json",
         data:
@@ -160,7 +160,6 @@ function UpdateDecision(id,status,origin) {
                 modelId: id,
                 status: origin,
                 modelType: modelType,
-                bigVersion:bigVersion
             }),
         type: "POST",
         timeout: 0,
