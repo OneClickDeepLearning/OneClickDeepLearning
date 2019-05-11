@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import java.util.*;
 
@@ -63,13 +62,13 @@ public final class ModelController {
      *                 Note: modelDto.status == from;
      *                       modelDto.algorithm is needed only when from=new && to=approval, the value is algorithm name;
      *                       modelDto.version is needed only when from=new && to=approval, the value is "RELEASE_VERSION" or "CACHED_VERSION";
-     * @param from from status
-     * @param to to status
      * @return
      */
     @ResponseBody
     @RequestMapping(path="/{modelId}", method = RequestMethod.POST)
-    public final Response pushDecision(@RequestBody ModelDto modelDto, @RequestParam("fromStatus") String from, @RequestParam("toStatus")String to) {
+    public final Response pushDecision(@RequestBody ModelDto modelDto, HttpServletRequest request) {
+        String from = request.getParameter("fromStatus");
+        String to = request.getParameter("toStatus");
 
         logger.debug("enter the get model list funciton +++++++++++++++++");
         Response.Builder responseBuilder = getBuilder();
