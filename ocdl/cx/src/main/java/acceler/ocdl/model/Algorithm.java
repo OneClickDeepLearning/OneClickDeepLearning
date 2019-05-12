@@ -173,7 +173,7 @@ public class Algorithm extends Storable implements Serializable {
     private static Optional<Algorithm> getRealAlgorithmByName(String algorithmName) {
         lock.readLock().lock();
         Optional<Algorithm> algorithmOpt = getAlgorithmStorage().stream().filter(a -> a.algorithmName.equals(algorithmName)).findFirst();
-        lock.readLock().lock();
+        lock.readLock().unlock();
 
         return algorithmOpt;
     }
