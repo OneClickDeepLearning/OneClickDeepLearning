@@ -6,6 +6,7 @@ import acceler.ocdl.exception.InitStorageException;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.utils.SerializationUtils;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,9 +38,9 @@ public class Algorithm extends Storable implements Serializable {
             logger.info("[init] AlgorithmStorage instance initialization executed");
             File algorithmDataFile = new File(CONSTANTS.PERSISTENCE.ALGORITHMS);
             try {
-                algorithmStorage = (LinkedList) StorageLoader.loadStorage(algorithmDataFile);
+                algorithmStorage = (ArrayList) StorageLoader.loadStorage(algorithmDataFile);
             } catch (NotFoundException nfe) {
-                algorithmStorage = new LinkedList<>();
+                algorithmStorage = new ArrayList<>();
             }
         }
 
@@ -217,7 +218,7 @@ public class Algorithm extends Storable implements Serializable {
         copy.algorithmName = this.algorithmName;
         copy.currentReleasedVersion = this.currentReleasedVersion;
         copy.currentCachedVersion = this.currentCachedVersion;
-        copy.belongingModels = Arrays.asList(getBelongingModelsCopies());
+        copy.belongingModels = Lists.newArrayList(getBelongingModelsCopies());
 
         return copy;
     }
@@ -248,13 +249,14 @@ public class Algorithm extends Storable implements Serializable {
         }
 
         ApprovedModel copyOfModel = model.deepCopy(); //avoid any ref outside
-        ArrayList<ApprovedModel> newBelongingModels = new ArrayList<>();
 
         lock.writeLock().lock();
         Optional<Algorithm> algorithmOpt = getRealAlgorithmByName(this.algorithmName);
         if (algorithmOpt.isPresent()){
             algorithmOpt.get().belongingModels.add(copyOfModel);
         }
+
+        getRealAlgorithmByName(this.algorithmName).ifPresent(algorithm -> algorithm.belongingModels.add(copyOfModel));
         persistence();
         lock.writeLock().unlock();
     }
