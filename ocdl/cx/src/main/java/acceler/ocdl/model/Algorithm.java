@@ -37,9 +37,9 @@ public class Algorithm extends Storable implements Serializable {
             logger.info("[init] AlgorithmStorage instance initialization executed");
             File algorithmDataFile = new File(CONSTANTS.PERSISTENCE.ALGORITHMS);
             try {
-                algorithmStorage = (ArrayList) StorageLoader.loadStorage(algorithmDataFile);
+                algorithmStorage = (LinkedList) StorageLoader.loadStorage(algorithmDataFile);
             } catch (NotFoundException nfe) {
-                algorithmStorage = new ArrayList<>();
+                algorithmStorage = new LinkedList<>();
             }
         }
 
@@ -248,6 +248,7 @@ public class Algorithm extends Storable implements Serializable {
         }
 
         ApprovedModel copyOfModel = model.deepCopy(); //avoid any ref outside
+        ArrayList<ApprovedModel> newBelongingModels = new ArrayList<>();
 
         lock.writeLock().lock();
         Optional<Algorithm> algorithmOpt = getRealAlgorithmByName(this.algorithmName);
