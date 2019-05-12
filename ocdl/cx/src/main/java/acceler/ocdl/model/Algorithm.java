@@ -229,15 +229,17 @@ public class Algorithm extends Storable implements Serializable {
     public ApprovedModel approveModel(NewModel model, UpgradeVersion version) {
         if (version == UpgradeVersion.RELEASE_VERSION) {
             this.currentReleasedVersion = this.releaseVersionGenerator.getAndIncrement();
+            this.currentCachedVersion = 0L;
         } else {
             this.currentCachedVersion = this.cachedVersionGenerator.getAndIncrement();
+            this.currentReleasedVersion = this.releaseVersionGenerator.get();
         }
         return model.convertToApprovedModel(this.currentCachedVersion, this.currentReleasedVersion);
     }
 
     public void persistApprovalModel(ApprovedModel model) {
         if (model.getReleasedVersion() == null || model.getCachedVersion() == null) {
-            logger.error("Can not persist the model that misses achedVersion or releasedVersion:" + model.getName());
+            logger.error("Can not persist the model that misses cachedVersion or releasedVersion:" + model.getName());
             throw new OcdlException("Can not persist the model that misses achedVersion or releasedVersion");
         }
 
