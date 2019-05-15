@@ -5,6 +5,7 @@ import com.ocdl.client.util.FileTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 
@@ -13,11 +14,13 @@ public class Client {
 
     private static final Logger logger = LoggerFactory.getLogger(Client.class);
 
-    private final String MODELPATH = getClass().getResource("/models").getPath();
-
+    @Value("${models.path}")
+    private String MODELBASEPATH;
 
     @Autowired
     private ConsumerService consumer;
+
+    public static String currentModelName = "unet_membrane.tflite";
 
     public Client() { }
 
@@ -50,7 +53,8 @@ public class Client {
         logger.info("waiting for download the latest model:");
 
         try {
-            FileTool.downLoadFromUrl(url, modelName, MODELPATH);
+            FileTool.downLoadFromUrl(url, modelName, MODELBASEPATH);
+            currentModelName = modelName;
         } catch (IOException e) {
             System.out.println("download failure" + e.getMessage());
             logger.info("download failure" + e.getMessage());

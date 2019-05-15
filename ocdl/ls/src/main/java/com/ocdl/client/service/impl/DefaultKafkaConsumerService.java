@@ -84,7 +84,7 @@ public class DefaultKafkaConsumerService implements ConsumerService {
                 logger.info(String.format("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value()));
                 System.out.println(String.format("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value()));
 
-                if (record.value().trim().equals("")) {
+                if (record.value().trim().equals("") || record.value().trim().indexOf("\\s+") < 0) {
                     continue;
                 }
                 client.downloadModel(record.value());

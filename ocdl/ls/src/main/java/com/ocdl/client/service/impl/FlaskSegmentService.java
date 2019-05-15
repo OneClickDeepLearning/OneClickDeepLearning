@@ -1,5 +1,6 @@
 package com.ocdl.client.service.impl;
 
+import com.ocdl.client.Client;
 import com.ocdl.client.service.HttpRequestService;
 import com.ocdl.client.service.SegmentService;
 import org.slf4j.Logger;
@@ -7,11 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Paths;
-
 
 
 @Service
@@ -43,7 +41,7 @@ public class FlaskSegmentService implements SegmentService {
     @Override
     public File run(String pictureName) {
 
-        String modelPath = Paths.get(WORKSPACEPATH, MODELBASEPATH, "unet_membrane.tflite").toString();
+        String modelPath = Paths.get(WORKSPACEPATH, MODELBASEPATH, Client.currentModelName).toString();
         String picturePath = Paths.get(WORKSPACEPATH, PICBASEPATH, pictureName).toString();
 
         String basePictureName = pictureName.substring(0, pictureName.lastIndexOf("."));
