@@ -409,9 +409,10 @@ function releaseResource(){
         },
         timeout: 0,
         success: function(data){
+            alert("User Resources Released");
         },
         error: function () {
-            alert("User Resources Released");
+            alert("Fail to release resources!");
         }
     })
 }
