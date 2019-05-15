@@ -82,9 +82,9 @@ public class DefaultKafkaConsumerService implements ConsumerService {
 
                 // message format: "fileName url"
                 logger.info(String.format("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value()));
-                System.out.println(String.format("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value()));
 
-                if (record.value().trim().equals("") || record.value().trim().indexOf("\\s+") < 0) {
+                if (record.value().trim().equals("") || record.value().trim().indexOf(" ") < 0) {
+                    logger.info("Invalid value");
                     continue;
                 }
                 client.downloadModel(record.value());

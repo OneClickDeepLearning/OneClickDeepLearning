@@ -26,7 +26,6 @@ public class Client {
 
     public void run() {
 
-        System.out.println("Client is running....");
         logger.info("Client is running....");
 
         // run consumer in a separated thread
@@ -42,6 +41,7 @@ public class Client {
     }
 
     public void downloadModel(String msg) {
+        logger.info("waiting for download the latest model:");
         String[] modelInfo = msg.split("\\s+");
         if (modelInfo.length == 0) {
             return;
@@ -49,14 +49,10 @@ public class Client {
         String modelName = modelInfo[0].trim();
         String url = modelInfo[1].trim();
 
-        System.out.println("waiting for download the latest model:");
-        logger.info("waiting for download the latest model:");
-
         try {
             FileTool.downLoadFromUrl(url, modelName, MODELBASEPATH);
             currentModelName = modelName;
         } catch (IOException e) {
-            System.out.println("download failure" + e.getMessage());
             logger.info("download failure" + e.getMessage());
         }
     }
