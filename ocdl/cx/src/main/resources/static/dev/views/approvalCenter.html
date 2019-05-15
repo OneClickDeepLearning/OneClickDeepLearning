@@ -126,7 +126,12 @@
 <header style="background-color:#000000;">
     <div class="container">
         <div class="row" style="display:flex;justify-content:center;align-items:center;">
-            <div class="col-md-5"></div>
+            <div class="col-md-5">
+                <ol class="breadcrumb" style="background-color:transparent; margin-bottom:0">
+                    <li><a href="javascript:void(0)" onclick="JumpToWithToken('../index.html')" style="color:#47C6F8;">Home</a></li>
+                    <li class="active" style="color: #ffffff">Model Center</li>
+                </ol>
+            </div>
             <div id="informationBlock" style="margin: auto; height:40px;" class="col-md-7 col-sm-7 col-xs-7" >
                 <div id="userinfo" style="display: none;">
                     <label class="col-md-3">User: <label id="username" style="color: #47C6F8">TempUser</label></label>
@@ -134,7 +139,6 @@
                                                               class="status_NoneR"></label></label>
                     <label class="col-md-3">Status: <label id="status" class="status_disconnected"></label></label>
                     <div class="col-md-3"><button class="btn2 btn-1 btn-1e" onclick="signOut()">Logout</button></div>
-
                 </div>
             </div>
 
@@ -161,7 +165,7 @@
                 <div class="pieInfo w3layouts agileits col-lg-7 col col-md-12 col-sm-12">
                     <div class="col-md-12" data-wow-offset="50" data-wow-delay="0.6s">
                         <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">YOU GOT <span
-                                id="todoNum">3</span><span> TODO'S </span> IN THE LIST</h2>
+                                id="todoNum">3</span><span> TODO'S </span> ON THE LIST</h2>
                         <p>
                         <div class="newColorBlock"></div>
                         <span style="color: #3366CC;"> New Models:</span><span id="newModelNum">3</span></p>

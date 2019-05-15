@@ -48,8 +48,13 @@
 
 <header style="background-color:#000000;">
     <div class="container" >
-        <div class="row" style="display:flex;justify-content:center;align-items:center;">
-            <div class="col-md-5"></div>
+        <div class="row" style="display:flex;justify-content:center;align-items:center; vertical-align:middle;">
+            <div class="col-md-5">
+                <ol class="breadcrumb" style="background-color:transparent; margin-bottom:0">
+                    <li><a href="javascript:void(0)" onclick="JumpToWithToken('../index.html')" style="color:#47C6F8; ">Home</a></li>
+                    <li class="active" style="color: #ffffff;">Configuration</li>
+                </ol>
+            </div>
             <div id="informationBlock" style="margin: auto; height:40px;" class="col-md-7 col-sm-7 col-xs-7" >
                 <div id="userinfo" style="display: none;">
                     <label class="col-md-3">User: <label id="username" style="color: #47C6F8">TempUser</label></label>
