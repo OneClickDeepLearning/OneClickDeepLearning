@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 @Component
 public class Client {
@@ -16,6 +17,9 @@ public class Client {
 
     @Value("${models.path}")
     private String MODELBASEPATH;
+
+    @Value("${workspace.path}")
+    private String WORKSPACEPATH;
 
     @Autowired
     private ConsumerService consumer;
@@ -50,8 +54,9 @@ public class Client {
         String url = modelInfo[1].trim();
 
         try {
-            FileTool.downLoadFromUrl(url, modelName, MODELBASEPATH);
+            FileTool.downLoadFromUrl(url, modelName, Paths.get(WORKSPACEPATH,MODELBASEPATH).toString());
             currentModelName = modelName;
+            logger.info("download success!");
         } catch (IOException e) {
             logger.info("download failure" + e.getMessage());
         }

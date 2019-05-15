@@ -41,6 +41,7 @@ public class FlaskSegmentService implements SegmentService {
     @Override
     public File run(String pictureName) {
 
+
         String modelPath = Paths.get(WORKSPACEPATH, MODELBASEPATH, Client.currentModelName).toString();
         String picturePath = Paths.get(WORKSPACEPATH, PICBASEPATH, pictureName).toString();
 
@@ -50,6 +51,7 @@ public class FlaskSegmentService implements SegmentService {
         String groundTruthPath = Paths.get(WORKSPACEPATH,GROUNDTRUTHBASEPATH, basePictureName + "_segmentation.png").toString();
 
         String body = String.format("{\"model_path\":\"%s\", \"test_pic_path\":\"%s\", \"output_image_path\":\"%s\", \"ground_truth_path\":\"%s\"}", modelPath, picturePath, outputPath, groundTruthPath);
+        logger.info("Send request to Flask server: " + body);
         httpRequestService.post(FLASKSEVERURL, body);
         return new File(Paths.get(SEGPICBASEPATH, basePictureName + "_seg.png").toString());
 
