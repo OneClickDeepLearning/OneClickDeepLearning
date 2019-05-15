@@ -50,7 +50,7 @@ public class Client {
         try {
             FileTool.downLoadFromUrl(url, modelName, MODELPATH);
         } catch (IOException e) {
-            logger.error("download failure" + e.getMessage());
+            logger.info("download failure" + e.getMessage());
         }
     }
 

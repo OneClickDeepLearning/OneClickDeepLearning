@@ -79,7 +79,7 @@ public class DefaultKafkaConsumerService implements ConsumerService {
             for (ConsumerRecord<String, String> record : records) {
 
                 // message format: "fileName url"
-                logger.info("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value());
+                logger.info(String.format("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value()));
 
                 if (record.value().trim().equals("")) {
                     continue;
