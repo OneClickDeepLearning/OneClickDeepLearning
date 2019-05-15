@@ -76,6 +76,7 @@ public final class ModelController {
 
             modelService.approveModel((NewModel) model,modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(upgradeVersion));
             modelService.pushModelToGit(Long.parseLong(modelDto.getModelId()));
+
         } else if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.REJECTED.name())) {
             Model model = NewModel.getNewModelById(Long.parseLong(modelDto.getModelId()))
                     .orElseThrow(()-> new NotFoundException("Fail to found model"));

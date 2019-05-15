@@ -174,15 +174,16 @@ public class DefaultModelServiceImpl implements ModelService {
         //TODO: using git local path
         //clean the git repo first
         String gitRepoPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.GIT_REPO_SPACE, "1/models").toString();
+        cleanGitRepo(new File(gitRepoPath));
 
         //move file to git repo
         File modelFile = getModelFileInStage(modelId);
         Optional.ofNullable(modelFile).ifPresent(f -> {
             String targetPath = Paths.get(gitRepoPath,
-                    CONSTANTS.NAME_FORMAT.GIT_MODEL.replace("algorithm", Algorithm.getAlgorithmOfApprovedModel(approvedModel).getAlgorithmName())
-                            .replace("release_version", approvedModel.getReleasedVersion().toString())
-                            .replace("cached_version", approvedModel.getCachedVersion().toString())
-                            .replace("suffix", f.getName().substring(f.getName().lastIndexOf("."))))
+                    CONSTANTS.NAME_FORMAT.GIT_MODEL.replace("{algorithm}", Algorithm.getAlgorithmOfApprovedModel(approvedModel).getAlgorithmName())
+                            .replace("{release_version}", approvedModel.getReleasedVersion().toString())
+                            .replace("{cached_version}", approvedModel.getCachedVersion().toString())
+                            .replace("{suffix}", f.getName().substring(f.getName().lastIndexOf(".")+1)))
                     .toString();
             try {
                 FileUtils.moveFile(f, new File(targetPath));

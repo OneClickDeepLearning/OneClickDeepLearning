@@ -43,6 +43,7 @@ public class DefaultProjectService implements ProjectService {
         }
 
         Project.setProjectDataStorage(currentProjectData);
+        //TODO: if gitRepoURI is not null, "git clone..."
 
         return currentProjectData;
     }
