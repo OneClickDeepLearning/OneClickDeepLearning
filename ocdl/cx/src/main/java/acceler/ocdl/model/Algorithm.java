@@ -228,6 +228,12 @@ public class Algorithm extends Storable implements Serializable {
     }
 
     public ApprovedModel approveModel(NewModel model, UpgradeVersion version) {
+
+        System.out.println("before");
+        System.out.println(this.releaseVersionGenerator.get());
+        System.out.println(this.cachedVersionGenerator.get());
+
+
         if (version == UpgradeVersion.RELEASE_VERSION) {
             this.currentReleasedVersion = this.releaseVersionGenerator.incrementAndGet();
             this.cachedVersionGenerator = new AtomicLong(0);
@@ -236,6 +242,12 @@ public class Algorithm extends Storable implements Serializable {
             this.currentCachedVersion = this.cachedVersionGenerator.incrementAndGet();
             this.currentReleasedVersion = this.releaseVersionGenerator.get();
         }
+
+
+        System.out.println("after");
+        System.out.println(this.releaseVersionGenerator.get());
+        System.out.println(this.cachedVersionGenerator.get());
+        
         return model.convertToApprovedModel(this.currentCachedVersion, this.currentReleasedVersion);
     }
 
