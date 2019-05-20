@@ -87,7 +87,7 @@ function initApproralCenterInfo() {
                 <!-- approval list -->
                 for (var i = 0; i < data["approvalModels"].length; i++) {
                     var tr = "<tr class='data'><td>" + data["approvalModels"][i].modelName + "</td> <td>" + data["approvalModels"][i].algorithm + "</td> <td>" + data["approvalModels"][i].version + "</td>  " +
-                        "<td> <td>"+ data["approvalModels"][i].timeStamp +"</td>" +
+                        "<td>"+ data["approvalModels"][i].timeStamp +"</td> <td>" +
                         " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
                         "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["approvalModels"][i].modelId + "\",-1,\"approved\")'>Undo</button>" +
                         "</div>" +
