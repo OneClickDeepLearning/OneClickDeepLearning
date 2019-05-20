@@ -229,10 +229,10 @@ public class Algorithm extends Storable implements Serializable {
 
     public ApprovedModel approveModel(NewModel model, UpgradeVersion version) {
         if (version == UpgradeVersion.RELEASE_VERSION) {
-            this.currentReleasedVersion = this.releaseVersionGenerator.getAndIncrement();
+            this.currentReleasedVersion = this.releaseVersionGenerator.incrementAndGet();
             this.currentCachedVersion = 0L;
         } else {
-            this.currentCachedVersion = this.cachedVersionGenerator.getAndIncrement();
+            this.currentCachedVersion = this.cachedVersionGenerator.incrementAndGet();
             this.currentReleasedVersion = this.releaseVersionGenerator.get();
         }
         return model.convertToApprovedModel(this.currentCachedVersion, this.currentReleasedVersion);
