@@ -217,11 +217,16 @@ public class Algorithm extends Storable implements Serializable {
         Algorithm copy = new Algorithm();
         copy.algorithmName = this.algorithmName;
 
-        copy.releaseVersionGenerator = new AtomicLong(this.currentReleasedVersion);
-        copy.cachedVersionGenerator = new AtomicLong(this.currentCachedVersion);
-
         copy.currentReleasedVersion = this.currentReleasedVersion;
         copy.currentCachedVersion = this.currentCachedVersion;
+
+        if (this.currentReleasedVersion != null) {
+            copy.releaseVersionGenerator = new AtomicLong(this.currentReleasedVersion);
+        }
+        
+        if (this.currentCachedVersion != null) {
+            copy.cachedVersionGenerator = new AtomicLong(this.currentCachedVersion);
+        }
         copy.belongingModels = Lists.newArrayList(getBelongingModelsCopies());
 
         return copy;
