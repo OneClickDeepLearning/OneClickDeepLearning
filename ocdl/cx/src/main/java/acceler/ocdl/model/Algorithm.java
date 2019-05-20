@@ -223,7 +223,7 @@ public class Algorithm extends Storable implements Serializable {
         if (this.currentReleasedVersion != null) {
             copy.releaseVersionGenerator = new AtomicLong(this.currentReleasedVersion);
         }
-        
+
         if (this.currentCachedVersion != null) {
             copy.cachedVersionGenerator = new AtomicLong(this.currentCachedVersion);
         }
