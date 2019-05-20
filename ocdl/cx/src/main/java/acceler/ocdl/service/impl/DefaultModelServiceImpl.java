@@ -185,7 +185,7 @@ public class DefaultModelServiceImpl implements ModelService {
         }
         cleanGitRepo(git, new File(gitModelPath));
 
-        //move file to git repo
+        //copy file to git repo
         File modelFile = getModelFileInStage(modelId);
         Optional.ofNullable(modelFile).ifPresent(f -> {
             String targetPath = Paths.get(gitRepoPath,
@@ -195,7 +195,7 @@ public class DefaultModelServiceImpl implements ModelService {
                             .replace("{suffix}", f.getName().substring(f.getName().lastIndexOf(".")+1)))
                     .toString();
             try {
-                FileUtils.moveFile(f, new File(targetPath));
+                FileUtils.copyFile(f, new File(targetPath));
             } catch (IOException e) {
                 throw new OcdlException("Fail to move file to Git repo");
             }
