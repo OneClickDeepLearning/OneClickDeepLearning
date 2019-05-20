@@ -198,8 +198,8 @@ public class Algorithm extends Storable implements Serializable {
     }
 
 
-    private final AtomicLong releaseVersionGenerator;
-    private final AtomicLong cachedVersionGenerator;
+    private AtomicLong releaseVersionGenerator;
+    private AtomicLong cachedVersionGenerator;
 
     private String algorithmName;
     private Long currentReleasedVersion;
@@ -230,7 +230,8 @@ public class Algorithm extends Storable implements Serializable {
     public ApprovedModel approveModel(NewModel model, UpgradeVersion version) {
         if (version == UpgradeVersion.RELEASE_VERSION) {
             this.currentReleasedVersion = this.releaseVersionGenerator.incrementAndGet();
-            this.currentCachedVersion = 0L;
+            this.cachedVersionGenerator = new AtomicLong(0);
+            this.currentCachedVersion = this.cachedVersionGenerator.get();
         } else {
             this.currentCachedVersion = this.cachedVersionGenerator.incrementAndGet();
             this.currentReleasedVersion = this.releaseVersionGenerator.get();
