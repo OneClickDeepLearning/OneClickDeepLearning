@@ -126,39 +126,22 @@
 <header style="background-color:#000000;">
     <div class="container">
         <div class="row" style="display:flex;justify-content:center;align-items:center;">
-            <div id="informationBlock" style="margin: auto;" class="col-md-6 col-sm-3 col-xs-3">
+            <div class="col-md-5">
+                <ol class="breadcrumb" style="background-color:transparent; margin-bottom:0">
+                    <li><a href="javascript:void(0)" onclick="JumpToWithToken('../index.html')" style="color:#47C6F8;">Home</a></li>
+                    <li class="active" style="color: #ffffff">Model Center</li>
+                </ol>
+            </div>
+            <div id="informationBlock" style="margin: auto; height:40px;" class="col-md-7 col-sm-7 col-xs-7" >
                 <div id="userinfo" style="display: none;">
                     <label class="col-md-3">User: <label id="username" style="color: #47C6F8">TempUser</label></label>
                     <label class="col-md-3">Rescourse: <label id="rescourse" style="color: #47C6F8"
                                                               class="status_NoneR"></label></label>
                     <label class="col-md-3">Status: <label id="status" class="status_disconnected"></label></label>
-                    <button class="btn2 btn-1 btn-1e " onclick="signOut()">Logout</button>
+                    <div class="col-md-3"><button class="btn2 btn-1 btn-1e" onclick="signOut()">Logout</button></div>
                 </div>
             </div>
-            <div class="col-md-2 col-sm-3 col-xs-3" style="height:40px;">
-                <!--  &lt;!&ndash;	<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button>&ndash;&gt;
-                  <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
-                      <a href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Git</a>
 
-                  </span>
-
-                  <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
-                      <a id="flapBtn" href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
-                  </span>
-
-
-                  </p>-->
-            </div>
-            <div class="col-md-2 col-sm-3 col-xs-3">
-             <!--   <div id="userinfo" style="display: none;">
-                    <p style="text-align: right">
-                        <img id="profileImage" src="" style="height: 30px;width: 30px;" class="hide">
-                        <label id="username" style="color: #47C6F8"></label>
-                        <button class="btn2 btn-1 btn-1e" onclick="signOut()">Logout</button>
-                    </p>
-                </div>-->
-
-            </div>
         </div>
     </div>
 </header>
@@ -182,7 +165,7 @@
                 <div class="pieInfo w3layouts agileits col-lg-7 col col-md-12 col-sm-12">
                     <div class="col-md-12" data-wow-offset="50" data-wow-delay="0.6s">
                         <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">YOU GOT <span
-                                id="todoNum">3</span><span> TODO'S </span> IN THE LIST</h2>
+                                id="todoNum">3</span><span> TODO'S </span> ON THE LIST</h2>
                         <p>
                         <div class="newColorBlock"></div>
                         <span style="color: #3366CC;"> New Models:</span><span id="newModelNum">3</span></p>
@@ -191,7 +174,7 @@
                         <span style="color: #109618;"> Approved Models:</span><span id="approvalModelNum">5</span></p>
                         <p>
                         <div class="rejectColorBlock"></div>
-                        <span style="color: #DC3912;">Rejected Models:</span><span id="rejectedModelNum">1</span></p>
+                        <span style="color: #DC3912;"> Rejected Models:</span><span id="rejectedModelNum">1</span></p>
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -236,8 +219,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
@@ -268,7 +249,6 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-
                                                 </tbody>
                                             </table>
                                         </div>
@@ -302,7 +282,6 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-
                                                 </tbody>
                                             </table>
                                         </div>
@@ -313,7 +292,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

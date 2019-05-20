@@ -92,7 +92,6 @@
                 ajaxMessageReader(data,function (data) {
                     var projectName1= $("#titleFirst");
                     var projectName2 = $("#titleSecond");
-                    console.log(data);
                     var title=data.split(" ");
                     if(title.length>1){
                         projectName2.html(title[1]);

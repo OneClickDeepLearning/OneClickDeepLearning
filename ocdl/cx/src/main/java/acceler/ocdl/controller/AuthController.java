@@ -75,15 +75,17 @@ public class AuthController {
 
     @RequestMapping(path = "/logout", method= RequestMethod.POST)
     @ResponseBody
-    public void logout(HttpServletRequest request, HttpServletResponse response) {
+    public Response logout(HttpServletRequest request, HttpServletResponse response) {
+        final Response.Builder respBuilder = Response.getBuilder();
         InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
         if (innerUser != null) {
             securityUtil.releaseToken(innerUser);
             kubernetesService.releaseDockerContainer(innerUser);
-            response.setStatus(HttpServletResponse.SC_OK);
+            respBuilder.setCode(Response.Code.SUCCESS);
         } else {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            respBuilder.setCode(Response.Code.ERROR);
         }
+        return respBuilder.build();
     }
 
     @RequestMapping(path = "/me", method = RequestMethod.GET)
