@@ -216,6 +216,10 @@ public class Algorithm extends Storable implements Serializable {
     public Algorithm deepCopy() {
         Algorithm copy = new Algorithm();
         copy.algorithmName = this.algorithmName;
+
+        copy.releaseVersionGenerator = new AtomicLong(this.currentReleasedVersion);
+        copy.cachedVersionGenerator = new AtomicLong(this.currentCachedVersion);
+
         copy.currentReleasedVersion = this.currentReleasedVersion;
         copy.currentCachedVersion = this.currentCachedVersion;
         copy.belongingModels = Lists.newArrayList(getBelongingModelsCopies());
@@ -247,7 +251,7 @@ public class Algorithm extends Storable implements Serializable {
         System.out.println("after");
         System.out.println(this.releaseVersionGenerator.get());
         System.out.println(this.cachedVersionGenerator.get());
-        
+
         return model.convertToApprovedModel(this.currentCachedVersion, this.currentReleasedVersion);
     }
 
