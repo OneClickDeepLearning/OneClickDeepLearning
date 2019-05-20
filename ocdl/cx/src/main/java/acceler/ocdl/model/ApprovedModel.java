@@ -30,7 +30,7 @@ public class ApprovedModel extends Model implements Cloneable {
 
     public NewModel convertToNewModel() {
         NewModel newModel = new NewModel();
-
+        System.out.println("convert to new model" + this.modelId);
         newModel.setModelId(this.modelId);
         newModel.setName(this.name);
         newModel.setCommitTime(TimeUtil.currentTime());

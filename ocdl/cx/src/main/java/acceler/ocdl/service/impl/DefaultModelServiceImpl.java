@@ -271,7 +271,7 @@ public class DefaultModelServiceImpl implements ModelService {
 
         List<ModelDto> modelDtoList = new ArrayList<>();
         for (String algorithmName : modelMap.keySet()) {
-            
+
             System.out.println(algorithmName);
             System.out.println(modelMap.get(algorithmName).length);
 
