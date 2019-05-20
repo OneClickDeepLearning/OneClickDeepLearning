@@ -85,6 +85,7 @@ public class DefaultModelServiceImpl implements ModelService {
     public void approveModel(NewModel model, String algorithmName, Algorithm.UpgradeVersion version) {
         checkIfNewModelExist(model);
         Algorithm algorithm = Algorithm.getAlgorithmByName(algorithmName).orElseThrow(() -> (new NotFoundException(String.format("Not found algorithm: %s", algorithmName))));
+
         ApprovedModel approvedModel = algorithm.approveModel(model, version);
         algorithm.persistApprovalModel(approvedModel);
         NewModel.removeFromStorage(model.getModelId());

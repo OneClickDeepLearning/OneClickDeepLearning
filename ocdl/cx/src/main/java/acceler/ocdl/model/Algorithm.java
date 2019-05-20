@@ -220,13 +220,6 @@ public class Algorithm extends Storable implements Serializable {
         copy.currentReleasedVersion = this.currentReleasedVersion;
         copy.currentCachedVersion = this.currentCachedVersion;
 
-        if (this.currentReleasedVersion != null) {
-            copy.releaseVersionGenerator = new AtomicLong(this.currentReleasedVersion);
-        }
-
-        if (this.currentCachedVersion != null) {
-            copy.cachedVersionGenerator = new AtomicLong(this.currentCachedVersion);
-        }
         copy.belongingModels = Lists.newArrayList(getBelongingModelsCopies());
 
         return copy;
@@ -241,7 +234,16 @@ public class Algorithm extends Storable implements Serializable {
         System.out.println("before");
         System.out.println(this.releaseVersionGenerator.get());
         System.out.println(this.cachedVersionGenerator.get());
+        System.out.println(this.currentReleasedVersion);
+        System.out.println(this.currentCachedVersion);
 
+        if (this.currentReleasedVersion != null) {
+            this.releaseVersionGenerator = new AtomicLong(this.currentReleasedVersion);
+        }
+
+        if (this.currentCachedVersion != null) {
+            this.cachedVersionGenerator = new AtomicLong(this.currentCachedVersion);
+        }
 
         if (version == UpgradeVersion.RELEASE_VERSION) {
             this.currentReleasedVersion = this.releaseVersionGenerator.incrementAndGet();
