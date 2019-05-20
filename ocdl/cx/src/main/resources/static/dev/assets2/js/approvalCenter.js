@@ -65,8 +65,8 @@ function initApproralCenterInfo() {
                         "RELEASE VERSION\n" +
                         "</option>\n" +
                         "</select>" +
-                        "</td>  " +
-                        "<td><td>"+ data["newModels"][i].timestamp +"</td>" +
+                        "</td> \n " +
+                        "<td>"+ data["newModels"][i].timestamp +"</td> <td>" +
                         " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
                         "<button type=\"button\" class=\"btn btn-success\" onclick='UpdateDecision(\"" + data["newModels"][i].modelId + "\",1,\"new\")'>Approve</button>" +
                         "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["newModels"][i].modelId+"\",0,\"new\")'>Reject</button>" +
