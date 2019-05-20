@@ -109,7 +109,7 @@ public class DefaultModelServiceImpl implements ModelService {
         commandHelper.runCommand(workDir, "git add --all", stdOut, stdErrOut);
         throwExceptionIfError(stdErrOut);
 
-        commandHelper.runCommand(workDir, "git commit -m \"approved models\"", stdOut, stdErrOut);
+        commandHelper.runCommand(workDir, "git commit -m 'approved models'", stdOut, stdErrOut);
         throwExceptionIfError(stdErrOut);
 
         commandHelper.runCommand(workDir, "git push", stdOut, stdErrOut);
@@ -174,7 +174,8 @@ public class DefaultModelServiceImpl implements ModelService {
         //TODO: using git local path
         //clean the git repo first
         String gitRepoPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.GIT_REPO_SPACE, "1/models").toString();
-        cleanGitRepo(new File(gitRepoPath));
+        File gitRepo = new File(gitRepoPath);
+        cleanGitRepo(gitRepo);
 
         //move file to git repo
         File modelFile = getModelFileInStage(modelId);
@@ -192,7 +193,7 @@ public class DefaultModelServiceImpl implements ModelService {
             }
         });
 
-        pushFileToRemoteGitRepo(new File(gitRepoPath));
+        pushFileToRemoteGitRepo(gitRepo);
     }
 
     /**
