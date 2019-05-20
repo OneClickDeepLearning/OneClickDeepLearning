@@ -59,14 +59,14 @@ function initApproralCenterInfo() {
                         "</td> <td>" +
                         "<select id=\"version" + data["newModels"][i].modelId + "\" style=\"color: black;\">\n" +
                         "<option value=\"CACHED_VERSION\">\n" +
-                        "Small Update\n" +
+                        "CACHED VERSION\n" +
                         "</option>\n" +
                         "<option value=\"RELEASE_VERSION\">\n" +
-                        "Large Update\n" +
+                        "RELEASE VERSION\n" +
                         "</option>\n" +
                         "</select>" +
                         "</td>  " +
-                        "<td>\n" +
+                        "<td><td>"+ data["newModels"][i].timestamp +"</td>" +
                         " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
                         "<button type=\"button\" class=\"btn btn-success\" onclick='UpdateDecision(\"" + data["newModels"][i].modelId + "\",1,\"new\")'>Approve</button>" +
                         "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["newModels"][i].modelId+"\",0,\"new\")'>Reject</button>" +
@@ -86,8 +86,8 @@ function initApproralCenterInfo() {
 
                 <!-- approval list -->
                 for (var i = 0; i < data["approvalModels"].length; i++) {
-                    var tr = "<tr class='data'><td>" + data["approvalModels"][i].modelName + "</td><td>" + data["approvalModels"][i].project + "</td><td>" + data["approvalModels"][i].modelType + "</td> <td>" + data["approvalModels"][i].version + "</td>  " +
-                        "<td>\n" +
+                    var tr = "<tr class='data'><td>" + data["approvalModels"][i].modelName + "</td> <td>" + data["approvalModels"][i].algorithm + "</td> <td>" + data["approvalModels"][i].version + "</td>  " +
+                        "<td> <td>"+ data["approvalModels"][i].timeStamp +"</td>" +
                         " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
                         "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["approvalModels"][i].modelId + "\",-1,\"approved\")'>Undo</button>" +
                         "</div>" +
@@ -97,7 +97,7 @@ function initApproralCenterInfo() {
 
                 <!-- reject list -->
                 for (var i = 0; i < data["rejectedModels"].length; i++) {
-                    var tr = "<tr class='data'><td>" + data["rejectedModels"][i].modelName + "</td><td>" + data["rejectedModels"][i].project + "</td>" +
+                    var tr = "<tr class='data'><td>" + data["rejectedModels"][i].modelName + "</td><td>" + data["rejectedModels"][i].timestamp + "</td>" +
                         "<td>\n" +
                         " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
                         "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["rejectedModels"][i].modelId + "\",-1,\"rejected\")'>Undo</button>" +
