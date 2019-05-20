@@ -252,10 +252,6 @@ public class Algorithm extends Storable implements Serializable {
 
         lock.writeLock().lock();
         Optional<Algorithm> algorithmOpt = getRealAlgorithmByName(this.algorithmName);
-        if (algorithmOpt.isPresent()){
-            algorithmOpt.get().belongingModels.add(copyOfModel);
-        }
-
         getRealAlgorithmByName(this.algorithmName).ifPresent(algorithm -> algorithm.belongingModels.add(copyOfModel));
         persistence();
         lock.writeLock().unlock();
