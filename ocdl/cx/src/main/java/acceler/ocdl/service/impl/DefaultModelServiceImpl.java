@@ -109,7 +109,7 @@ public class DefaultModelServiceImpl implements ModelService {
         commandHelper.runCommand(workDir, "git add --all", stdOut, stdErrOut);
         throwExceptionIfError(stdErrOut);
 
-        commandHelper.runCommand(workDir, "git commit -m 'approved models'", stdOut, stdErrOut);
+        commandHelper.runCommand(workDir, "git commit -m approved_models", stdOut, stdErrOut);
         throwExceptionIfError(stdErrOut);
 
         commandHelper.runCommand(workDir, "git push", stdOut, stdErrOut);
