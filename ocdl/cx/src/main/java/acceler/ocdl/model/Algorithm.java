@@ -245,6 +245,10 @@ public class Algorithm extends Storable implements Serializable {
             this.cachedVersionGenerator = new AtomicLong(this.currentCachedVersion);
         }
 
+        System.out.println("after reset");
+        System.out.println(this.releaseVersionGenerator.get());
+        System.out.println(this.cachedVersionGenerator.get());
+
         if (version == UpgradeVersion.RELEASE_VERSION) {
             this.currentReleasedVersion = this.releaseVersionGenerator.incrementAndGet();
             this.cachedVersionGenerator = new AtomicLong(0);
