@@ -8,8 +8,10 @@ import acceler.ocdl.model.*;
 import acceler.ocdl.service.ModelService;
 import acceler.ocdl.utils.CommandHelper;
 import acceler.ocdl.utils.TimeUtil;
+import io.fabric8.kubernetes.api.model.AffinityFluent;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.eclipse.jgit.api.Git;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
@@ -88,32 +90,31 @@ public class DefaultModelServiceImpl implements ModelService {
         NewModel.removeFromStorage(model.getModelId());
     }
 
-    private void cleanGitRepo(File workDir) {
-        StringBuilder stdErrOut = new StringBuilder();
-        StringBuilder stdOut = new StringBuilder();
-
-        commandHelper.runCommand(workDir, "git pull", stdOut, stdErrOut);
-        throwExceptionIfError(stdErrOut);
+    private void cleanGitRepo(Git git, File gitModelRepo) {
 
         try{
-            FileUtils.cleanDirectory(workDir);
+            git.pull().call();
+            FileUtils.cleanDirectory(gitModelRepo);
         } catch (IOException e) {
             throw new OcdlException("Git Repo cannot be clean.");
+        } catch (Exception e) {
+            throw new OcdlException("Fail to git pull");
         }
     }
 
-    private void pushFileToRemoteGitRepo(File workDir) {
-        StringBuilder stdErrOut = new StringBuilder();
-        StringBuilder stdOut = new StringBuilder();
-
-        commandHelper.runCommand(workDir, "git add --all", stdOut, stdErrOut);
-        throwExceptionIfError(stdErrOut);
-
-        commandHelper.runCommand(workDir, "git commit -m approved_models", stdOut, stdErrOut);
-        throwExceptionIfError(stdErrOut);
-
-        commandHelper.runCommand(workDir, "git push origin master:master", stdOut, stdErrOut);
-        throwExceptionIfError(stdErrOut);
+    private void pushFileToRemoteGitRepo(Git git) {
+        try{
+            git.add()
+                    .addFilepattern(".")
+                    .call();
+            git.commit()
+                    .setMessage("publish model")
+                    .call();
+            git.push()
+                    .call();
+        } catch (Exception e){
+            throw new OcdlException("Fail to push model");
+        }
     }
 
 
@@ -173,9 +174,16 @@ public class DefaultModelServiceImpl implements ModelService {
 
         //TODO: using git local path
         //clean the git repo first
-        String gitRepoPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.GIT_REPO_SPACE, "1/models").toString();
-        File gitRepo = new File(gitRepoPath);
-        cleanGitRepo(gitRepo);
+        String gitRepoPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.GIT_REPO_SPACE, "1/").toString();
+        String gitModelPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.GIT_REPO_SPACE, "1/models").toString();
+
+        Git git = null;
+        try {
+            git = Git.open(new File(gitRepoPath));
+        } catch (IOException e) {
+            throw new NotFoundException("Git repo not found");
+        }
+        cleanGitRepo(git, new File(gitModelPath));
 
         //move file to git repo
         File modelFile = getModelFileInStage(modelId);
@@ -193,7 +201,7 @@ public class DefaultModelServiceImpl implements ModelService {
             }
         });
 
-        pushFileToRemoteGitRepo(gitRepo);
+        pushFileToRemoteGitRepo(git);
     }
 
     /**
