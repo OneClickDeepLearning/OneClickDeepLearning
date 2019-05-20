@@ -66,7 +66,7 @@ function initApproralCenterInfo() {
                         "</option>\n" +
                         "</select>" +
                         "</td> \n " +
-                        "<td>"+ data["newModels"][i].timestamp +"</td> <td>" +
+                        "<td>"+ data["newModels"][i].timeStamp +"</td> <td>" +
                         " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
                         "<button type=\"button\" class=\"btn btn-success\" onclick='UpdateDecision(\"" + data["newModels"][i].modelId + "\",1,\"new\")'>Approve</button>" +
                         "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["newModels"][i].modelId+"\",0,\"new\")'>Reject</button>" +
@@ -97,7 +97,7 @@ function initApproralCenterInfo() {
 
                 <!-- reject list -->
                 for (var i = 0; i < data["rejectedModels"].length; i++) {
-                    var tr = "<tr class='data'><td>" + data["rejectedModels"][i].modelName + "</td><td>" + data["rejectedModels"][i].timestamp + "</td>" +
+                    var tr = "<tr class='data'><td>" + data["rejectedModels"][i].modelName + "</td><td>" + data["rejectedModels"][i].timeStamp + "</td>" +
                         "<td>\n" +
                         " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
                         "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["rejectedModels"][i].modelId + "\",-1,\"rejected\")'>Undo</button>" +
