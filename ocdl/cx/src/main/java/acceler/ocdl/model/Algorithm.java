@@ -258,10 +258,12 @@ public class Algorithm extends Storable implements Serializable {
             this.currentReleasedVersion = this.releaseVersionGenerator.get();
         }
 
-
-        System.out.println("after");
-        System.out.println(this.releaseVersionGenerator.get());
-        System.out.println(this.cachedVersionGenerator.get());
+        Optional<Algorithm> realAlgorithm = getRealAlgorithmByName(this.algorithmName);
+        realAlgorithm.ifPresent(algorithm -> {
+            algorithm.setCurrentReleasedVersion(this.currentReleasedVersion);
+            algorithm.setCurrentCachedVersion(this.currentCachedVersion);
+        });
+        Algorithm.persistence();
 
         return model.convertToApprovedModel(this.currentCachedVersion, this.currentReleasedVersion);
     }
@@ -280,7 +282,9 @@ public class Algorithm extends Storable implements Serializable {
 
         lock.writeLock().lock();
         Optional<Algorithm> algorithmOpt = getRealAlgorithmByName(this.algorithmName);
-        getRealAlgorithmByName(this.algorithmName).ifPresent(algorithm -> algorithm.belongingModels.add(copyOfModel));
+        getRealAlgorithmByName(this.algorithmName).ifPresent(algorithm -> {
+                    algorithm.belongingModels.add(copyOfModel);
+        });
         persistence();
         lock.writeLock().unlock();
     }
