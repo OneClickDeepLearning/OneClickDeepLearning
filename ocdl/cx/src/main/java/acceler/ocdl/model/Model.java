@@ -67,6 +67,9 @@ public abstract class Model extends Storable implements Serializable {
             modelDto.setTimeStamp(convertDateToString(approvedModel.getApprovedTime()));
             modelDto.setAlgorithm(Algorithm.getAlgorithmOfApprovedModel(approvedModel).getAlgorithmName());
 
+            System.out.println(Long.toString(approvedModel.getReleasedVersion()));
+            System.out.println(Long.toString(approvedModel.getCachedVersion()));
+
             String version = CONSTANTS.NAME_FORMAT.MODELDTO_VERSION.replace("{release_version}", Long.toString(approvedModel.getReleasedVersion()).replace("{cached_version}", Long.toString(approvedModel.getCachedVersion())));
             modelDto.setVersion(version);
         }
