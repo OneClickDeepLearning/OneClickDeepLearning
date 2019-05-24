@@ -102,6 +102,12 @@ public class DefaultKubernetesService implements KubernetesService {
 
         io.fabric8.kubernetes.api.model.Service service = createCpuService(user);
 
+        try{
+        Thread.sleep(1000);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
+
         log.debug("Container launched!");
 
         port = getPort(service);
