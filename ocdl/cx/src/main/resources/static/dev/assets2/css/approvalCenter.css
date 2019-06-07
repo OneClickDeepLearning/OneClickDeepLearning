@@ -20,13 +20,12 @@ a:hover,a:focus{
     font-size: 16px;
     font-weight: bold;
     color: #fff;
-    background: #333;
     border-bottom: 1px solid #4a4a4a;
     position: relative;
     transition: all 0.5s ease 0s;
 }
 #accordion .panel-title a:hover{
-    background: #4a4a4a;
+    background: rgba(16, 16, 16, 0.57);
 }
 #accordion .panel-title a:after,
 #accordion .panel-title a.collapsed:after{

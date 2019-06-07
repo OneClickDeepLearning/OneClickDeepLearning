@@ -15,12 +15,9 @@
     <link rel="stylesheet" href="../assets2/css/font-awesome.min.css">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="../assets2/css/templatemo-style.css">
-    <link rel="stylesheet" href="../assets2/css/SwitchServer.css">
-    <link href="../assets2/css/flipycard.css" rel="stylesheet">
-    <link href="../assets2/css/SyntaxHighlighter.css" type="text/css" rel="stylesheet">
-    <link href="../assets2/css/menu.css" rel="stylesheet">
-    <link href="../assets2/css/infoStatus.css" rel="stylesheet">
     <link href="../assets2/css/configuration.css" rel="stylesheet">
+    <link href="../assets2/css/userLoginBtn.css" rel="stylesheet">
+
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="Donuts3D.js"></script>
     <style>
@@ -58,7 +55,7 @@
             width: 80%;
             margin: 0 auto;
             padding: 20px;
-            background-color: rgba(10, 10, 10, 0.77);
+            background-color: rgba(16, 16, 16, 0.57);
             border: 2px ridge rgba(238, 238, 238, 0.13);
             border-radius: 5px;
             -moz-box-shadow: 0 -5px 10px 1px rgba(16, 16, 16, 0.57);
@@ -107,16 +104,15 @@
                 <span class="icon icon-bar"></span>
                 <span class="icon icon-bar"></span>
             </button>
-            <img href="#" alt="OCDL" class="navbar-brand" src="../assets2/images/Brand4.png"/>
+            <img href="#" alt="OCDL" class="navbar-brand" src="../assets2/images/Brand3.png"/>
             <label id="projectName" style="color: black; margin-top: 30px; margin-left: 20px;"></label>
         </div>
         <div class="collapse navbar-collapse">
             <ul id="nav-menu" class="nav navbar-nav navbar-right">
-                <li><a href="#">FILE</a></li>
-                <li><a href="#">MODIFY</a></li>
-                <li><a href="#">TOOLS</a></li>
-                <li><a href="#">TEAM</a></li>
-                <li><a href="#" onclick="forwardTo('/views/configuration.html')">CONFIGURE</a></li>
+                <li><a href="javascript:void(0)" onclick="JumpToWithToken('../index.html')">HOME</a></li>
+                <li><a href="#" onclick="JumpToWithToken('/views/configuration.html')">CONFIGURE</a></li>
+                <li><a href="#about">USER MANAGEMENT</a></li>
+                <li><a href="#contact">CONTACT</a></li>
             </ul>
         </div>
     </div>
@@ -126,34 +122,22 @@
 <header style="background-color:#000000;">
     <div class="container">
         <div class="row" style="display:flex;justify-content:center;align-items:center;">
-            <div id="informationBlock" style="margin: auto;" class="col-md-6 col-sm-3 col-xs-3">
-                <label class="col-md-4">User: <label id="username" style="color: #47C6F8">TempUser</label></label>
-                <label class="col-md-4">Rescourse: <label id="rescourse" style="color: #47C6F8"
-                                                          class="status_NoneR"></label></label>
-                <label class="col-md-4">Status: <label id="status" class="status_disconnected"></label></label>
+            <div class="col-md-5">
+                <ol class="breadcrumb" style="background-color:transparent; margin-bottom:0">
+                    <li><a href="javascript:void(0)" onclick="JumpToWithToken('../index.html')" style="color:#47C6F8;">Home</a></li>
+                    <li class="active" style="color: #ffffff">Model Center</li>
+                </ol>
             </div>
-            <div class="col-md-2 col-sm-3 col-xs-3" style="height:40px;">
-                <!--	<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button>-->
-                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
-					<a href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Git</a>
-
-				</span>
-
-                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
-					<a id="flapBtn" href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
-				</span>
-
-
-                </p>
+            <div id="informationBlock" style="margin: auto; height:40px;" class="col-md-7 col-sm-7 col-xs-7" >
+                <div id="userinfo" style="display: none;">
+                    <label class="col-md-3">User: <label id="username" style="color: #47C6F8">TempUser</label></label>
+                    <label class="col-md-3">Rescourse: <label id="rescourse" style="color: #47C6F8"
+                                                              class="status_NoneR"></label></label>
+                    <label class="col-md-3">Status: <label id="status" class="status_disconnected"></label></label>
+                    <div class="col-md-3"><button class="btn2 btn-1 btn-1e" onclick="signOut()">Logout</button></div>
+                </div>
             </div>
-            <div class="col-md-2 col-sm-3 col-xs-3">
-                <ul class="social-icon">
-                    <li><span>Sign in with </span></li>
-                    <li><a id="login_f" href="#" class="fa fa-facebook"></a></li>
-                    <li><a id="login_t" href="#" class="fa fa-twitter"></a></li>
-                </ul>
 
-            </div>
         </div>
     </div>
 </header>
@@ -177,7 +161,7 @@
                 <div class="pieInfo w3layouts agileits col-lg-7 col col-md-12 col-sm-12">
                     <div class="col-md-12" data-wow-offset="50" data-wow-delay="0.6s">
                         <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">YOU GOT <span
-                                id="todoNum">3</span><span> TODO'S </span> IN THE LIST</h2>
+                                id="todoNum">3</span><span> TODO'S </span> ON THE LIST</h2>
                         <p>
                         <div class="newColorBlock"></div>
                         <span style="color: #3366CC;"> New Models:</span><span id="newModelNum">3</span></p>
@@ -186,7 +170,7 @@
                         <span style="color: #109618;"> Approved Models:</span><span id="approvalModelNum">5</span></p>
                         <p>
                         <div class="rejectColorBlock"></div>
-                        <span style="color: #DC3912;">Rejected Models:</span><span id="rejectedModelNum">1</span></p>
+                        <span style="color: #DC3912;"> Rejected Models:</span><span id="rejectedModelNum">1</span></p>
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -196,10 +180,11 @@
             </div>
 
 
-            <div class="col-md-offset-1 col-md-10">
+            <div class="container2  w3layouts agileits">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                     <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingTwo">
+                        <div class="panel-heading" role="tab" id="headingTwo"
+                             style="background-color:rgb(51, 102, 204);">
                             <h4 class="panel-title">
                                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
                                    href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -218,9 +203,9 @@
                                                 <thead>
                                                 <tr>
                                                     <th>Model Name</th>
-                                                    <th>Project</th>
-                                                    <th>Model Type</th>
-                                                    <th>Update Step</th>
+                                                    <th>Algorithm</th>
+                                                    <th>Update Type</th>
+                                                    <th>Timestamp</th>
                                                     <th>Operation</th>
                                                 </tr>
                                                 </thead>
@@ -231,17 +216,16 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
                     <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingThree">
+                        <div class="panel-heading" role="tab" id="headingThree"
+                             style="background-color:rgb(16, 150, 24)">
                             <h4 class="panel-title">
                                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
                                    href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    APPROVALED LIST
+                                    APPROVED LIST
                                 </a>
                             </h4>
                         </div>
@@ -255,14 +239,22 @@
                                                 <thead>
                                                 <tr>
                                                     <th>Model Name</th>
-                                                    <th>Project</th>
-                                                    <th>Model Type</th>
+                                                    <th>Algorithm</th>
                                                     <th>Version</th>
+                                                    <th>Timestamp</th>
                                                     <th>Operation</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-
+                                                    <tr>
+                                                        <td>test</td>
+                                                        <td>ttt</td>
+                                                        <td>ddd</td>
+                                                        <td>rrr</td>
+                                                        <td> <button type="button" class="btn btn-danger">Undo</button>
+                                                             <button type="button" class="btn btn-info">Release</button>
+                                                        </td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -272,7 +264,8 @@
                         </div>
                     </div>
                     <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingFour">
+                        <div class="panel-heading" role="tab" id="headingFour"
+                             style="background-color:rgb(220, 57, 18);">
                             <h4 class="panel-title">
                                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
                                    href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
@@ -290,12 +283,11 @@
                                                 <thead>
                                                 <tr>
                                                     <th>Model Name</th>
-                                                    <th>Project</th>
+                                                    <th>Timestamp</th>
                                                     <th>Operation</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-
                                                 </tbody>
                                             </table>
                                         </div>
@@ -306,13 +298,13 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
 <script src="../assets2/js/jquery.js"></script>
 <script src="../assets2/js/bootstrap.min.js"></script>
 <script src="../assets2/js/enviroment.js"></script>
+<script src="../assets2/js/commons.js"></script>
 <script src="../assets2/js/approvalCenter.js"></script>
 
 <script language="JavaScript">

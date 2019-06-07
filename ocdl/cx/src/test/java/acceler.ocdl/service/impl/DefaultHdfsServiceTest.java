@@ -11,7 +11,6 @@ public class DefaultHdfsServiceTest {
 
     @Test
     public void uploadFile() {
-
 //        DefaultHdfsService service = new DefaultHdfsService();
 //        String url = service.uploadFile("test.txt");
 //        System.out.println(url);

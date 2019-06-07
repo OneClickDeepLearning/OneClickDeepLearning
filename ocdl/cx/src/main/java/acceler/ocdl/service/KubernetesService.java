@@ -2,15 +2,13 @@ package acceler.ocdl.service;
 
 import acceler.ocdl.exception.HdfsException;
 import acceler.ocdl.exception.KuberneteException;
-import acceler.ocdl.model.ResourceType;
-import acceler.ocdl.model.User;
+import acceler.ocdl.model.AbstractUser;
 
 public interface KubernetesService {
 
-    String launchGpuContainer(User user) throws KuberneteException, HdfsException;
+    String launchGpuContainer(AbstractUser user) throws KuberneteException, HdfsException;
 
-    String launchCpuContainer(User user) throws KuberneteException, HdfsException;
+    String launchCpuContainer(AbstractUser user) throws KuberneteException, HdfsException;
 
-    void releaseDockerContainer(User user) throws KuberneteException;
-
+    void releaseDockerContainer(AbstractUser user) throws KuberneteException;
 }

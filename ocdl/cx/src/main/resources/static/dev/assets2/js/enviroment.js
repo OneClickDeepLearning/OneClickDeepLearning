@@ -2,12 +2,14 @@ const enviorment = {
     API:{
         /*------ Jupyter service resource---------*/
         JUPYTER_SERVER: '/rest/container/type/',
-        DELETE_SERVER: '/rest/container',
+        DELETE_SERVER: '/rest/container/release/',
 
         /*------ Auth service resource---------*/
-        LOGIN: '/rest/auth/login',
+        LOGIN_PWD: '/rest/auth/login?pwd',
+        LOGIN_OAUTH:'/rest/auth/login?oauth',
         LOGOUT: '/rest/auth/logout',
         REGISTER: '/rest/auth/register',
+        USER_INFO_BY_TOKEN: '/rest/auth/me',
 
         /*------ Template service resource---------*/
         TEMPLATE_LIST: '/rest/template/file',
@@ -20,7 +22,7 @@ const enviorment = {
 
         /*------ Configure service resource---------*/
         PROJECT: '/rest/project/config',
-        PROJECT_NAME: '/rest/project/name',
+        PROJECT_NAME: '/rest/project/config/name',
         PROJECT_UPDATE: '/rest/project/config',
 
         /* ------- Upload  ---------*/

@@ -1,66 +1,92 @@
 package acceler.ocdl.model;
 
+import acceler.ocdl.CONSTANTS;
+import acceler.ocdl.dto.ModelDto;
+import acceler.ocdl.utils.TimeUtil;
 
-public class Model {
+import java.io.Serializable;
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicLong;
 
-    private String name;
+import static acceler.ocdl.utils.TimeUtil.convertDateToString;
 
-    private String url;
+public abstract class Model extends Storable implements Serializable {
+    private static final AtomicLong modelIdGenerator = new AtomicLong(getInitModelId());
 
-    private Status status;
-
-    private long bigVersion;
-
-    private long smallVersion;
-
-    private ModelType modelType;
-
-
-    public Model(){}
+    protected Long modelId;
+    protected String name;
+    protected Status status;
+    protected String suffix;
 
     public String getName() {
-        return name;
+        return this.name;
     }
+
+    public Status getStatus() {
+        return this.status;
+    }
+
+    public Long getModelId() {
+        return modelId;
+    }
+
+    public String getSuffix() { return suffix; }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) { this.url = url; }
-
-    public Status getStatus() {
-        return status;
     }
 
     public void setStatus(Status status) {
         this.status = status;
     }
 
-    public long getBigVersion() {
-        return bigVersion;
+    public void setModelId(Long modelId) {
+        this.modelId = modelId;
     }
 
-    public void setBigVersion(long bigVersion) { this.bigVersion = bigVersion; }
+    public void setSuffix(String suffix) { this.suffix = suffix; }
 
-    public long getSmallVersion() {
-        return smallVersion;
+    public static Long generateModelId() {
+        return modelIdGenerator.incrementAndGet();
     }
 
-    public void setSmallVersion(long smallVersion) {
-        this.smallVersion = smallVersion;
+    public static Long getInitModelId() {
+        Date current = TimeUtil.currentTime();
+        return current.getTime();
     }
 
-    public ModelType getModelType() { return modelType; }
-
-    public void setModelType(ModelType modelType) { this.modelType = modelType; }
-
-
-    public static enum Status {
-        NEW, APPROVAL, REJECT
+    public String getModelFileName() {
+        return CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{modelId}", modelId.toString()).replace("{suffix}", suffix);
     }
 
+    public ModelDto convertToModelDto(Model model) {
+        ModelDto modelDto = new ModelDto();
+        modelDto.setModelId(model.getModelId().toString());
+        modelDto.setModelFileName(model.getModelFileName());
+        modelDto.setModelName(model.getName());
+        modelDto.setStatus(model.getStatus().toString());
+
+        if (model instanceof NewModel) {
+            NewModel newModel = (NewModel) model;
+            modelDto.setTimeStamp(convertDateToString(newModel.getCommitTime()));
+        } else if (model instanceof RejectedModel) {
+            RejectedModel rejectedModel = (RejectedModel) model;
+            modelDto.setTimeStamp(convertDateToString(rejectedModel.getRejectedTime()));
+        } else {
+            ApprovedModel approvedModel = (ApprovedModel) model;
+            modelDto.setTimeStamp(convertDateToString(approvedModel.getApprovedTime()));
+            modelDto.setAlgorithm(Algorithm.getAlgorithmOfApprovedModel(approvedModel).getAlgorithmName());
+
+            String version = CONSTANTS.NAME_FORMAT.MODELDTO_VERSION.replace("{release_version}", Long.toString(approvedModel.getReleasedVersion()));
+            version = version.replace("{cached_version}", Long.toString(approvedModel.getCachedVersion()));
+            modelDto.setVersion(version);
+        }
+
+        return modelDto;
+
+    }
+
+    public enum Status {
+        NEW, APPROVED, REJECTED, RELEASED
+    }
 }

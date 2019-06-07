@@ -1,5 +1,5 @@
 
-var token = GetQueryString("token");
+
 
 var salesData = [
     {label: "Waiting", value: 3, color: "#3366CC"},
@@ -16,18 +16,15 @@ svg.append("g").attr("id", "salesDonut");
 Donut3D.draw("salesDonut", randomData(), 150, 150, 130, 100, 30, 0.4);
 
 Donut3D.draw("salesDonut", salesData, 150, 150, 130, 100, 30, 0.4);
+
+
+token = GetQueryString("token");
+
+initProjectName();
+initUserInfo();
+
 initModelTypeList();
 
-
-
-
-
-function GetQueryString(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-    var r = window.location.search.substr(1).match(reg);
-    if (r != null) return unescape(r[2]);
-    return null;
-}
 
 function initApproralCenterInfo() {
     $("#tableNew .data").remove();
@@ -56,20 +53,20 @@ function initApproralCenterInfo() {
 
                 <!-- waiting list -->
                 for (var i = 0; i < data["newModels"].length; i++) {
-                    var tr = "<tr class='data'><td>" + data["newModels"][i].modelName + "</td><td>" + data["newModels"][i].project + "</td><td>" +
+                    var tr = "<tr class='data'><td>" + data["newModels"][i].modelName + "</td><td>" +
                         "<select id=\"modelType" + data["newModels"][i].modelId+"\" >" +
                         "</select>" +
                         "</td> <td>" +
                         "<select id=\"version" + data["newModels"][i].modelId + "\" style=\"color: black;\">\n" +
-                        "<option value=\"2\">\n" +
-                        "Small Update\n" +
+                        "<option value=\"CACHED_VERSION\">\n" +
+                        "CACHED VERSION\n" +
                         "</option>\n" +
-                        "<option value=\"1\">\n" +
-                        "Large Update\n" +
+                        "<option value=\"RELEASE_VERSION\">\n" +
+                        "RELEASE VERSION\n" +
                         "</option>\n" +
                         "</select>" +
-                        "</td>  " +
-                        "<td>\n" +
+                        "</td> \n " +
+                        "<td>"+ data["newModels"][i].timeStamp +"</td> <td>" +
                         " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
                         "<button type=\"button\" class=\"btn btn-success\" onclick='UpdateDecision(\"" + data["newModels"][i].modelId + "\",1,\"new\")'>Approve</button>" +
                         "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["newModels"][i].modelId+"\",0,\"new\")'>Reject</button>" +
@@ -89,10 +86,10 @@ function initApproralCenterInfo() {
 
                 <!-- approval list -->
                 for (var i = 0; i < data["approvalModels"].length; i++) {
-                    var tr = "<tr class='data'><td>" + data["approvalModels"][i].modelName + "</td><td>" + data["approvalModels"][i].project + "</td><td>" + data["approvalModels"][i].modelType + "</td> <td>" + data["approvalModels"][i].version + "</td>  " +
-                        "<td>\n" +
+                    var tr = "<tr class='data'><td>" + data["approvalModels"][i].modelName + "</td> <td>" + data["approvalModels"][i].algorithm + "</td> <td>" + data["approvalModels"][i].version + "</td>  " +
+                        "<td>"+ data["approvalModels"][i].timeStamp +"</td> <td>" +
                         " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
-                        "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["approvalModels"][i].modelId + "\",-1,\"approval\")'>Undo</button>" +
+                        "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["approvalModels"][i].modelId + "\",-1,\"approved\")'>Undo</button>" +
                         "</div>" +
                         "</td></tr>";
                     $("#tableApproval").append(tr);
@@ -100,10 +97,10 @@ function initApproralCenterInfo() {
 
                 <!-- reject list -->
                 for (var i = 0; i < data["rejectedModels"].length; i++) {
-                    var tr = "<tr class='data'><td>" + data["rejectedModels"][i].modelName + "</td><td>" + data["rejectedModels"][i].project + "</td>" +
+                    var tr = "<tr class='data'><td>" + data["rejectedModels"][i].modelName + "</td><td>" + data["rejectedModels"][i].timeStamp + "</td>" +
                         "<td>\n" +
                         " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
-                        "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["rejectedModels"][i].modelId + "\",-1,\"reject\")'>Undo</button>" +
+                        "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["rejectedModels"][i].modelId + "\",-1,\"rejected\")'>Undo</button>" +
                         "</div>" +
                         "</td></tr>";
                     $("#tableRejected").append(tr);
@@ -141,32 +138,30 @@ function initModelTypeList() {
 function UpdateDecision(id,status,origin) {
     var decision='';
     var modelType=-1;
-    var bigVersion=-1;
+    var bigVersion='NONE';
     if(status==0){
-        decision="reject";
+        decision="rejected";
     }else if(status==1){
-        decision="approval";
+        decision="approved";
         var indexModel=document.getElementById("modelType"+id).selectedIndex;
         modelType=document.getElementById("modelType"+id).options[indexModel].value;
         var indexVersion=document.getElementById("version"+id).selectedIndex;
-        bigVersion = parseInt(document.getElementById("version"+id).options[indexVersion].value);
+        bigVersion = document.getElementById("version"+id).options[indexVersion].value;
     }else if(status==-1){
         decision="new";
     }
 
     $.ajax({
-        url: enviorment.API.MODEL+"/"+id+"",
+        url: enviorment.API.MODEL+"/"+id+"?fromStatus="+origin+"&toStatus="+decision+"&upgradeVersion="+bigVersion,
         contentType: 'application/json',
         dataType: "json",
         data:
             JSON.stringify({
                 modelId: id,
-                modelType: modelType,
-                destStatus:decision,
-                preStatus:origin,
-                bigVersion:bigVersion
+                status: origin,
+                algorithm: modelType
             }),
-        type: "PUT",
+        type: "POST",
         timeout: 0,
         beforeSend: function (xhr) {
             xhr.setRequestHeader("AUTH_TOKEN", token);

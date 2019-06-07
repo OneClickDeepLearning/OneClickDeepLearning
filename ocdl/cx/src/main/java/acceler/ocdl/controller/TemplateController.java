@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.QueryParam;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +21,8 @@ public final class TemplateController {
     private TemplateService databaseService;
 
     @ResponseBody
-    @RequestMapping(path = "/names", method = RequestMethod.GET)
-    public final Response queryTemplatesNames(HttpServletRequest request){
+    @RequestMapping(path = "/file", method = RequestMethod.GET)
+    public final Response getTemplateFiles(HttpServletRequest request){
         List<List<String>> result = new ArrayList<List<String>>();
         result.add( databaseService.getTemplatesList("Layers"));
         result.add(databaseService.getTemplatesList("Blocks"));
@@ -35,24 +36,14 @@ public final class TemplateController {
     }
 
     @ResponseBody
-    @RequestMapping(path = "/templates", method = RequestMethod.GET)
-    public final Response testTemplates(@RequestBody Map<String,String> param){
+    @RequestMapping(path = "/code", method = RequestMethod.GET)
+    public final Response getTemplateCode(@QueryParam("name")String name, @QueryParam("type")String type){
         List<String> templates = new ArrayList <String>();
-        templates = databaseService.getTemplates2(param.get("name"),param.get("type"));
+        templates = databaseService.getTemplates2(name,type);
 
         return Response.getBuilder()
                 .setCode(Response.Code.SUCCESS)
                 .setData(templates)
-                .build();
-    }
-
-    /**
-     * example of controller
-     * */
-    public final Response controllerExample(){
-        String reponse = "hello world";
-        return Response.getBuilder()
-                .setCode(Response.Code.SUCCESS)
                 .build();
     }
 }

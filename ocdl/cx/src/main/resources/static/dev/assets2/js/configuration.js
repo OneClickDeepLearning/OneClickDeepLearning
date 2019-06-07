@@ -1,5 +1,7 @@
-var token = GetQueryString("token");
+token = GetQueryString("token");
 initConfigInfo();
+initUserInfo();
+
 
 
 function initConfigInfo() {
@@ -19,15 +21,15 @@ function initConfigInfo() {
                 var git = $("#git");
                 var templatePath = $("#templateUrl");
                 var suffix = $("#suffix");
-                var modelType = $("#modelType");
+                var algorithm = $("#algorithm");
 
                 projectName.val(data['projectName']);
                 k8Url.val(data['k8Url']);
                 git.val(data['gitPath']);
                 templatePath.val(data['templatePath']);
-                projectName2.text(data['projectName']);
+                projectName2.text("Project:"+data['projectName']);
                 suffix.val(data['suffix']);
-                modelType.val(data['modelTypes']);
+                algorithm.val(data['algorithm']);
 
             })
         },
@@ -51,7 +53,7 @@ function updateConfiguration() {
                 k8Url: $("#k8Url").val(),
                 templatePath: $("#templateUrl").val(),
                 suffix:$("#suffix").val(),
-                modelTypes:$("#modelType").val()
+                algorithm:$("#algorithm").val()
             }),
         type: "PUT",
         timeout: 0,
@@ -73,9 +75,5 @@ function ajaxMessageReader(response, func){
     }
 }
 
-function GetQueryString(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-    var r = window.location.search.substr(1).match(reg);
-    if (r != null) return unescape(r[2]);
-    return null;
-}
+
+

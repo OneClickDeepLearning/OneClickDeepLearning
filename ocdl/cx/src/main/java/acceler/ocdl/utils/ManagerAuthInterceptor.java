@@ -1,6 +1,6 @@
 package acceler.ocdl.utils;
 
-import acceler.ocdl.model.User;
+import acceler.ocdl.model.InnerUser;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -12,22 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class ManagerAuthInterceptor extends HandlerInterceptorAdapter {
     static final String[] INTERCEPTED_URLS = {
-            "/rest/auth",
-            "",
-            "",
-            "",
-            ""
+            "/rest/auth"
     };
 
     static final String[] EXCEPTED_URLS = {
-            "",
-            "",
-            ""
     };
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        User accessUser = (User) request.getAttribute("CURRENT_USER");
-        return accessUser.getRole() == User.Role.MANAGER;
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        InnerUser accessInnerUser = (InnerUser) request.getAttribute("CURRENT_USER");
+        return accessInnerUser.getRole() == InnerUser.Role.MANAGER;
     }
 }

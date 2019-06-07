@@ -9,16 +9,15 @@
     <link rel="stylesheet" href="../assets2/css/font-awesome.min.css">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="../assets2/css/templatemo-style.css">
-    <link rel="stylesheet" href="../assets2/css/SwitchServer.css">
-    <link href="../assets2/css/flipycard.css" rel="stylesheet">
-    <link href="../assets2/css/SyntaxHighlighter.css" type="text/css" rel="stylesheet">
-    <link href="../assets2/css/menu.css" rel="stylesheet">
+
     <link href="../assets2/css/infoStatus.css" rel="stylesheet">
     <link href="../assets2/css/configuration.css" rel="stylesheet">
-
+    <link href="../assets2/css/userLoginBtn.css" rel="stylesheet">
 
 </head>
 <body>
+
+
 
 
 
@@ -34,15 +33,13 @@
                 <span class="icon icon-bar"></span>
                 <span class="icon icon-bar"></span>
             </button>
-            <img href="#" alt="OCDL" class="navbar-brand" src="../assets2/images/Brand4.png" />
+            <img href="#" alt="OCDL" class="navbar-brand" src="../assets2/images/Brand3.png" />
             <label id="projectName" style="color: black; margin-top: 30px; margin-left: 20px;"></label>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#top">FILE</a></li>
-                <li><a href="#about">MODIFY</a></li>
-                <li><a href="#team">TOOLS</a></li>
-                <li><a href="#portfolio">TEAM</a></li>
+                <li><a href="javascript:void(0)" onclick="JumpToWithToken('../index.html')">HOME</a></li>
+                <li><a href="#about">USER MANAGEMENT</a></li>
                 <li><a href="#contact">CONTACT</a></li>
             </ul>
         </div>
@@ -51,36 +48,22 @@
 
 <header style="background-color:#000000;">
     <div class="container" >
-        <div class="row" style="display:flex;justify-content:center;align-items:center;">
-            <div id="informationBlock" style="margin: auto;" class="col-md-6 col-sm-3 col-xs-3">
-                <label class="col-md-4">User: <label id="username" style="color: #47C6F8">TempUser</label></label>
-                <label class="col-md-4">Rescourse: <label id="rescourse" style="color: #47C6F8" class="status_NoneR"></label></label>
-                <label class="col-md-4">Status: <label id="status" class="status_disconnected"></label></label>
+        <div class="row" style="display:flex;justify-content:center;align-items:center; vertical-align:middle;">
+            <div class="col-md-5">
+                <ol class="breadcrumb" style="background-color:transparent; margin-bottom:0">
+                    <li><a href="javascript:void(0)" onclick="JumpToWithToken('../index.html')" style="color:#47C6F8; ">Home</a></li>
+                    <li class="active" style="color: #ffffff;">Configuration</li>
+                </ol>
             </div>
-            <div class="col-md-2 col-sm-3 col-xs-3">
-                <a id="serverCtl" href="javascript:selectJupyterServer(user_id,user_account,user_password);" class="toggle toggle--on navbar-right"></a>
-            </div>
-            <div class="col-md-2 col-sm-3 col-xs-3" style="height:40px;">
-                <!--	<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button>-->
-                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
-					<a  href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Git</a>
+            <div id="informationBlock" style="margin: auto; height:40px;" class="col-md-7 col-sm-7 col-xs-7" >
+                <div id="userinfo" style="display: none;">
+                    <label class="col-md-3">User: <label id="username" style="color: #47C6F8">TempUser</label></label>
+                    <label class="col-md-3">Rescourse: <label id="rescourse" style="color: #47C6F8"
+                                                              class="status_NoneR"></label></label>
+                    <label class="col-md-3">Status: <label id="status" class="status_disconnected"></label></label>
+                    <div class="col-md-3"><button class="btn2 btn-1 btn-1e" onclick="signOut()">Logout</button></div>
 
-				</span>
-
-                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
-					<a  id="flapBtn"  href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
-				</span>
-
-
-                </p>
-            </div>
-            <div class="col-md-2 col-sm-3 col-xs-3">
-                <ul class="social-icon">
-                    <li><span>Sign in with </span></li>
-                    <li><a id="login_f" href="#" class="fa fa-facebook"></a></li>
-                    <li><a id="login_t" href="#" class="fa fa-twitter"></a></li>
-                </ul>
-
+                </div>
             </div>
         </div>
     </div>
@@ -110,7 +93,7 @@
                             <label class="col-md-4" for="k8Url">K8S URL: </label>    <input id="k8Url" class="col-md-8" type="text" Name="k8Url" placeholder="K8S URL" required="">
                             <label class="col-md-4" for="templateUrl">Template Path: </label>  <input id="templateUrl" class="col-md-8" type="text" Name="templateUrl" placeholder="Template Path" required="">
                             <label class="col-md-4" for="suffix">Model File Suffix: </label>  <input id="suffix" class="col-md-8" type="text" Name="suffix" placeholder="Suffix" required="">
-                            <label class="col-md-4" for="modelType">Model Type: </label>  <input id="modelType" class="col-md-8" type="text" Name="modelType" placeholder="ModelType" required="">
+                            <label class="col-md-4" for="algorithm">Algorithm: </label>  <input id="algorithm" class="col-md-8" type="text" Name="algorithm" placeholder="Algorithm" required="">
                         </form>
                         <div class="send-button w3layouts agileits">
                                 <input type="submit" value="Confirm" onclick="updateConfiguration()">
@@ -129,12 +112,8 @@
 <script src="../assets2/js/bootstrap.min.js"></script>
 <script src="../assets2/js/jquery.singlePageNav.min.js"></script>
 <script src="../assets2/js/enviroment.js"></script>
+<script src="../assets2/js/commons.js"></script>
 <script src="../assets2/js/configuration.js"></script>
-
-
-
-
-
 
 </body>
 </html>
