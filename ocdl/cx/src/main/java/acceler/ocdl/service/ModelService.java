@@ -1,10 +1,7 @@
 package acceler.ocdl.service;
 
 import acceler.ocdl.dto.ModelDto;
-import acceler.ocdl.model.Algorithm;
-import acceler.ocdl.model.Model;
-import acceler.ocdl.model.NewModel;
-import acceler.ocdl.model.InnerUser;
+import acceler.ocdl.model.*;
 
 public interface ModelService {
 
@@ -43,12 +40,12 @@ public interface ModelService {
      */
     void undo(Model model);
 
-    /**
-     * push model to git repository
-     * copy model file from folder "approval" to git repository, and git push
-     * @param modelId = "algorithm" + "version" + "suffix" (the format of version = "v*.*")
-     */
-    void pushModelToGit(Long modelId);
+//    /**
+//     * push model to git repository
+//     * copy model file from folder "approval" to git repository, and git push
+//     * @param modelId = "algorithm" + "version" + "suffix" (the format of version = "v*.*")
+//     */
+//    void pushModelToGit(Long modelId);
 
     /**
      * get models by status
@@ -56,5 +53,11 @@ public interface ModelService {
      * @return list of Model
      */
     ModelDto[] getModelsByStatus(Model.Status status);
+
+    /**
+     * release model
+     * @param model approved model
+     */
+    void release(ApprovedModel model, InnerUser innerUser);
 
 }

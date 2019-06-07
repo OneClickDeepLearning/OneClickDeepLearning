@@ -19,8 +19,9 @@ public class ApprovedModel extends Model implements Cloneable {
         ApprovedModel copy = new ApprovedModel();
 
         copy.setModelId(this.modelId);
+        copy.setSuffix(this.suffix);
         copy.setName(this.name);
-        copy.status = Status.APPROVED;
+        copy.setStatus(this.status);
         copy.setReleasedVersion(this.releasedVersion);
         copy.setCachedVersion(this.cachedVersion);
         copy.setApprovedTime(this.approvedTime);
@@ -31,6 +32,7 @@ public class ApprovedModel extends Model implements Cloneable {
     public NewModel convertToNewModel() {
         NewModel newModel = new NewModel();
         newModel.setModelId(this.modelId);
+        newModel.setSuffix(this.suffix);
         newModel.setName(this.name);
         newModel.setCommitTime(TimeUtil.currentTime());
 
@@ -60,4 +62,6 @@ public class ApprovedModel extends Model implements Cloneable {
     void setCachedVersion(Long cachedVersion) {
         this.cachedVersion = cachedVersion;
     }
+
+
 }

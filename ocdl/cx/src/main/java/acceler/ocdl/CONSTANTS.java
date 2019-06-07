@@ -52,4 +52,9 @@ public interface CONSTANTS {
         String USER_SPACE = "/UserSpace/";
         String USER_NAME = "hadoop";
     }
+
+    interface KAFKA {
+        String TOPIC = "mdmsg";
+        String MESSAGE = "{publishedModelName} {modelUrl}";
+    }
 }
