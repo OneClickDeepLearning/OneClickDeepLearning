@@ -60,9 +60,7 @@ public class PictureController {
         }
 
         //upload to S3
-        storageService.createStorage();
-        storageService.uploadObject(bucketName, outputImage.getName(), outputImage);
-        String url = storageService.getObkectUrl(bucketName, outputImage.getName());
+        String url = storageService.uploadObjectAndGetUrl(bucketName, outputImage.getName(), outputImage);
 
         long endTime = System.currentTimeMillis();
 

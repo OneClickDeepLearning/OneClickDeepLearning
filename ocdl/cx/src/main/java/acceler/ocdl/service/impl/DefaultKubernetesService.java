@@ -65,6 +65,12 @@ public class DefaultKubernetesService implements KubernetesService {
 
         io.fabric8.kubernetes.api.model.Service service = createGpuService(user);
 
+        try{
+            Thread.sleep(1000);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
+
         log.debug("Container launched!");
 
         port = getPort(service);
@@ -101,6 +107,12 @@ public class DefaultKubernetesService implements KubernetesService {
         createCpuDeployment(user);
 
         io.fabric8.kubernetes.api.model.Service service = createCpuService(user);
+
+        try{
+        Thread.sleep(1000);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
 
         log.debug("Container launched!");
 
@@ -354,11 +366,11 @@ public class DefaultKubernetesService implements KubernetesService {
             }
 
             //release resource cache
-            if(cpuAssigned.containsKey(userId)){
-                cpuAssigned.remove(cpuAssigned.get(userId));
+            if(cpuAssigned.containsKey(user.getUserId())){
+                cpuAssigned.remove(user.getUserId());
             }
-            if(gpuAssigned.containsKey(userId)){
-                gpuAssigned.remove(gpuAssigned.get(userId));
+            if(gpuAssigned.containsKey(user.getUserId())){
+                gpuAssigned.remove(user.getUserId());
             }
 
         } catch (KubernetesClientException e) {

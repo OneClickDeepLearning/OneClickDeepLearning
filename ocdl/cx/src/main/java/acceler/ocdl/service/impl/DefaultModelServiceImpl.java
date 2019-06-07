@@ -8,14 +8,17 @@ import acceler.ocdl.model.*;
 import acceler.ocdl.service.ModelService;
 import acceler.ocdl.utils.CommandHelper;
 import acceler.ocdl.utils.TimeUtil;
+import io.fabric8.kubernetes.api.model.AffinityFluent;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.eclipse.jgit.api.Git;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Service
@@ -30,7 +33,7 @@ public class DefaultModelServiceImpl implements ModelService {
     @Override
     public void initModelToStage(InnerUser innerUser) {
 
-        final String userSpaceName = CONSTANTS.APPLICATIONS_DIR.USER_SPACE + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectNameInStorage()).replace("{{userId}}", String.valueOf(innerUser.getUserId()));
+        final String userSpaceName = CONSTANTS.APPLICATIONS_DIR.USER_SPACE + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectNameInStorage()).replace("{userId}", String.valueOf(innerUser.getUserId()));
         final File userSpace = new File(userSpaceName);
 
         if (userSpace.isDirectory()) {
@@ -50,16 +53,18 @@ public class DefaultModelServiceImpl implements ModelService {
                     if (!f.isDirectory() && isModelFile(suffixes, f.getName())) {
                         Long modelId = Model.generateModelId();
 
-                        String suffix = f.getName().substring(f.getName().lastIndexOf("."));
+                        String suffix = f.getName().substring(f.getName().lastIndexOf(".")+1);
 
                         String stagedFilePath = CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE +
                                 CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{modelId}", modelId.toString()).replace("{suffix}", suffix);
 
-                        FileUtils.moveFile(f, new File(stagedFilePath));
+                        File newStagedFilePath = new File(stagedFilePath);
+                        FileUtils.moveFile(f, newStagedFilePath);
+                        persistNewModel(f, modelId);
                     }
-                    persistNewModel(f);
                 }
             } catch (IOException e) {
+                e.printStackTrace();
                 log.error(String.format("fail to create new model, because %s failed to move to stage space", files[current].getName()));
                 throw new OcdlException(String.format("fail to create new model, because %s failed to move to stage space", files[current].getName()));
             }
@@ -68,8 +73,9 @@ public class DefaultModelServiceImpl implements ModelService {
         }
     }
 
-    private void persistNewModel(File modelFile) {
+    private void persistNewModel(File modelFile, Long modelId) {
         NewModel model = new NewModel();
+        model.setModelId(modelId);
         model.setName(modelFile.getName());
         model.setCommitTime(TimeUtil.currentTime());
         NewModel.addToStorage(model);
@@ -79,26 +85,37 @@ public class DefaultModelServiceImpl implements ModelService {
     public void approveModel(NewModel model, String algorithmName, Algorithm.UpgradeVersion version) {
         checkIfNewModelExist(model);
         Algorithm algorithm = Algorithm.getAlgorithmByName(algorithmName).orElseThrow(() -> (new NotFoundException(String.format("Not found algorithm: %s", algorithmName))));
+
         ApprovedModel approvedModel = algorithm.approveModel(model, version);
         algorithm.persistApprovalModel(approvedModel);
         NewModel.removeFromStorage(model.getModelId());
     }
 
-    private void pushFileToRemoteGitRepo(File workDir) {
-        StringBuilder stdErrOut = new StringBuilder();
-        StringBuilder stdOut = new StringBuilder();
+    private void cleanGitRepo(Git git, File gitModelRepo) {
 
-        commandHelper.runCommand(workDir, "git pull", stdOut, stdErrOut);
-        throwExceptionIfError(stdErrOut);
+        try{
+            git.pull().call();
+            FileUtils.cleanDirectory(gitModelRepo);
+        } catch (IOException e) {
+            throw new OcdlException("Git Repo cannot be clean.");
+        } catch (Exception e) {
+            throw new OcdlException("Fail to git pull");
+        }
+    }
 
-        commandHelper.runCommand(workDir, "git add --all", stdOut, stdErrOut);
-        throwExceptionIfError(stdErrOut);
-
-        commandHelper.runCommand(workDir, "git commit -m \"approved models\"", stdOut, stdErrOut);
-        throwExceptionIfError(stdErrOut);
-
-        commandHelper.runCommand(workDir, "git push", stdOut, stdErrOut);
-        throwExceptionIfError(stdErrOut);
+    private void pushFileToRemoteGitRepo(Git git) {
+        try{
+            git.add()
+                    .addFilepattern(".")
+                    .call();
+            git.commit()
+                    .setMessage("publish model")
+                    .call();
+            git.push()
+                    .call();
+        } catch (Exception e){
+            throw new OcdlException("Fail to push model");
+        }
     }
 
 
@@ -125,11 +142,11 @@ public class DefaultModelServiceImpl implements ModelService {
 
     @Override
     public void undo(Model model) {
-        if (model instanceof ApprovedModel && Algorithm.existApprovalModel((ApprovedModel) model)) {
+        if (model instanceof ApprovedModel && !Algorithm.existApprovalModel((ApprovedModel) model)) {
             throw new NotFoundException("model not found");
         }
 
-        if (model instanceof RejectedModel && RejectedModel.existRejectedModel((RejectedModel) model)) {
+        if (model instanceof RejectedModel && !RejectedModel.existRejectedModel((RejectedModel) model)) {
             throw new NotFoundException("model not found");
         }
 
@@ -155,9 +172,53 @@ public class DefaultModelServiceImpl implements ModelService {
     @Override
     public void pushModelToGit(Long modelId) {
         ApprovedModel approvedModel = Algorithm.getApprovalModelById(modelId).orElseThrow(() -> (new NotFoundException("Not Found model:" + modelId)));
-        //TODO: move file to git repo
-        //TODO: read File space from Project.gitrepo
-        pushFileToRemoteGitRepo(new File(Project.getGitRepoURIInStorage()));
+
+        //TODO: using git local path
+        //clean the git repo first
+        String gitRepoPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.GIT_REPO_SPACE, "1/").toString();
+        String gitModelPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.GIT_REPO_SPACE, "1/models").toString();
+
+        Git git = null;
+        try {
+            git = Git.open(new File(gitRepoPath));
+        } catch (IOException e) {
+            throw new NotFoundException("Git repo not found");
+        }
+        cleanGitRepo(git, new File(gitModelPath));
+
+        //copy file to git repo
+        File modelFile = getModelFileInStage(modelId);
+        Optional.ofNullable(modelFile).ifPresent(f -> {
+            String targetPath = Paths.get(gitRepoPath,
+                    CONSTANTS.NAME_FORMAT.GIT_MODEL.replace("{algorithm}", Algorithm.getAlgorithmOfApprovedModel(approvedModel).getAlgorithmName())
+                            .replace("{release_version}", approvedModel.getReleasedVersion().toString())
+                            .replace("{cached_version}", approvedModel.getCachedVersion().toString())
+                            .replace("{suffix}", f.getName().substring(f.getName().lastIndexOf(".")+1)))
+                    .toString();
+            try {
+                FileUtils.copyFile(f, new File(targetPath));
+            } catch (IOException e) {
+                throw new OcdlException("Fail to move file to Git repo");
+            }
+        });
+
+        pushFileToRemoteGitRepo(git);
+    }
+
+    /**
+     * Find the exact model file in stage
+     * @param modelId modelId, as well ad the file name
+     * @return
+     */
+    private File getModelFileInStage(Long modelId) {
+
+        File stage = new File(CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE);
+        for (File f : stage.listFiles()) {
+            if (!f.isDirectory() && f.getName().startsWith(modelId.toString())) {
+                return f;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -211,6 +272,7 @@ public class DefaultModelServiceImpl implements ModelService {
 
         List<ModelDto> modelDtoList = new ArrayList<>();
         for (String algorithmName : modelMap.keySet()) {
+
             List<ModelDto> modelDtos = convertModelsToModelDtoList(modelMap.get(algorithmName));
             modelDtoList.addAll(modelDtos);
         }

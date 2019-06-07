@@ -17,6 +17,7 @@ public interface CONSTANTS {
 
         String USER_ID = "{type}{userId}";
         String MODELDTO_VERSION = "v{release_version}.{cached_version}";
+        String GIT_MODEL = "{algorithm}_v{release_version}.{cached_version}.{suffix}";
     }
 
     interface PERSISTENCE {

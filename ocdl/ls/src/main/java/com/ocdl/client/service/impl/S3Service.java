@@ -38,8 +38,8 @@ public class S3Service implements StorageService {
     public S3Service() {
     }
 
-    @Override
-    public void createStorage() {
+
+    private void createStorage() {
         if (s3client == null) {
 
             logger.info("create the S3 services.");
@@ -55,16 +55,15 @@ public class S3Service implements StorageService {
         }
     }
 
-    @Override
-    public void uploadObject(String bucketName, String fileName, File file) {
 
+    private void uploadObject(String bucketName, String fileName, File file) {
         s3client.putObject(new PutObjectRequest(bucketName, fileName,file)
                 .withCannedAcl(CannedAccessControlList.PublicRead)
         );
     }
 
-    @Override
-    public String getObkectUrl(String bucketName, String objectKey) {
+
+    private String getObkectUrl(String bucketName, String objectKey) {
 
         logger.info("Generating pre-signed URL.");
         GeneratePresignedUrlRequest generatePresignedUrlRequest =
@@ -74,6 +73,13 @@ public class S3Service implements StorageService {
 
         logger.info("Pre-Signed URL: " + url.toString());
         return url.toString();
+    }
+
+    @Override
+    public String uploadObjectAndGetUrl(String bucketName, String fileName, File file) {
+        createStorage();
+        uploadObject(bucketName, fileName, file);
+        return getObkectUrl(bucketName, fileName);
     }
 
 

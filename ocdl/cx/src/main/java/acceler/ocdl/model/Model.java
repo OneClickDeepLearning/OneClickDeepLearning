@@ -2,14 +2,16 @@ package acceler.ocdl.model;
 
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.dto.ModelDto;
+import acceler.ocdl.utils.TimeUtil;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static acceler.ocdl.utils.TimeUtil.convertDateToString;
 
 public abstract class Model extends Storable implements Serializable {
-    private static final AtomicLong modelIdGenerator = new AtomicLong(100000);
+    private static final AtomicLong modelIdGenerator = new AtomicLong(getInitModelId());
 
     protected Long modelId;
     protected String name;
@@ -43,6 +45,11 @@ public abstract class Model extends Storable implements Serializable {
         return modelIdGenerator.incrementAndGet();
     }
 
+    public static Long getInitModelId() {
+        Date current = TimeUtil.currentTime();
+        return current.getTime();
+    }
+
     public ModelDto convertToModelDto(Model model) {
         ModelDto modelDto = new ModelDto();
         modelDto.setModelId(model.getModelId().toString());
@@ -60,7 +67,8 @@ public abstract class Model extends Storable implements Serializable {
             modelDto.setTimeStamp(convertDateToString(approvedModel.getApprovedTime()));
             modelDto.setAlgorithm(Algorithm.getAlgorithmOfApprovedModel(approvedModel).getAlgorithmName());
 
-            String version = CONSTANTS.NAME_FORMAT.MODELDTO_VERSION.replace("{release_version}", Long.toString(approvedModel.getReleasedVersion()).replace("{cached_version}", Long.toString(approvedModel.getCachedVersion())));
+            String version = CONSTANTS.NAME_FORMAT.MODELDTO_VERSION.replace("{release_version}", Long.toString(approvedModel.getReleasedVersion()));
+            version = version.replace("{cached_version}", Long.toString(approvedModel.getCachedVersion()));
             modelDto.setVersion(version);
         }
 

@@ -9,6 +9,7 @@ import acceler.ocdl.utils.TimeUtil;
 
 import java.io.Serializable;
 import java.text.ParseException;
+import java.util.Date;
 
 public class ModelDto implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -86,19 +87,24 @@ public class ModelDto implements Serializable {
         Model model;
 
         try {
-            if (this.status.equals(Model.Status.NEW.toString())) {
+            //optional value
+            Date time = this.timeStamp != null ? TimeUtil.convertStringToDate(this.timeStamp) : null;
+
+            if (this.status.toUpperCase().equals(Model.Status.NEW.toString())) {
                 model = new NewModel();
                 model.setModelId(Long.parseLong(this.modelId));
                 model.setName(this.modelName);
-                ((NewModel) model).setCommitTime(TimeUtil.convertStringToDate(this.timeStamp));
-            } else if (this.status.equals(Model.Status.REJECTED.toString())) {
+                ((NewModel) model).setCommitTime(time);
+            } else if (this.status.toUpperCase().equals(Model.Status.REJECTED.toString())) {
                 model = new RejectedModel();
+                model.setModelId(Long.parseLong(this.modelId));
                 model.setName(this.modelName);
-                ((RejectedModel) model).setRejectedTime(TimeUtil.convertStringToDate(this.timeStamp));
-            } else if (this.status.equals(Model.Status.APPROVED.toString())) {
+                ((RejectedModel) model).setRejectedTime(time);
+            } else if (this.status.toUpperCase().equals(Model.Status.APPROVED.toString())) {
                 model = new ApprovedModel();
+                model.setModelId(Long.parseLong(this.modelId));
                 model.setName(this.modelName);
-                ((ApprovedModel) model).setApprovedTime(TimeUtil.convertStringToDate(this.timeStamp));
+                ((ApprovedModel) model).setApprovedTime(time);
             } else {
                 throw new OcdlException("Invalid status type in ModelDto.");
             }

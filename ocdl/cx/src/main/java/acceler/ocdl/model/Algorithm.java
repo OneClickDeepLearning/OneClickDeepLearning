@@ -6,6 +6,7 @@ import acceler.ocdl.exception.InitStorageException;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.utils.SerializationUtils;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -173,7 +174,7 @@ public class Algorithm extends Storable implements Serializable {
     private static Optional<Algorithm> getRealAlgorithmByName(String algorithmName) {
         lock.readLock().lock();
         Optional<Algorithm> algorithmOpt = getAlgorithmStorage().stream().filter(a -> a.algorithmName.equals(algorithmName)).findFirst();
-        lock.readLock().lock();
+        lock.readLock().unlock();
 
         return algorithmOpt;
     }
@@ -197,8 +198,8 @@ public class Algorithm extends Storable implements Serializable {
     }
 
 
-    private final AtomicLong releaseVersionGenerator;
-    private final AtomicLong cachedVersionGenerator;
+    private AtomicLong releaseVersionGenerator;
+    private AtomicLong cachedVersionGenerator;
 
     private String algorithmName;
     private Long currentReleasedVersion;
@@ -215,9 +216,11 @@ public class Algorithm extends Storable implements Serializable {
     public Algorithm deepCopy() {
         Algorithm copy = new Algorithm();
         copy.algorithmName = this.algorithmName;
+
         copy.currentReleasedVersion = this.currentReleasedVersion;
         copy.currentCachedVersion = this.currentCachedVersion;
-        copy.belongingModels = Arrays.asList(getBelongingModelsCopies());
+
+        copy.belongingModels = Lists.newArrayList(getBelongingModelsCopies());
 
         return copy;
     }
@@ -227,18 +230,47 @@ public class Algorithm extends Storable implements Serializable {
     }
 
     public ApprovedModel approveModel(NewModel model, UpgradeVersion version) {
-        if (version == UpgradeVersion.RELEASE_VERSION) {
-            this.currentReleasedVersion = this.releaseVersionGenerator.getAndIncrement();
-        } else {
-            this.currentCachedVersion = this.cachedVersionGenerator.getAndIncrement();
+
+        System.out.println("before");
+        System.out.println(this.releaseVersionGenerator.get());
+        System.out.println(this.cachedVersionGenerator.get());
+        System.out.println(this.currentReleasedVersion);
+        System.out.println(this.currentCachedVersion);
+
+        if (this.currentReleasedVersion != null) {
+            this.releaseVersionGenerator = new AtomicLong(this.currentReleasedVersion);
         }
+
+        if (this.currentCachedVersion != null) {
+            this.cachedVersionGenerator = new AtomicLong(this.currentCachedVersion);
+        }
+
+        System.out.println("after reset");
+        System.out.println(this.releaseVersionGenerator.get());
+        System.out.println(this.cachedVersionGenerator.get());
+
+        if (version == UpgradeVersion.RELEASE_VERSION) {
+            this.currentReleasedVersion = this.releaseVersionGenerator.incrementAndGet();
+            this.cachedVersionGenerator = new AtomicLong(0);
+            this.currentCachedVersion = this.cachedVersionGenerator.get();
+        } else {
+            this.currentCachedVersion = this.cachedVersionGenerator.incrementAndGet();
+            this.currentReleasedVersion = this.releaseVersionGenerator.get();
+        }
+
+        Optional<Algorithm> realAlgorithm = getRealAlgorithmByName(this.algorithmName);
+        realAlgorithm.ifPresent(algorithm -> {
+            algorithm.setCurrentReleasedVersion(this.currentReleasedVersion);
+            algorithm.setCurrentCachedVersion(this.currentCachedVersion);
+        });
+        Algorithm.persistence();
 
         return model.convertToApprovedModel(this.currentCachedVersion, this.currentReleasedVersion);
     }
 
     public void persistApprovalModel(ApprovedModel model) {
         if (model.getReleasedVersion() == null || model.getCachedVersion() == null) {
-            logger.error("Can not persist the model that misses achedVersion or releasedVersion:" + model.getName());
+            logger.error("Can not persist the model that misses cachedVersion or releasedVersion:" + model.getName());
             throw new OcdlException("Can not persist the model that misses achedVersion or releasedVersion");
         }
 
@@ -249,7 +281,10 @@ public class Algorithm extends Storable implements Serializable {
         ApprovedModel copyOfModel = model.deepCopy(); //avoid any ref outside
 
         lock.writeLock().lock();
-        getRealAlgorithmByName(this.algorithmName).ifPresent(algorithm -> algorithm.belongingModels.add(copyOfModel));
+        Optional<Algorithm> algorithmOpt = getRealAlgorithmByName(this.algorithmName);
+        getRealAlgorithmByName(this.algorithmName).ifPresent(algorithm -> {
+                    algorithm.belongingModels.add(copyOfModel);
+        });
         persistence();
         lock.writeLock().unlock();
     }

@@ -1,11 +1,9 @@
 package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.ModelDto;
+import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.exception.OcdlException;
-import acceler.ocdl.model.Algorithm;
-import acceler.ocdl.model.InnerUser;
-import acceler.ocdl.model.Model;
-import acceler.ocdl.model.NewModel;
+import acceler.ocdl.model.*;
 import acceler.ocdl.service.ModelService;
 import acceler.ocdl.dto.Response;
 import org.slf4j.Logger;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.QueryParam;
 import java.util.*;
 
 import static acceler.ocdl.dto.Response.getBuilder;
@@ -62,30 +59,40 @@ public final class ModelController {
      *                 Note: modelDto.status == from;
      *                       modelDto.algorithm is needed only when from=new && to=approval, the value is algorithm name;
      *                       modelDto.version is needed only when from=new && to=approval, the value is "RELEASE_VERSION" or "CACHED_VERSION";
-     * @param from from status
-     * @param to to status
      * @return
      */
     @ResponseBody
-    @RequestMapping(path = "/{status}",  method = RequestMethod.PUT)
-    public final Response pushDecision(@RequestBody ModelDto modelDto,
-                                       @QueryParam("fromStatus")String from, @QueryParam("toStatus")String to) {
+    @RequestMapping(path="/{modelId}", method = RequestMethod.POST)
+    public final Response pushDecision(@RequestBody ModelDto modelDto, HttpServletRequest request) {
+        String from = request.getParameter("fromStatus");
+        String to = request.getParameter("toStatus");
+        String upgradeVersion = request.getParameter("upgradeVersion");
 
-        logger.debug("enter the get model list funciton +++++++++++++++++");
         Response.Builder responseBuilder = getBuilder();
 
         if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.APPROVED.name())) {
-            modelService.approveModel((NewModel) modelDto.convertToModel(),modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(modelDto.getVersion()));
+            Model model = NewModel.getNewModelById(Long.parseLong(modelDto.getModelId()))
+                    .orElseThrow(()-> new NotFoundException("Fail to found model"));
+
+            modelService.approveModel((NewModel) model,modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(upgradeVersion));
+            modelService.pushModelToGit(Long.parseLong(modelDto.getModelId()));
+
         } else if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.REJECTED.name())) {
-            modelService.rejectModel((NewModel) modelDto.convertToModel());
-        } else if ((from.toUpperCase().equals(Model.Status.APPROVED.name()) || from.toUpperCase().equals(Model.Status.REJECTED.name())) && to.toUpperCase().equals(Model.Status.NEW.name())) {
-            modelService.undo(modelDto.convertToModel());
+            Model model = NewModel.getNewModelById(Long.parseLong(modelDto.getModelId()))
+                    .orElseThrow(()-> new NotFoundException("Fail to found model"));
+            modelService.rejectModel((NewModel) model);
+        } else if (from.toUpperCase().equals(Model.Status.REJECTED.name()) && to.toUpperCase().equals(Model.Status.NEW.name())) {
+            RejectedModel model = RejectedModel.getRejectedModelById(Long.parseLong(modelDto.getModelId()))
+                    .orElseThrow(()-> new NotFoundException("Fail to found model"));
+            modelService.undo(model);
+        } else if (from.toUpperCase().equals(Model.Status.APPROVED.name()) && to.toUpperCase().equals(Model.Status.NEW.name())) {
+            Model model = Algorithm.getApprovalModelById(Long.parseLong(modelDto.getModelId()))
+                    .orElseThrow(()-> new NotFoundException("Fail to found model"));
+            modelService.undo(model);
         } else {
             throw new OcdlException("Invalid From/To parameters.");
         }
-
         return responseBuilder.setCode(Response.Code.SUCCESS).build();
-
     }
 
 

@@ -71,17 +71,20 @@ public class DefaultKafkaConsumerService implements ConsumerService {
         createConsumer();
 
         logger.info("starting kafka consumer...");
+        System.out.println("starting kafka consumer...");
         this.consumer.subscribe(Arrays.asList(topic));
 
         while (true) {
             logger.info("waiting message ....");
+            System.out.println("waiting message ....");
             ConsumerRecords<String, String> records = consumer.poll(Duration.of(1, ChronoUnit.DAYS));
             for (ConsumerRecord<String, String> record : records) {
 
                 // message format: "fileName url"
-                logger.info("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value());
+                logger.info(String.format("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value()));
 
-                if (record.value().trim().equals("")) {
+                if (record.value().trim().equals("") || record.value().trim().indexOf(" ") < 0) {
+                    logger.info("Invalid value");
                     continue;
                 }
                 client.downloadModel(record.value());
