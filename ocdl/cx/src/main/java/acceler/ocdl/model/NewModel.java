@@ -116,6 +116,7 @@ public class NewModel extends Model {
         ApprovedModel model = new ApprovedModel();
 
         model.setModelId(this.modelId);
+        model.setSuffix(suffix);
         model.setName(this.name);
         model.status = Status.APPROVED;
         model.setApprovedTime(currentTime());
@@ -129,6 +130,7 @@ public class NewModel extends Model {
         RejectedModel model = new RejectedModel();
 
         model.setModelId(this.modelId);
+        model.setSuffix(this.suffix);
         model.setName(this.name);
         model.status = Status.REJECTED;
         model.setRejectedTime(currentTime());
@@ -140,6 +142,7 @@ public class NewModel extends Model {
         NewModel copy = new NewModel();
 
         copy.setModelId(this.modelId);
+        copy.setSuffix(this.suffix);
         copy.setName(this.name);
         copy.status = Status.NEW;
         copy.setCommitTime(this.commitTime);

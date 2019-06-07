@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.function.Consumer;
 
 
 public class Algorithm extends Storable implements Serializable {
@@ -93,6 +94,24 @@ public class Algorithm extends Storable implements Serializable {
         lock.readLock().unlock();
 
         return target;
+    }
+
+    public static void updateSingleApprovedModel(ApprovedModel model, Consumer<ApprovedModel> consumer) {
+
+        lock.readLock().lock();
+        for (Algorithm algorithm : getAlgorithmStorage()) {
+            for (ApprovedModel m : algorithm.belongingModels) {
+                if (m.getModelId().equals(model.getModelId())) {
+
+                    lock.writeLock().lock();
+                    consumer.accept(m);
+                    lock.writeLock().unlock();
+                    break;
+                }
+            }
+        }
+        lock.readLock().unlock();
+        persistence();
     }
 
     public static Optional<ApprovedModel> getApprovalModelById(Long modelId) {
@@ -198,8 +217,8 @@ public class Algorithm extends Storable implements Serializable {
     }
 
 
-    private AtomicLong releaseVersionGenerator;
-    private AtomicLong cachedVersionGenerator;
+//    private AtomicLong releaseVersionGenerator;
+//    private AtomicLong cachedVersionGenerator;
 
     private String algorithmName;
     private Long currentReleasedVersion;
@@ -209,8 +228,8 @@ public class Algorithm extends Storable implements Serializable {
 
     public Algorithm() {
         this.belongingModels = new ArrayList<>();
-        this.releaseVersionGenerator = new AtomicLong(0);
-        this.cachedVersionGenerator = new AtomicLong(0);
+//        this.releaseVersionGenerator = new AtomicLong(0);
+//        this.cachedVersionGenerator = new AtomicLong(0);
     }
 
     public Algorithm deepCopy() {
@@ -232,40 +251,38 @@ public class Algorithm extends Storable implements Serializable {
     public ApprovedModel approveModel(NewModel model, UpgradeVersion version) {
 
         System.out.println("before");
-        System.out.println(this.releaseVersionGenerator.get());
-        System.out.println(this.cachedVersionGenerator.get());
         System.out.println(this.currentReleasedVersion);
         System.out.println(this.currentCachedVersion);
 
-        if (this.currentReleasedVersion != null) {
-            this.releaseVersionGenerator = new AtomicLong(this.currentReleasedVersion);
-        }
+        AtomicLong releaseVersionGenerator = this.currentReleasedVersion != null? new AtomicLong(this.currentReleasedVersion): new AtomicLong(0L);
+        AtomicLong cachedVersionGenerator = this.currentCachedVersion != null? new AtomicLong(this.currentCachedVersion) : new AtomicLong(0L);
 
-        if (this.currentCachedVersion != null) {
-            this.cachedVersionGenerator = new AtomicLong(this.currentCachedVersion);
+        Long newReleasedVersion = 0L;
+        Long newCachedVersion = 0L;
+
+        if (version == UpgradeVersion.RELEASE_VERSION) {
+            newReleasedVersion = releaseVersionGenerator.incrementAndGet();
+            newCachedVersion = 0L;
+        } else {
+            newCachedVersion = cachedVersionGenerator.incrementAndGet();
+            newReleasedVersion = releaseVersionGenerator.get();
         }
 
         System.out.println("after reset");
-        System.out.println(this.releaseVersionGenerator.get());
-        System.out.println(this.cachedVersionGenerator.get());
+        System.out.println(newReleasedVersion);
+        System.out.println(newCachedVersion);
 
-        if (version == UpgradeVersion.RELEASE_VERSION) {
-            this.currentReleasedVersion = this.releaseVersionGenerator.incrementAndGet();
-            this.cachedVersionGenerator = new AtomicLong(0);
-            this.currentCachedVersion = this.cachedVersionGenerator.get();
-        } else {
-            this.currentCachedVersion = this.cachedVersionGenerator.incrementAndGet();
-            this.currentReleasedVersion = this.releaseVersionGenerator.get();
-        }
+        return model.convertToApprovedModel(newCachedVersion, newReleasedVersion);
+    }
+
+    public void persistAlgorithmVersion(ApprovedModel model) {
 
         Optional<Algorithm> realAlgorithm = getRealAlgorithmByName(this.algorithmName);
         realAlgorithm.ifPresent(algorithm -> {
-            algorithm.setCurrentReleasedVersion(this.currentReleasedVersion);
-            algorithm.setCurrentCachedVersion(this.currentCachedVersion);
+            algorithm.setCurrentReleasedVersion(model.getReleasedVersion());
+            algorithm.setCurrentCachedVersion(model.getCachedVersion());
         });
         Algorithm.persistence();
-
-        return model.convertToApprovedModel(this.currentCachedVersion, this.currentReleasedVersion);
     }
 
     public void persistApprovalModel(ApprovedModel model) {

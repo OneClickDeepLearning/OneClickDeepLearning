@@ -18,6 +18,7 @@ public class ModelDto implements Serializable {
     private String modelName;
     private String algorithm;
     private String status;
+    private String modelFileName;
 
     /**
      * releasedVersion + cachedVersion;
@@ -81,6 +82,10 @@ public class ModelDto implements Serializable {
     public void setModelId(String modelId) {
         this.modelId = modelId;
     }
+
+    public String getModelFileName() { return modelFileName; }
+
+    public void setModelFileName(String modelFileName) { this.modelFileName = modelFileName; }
 
     public Model convertToModel() {
 

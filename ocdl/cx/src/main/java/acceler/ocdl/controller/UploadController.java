@@ -21,23 +21,21 @@ public class UploadController {
 
     @RequestMapping(path="/upload", method = RequestMethod.PUT)
     @ResponseBody
-    public Response springUpload(@RequestBody Map<String,String> file)
-    {
+    public Response springUpload(@RequestBody Map<String,String> file) {
+
+        Response.Builder builder = Response.getBuilder();
+
         if(!file.isEmpty()){
 
             String result =  hdfsService.uploadFile(file.get("file"));
 
-            return Response.getBuilder()
-                .setCode(Response.Code.SUCCESS)
-                .setData(result)
-                .build();
+            builder.setCode(Response.Code.SUCCESS).setData(result);
 
         } else {
-            return Response.getBuilder()
-                    .setCode(Response.Code.ERROR)
-                    .setData("Empty file!")
-                    .build();
+            builder.setCode(Response.Code.ERROR).setMessage("Empty file!");
         }
+
+        return builder.build();
     }
 }
 

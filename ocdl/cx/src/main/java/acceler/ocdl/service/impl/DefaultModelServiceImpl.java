@@ -5,14 +5,17 @@ import acceler.ocdl.dto.ModelDto;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.model.*;
+import acceler.ocdl.service.MessageQueueService;
 import acceler.ocdl.service.ModelService;
+import acceler.ocdl.service.StorageService;
 import acceler.ocdl.utils.CommandHelper;
 import acceler.ocdl.utils.TimeUtil;
-import io.fabric8.kubernetes.api.model.AffinityFluent;
+import com.sun.istack.Nullable;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.jgit.api.Git;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +24,25 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static org.apache.commons.io.FileUtils.directoryContains;
+
 @Service
 @DependsOn({"storageLoader"})
 public class DefaultModelServiceImpl implements ModelService {
 
     private static final Logger log = Logger.getLogger(DefaultModelServiceImpl.class);
 
+//    @Autowired
+//    private CommandHelper commandHelper;
+
     @Autowired
-    private CommandHelper commandHelper;
+    private StorageService storageService;
+
+    @Autowired
+    private MessageQueueService messageQueueService;
+
+    @Value("${S3.server.bucketName}")
+    private String bucketName;
 
     @Override
     public void initModelToStage(InnerUser innerUser) {
@@ -60,7 +74,7 @@ public class DefaultModelServiceImpl implements ModelService {
 
                         File newStagedFilePath = new File(stagedFilePath);
                         FileUtils.moveFile(f, newStagedFilePath);
-                        persistNewModel(f, modelId);
+                        persistNewModel(f, modelId, suffix);
                     }
                 }
             } catch (IOException e) {
@@ -73,9 +87,10 @@ public class DefaultModelServiceImpl implements ModelService {
         }
     }
 
-    private void persistNewModel(File modelFile, Long modelId) {
+    private void persistNewModel(File modelFile, Long modelId, String suffix) {
         NewModel model = new NewModel();
         model.setModelId(modelId);
+        model.setSuffix(suffix);
         model.setName(modelFile.getName());
         model.setCommitTime(TimeUtil.currentTime());
         NewModel.addToStorage(model);
@@ -91,32 +106,32 @@ public class DefaultModelServiceImpl implements ModelService {
         NewModel.removeFromStorage(model.getModelId());
     }
 
-    private void cleanGitRepo(Git git, File gitModelRepo) {
+//    private void cleanGitRepo(Git git, File gitModelRepo) {
+//
+//        try{
+//            git.pull().call();
+//            FileUtils.cleanDirectory(gitModelRepo);
+//        } catch (IOException e) {
+//            throw new OcdlException("Git Repo cannot be clean.");
+//        } catch (Exception e) {
+//            throw new OcdlException("Fail to git pull");
+//        }
+//    }
 
-        try{
-            git.pull().call();
-            FileUtils.cleanDirectory(gitModelRepo);
-        } catch (IOException e) {
-            throw new OcdlException("Git Repo cannot be clean.");
-        } catch (Exception e) {
-            throw new OcdlException("Fail to git pull");
-        }
-    }
-
-    private void pushFileToRemoteGitRepo(Git git) {
-        try{
-            git.add()
-                    .addFilepattern(".")
-                    .call();
-            git.commit()
-                    .setMessage("publish model")
-                    .call();
-            git.push()
-                    .call();
-        } catch (Exception e){
-            throw new OcdlException("Fail to push model");
-        }
-    }
+//    private void pushFileToRemoteGitRepo(Git git) {
+//        try{
+//            git.add()
+//                    .addFilepattern(".")
+//                    .call();
+//            git.commit()
+//                    .setMessage("publish model")
+//                    .call();
+//            git.push()
+//                    .call();
+//        } catch (Exception e){
+//            throw new OcdlException("Fail to push model");
+//        }
+//    }
 
 
     private void checkIfNewModelExist(NewModel model) {
@@ -125,11 +140,11 @@ public class DefaultModelServiceImpl implements ModelService {
         }
     }
 
-    private void throwExceptionIfError(StringBuilder stdErrorOut) throws RuntimeException {
-        if (stdErrorOut.length() > 0) {
-            throw new RuntimeException(stdErrorOut.toString());
-        }
-    }
+//    private void throwExceptionIfError(StringBuilder stdErrorOut) throws RuntimeException {
+//        if (stdErrorOut.length() > 0) {
+//            throw new RuntimeException(stdErrorOut.toString());
+//        }
+//    }
 
 
     @Override
@@ -169,57 +184,57 @@ public class DefaultModelServiceImpl implements ModelService {
         NewModel.addToStorage(newModel);
     }
 
-    @Override
-    public void pushModelToGit(Long modelId) {
-        ApprovedModel approvedModel = Algorithm.getApprovalModelById(modelId).orElseThrow(() -> (new NotFoundException("Not Found model:" + modelId)));
+//    @Override
+//    public void pushModelToGit(Long modelId) {
+//        ApprovedModel approvedModel = Algorithm.getApprovalModelById(modelId).orElseThrow(() -> (new NotFoundException("Not Found model:" + modelId)));
+//
+//        //TODO: using git local path
+//        //clean the git repo first
+//        String gitRepoPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.GIT_REPO_SPACE, "1/").toString();
+//        String gitModelPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.GIT_REPO_SPACE, "1/models").toString();
+//
+//        Git git = null;
+//        try {
+//            git = Git.open(new File(gitRepoPath));
+//        } catch (IOException e) {
+//            throw new NotFoundException("Git repo not found");
+//        }
+//        cleanGitRepo(git, new File(gitModelPath));
+//
+//        //copy file to git repo
+//        File modelFile = getModelFileInStage(modelId);
+//        Optional.ofNullable(modelFile).ifPresent(f -> {
+//            String targetPath = Paths.get(gitRepoPath,
+//                    CONSTANTS.NAME_FORMAT.GIT_MODEL.replace("{algorithm}", Algorithm.getAlgorithmOfApprovedModel(approvedModel).getAlgorithmName())
+//                            .replace("{release_version}", approvedModel.getReleasedVersion().toString())
+//                            .replace("{cached_version}", approvedModel.getCachedVersion().toString())
+//                            .replace("{suffix}", f.getName().substring(f.getName().lastIndexOf(".")+1)))
+//                    .toString();
+//            try {
+//                FileUtils.copyFile(f, new File(targetPath));
+//            } catch (IOException e) {
+//                throw new OcdlException("Fail to move file to Git repo");
+//            }
+//        });
+//
+//        pushFileToRemoteGitRepo(git);
+//    }
 
-        //TODO: using git local path
-        //clean the git repo first
-        String gitRepoPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.GIT_REPO_SPACE, "1/").toString();
-        String gitModelPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.GIT_REPO_SPACE, "1/models").toString();
-
-        Git git = null;
-        try {
-            git = Git.open(new File(gitRepoPath));
-        } catch (IOException e) {
-            throw new NotFoundException("Git repo not found");
-        }
-        cleanGitRepo(git, new File(gitModelPath));
-
-        //copy file to git repo
-        File modelFile = getModelFileInStage(modelId);
-        Optional.ofNullable(modelFile).ifPresent(f -> {
-            String targetPath = Paths.get(gitRepoPath,
-                    CONSTANTS.NAME_FORMAT.GIT_MODEL.replace("{algorithm}", Algorithm.getAlgorithmOfApprovedModel(approvedModel).getAlgorithmName())
-                            .replace("{release_version}", approvedModel.getReleasedVersion().toString())
-                            .replace("{cached_version}", approvedModel.getCachedVersion().toString())
-                            .replace("{suffix}", f.getName().substring(f.getName().lastIndexOf(".")+1)))
-                    .toString();
-            try {
-                FileUtils.copyFile(f, new File(targetPath));
-            } catch (IOException e) {
-                throw new OcdlException("Fail to move file to Git repo");
-            }
-        });
-
-        pushFileToRemoteGitRepo(git);
-    }
-
-    /**
-     * Find the exact model file in stage
-     * @param modelId modelId, as well ad the file name
-     * @return
-     */
-    private File getModelFileInStage(Long modelId) {
-
-        File stage = new File(CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE);
-        for (File f : stage.listFiles()) {
-            if (!f.isDirectory() && f.getName().startsWith(modelId.toString())) {
-                return f;
-            }
-        }
-        return null;
-    }
+//    /**
+//     * Find the exact model file in stage
+//     * @param modelId modelId, as well ad the file name
+//     * @return
+//     */
+//    private File getModelFileInStage(Long modelId) {
+//
+//        File stage = new File(CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE);
+//        for (File f : stage.listFiles()) {
+//            if (!f.isDirectory() && f.getName().startsWith(modelId.toString())) {
+//                return f;
+//            }
+//        }
+//        return null;
+//    }
 
     @Override
     public ModelDto[] getModelsByStatus(Model.Status status) {
@@ -282,5 +297,56 @@ public class DefaultModelServiceImpl implements ModelService {
 
     private boolean isModelFile(List<String> modelSuffixes, String fileName) {
         return modelSuffixes.stream().anyMatch(s -> fileName.trim().endsWith(s));
+    }
+
+
+    private Optional<File> existModelFile(ApprovedModel model, InnerUser innerUser) {
+        File modelFile = null;
+
+        final String userSpaceName = CONSTANTS.APPLICATIONS_DIR.USER_SPACE + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectNameInStorage()).replace("{userId}", String.valueOf(innerUser.getUserId()));
+        final File userSpace = new File(userSpaceName);
+
+        if (userSpace.isDirectory()) {
+            modelFile = Paths.get(userSpaceName, model.getModelFileName()).toFile();
+            boolean containsModel;
+            try{
+                containsModel = directoryContains(userSpace, modelFile);
+            } catch (IOException e) {
+                throw new OcdlException("Fail to check the model file existence.");
+            }
+
+            if (!containsModel) { modelFile = null; }
+        } else {
+            throw new NotFoundException(String.format("%s, Fail to find user space.", innerUser.getUserId()));
+        }
+
+        return Optional.ofNullable(modelFile);
+    }
+
+
+    @Override
+    public void release(ApprovedModel model, InnerUser innerUser) {
+
+        File modelFile = existModelFile(model, innerUser)
+                .orElseThrow(() -> new NotFoundException(String.format("%s, Fail to find model file, Please download first.", innerUser.getUserId())));
+
+        // upload file to AWS S3
+        String publishedModelName = CONSTANTS.NAME_FORMAT.GIT_MODEL.replace("{algorithm}", Algorithm.getAlgorithmOfApprovedModel(model).getAlgorithmName())
+                .replace("{release_version}", model.getReleasedVersion().toString())
+                .replace("{cached_version}", model.getCachedVersion().toString())
+                .replace("{suffix}", model.getSuffix());
+
+        storageService.uploadObject(bucketName, publishedModelName, modelFile);
+        //send kafka message
+        String message = CONSTANTS.KAFKA.MESSAGE.replace("{publishedModelName}", publishedModelName).replace("{modelUrl}",storageService.getObkectUrl(bucketName, publishedModelName));
+        messageQueueService.send(CONSTANTS.KAFKA.TOPIC, message);
+
+        Algorithm algorithm = Algorithm.getAlgorithmOfApprovedModel(model);
+        //update release status in Approved model
+        algorithm.updateSingleApprovedModel(model, (ApprovedModel approvedModel) -> approvedModel.setStatus(Model.Status.RELEASED) );
+        //update algorithm version
+        algorithm.persistAlgorithmVersion(model);
+        //update expected version of others approve model
+        //algorithm.updateApprovedModels();
     }
 }

@@ -16,6 +16,7 @@ public abstract class Model extends Storable implements Serializable {
     protected Long modelId;
     protected String name;
     protected Status status;
+    protected String suffix;
 
     public String getName() {
         return this.name;
@@ -29,6 +30,8 @@ public abstract class Model extends Storable implements Serializable {
         return modelId;
     }
 
+    public String getSuffix() { return suffix; }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -41,6 +44,8 @@ public abstract class Model extends Storable implements Serializable {
         this.modelId = modelId;
     }
 
+    public void setSuffix(String suffix) { this.suffix = suffix; }
+
     public static Long generateModelId() {
         return modelIdGenerator.incrementAndGet();
     }
@@ -50,9 +55,14 @@ public abstract class Model extends Storable implements Serializable {
         return current.getTime();
     }
 
+    public String getModelFileName() {
+        return CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{modelId}", modelId.toString()).replace("{suffix}", suffix);
+    }
+
     public ModelDto convertToModelDto(Model model) {
         ModelDto modelDto = new ModelDto();
         modelDto.setModelId(model.getModelId().toString());
+        modelDto.setModelFileName(model.getModelFileName());
         modelDto.setModelName(model.getName());
         modelDto.setStatus(model.getStatus().toString());
 
@@ -77,6 +87,6 @@ public abstract class Model extends Storable implements Serializable {
     }
 
     public enum Status {
-        NEW, APPROVED, REJECTED
+        NEW, APPROVED, REJECTED, RELEASED
     }
 }

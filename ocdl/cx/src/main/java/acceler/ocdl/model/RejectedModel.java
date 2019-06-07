@@ -115,6 +115,7 @@ public class RejectedModel extends Model {
     public RejectedModel deepCopy() {
         RejectedModel copy = new RejectedModel();
         copy.setModelId(this.modelId);
+        copy.setSuffix(this.suffix);
         copy.setName(this.name);
         copy.status = Status.REJECTED;
         copy.setRejectedTime(this.rejectedTime);
@@ -125,6 +126,7 @@ public class RejectedModel extends Model {
     public NewModel convertToNewModel() {
         NewModel newModel = new NewModel();
         newModel.setModelId(this.modelId);
+        newModel.setSuffix(this.suffix);
         newModel.setName(this.name);
         newModel.status = Status.NEW;
         newModel.setCommitTime(currentTime());

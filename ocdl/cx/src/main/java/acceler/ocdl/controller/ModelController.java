@@ -75,7 +75,7 @@ public final class ModelController {
                     .orElseThrow(()-> new NotFoundException("Fail to found model"));
 
             modelService.approveModel((NewModel) model,modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(upgradeVersion));
-            modelService.pushModelToGit(Long.parseLong(modelDto.getModelId()));
+//            modelService.pushModelToGit(Long.parseLong(modelDto.getModelId()));
 
         } else if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.REJECTED.name())) {
             Model model = NewModel.getNewModelById(Long.parseLong(modelDto.getModelId()))
@@ -88,11 +88,35 @@ public final class ModelController {
         } else if (from.toUpperCase().equals(Model.Status.APPROVED.name()) && to.toUpperCase().equals(Model.Status.NEW.name())) {
             Model model = Algorithm.getApprovalModelById(Long.parseLong(modelDto.getModelId()))
                     .orElseThrow(()-> new NotFoundException("Fail to found model"));
-            modelService.undo(model);
+
+            if (model.getStatus() != Model.Status.RELEASED) {
+                modelService.undo(model);
+            } else {
+                throw new OcdlException("Released model cannot undo.");
+            }
         } else {
             throw new OcdlException("Invalid From/To parameters.");
         }
         return responseBuilder.setCode(Response.Code.SUCCESS).build();
+    }
+
+
+    @ResponseBody
+    @RequestMapping(path="/{modelId}", method = RequestMethod.PATCH)
+    public final Response release(@PathVariable String modelId, HttpServletRequest request){
+        Response.Builder builder = Response.getBuilder();
+
+        ApprovedModel model = Algorithm.getApprovalModelById(Long.parseLong(modelId))
+                .orElseThrow(()-> new NotFoundException("Fail to found model"));
+        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
+
+        if (model.getStatus() != Model.Status.RELEASED) {
+            modelService.release(model, innerUser);
+        } else {
+            throw new OcdlException("Released model cannot be release again.");
+        }
+
+        return builder.setCode(Response.Code.SUCCESS).build();
     }
 
 
