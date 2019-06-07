@@ -25,12 +25,15 @@
     <link href="assets2/css/login.css" rel="stylesheet">
     <link href="assets2/css/userLoginBtn.css" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="assets2/css/approvalCenter.css">
+
     <script src="../dev/assets2/js/jquery.js"></script>
     <script type="text/javascript" src="js/nav.js"></script>
 
     <style type="text/css">
 
-        <!--    -->
+        <!--
+        -->
 
         .lightMode {
             background-color: #1786A8;
@@ -49,13 +52,15 @@
             transition-duration: 500ms;
 
         }
+
         #serviceContainer {
             transition-property: width, height, padding-left, margin;
             transition-duration: 0.5s;
         }
 
 
-        <!--     -->
+        <!--
+        -->
         a:hover, a:focus {
             outline: none;
             text-decoration: none;
@@ -165,6 +170,29 @@
         }
 
 
+        .chart {
+            width: 100%;
+            min-height: 450px;
+        }
+
+
+
+
+        .statistic-title{
+            margin-left: 1.8rem;
+            margin-top: 3.21rem;
+            display: inline-block;
+            font-size: 6rem;
+            font-weight: 400;
+        }
+        .statistic-desc{
+            margin-left: 1.8rem;
+            font-size: 1rem;
+            font-weight: 300;
+            color: #eeeeee;
+        }
+
+
 
     </style>
 
@@ -223,25 +251,27 @@
             </div>
             <div class="col-md-4 col-sm-3 col-xs-3" style="height:40px;">
                 <!--	<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button>-->
-                <span  style="float:left;display: inline-block; width:auto; height:auto;padding:0px;">
+                <span style="float:left;display: inline-block; width:auto; height:auto;padding:0px;">
                     <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
                         <a id="gitBtn" href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Git</a>
                     </span>
                 </span>
-                <span id="gitTag" style="padding-left:0px; height:100%;float:left;padding-top:10px;display: none;">Git</span>
+                <span id="gitTag"
+                      style="padding-left:0px; height:100%;float:left;padding-top:10px;display: none;">Git</span>
 
                 <!--                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
                                     <a id="flapBtn" href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
                                 </span>-->
 
-                <span  style="float:left;display: inline-block; width:auto; height:auto;padding:0px;">
+                <span style="float:left;display: inline-block; width:auto; height:auto;padding:0px;">
                     <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
-                        <a id="uploadBtn" class="hi-icon hi-icon-archive roundA" data-toggle="modal" data-target="#FileModal">Upload</a>
+                        <a id="uploadBtn" class="hi-icon hi-icon-archive roundA" data-toggle="modal"
+                           data-target="#FileModal">Upload</a>
                     </span>
                 </span>
                 <span id="uploadTag" style="padding-left:0px; height:100%;float:left;padding-top:10px;display: none;">Upload</span>
 
-                <span  style="float:left;display: inline-block; width:auto; height:auto;padding:0px;">
+                <span style="float:left;display: inline-block; width:auto; height:auto;padding:0px;">
                     <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
                         <a id="hideNavBtn" href="javascript:hideNav()" class="hi-icon hi-icon-dev roundA">DevMode</a>
                     </span>
@@ -320,22 +350,29 @@
                 <div class="tab" role="tabpanel">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a id="welcome-tab" href="#Section0" aria-controls="home" role="tab"
+                        <li role="presentation" class="active"><a id="welcome-tab" href="#Section0" aria-controls="home"
+                                                                  role="tab"
                                                                   data-toggle="tab"><i class="fa fa-home"></i><span>Welcome</span></a>
                         </li>
                         <li role="presentation"><a id="IDE-tab" href="#Section1" aria-controls="home" role="tab"
                                                    data-toggle="tab"><i
                                 class="fa fa-home"></i><span>Jupyter</span></a>
                         </li>
-                        <li role="presentation"><a id="file-system-tab" href="#Section2" aria-controls="profile" role="tab"
+                        <li role="presentation"><a id="file-system-tab" href="#Section2" aria-controls="profile"
+                                                   role="tab"
                                                    data-toggle="tab"><i
                                 class="fa fa-globe"></i><span>File System</span></a></li>
-                        <li role="presentation"><a id="code-template-tab" href="#Section3" aria-controls="messages" role="tab"
+                        <li role="presentation"><a id="code-template-tab" href="#Section3" aria-controls="messages"
+                                                   role="tab"
                                                    data-toggle="tab"><i
                                 class="fa fa-briefcase"></i><span>Templates</span></a></li>
+                        <li role="presentation"><a id="model-center-tab" href="#Section4" aria-controls="message"
+                                                   role="tab" data-toggle="tab"><i class="fa fa-twitter"></i><span>Model Center</span>
+                        </a></li>
                     </ul>
                     <!-- Tab panes -->
-                    <div class="tab-content tabs" style="height: 600px; box-shadow: 0 0 10px rgba(0,0,0,1); overflow:auto">
+                    <div class="tab-content tabs"
+                         style="height: 600px; box-shadow: 0 0 10px rgba(0,0,0,1); overflow:auto; background-color:#ebedf2;">
 
                         <div role="tabpanel" class="tab-pane fade in active" id="Section0">
                             <div class="cover" style="overflow:auto;">
@@ -390,8 +427,8 @@
                                 <label id="Section1_label">Launching the resrouce, please wait..</label>
                             </div>
 
-                               <iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
-                                        src="" style="height:550px; width:100%; display: none"></iframe>
+                            <iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
+                                    src="" style="height:550px; width:100%; display: none"></iframe>
                         </div>
 
                         <div role="tabpanel" class="tab-pane fade" id="Section2">
@@ -405,10 +442,188 @@
                                    </pre>
                             </div>
                         </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="Section4" style="border:1px solid; padding:10px;">
+                            <div class="demo">
+                                <div class="row">
+
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div style="margin:5px; height: 310px ">
+                                                <div id="donutchart"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="col-md-6">
+                                                <div style="background-color: #716aca; height: 150px; margin-top:5px; margin-bottom: 5px; border-radius:10px;">
+                                                    <span  id="newModelNum" class="statistic-title" style="color: white">0</span>
+                                                    <h3 class="statistic-desc">New Models</h3>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div style="background-color: #007bff; height: 150px; margin-top:5px; margin-bottom: 5px; border-radius:10px;">
+                                                    <span  class="statistic-title" id="approvalModelNum" style="color: white">0</span>
+                                                    <h3 class="statistic-desc">Approved Models</h3>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div style="background-color: #f4516c; height: 150px; margin-top:5px; margin-bottom: 5px; border-radius:10px;">
+                                                    <span id="rejectedModelNum" class="statistic-title" style="color: white">0</span>
+                                                    <h3 class="statistic-desc">Rejected Models</h3>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div style="background-color: #34bfa3; height: 150px; margin-top:5px; margin-bottom: 5px; border-radius:10px;">
+                                                    <span style="color: white" class="statistic-title">0</span>
+                                                    <h3 class="statistic-desc">Algorithms</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+                                    <div class="panel-group col-md-12" id="accordion" role="tablist" aria-multiselectable="true">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingTwo"
+                                                 style="background-color:#716aca;">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse"
+                                                       data-parent="#accordion"
+                                                       href="#collapseTwo" aria-expanded="false"
+                                                       aria-controls="collapseTwo">
+                                                        TO DO LIST
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                                                 aria-labelledby="headingTwo">
+                                                <div class="panel-body">
+
+                                                    <div class="col4">
+                                                        <div class="item-box">
+                                                            <div class="item-con">
+                                                                <table class="odd-even" id="tableNew">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>Model Name</th>
+                                                                        <th>Algorithm</th>
+                                                                        <th>Update Type</th>
+                                                                        <th>Timestamp</th>
+                                                                        <th>Operation</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingThree"
+                                                 style="background-color:#007bff;">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse"
+                                                       data-parent="#accordion"
+                                                       href="#collapseThree" aria-expanded="false"
+                                                       aria-controls="collapseThree">
+                                                        APPROVED LIST
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                                                 aria-labelledby="headingThree">
+                                                <div class="panel-body">
+                                                    <div class="col4">
+                                                        <div class="item-box">
+                                                            <div class="item-con">
+                                                                <table class="odd-even" id="tableApproval">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>Model Name</th>
+                                                                        <th>Algorithm</th>
+                                                                        <th>Version</th>
+                                                                        <th>Timestamp</th>
+                                                                        <th>Operation</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td>test</td>
+                                                                        <td>ttt</td>
+                                                                        <td>ddd</td>
+                                                                        <td>rrr</td>
+                                                                        <td>
+                                                                            <button type="button"
+                                                                                    class="btn btn-danger">Undo
+                                                                            </button>
+                                                                            <button type="button" class="btn btn-info">
+                                                                                Release
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingFour"
+                                                 style="background-color:#f4516c;">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse"
+                                                       data-parent="#accordion"
+                                                       href="#collapseFour" aria-expanded="false"
+                                                       aria-controls="collapseFour">
+                                                        REJECTED LIST
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseFour" class="panel-collapse collapse" role="tabpanel"
+                                                 aria-labelledby="headingFour">
+                                                <div class="panel-body">
+                                                    <div class="col4">
+                                                        <div class="item-box">
+                                                            <div class="item-con">
+                                                                <table class="odd-even" id="tableRejected">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>Model Name</th>
+                                                                        <th>Timestamp</th>
+                                                                        <th>Operation</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </section>
 <!-- end home -->
@@ -741,7 +956,6 @@
 <script type="text/javascript">
 
 
-
     function changeAgentContent() {
         document.getElementById("fileAgent").value = document.getElementById("file").value;
     }
@@ -811,10 +1025,10 @@
     function jupyterContainerLargeToggle(id) {
         if ($(id).is('.jupyterContainerLarge')) {
             $(id).removeClass("jupyterContainerLarge");
-            $("#hamburgermenu").css("padding-top",150);
+            $("#hamburgermenu").css("padding-top", 150);
         } else {
             $(id).addClass("jupyterContainerLarge");
-            $("#hamburgermenu").css("padding-top",50);
+            $("#hamburgermenu").css("padding-top", 50);
         }
     }
 
@@ -837,20 +1051,47 @@
         $("#hideNavTag").hide(200);
     })
 
-    function lightModeToggler(){
+    function lightModeToggler() {
         var operationBar = $("#operationBar");
 
-        if(operationBar.hasClass('lightMode')){
+        if (operationBar.hasClass('lightMode')) {
             operationBar.addClass('darkMode');
             operationBar.removeClass('lightMode');
 
-        }else if(operationBar.hasClass('darkMode')){
+        } else if (operationBar.hasClass('darkMode')) {
             operationBar.addClass('lightMode');
             operationBar.removeClass('darkMode');
 
         }
     }
 
+</script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load("current", {packages: ["corechart"]});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Type', 'Number'],
+            ['New', 2],
+            ['Approved', 2],
+            ['Rejected', 2],
+        ]);
+
+        var options = {
+            title: 'My Daily Activities',
+            is3D: true,
+            backgroundColor: 'transparent',
+            width: 400,
+            height: 300,
+            colors:['#716aca','#007bff','#f4516c']
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        chart.draw(data, options);
+    }
 </script>
 
 </body>
