@@ -31,10 +31,8 @@ public abstract class AbstractUser extends Storable implements Serializable {
     }
 
     private static void persistence() {
-        File dumpFile1 = new File(CONSTANTS.PERSISTENCE.USERS);
-        SerializationUtils.dump(userListStorage, dumpFile1);
-        File dumpFile2 = new File(CONSTANTS.PERSISTENCE.USER_ID_GENERATOR);
-        SerializationUtils.dump(userIdGenerator, dumpFile2);
+        File dumpFile = new File(CONSTANTS.PERSISTENCE.USERS);
+        SerializationUtils.dump(userListStorage, dumpFile);
     }
 
     protected static Long getUniqueUserId() {
@@ -55,17 +53,19 @@ public abstract class AbstractUser extends Storable implements Serializable {
             File userDataFile = new File(CONSTANTS.PERSISTENCE.USERS);
             try {
                 userListStorage = (ArrayList) StorageLoader.loadStorage(userDataFile);
+                userIdGenerator = new AtomicLong(1000L + Long.valueOf(userListStorage.size()));
             } catch (NotFoundException nfe) {
                 userListStorage = new ArrayList<>();
-            }
 
-            //admin user
-            InnerUser adminUser = new InnerUser();
-            adminUser.setUserName("admin");
-            adminUser.setPassword("admin");
-            adminUser.setRole(Role.MANAGER);
-            adminUser.setUserId(1000L);
-            userListStorage.add(adminUser);
+                //admin user
+                InnerUser adminUser = new InnerUser();
+                adminUser.setUserName("admin");
+                adminUser.setPassword("admin");
+                adminUser.setRole(Role.MANAGER);
+                adminUser.setUserId(1000L);
+                userListStorage.add(adminUser);
+                persistence();
+            }
         }
 
         logger.warn("Storage initialization only allow been executed at init time");
