@@ -682,32 +682,23 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="temp-form-column-wrap">
                                     <h2>Sign Up</h2>
-                                    <form>
+                                    <form id="signup-form">
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="form-group">
                           <span class="temp-span-wrap temp-span-input-label-wrap">
-                            <input class="temp_input_field" type="text">
+                            <input class="temp_input_field" name="username" type="text">
                             <label class="temp_input_label">
                               <span class="temp_input_label-content">Username</span>
                             </label>
                           </span>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <div class="form-group">
-                          <span class="temp-span-wrap temp-span-input-label-wrap">
-                            <input class="temp_input_field" type="text">
-                            <label class="temp_input_label">
-                              <span class="temp_input_label-content">Email</span>
-                            </label>
-                          </span>
-                                                </div>
-                                            </div>
+
                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
                                                 <div class="form-group">
                           <span class="temp-span-wrap temp-span-input-label-wrap">
-                            <input class="temp_input_field" type="password">
+                            <input class="temp_input_field" name="password" type="password">
                             <label class="temp_input_label">
                               <span class="temp_input_label-content">Password</span>
                             </label>
@@ -726,30 +717,20 @@
                                             </div>
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="form-group">
-                          <span class="temp-span-wrap temp-span-input-label-wrap">
-                            <input class="temp_input_field" type="text">
-                            <label class="temp_input_label">
-                              <span class="temp_input_label-content">Phone number</span>
-                            </label>
-                          </span>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-sm-4">
                                                             <label class="radio-inline temp-custom-radio-button"
                                                                    style="color: black;">
-                                                                <input type="radio" name="gender" id="femaleRadio"
-                                                                       value="Female">Female
+                                                                <input type="radio" name="role" id="femaleRadio"
+                                                                       value="Developer">Developer
                                                                 <span class="temp-radio-checkmark"></span>
                                                             </label>
                                                         </div>
                                                         <div class="col-sm-4">
                                                             <label class="radio-inline temp-custom-radio-button"
                                                                    style="color: black;">
-                                                                <input type="radio" name="gender" id="maleRadio"
-                                                                       value="Male">Male
+                                                                <input type="radio" name="role" id="maleRadio"
+                                                                       value="Manager">Manager
                                                                 <span class="temp-radio-checkmark"></span>
                                                             </label>
                                                         </div>
@@ -758,7 +739,7 @@
                                             </div>
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="temp-login-button-wrap">
-                                                    <button class="btn btn-info temp-form-button" type="button">sign
+                                                    <button class="btn btn-info temp-form-button" type="button" onclick="signUp()">sign
                                                         up
                                                     </button>
                                                 </div>
@@ -939,6 +920,7 @@
 <script src="assets2/js/jquery.js"></script>
 <script src="assets2/js/bootstrap.min.js"></script>
 <script src="assets2/js/jquery.singlePageNav.min.js"></script>
+<script src="assets2/js/clipboard.min.js"></script>
 <script src="assets2/js/enviroment.js"></script>
 <script src="assets2/js/typed.js"></script>
 <script src="assets2/js/wow.min.js"></script>
@@ -952,6 +934,8 @@
 <script language="javascript" src="assets2/js/secondlayernav.js"></script>
 <script language="javascript" src="assets2/js/login.js"></script>
 <script language="JavaScript" src="assets2/js/index.js"></script>
+<script src="assets2/js/commons.js"></script>
+<script src="assets2/js/approvalCenter.js"></script>
 
 <script type="text/javascript">
 
@@ -988,6 +972,23 @@
         });
     }
 
+    function signUp() {
+
+        $.ajax({
+            type: "POST",
+            url:enviorment.REGISTER,
+            data:$('#signup-form').serialize(),
+            dataType: "json",
+            async: false,
+            error: function(request) {
+                alert("Connection error");
+            },
+            success: function(data) {
+                //接收后台返回的结果
+            }
+
+        })
+    }
 
     function toHdfs(url) {
         var formData = new FormData();
@@ -1065,34 +1066,11 @@
         }
     }
 
+
+
 </script>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-    google.charts.load("current", {packages: ["corechart"]});
-    google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['Type', 'Number'],
-            ['New', 2],
-            ['Approved', 2],
-            ['Rejected', 2],
-        ]);
-
-        var options = {
-            title: 'My Daily Activities',
-            is3D: true,
-            backgroundColor: 'transparent',
-            width: 400,
-            height: 300,
-            colors:['#716aca','#007bff','#f4516c']
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-        chart.draw(data, options);
-    }
-</script>
 
 </body>
 </html>
