@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 import static org.apache.commons.io.FileUtils.forceMkdirParent;
@@ -68,11 +69,12 @@ public class DBUserService implements UserService {
         }
 
         InnerUser newUser = InnerUser.createNewUser(userName, password, role);
-        Path hadoopPath = new Path(CONSTANTS.HDFS.USER_SPACE + Project.getProjectNameInStorage() + newUser.getUserId());
+        Path hadoopPath = new Path(CONSTANTS.HDFS.USER_SPACE + newUser.getUserId());
         hdfsService.createDir(hadoopPath);
 
         try{
-            File localMountSpace = new File(CONSTANTS.APPLICATIONS_DIR.USER_SPACE + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(newUser.getUserId())));
+            File localMountSpace = new File(Paths.get(CONSTANTS.APPLICATIONS_DIR.USER_SPACE,
+                    CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(newUser.getUserId()))).toString());
             forceMkdirParent(localMountSpace);
         } catch (IOException e) {
             throw new OcdlException("Fail to creat mounted userspace for " + newUser.getUserName());
