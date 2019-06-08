@@ -739,7 +739,7 @@
                                             </div>
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="temp-login-button-wrap">
-                                                    <button class="btn btn-info temp-form-button" type="button" onclick="signUp()">sign
+                                                    <button class="btn btn-info temp-form-button" type="button" onclick="signUp111()">sign
                                                         up
                                                     </button>
                                                 </div>
@@ -972,18 +972,19 @@
         });
     }
 
-    function signUp() {
+    function signUp111() {
         var  f_username=$("#signup-username").val();
         var f_password=$("#signup-password").val();
-        var f_role= document.getElementById("developer-radio").checked
+        var f_role= document.getElementById("developer-radio").checked;
         if(f_role){
             f_role="developer";
         }else{
             f_role="manager";
         }
 
+
         $.ajax({
-            url:enviorment.REGISTER,
+            url:enviorment.API.REGISTER,
             type: "POST",
             data:
                 JSON.stringify({
