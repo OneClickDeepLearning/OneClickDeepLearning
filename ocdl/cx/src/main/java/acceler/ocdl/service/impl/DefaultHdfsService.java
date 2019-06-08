@@ -8,6 +8,7 @@ import org.apache.hadoop.fs.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -22,7 +23,12 @@ public class DefaultHdfsService implements HdfsService {
         conf.set("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem");
     }
 
-    public void createDir(Path dirPath) {
+    /**
+     * Create an empty directory on HDFS
+     * @param dirPath the taget directory path on HDFS
+     * @throws HdfsException
+     */
+    public void createDir(Path dirPath) throws HdfsException{
         try {
             URI uri = new URI(CONSTANTS.HDFS.IP_ADDRESS);
             //returns the configured filesystem implementation.
@@ -40,12 +46,19 @@ public class DefaultHdfsService implements HdfsService {
      * step two:  Submit another HTTP PUT request using the URL in the Location header with the file data to be written
      * this function returns the URL in the location header
      *
-     * @param fileName the file name to be uploaded to hdfs
-     * @return url of the datanode where the file data is to be written
+     * @param srcPath the source file to be uploaded to HDFS
+     * @param destPath the destination path on HDFS
      * @throws HdfsException
      */
-    public String uploadFile(String fileName) throws HdfsException {
-        String result = "http://3.92.26.165:50075/webhdfs/v1/CommonSpace/" + fileName + "?op=CREATE&user.name=hadoop&namenoderpcaddress=hadoop-master:9000&createflag=&createparent=true&overwrite=true";
-        return result;
+
+    public void uploadFile(Path srcPath, Path destPath) throws HdfsException {
+        //String result = "http://3.92.26.165:50075/webhdfs/v1/CommonSpace/" + fileName + "?op=CREATE&user.name=hadoop&namenoderpcaddress=hadoop-master:9000&createflag=&createparent=true&overwrite=true";
+        try {
+            URI uri = new URI(CONSTANTS.HDFS.IP_ADDRESS);
+            FileSystem hdfs = FileSystem.get(uri, conf, CONSTANTS.HDFS.USER_NAME);
+            hdfs.copyFromLocalFile(true,true,srcPath,destPath);
+        } catch (URISyntaxException | InterruptedException | IOException e){
+            throw new HdfsException(e.getMessage());
+        }
     }
 }
