@@ -939,6 +939,7 @@
 <script src="assets2/js/jquery.js"></script>
 <script src="assets2/js/bootstrap.min.js"></script>
 <script src="assets2/js/jquery.singlePageNav.min.js"></script>
+<script src="assets2/js/clipboard.min.js"></script>
 <script src="assets2/js/enviroment.js"></script>
 <script src="assets2/js/typed.js"></script>
 <script src="assets2/js/wow.min.js"></script>
@@ -952,6 +953,8 @@
 <script language="javascript" src="assets2/js/secondlayernav.js"></script>
 <script language="javascript" src="assets2/js/login.js"></script>
 <script language="JavaScript" src="assets2/js/index.js"></script>
+<script src="assets2/js/commons.js"></script>
+<script src="assets2/js/approvalCenter.js"></script>
 
 <script type="text/javascript">
 
@@ -1065,34 +1068,11 @@
         }
     }
 
+
+
 </script>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-    google.charts.load("current", {packages: ["corechart"]});
-    google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['Type', 'Number'],
-            ['New', 2],
-            ['Approved', 2],
-            ['Rejected', 2],
-        ]);
-
-        var options = {
-            title: 'My Daily Activities',
-            is3D: true,
-            backgroundColor: 'transparent',
-            width: 400,
-            height: 300,
-            colors:['#716aca','#007bff','#f4516c']
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-        chart.draw(data, options);
-    }
-</script>
 
 </body>
 </html>
