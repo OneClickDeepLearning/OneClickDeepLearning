@@ -231,13 +231,3 @@ function randomData() {
         return {label: d.label, value: 1000 * Math.random(), color: d.color};
     });
 }
-
-function ajaxMessageReader(response, func) {
-    if (response.code == "400") {
-        alert(response.get("message"));
-    } else if (response.code == "200") {
-        func(response.data);
-    }
-
-    /* func(response);*/
-}
