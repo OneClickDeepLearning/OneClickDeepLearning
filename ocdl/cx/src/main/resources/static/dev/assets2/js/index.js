@@ -20,26 +20,6 @@ function initUserInfo() {
     }
 }
 
-function tradeToken4UsrInfo() {
-    $.ajax({
-        url: enviorment.API.USER_INFO_BY_TOKEN+'?token='+token,
-        contentType: 'application/json',
-        dataType: "json",
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("AUTH_TOKEN", token);
-        },
-        type: "GET",
-        success: function(data) {
-
-            ajaxMessageReader(data,function (data) {
-                afterSignIn(data);
-            })
-        },
-        error: function (data) {
-        }
-    })
-}
-
 function addSpan(li,text){
     var span_1=document.createElement("span");
     span_1.innerHTML=text;
@@ -213,7 +193,6 @@ function signIn() {
             }),
         success:function (data) {
             ajaxMessageReader(data,function (data) {
-
                 token=data['token'];
                 tradeToken4UsrInfo();
             })
