@@ -111,6 +111,7 @@ function ShowApprovalPortal(content, parent) {
     a.setAttribute("href","#");
     a.innerHTML=content;
     li_1.appendChild(a);
+
     document.getElementById(parent).appendChild(li_1);
 }
 function ShowConfigurationPortal(content, parent){
@@ -119,8 +120,13 @@ function ShowConfigurationPortal(content, parent){
     a.setAttribute("onclick","forwardTo('views/configuration.html?token="+token+"')");
     a.setAttribute("href","#");
     a.innerHTML=content;
+    li_1.id = "configurationBtn";
     li_1.appendChild(a);
     document.getElementById(parent).appendChild(li_1);
+}
+
+function HideConfigurationPortal(id) {
+    $("#configurationBtn").remove();
 }
 
 function ShowManagerMenu(){
@@ -429,7 +435,42 @@ function signOut() {
     $("#loginBtnGroup").slideDown();
 
     releaseResource();
+    HideConfigurationPortal();
     ShowInitMenu();
+}
+
+function signUp() {
+    var  f_username=$("#signup-username").val();
+    var f_password=$("#signup-password").val();
+    var f_role= document.getElementById("developer-radio").checked;
+    if(f_role){
+        f_role="developer";
+    }else{
+        f_role="manager";
+    }
+
+
+    $.ajax({
+        url:enviorment.API.REGISTER,
+        type: "POST",
+        contentType: 'application/json',
+        data:
+            JSON.stringify({
+                username: f_username,
+                password:f_password,
+                role:f_role
+            }),
+        dataType: "json",
+        error: function(request) {
+            alert("Connection error");
+        },
+        success: function(data) {
+            //接收后台返回的结果
+            alert("Sign up successful");
+            tradeToken4UsrInfo();
+        }
+
+    })
 }
 
 function releaseResource(){
