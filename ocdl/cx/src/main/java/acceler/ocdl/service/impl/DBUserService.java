@@ -4,6 +4,7 @@ import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.controller.AuthController;
 import acceler.ocdl.exception.ExistedException;
 import acceler.ocdl.exception.NotFoundException;
+import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.model.AbstractUser;
 import acceler.ocdl.model.InnerUser;
 import acceler.ocdl.model.OauthUser;
@@ -15,7 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Optional;
+
+import static org.apache.commons.io.FileUtils.forceMkdir;
+import static org.apache.commons.io.FileUtils.forceMkdirParent;
 
 @Service
 @DependsOn({"storageLoader"})
@@ -63,8 +70,17 @@ public class DBUserService implements UserService {
         }
 
         InnerUser newUser = InnerUser.createNewUser(userName, password, role);
-        Path hadoopPath = new Path(CONSTANTS.HDFS.USER_SPACE + Project.getProjectNameInStorage() + newUser.getUserId());
+        Path hadoopPath = new Path(CONSTANTS.HDFS.USER_SPACE + newUser.getUserId());
         hdfsService.createDir(hadoopPath);
+
+        try{
+            File localMountSpace = new File(Paths.get(CONSTANTS.APPLICATIONS_DIR.USER_SPACE,
+                    CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(newUser.getUserId()))).toString());
+            forceMkdir(localMountSpace);
+        } catch (IOException e) {
+            throw new OcdlException("Fail to creat mounted userspace for " + newUser.getUserName());
+        }
+
         return newUser;
     }
 }

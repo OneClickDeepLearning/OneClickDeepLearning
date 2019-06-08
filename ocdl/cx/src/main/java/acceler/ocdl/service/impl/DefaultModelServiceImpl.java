@@ -53,7 +53,7 @@ public class DefaultModelServiceImpl implements ModelService {
     @Override
     public void initModelToStage(InnerUser innerUser) {
 
-        final String userSpaceName = CONSTANTS.APPLICATIONS_DIR.USER_SPACE + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectNameInStorage()).replace("{userId}", String.valueOf(innerUser.getUserId()));
+        final String userSpaceName = CONSTANTS.APPLICATIONS_DIR.USER_SPACE + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(innerUser.getUserId()));
         final File userSpace = new File(userSpaceName);
 
         if (userSpace.isDirectory()) {
@@ -308,7 +308,7 @@ public class DefaultModelServiceImpl implements ModelService {
     private Optional<File> existModelFile(ApprovedModel model, InnerUser innerUser) {
         File modelFile = null;
 
-        final String userSpaceName = CONSTANTS.APPLICATIONS_DIR.USER_SPACE + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectNameInStorage()).replace("{userId}", String.valueOf(innerUser.getUserId()));
+        final String userSpaceName = CONSTANTS.APPLICATIONS_DIR.USER_SPACE + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(innerUser.getUserId()));
         final File userSpace = new File(userSpaceName);
 
         if (userSpace.isDirectory()) {
