@@ -21,6 +21,10 @@ public class KafkaService implements MessageQueueService {
     public static String kafkaUrl;
 
     public void createProducer() {
+
+        System.out.println("===================================");
+        System.out.println(kafkaUrl);
+
         if (producer == null) {
             // create kafka producer
             Properties props = new Properties();
