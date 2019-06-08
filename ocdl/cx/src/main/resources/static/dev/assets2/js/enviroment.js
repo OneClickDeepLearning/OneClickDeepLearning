@@ -8,7 +8,7 @@ const enviorment = {
         LOGIN_PWD: '/rest/auth/login?pwd',
         LOGIN_OAUTH:'/rest/auth/login?oauth',
         LOGOUT: '/rest/auth/logout',
-        REGISTER: '/rest/auth/register',
+        REGISTER: '/rest/auth/signup',
         USER_INFO_BY_TOKEN: '/rest/auth/me',
 
         /*------ Template service resource---------*/
