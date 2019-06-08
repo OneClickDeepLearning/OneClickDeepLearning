@@ -1,5 +1,6 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.service.MessageQueueService;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -20,15 +21,13 @@ public class KafkaService implements MessageQueueService {
     @Value("${kafka.server.url}")
     public static String kafkaUrl;
 
-    public void createProducer() {
 
-        System.out.println("===================================");
-        System.out.println(kafkaUrl);
+    public void createProducer() {
 
         if (producer == null) {
             // create kafka producer
             Properties props = new Properties();
-            props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaUrl);
+            props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, CONSTANTS.KAFKA.KAFKA_URL);
             props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
             props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 

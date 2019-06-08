@@ -58,5 +58,6 @@ public interface CONSTANTS {
     interface KAFKA {
         String TOPIC = "mdmsg";
         String MESSAGE = "{publishedModelName} {modelUrl}";
+        String KAFKA_URL = "ec2-54-89-140-122.compute-1.amazonaws.com:9092";
     }
 }
