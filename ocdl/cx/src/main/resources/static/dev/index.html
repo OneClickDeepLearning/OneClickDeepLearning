@@ -986,6 +986,7 @@
         $.ajax({
             url:enviorment.API.REGISTER,
             type: "POST",
+            contentType: 'application/json',
             data:
                 JSON.stringify({
                     username: f_username,
