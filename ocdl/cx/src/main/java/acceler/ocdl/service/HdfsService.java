@@ -5,7 +5,7 @@ import org.apache.hadoop.fs.Path;
 
 public interface HdfsService {
 
-    public String uploadFile(String fileName) throws HdfsException;
+    public void uploadFile(Path srcPath, Path destPath) throws HdfsException;
 
-    void createDir(Path dirPath);
+    public void createDir(Path dirPath) throws HdfsException;
 }

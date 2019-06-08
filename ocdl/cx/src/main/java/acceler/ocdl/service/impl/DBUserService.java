@@ -4,8 +4,10 @@ import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.controller.AuthController;
 import acceler.ocdl.exception.ExistedException;
 import acceler.ocdl.exception.NotFoundException;
+import acceler.ocdl.model.AbstractUser;
 import acceler.ocdl.model.InnerUser;
 import acceler.ocdl.model.OauthUser;
+import acceler.ocdl.model.Project;
 import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.UserService;
 import org.apache.hadoop.fs.Path;
@@ -48,22 +50,21 @@ public class DBUserService implements UserService {
 
         OauthUser newUser = OauthUser.createNewUser(source, ID);
 
-        Path hadoopPath = new Path(CONSTANTS.HDFS.USER_NAME + newUser.getUserId());
+        Path hadoopPath = new Path(CONSTANTS.HDFS.USER_SPACE + Project.getProjectNameInStorage() + newUser.getUserId());
         hdfsService.createDir(hadoopPath);
 
         return newUser;
     }
 
     @Override
-    public InnerUser createUser(String userName, String password) throws ExistedException {
+    public InnerUser createUser(String userName, String password, AbstractUser.Role role) throws ExistedException {
         if (InnerUser.existUser(userName)){
             throw new ExistedException("inner user already existed");
         }
 
-        InnerUser newUser = InnerUser.createNewUser(userName, password);
-        Path hadoopPath = new Path(CONSTANTS.HDFS.USER_NAME + newUser.getUserId());
+        InnerUser newUser = InnerUser.createNewUser(userName, password, role);
+        Path hadoopPath = new Path(CONSTANTS.HDFS.USER_SPACE + Project.getProjectNameInStorage() + newUser.getUserId());
         hdfsService.createDir(hadoopPath);
-
         return newUser;
     }
 }
