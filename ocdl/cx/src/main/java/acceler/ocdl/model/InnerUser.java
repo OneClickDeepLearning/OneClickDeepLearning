@@ -44,10 +44,10 @@ public class InnerUser extends AbstractUser implements Serializable {
         return exist;
     }
 
-    public static InnerUser createNewUser(String userName, String password) {
+    public static InnerUser createNewUser(String userName, String password, AbstractUser.Role role) {
         InnerUser newUser = new InnerUser();
         newUser.setUserId(AbstractUser.getUniqueUserId());
-        newUser.setRole(Role.DEVELOPER);
+        newUser.setRole(role);
         newUser.setUserName(userName);
         newUser.setPassword(password);
         AbstractUser.insertUserToStorage(newUser);

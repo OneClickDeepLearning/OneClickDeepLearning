@@ -1,6 +1,7 @@
 package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
+import acceler.ocdl.model.AbstractUser;
 import acceler.ocdl.model.InnerUser;
 import acceler.ocdl.service.KubernetesService;
 import acceler.ocdl.service.UserService;
@@ -34,6 +35,29 @@ public class AuthController {
 
     @Autowired
     private KubernetesService kubernetesService;
+
+    @RequestMapping(path = "/signup", method = RequestMethod.POST)
+    @ResponseBody
+    public Response signUp(@RequestBody Map<String, String> registerInfo) {
+
+        Response.Builder respBuilder = Response.getBuilder();
+        String username = registerInfo.get("username");
+        String password = registerInfo.get("password");
+        AbstractUser.Role role = AbstractUser.Role.valueOf(registerInfo.get("role"));
+
+        InnerUser newUser = userService.createUser(username, password, role);
+
+        String token = securityUtil.requestToken(newUser);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("userId", newUser.getUserId());
+        result.put("token", token);
+        result.put("role", newUser.getRole());
+
+        return respBuilder.setCode(Response.Code.SUCCESS)
+                .setData(result).build();
+
+    }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST, params = "pwd")
     @ResponseBody
