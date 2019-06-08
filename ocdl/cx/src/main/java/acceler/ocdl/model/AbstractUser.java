@@ -31,8 +31,10 @@ public abstract class AbstractUser extends Storable implements Serializable {
     }
 
     private static void persistence() {
-        File dumpFile = new File(CONSTANTS.PERSISTENCE.USERS);
-        SerializationUtils.dump(userListStorage, dumpFile);
+        File dumpFile1 = new File(CONSTANTS.PERSISTENCE.USERS);
+        SerializationUtils.dump(userListStorage, dumpFile1);
+        File dumpFile2 = new File(CONSTANTS.PERSISTENCE.USER_ID_GENERATOR);
+        SerializationUtils.dump(userIdGenerator, dumpFile2);
     }
 
     protected static Long getUniqueUserId() {
@@ -40,6 +42,7 @@ public abstract class AbstractUser extends Storable implements Serializable {
     }
 
     protected static void insertUserToStorage(AbstractUser newUser) {
+
         lock.writeLock().lock();
         getUserListStorage().add(newUser.deepCopy());
         persistence();

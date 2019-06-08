@@ -26,6 +26,7 @@ public interface CONSTANTS {
         String ALGORITHMS = _BASE + "/algorithms";
         String PROJECT = _BASE + "/project";
         String USERS = _BASE + "/users";
+        String USER_ID_GENERATOR = _BASE + "/user_id_generator";
         String NEW_MODEL = _BASE + "/new_model";
         String REJECTED_MODELS = _BASE + "/rejected_model";
     }
