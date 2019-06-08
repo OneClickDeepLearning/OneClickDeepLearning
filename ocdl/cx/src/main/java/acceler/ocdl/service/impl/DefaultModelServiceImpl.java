@@ -75,8 +75,8 @@ public class DefaultModelServiceImpl implements ModelService {
 
                         String suffix = f.getName().substring(f.getName().lastIndexOf(".")+1);
 
-                        String stagedFilePath = CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE +
-                                CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{modelId}", modelId.toString()).replace("{suffix}", suffix);
+                        String stagedFilePath = Paths.get(CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE,CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{modelId}",
+                                modelId.toString()).replace("{suffix}", suffix)).toString();
 
                         hdfsService.uploadFile(new Path(f.getPath()), new Path(stagedFilePath));
                         persistNewModel(f, modelId, suffix);
