@@ -22,8 +22,9 @@ public class UploadController {
     @RequestMapping(path="/upload", method = RequestMethod.PUT)
     @ResponseBody
     public Response springUpload(@RequestBody Map<String,String> file) {
+        //TODO: add a new function for upload data -> Boqian
 
-        Response.Builder builder = Response.getBuilder();
+/*        Response.Builder builder = Response.getBuilder();
 
         if(!file.isEmpty()){
 
@@ -36,6 +37,8 @@ public class UploadController {
         }
 
         return builder.build();
+        */
+    return null;
     }
 }
 
