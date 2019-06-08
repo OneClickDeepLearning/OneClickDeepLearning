@@ -349,6 +349,7 @@ public class DefaultModelServiceImpl implements ModelService {
         messageQueueService.send(CONSTANTS.KAFKA.TOPIC, message);
 
         Algorithm algorithm = Algorithm.getAlgorithmOfApprovedModel(model);
+        System.out.println(algorithm.getAlgorithmName());
         //update release status in Approved model
         algorithm.updateSingleApprovedModel(model, (ApprovedModel approvedModel) -> approvedModel.setStatus(Model.Status.RELEASED) );
         //update algorithm version
