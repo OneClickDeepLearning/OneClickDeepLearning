@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+import static org.apache.commons.io.FileUtils.forceMkdir;
 import static org.apache.commons.io.FileUtils.forceMkdirParent;
 
 @Service
@@ -75,7 +76,9 @@ public class DBUserService implements UserService {
         try{
             File localMountSpace = new File(Paths.get(CONSTANTS.APPLICATIONS_DIR.USER_SPACE,
                     CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(newUser.getUserId()))).toString());
-            forceMkdirParent(localMountSpace);
+            forceMkdir(localMountSpace);
+            System.out.println("==========================================");
+            System.out.println("success create local directory");
         } catch (IOException e) {
             throw new OcdlException("Fail to creat mounted userspace for " + newUser.getUserName());
         }
