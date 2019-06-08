@@ -1078,12 +1078,12 @@
 
     function generateDownloadCode(modelFileName){
         var code = "client = alluxio.Client('3.89.28.106', 39999) \n" +
-            "client.ls(\"/Stagging\")\n" +
+            "client.ls(\"/Staging\")\n" +
             "\n" +
-            "jpg_ID = client.open_file('/Stagging/"+ modelFileName +"')\n" +
-            "reader = client.read(jpg_ID)\n" +
+            "fileName = client.open_file('/Staging/"+ modelFileName +"')\n" +
+            "reader = client.read(fileName)\n" +
             "file = reader.read()\n" +
-            "with open('"+modelFileName +"', 'wb') as f:\n" +
+            "with open('/root/Model/"+modelFileName +"', 'wb') as f:\n" +
             "    f.write(file)\n" +
             "    f.close()";
         $("#model-download-code").text(code);
