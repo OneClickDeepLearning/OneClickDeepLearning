@@ -687,7 +687,7 @@
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="form-group">
                           <span class="temp-span-wrap temp-span-input-label-wrap">
-                            <input class="temp_input_field" name="username" type="text">
+                            <input class="temp_input_field" name="username" id="signup-username" type="text">
                             <label class="temp_input_label">
                               <span class="temp_input_label-content">Username</span>
                             </label>
@@ -698,7 +698,7 @@
                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
                                                 <div class="form-group">
                           <span class="temp-span-wrap temp-span-input-label-wrap">
-                            <input class="temp_input_field" name="password" type="password">
+                            <input class="temp_input_field" name="password" id="signup-password" type="password">
                             <label class="temp_input_label">
                               <span class="temp_input_label-content">Password</span>
                             </label>
@@ -721,7 +721,7 @@
                                                         <div class="col-sm-4">
                                                             <label class="radio-inline temp-custom-radio-button"
                                                                    style="color: black;">
-                                                                <input type="radio" name="role" id="femaleRadio"
+                                                                <input type="radio" name="role" id="developer-radio"
                                                                        value="Developer">Developer
                                                                 <span class="temp-radio-checkmark"></span>
                                                             </label>
@@ -729,7 +729,7 @@
                                                         <div class="col-sm-4">
                                                             <label class="radio-inline temp-custom-radio-button"
                                                                    style="color: black;">
-                                                                <input type="radio" name="role" id="maleRadio"
+                                                                <input type="radio" name="role" id="manager-radio"
                                                                        value="Manager">Manager
                                                                 <span class="temp-radio-checkmark"></span>
                                                             </label>
@@ -973,18 +973,31 @@
     }
 
     function signUp() {
+        var  f_username=$("#signup-username").val();
+        var f_password=$("#signup-password").val();
+        var f_role= document.getElementById("developer-radio").checked
+        if(f_role){
+            f_role="developer";
+        }else{
+            f_role="manager";
+        }
 
         $.ajax({
-            type: "POST",
             url:enviorment.REGISTER,
-            data:$('#signup-form').serialize(),
+            type: "POST",
+            data:
+                JSON.stringify({
+                    username: f_username,
+                    password:f_password,
+                    role:f_role
+            }),
             dataType: "json",
-            async: false,
             error: function(request) {
                 alert("Connection error");
             },
             success: function(data) {
                 //接收后台返回的结果
+                alert("success");
             }
 
         })
