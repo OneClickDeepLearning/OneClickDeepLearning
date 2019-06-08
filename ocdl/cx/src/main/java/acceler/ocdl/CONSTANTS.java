@@ -13,7 +13,7 @@ public interface CONSTANTS {
 
         //TODO replace TestProject
 
-        String USER_SPACE = "testproject-{userId}";
+        String USER_SPACE = "{userId}";
         String STAGED_MODEL = "{modelId}.{suffix}";
 
         String USER_ID = "{type}{userId}";
