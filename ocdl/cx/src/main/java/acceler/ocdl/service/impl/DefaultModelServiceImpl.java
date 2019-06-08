@@ -344,6 +344,8 @@ public class DefaultModelServiceImpl implements ModelService {
         storageService.uploadObject(bucketName, publishedModelName, modelFile);
         //send kafka message
         String message = CONSTANTS.KAFKA.MESSAGE.replace("{publishedModelName}", publishedModelName).replace("{modelUrl}",storageService.getObkectUrl(bucketName, publishedModelName));
+        System.out.println("+++++++++++++++++++++++++++++++++++++++");
+        System.out.println(message);
         messageQueueService.send(CONSTANTS.KAFKA.TOPIC, message);
 
         Algorithm algorithm = Algorithm.getAlgorithmOfApprovedModel(model);

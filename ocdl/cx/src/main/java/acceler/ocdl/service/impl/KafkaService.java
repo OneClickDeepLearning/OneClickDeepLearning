@@ -39,6 +39,7 @@ public class KafkaService implements MessageQueueService {
     @Override
     public void send(String topic, String data) {
         createProducer();
+        System.out.println("create producer");
         try {
             producer.send(new ProducerRecord<>(topic, data));
             System.out.println("=============================");
