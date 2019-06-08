@@ -47,5 +47,6 @@ public class KafkaService implements MessageQueueService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        producer.close();
     }
 }
