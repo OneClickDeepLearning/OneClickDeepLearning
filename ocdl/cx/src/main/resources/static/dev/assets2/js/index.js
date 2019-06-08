@@ -12,7 +12,7 @@ window.onload = function () {
     initProjectName();
     initUserInfo();
     ShowInitMenu();
-}
+};
 
 function initUserInfo() {
     if(token!=''){
@@ -30,6 +30,7 @@ function tradeToken4UsrInfo() {
         },
         type: "GET",
         success: function(data) {
+
             ajaxMessageReader(data,function (data) {
                 afterSignIn(data);
             })
@@ -160,14 +161,7 @@ function ShowInitMenu() {
     $("#welcome-tab").click();
 }
 
-function ajaxMessageReader(response, func){
-    if(response.code=="200"){
-        func(response.data);
-    }else{
-        alert(response.get("message"));
-    }
 
-}
 
 function changeProjectName() {
     var name = $("#projectName").text().slice(9);
@@ -206,8 +200,6 @@ function checkLogin() {
 }
 
 function signIn() {
-    console.log($("#data_username").val());
-    console.log($("#data_pwd").val());
 
     $.ajax({
         url: enviorment.API.LOGIN_PWD,
@@ -221,6 +213,7 @@ function signIn() {
             }),
         success:function (data) {
             ajaxMessageReader(data,function (data) {
+
                 token=data['token'];
                 tradeToken4UsrInfo();
             })
@@ -236,10 +229,11 @@ function afterSignIn(data) {
     user_name=data['username'];
 
     if(data['role']=="MANAGER"){
-        ShowApprovalPortal("MODEL CENTER","nav-menu");
+        ShowManagerMenu();
         initModelTypeList();
+    }else{
+        ShowDeveloperMenu();
     }
-    ShowConfigurationPortal("CONFIGURE","nav-menu");
 
     var status=$("#status");
     var rescource=$("#rescourse");
@@ -257,6 +251,7 @@ function afterSignIn(data) {
 
     selectJupyterServer();
 }
+
 
 
 function getCode(name,type) {

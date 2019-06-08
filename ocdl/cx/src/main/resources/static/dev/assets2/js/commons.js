@@ -107,3 +107,12 @@ function GetQueryString(name) {
     if (r != null) return unescape(r[2]);
     return '';
 }
+
+function ajaxMessageReader(response, func){
+    if(response.code=="200"){
+        func(response.data);
+    }else{
+        alert(response.get("message"));
+    }
+
+}

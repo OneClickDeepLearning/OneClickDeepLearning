@@ -67,13 +67,6 @@ function updateConfiguration() {
         }
     })
 }
-function ajaxMessageReader(response, func){
-    if(response.code=="400"){
-        alert(response.get("message"));
-    }else if(response.code=="200"){
-        func(response.data);
-    }
-}
 
 
 
