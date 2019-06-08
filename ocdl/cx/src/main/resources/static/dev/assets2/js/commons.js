@@ -25,7 +25,37 @@ function tradeToken4UsrInfo() {
     })
 }
 
+
 function afterSignIn(data) {
+    token = data['token'];
+    user_name=data['username'];
+
+    if(data['role']=="MANAGER"){
+        ShowManagerMenu();
+        initModelTypeList();
+    }else{
+        ShowDeveloperMenu();
+    }
+
+    var status=$("#status");
+    var rescource=$("#rescourse");
+    var username=$("#username");
+
+    username.text(user_name);
+    status.removeClass('status_disconnected');
+    status.addClass('status_connected');
+    rescource.removeClass('status_NoneR');
+    rescource.addClass('status_cpu');
+
+    $("#loginBtnGroup").slideUp();
+    $("#userinfo").slideDown();
+    $("#closeLogin").click();
+
+    selectJupyterServer();
+}
+
+
+function afterSignIn_ConfigurationPage(data) {
     token= data['token'];
     user_name=data['username'];
 
@@ -106,4 +136,13 @@ function GetQueryString(name) {
     var r = window.location.search.substr(1).match(reg);
     if (r != null) return unescape(r[2]);
     return '';
+}
+
+function ajaxMessageReader(response, func){
+    if(response.code=="200"){
+        func(response.data);
+    }else{
+        alert(response.message);
+    }
+
 }
