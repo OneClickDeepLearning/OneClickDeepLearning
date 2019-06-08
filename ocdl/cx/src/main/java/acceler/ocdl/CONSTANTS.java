@@ -4,7 +4,8 @@ public interface CONSTANTS {
 
     interface APPLICATIONS_DIR {
         String USER_SPACE = "/home/hadoop/mount/UserSpace/";
-        String STAGE_SPACE = "/home/ec2-user/stage/";
+//        String STAGE_SPACE = "/home/ec2-user/stage/";
+        String STAGE_SPACE = "/Staging";
         String GIT_REPO_SPACE = "/home/ec2-user/models/";
     }
 
