@@ -5,12 +5,15 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.util.Properties;
 
 @Component
 public class KafkaService implements MessageQueueService {
+
+    private static final Logger log = Logger.getLogger(KafkaService.class);
 
     private KafkaProducer<String, String> producer;
 
@@ -35,6 +38,8 @@ public class KafkaService implements MessageQueueService {
         createProducer();
         try {
             producer.send(new ProducerRecord<>(topic, data));
+            System.out.println("=============================");
+            log.info("kafka message send.");
         } catch (Exception e) {
             e.printStackTrace();
         }
