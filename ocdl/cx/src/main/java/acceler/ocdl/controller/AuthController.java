@@ -40,6 +40,9 @@ public class AuthController {
     @ResponseBody
     public Response signUp(@RequestBody Map<String, String> registerInfo) {
 
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("sign up");
+
         Response.Builder respBuilder = Response.getBuilder();
         String username = registerInfo.get("username");
         String password = registerInfo.get("password");
