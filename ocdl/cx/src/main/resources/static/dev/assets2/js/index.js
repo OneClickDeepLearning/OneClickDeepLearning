@@ -11,6 +11,7 @@ window.onload = function () {
     initTemplateList();
     initProjectName();
     initUserInfo();
+    ShowInitMenu();
 }
 
 function initUserInfo() {
@@ -122,6 +123,37 @@ function ShowConfigurationPortal(content, parent){
     document.getElementById(parent).appendChild(li_1);
 }
 
+function ShowManagerMenu(){
+    ShowConfigurationPortal("CONFIGURE","nav-menu");
+    $("#model-center-li").show(500);
+    $("#IDE-li").show(500);
+    $("#file-system-li").show(500);
+    $("#code-template-li").show(500);
+    $("#welcome-li").hide(500);
+
+    $("#model-center-li").click();
+};
+
+function  ShowDeveloperMenu() {
+    ShowConfigurationPortal("CONFIGURE","nav-menu");
+    $("#IDE-li").show(500);
+    $("#file-system-li").show(500);
+    $("#code-template-li").show(500);
+    $("#welcome-li").hide(500);
+
+    $("#IDE-tab").click();
+}
+
+function ShowInitMenu() {
+    $("#model-center-li").hide(500);
+    $("#IDE-li").hide(500);
+    $("#file-system-li").hide(500);
+    $("#code-template-li").hide(500);
+    $("#welcome-li").show(500);
+
+    $("#welcome-tab").click();
+}
+
 function ajaxMessageReader(response, func){
     if(response.code=="200"){
         func(response.data);
@@ -199,6 +231,7 @@ function afterSignIn(data) {
 
     if(data['role']=="MANAGER"){
         ShowApprovalPortal("MODEL CENTER","nav-menu");
+        initModelTypeList();
     }
     ShowConfigurationPortal("CONFIGURE","nav-menu");
 
@@ -396,6 +429,7 @@ function signOut() {
     $("#loginBtnGroup").slideDown();
 
     releaseResource();
+    ShowInitMenu();
 }
 
 function releaseResource(){

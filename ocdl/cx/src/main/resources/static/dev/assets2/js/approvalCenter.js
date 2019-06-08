@@ -17,13 +17,15 @@ Donut3D.draw("salesDonut", randomData(), 150, 150, 130, 100, 30, 0.4);
 
 Donut3D.draw("salesDonut", salesData, 150, 150, 130, 100, 30, 0.4);*/
 
-
-token = GetQueryString("token");
+/*
+token = GetQueryString("token");*/
+/*
 
 initProjectName();
 initUserInfo();
 
 initModelTypeList();
+*/
 
 
 function initApproralCenterInfo() {
