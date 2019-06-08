@@ -739,7 +739,7 @@
                                             </div>
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="temp-login-button-wrap">
-                                                    <button class="btn btn-info temp-form-button" type="button" onclick="signUp111()">sign
+                                                    <button class="btn btn-info temp-form-button" type="button" onclick="signUp()">sign
                                                         up
                                                     </button>
                                                 </div>
@@ -972,38 +972,7 @@
         });
     }
 
-    function signUp111() {
-        var  f_username=$("#signup-username").val();
-        var f_password=$("#signup-password").val();
-        var f_role= document.getElementById("developer-radio").checked;
-        if(f_role){
-            f_role="developer";
-        }else{
-            f_role="manager";
-        }
 
-
-        $.ajax({
-            url:enviorment.API.REGISTER,
-            type: "POST",
-            contentType: 'application/json',
-            data:
-                JSON.stringify({
-                    username: f_username,
-                    password:f_password,
-                    role:f_role
-            }),
-            dataType: "json",
-            error: function(request) {
-                alert("Connection error");
-            },
-            success: function(data) {
-                //接收后台返回的结果
-                alert("success");
-            }
-
-        })
-    }
 
     function toHdfs(url) {
         var formData = new FormData();
