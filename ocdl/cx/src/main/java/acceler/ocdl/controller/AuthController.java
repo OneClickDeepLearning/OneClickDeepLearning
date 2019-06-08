@@ -43,7 +43,7 @@ public class AuthController {
         Response.Builder respBuilder = Response.getBuilder();
         String username = registerInfo.get("username");
         String password = registerInfo.get("password");
-        AbstractUser.Role role = AbstractUser.Role.valueOf(registerInfo.get("role"));
+        AbstractUser.Role role = AbstractUser.Role.valueOf(registerInfo.get("role").toUpperCase());
 
         InnerUser newUser = userService.createUser(username, password, role);
 

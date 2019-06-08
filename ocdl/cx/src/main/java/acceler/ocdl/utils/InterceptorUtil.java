@@ -18,6 +18,7 @@ public class InterceptorUtil extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/rest/**")
+                .excludePathPatterns("/rest/auth/signup")
                 .excludePathPatterns("/rest/auth/login")
                 .excludePathPatterns("/rest/template/**")
                 .excludePathPatterns("/rest/project/config")
