@@ -77,8 +77,6 @@ public class DBUserService implements UserService {
             File localMountSpace = new File(Paths.get(CONSTANTS.APPLICATIONS_DIR.USER_SPACE,
                     CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(newUser.getUserId()))).toString());
             forceMkdir(localMountSpace);
-            System.out.println("==========================================");
-            System.out.println("success create local directory");
         } catch (IOException e) {
             throw new OcdlException("Fail to creat mounted userspace for " + newUser.getUserName());
         }
