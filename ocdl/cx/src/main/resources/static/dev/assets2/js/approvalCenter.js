@@ -118,6 +118,7 @@ function initApproralCenterInfo() {
                     var tr = "<tr class='data'><td>" + data["approvalModels"][i].modelName + "</td> <td>" + data["approvalModels"][i].algorithm + "</td> <td>" + data["approvalModels"][i].version + "</td>  " +
                         "<td>"+ data["approvalModels"][i].timeStamp +"</td> <td>" +
                         " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
+                        "<button type='button' class='btn btn-info' onclick='generateDownloadCode(\""+ data["approvalModels"][i].modelFileName +"\")'>Download Code</button>" +
                         "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["approvalModels"][i].modelId + "\",-1,\"approved\")'>Undo</button>" +
                         "<button type='button' class='btn btn-info' onclick='releaseModel(\"" + data["approvalModels"][i].modelId+"\" )'>Release</button>"+
                         "</div>" +
