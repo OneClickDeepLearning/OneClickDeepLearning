@@ -77,7 +77,7 @@ public class DBUserService implements UserService {
         } catch (IOException e) {
             throw new OcdlException("Fail to creat mounted userspace for " + newUser.getUserName());
         }
-        
+
         return newUser;
     }
 }
