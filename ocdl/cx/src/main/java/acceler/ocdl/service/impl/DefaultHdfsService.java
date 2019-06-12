@@ -51,7 +51,6 @@ public class DefaultHdfsService implements HdfsService {
      * @param destPath the destination path on HDFS
      * @throws HdfsException
      */
-
     public void uploadFile(Path srcPath, Path destPath) throws HdfsException {
         //String result = "http://3.92.26.165:50075/webhdfs/v1/CommonSpace/" + fileName + "?op=CREATE&user.name=hadoop&namenoderpcaddress=hadoop-master:9000&createflag=&createparent=true&overwrite=true";
         try {

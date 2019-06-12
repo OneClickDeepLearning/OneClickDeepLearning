@@ -2,28 +2,30 @@
 
 
 var salesData = [
-    {label: "Waiting", value: 3, color: "#3366CC"},
-    {label: "Reject", value: 5, color: "#DC3912"},
-    {label: "Approval", value: 1, color: "#109618"}
+    {value: 3},
+    {value: 5},
+    {value: 1}
 ];
 
 var modelTypeList;
 
 
-var svg = d3.select("#pie").append("svg").attr("width", 700).attr("height", 300);
+/*var svg = d3.select("#pie").append("svg").attr("width", 700).attr("height", 300);
 
 svg.append("g").attr("id", "salesDonut");
 Donut3D.draw("salesDonut", randomData(), 150, 150, 130, 100, 30, 0.4);
 
-Donut3D.draw("salesDonut", salesData, 150, 150, 130, 100, 30, 0.4);
+Donut3D.draw("salesDonut", salesData, 150, 150, 130, 100, 30, 0.4);*/
 
-
-token = GetQueryString("token");
+/*
+token = GetQueryString("token");*/
+/*
 
 initProjectName();
 initUserInfo();
 
 initModelTypeList();
+*/
 
 
 function initApproralCenterInfo() {
@@ -48,8 +50,35 @@ function initApproralCenterInfo() {
                 $("#newModelNum").text(salesData[0].value);
                 $("#approvalModelNum").text(salesData[1].value);
                 $("#rejectedModelNum").text(salesData[2].value);
-                $("#todoNum").text(salesData[0].value);
-                Donut3D.draw("salesDonut", salesData, 150, 150, 130, 100, 30, 0.4);
+/*                $("#todoNum").text(salesData[0].value);
+                Donut3D.draw("salesDonut", salesData, 150, 150, 130, 100, 30, 0.4);*/
+
+
+                google.charts.load("current", {packages: ["corechart"]});
+                google.charts.setOnLoadCallback(function(){
+                    drawChart(salesData);
+                });
+
+                function drawChart(salesData) {
+                    var data = google.visualization.arrayToDataTable([
+                        ['Type', 'Number'],
+                        ['New', salesData[0].value],
+                        ['Approved', salesData[1].value],
+                        ['Rejected', salesData[2].value],
+                    ]);
+
+                    var options = {
+                        title: 'Model Center',
+                        is3D: true,
+                        backgroundColor: 'transparent',
+                        width: 400,
+                        height: 300,
+                        colors:['#716aca','#007bff','#f4516c']
+                    };
+
+                    var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+                    chart.draw(data, options);
+                }
 
                 <!-- waiting list -->
                 for (var i = 0; i < data["newModels"].length; i++) {
@@ -86,12 +115,27 @@ function initApproralCenterInfo() {
 
                 <!-- approval list -->
                 for (var i = 0; i < data["approvalModels"].length; i++) {
-                    var tr = "<tr class='data'><td>" + data["approvalModels"][i].modelName + "</td> <td>" + data["approvalModels"][i].algorithm + "</td> <td>" + data["approvalModels"][i].version + "</td>  " +
-                        "<td>"+ data["approvalModels"][i].timeStamp +"</td> <td>" +
-                        " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
-                        "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["approvalModels"][i].modelId + "\",-1,\"approved\")'>Undo</button>" +
-                        "</div>" +
-                        "</td></tr>";
+                    var tr;
+                    if(data["approvalModels"][i].status=="RELEASED"){
+                        tr = "<tr class='data'><td>" + data["approvalModels"][i].modelName + "</td> <td>" + data["approvalModels"][i].algorithm + "</td> <td>" + data["approvalModels"][i].version + "</td>  " +
+                            "<td>"+ data["approvalModels"][i].timeStamp +"</td> <td>" +
+                            " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
+                            "<button type='button' class='btn btn-info' onclick='generateDownloadCode(\""+ data["approvalModels"][i].modelFileName +"\")'>Download Code</button>" +
+                            "<button type=\"button\" class=\"btn btn-danger\" disabled onclick='void(0)'>Undo</button>" +
+                            "<button type='button' class='btn btn-info' disabled onclick='void(0)'>Release</button>"+
+                            "</div>" +
+                            "</td></tr>";
+                    }else{
+                        tr = "<tr class='data'><td>" + data["approvalModels"][i].modelName + "</td> <td>" + data["approvalModels"][i].algorithm + "</td> <td>" + data["approvalModels"][i].version + "</td>  " +
+                            "<td>"+ data["approvalModels"][i].timeStamp +"</td> <td>" +
+                            " <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">" +
+                            "<button type='button' class='btn btn-info' onclick='generateDownloadCode(\""+ data["approvalModels"][i].modelFileName +"\")'>Download Code</button>" +
+                            "<button type=\"button\" class=\"btn btn-danger\" onclick='UpdateDecision(\"" + data["approvalModels"][i].modelId + "\",-1,\"approved\")'>Undo</button>" +
+                            "<button type='button' class='btn btn-info' onclick='releaseModel(\"" + data["approvalModels"][i].modelId+"\" )'>Release</button>"+
+                            "</div>" +
+                            "</td></tr>";
+                    }
+
                     $("#tableApproval").append(tr);
                 }
 
@@ -176,18 +220,29 @@ function UpdateDecision(id,status,origin) {
     })
 }
 
+function releaseModel(id) {
+    $.ajax({
+        url: enviorment.API.MODEL+"/"+id,
+        contentType: 'application/json',
+        dataType: "json",
+        type: "PATCH",
+        timeout: 0,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("AUTH_TOKEN", token);
+        },
+        success: function (data) {
+            ajaxMessageReader(data, function (data) {
+                initApproralCenterInfo();
+                alert("The model has been released!")
+            })
+        },
+        error: function (data) {
+        }
+    })
+}
+
 function randomData() {
     return salesData.map(function (d) {
         return {label: d.label, value: 1000 * Math.random(), color: d.color};
     });
-}
-
-function ajaxMessageReader(response, func) {
-    if (response.code == "400") {
-        alert(response.get("message"));
-    } else if (response.code == "200") {
-        func(response.data);
-    }
-
-    /* func(response);*/
 }

@@ -11,31 +11,13 @@ window.onload = function () {
     initTemplateList();
     initProjectName();
     initUserInfo();
-}
+    ShowInitMenu();
+};
 
 function initUserInfo() {
     if(token!=''){
         tradeToken4UsrInfo();
     }
-}
-
-function tradeToken4UsrInfo() {
-    $.ajax({
-        url: enviorment.API.USER_INFO_BY_TOKEN+'?token='+token,
-        contentType: 'application/json',
-        dataType: "json",
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("AUTH_TOKEN", token);
-        },
-        type: "GET",
-        success: function(data) {
-            ajaxMessageReader(data,function (data) {
-                afterSignIn(data);
-            })
-        },
-        error: function (data) {
-        }
-    })
 }
 
 function addSpan(li,text){
@@ -110,6 +92,7 @@ function ShowApprovalPortal(content, parent) {
     a.setAttribute("href","#");
     a.innerHTML=content;
     li_1.appendChild(a);
+
     document.getElementById(parent).appendChild(li_1);
 }
 function ShowConfigurationPortal(content, parent){
@@ -118,18 +101,47 @@ function ShowConfigurationPortal(content, parent){
     a.setAttribute("onclick","forwardTo('views/configuration.html?token="+token+"')");
     a.setAttribute("href","#");
     a.innerHTML=content;
+    li_1.id = "configurationBtn";
     li_1.appendChild(a);
     document.getElementById(parent).appendChild(li_1);
 }
 
-function ajaxMessageReader(response, func){
-    if(response.code=="200"){
-        func(response.data);
-    }else{
-        alert(response.get("message"));
-    }
-
+function HideConfigurationPortal(id) {
+    $("#configurationBtn").remove();
 }
+
+function ShowManagerMenu(){
+    ShowConfigurationPortal("CONFIGURE","nav-menu");
+    $("#model-center-li").show(500);
+    $("#IDE-li").show(500);
+    $("#file-system-li").show(500);
+    $("#code-template-li").show(500);
+    $("#welcome-li").hide(500);
+
+    $("#model-center-li").click();
+};
+
+function  ShowDeveloperMenu() {
+    ShowConfigurationPortal("CONFIGURE","nav-menu");
+    $("#IDE-li").show(500);
+    $("#file-system-li").show(500);
+    $("#code-template-li").show(500);
+    $("#welcome-li").hide(500);
+
+    $("#IDE-tab").click();
+}
+
+function ShowInitMenu() {
+    $("#model-center-li").hide(500);
+    $("#IDE-li").hide(500);
+    $("#file-system-li").hide(500);
+    $("#code-template-li").hide(500);
+    $("#welcome-li").show(500);
+
+    $("#welcome-tab").click();
+}
+
+
 
 function changeProjectName() {
     var name = $("#projectName").text().slice(9);
@@ -168,8 +180,6 @@ function checkLogin() {
 }
 
 function signIn() {
-    console.log($("#data_username").val());
-    console.log($("#data_pwd").val());
 
     $.ajax({
         url: enviorment.API.LOGIN_PWD,
@@ -198,9 +208,11 @@ function afterSignIn(data) {
     user_name=data['username'];
 
     if(data['role']=="MANAGER"){
-        ShowApprovalPortal("MODEL CENTER","nav-menu");
+        ShowManagerMenu();
+        initModelTypeList();
+    }else{
+        ShowDeveloperMenu();
     }
-    ShowConfigurationPortal("CONFIGURE","nav-menu");
 
     var status=$("#status");
     var rescource=$("#rescourse");
@@ -218,6 +230,7 @@ function afterSignIn(data) {
 
     selectJupyterServer();
 }
+
 
 
 function getCode(name,type) {
@@ -396,6 +409,42 @@ function signOut() {
     $("#loginBtnGroup").slideDown();
 
     releaseResource();
+    HideConfigurationPortal();
+    ShowInitMenu();
+}
+
+function signUp() {
+    var  f_username=$("#signup-username").val();
+    var f_password=$("#signup-password").val();
+    var f_role= document.getElementById("developer-radio").checked;
+    if(f_role){
+        f_role="developer";
+    }else{
+        f_role="manager";
+    }
+
+
+    $.ajax({
+        url:enviorment.API.REGISTER,
+        type: "POST",
+        contentType: 'application/json',
+        data:
+            JSON.stringify({
+                username: f_username,
+                password:f_password,
+                role:f_role
+            }),
+        dataType: "json",
+        error: function(request) {
+            alert("Connection error");
+        },
+        success: function(data) {
+            //接收后台返回的结果
+            alert("Sign up successful");
+            tradeToken4UsrInfo();
+        }
+
+    })
 }
 
 function releaseResource(){

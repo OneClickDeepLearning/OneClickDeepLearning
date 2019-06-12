@@ -4,7 +4,8 @@ public interface CONSTANTS {
 
     interface APPLICATIONS_DIR {
         String USER_SPACE = "/home/hadoop/mount/UserSpace/";
-        String STAGE_SPACE = "/home/ec2-user/stage/";
+//        String STAGE_SPACE = "/home/ec2-user/stage/";
+        String STAGE_SPACE = "/Staging";
         String GIT_REPO_SPACE = "/home/ec2-user/models/";
     }
 
@@ -12,7 +13,7 @@ public interface CONSTANTS {
 
         //TODO replace TestProject
 
-        String USER_SPACE = "testproject-{userId}";
+        String USER_SPACE = "{userId}";
         String STAGED_MODEL = "{modelId}.{suffix}";
 
         String USER_ID = "{type}{userId}";
@@ -25,6 +26,7 @@ public interface CONSTANTS {
         String ALGORITHMS = _BASE + "/algorithms";
         String PROJECT = _BASE + "/project";
         String USERS = _BASE + "/users";
+        String USER_ID_GENERATOR = _BASE + "/user_id_generator";
         String NEW_MODEL = _BASE + "/new_model";
         String REJECTED_MODELS = _BASE + "/rejected_model";
     }
@@ -56,5 +58,6 @@ public interface CONSTANTS {
     interface KAFKA {
         String TOPIC = "mdmsg";
         String MESSAGE = "{publishedModelName} {modelUrl}";
+        String KAFKA_URL = "ec2-54-89-140-122.compute-1.amazonaws.com:9092";
     }
 }

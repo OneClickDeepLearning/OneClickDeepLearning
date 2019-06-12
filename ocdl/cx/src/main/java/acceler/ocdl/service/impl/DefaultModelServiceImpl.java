@@ -2,9 +2,11 @@ package acceler.ocdl.service.impl;
 
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.dto.ModelDto;
+import acceler.ocdl.exception.HdfsException;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.model.*;
+import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.MessageQueueService;
 import acceler.ocdl.service.ModelService;
 import acceler.ocdl.service.StorageService;
@@ -12,6 +14,7 @@ import acceler.ocdl.utils.CommandHelper;
 import acceler.ocdl.utils.TimeUtil;
 import com.sun.istack.Nullable;
 import org.apache.commons.io.FileUtils;
+import org.apache.hadoop.fs.Path;
 import org.apache.log4j.Logger;
 import org.eclipse.jgit.api.Git;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,9 @@ public class DefaultModelServiceImpl implements ModelService {
 //    private CommandHelper commandHelper;
 
     @Autowired
+    private HdfsService hdfsService;
+
+    @Autowired
     private StorageService storageService;
 
     @Autowired
@@ -47,14 +53,14 @@ public class DefaultModelServiceImpl implements ModelService {
     @Override
     public void initModelToStage(InnerUser innerUser) {
 
-        final String userSpaceName = CONSTANTS.APPLICATIONS_DIR.USER_SPACE + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectNameInStorage()).replace("{userId}", String.valueOf(innerUser.getUserId()));
+        final String userSpaceName = CONSTANTS.APPLICATIONS_DIR.USER_SPACE + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(innerUser.getUserId()));
         final File userSpace = new File(userSpaceName);
 
         if (userSpace.isDirectory()) {
             File[] files = userSpace.listFiles();
             List<String> suffixes = Arrays.asList(Project.getModelFileSuffixesInStorage());
 
-            //IO error occures
+            // HDFS upload error occures
             if (files == null) {
                 log.error(String.format("fail in reading directory: %s", userSpaceName));
                 throw new OcdlException(String.format("fail in reading directory: %s", userSpaceName));
@@ -69,15 +75,14 @@ public class DefaultModelServiceImpl implements ModelService {
 
                         String suffix = f.getName().substring(f.getName().lastIndexOf(".")+1);
 
-                        String stagedFilePath = CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE +
-                                CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{modelId}", modelId.toString()).replace("{suffix}", suffix);
+                        String stagedFilePath = Paths.get(CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE,CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{modelId}",
+                                modelId.toString()).replace("{suffix}", suffix)).toString();
 
-                        File newStagedFilePath = new File(stagedFilePath);
-                        FileUtils.moveFile(f, newStagedFilePath);
+                        hdfsService.uploadFile(new Path(f.getPath()), new Path(stagedFilePath));
                         persistNewModel(f, modelId, suffix);
                     }
                 }
-            } catch (IOException e) {
+            } catch (HdfsException e) {
                 e.printStackTrace();
                 log.error(String.format("fail to create new model, because %s failed to move to stage space", files[current].getName()));
                 throw new OcdlException(String.format("fail to create new model, because %s failed to move to stage space", files[current].getName()));
@@ -303,7 +308,7 @@ public class DefaultModelServiceImpl implements ModelService {
     private Optional<File> existModelFile(ApprovedModel model, InnerUser innerUser) {
         File modelFile = null;
 
-        final String userSpaceName = CONSTANTS.APPLICATIONS_DIR.USER_SPACE + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{projectName}", Project.getProjectNameInStorage()).replace("{userId}", String.valueOf(innerUser.getUserId()));
+        final String userSpaceName = CONSTANTS.APPLICATIONS_DIR.USER_SPACE + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(innerUser.getUserId()));
         final File userSpace = new File(userSpaceName);
 
         if (userSpace.isDirectory()) {
@@ -339,9 +344,12 @@ public class DefaultModelServiceImpl implements ModelService {
         storageService.uploadObject(bucketName, publishedModelName, modelFile);
         //send kafka message
         String message = CONSTANTS.KAFKA.MESSAGE.replace("{publishedModelName}", publishedModelName).replace("{modelUrl}",storageService.getObkectUrl(bucketName, publishedModelName));
+        System.out.println("+++++++++++++++++++++++++++++++++++++++");
+        System.out.println(message);
         messageQueueService.send(CONSTANTS.KAFKA.TOPIC, message);
 
         Algorithm algorithm = Algorithm.getAlgorithmOfApprovedModel(model);
+        System.out.println(algorithm.getAlgorithmName());
         //update release status in Approved model
         algorithm.updateSingleApprovedModel(model, (ApprovedModel approvedModel) -> approvedModel.setStatus(Model.Status.RELEASED) );
         //update algorithm version
