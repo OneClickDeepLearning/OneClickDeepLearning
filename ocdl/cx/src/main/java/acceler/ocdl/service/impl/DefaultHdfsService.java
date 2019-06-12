@@ -40,6 +40,7 @@ public class DefaultHdfsService implements HdfsService {
     }
 
     /**
+     * Upload an existing local file to HDFS
      * WebHDFS Create and Write to a File needs two steps
      * step one: Submit a HTTP PUT request without automatically following redirects and without sending the file data
      * the request is redirected to a datanode where the file data is to be written
