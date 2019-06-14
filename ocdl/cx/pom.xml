@@ -51,7 +51,7 @@
 			<optional>true</optional>
 		</dependency>
 
-		<dependency>
+		<dependency>A
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -135,18 +135,16 @@
             <scope>compile</scope>
         </dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.alluxio/alluxio-core-client-fs -->
 		<dependency>
 			<groupId>org.alluxio</groupId>
 			<artifactId>alluxio-core-client-fs</artifactId>
-			<version>1.8.0</version>
+			<version>2.0.0-preview</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.codahale.metrics/metrics-core -->
 		<dependency>
-			<groupId>com.codahale.metrics</groupId>
-			<artifactId>metrics-core</artifactId>
-			<version>3.0.2</version>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>3.8.0</version>
 		</dependency>
 
 
