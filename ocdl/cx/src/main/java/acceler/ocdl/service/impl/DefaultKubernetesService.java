@@ -170,6 +170,10 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withImagePullPolicy("Never")
                 .endContainer()
 
+                .withNewDnsConfig()
+                .withNameservers("8.8.8.8")
+                .endDnsConfig()
+
                 .addToVolumes()
                 .addNewVolume()
                 .withName("model")
@@ -231,6 +235,10 @@ public class DefaultKubernetesService implements KubernetesService {
                 .endVolumeMount()
                 .withImagePullPolicy("Never")
                 .endContainer()
+
+                .withNewDnsConfig()
+                .withNameservers("8.8.8.8")
+                .endDnsConfig()
 
                 .addToVolumes()
                 .addNewVolume()
