@@ -1,9 +1,11 @@
 package com.ocdl.proxy.service.impl;
 
 
+import com.ocdl.proxy.exception.ProxyException;
 import com.ocdl.proxy.service.MessageTransferService;
 import com.ocdl.proxy.ProxyCallBack;
 import com.ocdl.proxy.domain.Topic;
+import com.ocdl.proxy.util.MessageUtils;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -78,6 +80,7 @@ public class KafkaService implements MessageTransferService {
         }
     }
 
+
     @Override
     public void consum(Topic topic, ProxyCallBack proxyCallBack) {
 
@@ -92,11 +95,10 @@ public class KafkaService implements MessageTransferService {
                 // recieve the jkmsg, just a msg told that it has new model
                 System.out.printf("offset = %d, key = %s, value = %s \n", record.offset(), record.key(), record.value());
 
-                int posPaylod = record.value().indexOf("payload");
-                int start = record.value().indexOf("\"", posPaylod) + 3;
-                int end = record.value().indexOf("\"", start);
-                String msg = record.value().substring(start, end);
-                proxyCallBack.processMsg(msg);
+                String msgStr = MessageUtils.unpackMessage(record.value());
+                Optional.ofNullable(msgStr).ifPresent(m -> {
+                    proxyCallBack.processMsg(m);
+                });
             }
         }
     }

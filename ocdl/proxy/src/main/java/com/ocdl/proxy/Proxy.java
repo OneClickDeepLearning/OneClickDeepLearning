@@ -18,30 +18,17 @@ import java.util.Set;
 @Component
 public class Proxy implements ProxyCallBack{
 
-    HashMap<String, Set<String>> preModels;
-    Set<String> curModel;
-
     @Resource
     StorageService storage;
 
     @Resource
     MessageTransferService msgTransfer;
-
-
+    //TODO 路径放入配置文件
     public static String SOURCE = "/var/lib/jenkins/workspace";
     public static String BUCKETNAME = "ocdl-model";
 
     public Proxy() {
-        // create the preModel and curModel
-        preModels = new HashMap<>();
-        curModel = new HashSet<>();
     }
-
-//    @Value("${jenkins.server.workspacePath}")
-//    public static void setSOURCE(String SOURCE) { Proxy.SOURCE = SOURCE; }
-//
-//    @Value("${S3.server.bucketName}")
-//    public static void setBUCKETNAME(String BUCKETNAME) { Proxy.BUCKETNAME = BUCKETNAME; }
 
     public void run() {
 
@@ -63,66 +50,27 @@ public class Proxy implements ProxyCallBack{
     @Override
     public void processMsg(String msg) {
 
-        System.out.println("=================================================================");
+        // parse message to get mdTopic and gitRepoName
+        String[] projectInfo = msg.split("_");
+        String gitRepoName = projectInfo[0];
+        String mdTopic = projectInfo[1];
+        Path modelsPath = Paths.get(SOURCE, gitRepoName, "models");
 
-        System.out.println("SOURTH:" + SOURCE);
-        String[] projectInfo = msg.split(" ");
-        System.out.println("project info: ");
-        System.out.println(projectInfo[0] + "   " + projectInfo[1]);
-        Path path = Paths.get(SOURCE, projectInfo[0]);
+        File models = new File(modelsPath.toString());
 
-        Set<String> preModel = null;
-        System.out.println("PreModel is: ");
-        if (preModels.containsKey(projectInfo[0].trim())) {
-            preModel = preModels.get(projectInfo[0].trim());
-        } else {
-            preModel = new HashSet<String>();
-            preModels.put(projectInfo[0].trim(), preModel);
+        if (models.isDirectory() && models.listFiles().length > 0) {
+            File[] modelFiles = models.listFiles();
+            for(File model : modelFiles) {
+                // upload file to S3
+                storage.createStorage();
+                storage.uploadObject(BUCKETNAME, model.getName(), model);
+
+                // send message in kafka
+                msgTransfer.createProducer();
+                String content = model.getName() + " " + storage.getObkectUrl(BUCKETNAME, model.getName());
+                msgTransfer.send(mdTopic, content);
+                System.out.println("produce message send...   ");
+            }
         }
-        System.out.println(preModel);
-
-
-        curModel = FileTool.listModel(path.toString());
-        System.out.println("CurModel is: ");
-        System.out.println(curModel);
-
-        Set<String> newModel = FileTool.getNewModels(curModel, preModel);
-
-        newModel.stream().forEach( v -> {
-
-            File model = new File(Paths.get(path.toString(), v).toString());
-
-            // upload file to S3
-            storage.createStorage();
-            String modelName = v;
-            storage.uploadObject(BUCKETNAME, modelName, model);
-
-            // send message in kafka
-            msgTransfer.createProducer();
-            String content = modelName + " " + storage.getObkectUrl(BUCKETNAME, modelName);
-            msgTransfer.send(projectInfo[1], content);
-            System.out.println("produce message send...   ");
-
-        });
-
-        preModel.clear();
-        preModel.addAll(curModel);
-        curModel.clear();
-
-        System.out.println("=================================================================");
     }
-
-
-//    private void printModelMap( HashMap<String, Set<String>> models) {
-//
-//        models.keySet().stream().forEach(key -> {
-//            System.out.println(key + ": ");
-//            System.out.print(models.get(key));
-//            System.out.println();
-//        });
-//    }
-
-
-
-
 }

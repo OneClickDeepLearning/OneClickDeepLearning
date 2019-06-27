@@ -5,11 +5,8 @@ import java.io.File;
 
 public interface StorageService {
 
-    public void createStorage();
+    void uploadObject(String bucketName, String modelName, File file);
 
-    public void uploadObject(String bucketName, String modelName, File file);
+    String getObkectUrl(String bucketName, String objectKey);
 
-    public String getObkectUrl(String bucketName, String objectKey);
-
-    public void downloadObject(String bucketName, String ObjectKey);
 }

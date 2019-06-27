@@ -5,7 +5,7 @@ import acceler.ocdl.OcdlApplication;
 import acceler.ocdl.model.Model;
 import acceler.ocdl.model.Project;
 import acceler.ocdl.model.Template;
-import acceler.ocdl.model.User;
+import acceler.ocdl.model.InnerUser;
 import acceler.ocdl.service.impl.DefaultDatabaseService;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public class DefaultDatabaseServiceTest {
     @Autowired
     private DefaultDatabaseService db;
 
-    private User user;
+    private InnerUser user;
     private Template template;
     private Model model;
     private Project project;
@@ -48,7 +48,7 @@ public class DefaultDatabaseServiceTest {
 
     @Test
     public void createNewRole() {
-        User.Role role = User.Role.TEST;
+        InnerUser.Role role = InnerUser.Role.TEST;
         int id = db.createNewRole(role);
         System.out.println("the new role id = " + id );
         assertTrue(id>0);
@@ -57,7 +57,7 @@ public class DefaultDatabaseServiceTest {
 
     @Test
     public void getRoleId() {
-        User.Role role = User.Role.MANAGER;
+        InnerUser.Role role = InnerUser.Role.MANAGER;
         int id = db.getRoleId(role);
         // note increment id will be different
         assertEquals(2, id);
@@ -76,7 +76,7 @@ public class DefaultDatabaseServiceTest {
 
     @Test
     public void createUser() {
-        user = new User("test", "account", "1234", 1, User.Role.TEST);
+        user = new InnerUser("test", "account", "1234", 1, InnerUser.Role.TEST);
         int id = db.createUser(user);
         System.out.println("the user id = " + id );
         assertTrue(id>0);
@@ -100,14 +100,14 @@ public class DefaultDatabaseServiceTest {
 
     @Test
     public void getUserInfo() {
-        User user = db.getUserInfo("test");
+        InnerUser user = db.getUserInfo("test");
         System.out.println("the user info is: ");
         System.out.println(user.getUserId());
-        System.out.println(user.getUserName());
+        System.out.println(user.getAuthServerUserId());
         System.out.println(user.getPassword());
         System.out.println(user.getRole());
 
-        assertEquals(User.Role.TEST, user.getRole());
+        assertEquals(InnerUser.Role.TEST, user.getRole());
     }
 
     //==================================================================================
@@ -161,7 +161,7 @@ public class DefaultDatabaseServiceTest {
     @Test
     public void createUserProjectRelation() throws Exception{
 
-        User user = db.getUserInfo("test");
+        InnerUser user = db.getUserInfo("test");
         db.createUserProjectRelation(user, "project2");
 
     }
@@ -183,8 +183,8 @@ public class DefaultDatabaseServiceTest {
     @Test
     public void getProjectManager() {
 
-        User user = db.getProjectManager(3);
-        assertEquals("test", user.getUserName());
+        InnerUser user = db.getProjectManager(3);
+        assertEquals("test", user.getAuthServerUserId());
     }
 
 

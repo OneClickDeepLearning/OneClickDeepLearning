@@ -1,7 +1,7 @@
 
 body
 	{
- 		background: #303030;
+ 		background: url("../images/background4.png");
  		color: #ffffff;
 		font-family: 'Open Sans', sans-serif;
 		font-weight: 300;
@@ -132,8 +132,8 @@ h2 span
 header
 	{
 		min-height: 20px;
-		padding-top: 18px;
-		padding-bottom: 10px;
+		padding-top: 8px;
+		padding-bottom: 5px;
 		z-index: 102;
 		position: relative;
 	}
@@ -173,6 +173,7 @@ header .social-icon li a
 		border: none;
 		box-shadow: none;
 		margin: 0 !important;
+		position: relative;
 	}
 .navbar-default .navbar-brand
 	{
@@ -199,7 +200,7 @@ header .social-icon li a
 	z-index: 1000;
 }
 .sticky {	
-	position: fixed;
+/*	position: fixed;*/
 	left: 0;
 	top: 0;	
 }

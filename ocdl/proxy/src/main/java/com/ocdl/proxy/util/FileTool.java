@@ -7,7 +7,7 @@ public class FileTool {
 
     public static Set<String> listModel(String source) {
 
-        System.out.println("the file source is: " + source);
+        System.out.println("the file source is: " + source.trim());
 
         Set<String> models = new HashSet<String>();
 
