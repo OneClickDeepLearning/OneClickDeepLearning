@@ -172,17 +172,26 @@ function changeProjectName() {
 }
 //validation (pending)
 function checkLogin() {
-    if($("#username").val()==''){
+    if($("#data_username").val()==''){
         alert("please input the username");
         return false;
-    }else if($("password").val()==''){
+    }else if($("#data_pwd").val()==''){
         alert("please input the password");
         return false;
     }
 }
 
 function signIn() {
-
+    //validation
+    var valid = checkLogin();
+    if(!valid){
+        return
+    }
+    //get the public key
+    if(key==null||key==""){
+        getPublicKey();
+    }
+    var pwd = Encrypt($("#data_pwd").val());
     $.ajax({
         url: enviorment.API.LOGIN_PWD,
         contentType: 'application/json',
@@ -199,8 +208,8 @@ function signIn() {
                 tradeToken4UsrInfo();
             })
         },
-
         error: function (data) {
+            alert(data);
         }
     })
 }
@@ -478,4 +487,30 @@ function GetQueryString(name) {
     var r = window.location.search.substr(1).match(reg);
     if (r != null) return unescape(r[2]);
     return '';
+}
+
+
+function Encrypt(pwd) {
+    const encrypt = new JSEncrypt();
+    encrypt.setPublicKey(key);
+    const result = encrypt.encrypt(pwd);
+    return result;
+}
+
+function getPublicKey(){
+    $.ajax({
+        url: '/rest/auth/key',
+        contentType: 'application/json',
+        dataType: "json",
+        type: "GET",
+        timeout: 0,
+        success: function (info) {
+            ajaxMessageReader(info, function (data) {
+                key = data;
+            })
+        },
+        error: function (resp) {
+            alert(resp);
+        }
+    });
 }

@@ -923,7 +923,6 @@
 <script src="assets2/js/custom.js"></script>
 <script src="assets2/js/prefixfree.min.js"></script>
 <script src="assets2/js/switchServer.js"></script>
-<!--<script language="javascript" src="assets2/js/flipycard.js"></script>-->
 <script language="javascript" src="assets2/js/shCore.js"></script>
 <script language="javascript" src="assets2/js/shBrushPython.js"></script>
 <script src="assets2/js/menu.js"></script>
@@ -947,21 +946,7 @@
     console.log(result);*/
 
 
-$.ajax({
-    url: '/rest/auth/key',
-    contentType: 'application/json',
-    dataType: "json",
-    type: "GET",
-    timeout: 0,
-    success: function (info) {
-        ajaxMessageReader(info, function (data) {
-            key = data;
-        })
-    },
-    error: function (resp) {
-        alert(resp);
-    }
-});
+
 
 
     var clipboard = new ClipboardJS('.btn-copy');
