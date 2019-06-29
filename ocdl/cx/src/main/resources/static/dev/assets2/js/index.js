@@ -4,6 +4,7 @@ var list;
 var token= GetQueryString("token");
 var id='';
 var profileImage='';
+var key='';
 
 
 
@@ -138,7 +139,8 @@ function ShowInitMenu() {
     $("#code-template-li").hide(500);
     $("#welcome-li").show(500);
 
-    $("#welcome-tab").click();
+    setTimeout($("#welcome-tab").click(), 600);
+
 }
 
 
@@ -170,16 +172,29 @@ function changeProjectName() {
 }
 //validation (pending)
 function checkLogin() {
-    if($("#username").val()==''){
+    if($("#data_username").val()==''){
         alert("please input the username");
         return false;
-    }else if($("password").val()==''){
+    }else if($("#data_pwd").val()==''){
         alert("please input the password");
         return false;
+    } else {
+        return true;
     }
 }
 
 function signIn() {
+    //validation
+    var valid = checkLogin();
+    if(!valid){
+        return
+    }
+    //get the public key
+    if(key==null||key==""){
+        getPublicKey();
+    }
+
+    var pwd = Encrypt($("#data_pwd").val());
 
     $.ajax({
         url: enviorment.API.LOGIN_PWD,
@@ -189,7 +204,7 @@ function signIn() {
         data:
             JSON.stringify({
                 account: $("#data_username").val(),
-                password: $("#data_pwd").val()
+                password: pwd
             }),
         success:function (data) {
             ajaxMessageReader(data,function (data) {
@@ -197,8 +212,8 @@ function signIn() {
                 tradeToken4UsrInfo();
             })
         },
-
         error: function (data) {
+            alert(data);
         }
     })
 }
@@ -277,11 +292,19 @@ function submitToGit(){
 }
 
 function selectJupyterServer(){
+    var rescource=$("#rescourse");
     var server = "cpu";
     if($("#serverCtl").hasClass('toggle--on')){
         server = "cpu";
+        rescource.removeClass('status_NoneR');
+        rescource.removeClass('status_gpu');
+        rescource.addClass('status_cpu');
+
     }else{
         server = "gpu";
+        rescource.removeClass('status_NoneR');
+        rescource.removeClass('status_cpu');
+        rescource.addClass('status_gpu');
     }
     $.ajax({
         url: enviorment.API.JUPYTER_SERVER+"/"+server,
@@ -377,8 +400,6 @@ function onSignIn(googleUser) {
             var username=$("#username");
             var status=$("#status");
             var rescource=$("#rescourse");
-            var card=$("#card");
-
             username.text(user_name);
             if (profileImage!=null&&profileImage!=''){
                 $("#profileImage").attr("src",profileImage);
@@ -389,7 +410,6 @@ function onSignIn(googleUser) {
             status.addClass('status_connected');
             rescource.removeClass('status_NoneR');
             rescource.addClass('status_cpu');
-            card.removeClass('unlog');
 
             $("#loginBtnGroup").slideUp();
             $("#closeLogin").click();
@@ -471,4 +491,31 @@ function GetQueryString(name) {
     var r = window.location.search.substr(1).match(reg);
     if (r != null) return unescape(r[2]);
     return '';
+}
+
+
+function Encrypt(pwd) {
+    const encrypt = new JSEncrypt();
+    encrypt.setPublicKey(key);
+    const result = encrypt.encrypt(pwd);
+    return result;
+}
+
+function getPublicKey(){
+    $.ajax({
+        url: '/rest/auth/key',
+        contentType: 'application/json',
+        dataType: "json",
+        async: false,
+        type: "GET",
+        timeout: 0,
+        success: function (info) {
+            ajaxMessageReader(info, function (data) {
+                key = data;
+            })
+        },
+        error: function (resp) {
+            alert(resp);
+        }
+    });
 }

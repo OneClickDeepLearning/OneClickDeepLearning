@@ -5,6 +5,7 @@ import acceler.ocdl.model.AbstractUser;
 import acceler.ocdl.model.InnerUser;
 import acceler.ocdl.service.KubernetesService;
 import acceler.ocdl.service.UserService;
+import acceler.ocdl.utils.EncryptionUtil;
 import acceler.ocdl.utils.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -124,6 +125,20 @@ public class AuthController {
         result.put("role", innerUser.getRole());
         respBuilder.setData(result);
         respBuilder.setCode(Response.Code.SUCCESS);
+        return respBuilder.build();
+    }
+
+    @RequestMapping(path ="/key", method = RequestMethod.GET)
+    @ResponseBody
+    public Response key() {
+        EncryptionUtil.generateKey();
+        final Response.Builder respBuilder = Response.getBuilder();
+        respBuilder.setCode(Response.Code.SUCCESS);
+        try {
+            respBuilder.setData(EncryptionUtil.getKeyString(EncryptionUtil.publicKey));
+        } catch (Exception e) {
+            respBuilder.setMessage("Can't get the public key from server with exception: \n"+e.getMessage());
+        }
         return respBuilder.build();
     }
 
