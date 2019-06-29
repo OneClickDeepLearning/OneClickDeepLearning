@@ -278,11 +278,19 @@ function submitToGit(){
 }
 
 function selectJupyterServer(){
+    var rescource=$("#rescourse");
     var server = "cpu";
     if($("#serverCtl").hasClass('toggle--on')){
         server = "cpu";
+        rescource.removeClass('status_NoneR');
+        rescource.removeClass('status_gpu');
+        rescource.addClass('status_cpu');
+
     }else{
         server = "gpu";
+        rescource.removeClass('status_NoneR');
+        rescource.removeClass('status_cpu');
+        rescource.addClass('status_gpu');
     }
     $.ajax({
         url: enviorment.API.JUPYTER_SERVER+"/"+server,
@@ -378,8 +386,6 @@ function onSignIn(googleUser) {
             var username=$("#username");
             var status=$("#status");
             var rescource=$("#rescourse");
-            var card=$("#card");
-
             username.text(user_name);
             if (profileImage!=null&&profileImage!=''){
                 $("#profileImage").attr("src",profileImage);
@@ -390,7 +396,6 @@ function onSignIn(googleUser) {
             status.addClass('status_connected');
             rescource.removeClass('status_NoneR');
             rescource.addClass('status_cpu');
-            card.removeClass('unlog');
 
             $("#loginBtnGroup").slideUp();
             $("#closeLogin").click();
