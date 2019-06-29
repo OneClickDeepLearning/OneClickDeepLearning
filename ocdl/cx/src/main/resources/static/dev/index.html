@@ -932,8 +932,36 @@
 <script language="JavaScript" src="assets2/js/index.js"></script>
 <script src="assets2/js/commons.js"></script>
 <script src="assets2/js/approvalCenter.js"></script>
+<script src="assets2/js/jsencrypt.min.js"></script>
 
 <script type="text/javascript">
+
+/*    const encrypt = new JSEncrypt();
+    encrypt.setPublicKey("-----BEGIN PUBLIC KEY-----\n" +
+        "        MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlOJu6TyygqxfWT7eLtGDwajtN\n" +
+        "        FOb9I5XRb6khyfD1Yt3YiCgQWMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76\n" +
+        "        xFxdU6jE0NQ+Z+zEdhUTooNRaY5nZiu5PgDB0ED/ZKBUSLKL7eibMxZtMlUDHjm4\n" +
+        "        gwQco1KRMDSmXSMkDwIDAQAB\n" +
+        "        -----END PUBLIC KEY-----");
+    const result = encrypt.encrypt("1234");
+    console.log(result);*/
+
+
+$.ajax({
+    url: '/rest/auth/key',
+    contentType: 'application/json',
+    dataType: "json",
+    type: "GET",
+    timeout: 0,
+    success: function (info) {
+        ajaxMessageReader(info, function (data) {
+            key = data;
+        })
+    },
+    error: function (resp) {
+        alert(resp);
+    }
+});
 
 
     var clipboard = new ClipboardJS('.btn-copy');
