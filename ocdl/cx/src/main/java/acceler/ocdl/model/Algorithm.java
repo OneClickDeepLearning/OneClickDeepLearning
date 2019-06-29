@@ -98,19 +98,18 @@ public class Algorithm extends Storable implements Serializable {
 
     public static void updateSingleApprovedModel(ApprovedModel model, Consumer<ApprovedModel> consumer) {
 
-        lock.readLock().lock();
+        System.out.println("enter the update single approved model");
+        lock.writeLock().lock();
         for (Algorithm algorithm : getAlgorithmStorage()) {
             for (ApprovedModel m : algorithm.belongingModels) {
                 if (m.getModelId().equals(model.getModelId())) {
-
-                    lock.writeLock().lock();
+                    System.out.println("find the model");
                     consumer.accept(m);
-                    lock.writeLock().unlock();
                     break;
                 }
             }
         }
-        lock.readLock().unlock();
+        lock.writeLock().unlock();
         persistence();
     }
 
