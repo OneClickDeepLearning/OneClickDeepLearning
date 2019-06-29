@@ -129,7 +129,10 @@ public final class ModelController {
 
         Map<String, Integer> initRecords = modelService.initModelToStage(innerUser);
 
-        return builder.setCode(Response.Code.SUCCESS).build();
+        if (initRecords.get("finded") == 0) {
+            throw new NotFoundException("No model file founded! ");
+        }
+        return builder.setCode(Response.Code.SUCCESS).setData(initRecords).build();
     }
 
 
