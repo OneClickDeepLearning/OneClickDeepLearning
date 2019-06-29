@@ -11,6 +11,8 @@ import acceler.ocdl.model.OauthUser;
 import acceler.ocdl.model.Project;
 import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.UserService;
+import acceler.ocdl.utils.EncryptionUtil;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.hadoop.fs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
@@ -34,7 +36,9 @@ public class DBUserService implements UserService {
     @Override
     public boolean credentialCheck(AuthController.UserCredentials loginUser) {
         Optional<InnerUser> targetUserOpt = InnerUser.getUserByUserName(loginUser.account);
-        return targetUserOpt.map(innerUser -> innerUser.getPassword().equals(loginUser.password)).orElse(false);
+        byte[] textBytes = Base64.decodeBase64(loginUser.password);
+        String password = EncryptionUtil.decrypt(textBytes,EncryptionUtil.privateKey);
+        return targetUserOpt.map(innerUser -> innerUser.getPassword().equals(password)).orElse(false);
     }
 
     @Override

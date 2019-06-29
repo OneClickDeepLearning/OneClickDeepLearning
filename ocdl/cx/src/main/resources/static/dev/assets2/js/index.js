@@ -178,6 +178,8 @@ function checkLogin() {
     }else if($("#data_pwd").val()==''){
         alert("please input the password");
         return false;
+    } else {
+        return true;
     }
 }
 
@@ -191,7 +193,9 @@ function signIn() {
     if(key==null||key==""){
         getPublicKey();
     }
+
     var pwd = Encrypt($("#data_pwd").val());
+
     $.ajax({
         url: enviorment.API.LOGIN_PWD,
         contentType: 'application/json',
@@ -200,7 +204,7 @@ function signIn() {
         data:
             JSON.stringify({
                 account: $("#data_username").val(),
-                password: $("#data_pwd").val()
+                password: pwd
             }),
         success:function (data) {
             ajaxMessageReader(data,function (data) {
@@ -502,6 +506,7 @@ function getPublicKey(){
         url: '/rest/auth/key',
         contentType: 'application/json',
         dataType: "json",
+        async: false,
         type: "GET",
         timeout: 0,
         success: function (info) {
