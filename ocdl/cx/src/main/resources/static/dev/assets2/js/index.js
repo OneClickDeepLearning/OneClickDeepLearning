@@ -171,7 +171,19 @@ function changeProjectName() {
 
 }
 //validation (pending)
-function checkLogin() {
+function loginFormValidate() {
+    if($("#data_username").val()==''){
+        alert("please input the username");
+        return false;
+    }else if($("#data_pwd").val()==''){
+        alert("please input the password");
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function registerFormValidate() {
     if($("#data_username").val()==''){
         alert("please input the username");
         return false;
@@ -185,7 +197,7 @@ function checkLogin() {
 
 function signIn() {
     //validation
-    var valid = checkLogin();
+    var valid = loginFormValidate();
     if(!valid){
         return
     }
@@ -244,6 +256,110 @@ function afterSignIn(data) {
     $("#closeLogin").click();
 
     selectJupyterServer();
+}
+
+function onSignIn(googleUser) {
+    // Useful data for your client-side scripts:
+    var profile = googleUser.getBasicProfile();
+    console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+    id = profile.getId();
+    console.log('Full Name: ' + profile.getName());
+    user_name = profile.getName();
+    console.log('Given Name: ' + profile.getGivenName());
+    console.log('Family Name: ' + profile.getFamilyName());
+    console.log("Image URL: " + profile.getImageUrl());
+    profileImage = profile.getImageUrl();
+    console.log("Email: " + profile.getEmail());
+
+    // The ID token you need to pass to your backend:
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log("ID Token: " + id_token);
+
+    /* $("#userinfo").show(1000);*/
+    $("#userinfo").slideDown();
+    $.ajax({
+        url: enviorment.API.LOGIN_OAUTH,
+        contentType: 'application/json',
+        dataType: "json",
+        type: "POST",
+        timeout: 0,
+        data: JSON.stringify({
+            id: id
+        }),
+        success: function(data){
+
+            var username=$("#username");
+            var status=$("#status");
+            var rescource=$("#rescourse");
+            username.text(user_name);
+            if (profileImage!=null&&profileImage!=''){
+                $("#profileImage").attr("src",profileImage);
+                $("#profileImage").removeClass("hide");
+            }
+
+            status.removeClass('status_disconnected');
+            status.addClass('status_connected');
+            rescource.removeClass('status_NoneR');
+            rescource.addClass('status_cpu');
+
+            $("#loginBtnGroup").slideUp();
+            $("#closeLogin").click();
+        },
+        error: function () {
+        }
+    })
+
+}
+
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        console.log('User signed out.');
+    });
+    $("#userinfo").slideUp();
+    $("#loginBtnGroup").slideDown();
+
+    releaseResource();
+    HideConfigurationPortal();
+    ShowInitMenu();
+}
+
+function signUp() {
+    if(key == null ||key ==''){
+        getPublicKey();
+    }
+
+    var  f_username=$("#signup-username").val();
+    var f_password=Encrypt($("#signup-password").val());
+    var f_role= document.getElementById("developer-radio").checked;
+    if(f_role){
+        f_role="developer";
+    }else{
+        f_role="manager";
+    }
+
+
+    $.ajax({
+        url:enviorment.API.REGISTER,
+        type: "POST",
+        contentType: 'application/json',
+        data:
+            JSON.stringify({
+                username: f_username,
+                password:f_password,
+                role:f_role
+            }),
+        dataType: "json",
+        error: function(request) {
+            alert("Connection error");
+        },
+        success: function(data) {
+            //接收后台返回的结果
+            alert("Sign up successful");
+            tradeToken4UsrInfo();
+        }
+
+    })
 }
 
 
@@ -366,106 +482,6 @@ $('#projectName').click(function(){
 
 });
 
-
-function onSignIn(googleUser) {
-    // Useful data for your client-side scripts:
-    var profile = googleUser.getBasicProfile();
-    console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-    id = profile.getId();
-    console.log('Full Name: ' + profile.getName());
-    user_name = profile.getName();
-    console.log('Given Name: ' + profile.getGivenName());
-    console.log('Family Name: ' + profile.getFamilyName());
-    console.log("Image URL: " + profile.getImageUrl());
-    profileImage = profile.getImageUrl();
-    console.log("Email: " + profile.getEmail());
-
-    // The ID token you need to pass to your backend:
-    var id_token = googleUser.getAuthResponse().id_token;
-    console.log("ID Token: " + id_token);
-
-   /* $("#userinfo").show(1000);*/
-    $("#userinfo").slideDown();
-    $.ajax({
-        url: enviorment.API.LOGIN_OAUTH,
-        contentType: 'application/json',
-        dataType: "json",
-        type: "POST",
-        timeout: 0,
-        data: JSON.stringify({
-            id: id
-        }),
-        success: function(data){
-
-            var username=$("#username");
-            var status=$("#status");
-            var rescource=$("#rescourse");
-            username.text(user_name);
-            if (profileImage!=null&&profileImage!=''){
-                $("#profileImage").attr("src",profileImage);
-                $("#profileImage").removeClass("hide");
-            }
-
-            status.removeClass('status_disconnected');
-            status.addClass('status_connected');
-            rescource.removeClass('status_NoneR');
-            rescource.addClass('status_cpu');
-
-            $("#loginBtnGroup").slideUp();
-            $("#closeLogin").click();
-        },
-        error: function () {
-        }
-    })
-
-}
-
-function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-        console.log('User signed out.');
-    });
-    $("#userinfo").slideUp();
-    $("#loginBtnGroup").slideDown();
-
-    releaseResource();
-    HideConfigurationPortal();
-    ShowInitMenu();
-}
-
-function signUp() {
-    var  f_username=$("#signup-username").val();
-    var f_password=$("#signup-password").val();
-    var f_role= document.getElementById("developer-radio").checked;
-    if(f_role){
-        f_role="developer";
-    }else{
-        f_role="manager";
-    }
-
-
-    $.ajax({
-        url:enviorment.API.REGISTER,
-        type: "POST",
-        contentType: 'application/json',
-        data:
-            JSON.stringify({
-                username: f_username,
-                password:f_password,
-                role:f_role
-            }),
-        dataType: "json",
-        error: function(request) {
-            alert("Connection error");
-        },
-        success: function(data) {
-            //接收后台返回的结果
-            alert("Sign up successful");
-            tradeToken4UsrInfo();
-        }
-
-    })
-}
 
 function releaseResource(){
     $.ajax({
