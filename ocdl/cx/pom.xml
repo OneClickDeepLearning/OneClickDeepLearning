@@ -119,7 +119,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>19.0</version>
+			<version>21.0</version>
 		</dependency>
 
 		<dependency>
@@ -135,7 +135,26 @@
             <scope>compile</scope>
         </dependency>
 
-    </dependencies>
+		<dependency>
+			<groupId>org.alluxio</groupId>
+			<artifactId>alluxio-core-client-fs</artifactId>
+			<version>2.0.0-preview</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>3.8.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.codahale.metrics/metrics-core -->
+		<dependency>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+
+	</dependencies>
 
 	<build>
 		<plugins>

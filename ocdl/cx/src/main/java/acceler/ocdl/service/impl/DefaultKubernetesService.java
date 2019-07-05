@@ -54,8 +54,8 @@ public class DefaultKubernetesService implements KubernetesService {
         Long userId = user.getUserId();
         if (gpuAssigned.containsKey(userId))
             return gpuAssigned.get(userId);
-        else if (gpuAssigned.size() == CONSTANTS.MACHINE.GPU_AMOUNT)
-            throw new KuberneteException("No more GPU resource!");
+        //else if (gpuAssigned.size() == CONSTANTS.MACHINE.GPU_AMOUNT)
+        //    throw new KuberneteException("No more GPU resource!");
 
         String url;
         String ip;
@@ -170,6 +170,10 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withImagePullPolicy("Never")
                 .endContainer()
 
+                .withNewDnsConfig()
+                .withNameservers("8.8.8.8")
+                .endDnsConfig()
+
                 .addToVolumes()
                 .addNewVolume()
                 .withName("model")
@@ -231,6 +235,10 @@ public class DefaultKubernetesService implements KubernetesService {
                 .endVolumeMount()
                 .withImagePullPolicy("Never")
                 .endContainer()
+
+                .withNewDnsConfig()
+                .withNameservers("8.8.8.8")
+                .endDnsConfig()
 
                 .addToVolumes()
                 .addNewVolume()
