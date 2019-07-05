@@ -4,6 +4,7 @@ var list;
 var token= GetQueryString("token");
 var id='';
 var profileImage='';
+var key='';
 
 
 
@@ -138,7 +139,8 @@ function ShowInitMenu() {
     $("#code-template-li").hide(500);
     $("#welcome-li").show(500);
 
-    $("#welcome-tab").click();
+    setTimeout($("#welcome-tab").click(), 600);
+
 }
 
 
@@ -169,17 +171,42 @@ function changeProjectName() {
 
 }
 //validation (pending)
-function checkLogin() {
-    if($("#username").val()==''){
+function loginFormValidate() {
+    if($("#data_username").val()==''){
         alert("please input the username");
         return false;
-    }else if($("password").val()==''){
+    }else if($("#data_pwd").val()==''){
         alert("please input the password");
         return false;
+    } else {
+        return true;
+    }
+}
+
+function registerFormValidate() {
+    if($("#data_username").val()==''){
+        alert("please input the username");
+        return false;
+    }else if($("#data_pwd").val()==''){
+        alert("please input the password");
+        return false;
+    } else {
+        return true;
     }
 }
 
 function signIn() {
+    //validation
+    var valid = loginFormValidate();
+    if(!valid){
+        return
+    }
+    //get the public key
+    if(key==null||key==""){
+        getPublicKey();
+    }
+
+    var pwd = Encrypt($("#data_pwd").val());
 
     $.ajax({
         url: enviorment.API.LOGIN_PWD,
@@ -189,7 +216,7 @@ function signIn() {
         data:
             JSON.stringify({
                 account: $("#data_username").val(),
-                password: $("#data_pwd").val()
+                password: pwd
             }),
         success:function (data) {
             ajaxMessageReader(data,function (data) {
@@ -197,8 +224,8 @@ function signIn() {
                 tradeToken4UsrInfo();
             })
         },
-
         error: function (data) {
+            alert(data);
         }
     })
 }
@@ -229,6 +256,110 @@ function afterSignIn(data) {
     $("#closeLogin").click();
 
     selectJupyterServer();
+}
+
+function onSignIn(googleUser) {
+    // Useful data for your client-side scripts:
+    var profile = googleUser.getBasicProfile();
+    console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+    id = profile.getId();
+    console.log('Full Name: ' + profile.getName());
+    user_name = profile.getName();
+    console.log('Given Name: ' + profile.getGivenName());
+    console.log('Family Name: ' + profile.getFamilyName());
+    console.log("Image URL: " + profile.getImageUrl());
+    profileImage = profile.getImageUrl();
+    console.log("Email: " + profile.getEmail());
+
+    // The ID token you need to pass to your backend:
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log("ID Token: " + id_token);
+
+    /* $("#userinfo").show(1000);*/
+    $("#userinfo").slideDown();
+    $.ajax({
+        url: enviorment.API.LOGIN_OAUTH,
+        contentType: 'application/json',
+        dataType: "json",
+        type: "POST",
+        timeout: 0,
+        data: JSON.stringify({
+            id: id
+        }),
+        success: function(data){
+
+            var username=$("#username");
+            var status=$("#status");
+            var rescource=$("#rescourse");
+            username.text(user_name);
+            if (profileImage!=null&&profileImage!=''){
+                $("#profileImage").attr("src",profileImage);
+                $("#profileImage").removeClass("hide");
+            }
+
+            status.removeClass('status_disconnected');
+            status.addClass('status_connected');
+            rescource.removeClass('status_NoneR');
+            rescource.addClass('status_cpu');
+
+            $("#loginBtnGroup").slideUp();
+            $("#closeLogin").click();
+        },
+        error: function () {
+        }
+    })
+
+}
+
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        console.log('User signed out.');
+    });
+    $("#userinfo").slideUp();
+    $("#loginBtnGroup").slideDown();
+
+    releaseResource();
+    HideConfigurationPortal();
+    ShowInitMenu();
+}
+
+function signUp() {
+    if(key == null ||key ==''){
+        getPublicKey();
+    }
+
+    var  f_username=$("#signup-username").val();
+    var f_password=Encrypt($("#signup-password").val());
+    var f_role= document.getElementById("developer-radio").checked;
+    if(f_role){
+        f_role="developer";
+    }else{
+        f_role="manager";
+    }
+
+
+    $.ajax({
+        url:enviorment.API.REGISTER,
+        type: "POST",
+        contentType: 'application/json',
+        data:
+            JSON.stringify({
+                username: f_username,
+                password:f_password,
+                role:f_role
+            }),
+        dataType: "json",
+        error: function(request) {
+            alert("Connection error");
+        },
+        success: function(data) {
+            //接收后台返回的结果
+            alert("Sign up successful");
+            tradeToken4UsrInfo();
+        }
+
+    })
 }
 
 
@@ -277,11 +408,19 @@ function submitToGit(){
 }
 
 function selectJupyterServer(){
+    var rescource=$("#rescourse");
     var server = "cpu";
     if($("#serverCtl").hasClass('toggle--on')){
         server = "cpu";
+        rescource.removeClass('status_NoneR');
+        rescource.removeClass('status_gpu');
+        rescource.addClass('status_cpu');
+
     }else{
         server = "gpu";
+        rescource.removeClass('status_NoneR');
+        rescource.removeClass('status_cpu');
+        rescource.addClass('status_gpu');
     }
     $.ajax({
         url: enviorment.API.JUPYTER_SERVER+"/"+server,
@@ -344,109 +483,6 @@ $('#projectName').click(function(){
 });
 
 
-function onSignIn(googleUser) {
-    // Useful data for your client-side scripts:
-    var profile = googleUser.getBasicProfile();
-    console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-    id = profile.getId();
-    console.log('Full Name: ' + profile.getName());
-    user_name = profile.getName();
-    console.log('Given Name: ' + profile.getGivenName());
-    console.log('Family Name: ' + profile.getFamilyName());
-    console.log("Image URL: " + profile.getImageUrl());
-    profileImage = profile.getImageUrl();
-    console.log("Email: " + profile.getEmail());
-
-    // The ID token you need to pass to your backend:
-    var id_token = googleUser.getAuthResponse().id_token;
-    console.log("ID Token: " + id_token);
-
-   /* $("#userinfo").show(1000);*/
-    $("#userinfo").slideDown();
-    $.ajax({
-        url: enviorment.API.LOGIN_OAUTH,
-        contentType: 'application/json',
-        dataType: "json",
-        type: "POST",
-        timeout: 0,
-        data: JSON.stringify({
-            id: id
-        }),
-        success: function(data){
-
-            var username=$("#username");
-            var status=$("#status");
-            var rescource=$("#rescourse");
-            var card=$("#card");
-
-            username.text(user_name);
-            if (profileImage!=null&&profileImage!=''){
-                $("#profileImage").attr("src",profileImage);
-                $("#profileImage").removeClass("hide");
-            }
-
-            status.removeClass('status_disconnected');
-            status.addClass('status_connected');
-            rescource.removeClass('status_NoneR');
-            rescource.addClass('status_cpu');
-            card.removeClass('unlog');
-
-            $("#loginBtnGroup").slideUp();
-            $("#closeLogin").click();
-        },
-        error: function () {
-        }
-    })
-
-}
-
-function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-        console.log('User signed out.');
-    });
-    $("#userinfo").slideUp();
-    $("#loginBtnGroup").slideDown();
-
-    releaseResource();
-    HideConfigurationPortal();
-    ShowInitMenu();
-}
-
-function signUp() {
-    var  f_username=$("#signup-username").val();
-    var f_password=$("#signup-password").val();
-    var f_role= document.getElementById("developer-radio").checked;
-    if(f_role){
-        f_role="developer";
-    }else{
-        f_role="manager";
-    }
-
-
-    $.ajax({
-        url:enviorment.API.REGISTER,
-        type: "POST",
-        contentType: 'application/json',
-        data:
-            JSON.stringify({
-                username: f_username,
-                password:f_password,
-                role:f_role
-            }),
-        dataType: "json",
-        error: function(request) {
-            alert("Connection error");
-        },
-        success: function(data) {
-            //接收后台返回的结果
-            alert("Sign up successful");
-            tradeToken4UsrInfo();
-        }
-
-    })
-}
-
 function releaseResource(){
     $.ajax({
         url: enviorment.API.LOGOUT,
@@ -471,4 +507,31 @@ function GetQueryString(name) {
     var r = window.location.search.substr(1).match(reg);
     if (r != null) return unescape(r[2]);
     return '';
+}
+
+
+function Encrypt(pwd) {
+    const encrypt = new JSEncrypt();
+    encrypt.setPublicKey(key);
+    const result = encrypt.encrypt(pwd);
+    return result;
+}
+
+function getPublicKey(){
+    $.ajax({
+        url: '/rest/auth/key',
+        contentType: 'application/json',
+        dataType: "json",
+        async: false,
+        type: "GET",
+        timeout: 0,
+        success: function (info) {
+            ajaxMessageReader(info, function (data) {
+                key = data;
+            })
+        },
+        error: function (resp) {
+            alert(resp);
+        }
+    });
 }
