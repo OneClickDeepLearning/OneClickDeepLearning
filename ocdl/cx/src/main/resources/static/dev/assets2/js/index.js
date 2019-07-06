@@ -141,7 +141,7 @@ function ShowInitMenu() {
     $("#code-template-li").hide(500);
     $("#welcome-li").show(500);
 
-    setTimeout($("#welcome-tab").click(), 600);
+    setTimeout($("#welcome-tab").click(), 800);
 
 }
 
