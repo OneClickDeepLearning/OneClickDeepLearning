@@ -60,6 +60,7 @@ function initTemplateList(){
         type: "GET",
         success:function (data) {
             ajaxMessageReader(data,function (data) {
+                $("#template_ul").show();
                 var layerList=data[0];
                 var blockList=data[1];
                 var networksList=data[2];
@@ -80,6 +81,7 @@ function initTemplateList(){
         },
 
         error: function (data) {
+            $("#template_alert").show();
         }
     })
 }
@@ -170,7 +172,8 @@ function changeProjectName() {
     })
 
 }
-//validation (pending)
+
+
 function loginFormValidate() {
     if($("#data_username").val()==''){
         alert("please input the username");
