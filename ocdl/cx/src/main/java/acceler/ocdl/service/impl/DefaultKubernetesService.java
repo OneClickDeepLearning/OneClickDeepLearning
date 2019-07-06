@@ -104,6 +104,7 @@ public class DefaultKubernetesService implements KubernetesService {
         String ip;
         String port;
 
+        System.out.println("===========================");
         createCpuDeployment(user);
 
         io.fabric8.kubernetes.api.model.Service service = createCpuService(user);
@@ -134,6 +135,11 @@ public class DefaultKubernetesService implements KubernetesService {
 
     private Deployment createCpuDeployment(AbstractUser user) {
         String depolyId = getUserSpace(user);
+
+        System.out.println(user.getUserId());
+        System.out.println("++++++++++++++++++++++++");
+        System.out.println(depolyId);
+
         Deployment deployment = new DeploymentBuilder()
                 .withApiVersion("apps/v1")
                 .withKind("Deployment")
