@@ -50,6 +50,7 @@ function afterSignIn(data) {
     $("#loginBtnGroup").slideUp();
     $("#userinfo").slideDown();
     $("#closeLogin").click();
+    $("#closeSignup").click();
 
     selectJupyterServer();
 }
