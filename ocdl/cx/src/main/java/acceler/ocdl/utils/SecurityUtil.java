@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Component
 public class SecurityUtil {
@@ -15,6 +16,7 @@ public class SecurityUtil {
 
     private final Map<String, SecurityUser> inMemoryTokenManager = new Hashtable<>();
     private final long intervalThreshold = 1L; //1 hour
+    private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
     public String requestToken(InnerUser innerUser) {
 
