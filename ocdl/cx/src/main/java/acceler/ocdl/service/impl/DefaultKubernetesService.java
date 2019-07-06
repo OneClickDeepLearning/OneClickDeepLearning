@@ -191,6 +191,7 @@ public class DefaultKubernetesService implements KubernetesService {
         try {
             deployment = client.apps().deployments().inNamespace("default").create(deployment);
         } catch (KubernetesClientException e) {
+            System.out.println("~~~~~~~EEEEXXXXCCCEEEPPPTTIIOONN");
             throw new KuberneteException(e.getMessage());
         }
         return deployment;
