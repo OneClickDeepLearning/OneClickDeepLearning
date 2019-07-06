@@ -1261,3 +1261,1295 @@ Caused by: acceler.ocdl.exception.OcdlException: [ERROR] Initialization failed: 
 2019-Apr-13 17:16:35.725 DEBUG [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - 19 mappings in 'requestMappingHandlerMapping'
 2019-Apr-13 17:16:35.744 DEBUG [main] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
 2019-Apr-13 17:16:35.763 DEBUG [main] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2019-Jul-06 12:24:17.798 DEBUG [main] org.springframework.boot.context.logging.ClasspathLoggingApplicationListener - Application started with classpath: [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/spring-boot-starter-web-2.1.3.RELEASE.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/spring-boot-starter-json-2.1.3.RELEASE.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jackson-datatype-jdk8-2.9.8.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jackson-datatype-jsr310-2.9.8.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jackson-module-parameter-names-2.9.8.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/spring-boot-starter-tomcat-2.1.3.RELEASE.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/tomcat-embed-core-9.0.16.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/tomcat-embed-el-9.0.16.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/tomcat-embed-websocket-9.0.16.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hibernate-validator-6.0.14.Final.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/validation-api-2.0.1.Final.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jboss-logging-3.3.2.Final.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/classmate-1.4.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/spring-web-5.1.5.RELEASE.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/spring-beans-5.1.5.RELEASE.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/spring-webmvc-5.1.5.RELEASE.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/spring-aop-5.1.5.RELEASE.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/spring-context-5.1.5.RELEASE.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/spring-expression-5.1.5.RELEASE.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/spring-boot-starter-2.1.3.RELEASE.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/spring-boot-2.1.3.RELEASE.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/spring-boot-autoconfigure-2.1.3.RELEASE.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/javax.annotation-api-1.3.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/spring-core-5.1.5.RELEASE.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/spring-jcl-5.1.5.RELEASE.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/snakeyaml-1.23.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/spring-boot-starter-log4j2-2.1.3.RELEASE.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/log4j-slf4j-impl-2.11.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/log4j-api-2.11.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/log4j-core-2.11.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/log4j-jul-2.11.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jul-to-slf4j-1.7.25.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/spring-boot-configuration-processor-2.1.3.RELEASE.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/json-smart-2.3.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/accessors-smart-1.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/asm-5.0.4.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hamcrest-core-1.3.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/junit-4.12.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/spring-test-5.1.5.RELEASE.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-dax-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jmespath-java-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-greengrass-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-athena-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-marketplaceentitlement-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-codestar-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-lexmodelbuilding-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-resourcegroupstaggingapi-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-pinpoint-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-xray-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-opsworkscm-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-support-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-simpledb-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-servicecatalog-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-servermigration-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-simpleworkflow-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-storagegateway-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-route53-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-s3-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-importexport-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-sts-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-sqs-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-rds-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-redshift-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-elasticbeanstalk-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-glacier-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-iam-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-datapipeline-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-elasticloadbalancing-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-elasticloadbalancingv2-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-emr-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-elasticache-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-elastictranscoder-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-ec2-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-dynamodb-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-sns-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-budgets-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-cloudtrail-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-cloudwatch-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-logs-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-events-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-cognitoidentity-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-cognitosync-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-directconnect-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-cloudformation-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-cloudfront-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-clouddirectory-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-kinesis-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-opsworks-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-ses-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-autoscaling-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-cloudsearch-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-cloudwatchmetrics-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-codedeploy-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-codepipeline-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-kms-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-config-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-lambda-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-ecs-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-ecr-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-cloudhsm-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-ssm-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-workspaces-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-machinelearning-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-directory-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-efs-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-codecommit-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-devicefarm-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-elasticsearch-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-waf-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-marketplacecommerceanalytics-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-inspector-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-iot-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-api-gateway-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-acm-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-gamelift-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-dms-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-marketplacemeteringservice-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-cognitoidp-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-discovery-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-applicationautoscaling-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-snowball-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-rekognition-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-polly-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-lightsail-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-stepfunctions-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-health-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-costandusagereport-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-codebuild-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-appstream-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-shield-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-batch-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-lex-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-mechanicalturkrequester-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-organizations-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-workdocs-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-core-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/ion-java-1.0.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jackson-dataformat-cbor-2.9.8.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/joda-time-2.10.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-models-1.11.163.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/aws-java-sdk-swf-libraries-1.11.22.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/commons-lang-2.5.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/kubernetes-client-4.1.3.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/kubernetes-model-4.1.3.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/kubernetes-model-common-4.1.3.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jackson-module-jaxb-annotations-2.9.8.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/okhttp-3.12.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/okio-1.15.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/logging-interceptor-3.12.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/slf4j-api-1.7.25.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jackson-dataformat-yaml-2.9.8.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jackson-databind-2.9.8.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jackson-core-2.9.8.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/zjsonpatch-0.3.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/generex-1.0.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/automaton-1.11-8.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hadoop-client-2.9.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hadoop-hdfs-client-2.9.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/okhttp-2.7.5.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hadoop-mapreduce-client-app-2.9.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hadoop-mapreduce-client-common-2.9.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hadoop-mapreduce-client-shuffle-2.9.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hadoop-yarn-server-common-2.9.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hadoop-yarn-registry-2.9.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/geronimo-jcache_1.0_spec-1.0-alpha-1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/ehcache-3.6.3.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/HikariCP-java7-2.4.12.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/mssql-jdbc-6.4.0.jre8.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hadoop-yarn-api-2.9.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jaxb-api-2.3.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/javax.activation-api-1.2.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hadoop-mapreduce-client-core-2.9.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hadoop-yarn-client-2.9.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hadoop-yarn-common-2.9.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jersey-client-1.9.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hadoop-mapreduce-client-jobclient-2.9.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hadoop-annotations-2.9.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hadoop-common-2.9.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/commons-cli-1.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/commons-math3-3.1.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/xmlenc-0.52.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/httpclient-4.5.7.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/httpcore-4.4.11.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/commons-codec-1.11.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/commons-net-3.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/commons-collections-3.2.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/servlet-api-2.5.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jetty-6.1.26.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jetty-util-6.1.26.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jetty-sslengine-6.1.26.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jsp-api-2.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jersey-core-1.9.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jersey-json-1.9.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jettison-1.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jaxb-impl-2.2.3-1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jackson-jaxrs-1.8.3.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jackson-xc-1.8.3.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jersey-server-1.9.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/asm-3.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/commons-logging-1.1.3.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/log4j-1.2.17.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jets3t-0.9.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/java-xmlbuilder-0.4.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/commons-configuration-1.6.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/commons-digester-1.8.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/commons-beanutils-1.7.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/commons-beanutils-core-1.8.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/commons-lang3-3.8.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/slf4j-log4j12-1.7.25.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jackson-core-asl-1.9.13.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jackson-mapper-asl-1.9.13.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/avro-1.7.7.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/paranamer-2.3.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/protobuf-java-2.5.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/gson-2.8.5.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hadoop-auth-2.9.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/nimbus-jose-jwt-4.41.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jcip-annotations-1.0-1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/apacheds-kerberos-codec-2.0.0-M15.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/apacheds-i18n-2.0.0-M15.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/api-asn1-api-1.0.0-M20.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/api-util-1.0.0-M20.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/curator-framework-2.7.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jsch-0.1.54.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/curator-client-2.7.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/curator-recipes-2.7.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jsr305-3.0.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/htrace-core4-4.1.0-incubating.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/zookeeper-3.4.6.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/commons-compress-1.4.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/xz-1.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/stax2-api-3.1.4.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/woodstox-core-5.0.3.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/hadoop-hdfs-2.9.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/commons-daemon-1.0.13.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/netty-3.6.2.Final.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/netty-all-4.1.33.Final.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/xercesImpl-2.9.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/xml-apis-1.4.01.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/leveldbjni-all-1.8.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/lombok-1.18.6.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/commons-io-2.6.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/guava-21.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/org.eclipse.jgit-5.2.1.201812262042-r.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jzlib-1.1.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/JavaEWAH-1.1.6.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/kafka-clients-2.1.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/zstd-jni-1.3.5-4.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/lz4-java-1.5.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/snappy-java-1.1.7.2.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/alluxio-core-client-fs-2.0.0-preview.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/jackson-annotations-2.9.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/metrics-core-4.0.5.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/alluxio-core-common-2.0.0-preview.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/commons-httpclient-3.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/metrics-graphite-4.0.5.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/amqp-client-5.4.3.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/metrics-json-4.0.5.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/metrics-jvm-4.0.5.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/reflections-0.9.10.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/javassist-3.19.0-GA.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/annotations-2.0.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/alluxio-core-base-2.0.0-preview.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/alluxio-core-transport-2.0.0-preview.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/grpc-core-1.17.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/grpc-context-1.17.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/error_prone_annotations-2.2.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/animal-sniffer-annotations-1.17.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/opencensus-api-0.17.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/opencensus-contrib-grpc-metrics-0.17.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/grpc-netty-1.17.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/netty-codec-http2-4.1.33.Final.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/netty-common-4.1.33.Final.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/netty-buffer-4.1.33.Final.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/netty-transport-4.1.33.Final.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/netty-resolver-4.1.33.Final.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/netty-codec-4.1.33.Final.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/netty-handler-4.1.33.Final.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/netty-codec-http-4.1.33.Final.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/netty-handler-proxy-4.1.33.Final.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/netty-codec-socks-4.1.33.Final.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/grpc-protobuf-1.17.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/proto-google-common-protos-1.0.0.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/grpc-protobuf-lite-1.17.1.jar!/, jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/grpc-stub-1.17.1.jar!/]
+2019-Jul-06 12:24:18.022 INFO  [main] acceler.ocdl.OcdlApplication - Starting OcdlApplication v0.0.1-SNAPSHOT on zhijings-mbp.wireless.concordia.ca with PID 19260 (/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar started by root in /Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx)
+2019-Jul-06 12:24:18.028 DEBUG [main] acceler.ocdl.OcdlApplication - Running with Spring Boot v2.1.3.RELEASE, Spring v5.1.5.RELEASE
+2019-Jul-06 12:24:18.029 INFO  [main] acceler.ocdl.OcdlApplication - No active profile set, falling back to default profiles: default
+2019-Jul-06 12:24:18.029 DEBUG [main] org.springframework.boot.SpringApplication - Loading source class acceler.ocdl.OcdlApplication
+2019-Jul-06 12:24:18.120 DEBUG [main] org.springframework.boot.context.config.ConfigFileApplicationListener - Loaded config file 'jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/application.properties' (classpath:/application.properties)
+2019-Jul-06 12:24:18.121 DEBUG [main] org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext - Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@7f690630
+2019-Jul-06 12:24:18.164 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.annotation.internalConfigurationAnnotationProcessor'
+2019-Jul-06 12:24:18.189 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.internalCachingMetadataReaderFactory'
+2019-Jul-06 12:24:18.290 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/EnvInitializer.class]
+2019-Jul-06 12:24:18.291 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/utils/AuthInterceptor.class]
+2019-Jul-06 12:24:18.298 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/controller/ProjectController.class]
+2019-Jul-06 12:24:18.299 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/model/StorageLoader.class]
+2019-Jul-06 12:24:18.302 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/service/impl/S3Service.class]
+2019-Jul-06 12:24:18.304 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/service/impl/DefaultModelServiceImpl.class]
+2019-Jul-06 12:24:18.306 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not a concrete top-level class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/service/AlgorithmService.class]
+2019-Jul-06 12:24:18.309 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/utils/DefaultCmdHelper.class]
+2019-Jul-06 12:24:18.310 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/controller/ContainerController.class]
+2019-Jul-06 12:24:18.312 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/controller/AuthController.class]
+2019-Jul-06 12:24:18.315 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/service/impl/DefaultAlgorithmService.class]
+2019-Jul-06 12:24:18.317 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/utils/InterceptorUtil.class]
+2019-Jul-06 12:24:18.318 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/utils/SecurityUtil.class]
+2019-Jul-06 12:24:18.319 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/utils/ManagerAuthInterceptor.class]
+2019-Jul-06 12:24:18.321 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/controller/ModelController.class]
+2019-Jul-06 12:24:18.324 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/controller/UploadController.class]
+2019-Jul-06 12:24:18.329 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/service/impl/DefaultProjectService.class]
+2019-Jul-06 12:24:18.331 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/service/impl/DefaultHdfsService.class]
+2019-Jul-06 12:24:18.331 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/service/impl/DBUserService.class]
+2019-Jul-06 12:24:18.337 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/utils/GlobalExceptionHandler.class]
+2019-Jul-06 12:24:18.338 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/controller/TemplateController.class]
+2019-Jul-06 12:24:18.340 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/service/impl/KafkaService.class]
+2019-Jul-06 12:24:18.341 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/service/impl/DefaultTemplateService.class]
+2019-Jul-06 12:24:18.342 DEBUG [main] org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: URL [jar:file:/Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/acceler/ocdl/service/impl/DefaultKubernetesService.class]
+2019-Jul-06 12:24:18.708 DEBUG [main] org.springframework.core.env.PropertySourcesPropertyResolver - Found key 'spring.servlet.multipart.enabled' in PropertySource 'configurationProperties' with value of type String
+2019-Jul-06 12:24:18.720 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.condition.BeanTypeRegistry'
+2019-Jul-06 12:24:18.890 DEBUG [main] org.springframework.core.env.PropertySourcesPropertyResolver - Found key 'spring.servlet.multipart.enabled' in PropertySource 'configurationProperties' with value of type String
+2019-Jul-06 12:24:19.081 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'propertySourcesPlaceholderConfigurer'
+2019-Jul-06 12:24:19.088 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.event.internalEventListenerProcessor'
+2019-Jul-06 12:24:19.089 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.context.properties.ConfigurationBeanFactoryMetadata'
+2019-Jul-06 12:24:19.090 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'preserveErrorControllerTargetClassPostProcessor'
+2019-Jul-06 12:24:19.091 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.event.internalEventListenerFactory'
+2019-Jul-06 12:24:19.096 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.annotation.internalAutowiredAnnotationProcessor'
+2019-Jul-06 12:24:19.098 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.annotation.internalCommonAnnotationProcessor'
+2019-Jul-06 12:24:19.103 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor'
+2019-Jul-06 12:24:19.106 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'methodValidationPostProcessor'
+2019-Jul-06 12:24:19.125 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'methodValidationPostProcessor' via factory method to bean named 'environment'
+2019-Jul-06 12:24:19.135 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'webServerFactoryCustomizerBeanPostProcessor'
+2019-Jul-06 12:24:19.136 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'errorPageRegistrarBeanPostProcessor'
+2019-Jul-06 12:24:19.140 DEBUG [main] org.springframework.ui.context.support.UiApplicationContextUtils - Unable to locate ThemeSource with name 'themeSource': using default [org.springframework.ui.context.support.ResourceBundleThemeSource@7f77e91b]
+2019-Jul-06 12:24:19.141 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'tomcatServletWebServerFactory'
+2019-Jul-06 12:24:19.141 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryConfiguration$EmbeddedTomcat'
+2019-Jul-06 12:24:19.187 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'websocketServletWebServerCustomizer'
+2019-Jul-06 12:24:19.188 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration$TomcatWebSocketConfiguration'
+2019-Jul-06 12:24:19.191 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'servletWebServerFactoryCustomizer'
+2019-Jul-06 12:24:19.192 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration'
+2019-Jul-06 12:24:19.196 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'server-org.springframework.boot.autoconfigure.web.ServerProperties'
+2019-Jul-06 12:24:19.222 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'servletWebServerFactoryCustomizer' via factory method to bean named 'server-org.springframework.boot.autoconfigure.web.ServerProperties'
+2019-Jul-06 12:24:19.226 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'tomcatServletWebServerFactoryCustomizer'
+2019-Jul-06 12:24:19.228 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'tomcatServletWebServerFactoryCustomizer' via factory method to bean named 'server-org.springframework.boot.autoconfigure.web.ServerProperties'
+2019-Jul-06 12:24:19.228 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'tomcatWebServerFactoryCustomizer'
+2019-Jul-06 12:24:19.229 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration$TomcatWebServerFactoryCustomizerConfiguration'
+2019-Jul-06 12:24:19.231 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'tomcatWebServerFactoryCustomizer' via factory method to bean named 'environment'
+2019-Jul-06 12:24:19.231 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'tomcatWebServerFactoryCustomizer' via factory method to bean named 'server-org.springframework.boot.autoconfigure.web.ServerProperties'
+2019-Jul-06 12:24:19.235 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'localeCharsetMappingsCustomizer'
+2019-Jul-06 12:24:19.251 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration'
+2019-Jul-06 12:24:19.253 DEBUG [main] org.springframework.core.LocalVariableTableParameterNameDiscoverer - Cannot find '.class' file for class [class org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration$$EnhancerBySpringCGLIB$$e11efb39] - unable to determine constructor/method parameter names
+2019-Jul-06 12:24:19.254 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'spring.http-org.springframework.boot.autoconfigure.http.HttpProperties'
+2019-Jul-06 12:24:19.256 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration' via constructor to bean named 'spring.http-org.springframework.boot.autoconfigure.http.HttpProperties'
+2019-Jul-06 12:24:19.297 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'errorPageCustomizer'
+2019-Jul-06 12:24:19.299 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration'
+2019-Jul-06 12:24:19.302 DEBUG [main] org.springframework.core.LocalVariableTableParameterNameDiscoverer - Cannot find '.class' file for class [class org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$$EnhancerBySpringCGLIB$$39764a1c] - unable to determine constructor/method parameter names
+2019-Jul-06 12:24:19.304 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'dispatcherServletRegistration'
+2019-Jul-06 12:24:19.315 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletRegistrationConfiguration'
+2019-Jul-06 12:24:19.316 DEBUG [main] org.springframework.core.LocalVariableTableParameterNameDiscoverer - Cannot find '.class' file for class [class org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletRegistrationConfiguration$$EnhancerBySpringCGLIB$$bfd16907] - unable to determine constructor/method parameter names
+2019-Jul-06 12:24:19.317 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'spring.mvc-org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties'
+2019-Jul-06 12:24:19.320 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletRegistrationConfiguration' via constructor to bean named 'spring.mvc-org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties'
+2019-Jul-06 12:24:19.321 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'multipartConfigElement'
+2019-Jul-06 12:24:19.322 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration'
+2019-Jul-06 12:24:19.323 DEBUG [main] org.springframework.core.LocalVariableTableParameterNameDiscoverer - Cannot find '.class' file for class [class org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration$$EnhancerBySpringCGLIB$$500f8346] - unable to determine constructor/method parameter names
+2019-Jul-06 12:24:19.323 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'spring.servlet.multipart-org.springframework.boot.autoconfigure.web.servlet.MultipartProperties'
+2019-Jul-06 12:24:19.330 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration' via constructor to bean named 'spring.servlet.multipart-org.springframework.boot.autoconfigure.web.servlet.MultipartProperties'
+2019-Jul-06 12:24:19.338 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'dispatcherServlet'
+2019-Jul-06 12:24:19.339 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletConfiguration'
+2019-Jul-06 12:24:19.340 DEBUG [main] org.springframework.core.LocalVariableTableParameterNameDiscoverer - Cannot find '.class' file for class [class org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletConfiguration$$EnhancerBySpringCGLIB$$5dc9d460] - unable to determine constructor/method parameter names
+2019-Jul-06 12:24:19.341 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletConfiguration' via constructor to bean named 'spring.http-org.springframework.boot.autoconfigure.http.HttpProperties'
+2019-Jul-06 12:24:19.341 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletConfiguration' via constructor to bean named 'spring.mvc-org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties'
+2019-Jul-06 12:24:19.361 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'dispatcherServletRegistration' via factory method to bean named 'dispatcherServlet'
+2019-Jul-06 12:24:19.373 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration' via constructor to bean named 'server-org.springframework.boot.autoconfigure.web.ServerProperties'
+2019-Jul-06 12:24:19.373 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration' via constructor to bean named 'dispatcherServletRegistration'
+2019-Jul-06 12:24:19.374 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'conventionErrorViewResolver'
+2019-Jul-06 12:24:19.375 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$DefaultErrorViewResolverConfiguration'
+2019-Jul-06 12:24:19.376 DEBUG [main] org.springframework.core.LocalVariableTableParameterNameDiscoverer - Cannot find '.class' file for class [class org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$DefaultErrorViewResolverConfiguration$$EnhancerBySpringCGLIB$$4e0b1ebc] - unable to determine constructor/method parameter names
+2019-Jul-06 12:24:19.378 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'spring.resources-org.springframework.boot.autoconfigure.web.ResourceProperties'
+2019-Jul-06 12:24:19.381 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$DefaultErrorViewResolverConfiguration' via constructor to bean named 'org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@7f690630'
+2019-Jul-06 12:24:19.382 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$DefaultErrorViewResolverConfiguration' via constructor to bean named 'spring.resources-org.springframework.boot.autoconfigure.web.ResourceProperties'
+2019-Jul-06 12:24:19.568 DEBUG [main] org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory - Code archive: /Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar
+2019-Jul-06 12:24:19.568 DEBUG [main] org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory - Code archive: /Users/ivy/IdeaProjects/2019RA/OneClickDLTemp/ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar
+2019-Jul-06 12:24:19.568 DEBUG [main] org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory - None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-Jul-06 12:24:19.605 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 80 (http)
+2019-Jul-06 12:24:19.653 INFO  [main] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2019-Jul-06 12:24:19.655 INFO  [main] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.16]
+2019-Jul-06 12:24:19.674 INFO  [main] org.apache.catalina.core.AprLifecycleListener - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [/Users/ivy/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.]
+2019-Jul-06 12:24:19.885 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2019-Jul-06 12:24:19.885 DEBUG [main] org.springframework.web.context.ContextLoader - Published root WebApplicationContext as ServletContext attribute with name [org.springframework.web.context.WebApplicationContext.ROOT]
+2019-Jul-06 12:24:19.886 INFO  [main] org.springframework.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 1764 ms
+2019-Jul-06 12:24:19.891 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'requestContextFilter'
+2019-Jul-06 12:24:19.893 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'hiddenHttpMethodFilter'
+2019-Jul-06 12:24:19.893 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration'
+2019-Jul-06 12:24:19.899 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'formContentFilter'
+2019-Jul-06 12:24:19.906 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'characterEncodingFilter'
+2019-Jul-06 12:24:19.915 DEBUG [main] org.springframework.boot.web.servlet.ServletContextInitializerBeans - Mapping filters: characterEncodingFilter urls=[/*], hiddenHttpMethodFilter urls=[/*], formContentFilter urls=[/*], requestContextFilter urls=[/*]
+2019-Jul-06 12:24:19.915 DEBUG [main] org.springframework.boot.web.servlet.ServletContextInitializerBeans - Mapping servlets: dispatcherServlet urls=[/]
+2019-Jul-06 12:24:19.944 DEBUG [main] org.springframework.boot.web.servlet.filter.OrderedRequestContextFilter - Filter 'requestContextFilter' configured for use
+2019-Jul-06 12:24:19.945 DEBUG [main] org.springframework.boot.web.servlet.filter.OrderedHiddenHttpMethodFilter - Filter 'hiddenHttpMethodFilter' configured for use
+2019-Jul-06 12:24:19.946 DEBUG [main] org.springframework.boot.web.servlet.filter.OrderedCharacterEncodingFilter - Filter 'characterEncodingFilter' configured for use
+2019-Jul-06 12:24:19.946 DEBUG [main] org.springframework.boot.web.servlet.filter.OrderedFormContentFilter - Filter 'formContentFilter' configured for use
+2019-Jul-06 12:24:19.957 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'ocdlApplication'
+2019-Jul-06 12:24:19.959 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'envInitializer'
+2019-Jul-06 12:24:19.960 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'authInterceptor'
+2019-Jul-06 12:24:19.963 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'securityUtil'
+2019-Jul-06 12:24:19.965 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'projectController'
+2019-Jul-06 12:24:19.972 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'storageLoader'
+2019-Jul-06 12:24:19.972 INFO  [main] acceler.ocdl.model.StorageLoader - [init] storage files loading...
+2019-Jul-06 12:24:19.974 INFO  [main] acceler.ocdl.model.AbstractUser - [init] SerListStorage instance initialization executed
+2019-Jul-06 12:24:19.974 WARN  [main] acceler.ocdl.model.StorageLoader - serializedFile[/resources_cx/persistence/users] not found
+2019-Jul-06 12:24:19.977 INFO  [main] acceler.ocdl.utils.SerializationUtils - [Serialization] create a serialization file:/resources_cx/persistence/users
+2019-Jul-06 12:24:19.986 WARN  [main] acceler.ocdl.model.AbstractUser - Storage initialization only allow been executed at init time
+2019-Jul-06 12:24:19.990 INFO  [main] acceler.ocdl.model.Algorithm - [init] AlgorithmStorage instance initialization executed
+2019-Jul-06 12:24:19.991 WARN  [main] acceler.ocdl.model.StorageLoader - serializedFile[/resources_cx/persistence/algorithms] not found
+2019-Jul-06 12:24:19.991 WARN  [main] acceler.ocdl.model.Algorithm - Storage initialization only allow been executed at init time
+2019-Jul-06 12:24:19.994 INFO  [main] acceler.ocdl.model.NewModel - [init] NewModelStorage instance initialization executed
+2019-Jul-06 12:24:19.994 WARN  [main] acceler.ocdl.model.StorageLoader - serializedFile[/resources_cx/persistence/new_model] not found
+2019-Jul-06 12:24:19.994 WARN  [main] acceler.ocdl.model.NewModel - Storage initialization only allow been executed at init time
+2019-Jul-06 12:24:19.997 INFO  [main] acceler.ocdl.model.RejectedModel - [init] RejectedModelStorage instance initialization executed
+2019-Jul-06 12:24:19.997 WARN  [main] acceler.ocdl.model.StorageLoader - serializedFile[/resources_cx/persistence/rejected_model] not found
+2019-Jul-06 12:24:19.997 WARN  [main] acceler.ocdl.model.RejectedModel - Storage initialization only allow been executed at init time
+2019-Jul-06 12:24:19.999 INFO  [main] acceler.ocdl.model.Project - [init] RejectedModelStorage instance initialization executed
+2019-Jul-06 12:24:19.999 WARN  [main] acceler.ocdl.model.StorageLoader - serializedFile[/resources_cx/persistence/project] not found
+2019-Jul-06 12:24:20.000 WARN  [main] acceler.ocdl.model.Project - Storage initialization only allow been executed at init time
+2019-Jul-06 12:24:20.001 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'defaultProjectService'
+2019-Jul-06 12:24:20.004 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'defaultAlgorithmService'
+2019-Jul-06 12:24:20.029 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 's3Service'
+2019-Jul-06 12:24:20.035 DEBUG [main] org.springframework.core.env.PropertySourcesPropertyResolver - Found key 'S3.server.accesskey' in PropertySource 'applicationConfig: [classpath:/application.properties]' with value of type String
+2019-Jul-06 12:24:20.035 DEBUG [main] org.springframework.core.env.PropertySourcesPropertyResolver - Found key 'S3.server.accesskey' in PropertySource 'environmentProperties' with value of type String
+2019-Jul-06 12:24:20.035 DEBUG [main] org.springframework.core.env.PropertySourcesPropertyResolver - Found key 'S3.server.secretkey' in PropertySource 'applicationConfig: [classpath:/application.properties]' with value of type String
+2019-Jul-06 12:24:20.036 DEBUG [main] org.springframework.core.env.PropertySourcesPropertyResolver - Found key 'S3.server.secretkey' in PropertySource 'environmentProperties' with value of type String
+2019-Jul-06 12:24:20.036 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'defaultModelServiceImpl'
+2019-Jul-06 12:24:20.040 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'defaultHdfsService'
+2019-Jul-06 12:24:20.187 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'kafkaService'
+2019-Jul-06 12:24:20.191 INFO  [main] org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor - Autowired annotation is not supported on static fields: public static java.lang.String acceler.ocdl.service.impl.KafkaService.kafkaUrl
+2019-Jul-06 12:24:20.191 DEBUG [main] org.springframework.core.env.PropertySourcesPropertyResolver - Found key 'S3.server.bucketName' in PropertySource 'applicationConfig: [classpath:/application.properties]' with value of type String
+2019-Jul-06 12:24:20.191 DEBUG [main] org.springframework.core.env.PropertySourcesPropertyResolver - Found key 'S3.server.bucketName' in PropertySource 'environmentProperties' with value of type String
+2019-Jul-06 12:24:20.192 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'defaultCmdHelper'
+2019-Jul-06 12:24:20.192 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'containerController'
+2019-Jul-06 12:24:20.194 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'defaultKubernetesService'
+2019-Jul-06 12:24:20.243 DEBUG [main] io.fabric8.kubernetes.client.Config - Trying to configure client from Kubernetes config...
+2019-Jul-06 12:24:20.247 DEBUG [main] io.fabric8.kubernetes.client.Config - Did not find Kubernetes config at: [/Users/ivy/.kube/config]. Ignoring.
+2019-Jul-06 12:24:20.248 DEBUG [main] io.fabric8.kubernetes.client.Config - Trying to configure client from service account...
+2019-Jul-06 12:24:20.249 DEBUG [main] io.fabric8.kubernetes.client.Config - Did not find service account ca cert at: [/var/run/secrets/kubernetes.io/serviceaccount/ca.crt].
+2019-Jul-06 12:24:20.251 WARN  [main] io.fabric8.kubernetes.client.Config - Error reading service account token from: [/var/run/secrets/kubernetes.io/serviceaccount/token]. Ignoring.
+2019-Jul-06 12:24:20.252 DEBUG [main] io.fabric8.kubernetes.client.Config - Trying to configure client namespace from Kubernetes service account namespace path...
+2019-Jul-06 12:24:20.252 DEBUG [main] io.fabric8.kubernetes.client.Config - Did not find service account namespace at: [/var/run/secrets/kubernetes.io/serviceaccount/namespace]. Ignoring.
+2019-Jul-06 12:24:20.511 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'authController'
+2019-Jul-06 12:24:20.515 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'DBUserService'
+2019-Jul-06 12:24:20.517 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'interceptorUtil'
+2019-Jul-06 12:24:20.518 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'managerAuthInterceptor'
+2019-Jul-06 12:24:20.519 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'modelController'
+2019-Jul-06 12:24:20.523 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'uploadController'
+2019-Jul-06 12:24:20.526 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'globalExceptionHandler'
+2019-Jul-06 12:24:20.528 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'templateController'
+2019-Jul-06 12:24:20.529 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'defaultTemplateService'
+2019-Jul-06 12:24:20.531 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.AutoConfigurationPackages'
+2019-Jul-06 12:24:20.533 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration'
+2019-Jul-06 12:24:20.534 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration'
+2019-Jul-06 12:24:20.535 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration'
+2019-Jul-06 12:24:20.536 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration'
+2019-Jul-06 12:24:20.537 DEBUG [main] org.springframework.core.LocalVariableTableParameterNameDiscoverer - Cannot find '.class' file for class [class org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration$$EnhancerBySpringCGLIB$$9969dd6d] - unable to determine constructor/method parameter names
+2019-Jul-06 12:24:20.538 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'spring.task.execution-org.springframework.boot.autoconfigure.task.TaskExecutionProperties'
+2019-Jul-06 12:24:20.539 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration' via constructor to bean named 'spring.task.execution-org.springframework.boot.autoconfigure.task.TaskExecutionProperties'
+2019-Jul-06 12:24:20.540 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'taskExecutorBuilder'
+2019-Jul-06 12:24:20.545 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration'
+2019-Jul-06 12:24:20.546 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'defaultValidator'
+2019-Jul-06 12:24:20.556 DEBUG [main] org.hibernate.validator.internal.engine.resolver.TraversableResolvers - Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2019-Jul-06 12:24:20.556 DEBUG [main] org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator - Loaded expression factory via original TCCL
+2019-Jul-06 12:24:20.559 DEBUG [main] org.hibernate.validator.internal.engine.resolver.TraversableResolvers - Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2019-Jul-06 12:24:20.560 DEBUG [main] org.hibernate.validator.internal.engine.ConfigurationImpl - Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
+2019-Jul-06 12:24:20.561 DEBUG [main] org.hibernate.validator.internal.engine.ConfigurationImpl - Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+2019-Jul-06 12:24:20.562 DEBUG [main] org.hibernate.validator.internal.engine.ConfigurationImpl - Setting custom ParameterNameProvider of type org.springframework.validation.beanvalidation.LocalValidatorFactoryBean$1
+2019-Jul-06 12:24:20.563 DEBUG [main] org.hibernate.validator.internal.xml.config.ValidationXmlParser - Trying to load META-INF/validation.xml for XML based Validator configuration.
+2019-Jul-06 12:24:20.564 DEBUG [main] org.hibernate.validator.internal.xml.config.ResourceLoaderHelper - Trying to load META-INF/validation.xml via user class loader
+2019-Jul-06 12:24:20.564 DEBUG [main] org.hibernate.validator.internal.xml.config.ResourceLoaderHelper - Trying to load META-INF/validation.xml via TCCL
+2019-Jul-06 12:24:20.570 DEBUG [main] org.hibernate.validator.internal.xml.config.ResourceLoaderHelper - Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2019-Jul-06 12:24:20.571 DEBUG [main] org.hibernate.validator.internal.xml.config.ValidationXmlParser - No META-INF/validation.xml found. Using annotation based configuration only.
+2019-Jul-06 12:24:20.579 DEBUG [main] org.hibernate.validator.internal.engine.ValidatorFactoryImpl - HV000234: Using org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2019-Jul-06 12:24:20.580 DEBUG [main] org.hibernate.validator.internal.engine.ValidatorFactoryImpl - HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2019-Jul-06 12:24:20.580 DEBUG [main] org.hibernate.validator.internal.engine.ValidatorFactoryImpl - HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2019-Jul-06 12:24:20.580 DEBUG [main] org.hibernate.validator.internal.engine.ValidatorFactoryImpl - HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2019-Jul-06 12:24:20.581 DEBUG [main] org.hibernate.validator.internal.engine.ValidatorFactoryImpl - HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2019-Jul-06 12:24:20.584 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration'
+2019-Jul-06 12:24:20.585 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'error'
+2019-Jul-06 12:24:20.589 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'beanNameViewResolver'
+2019-Jul-06 12:24:20.594 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'errorAttributes'
+2019-Jul-06 12:24:20.596 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'basicErrorController'
+2019-Jul-06 12:24:20.597 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'basicErrorController' via factory method to bean named 'errorAttributes'
+2019-Jul-06 12:24:20.604 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter$FaviconConfiguration'
+2019-Jul-06 12:24:20.605 DEBUG [main] org.springframework.core.LocalVariableTableParameterNameDiscoverer - Cannot find '.class' file for class [class org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter$FaviconConfiguration$$EnhancerBySpringCGLIB$$d6f86842] - unable to determine constructor/method parameter names
+2019-Jul-06 12:24:20.606 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter$FaviconConfiguration' via constructor to bean named 'spring.resources-org.springframework.boot.autoconfigure.web.ResourceProperties'
+2019-Jul-06 12:24:20.607 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'faviconHandlerMapping'
+2019-Jul-06 12:24:20.618 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'faviconRequestHandler'
+2019-Jul-06 12:24:20.633 DEBUG [main] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Patterns [/**/favicon.ico] in 'faviconHandlerMapping'
+2019-Jul-06 12:24:20.634 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$EnableWebMvcConfiguration'
+2019-Jul-06 12:24:20.635 DEBUG [main] org.springframework.core.LocalVariableTableParameterNameDiscoverer - Cannot find '.class' file for class [class org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$EnableWebMvcConfiguration$$EnhancerBySpringCGLIB$$78b79517] - unable to determine constructor/method parameter names
+2019-Jul-06 12:24:20.637 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$EnableWebMvcConfiguration' via constructor to bean named 'org.springframework.beans.factory.support.DefaultListableBeanFactory@50c87b21'
+2019-Jul-06 12:24:20.661 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter'
+2019-Jul-06 12:24:20.663 DEBUG [main] org.springframework.core.LocalVariableTableParameterNameDiscoverer - Cannot find '.class' file for class [class org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter$$EnhancerBySpringCGLIB$$1abb5ffc] - unable to determine constructor/method parameter names
+2019-Jul-06 12:24:20.664 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter' via constructor to bean named 'spring.resources-org.springframework.boot.autoconfigure.web.ResourceProperties'
+2019-Jul-06 12:24:20.665 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter' via constructor to bean named 'spring.mvc-org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties'
+2019-Jul-06 12:24:20.666 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter' via constructor to bean named 'org.springframework.beans.factory.support.DefaultListableBeanFactory@50c87b21'
+2019-Jul-06 12:24:20.669 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'requestMappingHandlerAdapter'
+2019-Jul-06 12:24:20.694 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'mvcContentNegotiationManager'
+2019-Jul-06 12:24:20.698 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'messageConverters'
+2019-Jul-06 12:24:20.698 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration'
+2019-Jul-06 12:24:20.699 DEBUG [main] org.springframework.core.LocalVariableTableParameterNameDiscoverer - Cannot find '.class' file for class [class org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration$$EnhancerBySpringCGLIB$$27fe102b] - unable to determine constructor/method parameter names
+2019-Jul-06 12:24:20.702 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'stringHttpMessageConverter'
+2019-Jul-06 12:24:20.702 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration$StringHttpMessageConverterConfiguration'
+2019-Jul-06 12:24:20.703 DEBUG [main] org.springframework.core.LocalVariableTableParameterNameDiscoverer - Cannot find '.class' file for class [class org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration$StringHttpMessageConverterConfiguration$$EnhancerBySpringCGLIB$$5b0bd6cb] - unable to determine constructor/method parameter names
+2019-Jul-06 12:24:20.705 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration$StringHttpMessageConverterConfiguration' via constructor to bean named 'spring.http-org.springframework.boot.autoconfigure.http.HttpProperties'
+2019-Jul-06 12:24:20.712 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'mappingJackson2HttpMessageConverter'
+2019-Jul-06 12:24:20.713 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.http.JacksonHttpMessageConvertersConfiguration$MappingJackson2HttpMessageConverterConfiguration'
+2019-Jul-06 12:24:20.714 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'jacksonObjectMapper'
+2019-Jul-06 12:24:20.714 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonObjectMapperConfiguration'
+2019-Jul-06 12:24:20.715 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'jacksonObjectMapperBuilder'
+2019-Jul-06 12:24:20.715 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonObjectMapperBuilderConfiguration'
+2019-Jul-06 12:24:20.716 DEBUG [main] org.springframework.core.LocalVariableTableParameterNameDiscoverer - Cannot find '.class' file for class [class org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonObjectMapperBuilderConfiguration$$EnhancerBySpringCGLIB$$1baa8641] - unable to determine constructor/method parameter names
+2019-Jul-06 12:24:20.717 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonObjectMapperBuilderConfiguration' via constructor to bean named 'org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@7f690630'
+2019-Jul-06 12:24:20.718 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'standardJacksonObjectMapperBuilderCustomizer'
+2019-Jul-06 12:24:20.718 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$Jackson2ObjectMapperBuilderCustomizerConfiguration'
+2019-Jul-06 12:24:20.719 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'spring.jackson-org.springframework.boot.autoconfigure.jackson.JacksonProperties'
+2019-Jul-06 12:24:20.720 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'standardJacksonObjectMapperBuilderCustomizer' via factory method to bean named 'org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@7f690630'
+2019-Jul-06 12:24:20.720 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'standardJacksonObjectMapperBuilderCustomizer' via factory method to bean named 'spring.jackson-org.springframework.boot.autoconfigure.jackson.JacksonProperties'
+2019-Jul-06 12:24:20.723 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'jacksonObjectMapperBuilder' via factory method to bean named 'standardJacksonObjectMapperBuilderCustomizer'
+2019-Jul-06 12:24:20.728 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'parameterNamesModule'
+2019-Jul-06 12:24:20.728 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$ParameterNamesModuleConfiguration'
+2019-Jul-06 12:24:20.739 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'jsonComponentModule'
+2019-Jul-06 12:24:20.739 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration'
+2019-Jul-06 12:24:20.750 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'jacksonObjectMapper' via factory method to bean named 'jacksonObjectMapperBuilder'
+2019-Jul-06 12:24:20.778 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'mappingJackson2HttpMessageConverter' via factory method to bean named 'jacksonObjectMapper'
+2019-Jul-06 12:24:20.808 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'mvcConversionService'
+2019-Jul-06 12:24:20.817 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'mvcValidator'
+2019-Jul-06 12:24:20.822 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'applicationTaskExecutor'
+2019-Jul-06 12:24:20.822 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'applicationTaskExecutor' via factory method to bean named 'taskExecutorBuilder'
+2019-Jul-06 12:24:20.828 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2019-Jul-06 12:24:20.843 DEBUG [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2019-Jul-06 12:24:20.889 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'requestMappingHandlerMapping'
+2019-Jul-06 12:24:20.900 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'mvcResourceUrlProvider'
+2019-Jul-06 12:24:20.943 DEBUG [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - 20 mappings in 'requestMappingHandlerMapping'
+2019-Jul-06 12:24:20.943 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'mvcPathMatcher'
+2019-Jul-06 12:24:20.944 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'mvcUrlPathHelper'
+2019-Jul-06 12:24:20.945 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'viewControllerHandlerMapping'
+2019-Jul-06 12:24:20.946 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'beanNameHandlerMapping'
+2019-Jul-06 12:24:20.948 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'resourceHandlerMapping'
+2019-Jul-06 12:24:20.954 DEBUG [main] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2019-Jul-06 12:24:20.955 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'defaultServletHandlerMapping'
+2019-Jul-06 12:24:20.955 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'mvcUriComponentsContributor'
+2019-Jul-06 12:24:20.958 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'httpRequestHandlerAdapter'
+2019-Jul-06 12:24:20.959 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'simpleControllerHandlerAdapter'
+2019-Jul-06 12:24:20.960 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'handlerExceptionResolver'
+2019-Jul-06 12:24:20.975 DEBUG [main] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2019-Jul-06 12:24:20.977 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'mvcViewResolver'
+2019-Jul-06 12:24:20.981 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'defaultViewResolver'
+2019-Jul-06 12:24:20.998 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'viewResolver'
+2019-Jul-06 12:24:20.998 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'viewResolver' via factory method to bean named 'org.springframework.beans.factory.support.DefaultListableBeanFactory@50c87b21'
+2019-Jul-06 12:24:21.001 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'welcomePageHandlerMapping'
+2019-Jul-06 12:24:21.001 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'welcomePageHandlerMapping' via factory method to bean named 'org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@7f690630'
+2019-Jul-06 12:24:21.024 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration'
+2019-Jul-06 12:24:21.027 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'mbeanExporter'
+2019-Jul-06 12:24:21.028 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'objectNamingStrategy'
+2019-Jul-06 12:24:21.033 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'mbeanExporter' via factory method to bean named 'objectNamingStrategy'
+2019-Jul-06 12:24:21.043 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'mbeanServer'
+2019-Jul-06 12:24:21.056 DEBUG [main] org.springframework.jmx.support.JmxUtils - Found MBeanServer: com.sun.jmx.mbeanserver.JmxMBeanServer@3581c5f3
+2019-Jul-06 12:24:21.060 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.context.ConfigurationPropertiesAutoConfiguration'
+2019-Jul-06 12:24:21.060 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration'
+2019-Jul-06 12:24:21.060 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'gsonBuilder'
+2019-Jul-06 12:24:21.061 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'standardGsonBuilderCustomizer'
+2019-Jul-06 12:24:21.062 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'spring.gson-org.springframework.boot.autoconfigure.gson.GsonProperties'
+2019-Jul-06 12:24:21.063 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'standardGsonBuilderCustomizer' via factory method to bean named 'spring.gson-org.springframework.boot.autoconfigure.gson.GsonProperties'
+2019-Jul-06 12:24:21.066 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'gsonBuilder' via factory method to bean named 'standardGsonBuilderCustomizer'
+2019-Jul-06 12:24:21.094 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'gson'
+2019-Jul-06 12:24:21.095 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'gson' via factory method to bean named 'gsonBuilder'
+2019-Jul-06 12:24:21.208 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.http.JacksonHttpMessageConvertersConfiguration'
+2019-Jul-06 12:24:21.209 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.http.GsonHttpMessageConvertersConfiguration'
+2019-Jul-06 12:24:21.209 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.http.codec.CodecsAutoConfiguration$LoggingCodecConfiguration'
+2019-Jul-06 12:24:21.210 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'loggingCodecCustomizer'
+2019-Jul-06 12:24:21.210 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'loggingCodecCustomizer' via factory method to bean named 'spring.http-org.springframework.boot.autoconfigure.http.HttpProperties'
+2019-Jul-06 12:24:21.214 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.http.codec.CodecsAutoConfiguration$JacksonCodecConfiguration'
+2019-Jul-06 12:24:21.214 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'jacksonCodecCustomizer'
+2019-Jul-06 12:24:21.215 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'jacksonCodecCustomizer' via factory method to bean named 'jacksonObjectMapper'
+2019-Jul-06 12:24:21.217 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.http.codec.CodecsAutoConfiguration'
+2019-Jul-06 12:24:21.218 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration'
+2019-Jul-06 12:24:21.219 DEBUG [main] org.springframework.core.LocalVariableTableParameterNameDiscoverer - Cannot find '.class' file for class [class org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration$$EnhancerBySpringCGLIB$$49c451b0] - unable to determine constructor/method parameter names
+2019-Jul-06 12:24:21.220 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'spring.info-org.springframework.boot.autoconfigure.info.ProjectInfoProperties'
+2019-Jul-06 12:24:21.221 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration' via constructor to bean named 'spring.info-org.springframework.boot.autoconfigure.info.ProjectInfoProperties'
+2019-Jul-06 12:24:21.221 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration'
+2019-Jul-06 12:24:21.222 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'taskSchedulerBuilder'
+2019-Jul-06 12:24:21.223 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'spring.task.scheduling-org.springframework.boot.autoconfigure.task.TaskSchedulingProperties'
+2019-Jul-06 12:24:21.224 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Autowiring by type from bean name 'taskSchedulerBuilder' via factory method to bean named 'spring.task.scheduling-org.springframework.boot.autoconfigure.task.TaskSchedulingProperties'
+2019-Jul-06 12:24:21.228 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration'
+2019-Jul-06 12:24:21.229 DEBUG [main] org.springframework.core.LocalVariableTableParameterNameDiscoverer - Cannot find '.class' file for class [class org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration$$EnhancerBySpringCGLIB$$a8e03e18] - unable to determine constructor/method parameter names
+2019-Jul-06 12:24:21.230 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'restTemplateBuilder'
+2019-Jul-06 12:24:21.237 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration'
+2019-Jul-06 12:24:21.238 DEBUG [main] org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'multipartResolver'
+2019-Jul-06 12:24:21.254 DEBUG [main] org.springframework.jmx.export.annotation.AnnotationMBeanExporter - Registering beans for JMX exposure on startup
+2019-Jul-06 12:24:21.254 DEBUG [main] org.springframework.jmx.export.annotation.AnnotationMBeanExporter - Autodetecting user-defined JMX MBeans
+2019-Jul-06 12:24:21.285 DEBUG [main] org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener - 
+
+
+============================
+CONDITIONS EVALUATION REPORT
+============================
+
+
+Positive matches:
+-----------------
+
+   CodecsAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.http.codec.CodecConfigurer' (OnClassCondition)
+
+   CodecsAutoConfiguration.JacksonCodecConfiguration matched:
+      - @ConditionalOnClass found required class 'com.fasterxml.jackson.databind.ObjectMapper' (OnClassCondition)
+
+   CodecsAutoConfiguration.JacksonCodecConfiguration#jacksonCodecCustomizer matched:
+      - @ConditionalOnBean (types: com.fasterxml.jackson.databind.ObjectMapper; SearchStrategy: all) found bean 'jacksonObjectMapper' (OnBeanCondition)
+
+   DispatcherServletAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.web.servlet.DispatcherServlet' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+
+   DispatcherServletAutoConfiguration.DispatcherServletConfiguration matched:
+      - @ConditionalOnClass found required class 'javax.servlet.ServletRegistration' (OnClassCondition)
+      - Default DispatcherServlet did not find dispatcher servlet beans (DispatcherServletAutoConfiguration.DefaultDispatcherServletCondition)
+
+   DispatcherServletAutoConfiguration.DispatcherServletRegistrationConfiguration matched:
+      - @ConditionalOnClass found required class 'javax.servlet.ServletRegistration' (OnClassCondition)
+      - DispatcherServlet Registration did not find servlet registration bean (DispatcherServletAutoConfiguration.DispatcherServletRegistrationCondition)
+
+   DispatcherServletAutoConfiguration.DispatcherServletRegistrationConfiguration#dispatcherServletRegistration matched:
+      - @ConditionalOnBean (names: dispatcherServlet; types: org.springframework.web.servlet.DispatcherServlet; SearchStrategy: all) found bean 'dispatcherServlet' (OnBeanCondition)
+
+   EmbeddedWebServerFactoryCustomizerAutoConfiguration matched:
+      - @ConditionalOnWebApplication (required) found 'session' scope (OnWebApplicationCondition)
+
+   EmbeddedWebServerFactoryCustomizerAutoConfiguration.TomcatWebServerFactoryCustomizerConfiguration matched:
+      - @ConditionalOnClass found required classes 'org.apache.catalina.startup.Tomcat', 'org.apache.coyote.UpgradeProtocol' (OnClassCondition)
+
+   ErrorMvcAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'org.springframework.web.servlet.DispatcherServlet' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+
+   ErrorMvcAutoConfiguration#basicErrorController matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.web.servlet.error.ErrorController; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   ErrorMvcAutoConfiguration#errorAttributes matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.web.servlet.error.ErrorAttributes; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   ErrorMvcAutoConfiguration.DefaultErrorViewResolverConfiguration#conventionErrorViewResolver matched:
+      - @ConditionalOnBean (types: org.springframework.web.servlet.DispatcherServlet; SearchStrategy: all) found bean 'dispatcherServlet'; @ConditionalOnMissingBean (types: org.springframework.boot.autoconfigure.web.servlet.error.DefaultErrorViewResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ErrorMvcAutoConfiguration.WhitelabelErrorViewConfiguration matched:
+      - @ConditionalOnProperty (server.error.whitelabel.enabled) matched (OnPropertyCondition)
+      - ErrorTemplate Missing did not find error template view (ErrorMvcAutoConfiguration.ErrorTemplateMissingCondition)
+
+   ErrorMvcAutoConfiguration.WhitelabelErrorViewConfiguration#beanNameViewResolver matched:
+      - @ConditionalOnMissingBean (types: org.springframework.web.servlet.view.BeanNameViewResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ErrorMvcAutoConfiguration.WhitelabelErrorViewConfiguration#defaultErrorView matched:
+      - @ConditionalOnMissingBean (names: error; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   GenericCacheConfiguration matched:
+      - Cache org.springframework.boot.autoconfigure.cache.GenericCacheConfiguration automatic cache type (CacheCondition)
+
+   GsonAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'com.google.gson.Gson' (OnClassCondition)
+
+   GsonAutoConfiguration#gson matched:
+      - @ConditionalOnMissingBean (types: com.google.gson.Gson; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   GsonAutoConfiguration#gsonBuilder matched:
+      - @ConditionalOnMissingBean (types: com.google.gson.GsonBuilder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   GsonHttpMessageConvertersConfiguration matched:
+      - @ConditionalOnClass found required class 'com.google.gson.Gson' (OnClassCondition)
+
+   HttpEncodingAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.web.filter.CharacterEncodingFilter' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+      - @ConditionalOnProperty (spring.http.encoding.enabled) matched (OnPropertyCondition)
+
+   HttpEncodingAutoConfiguration#characterEncodingFilter matched:
+      - @ConditionalOnMissingBean (types: org.springframework.web.filter.CharacterEncodingFilter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   HttpMessageConvertersAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.http.converter.HttpMessageConverter' (OnClassCondition)
+
+   HttpMessageConvertersAutoConfiguration#messageConverters matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.autoconfigure.http.HttpMessageConverters; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   HttpMessageConvertersAutoConfiguration.StringHttpMessageConverterConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.http.converter.StringHttpMessageConverter' (OnClassCondition)
+
+   HttpMessageConvertersAutoConfiguration.StringHttpMessageConverterConfiguration#stringHttpMessageConverter matched:
+      - @ConditionalOnMissingBean (types: org.springframework.http.converter.StringHttpMessageConverter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JacksonAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'com.fasterxml.jackson.databind.ObjectMapper' (OnClassCondition)
+
+   JacksonAutoConfiguration.Jackson2ObjectMapperBuilderCustomizerConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.http.converter.json.Jackson2ObjectMapperBuilder' (OnClassCondition)
+
+   JacksonAutoConfiguration.JacksonObjectMapperBuilderConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.http.converter.json.Jackson2ObjectMapperBuilder' (OnClassCondition)
+
+   JacksonAutoConfiguration.JacksonObjectMapperBuilderConfiguration#jacksonObjectMapperBuilder matched:
+      - @ConditionalOnMissingBean (types: org.springframework.http.converter.json.Jackson2ObjectMapperBuilder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JacksonAutoConfiguration.JacksonObjectMapperConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.http.converter.json.Jackson2ObjectMapperBuilder' (OnClassCondition)
+
+   JacksonAutoConfiguration.JacksonObjectMapperConfiguration#jacksonObjectMapper matched:
+      - @ConditionalOnMissingBean (types: com.fasterxml.jackson.databind.ObjectMapper; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JacksonAutoConfiguration.ParameterNamesModuleConfiguration matched:
+      - @ConditionalOnClass found required class 'com.fasterxml.jackson.module.paramnames.ParameterNamesModule' (OnClassCondition)
+
+   JacksonAutoConfiguration.ParameterNamesModuleConfiguration#parameterNamesModule matched:
+      - @ConditionalOnMissingBean (types: com.fasterxml.jackson.module.paramnames.ParameterNamesModule; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JacksonHttpMessageConvertersConfiguration.MappingJackson2HttpMessageConverterConfiguration matched:
+      - @ConditionalOnClass found required class 'com.fasterxml.jackson.databind.ObjectMapper' (OnClassCondition)
+      - @ConditionalOnProperty (spring.http.converters.preferred-json-mapper=jackson) matched (OnPropertyCondition)
+      - @ConditionalOnBean (types: com.fasterxml.jackson.databind.ObjectMapper; SearchStrategy: all) found bean 'jacksonObjectMapper' (OnBeanCondition)
+
+   JacksonHttpMessageConvertersConfiguration.MappingJackson2HttpMessageConverterConfiguration#mappingJackson2HttpMessageConverter matched:
+      - @ConditionalOnMissingBean (types: org.springframework.http.converter.json.MappingJackson2HttpMessageConverter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JmxAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.jmx.export.MBeanExporter' (OnClassCondition)
+      - @ConditionalOnProperty (spring.jmx.enabled=true) matched (OnPropertyCondition)
+
+   JmxAutoConfiguration#mbeanExporter matched:
+      - @ConditionalOnMissingBean (types: org.springframework.jmx.export.MBeanExporter; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   JmxAutoConfiguration#mbeanServer matched:
+      - @ConditionalOnMissingBean (types: javax.management.MBeanServer; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JmxAutoConfiguration#objectNamingStrategy matched:
+      - @ConditionalOnMissingBean (types: org.springframework.jmx.export.naming.ObjectNamingStrategy; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   MultipartAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'org.springframework.web.multipart.support.StandardServletMultipartResolver', 'javax.servlet.MultipartConfigElement' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+      - @ConditionalOnProperty (spring.servlet.multipart.enabled) matched (OnPropertyCondition)
+
+   MultipartAutoConfiguration#multipartConfigElement matched:
+      - @ConditionalOnMissingBean (types: javax.servlet.MultipartConfigElement,org.springframework.web.multipart.commons.CommonsMultipartResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   MultipartAutoConfiguration#multipartResolver matched:
+      - @ConditionalOnMissingBean (types: org.springframework.web.multipart.MultipartResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   NoOpCacheConfiguration matched:
+      - Cache org.springframework.boot.autoconfigure.cache.NoOpCacheConfiguration automatic cache type (CacheCondition)
+
+   PropertyPlaceholderAutoConfiguration#propertySourcesPlaceholderConfigurer matched:
+      - @ConditionalOnMissingBean (types: org.springframework.context.support.PropertySourcesPlaceholderConfigurer; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   RestTemplateAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.web.client.RestTemplate' (OnClassCondition)
+
+   RestTemplateAutoConfiguration#restTemplateBuilder matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.web.client.RestTemplateBuilder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ServletWebServerFactoryAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'javax.servlet.ServletRequest' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+
+   ServletWebServerFactoryAutoConfiguration#tomcatServletWebServerFactoryCustomizer matched:
+      - @ConditionalOnClass found required class 'org.apache.catalina.startup.Tomcat' (OnClassCondition)
+
+   ServletWebServerFactoryConfiguration.EmbeddedTomcat matched:
+      - @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'org.apache.catalina.startup.Tomcat', 'org.apache.coyote.UpgradeProtocol' (OnClassCondition)
+      - @ConditionalOnMissingBean (types: org.springframework.boot.web.servlet.server.ServletWebServerFactory; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   SimpleCacheConfiguration matched:
+      - Cache org.springframework.boot.autoconfigure.cache.SimpleCacheConfiguration automatic cache type (CacheCondition)
+
+   TaskExecutionAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor' (OnClassCondition)
+
+   TaskExecutionAutoConfiguration#applicationTaskExecutor matched:
+      - @ConditionalOnMissingBean (types: java.util.concurrent.Executor; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   TaskExecutionAutoConfiguration#taskExecutorBuilder matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.task.TaskExecutorBuilder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   TaskSchedulingAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler' (OnClassCondition)
+
+   TaskSchedulingAutoConfiguration#taskSchedulerBuilder matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.task.TaskSchedulerBuilder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ValidationAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'javax.validation.executable.ExecutableValidator' (OnClassCondition)
+      - @ConditionalOnResource found location classpath:META-INF/services/javax.validation.spi.ValidationProvider (OnResourceCondition)
+
+   ValidationAutoConfiguration#defaultValidator matched:
+      - @ConditionalOnMissingBean (types: javax.validation.Validator; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ValidationAutoConfiguration#methodValidationPostProcessor matched:
+      - @ConditionalOnMissingBean (types: org.springframework.validation.beanvalidation.MethodValidationPostProcessor; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'org.springframework.web.servlet.DispatcherServlet', 'org.springframework.web.servlet.config.annotation.WebMvcConfigurer' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+      - @ConditionalOnMissingBean (types: org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration#formContentFilter matched:
+      - @ConditionalOnProperty (spring.mvc.formcontent.filter.enabled) matched (OnPropertyCondition)
+      - @ConditionalOnMissingBean (types: org.springframework.web.filter.FormContentFilter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration#hiddenHttpMethodFilter matched:
+      - @ConditionalOnProperty (spring.mvc.hiddenmethod.filter.enabled) matched (OnPropertyCondition)
+      - @ConditionalOnMissingBean (types: org.springframework.web.filter.HiddenHttpMethodFilter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter#defaultViewResolver matched:
+      - @ConditionalOnMissingBean (types: org.springframework.web.servlet.view.InternalResourceViewResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter#requestContextFilter matched:
+      - @ConditionalOnMissingBean (types: org.springframework.web.context.request.RequestContextListener,org.springframework.web.filter.RequestContextFilter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter#viewResolver matched:
+      - @ConditionalOnBean (types: org.springframework.web.servlet.ViewResolver; SearchStrategy: all) found beans 'defaultViewResolver', 'beanNameViewResolver', 'mvcViewResolver'; @ConditionalOnMissingBean (names: viewResolver; types: org.springframework.web.servlet.view.ContentNegotiatingViewResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter.FaviconConfiguration matched:
+      - @ConditionalOnProperty (spring.mvc.favicon.enabled) matched (OnPropertyCondition)
+
+   WebSocketServletAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'javax.servlet.Servlet', 'javax.websocket.server.ServerContainer' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+
+   WebSocketServletAutoConfiguration.TomcatWebSocketConfiguration matched:
+      - @ConditionalOnClass found required classes 'org.apache.catalina.startup.Tomcat', 'org.apache.tomcat.websocket.server.WsSci' (OnClassCondition)
+
+   WebSocketServletAutoConfiguration.TomcatWebSocketConfiguration#websocketServletWebServerCustomizer matched:
+      - @ConditionalOnMissingBean (names: websocketServletWebServerCustomizer; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+
+Negative matches:
+-----------------
+
+   ActiveMQAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'javax.jms.ConnectionFactory' (OnClassCondition)
+
+   AopAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.aspectj.lang.annotation.Aspect' (OnClassCondition)
+
+   ArtemisAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'javax.jms.ConnectionFactory' (OnClassCondition)
+
+   BatchAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.batch.core.launch.JobLauncher' (OnClassCondition)
+
+   CacheAutoConfiguration:
+      Did not match:
+         - @ConditionalOnBean (types: org.springframework.cache.interceptor.CacheAspectSupport; SearchStrategy: all) did not find any beans of type org.springframework.cache.interceptor.CacheAspectSupport (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.cache.CacheManager' (OnClassCondition)
+
+   CacheAutoConfiguration.CacheManagerJpaDependencyConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean' (OnClassCondition)
+         - Ancestor org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration did not match (ConditionEvaluationReport.AncestorsMatchedCondition)
+
+   CaffeineCacheConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'com.github.benmanes.caffeine.cache.Caffeine', 'org.springframework.cache.caffeine.CaffeineCacheManager' (OnClassCondition)
+
+   CassandraAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.datastax.driver.core.Cluster' (OnClassCondition)
+
+   CassandraDataAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.datastax.driver.core.Cluster' (OnClassCondition)
+
+   CassandraReactiveDataAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.datastax.driver.core.Cluster' (OnClassCondition)
+
+   CassandraReactiveRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.data.cassandra.ReactiveSession' (OnClassCondition)
+
+   CassandraRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.datastax.driver.core.Session' (OnClassCondition)
+
+   ClientHttpConnectorAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.web.reactive.function.client.WebClient' (OnClassCondition)
+
+   CloudServiceConnectorsAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.cloud.config.java.CloudScanConfiguration' (OnClassCondition)
+
+   CouchbaseAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.couchbase.client.java.Cluster' (OnClassCondition)
+
+   CouchbaseCacheConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'com.couchbase.client.java.Bucket', 'com.couchbase.client.spring.cache.CouchbaseCacheManager' (OnClassCondition)
+
+   CouchbaseDataAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.couchbase.client.java.Bucket' (OnClassCondition)
+
+   CouchbaseReactiveDataAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.couchbase.client.java.Bucket' (OnClassCondition)
+
+   CouchbaseReactiveRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.couchbase.client.java.Bucket' (OnClassCondition)
+
+   CouchbaseRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.couchbase.client.java.Bucket' (OnClassCondition)
+
+   DataSourceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType' (OnClassCondition)
+
+   DataSourceTransactionManagerAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.jdbc.core.JdbcTemplate' (OnClassCondition)
+
+   DispatcherServletAutoConfiguration.DispatcherServletConfiguration#multipartResolver:
+      Did not match:
+         - @ConditionalOnBean (types: org.springframework.web.multipart.MultipartResolver; SearchStrategy: all) did not find any beans of type org.springframework.web.multipart.MultipartResolver (OnBeanCondition)
+
+   EhCacheCacheConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'net.sf.ehcache.Cache', 'org.springframework.cache.ehcache.EhCacheCacheManager' (OnClassCondition)
+
+   ElasticsearchAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.elasticsearch.client.Client' (OnClassCondition)
+
+   ElasticsearchDataAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.elasticsearch.client.Client' (OnClassCondition)
+
+   ElasticsearchRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.elasticsearch.client.Client' (OnClassCondition)
+
+   EmbeddedLdapAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.unboundid.ldap.listener.InMemoryDirectoryServer' (OnClassCondition)
+
+   EmbeddedMongoAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.mongodb.MongoClient' (OnClassCondition)
+
+   EmbeddedWebServerFactoryCustomizerAutoConfiguration.JettyWebServerFactoryCustomizerConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.eclipse.jetty.server.Server', 'org.eclipse.jetty.util.Loader', 'org.eclipse.jetty.webapp.WebAppContext' (OnClassCondition)
+
+   EmbeddedWebServerFactoryCustomizerAutoConfiguration.NettyWebServerFactoryCustomizerConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'reactor.netty.http.server.HttpServer' (OnClassCondition)
+
+   EmbeddedWebServerFactoryCustomizerAutoConfiguration.UndertowWebServerFactoryCustomizerConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'io.undertow.Undertow', 'org.xnio.SslClientAuthMode' (OnClassCondition)
+
+   ErrorWebFluxAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.web.reactive.config.WebFluxConfigurer' (OnClassCondition)
+
+   FlywayAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.flywaydb.core.Flyway' (OnClassCondition)
+
+   FreeMarkerAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'freemarker.template.Configuration' (OnClassCondition)
+
+   GroovyTemplateAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'groovy.text.markup.MarkupTemplateEngine' (OnClassCondition)
+
+   GsonHttpMessageConvertersConfiguration.GsonHttpMessageConverterConfiguration:
+      Did not match:
+         - AnyNestedCondition 0 matched 2 did not; NestedCondition on GsonHttpMessageConvertersConfiguration.PreferGsonOrJacksonAndJsonbUnavailableCondition.JacksonJsonbUnavailable NoneNestedConditions 1 matched 1 did not; NestedCondition on GsonHttpMessageConvertersConfiguration.JacksonAndJsonbUnavailableCondition.JsonbPreferred @ConditionalOnProperty (spring.http.converters.preferred-json-mapper=jsonb) did not find property 'spring.http.converters.preferred-json-mapper'; NestedCondition on GsonHttpMessageConvertersConfiguration.JacksonAndJsonbUnavailableCondition.JacksonAvailable @ConditionalOnBean (types: org.springframework.http.converter.json.MappingJackson2HttpMessageConverter; SearchStrategy: all) found bean 'mappingJackson2HttpMessageConverter'; NestedCondition on GsonHttpMessageConvertersConfiguration.PreferGsonOrJacksonAndJsonbUnavailableCondition.GsonPreferred @ConditionalOnProperty (spring.http.converters.preferred-json-mapper=gson) did not find property 'spring.http.converters.preferred-json-mapper' (GsonHttpMessageConvertersConfiguration.PreferGsonOrJacksonAndJsonbUnavailableCondition)
+
+   H2ConsoleAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.h2.server.web.WebServlet' (OnClassCondition)
+
+   HazelcastAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.hazelcast.core.HazelcastInstance' (OnClassCondition)
+
+   HazelcastCacheConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'com.hazelcast.core.HazelcastInstance', 'com.hazelcast.spring.cache.HazelcastCacheManager' (OnClassCondition)
+
+   HazelcastJpaDependencyAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.hazelcast.core.HazelcastInstance' (OnClassCondition)
+
+   HibernateJpaAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'javax.persistence.EntityManager' (OnClassCondition)
+
+   HttpHandlerAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.web.reactive.DispatcherHandler' (OnClassCondition)
+
+   HypermediaAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.hateoas.Resource' (OnClassCondition)
+
+   InfinispanCacheConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.infinispan.spring.provider.SpringEmbeddedCacheManager' (OnClassCondition)
+
+   InfluxDbAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.influxdb.InfluxDB' (OnClassCondition)
+
+   IntegrationAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.integration.config.EnableIntegration' (OnClassCondition)
+
+   JCacheCacheConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.cache.jcache.JCacheCacheManager' (OnClassCondition)
+
+   JacksonAutoConfiguration.JodaDateTimeJacksonConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'com.fasterxml.jackson.datatype.joda.ser.DateTimeSerializer', 'com.fasterxml.jackson.datatype.joda.cfg.JacksonJodaDateFormat' (OnClassCondition)
+
+   JacksonHttpMessageConvertersConfiguration.MappingJackson2XmlHttpMessageConverterConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.fasterxml.jackson.dataformat.xml.XmlMapper' (OnClassCondition)
+
+   JdbcRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.data.jdbc.repository.config.JdbcConfiguration' (OnClassCondition)
+
+   JdbcTemplateAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.jdbc.core.JdbcTemplate' (OnClassCondition)
+
+   JerseyAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.glassfish.jersey.server.spring.SpringComponentProvider' (OnClassCondition)
+
+   JestAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'io.searchbox.client.JestClient' (OnClassCondition)
+
+   JmsAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'javax.jms.Message' (OnClassCondition)
+
+   JndiConnectionFactoryAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.jms.core.JmsTemplate' (OnClassCondition)
+
+   JndiDataSourceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType' (OnClassCondition)
+
+   JooqAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.jooq.DSLContext' (OnClassCondition)
+
+   JpaRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.data.jpa.repository.JpaRepository' (OnClassCondition)
+
+   JsonbAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'javax.json.bind.Jsonb' (OnClassCondition)
+
+   JsonbHttpMessageConvertersConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'javax.json.bind.Jsonb' (OnClassCondition)
+
+   JtaAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'javax.transaction.Transaction' (OnClassCondition)
+
+   KafkaAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.kafka.core.KafkaTemplate' (OnClassCondition)
+
+   LdapAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.ldap.core.ContextSource' (OnClassCondition)
+
+   LdapRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.data.ldap.repository.LdapRepository' (OnClassCondition)
+
+   LiquibaseAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'liquibase.change.DatabaseChange' (OnClassCondition)
+
+   MailSenderAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'javax.mail.internet.MimeMessage' (OnClassCondition)
+
+   MailSenderValidatorAutoConfiguration:
+      Did not match:
+         - @ConditionalOnSingleCandidate did not find required type 'org.springframework.mail.javamail.JavaMailSenderImpl' (OnBeanCondition)
+
+   MessageSourceAutoConfiguration:
+      Did not match:
+         - ResourceBundle did not find bundle with basename messages (MessageSourceAutoConfiguration.ResourceBundleCondition)
+
+   MongoAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.mongodb.MongoClient' (OnClassCondition)
+
+   MongoDataAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.mongodb.client.MongoClient' (OnClassCondition)
+
+   MongoReactiveAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.mongodb.reactivestreams.client.MongoClient' (OnClassCondition)
+
+   MongoReactiveDataAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.mongodb.reactivestreams.client.MongoClient' (OnClassCondition)
+
+   MongoReactiveRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.mongodb.reactivestreams.client.MongoClient' (OnClassCondition)
+
+   MongoRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.mongodb.MongoClient' (OnClassCondition)
+
+   MustacheAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.samskivert.mustache.Mustache' (OnClassCondition)
+
+   Neo4jDataAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.neo4j.ogm.session.SessionFactory' (OnClassCondition)
+
+   Neo4jRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.neo4j.ogm.session.Neo4jSession' (OnClassCondition)
+
+   OAuth2ClientAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+
+   OAuth2ResourceServerAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.security.oauth2.jwt.JwtDecoder' (OnClassCondition)
+
+   PersistenceExceptionTranslationAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor' (OnClassCondition)
+
+   ProjectInfoAutoConfiguration#buildProperties:
+      Did not match:
+         - @ConditionalOnResource did not find resource '${spring.info.build.location:classpath:META-INF/build-info.properties}' (OnResourceCondition)
+
+   ProjectInfoAutoConfiguration#gitProperties:
+      Did not match:
+         - GitResource did not find git info at classpath:git.properties (ProjectInfoAutoConfiguration.GitResourceAvailableCondition)
+
+   QuartzAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.quartz.Scheduler' (OnClassCondition)
+
+   RabbitAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.amqp.rabbit.core.RabbitTemplate' (OnClassCondition)
+
+   ReactiveOAuth2ClientAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'reactor.core.publisher.Flux' (OnClassCondition)
+
+   ReactiveOAuth2ResourceServerAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity' (OnClassCondition)
+
+   ReactiveSecurityAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'reactor.core.publisher.Flux' (OnClassCondition)
+
+   ReactiveUserDetailsServiceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.security.authentication.ReactiveAuthenticationManager' (OnClassCondition)
+
+   ReactiveWebServerFactoryAutoConfiguration:
+      Did not match:
+         - @ConditionalOnWebApplication did not find reactive web application classes (OnWebApplicationCondition)
+
+   ReactorCoreAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'reactor.core.publisher.Flux' (OnClassCondition)
+
+   RedisAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.data.redis.core.RedisOperations' (OnClassCondition)
+
+   RedisCacheConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.data.redis.connection.RedisConnectionFactory' (OnClassCondition)
+
+   RedisReactiveAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'reactor.core.publisher.Flux' (OnClassCondition)
+
+   RedisRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.data.redis.repository.configuration.EnableRedisRepositories' (OnClassCondition)
+
+   RepositoryRestMvcAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration' (OnClassCondition)
+
+   RestClientAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.elasticsearch.client.RestClient' (OnClassCondition)
+
+   SecurityAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.security.authentication.DefaultAuthenticationEventPublisher' (OnClassCondition)
+
+   SecurityFilterAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.security.config.http.SessionCreationPolicy' (OnClassCondition)
+
+   SecurityRequestMatcherProviderAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.security.web.util.matcher.RequestMatcher' (OnClassCondition)
+
+   SendGridAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.sendgrid.SendGrid' (OnClassCondition)
+
+   ServletWebServerFactoryConfiguration.EmbeddedJetty:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'org.eclipse.jetty.server.Server', 'org.eclipse.jetty.util.Loader', 'org.eclipse.jetty.webapp.WebAppContext' (OnClassCondition)
+
+   ServletWebServerFactoryConfiguration.EmbeddedUndertow:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'io.undertow.Undertow', 'org.xnio.SslClientAuthMode' (OnClassCondition)
+
+   SessionAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.session.Session' (OnClassCondition)
+
+   SolrAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.apache.solr.client.solrj.impl.CloudSolrClient' (OnClassCondition)
+
+   SolrRepositoriesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.apache.solr.client.solrj.SolrClient' (OnClassCondition)
+
+   SpringApplicationAdminJmxAutoConfiguration:
+      Did not match:
+         - @ConditionalOnProperty (spring.application.admin.enabled=true) did not find property 'enabled' (OnPropertyCondition)
+
+   SpringDataWebAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.data.web.PageableHandlerMethodArgumentResolver' (OnClassCondition)
+
+   TaskSchedulingAutoConfiguration#taskScheduler:
+      Did not match:
+         - @ConditionalOnBean (names: org.springframework.context.annotation.internalScheduledAnnotationProcessor; SearchStrategy: all) did not find any beans named org.springframework.context.annotation.internalScheduledAnnotationProcessor (OnBeanCondition)
+
+   ThymeleafAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.thymeleaf.templatemode.TemplateMode' (OnClassCondition)
+
+   TransactionAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.transaction.PlatformTransactionManager' (OnClassCondition)
+
+   UserDetailsServiceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
+
+   WebClientAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.web.reactive.function.client.WebClient' (OnClassCondition)
+
+   WebFluxAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.web.reactive.config.WebFluxConfigurer' (OnClassCondition)
+
+   WebMvcAutoConfiguration.ResourceChainCustomizerConfiguration:
+      Did not match:
+         - @ConditionalOnEnabledResourceChain did not find class org.webjars.WebJarAssetLocator (OnEnabledResourceChainCondition)
+
+   WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter#beanNameViewResolver:
+      Did not match:
+         - @ConditionalOnMissingBean (types: org.springframework.web.servlet.view.BeanNameViewResolver; SearchStrategy: all) found beans of type 'org.springframework.web.servlet.view.BeanNameViewResolver' beanNameViewResolver (OnBeanCondition)
+
+   WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter#localeResolver:
+      Did not match:
+         - @ConditionalOnProperty (spring.mvc.locale) did not find property 'locale' (OnPropertyCondition)
+
+   WebServiceTemplateAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.oxm.Marshaller' (OnClassCondition)
+
+   WebServicesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.ws.transport.http.MessageDispatcherServlet' (OnClassCondition)
+
+   WebSocketMessagingAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer' (OnClassCondition)
+
+   WebSocketReactiveAutoConfiguration:
+      Did not match:
+         - @ConditionalOnWebApplication did not find reactive web application classes (OnWebApplicationCondition)
+
+   WebSocketServletAutoConfiguration.JettyWebSocketConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer' (OnClassCondition)
+
+   WebSocketServletAutoConfiguration.UndertowWebSocketConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'io.undertow.websockets.jsr.Bootstrap' (OnClassCondition)
+
+   XADataSourceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'javax.transaction.TransactionManager' (OnClassCondition)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    org.springframework.boot.autoconfigure.context.ConfigurationPropertiesAutoConfiguration
+
+    org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration
+
+    org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration
+
+
+
+2019-Jul-06 12:24:21.363 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 80 (http) with context path ''
+2019-Jul-06 12:24:21.367 INFO  [main] acceler.ocdl.OcdlApplication - Started OcdlApplication in 4.279 seconds (JVM running for 5.155)
+2019-Jul-06 12:24:43.841 INFO  [http-nio-80-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-Jul-06 12:24:43.842 INFO  [http-nio-80-exec-1] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2019-Jul-06 12:24:43.843 DEBUG [http-nio-80-exec-1] org.springframework.web.servlet.DispatcherServlet - Detected StandardServletMultipartResolver
+2019-Jul-06 12:24:43.853 DEBUG [http-nio-80-exec-1] org.springframework.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2019-Jul-06 12:24:43.853 INFO  [http-nio-80-exec-1] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 11 ms
+2019-Jul-06 12:24:43.872 DEBUG [http-nio-80-exec-1] org.springframework.web.servlet.DispatcherServlet - GET "/dev/index.html", parameters={}
+2019-Jul-06 12:24:43.884 DEBUG [http-nio-80-exec-1] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:43.913 DEBUG [http-nio-80-exec-1] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:43.960 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/css/animate.min.css", parameters={}
+2019-Jul-06 12:24:43.962 DEBUG [http-nio-80-exec-3] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/css/bootstrap.min.css", parameters={}
+2019-Jul-06 12:24:43.963 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:43.965 DEBUG [http-nio-80-exec-3] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:43.970 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/css/SwitchServer.css", parameters={}
+2019-Jul-06 12:24:43.971 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:43.974 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:43.975 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/css/SyntaxHighlighter.css", parameters={}
+2019-Jul-06 12:24:43.975 DEBUG [http-nio-80-exec-5] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/css/font-awesome.min.css", parameters={}
+2019-Jul-06 12:24:43.977 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:43.977 DEBUG [http-nio-80-exec-3] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:43.977 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:43.978 DEBUG [http-nio-80-exec-5] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:43.978 DEBUG [http-nio-80-exec-7] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/css/templatemo-style.css", parameters={}
+2019-Jul-06 12:24:43.978 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/css/menu.css", parameters={}
+2019-Jul-06 12:24:43.988 DEBUG [http-nio-80-exec-7] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:43.988 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:43.991 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:43.991 DEBUG [http-nio-80-exec-5] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:43.991 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/css/login.css", parameters={}
+2019-Jul-06 12:24:43.996 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/css/userLoginBtn.css", parameters={}
+2019-Jul-06 12:24:43.996 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/css/infoStatus.css", parameters={}
+2019-Jul-06 12:24:43.998 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:43.998 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.002 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:43.994 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.011 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.011 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/css/approvalCenter.css", parameters={}
+2019-Jul-06 12:24:44.014 DEBUG [http-nio-80-exec-7] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.014 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.015 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.015 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/bootstrap.min.js", parameters={}
+2019-Jul-06 12:24:44.017 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.014 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.039 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.042 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/images/Brand3.png", parameters={}
+2019-Jul-06 12:24:44.047 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.049 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.052 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.055 DEBUG [http-nio-80-exec-5] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/jquery.singlePageNav.min.js", parameters={}
+2019-Jul-06 12:24:44.056 DEBUG [http-nio-80-exec-5] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.058 DEBUG [http-nio-80-exec-9] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/clipboard.min.js", parameters={}
+2019-Jul-06 12:24:44.060 DEBUG [http-nio-80-exec-5] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.060 DEBUG [http-nio-80-exec-9] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.063 DEBUG [http-nio-80-exec-9] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.066 DEBUG [http-nio-80-exec-3] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/enviroment.js", parameters={}
+2019-Jul-06 12:24:44.067 DEBUG [http-nio-80-exec-3] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.070 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/typed.js", parameters={}
+2019-Jul-06 12:24:44.070 DEBUG [http-nio-80-exec-3] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.071 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.075 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.076 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/wow.min.js", parameters={}
+2019-Jul-06 12:24:44.077 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.080 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.085 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/custom.js", parameters={}
+2019-Jul-06 12:24:44.086 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.088 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.092 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/prefixfree.min.js", parameters={}
+2019-Jul-06 12:24:44.093 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.096 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.101 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/switchServer.js", parameters={}
+2019-Jul-06 12:24:44.102 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.103 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/shCore.js", parameters={}
+2019-Jul-06 12:24:44.104 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.104 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.107 DEBUG [http-nio-80-exec-5] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/shBrushPython.js", parameters={}
+2019-Jul-06 12:24:44.107 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.108 DEBUG [http-nio-80-exec-5] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.110 DEBUG [http-nio-80-exec-9] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/menu.js", parameters={}
+2019-Jul-06 12:24:44.110 DEBUG [http-nio-80-exec-5] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.111 DEBUG [http-nio-80-exec-9] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.113 DEBUG [http-nio-80-exec-3] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/secondlayernav.js", parameters={}
+2019-Jul-06 12:24:44.110 DEBUG [http-nio-80-exec-1] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/jquery.js", parameters={}
+2019-Jul-06 12:24:44.113 DEBUG [http-nio-80-exec-9] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.113 DEBUG [http-nio-80-exec-3] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.116 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/login.js", parameters={}
+2019-Jul-06 12:24:44.116 DEBUG [http-nio-80-exec-3] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.116 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.118 DEBUG [http-nio-80-exec-7] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/index.js", parameters={}
+2019-Jul-06 12:24:44.119 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.119 DEBUG [http-nio-80-exec-7] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.122 DEBUG [http-nio-80-exec-7] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.122 DEBUG [http-nio-80-exec-7] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/commons.js", parameters={}
+2019-Jul-06 12:24:44.123 DEBUG [http-nio-80-exec-7] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.125 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/approvalCenter.js", parameters={}
+2019-Jul-06 12:24:44.125 DEBUG [http-nio-80-exec-7] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.127 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.129 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.129 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/js/jsencrypt.min.js", parameters={}
+2019-Jul-06 12:24:44.130 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.133 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.140 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/images/ajax-loader.gif", parameters={}
+2019-Jul-06 12:24:44.141 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.142 DEBUG [http-nio-80-exec-1] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.146 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.154 DEBUG [http-nio-80-exec-1] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.175 DEBUG [http-nio-80-exec-5] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/images/background4.png", parameters={}
+2019-Jul-06 12:24:44.176 DEBUG [http-nio-80-exec-5] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.178 DEBUG [http-nio-80-exec-9] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/images/hamburger.png", parameters={}
+2019-Jul-06 12:24:44.179 DEBUG [http-nio-80-exec-9] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.179 DEBUG [http-nio-80-exec-5] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.182 DEBUG [http-nio-80-exec-9] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.304 DEBUG [http-nio-80-exec-3] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/fonts/ecoicons/ecoicon.woff", parameters={}
+2019-Jul-06 12:24:44.305 DEBUG [http-nio-80-exec-3] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.309 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/fonts/fontawesome-webfont.woff2?v=4.3.0", parameters={masked}
+2019-Jul-06 12:24:44.310 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:44.321 DEBUG [http-nio-80-exec-3] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:44.321 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:45.948 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.DispatcherServlet - GET "/rest/template/file", parameters={}
+2019-Jul-06 12:24:45.948 DEBUG [http-nio-80-exec-7] org.springframework.web.servlet.DispatcherServlet - GET "/rest/project/config", parameters={}
+2019-Jul-06 12:24:45.951 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped to public final acceler.ocdl.dto.Response acceler.ocdl.controller.TemplateController.getTemplateFiles(javax.servlet.http.HttpServletRequest)
+2019-Jul-06 12:24:45.954 DEBUG [http-nio-80-exec-7] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped to public final acceler.ocdl.dto.Response acceler.ocdl.controller.ProjectController.getProjectConfig()
+2019-Jul-06 12:24:45.972 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/fonts/glyphicons-halflings-regular.woff2", parameters={}
+2019-Jul-06 12:24:45.974 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:45.975 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.DispatcherServlet - GET "/favicon.ico", parameters={}
+2019-Jul-06 12:24:45.975 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [class path resource [META-INF/resources/], class path resource [resources/], class path resource [static/], class path resource [public/], ServletContext resource [/], class path resource []]
+2019-Jul-06 12:24:45.978 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.resource.ResourceHttpRequestHandler - Resource not found
+2019-Jul-06 12:24:45.978 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.DispatcherServlet - Completed 404 NOT_FOUND
+2019-Jul-06 12:24:45.993 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.DispatcherServlet - "ERROR" dispatch for GET "/error", parameters={}
+2019-Jul-06 12:24:46.004 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped to public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-Jul-06 12:24:46.026 DEBUG [http-nio-80-exec-4] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:46.285 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor - Using 'application/json', given [application/json, text/javascript, */*;q=0.01] and supported [application/json, application/*+json, application/json, application/*+json, application/cbor]
+2019-Jul-06 12:24:46.286 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor - Writing [acceler.ocdl.dto.Response@24f5274e]
+2019-Jul-06 12:24:46.293 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json, application/cbor]
+2019-Jul-06 12:24:46.294 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor - Writing [{timestamp=Sat Jul 06 12:24:46 EDT 2019, status=404, error=Not Found, message=No message available,  (truncated)...]
+2019-Jul-06 12:24:46.297 DEBUG [http-nio-80-exec-7] org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor - Using 'application/json', given [application/json, text/javascript, */*;q=0.01] and supported [application/json, application/*+json, application/json, application/*+json, application/cbor]
+2019-Jul-06 12:24:46.298 DEBUG [http-nio-80-exec-7] org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor - Writing [acceler.ocdl.dto.Response@37931eb1]
+2019-Jul-06 12:24:46.335 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:46.369 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.DispatcherServlet - Exiting from "ERROR" dispatch, status 404
+2019-Jul-06 12:24:46.374 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/fonts/glyphicons-halflings-regular.woff", parameters={}
+2019-Jul-06 12:24:46.376 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:46.386 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.resource.ResourceHttpRequestHandler - Resource not found
+2019-Jul-06 12:24:46.387 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.DispatcherServlet - Completed 404 NOT_FOUND
+2019-Jul-06 12:24:46.389 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.DispatcherServlet - "ERROR" dispatch for GET "/error", parameters={}
+2019-Jul-06 12:24:46.390 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped to public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-Jul-06 12:24:46.390 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json, application/cbor]
+2019-Jul-06 12:24:46.401 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor - Writing [{timestamp=Sat Jul 06 12:24:46 EDT 2019, status=404, error=Not Found, message=No message available,  (truncated)...]
+2019-Jul-06 12:24:46.402 DEBUG [http-nio-80-exec-8] org.springframework.web.servlet.DispatcherServlet - Exiting from "ERROR" dispatch, status 404
+2019-Jul-06 12:24:46.406 DEBUG [http-nio-80-exec-1] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/fonts/glyphicons-halflings-regular.ttf", parameters={}
+2019-Jul-06 12:24:46.407 DEBUG [http-nio-80-exec-1] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:24:46.411 DEBUG [http-nio-80-exec-1] org.springframework.web.servlet.resource.ResourceHttpRequestHandler - Resource not found
+2019-Jul-06 12:24:46.411 DEBUG [http-nio-80-exec-1] org.springframework.web.servlet.DispatcherServlet - Completed 404 NOT_FOUND
+2019-Jul-06 12:24:46.412 DEBUG [http-nio-80-exec-1] org.springframework.web.servlet.DispatcherServlet - "ERROR" dispatch for GET "/error", parameters={}
+2019-Jul-06 12:24:46.412 DEBUG [http-nio-80-exec-1] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped to public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-Jul-06 12:24:46.413 DEBUG [http-nio-80-exec-1] org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/json, application/*+json, application/cbor]
+2019-Jul-06 12:24:46.415 DEBUG [http-nio-80-exec-1] org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor - Writing [{timestamp=Sat Jul 06 12:24:46 EDT 2019, status=404, error=Not Found, message=No message available,  (truncated)...]
+2019-Jul-06 12:24:46.417 DEBUG [http-nio-80-exec-1] org.springframework.web.servlet.DispatcherServlet - Exiting from "ERROR" dispatch, status 404
+2019-Jul-06 12:24:46.422 DEBUG [http-nio-80-exec-7] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:55.979 DEBUG [http-nio-80-exec-5] org.springframework.web.servlet.DispatcherServlet - GET "/rest/auth/key", parameters={}
+2019-Jul-06 12:24:55.979 DEBUG [http-nio-80-exec-5] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped to public acceler.ocdl.dto.Response acceler.ocdl.controller.AuthController.key()
+2019-Jul-06 12:24:56.067 DEBUG [http-nio-80-exec-5] org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor - Using 'application/json', given [application/json, text/javascript, */*;q=0.01] and supported [application/json, application/*+json, application/json, application/*+json, application/cbor]
+2019-Jul-06 12:24:56.067 DEBUG [http-nio-80-exec-5] org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor - Writing [acceler.ocdl.dto.Response@1ddcbd61]
+2019-Jul-06 12:24:56.068 DEBUG [http-nio-80-exec-5] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:56.095 DEBUG [http-nio-80-exec-9] org.springframework.web.servlet.DispatcherServlet - POST "/rest/auth/login?pwd", parameters={masked}
+2019-Jul-06 12:24:56.095 DEBUG [http-nio-80-exec-9] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped to public acceler.ocdl.dto.Response acceler.ocdl.controller.AuthController.login(acceler.ocdl.controller.AuthController$UserCredentials)
+2019-Jul-06 12:24:56.165 DEBUG [http-nio-80-exec-9] org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor - Read "application/json;charset=UTF-8" to [acceler.ocdl.controller.AuthController$UserCredentials@2e9ba7fd]
+2019-Jul-06 12:24:56.263 DEBUG [http-nio-80-exec-9] org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor - Using 'application/json', given [application/json, text/javascript, */*;q=0.01] and supported [application/json, application/*+json, application/json, application/*+json, application/cbor]
+2019-Jul-06 12:24:56.263 DEBUG [http-nio-80-exec-9] org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor - Writing [acceler.ocdl.dto.Response@29619006]
+2019-Jul-06 12:24:56.271 DEBUG [http-nio-80-exec-9] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:56.277 DEBUG [http-nio-80-exec-3] org.springframework.web.servlet.DispatcherServlet - GET "/rest/auth/me?token=BTjyGQ9vag5lIeFK53Clwgb2zV4lvmBr", parameters={masked}
+2019-Jul-06 12:24:56.277 DEBUG [http-nio-80-exec-3] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped to public acceler.ocdl.dto.Response acceler.ocdl.controller.AuthController.me(javax.servlet.http.HttpServletRequest,java.lang.String)
+2019-Jul-06 12:24:56.289 DEBUG [http-nio-80-exec-3] org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor - Using 'application/json', given [application/json, text/javascript, */*;q=0.01] and supported [application/json, application/*+json, application/json, application/*+json, application/cbor]
+2019-Jul-06 12:24:56.290 DEBUG [http-nio-80-exec-3] org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor - Writing [acceler.ocdl.dto.Response@7da14620]
+2019-Jul-06 12:24:56.290 DEBUG [http-nio-80-exec-3] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:56.309 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.DispatcherServlet - GET "/rest/project/algorithm", parameters={}
+2019-Jul-06 12:24:56.310 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped to public final acceler.ocdl.dto.Response acceler.ocdl.controller.ProjectController.getAlgorithm()
+2019-Jul-06 12:24:56.311 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor - Using 'application/json', given [application/json, text/javascript, */*;q=0.01] and supported [application/json, application/*+json, application/json, application/*+json, application/cbor]
+2019-Jul-06 12:24:56.311 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor - Writing [acceler.ocdl.dto.Response@2884dba5]
+2019-Jul-06 12:24:56.313 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:56.313 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.DispatcherServlet - POST "/rest/container/type//cpu", parameters={}
+2019-Jul-06 12:24:56.314 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped to public final acceler.ocdl.dto.Response acceler.ocdl.controller.ContainerController.requestContainer(javax.servlet.http.HttpServletRequest,java.lang.String)
+2019-Jul-06 12:24:56.333 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.DispatcherServlet - GET "/rest/model", parameters={}
+2019-Jul-06 12:24:56.335 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped to public final acceler.ocdl.dto.Response acceler.ocdl.controller.ModelController.getModelList()
+2019-Jul-06 12:24:56.336 DEBUG [http-nio-80-exec-6] acceler.ocdl.controller.ModelController - enter the get model list funciton
+2019-Jul-06 12:24:56.342 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor - Using 'application/json', given [application/json, text/javascript, */*;q=0.01] and supported [application/json, application/*+json, application/json, application/*+json, application/cbor]
+2019-Jul-06 12:24:56.342 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor - Writing [acceler.ocdl.dto.Response@69d305a5]
+2019-Jul-06 12:24:56.370 DEBUG [http-nio-80-exec-6] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2019-Jul-06 12:24:56.381 DEBUG [http-nio-80-exec-10] org.hibernate.validator.internal.engine.resolver.TraversableResolvers - Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2019-Jul-06 12:24:56.384 DEBUG [http-nio-80-exec-10] org.hibernate.validator.internal.xml.config.ValidationXmlParser - Trying to load META-INF/validation.xml for XML based Validator configuration.
+2019-Jul-06 12:24:56.385 DEBUG [http-nio-80-exec-10] org.hibernate.validator.internal.xml.config.ResourceLoaderHelper - Trying to load META-INF/validation.xml via TCCL
+2019-Jul-06 12:24:56.387 DEBUG [http-nio-80-exec-10] org.hibernate.validator.internal.xml.config.ResourceLoaderHelper - Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2019-Jul-06 12:24:56.406 DEBUG [http-nio-80-exec-10] org.hibernate.validator.internal.xml.config.ValidationXmlParser - No META-INF/validation.xml found. Using annotation based configuration only.
+2019-Jul-06 12:24:56.459 DEBUG [http-nio-80-exec-10] org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator - Loaded expression factory via original TCCL
+2019-Jul-06 12:24:56.460 DEBUG [http-nio-80-exec-10] org.hibernate.validator.internal.engine.ValidatorFactoryImpl - HV000234: Using org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator as ValidatorFactory-scoped message interpolator.
+2019-Jul-06 12:24:56.469 DEBUG [http-nio-80-exec-10] org.hibernate.validator.internal.engine.ValidatorFactoryImpl - HV000234: Using org.hibernate.validator.internal.engine.resolver.TraverseAllTraversableResolver as ValidatorFactory-scoped traversable resolver.
+2019-Jul-06 12:24:56.469 DEBUG [http-nio-80-exec-10] org.hibernate.validator.internal.engine.ValidatorFactoryImpl - HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+2019-Jul-06 12:24:56.469 DEBUG [http-nio-80-exec-10] org.hibernate.validator.internal.engine.ValidatorFactoryImpl - HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+2019-Jul-06 12:24:56.469 DEBUG [http-nio-80-exec-10] org.hibernate.validator.internal.engine.ValidatorFactoryImpl - HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+2019-Jul-06 12:25:01.342 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver - Using @ExceptionHandler public acceler.ocdl.dto.Response acceler.ocdl.utils.GlobalExceptionHandler.exceptionsHandling(acceler.ocdl.exception.OcdlException)
+2019-Jul-06 12:25:01.344 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver - Resolved [acceler.ocdl.exception.KuberneteException: Operation: [create]  for kind: [Deployment]  with name: [null]  in namespace: [default]  failed.] to ModelAndView [view=[null]; model={response=acceler.ocdl.dto.Response@7b5145b7}]
+2019-Jul-06 12:25:01.344 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.DispatcherServlet - Using resolved error view: ModelAndView [view="rest/container/type/cpu"; model={response=acceler.ocdl.dto.Response@7b5145b7}]
+2019-Jul-06 12:25:01.349 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.view.ContentNegotiatingViewResolver - Selected '*/*;q=0.01' given [application/json, text/javascript, */*;q=0.01]
+2019-Jul-06 12:25:01.349 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.view.InternalResourceView - View name 'rest/container/type/cpu', model {response=acceler.ocdl.dto.Response@7b5145b7}
+2019-Jul-06 12:25:01.350 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.view.InternalResourceView - Forwarding to [rest/container/type/cpu]
+2019-Jul-06 12:25:01.350 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.DispatcherServlet - "FORWARD" dispatch for POST "/rest/container/type/rest/container/type/cpu", parameters={}
+2019-Jul-06 12:25:01.351 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:25:01.357 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.resource.ResourceHttpRequestHandler - Resource not found
+2019-Jul-06 12:25:01.357 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.DispatcherServlet - Exiting from "FORWARD" dispatch, status 404
+2019-Jul-06 12:25:01.358 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.DispatcherServlet - Completed 404 NOT_FOUND
+2019-Jul-06 12:25:01.358 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.DispatcherServlet - "ERROR" dispatch for POST "/error", parameters={}
+2019-Jul-06 12:25:01.359 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped to public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-Jul-06 12:25:01.360 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/javascript, */*;q=0.01] and supported [application/json, application/*+json, application/json, application/*+json, application/cbor]
+2019-Jul-06 12:25:01.360 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor - Writing [{timestamp=Sat Jul 06 12:25:01 EDT 2019, status=404, error=Not Found, message=Operation: [create]  f (truncated)...]
+2019-Jul-06 12:25:01.360 DEBUG [http-nio-80-exec-10] org.springframework.web.servlet.DispatcherServlet - Exiting from "ERROR" dispatch, status 404
+2019-Jul-06 12:25:42.023 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.DispatcherServlet - GET "/dev/assets2/images/hamburger-active.png", parameters={}
+2019-Jul-06 12:25:42.024 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler ["classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/", "/"]
+2019-Jul-06 12:25:42.037 DEBUG [http-nio-80-exec-2] org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
