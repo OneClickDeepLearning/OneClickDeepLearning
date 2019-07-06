@@ -48,7 +48,7 @@ public class AuthController {
         AbstractUser.Role role = AbstractUser.Role.valueOf(registerInfo.get("role").toUpperCase());
 
         byte[] textBytes = Base64.decodeBase64(password);
-        String decryptedPassword = EncryptionUtil.decrypt(textBytes,EncryptionUtil.privateKey);
+        String decryptedPassword = EncryptionUtil.decrypt(textBytes);
         System.out.println(password);
         System.out.println(decryptedPassword);
 
@@ -70,6 +70,7 @@ public class AuthController {
     @ResponseBody
     public Response login(@RequestBody UserCredentials credential) {
         boolean success;
+        System.out.println(credential.account+" + "+credential.password);
         if (StringUtils.isEmpty(credential.account) || StringUtils.isEmpty(credential.password)) {
             success = false;
         } else {
