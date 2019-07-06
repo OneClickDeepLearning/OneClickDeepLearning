@@ -45,7 +45,7 @@ public class DefaultKubernetesService implements KubernetesService {
         }
     };
 
-    private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + CONSTANTS.IP.VIRTUAL.MASTER + ":6443").build());
+    private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + CONSTANTS.IP.VIRTUAL.MASTER + ":6443").withTrustCerts(true).withUsername("admin").withPassword("admin").withNamespace("default").build());
 
 
     private String getUserSpace(AbstractUser user){
@@ -196,8 +196,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .build();
 
         try {
-            Namespace ns = new NamespaceBuilder().withNewMetadata().withName("thisisatest").addToLabels("this", "rocks").endMetadata().build();
-            deployment = client.apps().deployments().inNamespace("thisisatest").create(deployment);
+          deployment = client.apps().deployments().inNamespace("default").create(deployment);
         } catch (KubernetesClientException e) {
             System.out.println("~~~~~~~EEEEXXXXCCCEEEPPPTTIIOONN");
             throw new KuberneteException(e.getMessage());
