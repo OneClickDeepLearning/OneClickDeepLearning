@@ -19,7 +19,7 @@ public class SecurityUtil {
     public String requestToken(InnerUser innerUser) {
 
         for (Map.Entry entry : inMemoryTokenManager.entrySet()) {
-            if (((InnerUser) entry.getValue()).getUserId().equals(innerUser.getUserId())) {
+            if (((SecurityUser) entry.getValue()).getInnerUser().getUserId().equals(innerUser.getUserId())) {
                 return (String) entry.getKey();
             }
         }
