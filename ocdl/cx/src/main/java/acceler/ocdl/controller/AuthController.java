@@ -5,7 +5,9 @@ import acceler.ocdl.model.AbstractUser;
 import acceler.ocdl.model.InnerUser;
 import acceler.ocdl.service.KubernetesService;
 import acceler.ocdl.service.UserService;
+import acceler.ocdl.utils.EncryptionUtil;
 import acceler.ocdl.utils.SecurityUtil;
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +47,12 @@ public class AuthController {
         String password = registerInfo.get("password");
         AbstractUser.Role role = AbstractUser.Role.valueOf(registerInfo.get("role").toUpperCase());
 
-        InnerUser newUser = userService.createUser(username, password, role);
+        byte[] textBytes = Base64.decodeBase64(password);
+        String decryptedPassword = EncryptionUtil.decrypt(textBytes,EncryptionUtil.privateKey);
+        System.out.println(password);
+        System.out.println(decryptedPassword);
+
+        InnerUser newUser = userService.createUser(username, decryptedPassword, role);
 
         String token = securityUtil.requestToken(newUser);
 
@@ -124,6 +131,20 @@ public class AuthController {
         result.put("role", innerUser.getRole());
         respBuilder.setData(result);
         respBuilder.setCode(Response.Code.SUCCESS);
+        return respBuilder.build();
+    }
+
+    @RequestMapping(path ="/key", method = RequestMethod.GET)
+    @ResponseBody
+    public Response key() {
+        EncryptionUtil.generateKey();
+        final Response.Builder respBuilder = Response.getBuilder();
+        respBuilder.setCode(Response.Code.SUCCESS);
+        try {
+            respBuilder.setData(EncryptionUtil.getKeyString(EncryptionUtil.publicKey));
+        } catch (Exception e) {
+            respBuilder.setMessage("Can't get the public key from server with exception: \n"+e.getMessage());
+        }
         return respBuilder.build();
     }
 

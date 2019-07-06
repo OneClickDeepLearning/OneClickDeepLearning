@@ -28,7 +28,6 @@
     <link rel="stylesheet" type="text/css" href="assets2/css/approvalCenter.css">
 
     <script src="../dev/assets2/js/jquery.js"></script>
-    <script type="text/javascript" src="js/nav.js"></script>
 
     <style type="text/css">
 
@@ -170,11 +169,6 @@
         }
 
 
-        .chart {
-            width: 100%;
-            min-height: 450px;
-        }
-
 
 
 
@@ -223,7 +217,7 @@
                 <span class="icon icon-bar"></span>
             </button>
             <img href="#" alt="OCDL" class="navbar-brand" style="padding-left: 0px;" src="assets2/images/Brand3.png"/>
-            <label id="projectName" style="color: black; margin-top: 30px; margin-left: 20px;"></label>
+            <label id="projectName" style="color: black; margin-top: 30px; margin-left: 20px; float:left;"></label>
         </div>
         <div class="collapse navbar-collapse">
             <ul id="nav-menu" class="nav navbar-nav navbar-right">
@@ -253,11 +247,11 @@
                 <!--	<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button>-->
                 <span style="float:left;display: inline-block; width:auto; height:auto;padding:0px;">
                     <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
-                        <a id="gitBtn" href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Git</a>
+                        <a id="gitBtn" href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Staging</a>
                     </span>
                 </span>
                 <span id="gitTag"
-                      style="padding-left:0px; height:100%;float:left;padding-top:10px;display: none;">Git</span>
+                      style="padding-left:0px; height:100%;float:left;padding-top:10px;display: none;">Staging</span>
 
                 <!--                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
                                     <a id="flapBtn" href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
@@ -556,21 +550,6 @@
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                    <tr>
-                                                                        <td>test</td>
-                                                                        <td>ttt</td>
-                                                                        <td>ddd</td>
-                                                                        <td>rrr</td>
-                                                                        <td>
-                                                                            <button type='button' class='btn btn-info' onclick="generateDownloadCode('test.model')">Download Code</button>
-                                                                            <button type="button"
-                                                                                    class="btn btn-danger">Undo
-                                                                            </button>
-                                                                            <button type="button" class="btn btn-info">
-                                                                                Release
-                                                                            </button>
-                                                                        </td>
-                                                                    </tr>
                                                                     </tbody>
                                                                 </table>
                                                             </div>
@@ -723,7 +702,7 @@
                                                             <label class="radio-inline temp-custom-radio-button"
                                                                    style="color: black;">
                                                                 <input type="radio" name="role" id="developer-radio"
-                                                                       value="Developer">Developer
+                                                                       value="Developer" checked>Developer
                                                                 <span class="temp-radio-checkmark"></span>
                                                             </label>
                                                         </div>
@@ -916,7 +895,6 @@
 <!--====  End of login form modal  ====-->
 
 
-<!-- 模态框（Modal） -->
 <div class="modal fade" id="downloadCode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="color:#000000;">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -944,7 +922,6 @@
 <script src="assets2/js/custom.js"></script>
 <script src="assets2/js/prefixfree.min.js"></script>
 <script src="assets2/js/switchServer.js"></script>
-<!--<script language="javascript" src="assets2/js/flipycard.js"></script>-->
 <script language="javascript" src="assets2/js/shCore.js"></script>
 <script language="javascript" src="assets2/js/shBrushPython.js"></script>
 <script src="assets2/js/menu.js"></script>
@@ -953,8 +930,10 @@
 <script language="JavaScript" src="assets2/js/index.js"></script>
 <script src="assets2/js/commons.js"></script>
 <script src="assets2/js/approvalCenter.js"></script>
+<script src="assets2/js/jsencrypt.min.js"></script>
 
 <script type="text/javascript">
+
 
     var clipboard = new ClipboardJS('.btn-copy');
     clipboard.on('success', function (t) {
