@@ -7,6 +7,8 @@ import acceler.ocdl.model.AbstractUser;
 import acceler.ocdl.model.Project;
 import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.KubernetesService;
+import io.fabric8.kubernetes.api.model.Namespace;
+import io.fabric8.kubernetes.api.model.NamespaceBuilder;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
@@ -157,7 +159,6 @@ public class DefaultKubernetesService implements KubernetesService {
                 .addToLabels("app", depolyId + "-deploy-cpu")
                 .endMetadata()
                 .withNewSpec()
-                .withNodeName(CONSTANTS.IP.VIRTUAL.GPU)//GPU node address
                 .addNewContainer()
                 .withName("jupyter" + depolyId)
                 .withImage("app:cpu")
@@ -195,7 +196,8 @@ public class DefaultKubernetesService implements KubernetesService {
                 .build();
 
         try {
-            deployment = client.apps().deployments().inNamespace("kube-public").create(deployment);
+            Namespace ns = new NamespaceBuilder().withNewMetadata().withName("thisisatest").addToLabels("this", "rocks").endMetadata().build();
+            deployment = client.apps().deployments().inNamespace("thisisatest").create(deployment);
         } catch (KubernetesClientException e) {
             System.out.println("~~~~~~~EEEEXXXXCCCEEEPPPTTIIOONN");
             throw new KuberneteException(e.getMessage());
@@ -222,7 +224,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .addToLabels("app", depolyId + "-deploy-gpu")
                 .endMetadata()
                 .withNewSpec()
-                .withNodeName(CONSTANTS.IP.VIRTUAL.GPU)//GPU node address
+                //.withNodeName(CONSTANTS.IP.VIRTUAL.GPU)//GPU node address
                 .addNewContainer()
                 .withName("jupyter" + depolyId)
                 .withImage("app:gpu")
