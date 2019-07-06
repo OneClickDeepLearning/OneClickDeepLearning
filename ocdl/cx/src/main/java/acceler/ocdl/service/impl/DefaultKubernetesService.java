@@ -54,8 +54,8 @@ public class DefaultKubernetesService implements KubernetesService {
         Long userId = user.getUserId();
         if (gpuAssigned.containsKey(userId))
             return gpuAssigned.get(userId);
-        else if (gpuAssigned.size() == CONSTANTS.MACHINE.GPU_AMOUNT)
-            throw new KuberneteException("No more GPU resource!");
+        //else if (gpuAssigned.size() == CONSTANTS.MACHINE.GPU_AMOUNT)
+        //    throw new KuberneteException("No more GPU resource!");
 
         String url;
         String ip;
@@ -139,16 +139,16 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withKind("Deployment")
                 .withNewMetadata()
                 .withName(depolyId + "-deploy-cpu")
-                .addToLabels("app", "cpu1")
+                .addToLabels("app", depolyId + "-deploy-cpu")
                 .endMetadata()
                 .withNewSpec()
                 .withReplicas(1)
                 .withNewSelector()
-                .addToMatchLabels("app", "cpu1")
+                .addToMatchLabels("app", depolyId + "-deploy-cpu")
                 .endSelector()
                 .withNewTemplate()
                 .withNewMetadata()
-                .addToLabels("app", "cpu1")
+                .addToLabels("app", depolyId + "-deploy-cpu")
                 .endMetadata()
                 .withNewSpec()
                 .withNodeName(CONSTANTS.IP.VIRTUAL.GPU)//GPU node address
@@ -169,6 +169,10 @@ public class DefaultKubernetesService implements KubernetesService {
                 .endVolumeMount()
                 .withImagePullPolicy("Never")
                 .endContainer()
+
+                .withNewDnsConfig()
+                .withNameservers("8.8.8.8")
+                .endDnsConfig()
 
                 .addToVolumes()
                 .addNewVolume()
@@ -199,16 +203,16 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withKind("Deployment")
                 .withNewMetadata()
                 .withName(depolyId + "-deploy-gpu")
-                .addToLabels("app", "gpu1")
+                .addToLabels("app", depolyId + "-deploy-gpu")
                 .endMetadata()
                 .withNewSpec()
                 .withReplicas(1)
                 .withNewSelector()
-                .addToMatchLabels("app", "gpu1")
+                .addToMatchLabels("app", depolyId + "-deploy-gpu")
                 .endSelector()
                 .withNewTemplate()
                 .withNewMetadata()
-                .addToLabels("app", "gpu1")
+                .addToLabels("app", depolyId + "-deploy-gpu")
                 .endMetadata()
                 .withNewSpec()
                 .withNodeName(CONSTANTS.IP.VIRTUAL.GPU)//GPU node address
@@ -231,6 +235,10 @@ public class DefaultKubernetesService implements KubernetesService {
                 .endVolumeMount()
                 .withImagePullPolicy("Never")
                 .endContainer()
+
+                .withNewDnsConfig()
+                .withNameservers("8.8.8.8")
+                .endDnsConfig()
 
                 .addToVolumes()
                 .addNewVolume()
@@ -269,7 +277,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withNewTargetPort(8998)
                 .withProtocol("TCP")
                 .endPort()
-                .withSelector(Collections.singletonMap("app", "cpu1"))
+                .withSelector(Collections.singletonMap("app", svcId + "-deploy-cpu"))
                 .endSpec()
                 .build();
 
@@ -296,7 +304,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withNewTargetPort(8998)
                 .withProtocol("TCP")
                 .endPort()
-                .withSelector(Collections.singletonMap("app", "gpu1"))
+                .withSelector(Collections.singletonMap("app", svcId + "-deploy-gpu"))
                 .endSpec()
                 .build();
 

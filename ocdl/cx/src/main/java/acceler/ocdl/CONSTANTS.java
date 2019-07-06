@@ -6,7 +6,6 @@ public interface CONSTANTS {
         String USER_SPACE = "/home/hadoop/mount/UserSpace/";
 //        String STAGE_SPACE = "/home/ec2-user/stage/";
         String STAGE_SPACE = "/Staging";
-        String GIT_REPO_SPACE = "/home/ec2-user/models/";
     }
 
     interface NAME_FORMAT {
@@ -33,14 +32,14 @@ public interface CONSTANTS {
 
     interface IP {
         interface VIRTUAL {
-            String MASTER = "10.8.0.1";
-            String CPU = "10.8.0.6";
-            String GPU = "10.8.0.10";
+            String MASTER = "192.168.0.123";
+            String CPU = "192.168.0.123";
+            String GPU = "192.168.0.123";
         }
 
         interface PUBLIC {
-            String MASTER = "3.89.28.106";
-            String CPU = "3.87.64.159";
+            String MASTER = "66.131.186.246";
+            String CPU = "66.131.186.246";
             String GPU = "66.131.186.246";
         }
     }
@@ -50,7 +49,7 @@ public interface CONSTANTS {
     }
 
     interface HDFS {
-        String IP_ADDRESS = "hdfs://10.8.0.14:9000";
+        String IP_ADDRESS = "hdfs://66.131.186.246:9000";
         String USER_SPACE = "/UserSpace/";
         String USER_NAME = "hadoop";
     }
@@ -58,6 +57,6 @@ public interface CONSTANTS {
     interface KAFKA {
         String TOPIC = "mdmsg";
         String MESSAGE = "{publishedModelName} {modelUrl}";
-        String KAFKA_URL = "ec2-54-89-140-122.compute-1.amazonaws.com:9092";
+        String KAFKA_URL = "ec2-35-171-163-170.compute-1.amazonaws.com:9092";
     }
 }
