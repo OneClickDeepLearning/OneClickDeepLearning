@@ -1,14 +1,11 @@
 package acceler.ocdl.utils;
 
-import sun.misc.BASE64Decoder;
+
 import sun.misc.BASE64Encoder;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.*;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
-
 import javax.crypto.Cipher;
 
 /**
@@ -42,6 +39,9 @@ public class EncryptionUtil {
 
                 publicKey = key.getPublic();
                 privateKey = key.getPrivate();
+
+                System.out.println("[public key] :"+publicKey);
+                System.out.println("[private key] :"+privateKey);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -78,19 +78,20 @@ public class EncryptionUtil {
      *
      * @param text
      *          :encrypted text
-     * @param key
-     *          :The private key
      * @return plain text
      * @throws java.lang.Exception
      */
-    public static String decrypt(byte[] text, PrivateKey key) {
+    public static String decrypt(byte[] text) {
         byte[] dectyptedText = null;
+
+        System.out.println("[d-decrypt- private]" + privateKey);
+        System.out.println("[d-decript- public]" + publicKey);
         try {
             // get an RSA cipher object and print the provider
             final Cipher cipher = Cipher.getInstance(ALGORITHM);
 
             // decrypt the text using the private key
-            cipher.init(Cipher.DECRYPT_MODE, key);
+            cipher.init(Cipher.DECRYPT_MODE, privateKey);
             dectyptedText = cipher.doFinal(text);
 
         } catch (Exception ex) {
@@ -121,7 +122,7 @@ public class EncryptionUtil {
         generateKey();
         String text = "blue123";
         byte[] encriptedText = encrypt(text, publicKey);
-        String plainText = decrypt(encriptedText,privateKey);
+        String plainText = decrypt(encriptedText);
 
         System.out.println(text);
         System.out.println(new String(encriptedText));
