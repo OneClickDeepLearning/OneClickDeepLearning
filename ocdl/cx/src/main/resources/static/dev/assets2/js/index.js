@@ -357,10 +357,11 @@ function signUp() {
             alert("Connection error");
         },
         success: function(data) {
-            //接收后台返回的结果
-            alert("Sign up successful");
-            token=data['token'];
-            tradeToken4UsrInfo();
+            ajaxMessageReader(data,function (data) {
+                alert("Sign up successful");
+                token=data['token'];
+                tradeToken4UsrInfo();
+            })
         }
 
     })
