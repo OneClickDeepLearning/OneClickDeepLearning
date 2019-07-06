@@ -37,7 +37,7 @@ public class DBUserService implements UserService {
     public boolean credentialCheck(AuthController.UserCredentials loginUser) {
         Optional<InnerUser> targetUserOpt = InnerUser.getUserByUserName(loginUser.account);
         byte[] textBytes = Base64.decodeBase64(loginUser.password);
-        String password = EncryptionUtil.decrypt(textBytes,EncryptionUtil.privateKey);
+        String password = EncryptionUtil.decrypt(textBytes);
         return targetUserOpt.map(innerUser -> innerUser.getPassword().equals(password)).orElse(false);
     }
 

@@ -310,7 +310,7 @@
 
 <a href="#" class="menubtn">menu</a>
 <div id="hamburgermenu">
-    <ul>
+    <ul id="template_ul" style="display: none">
         <li><a class="d-firstNav s-firstNav" href="#">Framework</a>
             <ul id="Frameworks" class="d-firstDrop s-firstDrop">
             </ul>
@@ -325,13 +325,24 @@
             </ul>
 
         </li>
-
         <li><a class="d-firstNav s-firstNav" href="#">Network</a>
             <ul id="Networks" class="d-firstDrop s-firstDrop">
             </ul>
-
         </li>
     </ul>
+
+    <ul id="template_alert" style="display: none">
+        <li>
+            <div style="TEXT-ALIGN:center" style="padding-top: 30px">
+                <H3>No Template</H3>
+                <p style="margin-bottom:50px; margin-top:30px ">You can reload the template or jump directly to the configuration portal to set up the path of templates!</p>
+                <button class="btn btn-info " style="margin: 5px"><icon class="glyphicon glyphicon-refresh"style="margin-right:5px; "></icon>Reload</button>
+                <button class="btn btn-success  " style="margin:5px"><icon class="glyphicon glyphicon-cog"style="margin-right:5px; "></icon>Config</button>
+            </div>
+        </li>
+    </ul>
+
+
 </div>
 <div class="overlay"></div>
 

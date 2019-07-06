@@ -60,6 +60,7 @@ function initTemplateList(){
         type: "GET",
         success:function (data) {
             ajaxMessageReader(data,function (data) {
+                $("#template_ul").show();
                 var layerList=data[0];
                 var blockList=data[1];
                 var networksList=data[2];
@@ -80,6 +81,7 @@ function initTemplateList(){
         },
 
         error: function (data) {
+            $("#template_alert").show();
         }
     })
 }
@@ -139,7 +141,7 @@ function ShowInitMenu() {
     $("#code-template-li").hide(500);
     $("#welcome-li").show(500);
 
-    setTimeout($("#welcome-tab").click(), 600);
+    setTimeout($("#welcome-tab").click(), 800);
 
 }
 
@@ -170,7 +172,8 @@ function changeProjectName() {
     })
 
 }
-//validation (pending)
+
+
 function loginFormValidate() {
     if($("#data_username").val()==''){
         alert("please input the username");
@@ -354,9 +357,11 @@ function signUp() {
             alert("Connection error");
         },
         success: function(data) {
-            //接收后台返回的结果
-            alert("Sign up successful");
-            tradeToken4UsrInfo();
+            ajaxMessageReader(data,function (data) {
+                alert("Sign up successful");
+                token=data['token'];
+                tradeToken4UsrInfo();
+            })
         }
 
     })
