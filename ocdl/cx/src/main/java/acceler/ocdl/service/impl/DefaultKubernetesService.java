@@ -45,8 +45,7 @@ public class DefaultKubernetesService implements KubernetesService {
         }
     };
 
-    private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + CONSTANTS.IP.VIRTUAL.MASTER + ":6443").build());
-
+    private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + CONSTANTS.IP.VIRTUAL.MASTER + ":6443").withTrustCerts(true).withOauthToken("j8q5j3.zfnjcs9vdk76y4b5").build());
 
     private String getUserSpace(AbstractUser user){
         return (CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(user.getUserId()))).toLowerCase();
