@@ -386,6 +386,11 @@ public class DefaultKubernetesService implements KubernetesService {
                 if (replicaSet.getMetadata().getName().contains(userId))
                     client.resource(replicaSet).delete();
             }
+            for (Pod pod : client.pods().inNamespace("default").list().getItems()){
+                System.out.println(pod.getMetadata().getName());
+                if(pod.getMetadata().getName().contains(userId))
+                    client.resource(pod).delete();
+            }
 
             //release resource cache
             if(cpuAssigned.containsKey(user.getUserId())){
