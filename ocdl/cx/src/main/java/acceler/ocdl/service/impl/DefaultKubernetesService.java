@@ -13,6 +13,7 @@ import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
 import io.fabric8.kubernetes.api.model.apps.DeploymentBuilder;
+import io.fabric8.kubernetes.api.model.apps.ReplicaSet;
 import io.fabric8.kubernetes.client.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -149,7 +150,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .addToLabels("app", depolyId + "-deploy-cpu")
                 .endMetadata()
                 .withNewSpec()
-                .withReplicas(0)
+                .withReplicas(1)
                 .withNewSelector()
                 .addToMatchLabels("app", depolyId + "-deploy-cpu")
                 .endSelector()
@@ -213,7 +214,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .addToLabels("app", depolyId + "-deploy-gpu")
                 .endMetadata()
                 .withNewSpec()
-                .withReplicas(0)
+                .withReplicas(1)
                 .withNewSelector()
                 .addToMatchLabels("app", depolyId + "-deploy-gpu")
                 .endSelector()
@@ -378,6 +379,12 @@ public class DefaultKubernetesService implements KubernetesService {
                 System.out.println(deploy.getMetadata().getName());
                 if (deploy.getMetadata().getName().contains(userId))
                     client.resource(deploy).delete();
+            }
+
+            for(ReplicaSet replicaSet : client.apps().replicaSets().inNamespace("default").list().getItems()) {
+                System.out.println(replicaSet.getMetadata().getName());
+                if (replicaSet.getMetadata().getName().contains(userId))
+                    client.resource(replicaSet).delete();
             }
 
             //release resource cache
