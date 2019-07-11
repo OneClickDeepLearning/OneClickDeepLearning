@@ -32,14 +32,14 @@ public interface CONSTANTS {
 
     interface IP {
         interface VIRTUAL {
-            String MASTER = "172.31.24.77";
-            String CPU = "172.31.24.77";
+            String MASTER = "10.8.0.1";
+            String CPU = "10.8.0.6";
             String GPU = "172.31.24.77";
         }
 
         interface PUBLIC {
             String MASTER = "34.229.75.10";
-            String CPU = "34.229.75.10";
+            String CPU = "204.236.250.8";
             String GPU = "34.229.75.10";
         }
     }
