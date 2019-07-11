@@ -20,7 +20,7 @@ public class DefaultKubernetesServiceTest {
     @Test
     public void launchDockerContainer() {
 
-        final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://10.8.0.1':6443").build());
+        final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://0.0.0.0':6443").build());
 
         Deployment deployment = new DeploymentBuilder()
                 .withApiVersion("apps/v1")

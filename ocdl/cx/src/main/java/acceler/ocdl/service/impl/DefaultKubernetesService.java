@@ -185,7 +185,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withName("model")
                 .withNewNfs()
                 .withServer(CONSTANTS.IP.PUBLIC.MASTER)
-                .withPath("/home/hadoop/mount/UserSpace/" + depolyId)
+                .withPath("/home/ubuntu/mount/UserSpace/" + depolyId)
                 .endNfs()
                 .endVolume()
 
@@ -252,7 +252,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withName("model")
                 .withNewNfs()
                 .withServer(CONSTANTS.IP.PUBLIC.MASTER)
-                .withPath("/home/hadoop/mount/UserSpace/" + depolyId)
+                .withPath("/home/ubuntu/mount/UserSpace/" + depolyId)
                 .endNfs()
                 .endVolume()
 

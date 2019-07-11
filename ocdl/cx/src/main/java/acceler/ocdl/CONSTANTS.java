@@ -38,7 +38,7 @@ public interface CONSTANTS {
         }
 
         interface PUBLIC {
-            String MASTER = "34.229.75.10";
+            String MASTER = "184.73.27.254";
             String CPU = "204.236.250.8";
             String GPU = "34.229.75.10";
         }
