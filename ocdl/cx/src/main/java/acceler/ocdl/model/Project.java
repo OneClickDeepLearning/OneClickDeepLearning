@@ -27,7 +27,6 @@ public class Project extends Storable implements Serializable {
             logger.error("ProjectDataStorage instance is null");
             throw new InitStorageException("ProjectDataStorage instance is null");
         }
-
         return projectDataStorage;
     }
 

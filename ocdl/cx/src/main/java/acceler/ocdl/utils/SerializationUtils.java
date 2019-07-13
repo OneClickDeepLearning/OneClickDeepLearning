@@ -1,10 +1,8 @@
 package acceler.ocdl.utils;
 
 import acceler.ocdl.exception.NotFoundException;
-import acceler.ocdl.exception.OcdlException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.*;
 
@@ -12,14 +10,11 @@ public class SerializationUtils {
 
     public static final Logger logger = LoggerFactory.getLogger(SerializationUtils.class);
 
-    @Value("${data.path}")
-    public static String defaultDataPath;
 
-    public static boolean existDefaultSerializedFile() {
+    public static boolean existDefaultSerializedFile(String defaultDataPath) {
 
         boolean existSerializedFile = true;
         File persistanceFile = new File(defaultDataPath);
-
         if (!persistanceFile.exists()) {
             existSerializedFile = false;
         }
