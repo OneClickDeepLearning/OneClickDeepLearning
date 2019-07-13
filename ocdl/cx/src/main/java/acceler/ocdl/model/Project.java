@@ -31,14 +31,18 @@ public class Project extends Storable implements Serializable {
         return projectDataStorage;
     }
 
-    static void initializeStorage() {
+    static void initializeStorage(String dataPath) {
         if (projectDataStorage == null) {
             logger.info("[init] RejectedModelStorage instance initialization executed");
-            File projectDataFile = new File(CONSTANTS.PERSISTENCE.PROJECT);
+            File projectDataFile = new File(dataPath + CONSTANTS.PERSISTENCE.PROJECT);
             try {
                 projectDataStorage = (Project) StorageLoader.loadStorage(projectDataFile);
             } catch (NotFoundException nfe) {
                 projectDataStorage = new Project();
+                lock.writeLock().lock();
+                projectDataStorage.setDataPath(dataPath);
+                lock.writeLock().unlock();
+                persistence();
             }
         }
 
@@ -46,7 +50,7 @@ public class Project extends Storable implements Serializable {
     }
 
     private static void persistence() {
-        File dumpFile = new File(CONSTANTS.PERSISTENCE.PROJECT);
+        File dumpFile = new File(getDataPathInStorage() + CONSTANTS.PERSISTENCE.PROJECT);
         SerializationUtils.dump(projectDataStorage, dumpFile);
     }
 
@@ -59,15 +63,15 @@ public class Project extends Storable implements Serializable {
 
         lock.writeLock().lock();
         realProjectData.projectName = projectInfo.projectName;
-        realProjectData.gitRepoURI = projectInfo.gitRepoURI;
+        realProjectData.dataPath = projectInfo.dataPath;
         realProjectData.k8MasterUri = projectInfo.k8MasterUri;
         realProjectData.templatePath = projectInfo.templatePath;
         realProjectData.description = projectInfo.description;
 
         setSuffixesOfProjectInStorage(projectInfo.suffixes);
         persistence();
-
         lock.writeLock().unlock();
+
 
     }
 
@@ -88,12 +92,12 @@ public class Project extends Storable implements Serializable {
         return name;
     }
 
-    public static String getGitRepoURIInStorage() {
+    public static String getDataPathInStorage() {
         lock.readLock().lock();
-        String gitURL = getProjectDataStorage().gitRepoURI;
+        String dataPath = getProjectDataStorage().getDataPath();
         lock.readLock().unlock();
 
-        return gitURL;
+        return dataPath;
     }
 
     public static String getK8MasterUriInStorage() {
@@ -129,7 +133,7 @@ public class Project extends Storable implements Serializable {
 
 
     private String projectName;
-    private String gitRepoURI;
+    private String dataPath;
     private String k8MasterUri;
     private String templatePath;
     private String description;
@@ -139,7 +143,7 @@ public class Project extends Storable implements Serializable {
     public Project deepCopy() {
         Project copy = new Project();
         copy.projectName = this.projectName;
-        copy.gitRepoURI = this.gitRepoURI;
+        copy.dataPath = this.dataPath;
         copy.k8MasterUri = this.k8MasterUri;
         copy.templatePath = this.templatePath;
         copy.description = this.description;
@@ -168,7 +172,7 @@ public class Project extends Storable implements Serializable {
 
         projectDto.setAlgorithm(algorithmsStrBuilder.toString());
         projectDto.setSuffix(suffixesStrBuilder.toString());
-        projectDto.setGitPath(gitRepoURI);
+        projectDto.setDataPath(dataPath);
         projectDto.setK8Url(k8MasterUri);
         projectDto.setProjectName(projectName);
         projectDto.setTemplatePath(templatePath);
@@ -184,12 +188,12 @@ public class Project extends Storable implements Serializable {
         this.projectName = projectName;
     }
 
-    public String getGitRepoURI() {
-        return gitRepoURI;
+    public String getDataPath() {
+        return dataPath;
     }
 
-    public void setGitRepoURI(String gitRepoURI) {
-        this.gitRepoURI = gitRepoURI;
+    public void setDataPath(String dataPath) {
+        this.dataPath = dataPath;
     }
 
     public String getK8MasterUri() {

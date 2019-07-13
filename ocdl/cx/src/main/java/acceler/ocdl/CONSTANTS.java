@@ -21,13 +21,13 @@ public interface CONSTANTS {
     }
 
     interface PERSISTENCE {
-        String _BASE = "D://resources_cx/persistence";
-        String ALGORITHMS = _BASE + "/algorithms";
-        String PROJECT = _BASE + "/project";
-        String USERS = _BASE + "/users";
-        String USER_ID_GENERATOR = _BASE + "/user_id_generator";
-        String NEW_MODEL = _BASE + "/new_model";
-        String REJECTED_MODELS = _BASE + "/rejected_model";
+//        String _BASE = "D://resources_cx/persistence";
+        String ALGORITHMS = "/algorithms";
+        String PROJECT = "/project";
+        String USERS = "/users";
+        String USER_ID_GENERATOR = "/user_id_generator";
+        String NEW_MODEL = "/new_model";
+        String REJECTED_MODELS = "/rejected_model";
     }
 
     interface IP {

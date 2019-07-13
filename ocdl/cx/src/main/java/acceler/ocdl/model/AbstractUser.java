@@ -53,10 +53,10 @@ public abstract class AbstractUser extends Storable implements Serializable {
         lock.writeLock().unlock();
     }
 
-    static void initializeStorage() {
+    static void initializeStorage(String dataPath) {
         if (userListStorage == null) {
             logger.info("[init] SerListStorage instance initialization executed");
-            File userDataFile = new File(CONSTANTS.PERSISTENCE.USERS);
+            File userDataFile = new File(dataPath + CONSTANTS.PERSISTENCE.USERS);
             try {
                 userListStorage = (ArrayList) StorageLoader.loadStorage(userDataFile);
                 userIdGenerator = new AtomicLong(1000L + Long.valueOf(userListStorage.size()));
