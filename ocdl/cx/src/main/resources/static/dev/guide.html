@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>START</title>
+    <link rel="stylesheet" href="assets2/css/qdxw.css" type="text/css" media="screen"/>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="assets2/js/sliding.form.js"></script>
+    <style>
+        span.reference {
+            position:fixed;
+            left:5px;
+            top:5px;
+            font-size:10px;
+            text-shadow:1px 1px 1px #fff;
+        }
+        span.reference a {
+            color:#555;
+            text-decoration:none;
+            text-transform:uppercase;
+        }
+        span.reference a:hover {
+            color:#000;
+        }
+        h1 {
+            color:#ccc;
+            font-size:36px;
+            text-shadow:1px 1px 1px #fff;
+            padding:20px;
+        }
+    </style>
+</head>
+<body>
+<div id="content">
+    <h1>Project Initialization</h1>
+    <div id="wrapper">
+        <div id="steps">
+            <form id="formElem" name="formElem" action="" method="post">
+                <fieldset class="step">
+                    <legend>Data Directory</legend>
+                    <p>
+                        <label for="username">Data Path</label>
+                        <input id="username" name="username" />
+                    </p>
+                </fieldset>
+                <fieldset class="step">
+                    <legend>Project Information</legend>
+                    <p>
+                        <label for="name">Project Name</label>
+                        <input id="name" name="name" type="text" AUTOCOMPLETE=OFF />
+                    </p>
+                    <p>
+                        <label for="country">Template Path</label>
+                        <input id="country" name="country" type="text" AUTOCOMPLETE=OFF />
+                    </p>
+                    <p>
+                        <label for="phone">Model File Suffix</label>
+                        <input id="phone" name="phone" placeholder="e.g. +351215555555" type="tel" AUTOCOMPLETE=OFF />
+                    </p>
+                    <p>
+                        <label for="website">Algorithm</label>
+                        <input id="website" name="website" placeholder="e.g. http://www.codrops.com" type="tel" AUTOCOMPLETE=OFF />
+                    </p>
+                </fieldset>
+                <fieldset class="step">
+                    <legend>Administrator account</legend>
+                    <p>
+                        <label for="cardnumber">Username</label>
+                        <input id="cardnumber" name="cardnumber" type="text" AUTOCOMPLETE=OFF />
+                    </p>
+                    <p>
+                        <label for="namecard">Password</label>
+                        <input id="namecard" name="namecard" type="password" AUTOCOMPLETE=OFF />
+                    </p>
+                    
+                </fieldset>
+                <fieldset class="step">
+                    <legend>Confirm</legend>
+                    <p> Everything in the form was correctly filled
+                        if all the steps have a green checkmark icon.
+                        A red checkmark icon indicates that some field
+                        is missing or filled out with invalid data. In this
+                        last step the user can confirm the submission of
+                        the form. </p>
+                    <p class="submit">
+                        <button id="registerButton" type="submit">Start</button>
+                    </p>
+                </fieldset>
+            </form>
+        </div>
+        <div id="navigation" style="display:none;">
+            <ul>
+                <li class="selected"> <a href="#">Data Dir</a> </li>
+                <li> <a href="#">Project</a> </li>
+                <li> <a href="#">Administrator User</a> </li>
+                <li> <a href="#">Confirm</a> </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
