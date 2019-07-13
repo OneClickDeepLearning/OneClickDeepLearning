@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.Serializable;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -33,7 +34,7 @@ public class Project extends Storable implements Serializable {
     static void initializeStorage(String dataPath) {
         if (projectDataStorage == null) {
             logger.info("[init] RejectedModelStorage instance initialization executed");
-            File projectDataFile = new File(dataPath + CONSTANTS.PERSISTENCE.PROJECT);
+            File projectDataFile = new File(Paths.get(dataPath, CONSTANTS.PERSISTENCE.PROJECT).toString());
             try {
                 projectDataStorage = (Project) StorageLoader.loadStorage(projectDataFile);
             } catch (NotFoundException nfe) {

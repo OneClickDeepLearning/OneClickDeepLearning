@@ -1,6 +1,7 @@
 package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
+import acceler.ocdl.model.Project;
 import acceler.ocdl.model.StorageLoader;
 import acceler.ocdl.utils.SerializationUtils;
 import org.slf4j.Logger;
@@ -31,6 +32,13 @@ public class PersistenceController {
 
         Response.Builder responseBuilder = getBuilder();
 
+        // if server already start
+        if (Project.getProjectInStorage() != null && Project.getDataPathInStorage() != null) {
+            return responseBuilder.setCode(Response.Code.SUCCESS)
+                    .setData(true).build();
+        }
+
+        // server start
         if (SerializationUtils.existDefaultSerializedFile(defaultDataPath)) {
 
             StorageLoader.initStorage(defaultDataPath);
@@ -42,6 +50,7 @@ public class PersistenceController {
         }
         return responseBuilder.build();
     }
+
 
     @ResponseBody
     @RequestMapping(path = "/", method = RequestMethod.POST)
