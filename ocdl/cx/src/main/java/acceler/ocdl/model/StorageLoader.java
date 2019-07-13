@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 
@@ -38,10 +39,11 @@ public class StorageLoader {
 
     public static void initStorage(String dataPath) {
         logger.info("[init] storage files loading...");
+        Project.initializeStorage(dataPath);
         AbstractUser.initializeStorage(dataPath);
         Algorithm.initializeStorage(dataPath);
         NewModel.initializeStorage(dataPath);
         RejectedModel.initializeStorage(dataPath);
-        Project.initializeStorage(dataPath);
+
     }
 }
