@@ -945,6 +945,8 @@
 
 <script type="text/javascript">
 
+    checkPersistence();
+
 
     var clipboard = new ClipboardJS('.btn-copy');
     clipboard.on('success', function (t) {
@@ -1079,6 +1081,28 @@
         $("#model-download-code").text(code);
         $('#downloadCode').modal();
     }
+
+
+
+    function checkPersistence() {
+        $.ajax({
+            url: "/rest/persistence/",
+            contentType: 'application/json',
+            dataType: "json",
+            type: "GET",
+            timeout: 0,
+            success: function(data){
+                ajaxMessageReader(data,function (data) {
+                    if(data==false){
+                        JumpToWithToken("guide.html");
+                    }
+                })
+            },
+            error: function (data) {
+            }
+        })
+    }
+
 
 
 

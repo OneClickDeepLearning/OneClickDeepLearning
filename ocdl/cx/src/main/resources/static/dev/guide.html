@@ -37,42 +37,53 @@
         <div id="steps">
             <form id="formElem" name="formElem" action="" method="post">
                 <fieldset class="step">
+                    <legend>Start</legend>
+                    <p> Load the data files from an existing directory. </p>
+                    <p class="submit">
+                        <button id="importBtn" type="submit">Import</button>
+                    </p>
+                    <p> Create a brand new project, with new data files. </p>
+                    <p class="submit">
+                        <button id="createBtn" type="submit">Create</button>
+                    </p>
+                </fieldset>
+                <fieldset class="step">
                     <legend>Data Directory</legend>
                     <p>
-                        <label for="username">Data Path</label>
-                        <input id="username" name="username" />
+                        <label for="data_path">Data Path</label>
+                        <input id="data_path" name="data_path" />
                     </p>
                 </fieldset>
                 <fieldset class="step">
                     <legend>Project Information</legend>
                     <p>
                         <label for="name">Project Name</label>
-                        <input id="name" name="name" type="text" AUTOCOMPLETE=OFF />
+                        <input id="name" name="name" placeholder="e.g. NLP-TEST" type="text" AUTOCOMPLETE=OFF />
                     </p>
                     <p>
                         <label for="country">Template Path</label>
-                        <input id="country" name="country" type="text" AUTOCOMPLETE=OFF />
+                        <input id="country" name="templateUrl" placeholder="e.g. /etc/template/" type="text" AUTOCOMPLETE=OFF />
                     </p>
                     <p>
                         <label for="phone">Model File Suffix</label>
-                        <input id="phone" name="phone" placeholder="e.g. +351215555555" type="tel" AUTOCOMPLETE=OFF />
+                        <input id="phone" name="suffix" placeholder="e.g. .model;.tflite" type="tel" AUTOCOMPLETE=OFF />
                     </p>
                     <p>
                         <label for="website">Algorithm</label>
-                        <input id="website" name="website" placeholder="e.g. http://www.codrops.com" type="tel" AUTOCOMPLETE=OFF />
+                        <input id="website" name="algorithm" placeholder="e.g. NLP;Medical;Vision" type="tel" AUTOCOMPLETE=OFF />
                     </p>
                 </fieldset>
                 <fieldset class="step">
                     <legend>Administrator account</legend>
                     <p>
-                        <label for="cardnumber">Username</label>
-                        <input id="cardnumber" name="cardnumber" type="text" AUTOCOMPLETE=OFF />
+                        <label for="username">Username</label>
+                        <input id="username" name="username" type="text" AUTOCOMPLETE=OFF />
                     </p>
                     <p>
-                        <label for="namecard">Password</label>
-                        <input id="namecard" name="namecard" type="password" AUTOCOMPLETE=OFF />
+                        <label for="password">Password</label>
+                        <input id="password" name="password" type="password" AUTOCOMPLETE=OFF />
                     </p>
-                    
+
                 </fieldset>
                 <fieldset class="step">
                     <legend>Confirm</legend>
@@ -90,7 +101,8 @@
         </div>
         <div id="navigation" style="display:none;">
             <ul>
-                <li class="selected"> <a href="#">Data Dir</a> </li>
+                <li class="selected"> <a href="#">Start</a> </li>
+                <li> <a href="#">Data Dir</a> </li>
                 <li> <a href="#">Project</a> </li>
                 <li> <a href="#">Administrator User</a> </li>
                 <li> <a href="#">Confirm</a> </li>
@@ -98,5 +110,46 @@
         </div>
     </div>
 </div>
+
+
+
+
+<script type="text/javascript">
+
+
+    function updateConfiguration() {
+        $.ajax({
+            url: enviorment.API.PROJECT_UPDATE,
+            contentType: 'application/json',
+            dataType: "json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("AUTH_TOKEN", token);
+            },
+            data:
+                JSON.stringify({
+                    projectName: $("#name").val(),
+                    gitPath: $("#git").val(),
+                    k8Url: $("#k8Url").val(),
+                    templatePath: $("#templateUrl").val(),
+                    suffix:$("#suffix").val(),
+                    algorithm:$("#algorithm").val()
+                }),
+            type: "PUT",
+            timeout: 0,
+            success: function(data){
+                ajaxMessageReader(data,function (data) {
+                    $("#projectName").text($("#name").val());
+                    alert("Update Successful");
+                })
+            },
+            error: function (data) {
+            }
+        })
+    }
+
+
+</script>
+
+
 </body>
 </html>

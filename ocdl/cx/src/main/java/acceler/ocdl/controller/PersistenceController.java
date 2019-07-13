@@ -23,7 +23,7 @@ public class PersistenceController {
 
     private static final Logger logger = LoggerFactory.getLogger(PersistenceController.class);
 
-    @Value("${data.path}")
+    @Value("D://resources_cx/persistence")
     public static String defaultDataPath;
 
     @ResponseBody
@@ -31,7 +31,7 @@ public class PersistenceController {
     public final Response existPersistenceFile() {
 
         Response.Builder responseBuilder = getBuilder();
-
+        defaultDataPath = "D://resources_cx/persistence";
         if (SerializationUtils.existDefaultSerializedFile(defaultDataPath)) {
 
             StorageLoader.initStorage(defaultDataPath);
