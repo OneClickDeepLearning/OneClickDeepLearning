@@ -34,10 +34,10 @@ public class RejectedModel extends Model {
         return rejectedModelStorage;
     }
 
-    static void initializeStorage() {
+    static void initializeStorage(String dataPath) {
         if (rejectedModelStorage == null) {
             logger.info("[init] RejectedModelStorage instance initialization executed");
-            File rejectedModelFile = new File(CONSTANTS.PERSISTENCE.REJECTED_MODELS);
+            File rejectedModelFile = new File(dataPath + CONSTANTS.PERSISTENCE.REJECTED_MODELS);
             try {
                 rejectedModelStorage = (ArrayList) StorageLoader.loadStorage(rejectedModelFile);
             } catch (NotFoundException nfe) {
@@ -49,7 +49,7 @@ public class RejectedModel extends Model {
     }
 
     private static void persistence() {
-        File dumpFile = new File(CONSTANTS.PERSISTENCE.REJECTED_MODELS);
+        File dumpFile = new File(Project.getDataPathInStorage() + CONSTANTS.PERSISTENCE.REJECTED_MODELS);
         SerializationUtils.dump(rejectedModelStorage, dumpFile);
     }
 

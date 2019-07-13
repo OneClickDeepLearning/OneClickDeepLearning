@@ -5,10 +5,12 @@ import acceler.ocdl.exception.ExistedException;
 import acceler.ocdl.exception.InitStorageException;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.exception.OcdlException;
+import acceler.ocdl.service.ProjectService;
 import acceler.ocdl.utils.SerializationUtils;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.Serializable;
@@ -24,7 +26,6 @@ public class Algorithm extends Storable implements Serializable {
     private static List<Algorithm> algorithmStorage;
     private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
-
     private static List<Algorithm> getAlgorithmStorage() {
         if (algorithmStorage == null) {
             logger.error("AlgorithmStorage instance is null");
@@ -34,10 +35,10 @@ public class Algorithm extends Storable implements Serializable {
         return algorithmStorage;
     }
 
-    static void initializeStorage() {
+    static void initializeStorage(String dataPath) {
         if (algorithmStorage == null) {
             logger.info("[init] AlgorithmStorage instance initialization executed");
-            File algorithmDataFile = new File(CONSTANTS.PERSISTENCE.ALGORITHMS);
+            File algorithmDataFile = new File(dataPath + CONSTANTS.PERSISTENCE.ALGORITHMS);
             try {
                 algorithmStorage = (ArrayList) StorageLoader.loadStorage(algorithmDataFile);
             } catch (NotFoundException nfe) {
@@ -49,7 +50,7 @@ public class Algorithm extends Storable implements Serializable {
     }
 
     private static void persistence() {
-        File dumpFile = new File(CONSTANTS.PERSISTENCE.ALGORITHMS);
+        File dumpFile = new File(Project.getDataPathInStorage() + CONSTANTS.PERSISTENCE.ALGORITHMS);
         SerializationUtils.dump(algorithmStorage, dumpFile);
     }
 

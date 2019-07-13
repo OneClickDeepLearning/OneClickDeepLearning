@@ -21,26 +21,26 @@ public interface CONSTANTS {
     }
 
     interface PERSISTENCE {
-        String _BASE = "D://resources_cx/persistence";
-        String ALGORITHMS = _BASE + "/algorithms";
-        String PROJECT = _BASE + "/project";
-        String USERS = _BASE + "/users";
-        String USER_ID_GENERATOR = _BASE + "/user_id_generator";
-        String NEW_MODEL = _BASE + "/new_model";
-        String REJECTED_MODELS = _BASE + "/rejected_model";
+//        String _BASE = "D://resources_cx/persistence";
+        String ALGORITHMS = "/algorithms";
+        String PROJECT = "/project";
+        String USERS = "/users";
+        String USER_ID_GENERATOR = "/user_id_generator";
+        String NEW_MODEL = "/new_model";
+        String REJECTED_MODELS = "/rejected_model";
     }
 
     interface IP {
         interface VIRTUAL {
-            String MASTER = "66.131.186.246";
-            String CPU = "66.131.186.246";
-            String GPU = "66.131.186.246";
+            String MASTER = "172.31.24.77";
+            String CPU = "172.31.24.77";
+            String GPU = "172.31.24.77";
         }
 
         interface PUBLIC {
-            String MASTER = "66.131.186.246";
-            String CPU = "66.131.186.246";
-            String GPU = "66.131.186.246";
+            String MASTER = "34.229.75.10";
+            String CPU = "34.229.75.10";
+            String GPU = "34.229.75.10";
         }
     }
 

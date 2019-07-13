@@ -1,23 +1,54 @@
 package acceler.ocdl.utils;
 
+import acceler.ocdl.exception.NotFoundException;
+import acceler.ocdl.exception.OcdlException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.*;
 
 public class SerializationUtils {
+
     public static final Logger logger = LoggerFactory.getLogger(SerializationUtils.class);
+
+    @Value("${data.path}")
+    public static String defaultDataPath;
+
+    public static boolean existDefaultSerializedFile() {
+
+        boolean existSerializedFile = true;
+        File persistanceFile = new File(defaultDataPath);
+
+        if (!persistanceFile.exists()) {
+            existSerializedFile = false;
+        }
+        return existSerializedFile;
+    }
+
+    public static void createSerializedFile(String path) {
+
+        File persistanceFile = new File(path);
+        try {
+            persistanceFile.createNewFile();
+        } catch (IOException ie) {
+            throw new RuntimeException(ie.getMessage());
+        }
+    }
+
 
     public static void dump(Object target, File persistanceFile) throws RuntimeException {
         FileOutputStream fileOutputStream = null;
         ObjectOutputStream objectOutputStream = null;
 
-        try {
-            if (!persistanceFile.exists()) {
-                logger.info("[Serialization] create a serialization file:" + persistanceFile);
-                persistanceFile.createNewFile();
-            }
 
+        if (!persistanceFile.exists()) {
+//            logger.info("[Serialization] create a serialization file:" + persistanceFile);
+//                persistanceFile.createNewFile();
+            throw new NotFoundException("PersistanceFile not found");
+        }
+
+        try {
             fileOutputStream = new FileOutputStream(persistanceFile);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(target);

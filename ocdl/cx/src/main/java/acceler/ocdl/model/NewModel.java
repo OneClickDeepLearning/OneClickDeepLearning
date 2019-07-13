@@ -33,10 +33,10 @@ public class NewModel extends Model {
         return newModelStorage;
     }
 
-    static void initializeStorage() {
+    static void initializeStorage(String dataPath) {
         if (newModelStorage == null) {
             logger.info("[init] NewModelStorage instance initialization executed");
-            File newModelsFile = new File(CONSTANTS.PERSISTENCE.NEW_MODEL);
+            File newModelsFile = new File(dataPath + CONSTANTS.PERSISTENCE.NEW_MODEL);
             try {
                 newModelStorage = (ArrayList) StorageLoader.loadStorage(newModelsFile);
             } catch (NotFoundException nfe) {
@@ -83,7 +83,7 @@ public class NewModel extends Model {
     }
 
     private static void persistence() {
-        File dumpFile = new File(CONSTANTS.PERSISTENCE.NEW_MODEL);
+        File dumpFile = new File(Project.getDataPathInStorage() + CONSTANTS.PERSISTENCE.NEW_MODEL);
         SerializationUtils.dump(getNewModelStorage(), dumpFile);
     }
 

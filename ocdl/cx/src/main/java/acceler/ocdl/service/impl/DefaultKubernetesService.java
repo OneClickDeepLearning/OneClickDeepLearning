@@ -7,6 +7,8 @@ import acceler.ocdl.model.AbstractUser;
 import acceler.ocdl.model.Project;
 import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.KubernetesService;
+import io.fabric8.kubernetes.api.model.Namespace;
+import io.fabric8.kubernetes.api.model.NamespaceBuilder;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
@@ -43,8 +45,7 @@ public class DefaultKubernetesService implements KubernetesService {
         }
     };
 
-    private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + CONSTANTS.IP.VIRTUAL.MASTER + ":6443").build());
-
+    private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + CONSTANTS.IP.VIRTUAL.MASTER + ":6443").withTrustCerts(true).withOauthToken("j8q5j3.zfnjcs9vdk76y4b5").build());
 
     private String getUserSpace(AbstractUser user){
         return (CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(user.getUserId()))).toLowerCase();
@@ -104,6 +105,7 @@ public class DefaultKubernetesService implements KubernetesService {
         String ip;
         String port;
 
+        System.out.println("===========================");
         createCpuDeployment(user);
 
         io.fabric8.kubernetes.api.model.Service service = createCpuService(user);
@@ -134,6 +136,11 @@ public class DefaultKubernetesService implements KubernetesService {
 
     private Deployment createCpuDeployment(AbstractUser user) {
         String depolyId = getUserSpace(user);
+
+        System.out.println(user.getUserId());
+        System.out.println("++++++++++++++++++++++++");
+        System.out.println(depolyId);
+
         Deployment deployment = new DeploymentBuilder()
                 .withApiVersion("apps/v1")
                 .withKind("Deployment")
@@ -151,7 +158,6 @@ public class DefaultKubernetesService implements KubernetesService {
                 .addToLabels("app", depolyId + "-deploy-cpu")
                 .endMetadata()
                 .withNewSpec()
-                .withNodeName(CONSTANTS.IP.VIRTUAL.GPU)//GPU node address
                 .addNewContainer()
                 .withName("jupyter" + depolyId)
                 .withImage("app:cpu")
@@ -189,7 +195,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .build();
 
         try {
-            deployment = client.apps().deployments().inNamespace("default").create(deployment);
+          deployment = client.apps().deployments().inNamespace("default").create(deployment);
         } catch (KubernetesClientException e) {
             throw new KuberneteException(e.getMessage());
         }
@@ -215,7 +221,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .addToLabels("app", depolyId + "-deploy-gpu")
                 .endMetadata()
                 .withNewSpec()
-                .withNodeName(CONSTANTS.IP.VIRTUAL.GPU)//GPU node address
+                //.withNodeName(CONSTANTS.IP.VIRTUAL.GPU)//GPU node address
                 .addNewContainer()
                 .withName("jupyter" + depolyId)
                 .withImage("app:gpu")
