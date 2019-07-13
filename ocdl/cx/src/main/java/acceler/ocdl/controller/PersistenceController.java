@@ -2,7 +2,6 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.model.StorageLoader;
-import acceler.ocdl.service.ProjectService;
 import acceler.ocdl.utils.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +23,6 @@ public class PersistenceController {
 
     private static final Logger logger = LoggerFactory.getLogger(PersistenceController.class);
 
-    @Autowired
-    private ProjectService projectService;
-
     @Value("${data.path}")
     public static String defaultDataPath;
 
@@ -36,7 +32,7 @@ public class PersistenceController {
 
         Response.Builder responseBuilder = getBuilder();
 
-        if (SerializationUtils.existDefaultSerializedFile()) {
+        if (SerializationUtils.existDefaultSerializedFile(defaultDataPath)) {
 
             StorageLoader.initStorage(defaultDataPath);
             responseBuilder.setCode(Response.Code.SUCCESS)
