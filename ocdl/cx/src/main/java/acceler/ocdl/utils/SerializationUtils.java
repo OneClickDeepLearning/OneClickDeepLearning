@@ -36,14 +36,12 @@ public class SerializationUtils {
         FileOutputStream fileOutputStream = null;
         ObjectOutputStream objectOutputStream = null;
 
-
-        if (!persistanceFile.exists()) {
-//            logger.info("[Serialization] create a serialization file:" + persistanceFile);
-//                persistanceFile.createNewFile();
-            throw new NotFoundException("PersistanceFile not found");
-        }
-
         try {
+            if (!persistanceFile.exists()) {
+                logger.info("[Serialization] create a serialization file:" + persistanceFile);
+                    persistanceFile.createNewFile();
+            }
+
             fileOutputStream = new FileOutputStream(persistanceFile);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(target);
