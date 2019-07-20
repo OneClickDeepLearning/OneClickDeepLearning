@@ -68,5 +68,34 @@ function updateConfiguration() {
     })
 }
 
+function updateConfiguration(projectName,gitPath,k8Url,templatePath,suffix,algorithm,func) {
+    $.ajax({
+        url: enviorment.API.PROJECT_UPDATE,
+        contentType: 'application/json',
+        dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("AUTH_TOKEN", token);
+        },
+        data:
+            JSON.stringify({
+                projectName: projectName,
+                gitPath: gitPath,
+                k8Url: k8Url,
+                templatePath: templatePath,
+                suffix:suffix,
+                algorithm:algorithm
+            }),
+        type: "PUT",
+        timeout: 0,
+        success: function(data){
+            ajaxMessageReader(data,function (data) {
+                func(data);
+            })
+        },
+        error: function (data) {
+        }
+    })
+}
+
 
 

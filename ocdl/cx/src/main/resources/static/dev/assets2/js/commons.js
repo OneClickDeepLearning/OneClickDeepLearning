@@ -147,3 +147,7 @@ function ajaxMessageReader(response, func){
     }
 
 }
+
+function changeAgentContent() {
+    document.getElementById("fileAgent").value = document.getElementById("file").value;
+}

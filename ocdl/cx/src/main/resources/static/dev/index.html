@@ -861,7 +861,7 @@
 
                                             <div class="col-md-7">
                                                 File:<input type="file" id="file" name="file" style="display:none"
-                                                            onchange="changeAgentContent()"/>
+                                                            onchange="changeAgentContent()" />
                                                 <input type="text" value="" disabled id="fileAgent"
                                                        style="color: black"/>
                                                 <input type="button"
@@ -958,10 +958,6 @@
     });
 
 
-
-    function changeAgentContent() {
-        document.getElementById("fileAgent").value = document.getElementById("file").value;
-    }
 
     function upload() {
         var url = "";
