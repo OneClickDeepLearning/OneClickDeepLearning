@@ -41,6 +41,8 @@
 
 <div id="content">
     <h1>Project Initialization</h1>
+    <input type="file" id="file" value="D://Project/users" name="file" style="display:none"
+           onchange="changeAgentContent()" />
 
     <div id="wrapper" >
         <div id="steps">
@@ -48,8 +50,7 @@
                 <fieldset class="step">
                     <legend>Start</legend>
                     <p> Load the data files from an existing directory. </p>
-                    <p style="text-align: left"><input type="file" id="file" name="file" style="display:none"
-                                  onchange="changeAgentContent()" />
+                    <p style="text-align: left">
                       <label style="width: auto">File:</label>  <input type="text" value="D://Project/users" id="fileAgent"
                                style="color: black"/>      <input type="button"
                                                                   onclick="document.getElementById('file').click()"
