@@ -51,7 +51,7 @@ public class Algorithm extends Storable implements Serializable {
     }
 
     private static void persistence() {
-        File dumpFile = new File(Project.getDataPathInStorage() + CONSTANTS.PERSISTENCE.ALGORITHMS);
+        File dumpFile = new File(Paths.get(Project.getDataPathInStorage(), CONSTANTS.PERSISTENCE.ALGORITHMS).toString());
         SerializationUtils.dump(algorithmStorage, dumpFile);
     }
 

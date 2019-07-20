@@ -50,7 +50,7 @@ public class RejectedModel extends Model {
     }
 
     private static void persistence() {
-        File dumpFile = new File(Project.getDataPathInStorage() + CONSTANTS.PERSISTENCE.REJECTED_MODELS);
+        File dumpFile = new File(Paths.get(Project.getDataPathInStorage(), CONSTANTS.PERSISTENCE.REJECTED_MODELS).toString());
         SerializationUtils.dump(rejectedModelStorage, dumpFile);
     }
 

@@ -37,7 +37,7 @@ public abstract class AbstractUser extends Storable implements Serializable {
     }
 
     private static void persistence() {
-        File dumpFile = new File(Project.getDataPathInStorage() + CONSTANTS.PERSISTENCE.USERS);
+        File dumpFile = new File(Paths.get(Project.getDataPathInStorage(), CONSTANTS.PERSISTENCE.USERS).toString());
         SerializationUtils.dump(userListStorage, dumpFile);
     }
 

@@ -84,7 +84,7 @@ public class NewModel extends Model {
     }
 
     private static void persistence() {
-        File dumpFile = new File(Project.getDataPathInStorage() + CONSTANTS.PERSISTENCE.NEW_MODEL);
+        File dumpFile = new File(Paths.get(Project.getDataPathInStorage(), CONSTANTS.PERSISTENCE.NEW_MODEL).toString());
         SerializationUtils.dump(getNewModelStorage(), dumpFile);
     }
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class DefaultTemplateService implements TemplateService {
     @Override
     public List<String> getTemplatesList(String type) {
 
-        List<String> templatesList = getFile(projectService.getProjectConfiguration().getTemplatePath() + type);
+        List<String> templatesList = getFile(Paths.get(projectService.getProjectConfiguration().getTemplatePath(), type).toString());
         return templatesList;
     }
 

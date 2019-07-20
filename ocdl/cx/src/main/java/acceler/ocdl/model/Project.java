@@ -50,7 +50,7 @@ public class Project extends Storable implements Serializable {
     }
 
     private static void persistence() {
-        File dumpFile = new File(getDataPathInStorage() + CONSTANTS.PERSISTENCE.PROJECT);
+        File dumpFile = new File(Paths.get(getDataPathInStorage(), CONSTANTS.PERSISTENCE.PROJECT).toString());
         SerializationUtils.dump(projectDataStorage, dumpFile);
     }
 
