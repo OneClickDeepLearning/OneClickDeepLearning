@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.Serializable;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -38,7 +39,7 @@ public class Algorithm extends Storable implements Serializable {
     static void initializeStorage(String dataPath) {
         if (algorithmStorage == null) {
             logger.info("[init] AlgorithmStorage instance initialization executed");
-            File algorithmDataFile = new File(dataPath + CONSTANTS.PERSISTENCE.ALGORITHMS);
+            File algorithmDataFile = new File(Paths.get(dataPath, CONSTANTS.PERSISTENCE.ALGORITHMS).toString());
             try {
                 algorithmStorage = (ArrayList) StorageLoader.loadStorage(algorithmDataFile);
             } catch (NotFoundException nfe) {
@@ -50,7 +51,7 @@ public class Algorithm extends Storable implements Serializable {
     }
 
     private static void persistence() {
-        File dumpFile = new File(Project.getDataPathInStorage() + CONSTANTS.PERSISTENCE.ALGORITHMS);
+        File dumpFile = new File(Paths.get(Project.getDataPathInStorage(), CONSTANTS.PERSISTENCE.ALGORITHMS).toString());
         SerializationUtils.dump(algorithmStorage, dumpFile);
     }
 

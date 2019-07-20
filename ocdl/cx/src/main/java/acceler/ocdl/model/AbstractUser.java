@@ -37,7 +37,7 @@ public abstract class AbstractUser extends Storable implements Serializable {
     }
 
     private static void persistence() {
-        File dumpFile = new File(Project.getDataPathInStorage() + CONSTANTS.PERSISTENCE.USERS);
+        File dumpFile = new File(Paths.get(Project.getDataPathInStorage(), CONSTANTS.PERSISTENCE.USERS).toString());
         SerializationUtils.dump(userListStorage, dumpFile);
     }
 
@@ -56,7 +56,7 @@ public abstract class AbstractUser extends Storable implements Serializable {
     static void initializeStorage(String dataPath) {
         if (userListStorage == null) {
             logger.info("[init] SerListStorage instance initialization executed");
-            File userDataFile = new File(dataPath + CONSTANTS.PERSISTENCE.USERS);
+            File userDataFile = new File(Paths.get(dataPath, CONSTANTS.PERSISTENCE.USERS).toString());
             try {
                 userListStorage = (ArrayList) StorageLoader.loadStorage(userDataFile);
                 userIdGenerator = new AtomicLong(1000L + Long.valueOf(userListStorage.size()));

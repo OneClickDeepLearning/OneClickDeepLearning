@@ -1,6 +1,8 @@
 package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
+import acceler.ocdl.exception.OcdlException;
+import acceler.ocdl.model.Project;
 import acceler.ocdl.model.StorageLoader;
 import acceler.ocdl.utils.SerializationUtils;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.File;
 import java.util.Map;
 
 import static acceler.ocdl.dto.Response.getBuilder;
@@ -31,6 +34,14 @@ public class PersistenceController {
 
         Response.Builder responseBuilder = getBuilder();
         defaultDataPath = "D://resources_cx/persistence";
+
+        // if server already start
+        if (Project.getProjectInStorage() != null && Project.getDataPathInStorage() != null) {
+            return responseBuilder.setCode(Response.Code.SUCCESS)
+                    .setData(true).build();
+        }
+
+        // server start
         if (SerializationUtils.existDefaultSerializedFile(defaultDataPath)) {
 
             StorageLoader.initStorage(defaultDataPath);
@@ -42,6 +53,7 @@ public class PersistenceController {
         }
         return responseBuilder.build();
     }
+
 
     @ResponseBody
     @RequestMapping(path = "/", method = RequestMethod.POST)
@@ -61,9 +73,34 @@ public class PersistenceController {
     public final Response importPersistenceFile(@RequestBody Map<String, String> dataPath) {
 
         Response.Builder responseBuilder = getBuilder();
+        String directory = dataPath.get("path").substring(0, dataPath.get("path").lastIndexOf("/"));
 
-        StorageLoader.initStorage(dataPath.get("path"));
+        File serializedFile = new File(directory);
+        File[] serializedFiles = serializedFile.listFiles();
+
+        // check the validation of imported file
+        boolean hasProject = false;
+        boolean hasUser = false;
+        for (File f : serializedFiles) {
+            if (hasProject == true && hasUser == true) {
+                break;
+            }
+
+            if (hasProject == false && f.getName().equals("")) {
+                hasProject = true;
+            }
+            if (hasUser == false && f.getName().equals("")) {
+                hasUser = true;
+            }
+        }
+        if (hasProject == true && hasUser == true) {
+            StorageLoader.initStorage(directory);
+        } else {
+            throw new OcdlException("Import file error!");
+        }
 
         return responseBuilder.setCode(Response.Code.SUCCESS).build();
     }
+
+
 }

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +37,7 @@ public class NewModel extends Model {
     static void initializeStorage(String dataPath) {
         if (newModelStorage == null) {
             logger.info("[init] NewModelStorage instance initialization executed");
-            File newModelsFile = new File(dataPath + CONSTANTS.PERSISTENCE.NEW_MODEL);
+            File newModelsFile = new File(Paths.get(dataPath, CONSTANTS.PERSISTENCE.NEW_MODEL).toString());
             try {
                 newModelStorage = (ArrayList) StorageLoader.loadStorage(newModelsFile);
             } catch (NotFoundException nfe) {
@@ -83,7 +84,7 @@ public class NewModel extends Model {
     }
 
     private static void persistence() {
-        File dumpFile = new File(Project.getDataPathInStorage() + CONSTANTS.PERSISTENCE.NEW_MODEL);
+        File dumpFile = new File(Paths.get(Project.getDataPathInStorage(), CONSTANTS.PERSISTENCE.NEW_MODEL).toString());
         SerializationUtils.dump(getNewModelStorage(), dumpFile);
     }
 
