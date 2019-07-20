@@ -368,35 +368,6 @@ function signUp() {
 }
 
 
-function signUp(username,password,role, func) {
-    if(key == null ||key ==''){
-        getPublicKey();
-    }
-
-    $.ajax({
-        url:enviorment.API.REGISTER,
-        type: "POST",
-        contentType: 'application/json',
-        data:
-            JSON.stringify({
-                username: username,
-                password:password,
-                role:role
-            }),
-        dataType: "json",
-        error: function(request) {
-            alert("Connection error");
-        },
-        success: function(data) {
-            ajaxMessageReader(data,function (data) {
-                func(data)
-            })
-        }
-
-    })
-}
-
-
 
 function getCode(name,type) {
     $.ajax({

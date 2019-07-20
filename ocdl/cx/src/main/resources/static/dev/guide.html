@@ -5,7 +5,11 @@
     <title>START</title>
     <link rel="stylesheet" href="assets2/css/qdxw.css" type="text/css" media="screen"/>
     <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="assets2/js/enviroment.js"></script>
+    <script src="assets2/js/jsencrypt.min.js"></script>
     <script type="text/javascript" src="assets2/js/sliding.form.js"></script>
+    <script src="assets2/js/commons.js"></script>
+    <script src="assets2/js/index.js"></script>
     <style>
         span.reference {
             position:fixed;
@@ -31,20 +35,32 @@
     </style>
 </head>
 <body>
+
+
+
+
 <div id="content">
     <h1>Project Initialization</h1>
-    <div id="wrapper">
+
+    <div id="wrapper" >
         <div id="steps">
             <form id="formElem" name="formElem" action="" method="post">
                 <fieldset class="step">
                     <legend>Start</legend>
                     <p> Load the data files from an existing directory. </p>
+                    <p style="text-align: left"><input type="file" id="file" name="file" style="display:none"
+                                  onchange="changeAgentContent()" />
+                      <label style="width: auto">File:</label>  <input type="text" value="D://Project/users" id="fileAgent"
+                               style="color: black"/>      <input type="button"
+                                                                  onclick="document.getElementById('file').click()"
+                                                                  value="Browse..." style="color: black; width: 100px; background-color: #4797ED; color: #FFFFFF; margin-left: 5px;"/>
+                    </p>
                     <p class="submit">
-                        <button id="importBtn" type="submit">Import</button>
+                        <button id="importBtn" type="button"  onclick="importPersistence()">Import</button>
                     </p>
                     <p> Create a brand new project, with new data files. </p>
                     <p class="submit">
-                        <button id="createBtn" type="submit">Create</button>
+                        <button id="createBtn" type="button" onclick="$('#data_dir_li').click()">Create</button>
                     </p>
                 </fieldset>
                 <fieldset class="step">
@@ -57,20 +73,20 @@
                 <fieldset class="step">
                     <legend>Project Information</legend>
                     <p>
-                        <label for="name">Project Name</label>
-                        <input id="name" name="name" placeholder="e.g. NLP-TEST" type="text" AUTOCOMPLETE=OFF />
+                        <label for="project_name">Project Name</label>
+                        <input id="project_name" name="project_name" placeholder="e.g. NLP-TEST" type="text" AUTOCOMPLETE=OFF />
                     </p>
                     <p>
-                        <label for="country">Template Path</label>
-                        <input id="country" name="templateUrl" placeholder="e.g. /etc/template/" type="text" AUTOCOMPLETE=OFF />
+                        <label for="template_path">Template Path</label>
+                        <input id="template_path" name="template_path" placeholder="e.g. /etc/template/" type="text" AUTOCOMPLETE=OFF />
                     </p>
                     <p>
-                        <label for="phone">Model File Suffix</label>
-                        <input id="phone" name="suffix" placeholder="e.g. .model;.tflite" type="tel" AUTOCOMPLETE=OFF />
+                        <label for="suffix">Model File Suffix</label>
+                        <input id="suffix" name="suffix" placeholder="e.g. .model;.tflite" type="tel" AUTOCOMPLETE=OFF />
                     </p>
                     <p>
-                        <label for="website">Algorithm</label>
-                        <input id="website" name="algorithm" placeholder="e.g. NLP;Medical;Vision" type="tel" AUTOCOMPLETE=OFF />
+                        <label for="algorithm">Algorithm</label>
+                        <input id="algorithm" name="algorithm" placeholder="e.g. NLP;Medical;Vision" type="tel" AUTOCOMPLETE=OFF />
                     </p>
                 </fieldset>
                 <fieldset class="step">
@@ -84,6 +100,7 @@
                         <input id="password" name="password" type="password" AUTOCOMPLETE=OFF />
                     </p>
 
+
                 </fieldset>
                 <fieldset class="step">
                     <legend>Confirm</legend>
@@ -94,7 +111,7 @@
                         last step the user can confirm the submission of
                         the form. </p>
                     <p class="submit">
-                        <button id="registerButton" type="submit">Start</button>
+                        <button id="registerButton" type="button" onclick="createPersistence()">Start</button>
                     </p>
                 </fieldset>
             </form>
@@ -102,7 +119,7 @@
         <div id="navigation" style="display:none;">
             <ul>
                 <li class="selected"> <a href="#">Start</a> </li>
-                <li> <a href="#">Data Dir</a> </li>
+                <li> <a id="data_dir_li" href="#">Data Dir</a> </li>
                 <li> <a href="#">Project</a> </li>
                 <li> <a href="#">Administrator User</a> </li>
                 <li> <a href="#">Confirm</a> </li>
@@ -117,36 +134,65 @@
 <script type="text/javascript">
 
 
-    function updateConfiguration() {
+    function createPersistence() {
+        let projectName = $("#project_name").val();
+        let templatePath = $("#template_path").val();
+        let suffix = $("#suffix").val();
+        let algorithm = $("#algorithm").val();
+
+        //get the public key
+        if(key==null||key==""){
+            getPublicKey();
+        }
+        let username = $("#username").val();
+        let password =Encrypt($("#password").val());
+        let role = "manager";
+        let path = $("#fileAgent").val();
+
+
         $.ajax({
-            url: enviorment.API.PROJECT_UPDATE,
+            url: "/rest/persistence/",
             contentType: 'application/json',
             dataType: "json",
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("AUTH_TOKEN", token);
-            },
             data:
                 JSON.stringify({
-                    projectName: $("#name").val(),
-                    gitPath: $("#git").val(),
-                    k8Url: $("#k8Url").val(),
-                    templatePath: $("#templateUrl").val(),
-                    suffix:$("#suffix").val(),
-                    algorithm:$("#algorithm").val()
+                    path: path
+                }),
+            type: "POST",
+            timeout: 0,
+            success: function(data){
+                ajaxMessageReader(data,function (data) {
+                    modifyConfiguration(projectName,"","",templatePath,suffix,algorithm,function () {
+                        createAccount(username,password,role, function () {
+                            window.confirm("Project create successful!");
+                            JumpToWithToken("index.html");
+                        })
+                    })
+                })
+            },
+        })
+    }
+
+
+    function importPersistence() {
+        $.ajax({
+            url: "/rest/persistence/",
+            contentType: 'application/json',
+            dataType: "json",
+            data:
+                JSON.stringify({
+                    path: $("#fileAgent").val()
                 }),
             type: "PUT",
             timeout: 0,
             success: function(data){
                 ajaxMessageReader(data,function (data) {
-                    $("#projectName").text($("#name").val());
-                    alert("Update Successful");
+                    window.confirm("Project import successful!");
+                    JumpToWithToken("index.html");
                 })
             },
-            error: function (data) {
-            }
         })
     }
-
 
 </script>
 
