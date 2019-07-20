@@ -25,7 +25,7 @@ public class PersistenceController {
 
     private static final Logger logger = LoggerFactory.getLogger(PersistenceController.class);
 
-    @Value("D://resources_cx/persistence")
+    @Value("/User/ivy")
     public static String defaultDataPath;
 
     @ResponseBody
@@ -33,10 +33,10 @@ public class PersistenceController {
     public final Response existPersistenceFile() {
 
         Response.Builder responseBuilder = getBuilder();
-        defaultDataPath = "D://resources_cx/persistence";
+        defaultDataPath = "/User/ivy";
 
         // if server already start
-        if (Project.getProjectInStorage() != null && Project.getDataPathInStorage() != null) {
+        if (Project.existProjectInStorage() == true && Project.getDataPathInStorage() != null) {
             return responseBuilder.setCode(Response.Code.SUCCESS)
                     .setData(true).build();
         }

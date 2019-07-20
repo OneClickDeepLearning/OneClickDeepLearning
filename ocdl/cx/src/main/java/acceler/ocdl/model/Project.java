@@ -58,6 +58,10 @@ public class Project extends Storable implements Serializable {
         return getProjectDataStorage().deepCopy();
     }
 
+    public static boolean existProjectInStorage() {
+        return projectDataStorage == null? false : true;
+    }
+
     public static void setProjectDataStorage(Project projectInfo) {
         Project realProjectData = getProjectDataStorage();
 
