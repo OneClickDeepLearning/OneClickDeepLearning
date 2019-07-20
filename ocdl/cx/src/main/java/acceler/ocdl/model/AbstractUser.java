@@ -62,7 +62,7 @@ public abstract class AbstractUser extends Storable implements Serializable {
                 userIdGenerator = new AtomicLong(1000L + Long.valueOf(userListStorage.size()));
             } catch (NotFoundException nfe) {
                 userListStorage = new ArrayList<>();
-                createAdmin();
+//                createAdmin();
             }
         }
 
