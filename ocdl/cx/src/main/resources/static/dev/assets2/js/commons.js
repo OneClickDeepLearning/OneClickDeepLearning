@@ -147,3 +147,68 @@ function ajaxMessageReader(response, func){
     }
 
 }
+
+function changeAgentContent() {
+    document.getElementById("fileAgent").value = document.getElementById("file").value;
+}
+
+
+
+//TODO replace the sinup function to this
+function createAccount(username,password,role, func) {
+    if(key == null ||key ==''){
+        getPublicKey();
+    }
+
+    $.ajax({
+        url:enviorment.API.REGISTER,
+        type: "POST",
+        contentType: 'application/json',
+        data:
+            JSON.stringify({
+                username: username,
+                password:password,
+                role:role
+            }),
+        dataType: "json",
+        error: function(request) {
+            alert("Connection error");
+        },
+        success: function(data) {
+            ajaxMessageReader(data,function (data) {
+                func(data)
+            })
+        }
+
+    })
+}
+
+//TODO replace the updateConfiguration function to this
+function modifyConfiguration(projectName,gitPath,k8Url,templatePath,suffix,algorithm,func) {
+    $.ajax({
+        url: enviorment.API.PROJECT_UPDATE,
+        contentType: 'application/json',
+        dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("AUTH_TOKEN", token);
+        },
+        data:
+            JSON.stringify({
+                projectName: projectName,
+                gitPath: gitPath,
+                k8Url: k8Url,
+                templatePath: templatePath,
+                suffix:suffix,
+                algorithm:algorithm
+            }),
+        type: "PUT",
+        timeout: 0,
+        success: function(data){
+            ajaxMessageReader(data,function (data) {
+                func(data);
+            })
+        },
+        error: function (data) {
+        }
+    })
+}
