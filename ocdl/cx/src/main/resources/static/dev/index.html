@@ -438,7 +438,7 @@
 
                         <div role="tabpanel" class="tab-pane fade" id="Section2">
                             <iframe id="fileFrame" sandbox="allow-forms allow-same-origin allow-scripts"
-                                    src="http://3.89.28.106:19999/overview"
+                                    src=""
                                     style="height:550px; width:100%"></iframe>
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="Section3">
@@ -945,6 +945,8 @@
 
 <script type="text/javascript">
 
+    checkPersistence();
+
 
     var clipboard = new ClipboardJS('.btn-copy');
     clipboard.on('success', function (t) {
@@ -1079,6 +1081,28 @@
         $("#model-download-code").text(code);
         $('#downloadCode').modal();
     }
+
+
+
+    function checkPersistence() {
+        $.ajax({
+            url: "/rest/persistence/",
+            contentType: 'application/json',
+            dataType: "json",
+            type: "GET",
+            timeout: 0,
+            success: function(data){
+                ajaxMessageReader(data,function (data) {
+                    if(data==false){
+                        JumpToWithToken("guide.html");
+                    }
+                })
+            },
+            error: function (data) {
+            }
+        })
+    }
+
 
 
 
