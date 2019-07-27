@@ -143,7 +143,10 @@ function ajaxMessageReader(response, func){
     if(response.code=="200"){
         func(response.data);
     }else{
-        alert(response.message);
+        if(response.message!=null){
+            alert(response.message);
+        }
+
     }
 
 }

@@ -70,7 +70,6 @@ public class AuthController {
     @ResponseBody
     public Response login(@RequestBody UserCredentials credential) {
         boolean success;
-        System.out.println(credential.account+" + "+credential.password);
         if (StringUtils.isEmpty(credential.account) || StringUtils.isEmpty(credential.password)) {
             success = false;
         } else {

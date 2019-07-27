@@ -46,6 +46,13 @@ public class DefaultModelServiceImpl implements ModelService {
 
     @Value("${S3.server.bucketName}")
     private String bucketName;
+    @Value("${APPLICATIONS_DIR.USER_SPACE}")
+    private String applicationsDirUserSpace;
+    @Value("${APPLICATIONS_DIR.STAGE_SPACE}")
+    private String getApplicationsDirStageSpace;
+    @Value("${KAFKA.TOPIC}")
+    private String kafkaTopic;
+
 
     @Override
     public Map<String, Integer> initModelToStage(InnerUser innerUser) {
@@ -55,7 +62,7 @@ public class DefaultModelServiceImpl implements ModelService {
         initRecords.put("successUpload", 0);
         initRecords.put("failUpload", 0);
 
-        final String userSpaceName = CONSTANTS.APPLICATIONS_DIR.USER_SPACE + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(innerUser.getUserId()));
+        final String userSpaceName = applicationsDirUserSpace + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(innerUser.getUserId()));
         final File userSpace = new File(userSpaceName);
 
         if (userSpace.isDirectory()) {
@@ -81,7 +88,7 @@ public class DefaultModelServiceImpl implements ModelService {
 
                         String suffix = f.getName().substring(f.getName().lastIndexOf(".")+1);
 
-                        String stagedFilePath = Paths.get(CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE,CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{modelId}",
+                        String stagedFilePath = Paths.get(getApplicationsDirStageSpace,CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{modelId}",
                                 modelId.toString()).replace("{suffix}", suffix)).toString();
 
                         hdfsService.uploadFile(new Path(f.getPath()), new Path(stagedFilePath));
@@ -233,7 +240,7 @@ public class DefaultModelServiceImpl implements ModelService {
     private Optional<File> existModelFile(ApprovedModel model, InnerUser innerUser) {
         File modelFile = null;
 
-        final String userSpaceName = CONSTANTS.APPLICATIONS_DIR.USER_SPACE + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(innerUser.getUserId()));
+        final String userSpaceName = applicationsDirUserSpace + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(innerUser.getUserId()));
         final File userSpace = new File(userSpaceName);
 
         if (userSpace.isDirectory()) {
@@ -271,7 +278,7 @@ public class DefaultModelServiceImpl implements ModelService {
         String message = CONSTANTS.KAFKA.MESSAGE.replace("{publishedModelName}", publishedModelName).replace("{modelUrl}",storageService.getObkectUrl(bucketName, publishedModelName));
         System.out.println("+++++++++++++++++++++++++++++++++++++++");
         System.out.println(message);
-        messageQueueService.send(CONSTANTS.KAFKA.TOPIC, message);
+        messageQueueService.send(kafkaTopic, message);
 
         Algorithm algorithm = Algorithm.getAlgorithmOfApprovedModel(model);
         System.out.println(algorithm.getAlgorithmName());
