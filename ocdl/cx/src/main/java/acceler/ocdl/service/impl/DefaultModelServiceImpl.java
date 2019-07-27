@@ -35,9 +35,6 @@ public class DefaultModelServiceImpl implements ModelService {
 
     private static final Logger log = Logger.getLogger(DefaultModelServiceImpl.class);
 
-//    @Autowired
-//    private CommandHelper commandHelper;
-
     @Autowired
     private HdfsService hdfsService;
 
@@ -49,11 +46,23 @@ public class DefaultModelServiceImpl implements ModelService {
 
     @Value("${S3.server.bucketName}")
     private String bucketName;
+    @Value("${APPLICATIONS_DIR.USER_SPACE}")
+    private String applicationsDirUserSpace;
+    @Value("${APPLICATIONS_DIR.STAGE_SPACE}")
+    private String getApplicationsDirStageSpace;
+    @Value("${KAFKA.TOPIC}")
+    private String kafkaTopic;
+
 
     @Override
-    public void initModelToStage(InnerUser innerUser) {
+    public Map<String, Integer> initModelToStage(InnerUser innerUser) {
 
-        final String userSpaceName = CONSTANTS.APPLICATIONS_DIR.USER_SPACE + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(innerUser.getUserId()));
+        Map<String, Integer> initRecords = new HashMap<>();
+        initRecords.put("finded", 0);
+        initRecords.put("successUpload", 0);
+        initRecords.put("failUpload", 0);
+
+        final String userSpaceName = applicationsDirUserSpace + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(innerUser.getUserId()));
         final File userSpace = new File(userSpaceName);
 
         if (userSpace.isDirectory()) {
@@ -65,31 +74,38 @@ public class DefaultModelServiceImpl implements ModelService {
                 log.error(String.format("fail in reading directory: %s", userSpaceName));
                 throw new OcdlException(String.format("fail in reading directory: %s", userSpaceName));
             }
-            int current = 0;
-            try {
-                for (; current < files.length; current++) {
-                    File f = files[current];
 
-                    if (!f.isDirectory() && isModelFile(suffixes, f.getName())) {
+            int current = 0;
+
+            for (; current < files.length; current++) {
+                File f = files[current];
+
+                if (!f.isDirectory() && isModelFile(suffixes, f.getName())) {
+                    initRecords.put("finded", (int)initRecords.get("finded")+1);
+
+                    try {
                         Long modelId = Model.generateModelId();
 
                         String suffix = f.getName().substring(f.getName().lastIndexOf(".")+1);
 
-                        String stagedFilePath = Paths.get(CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE,CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{modelId}",
+                        String stagedFilePath = Paths.get(getApplicationsDirStageSpace,CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{modelId}",
                                 modelId.toString()).replace("{suffix}", suffix)).toString();
 
                         hdfsService.uploadFile(new Path(f.getPath()), new Path(stagedFilePath));
                         persistNewModel(f, modelId, suffix);
+                        initRecords.put("successUpload", (int)initRecords.get("successUpload")+1);
+
+                    } catch (HdfsException e) {
+                        initRecords.put("failUpload", (int) initRecords.get("failUpload") + 1);
+                        log.error(String.format("Fail to init %s to new model", f.getName()));
+                        continue;
                     }
                 }
-            } catch (HdfsException e) {
-                e.printStackTrace();
-                log.error(String.format("fail to create new model, because %s failed to move to stage space", files[current].getName()));
-                throw new OcdlException(String.format("fail to create new model, because %s failed to move to stage space", files[current].getName()));
             }
         } else {
             throw new NotFoundException(String.format("%s, Fail to find user space.", innerUser.getUserId()));
         }
+        return initRecords;
     }
 
     private void persistNewModel(File modelFile, Long modelId, String suffix) {
@@ -111,45 +127,12 @@ public class DefaultModelServiceImpl implements ModelService {
         NewModel.removeFromStorage(model.getModelId());
     }
 
-//    private void cleanGitRepo(Git git, File gitModelRepo) {
-//
-//        try{
-//            git.pull().call();
-//            FileUtils.cleanDirectory(gitModelRepo);
-//        } catch (IOException e) {
-//            throw new OcdlException("Git Repo cannot be clean.");
-//        } catch (Exception e) {
-//            throw new OcdlException("Fail to git pull");
-//        }
-//    }
-
-//    private void pushFileToRemoteGitRepo(Git git) {
-//        try{
-//            git.add()
-//                    .addFilepattern(".")
-//                    .call();
-//            git.commit()
-//                    .setMessage("publish model")
-//                    .call();
-//            git.push()
-//                    .call();
-//        } catch (Exception e){
-//            throw new OcdlException("Fail to push model");
-//        }
-//    }
-
 
     private void checkIfNewModelExist(NewModel model) {
         if (!NewModel.existNewModel(model)) {
             throw new NotFoundException("Not Found model:" + model.getName());
         }
     }
-
-//    private void throwExceptionIfError(StringBuilder stdErrorOut) throws RuntimeException {
-//        if (stdErrorOut.length() > 0) {
-//            throw new RuntimeException(stdErrorOut.toString());
-//        }
-//    }
 
 
     @Override
@@ -189,57 +172,6 @@ public class DefaultModelServiceImpl implements ModelService {
         NewModel.addToStorage(newModel);
     }
 
-//    @Override
-//    public void pushModelToGit(Long modelId) {
-//        ApprovedModel approvedModel = Algorithm.getApprovalModelById(modelId).orElseThrow(() -> (new NotFoundException("Not Found model:" + modelId)));
-//
-//        //TODO: using git local path
-//        //clean the git repo first
-//        String gitRepoPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.GIT_REPO_SPACE, "1/").toString();
-//        String gitModelPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.GIT_REPO_SPACE, "1/models").toString();
-//
-//        Git git = null;
-//        try {
-//            git = Git.open(new File(gitRepoPath));
-//        } catch (IOException e) {
-//            throw new NotFoundException("Git repo not found");
-//        }
-//        cleanGitRepo(git, new File(gitModelPath));
-//
-//        //copy file to git repo
-//        File modelFile = getModelFileInStage(modelId);
-//        Optional.ofNullable(modelFile).ifPresent(f -> {
-//            String targetPath = Paths.get(gitRepoPath,
-//                    CONSTANTS.NAME_FORMAT.GIT_MODEL.replace("{algorithm}", Algorithm.getAlgorithmOfApprovedModel(approvedModel).getAlgorithmName())
-//                            .replace("{release_version}", approvedModel.getReleasedVersion().toString())
-//                            .replace("{cached_version}", approvedModel.getCachedVersion().toString())
-//                            .replace("{suffix}", f.getName().substring(f.getName().lastIndexOf(".")+1)))
-//                    .toString();
-//            try {
-//                FileUtils.copyFile(f, new File(targetPath));
-//            } catch (IOException e) {
-//                throw new OcdlException("Fail to move file to Git repo");
-//            }
-//        });
-//
-//        pushFileToRemoteGitRepo(git);
-//    }
-
-//    /**
-//     * Find the exact model file in stage
-//     * @param modelId modelId, as well ad the file name
-//     * @return
-//     */
-//    private File getModelFileInStage(Long modelId) {
-//
-//        File stage = new File(CONSTANTS.APPLICATIONS_DIR.STAGE_SPACE);
-//        for (File f : stage.listFiles()) {
-//            if (!f.isDirectory() && f.getName().startsWith(modelId.toString())) {
-//                return f;
-//            }
-//        }
-//        return null;
-//    }
 
     @Override
     public ModelDto[] getModelsByStatus(Model.Status status) {
@@ -308,7 +240,7 @@ public class DefaultModelServiceImpl implements ModelService {
     private Optional<File> existModelFile(ApprovedModel model, InnerUser innerUser) {
         File modelFile = null;
 
-        final String userSpaceName = CONSTANTS.APPLICATIONS_DIR.USER_SPACE + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(innerUser.getUserId()));
+        final String userSpaceName = applicationsDirUserSpace + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(innerUser.getUserId()));
         final File userSpace = new File(userSpaceName);
 
         if (userSpace.isDirectory()) {
@@ -346,7 +278,7 @@ public class DefaultModelServiceImpl implements ModelService {
         String message = CONSTANTS.KAFKA.MESSAGE.replace("{publishedModelName}", publishedModelName).replace("{modelUrl}",storageService.getObkectUrl(bucketName, publishedModelName));
         System.out.println("+++++++++++++++++++++++++++++++++++++++");
         System.out.println(message);
-        messageQueueService.send(CONSTANTS.KAFKA.TOPIC, message);
+        messageQueueService.send(kafkaTopic, message);
 
         Algorithm algorithm = Algorithm.getAlgorithmOfApprovedModel(model);
         System.out.println(algorithm.getAlgorithmName());

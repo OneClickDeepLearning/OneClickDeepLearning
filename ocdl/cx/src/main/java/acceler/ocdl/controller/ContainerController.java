@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping(path = "/rest/container")
 public final class ContainerController {
 
@@ -26,19 +26,26 @@ public final class ContainerController {
         InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
         String assign;
 
-        if(getResourceType(rscType).equals(ResourceType.GPU))
-            assign = kubernetesService.launchGpuContainer(innerUser);
-        else
-            assign = kubernetesService.launchCpuContainer(innerUser);
+        try {
+            if (getResourceType(rscType).equals(ResourceType.GPU)) {
+                assign = kubernetesService.launchGpuContainer(innerUser);
+            } else {
+                assign = kubernetesService.launchCpuContainer(innerUser);
+            }
+        }catch (KuberneteException e){
+            e.printStackTrace();
+            assign = null;
+        }
 
-        if(assign == null)
+        if (assign == null){
             return Response.getBuilder()
                     .setCode(Response.Code.ERROR)
                     .setMessage("Container launch failed")
                     .build();
+        }
 
         Map<String, Object> result = new HashMap<>();
-        result.put("url",assign);
+        result.put("url", assign);
 
         return Response.getBuilder()
                 .setCode(Response.Code.SUCCESS)
@@ -54,11 +61,11 @@ public final class ContainerController {
        kubernetesService.releaseDockerContainer(user);
     }*/
 
-    private ResourceType getResourceType(String rscType){
+    private ResourceType getResourceType(String rscType) {
 
-        if(rscType.equals("gpu"))
+        if (rscType.equals("gpu"))
             return ResourceType.GPU;
-        else if(rscType.equals("cpu"))
+        else if (rscType.equals("cpu"))
             return ResourceType.CPU;
         else
             throw new KuberneteException("Invalid type of resource!");

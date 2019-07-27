@@ -3,14 +3,17 @@ package acceler.ocdl.service;
 import acceler.ocdl.dto.ModelDto;
 import acceler.ocdl.model.*;
 
+import java.util.Map;
+
 public interface ModelService {
 
     /**
      * move the model from userspace to stage space, name is formatted at the same time
      * the status of moved model is new, and the format of the fileName = "modelName + timestamp" + "suffix"
      * @param innerUser used for get userspace path, userspacePath = "HDFS path" + "projectName-userID"
+     * @return the records of finded, success uploaded, and fail uploaded file
      */
-    void initModelToStage(InnerUser innerUser);
+    Map<String, Integer> initModelToStage(InnerUser innerUser);
 
 
     /**
@@ -39,13 +42,6 @@ public interface ModelService {
      * @param model model that need to undo
      */
     void undo(Model model);
-
-//    /**
-//     * push model to git repository
-//     * copy model file from folder "approval" to git repository, and git push
-//     * @param modelId = "algorithm" + "version" + "suffix" (the format of version = "v*.*")
-//     */
-//    void pushModelToGit(Long modelId);
 
     /**
      * get models by status

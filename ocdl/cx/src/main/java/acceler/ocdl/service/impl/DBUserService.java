@@ -11,8 +11,11 @@ import acceler.ocdl.model.OauthUser;
 import acceler.ocdl.model.Project;
 import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.UserService;
+import acceler.ocdl.utils.EncryptionUtil;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.hadoop.fs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
@@ -31,10 +34,17 @@ public class DBUserService implements UserService {
     @Autowired
     HdfsService hdfsService;
 
+    @Value("${HDFS.USER_SPACE}")
+    private String  hdfsUserSpace;
+    @Value("${APPLICATIONS_DIR.USER_SPACE}")
+    private String applicationsDirUserSpace;
+
     @Override
     public boolean credentialCheck(AuthController.UserCredentials loginUser) {
         Optional<InnerUser> targetUserOpt = InnerUser.getUserByUserName(loginUser.account);
-        return targetUserOpt.map(innerUser -> innerUser.getPassword().equals(loginUser.password)).orElse(false);
+        byte[] textBytes = Base64.decodeBase64(loginUser.password);
+        String password = EncryptionUtil.decrypt(textBytes);
+        return targetUserOpt.map(innerUser -> innerUser.getPassword().equals(password)).orElse(false);
     }
 
     @Override
@@ -57,7 +67,7 @@ public class DBUserService implements UserService {
 
         OauthUser newUser = OauthUser.createNewUser(source, ID);
 
-        Path hadoopPath = new Path(CONSTANTS.HDFS.USER_SPACE + Project.getProjectNameInStorage() + newUser.getUserId());
+        Path hadoopPath = new Path(hdfsUserSpace+ Project.getProjectNameInStorage() + newUser.getUserId());
         hdfsService.createDir(hadoopPath);
 
         return newUser;
@@ -70,11 +80,11 @@ public class DBUserService implements UserService {
         }
 
         InnerUser newUser = InnerUser.createNewUser(userName, password, role);
-        Path hadoopPath = new Path(CONSTANTS.HDFS.USER_SPACE + newUser.getUserId());
+        Path hadoopPath = new Path(hdfsUserSpace + newUser.getUserId());
         hdfsService.createDir(hadoopPath);
 
         try{
-            File localMountSpace = new File(Paths.get(CONSTANTS.APPLICATIONS_DIR.USER_SPACE,
+            File localMountSpace = new File(Paths.get(applicationsDirUserSpace,
                     CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(newUser.getUserId()))).toString());
             forceMkdir(localMountSpace);
         } catch (IOException e) {

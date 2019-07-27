@@ -22,8 +22,8 @@ public class DefaultProjectService implements ProjectService {
             currentProjectData.setProjectName(updatedProjectInfo.getProjectName());
         }
 
-        if (!StringUtil.isNullOrEmpty(updatedProjectInfo.getGitRepoURI())) {
-            currentProjectData.setGitRepoURI(updatedProjectInfo.getGitRepoURI());
+        if (!StringUtil.isNullOrEmpty(updatedProjectInfo.getDataPath())) {
+            currentProjectData.setDataPath(updatedProjectInfo.getDataPath());
         }
 
         if (!StringUtil.isNullOrEmpty(updatedProjectInfo.getK8MasterUri())) {
@@ -43,7 +43,6 @@ public class DefaultProjectService implements ProjectService {
         }
 
         Project.setProjectDataStorage(currentProjectData);
-        //TODO: if gitRepoURI is not null, "git clone..."
 
         return currentProjectData;
     }
