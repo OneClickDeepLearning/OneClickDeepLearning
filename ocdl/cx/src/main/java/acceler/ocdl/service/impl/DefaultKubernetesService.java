@@ -10,6 +10,7 @@ import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
 import io.fabric8.kubernetes.api.model.apps.DeploymentBuilder;
+import io.fabric8.kubernetes.api.model.apps.ReplicaSet;
 import io.fabric8.kubernetes.client.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +57,7 @@ public class DefaultKubernetesService implements KubernetesService {
         }
     };
 
-    private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + k8sVirtualMasterIp + ":6443").withTrustCerts(true).withOauthToken("j8q5j3.zfnjcs9vdk76y4b5").build());
+    private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + CONSTANTS.IP.VIRTUAL.MASTER + ":6443").build());
 
     private String getUserSpace(AbstractUser user){
         return (CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(user.getUserId()))).toLowerCase();
@@ -191,8 +192,9 @@ public class DefaultKubernetesService implements KubernetesService {
                 .addNewVolume()
                 .withName("model")
                 .withNewNfs()
-                .withServer(k8sPublicMasterIp)
-                .withPath("/home/hadoop/mount/UserSpace/" + depolyId)
+                .withServer(CONSTANTS.IP.PUBLIC.MASTER)
+                .withPath("/home/ubuntu/mount/UserSpace/" + depolyId)
+
                 .endNfs()
                 .endVolume()
 
@@ -257,8 +259,9 @@ public class DefaultKubernetesService implements KubernetesService {
                 .addNewVolume()
                 .withName("model")
                 .withNewNfs()
-                .withServer(k8sPublicMasterIp)
-                .withPath("/home/hadoop/mount/UserSpace/" + depolyId)
+                .withServer(CONSTANTS.IP.PUBLIC.MASTER)
+                .withPath("/home/ubuntu/mount/UserSpace/" + depolyId)
+
                 .endNfs()
                 .endVolume()
 
@@ -384,6 +387,17 @@ public class DefaultKubernetesService implements KubernetesService {
                 System.out.println(deploy.getMetadata().getName());
                 if (deploy.getMetadata().getName().contains(userId))
                     client.resource(deploy).delete();
+            }
+
+            for(ReplicaSet replicaSet : client.apps().replicaSets().inNamespace("default").list().getItems()) {
+                System.out.println(replicaSet.getMetadata().getName());
+                if (replicaSet.getMetadata().getName().contains(userId))
+                    client.resource(replicaSet).delete();
+            }
+            for (Pod pod : client.pods().inNamespace("default").list().getItems()){
+                System.out.println(pod.getMetadata().getName());
+                if(pod.getMetadata().getName().contains(userId))
+                    client.resource(pod).delete();
             }
 
             //release resource cache
