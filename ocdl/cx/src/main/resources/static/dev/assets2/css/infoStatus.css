@@ -1,0 +1,31 @@
+.status_disconnected:after{
+    content: 'None';
+    color: red;
+}
+.status_connected:after{
+    content: 'Connected';
+    color: #47C6F8;
+}
+.status_connecting:after{
+    content: 'Connecting';
+    color: #66BB6A;
+    animation: heart 2s ease infinite;
+}
+
+@keyframes heart {
+    0% {border-color:white;}
+    100%{border-color:#66BB6A;}
+}
+
+.status_gpu:after{
+    content: 'GPU';
+    color: #66BB6A;
+}
+.status_cpu:after{
+    content: 'CPU';
+    color: #47C6F8;
+}
+.status_NoneR:after{
+    content: 'None';
+    color: #aaaaaa;
+}

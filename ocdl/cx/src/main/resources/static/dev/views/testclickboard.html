@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- Target -->
+<div class="example one">
+    <input style="display: none" type="text" class="form-control" id="inputElement" value="INPUT: clipsdfsdfsdf需要Flash。">
+    <button class="btn btn-success btn-copy" type="button" data-clipboard-target="#inputElement">
+        <i class="glyphicon glyphicon-copy"></i>拷贝(Copy)
+    </button>
+</div>
+
+
+<script src="../assets2/js/jquery.js"></script>
+<script src="../assets2/js/bootstrap.min.js"></script>
+<script src="../assets2/js/clipboard.min.js"></script>
+
+<script>
+    $(function () {
+        $('.btn-copy').attr("title", "Copy to the clickboard").tooltip("fixTitle");
+        var clipboard = new ClipboardJS('.btn-copy');
+        clipboard.on('success', function (t) {
+            alert("The file code has already copied to the clickboard");
+            t.clearSelection();
+        });
+        clipboard.on('error', function (t) {
+            alert("The current browser doesn't support copy");
+        });
+    });
+
+</script>
+
+</body>
+</html>

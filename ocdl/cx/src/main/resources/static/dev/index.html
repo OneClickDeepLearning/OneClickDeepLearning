@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Home</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id"
+          content="727934601599-nvka5h36h2affhicjatvmummdhk4eanr.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <link rel="stylesheet" href="assets2/css/animate.min.css">
+    <link rel="stylesheet" href="assets2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets2/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="assets2/css/templatemo-style.css">
+    <link rel="stylesheet" href="assets2/css/SwitchServer.css">
+
+    <link href="assets2/css/SyntaxHighlighter.css" type="text/css" rel="stylesheet">
+    <link href="assets2/css/menu.css" rel="stylesheet">
+    <link href="assets2/css/infoStatus.css" rel="stylesheet">
+    <link href="assets2/css/login.css" rel="stylesheet">
+    <link href="assets2/css/userLoginBtn.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="assets2/css/approvalCenter.css">
+
+    <script src="../dev/assets2/js/jquery.js"></script>
+    <script type="text/javascript" src="js/nav.js"></script>
+
+    <style type="text/css">
+
+        <!--
+        -->
+
+        .lightMode {
+            background-color: #1786A8;
+            transition: background-color 1s;
+        }
+
+        .darkMode {
+            background-color: #000000;
+            transition: background-color 1s;
+        }
+
+        .jupyterContainerLarge {
+            margin: 0;
+            width: 100%;
+            transition-property: margin, width;
+            transition-duration: 500ms;
+
+        }
+
+        #serviceContainer {
+            transition-property: width, height, padding-left, margin;
+            transition-duration: 0.5s;
+        }
+
+
+        <!--
+        -->
+        a:hover, a:focus {
+            outline: none;
+            text-decoration: none;
+        }
+
+        .tab .nav-tabs {
+            padding-left: 15px;
+            border-bottom: 4px solid #1786A8;
+        }
+
+        .tab .nav-tabs li a {
+            color: #fff;
+            padding: 10px 20px;
+            margin-right: 10px;
+            background: #1786A8;
+            text-shadow: 1px 1px 2px #000;
+            border: none;
+            border-radius: 0;
+            opacity: 0.5;
+            position: relative;
+            transition: all 0.3s ease 0s;
+        }
+
+        .tab .nav-tabs li a:hover {
+            background: #1786A8;
+            opacity: 0.8;
+        }
+
+        .tab .nav-tabs li.active a {
+            opacity: 1;
+        }
+
+        .tab .nav-tabs li.active a,
+        .tab .nav-tabs li.active a:hover,
+        .tab .nav-tabs li.active a:focus {
+            color: #fff;
+            background: #1786A8;
+            border: none;
+            border-radius: 0;
+        }
+
+        .tab .nav-tabs li a:before,
+        .tab .nav-tabs li a:after {
+            content: "";
+            border-top: 42px solid transparent;
+            position: absolute;
+            top: -2px;
+        }
+
+        .tab .nav-tabs li a:before {
+            border-right: 15px solid #1786A8;
+            left: -15px;
+        }
+
+        .tab .nav-tabs li a:after {
+            border-left: 15px solid #1786A8;
+            right: -15px;
+        }
+
+        .tab .nav-tabs li a i,
+        .tab .nav-tabs li.active a i {
+            display: inline-block;
+            padding-right: 5px;
+            font-size: 15px;
+            text-shadow: none;
+        }
+
+        .tab .nav-tabs li a span {
+            display: inline-block;
+            font-size: 14px;
+            letter-spacing: -9px;
+            opacity: 0;
+            transition: all 0.3s ease 0s;
+        }
+
+        .tab .nav-tabs li a:hover span,
+        .tab .nav-tabs li.active a span {
+            letter-spacing: 1px;
+            opacity: 1;
+            transition: all 0.3s ease 0s;
+        }
+
+        .tab .tab-content {
+            padding: 30px;
+            background: #fff;
+            font-size: 16px;
+            color: #6c6c6c;
+            line-height: 25px;
+        }
+
+        .tab .tab-content h3 {
+            font-size: 24px;
+            margin-top: 0;
+        }
+
+        @media only screen and (max-width: 479px) {
+            .tab .nav-tabs li {
+                width: 100%;
+                margin-bottom: 5px;
+                text-align: center;
+            }
+
+            .tab .nav-tabs li a span {
+                letter-spacing: 1px;
+                opacity: 1;
+            }
+        }
+
+
+        .chart {
+            width: 100%;
+            min-height: 450px;
+        }
+
+
+
+
+        .statistic-title{
+            margin-left: 1.8rem;
+            margin-top: 3.21rem;
+            display: inline-block;
+            font-size: 6rem;
+            font-weight: 400;
+        }
+        .statistic-desc{
+            margin-left: 1.8rem;
+            font-size: 1rem;
+            font-weight: 300;
+            color: #eeeeee;
+        }
+
+
+
+    </style>
+
+
+</head>
+<body id="top">
+
+<!-- start preloader -->
+<div class="preloader">
+    <div class="sk-spinner sk-spinner-wave">
+        <div class="sk-rect1"></div>
+        <div class="sk-rect2"></div>
+        <div class="sk-rect3"></div>
+        <div class="sk-rect4"></div>
+        <div class="sk-rect5"></div>
+    </div>
+</div>
+<!-- end preloader -->
+
+
+<!-- start navigation -->
+<nav id="OCDLNav" class=" navbar-default templatemo-nav" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon icon-bar"></span>
+                <span class="icon icon-bar"></span>
+                <span class="icon icon-bar"></span>
+            </button>
+            <img href="#" alt="OCDL" class="navbar-brand" style="padding-left: 0px;" src="assets2/images/Brand3.png"/>
+            <label id="projectName" style="color: black; margin-top: 30px; margin-left: 20px;"></label>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul id="nav-menu" class="nav navbar-nav navbar-right">
+                <li><a href="#" class="nav-link" data-toggle="modal" data-target="#FileModal">DATA UPLOAD</a></li>
+                <li><a href="#">CONTACT</a></li>
+                <!--				<li><a id="signInBtn" href="#" class="nav-link" data-toggle="modal" data-target="#RegistrationModal">SIGN UP</a></li>
+                                <li><a id="signUpBtn" href="#" class="nav-link" data-toggle="modal" data-target="#LogInModal">SIGN IN</a></li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- end navigation -->
+<!-- start header -->
+<header id="operationBar" class="darkMode">
+    <div class="container">
+        <div class="row" class="" style="display:flex;justify-content:center;align-items:center;">
+            <div id="informationBlock" style="" class="col-md-4 col-sm-3 col-xs-3">
+
+                <label class="col-md-6">Rescourse: <label id="rescourse" style="color: #47C6F8"
+                                                          class="status_NoneR"></label></label>
+                <label class="col-md-6">Status: <label id="status" class="status_disconnected"></label></label>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-3">
+                <a id="serverCtl" href="javascript:selectJupyterServer();" class="toggle toggle--on navbar-right"></a>
+            </div>
+            <div class="col-md-4 col-sm-3 col-xs-3" style="height:40px;">
+                <!--	<p>	<button id="flapBtn" class="btn btn-8 btn-8g"><i class="fa fa-refresh"></i><span id="flaptext">Template</span></button>-->
+                <span style="float:left;display: inline-block; width:auto; height:auto;padding:0px;">
+                    <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
+                        <a id="gitBtn" href="javascript:submitToGit();" class="hi-icon hi-icon-earth roundA">Git</a>
+                    </span>
+                </span>
+                <span id="gitTag"
+                      style="padding-left:0px; height:100%;float:left;padding-top:10px;display: none;">Git</span>
+
+                <!--                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
+                                    <a id="flapBtn" href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
+                                </span>-->
+
+                <span style="float:left;display: inline-block; width:auto; height:auto;padding:0px;">
+                    <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
+                        <a id="uploadBtn" class="hi-icon hi-icon-archive roundA" data-toggle="modal"
+                           data-target="#FileModal">Upload</a>
+                    </span>
+                </span>
+                <span id="uploadTag" style="padding-left:0px; height:100%;float:left;padding-top:10px;display: none;">Upload</span>
+
+                <span style="float:left;display: inline-block; width:auto; height:auto;padding:0px;">
+                    <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
+                        <a id="hideNavBtn" href="javascript:hideNav()" class="hi-icon hi-icon-dev roundA">DevMode</a>
+                    </span>
+                </span>
+                <span id="hideNavTag" style="padding-left:0px; height:100%;float:left;padding-top:10px; display: none;">DevMode</span>
+                </p>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-3">
+                <div class="userBlock">
+                    <!-- Top Navigation -->
+                    <div id="loginBtnGroup" class="color-1">
+                        <p style="text-align: right">
+                            <button class="btn2 btn-1 btn-1e" id="signUpBtn" data-toggle="modal"
+                                    data-target="#RegistrationModal" style="color: #47C6F8; border-color: #47C6F8;">
+                                SignUp
+                            </button>
+                            <button class="btn2 btn-1 btn-1e" id="signInBtn" href="#" class="nav-link"
+                                    data-toggle="modal" data-target="#LogInModal">SignIn
+                            </button>
+                        </p>
+                    </div>
+                    <div id="userinfo" style="display: none;">
+                        <p style="text-align: right">
+                            <img id="profileImage" src="" style="height: 30px;width: 30px;" class="hide">
+                            <label id="username" style="color: #47C6F8"></label>
+                            <button class="btn2 btn-1 btn-1e" onclick="signOut()">Logout</button>
+                        </p>
+                    </div>
+                </div><!-- /container -->
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <div>
+
+    </div>
+</header>
+<!-- end header -->
+
+<a href="#" class="menubtn">menu</a>
+<div id="hamburgermenu">
+    <ul>
+        <li><a class="d-firstNav s-firstNav" href="#">Framework</a>
+            <ul id="Frameworks" class="d-firstDrop s-firstDrop">
+            </ul>
+
+        </li>
+        <li><a class="d-firstNav s-firstNav" href="#">Layer</a>
+            <ul id="Layers" class="d-firstDrop s-firstDrop">
+            </ul>
+        </li>
+        <li><a class="d-firstNav s-firstNav" href="#">Block</a>
+            <ul id="Blocks" class="d-firstDrop s-firstDrop">
+            </ul>
+
+        </li>
+
+        <li><a class="d-firstNav s-firstNav" href="#">Network</a>
+            <ul id="Networks" class="d-firstDrop s-firstDrop">
+            </ul>
+
+        </li>
+    </ul>
+</div>
+<div class="overlay"></div>
+
+
+<!-- start home -->
+<section id="">
+    <div id="serviceContainer" class="container">
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10">
+                <div class="tab" role="tabpanel">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li id="welcome-li" role="presentation" class="active"><a id="welcome-tab" href="#Section0" aria-controls="home"
+                                                                  role="tab"
+                                                                  data-toggle="tab"><i class="fa fa-home"></i><span>Welcome</span></a>
+                        </li>
+                        <li id="IDE-li" role="presentation"><a id="IDE-tab" href="#Section1" aria-controls="home" role="tab"
+                                                   data-toggle="tab"><i
+                                class="fa fa-home"></i><span>Jupyter</span></a>
+                        </li>
+                        <li id="file-system-li" role="presentation"><a id="file-system-tab" href="#Section2" aria-controls="profile"
+                                                   role="tab"
+                                                   data-toggle="tab"><i
+                                class="fa fa-globe"></i><span>File System</span></a></li>
+                        <li id="code-template-li" role="presentation" ><a id="code-template-tab" href="#Section3" aria-controls="messages"
+                                                   role="tab"
+                                                   data-toggle="tab"><i
+                                class="fa fa-briefcase"></i><span>Templates</span></a></li>
+                        <li id="model-center-li" role="presentation" ><a id="model-center-tab" href="#Section4" aria-controls="message"
+                                                   role="tab" data-toggle="tab"><i class="fa fa-twitter"></i><span>Model Center</span>
+                        </a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content tabs"
+                         style="height: 600px; box-shadow: 0 0 10px rgba(0,0,0,1); overflow:auto; background-color:#ebedf2;">
+
+                        <div role="tabpanel" class="tab-pane fade in active" id="Section0">
+                            <div class="cover" style="overflow:auto;">
+                                <div class="">
+                                    <div class="col-md-12">
+                                        <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">OUR
+                                            <span>AWESOME</span> THINGS</h2>
+                                    </div>
+                                    <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+                                        <i class="fa fa-laptop"></i>
+                                        <h4>One Click Deep learning</h4>
+                                        <p>We can help you to deploy deep learning project in a convenient, fast and
+                                            reliable
+                                            way. We're totally offering more than 50 templates, 20 type of networks,
+                                            30 kinds of
+                                            layers and 20 kinds blocks templates for you. From training to
+                                            assessment, all you
+                                            need to you is just one click. </p>
+                                    </div>
+                                    <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.9s">
+                                        <i class="fa fa-cloud"></i>
+                                        <h4>Distributed Computing</h4>
+                                        <p>Don't have a powerful computing resource? We offered distributed
+                                            computing resource
+                                            for your training task, </p>
+                                    </div>
+                                    <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+                                        <i class="fa fa-cog"></i>
+                                        <h4>Container friendly</h4>
+                                        <p>Easy packing of deep learning stacks rapid development across multiple
+                                            platforms</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="Section1">
+                            <div id="resourceLoading" class="col-md-12"
+                                 style="text-align: center;height:550px; width:100%; border: black solid 1px;">
+                                <div id="resourceLoadingBar" class="sk-spinner sk-spinner-wave"
+                                     style="width: 200px; margin-left:auto;margin-right:auto;margin-top: 100px;">
+                                    <div class="sk-rect1"></div>
+                                    <div class="sk-rect2"></div>
+                                    <div class="sk-rect3"></div>
+                                    <div class="sk-rect4"></div>
+                                    <div class="sk-rect5"></div>
+                                    <div class="sk-rect4"></div>
+                                    <div class="sk-rect3"></div>
+                                    <div class="sk-rect2"></div>
+                                    <div class="sk-rect1"></div>
+                                </div>
+                                <label id="Section1_label">Launching the resrouce, please wait..</label>
+                            </div>
+
+                            <iframe id="jupyterFrame" sandbox="allow-forms allow-same-origin allow-scripts"
+                                    src="" style="height:550px; width:100%; display: none"></iframe>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="Section2">
+                            <iframe id="fileFrame" sandbox="allow-forms allow-same-origin allow-scripts"
+                                    src="http://3.89.28.106:19999/overview"
+                                    style="height:550px; width:100%"></iframe>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="Section3">
+                            <div id="aaa">
+                                   <pre id="code" name="code" class="python" cols="60" rows="10" style="height: 550px">
+                                   </pre>
+                            </div>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="Section4" style="border:1px solid; padding:10px;">
+                            <div class="demo">
+                                <div class="row">
+
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div style="margin:5px; height: 310px ">
+                                                <div id="donutchart"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="col-md-6">
+                                                <div style="background-color: #716aca; height: 150px; margin-top:5px; margin-bottom: 5px; border-radius:10px;">
+                                                    <span  id="newModelNum" class="statistic-title" style="color: white">0</span>
+                                                    <h3 class="statistic-desc">New Models</h3>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div style="background-color: #007bff; height: 150px; margin-top:5px; margin-bottom: 5px; border-radius:10px;">
+                                                    <span  class="statistic-title" id="approvalModelNum" style="color: white">0</span>
+                                                    <h3 class="statistic-desc">Approved Models</h3>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div style="background-color: #f4516c; height: 150px; margin-top:5px; margin-bottom: 5px; border-radius:10px;">
+                                                    <span id="rejectedModelNum" class="statistic-title" style="color: white">0</span>
+                                                    <h3 class="statistic-desc">Rejected Models</h3>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div style="background-color: #34bfa3; height: 150px; margin-top:5px; margin-bottom: 5px; border-radius:10px;">
+                                                    <span style="color: white" class="statistic-title">0</span>
+                                                    <h3 class="statistic-desc">Algorithms</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+                                    <div class="panel-group col-md-12" id="accordion" role="tablist" aria-multiselectable="true">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingTwo"
+                                                 style="background-color:#716aca;">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse"
+                                                       data-parent="#accordion"
+                                                       href="#collapseTwo" aria-expanded="false"
+                                                       aria-controls="collapseTwo">
+                                                        TO DO LIST
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                                                 aria-labelledby="headingTwo">
+                                                <div class="panel-body">
+
+                                                    <div class="col4">
+                                                        <div class="item-box">
+                                                            <div class="item-con">
+                                                                <table class="odd-even" id="tableNew">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>Model Name</th>
+                                                                        <th>Algorithm</th>
+                                                                        <th>Update Type</th>
+                                                                        <th>Timestamp</th>
+                                                                        <th>Operation</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingThree"
+                                                 style="background-color:#007bff;">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse"
+                                                       data-parent="#accordion"
+                                                       href="#collapseThree" aria-expanded="false"
+                                                       aria-controls="collapseThree">
+                                                        APPROVED LIST
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                                                 aria-labelledby="headingThree">
+                                                <div class="panel-body">
+                                                    <div class="col4">
+                                                        <div class="item-box">
+                                                            <div class="item-con">
+                                                                <table class="odd-even" id="tableApproval">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>Model Name</th>
+                                                                        <th>Algorithm</th>
+                                                                        <th>Version</th>
+                                                                        <th>Timestamp</th>
+                                                                        <th>Operation</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingFour"
+                                                 style="background-color:#f4516c;">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse"
+                                                       data-parent="#accordion"
+                                                       href="#collapseFour" aria-expanded="false"
+                                                       aria-controls="collapseFour">
+                                                        REJECTED LIST
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseFour" class="panel-collapse collapse" role="tabpanel"
+                                                 aria-labelledby="headingFour">
+                                                <div class="panel-body">
+                                                    <div class="col4">
+                                                        <div class="item-box">
+                                                            <div class="item-con">
+                                                                <table class="odd-even" id="tableRejected">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>Model Name</th>
+                                                                        <th>Timestamp</th>
+                                                                        <th>Operation</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+<!-- end home -->
+
+
+<!-- end servie -->
+
+<footer id="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <p class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">Copyright &copy; 2019.Concordia
+                    Team
+                    <label style="color:#28a7e9;">Acceler8</label> All rights reserved.
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!--======================================
+=            registration form modal            =
+=======================================-->
+<!-- Modal -->
+<div class="modal fade" id="RegistrationModal" role="dialog">
+    <div class="temp-custom-modal-wrap">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content temp-custom-modal-content">
+                <button type="button" class="close temp-custom-close-button" data-dismiss="modal">&times;</button>
+                <div class="modal-body temp-custom-modal-body">
+                    <div class="temp-login-form-wrapper">
+                        <div class="row custom-row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 temp-form-column-wrap-image">
+                                <div class="temp-reg-column-wrap-image">
+                                    <div class="temp-form-inner-wrapper">
+                                        <h2>Sign Up</h2>
+                                        <p>Please input you sign up information in the form to join us</p>
+                                        <p class="temp-heading-for-icon temp-reg-para">Sign in with social media</p>
+                                        <div class="temp-anchor-wrap temp-reg-anchor-wrap">
+                                            <a href="#" class=" temp-anchor text-left">
+                        <span class="temp-social-icon-wrap">
+                          <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </span>
+                                                <span>sign in with facebook</span>
+                                            </a>
+                                            <a href="#" class="temp-anchor temp-icon-color text-left">
+                        <span class="temp-social-icon-wrap">
+                          <i class="fa fa-google" aria-hidden="true"></i>
+                        </span>
+                                                <span>sign in with google</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="temp-form-column-wrap">
+                                    <h2>Sign Up</h2>
+                                    <form id="signup-form">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                          <span class="temp-span-wrap temp-span-input-label-wrap">
+                            <input class="temp_input_field" name="username" id="signup-username" type="text">
+                            <label class="temp_input_label">
+                              <span class="temp_input_label-content">Username</span>
+                            </label>
+                          </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                                <div class="form-group">
+                          <span class="temp-span-wrap temp-span-input-label-wrap">
+                            <input class="temp_input_field" name="password" id="signup-password" type="password">
+                            <label class="temp_input_label">
+                              <span class="temp_input_label-content">Password</span>
+                            </label>
+                          </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                                                <div class="form-group">
+                          <span class="temp-span-wrap temp-span-input-label-wrap">
+                            <input class="temp_input_field" type="password">
+                            <label class="temp_input_label">
+                              <span class="temp_input_label-content">Password confirm</span>
+                            </label>
+                          </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <label class="radio-inline temp-custom-radio-button"
+                                                                   style="color: black;">
+                                                                <input type="radio" name="role" id="developer-radio"
+                                                                       value="Developer">Developer
+                                                                <span class="temp-radio-checkmark"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <label class="radio-inline temp-custom-radio-button"
+                                                                   style="color: black;">
+                                                                <input type="radio" name="role" id="manager-radio"
+                                                                       value="Manager">Manager
+                                                                <span class="temp-radio-checkmark"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="temp-login-button-wrap">
+                                                    <button class="btn btn-info temp-form-button" type="button" onclick="signUp()">sign
+                                                        up
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--====  End of registration form modal  ====-->
+
+
+<!--======================================
+=            login form modal            =
+=======================================-->
+<!-- Modal -->
+<div class="modal fade" id="LogInModal" role="dialog">
+    <div class="temp-custom-modal-wrap">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content temp-custom-modal-content">
+                <button id="closeLogin" type="button" class="close temp-custom-close-button" data-dismiss="modal">
+                    &times;
+                </button>
+                <div class="modal-body temp-custom-modal-body">
+                    <div class="temp-login-form-wrapper">
+                        <div class="row custom-row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 temp-form-column-wrap-image">
+                                <div class="temp-login-column-wrap-image">
+                                    <div class="temp-form-inner-wrapper">
+                                        <h2>Sign in</h2>
+                                        <p>If you don't have an OCDL account, please Sign up first.</p>
+                                        <p class="temp-heading-for-icon">sign in with social media</p>
+                                        <div class="temp-anchor-wrap temp-reg-anchor-wrap">
+
+                                            <div id="g_btn" class="g-signin2" style="display: none"
+                                                 data-onsuccess="onSignIn" data-theme="dark"></div>
+
+                                            <a href="#" class=" temp-anchor text-left">
+                        <span class="temp-social-icon-wrap">
+                          <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </span>
+                                                <span>sign in with facebook</span>
+                                            </a>
+                                            <a href="javascript: g_login()"
+                                               class="temp-anchor temp-icon-color text-left">
+                        <span class="temp-social-icon-wrap">
+                          <i class="fa fa-google" aria-hidden="true"></i>
+                        </span>
+                                                <span>sign in with google</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="temp-form-column-wrap">
+                                    <h2>Sign In</h2>
+                                    <form name="login_form" method="post">
+                                        <div class="form-group">
+                      <span class="temp-span-wrap temp-span-input-label-wrap">
+                        <input id="data_username" name="account" class="temp_input_field" type="text" required>
+                        <label class="temp_input_label">
+                          <span class="temp_input_label-content">Username</span>
+                        </label>
+                      </span>
+                                        </div>
+                                        <div class="form-group">
+                      <span class="temp-span-wrap temp-span-input-label-wrap">
+                        <input id="data_pwd" name="password" class="temp_input_field" type="password" required>
+                        <label class="temp_input_label">
+                          <span class="temp_input_label-content">Password</span>
+                        </label>
+                      </span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="temp-checkbox-wrap">
+                                                <input name="signup_agree_checkbox" value="1" type="checkbox">
+                                                Remember me
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="pull-right label-content-color custom-form-label2">
+                                                <a href="#">Forget your password?</a>
+                                            </label>
+                                        </div>
+                                        <div class="temp-login-button-wrap">
+                                            <button class="btn btn-info temp-form-button" type="button"
+                                                    onclick="signIn()">Sign In
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--====  End of login form modal  ====-->
+
+<!-- Upload -->
+<div class="modal fade" id="FileModal" role="dialog">
+    <div class="temp-custom-modal-wrap">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content temp-custom-modal-content">
+                <button id="closeFile" type="button" class="close temp-custom-close-button" data-dismiss="modal">
+                    &times;
+                </button>
+                <div class="modal-body temp-custom-modal-body">
+                    <div class="temp-login-form-wrapper">
+                        <div class="row custom-row">
+                            <div class=" col-xs-12 temp-form-column-wrap-image">
+                                <div class="temp-login-column-wrap-image">
+                                    <div class="temp-form-inner-wrapper">
+                                        <h2>Data Upload</h2>
+                                        <form id="uploadForm" method="POST" enctype="multipart/form-data"
+                                              action="/rest/data/upload" target="uploadiframe">
+
+
+                                            <div class="col-md-7">
+                                                File:<input type="file" id="file" name="file" style="display:none"
+                                                            onchange="changeAgentContent()"/>
+                                                <input type="text" value="" disabled id="fileAgent"
+                                                       style="color: black"/>
+                                                <input type="button"
+                                                       onclick="document.getElementById('file').click()"
+                                                       value="Browse..." style="color: black"/>
+                                            </div>
+
+                                            <div class=" col-md-5" id="uploadLoading"
+                                                 style="background-color: transparent;display: none;">
+                                                <div>
+                                                    <img src="assets2/images/ajax-loader.gif" alt="loading">
+                                                </div>
+                                            </div>
+
+                                            <div class="temp-anchor-wrap temp-reg-anchor-wrap col-md-12">
+                                                <a href="javascript:upload()" class="temp-anchor text-left">
+												<span class="temp-social-icon-wrap">
+													  <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+													</span>
+                                                    <span>Upload</span>
+                                                </a>
+                                                <a href="#" class="temp-anchor temp-icon-color text-left"
+                                                   data-dismiss="modal">
+													<span class="temp-social-icon-wrap">
+													  <i class="fa fa-share" aria-hidden="true"></i>
+													</span>
+                                                    <span>Close</span>
+                                                </a>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--====  End of login form modal  ====-->
+
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="downloadCode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="color:#000000;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Download Model</h4>
+            </div>
+            <div class="modal-body"><textarea id="model-download-code" style="width:100%; height:200px;">testtestestasetsetest</textarea></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn-copy" data-clipboard-target="#model-download-code" >Copy</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<script src="assets2/js/jquery.js"></script>
+<script src="assets2/js/bootstrap.min.js"></script>
+<script src="assets2/js/jquery.singlePageNav.min.js"></script>
+<script src="assets2/js/clipboard.min.js"></script>
+<script src="assets2/js/enviroment.js"></script>
+<script src="assets2/js/typed.js"></script>
+<script src="assets2/js/wow.min.js"></script>
+<script src="assets2/js/custom.js"></script>
+<script src="assets2/js/prefixfree.min.js"></script>
+<script src="assets2/js/switchServer.js"></script>
+<!--<script language="javascript" src="assets2/js/flipycard.js"></script>-->
+<script language="javascript" src="assets2/js/shCore.js"></script>
+<script language="javascript" src="assets2/js/shBrushPython.js"></script>
+<script src="assets2/js/menu.js"></script>
+<script language="javascript" src="assets2/js/secondlayernav.js"></script>
+<script language="javascript" src="assets2/js/login.js"></script>
+<script language="JavaScript" src="assets2/js/index.js"></script>
+<script src="assets2/js/commons.js"></script>
+<script src="assets2/js/approvalCenter.js"></script>
+
+<script type="text/javascript">
+
+    var clipboard = new ClipboardJS('.btn-copy');
+    clipboard.on('success', function (t) {
+        $(t.trigger).attr("title", "Copied！").tooltip("fixTitle").tooltip("show").attr("title", "Copy to the clickboard").tooltip("fixTitle");
+        t.clearSelection();
+    });
+    clipboard.on('error', function (t) {
+        $(t.trigger).attr("title", "Fail").tooltip("fixTitle").tooltip("show").attr("title", "Copy to the clickboard").tooltip("fixTitle");
+    });
+
+
+
+    function changeAgentContent() {
+        document.getElementById("fileAgent").value = document.getElementById("file").value;
+    }
+
+    function upload() {
+        var url = "";
+        var file = document.getElementById("fileAgent").value = document.getElementById("file").value.split("\\");
+        var fileName = file[file.length - 1];
+        $.ajax({
+            url: '/rest/data/upload',
+            contentType: 'application/json',
+            dataType: "json",
+            data:
+                JSON.stringify({
+                    file: fileName
+                }),
+            type: "PUT",
+            timeout: 0,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("AUTH_TOKEN", token);
+            },
+            success: function (info) {
+                ajaxMessageReader(info, function (data) {
+                    url = data;
+                    toHdfs(data);
+                })
+            },
+            error: function (resp) {
+            }
+        });
+    }
+
+    function toHdfs(url) {
+        var formData = new FormData();
+        formData.append("file", document.getElementById("file").files[0]);
+
+        $.ajax({
+            url: url,
+            data: formData,
+            type: "PUT",
+            beforeSend: function (xhr) {
+                $("#uploadLoading").show();
+            },
+            contentType: false,//这里
+            processData: false,//这两个一定设置为false
+            success: function (info) {
+                alert("Upload Successful");
+            },
+            error: function (info) {
+                alert(info);
+            },
+            complete: function () {
+                $("#uploadLoading").hide();
+            }
+        });
+    }
+
+
+    function hideNav() {
+        $("#OCDLNav").slideToggle();
+        lightModeToggler();
+        jupyterContainerLargeToggle("#serviceContainer");
+
+    }
+
+    function jupyterContainerLargeToggle(id) {
+        if ($(id).is('.jupyterContainerLarge')) {
+            $(id).removeClass("jupyterContainerLarge");
+            $("#hamburgermenu").css("padding-top", 150);
+        } else {
+            $(id).addClass("jupyterContainerLarge");
+            $("#hamburgermenu").css("padding-top", 50);
+        }
+    }
+
+    $("#gitBtn").mouseenter(function () {
+        $("#gitTag").show(200);
+    })
+    $("#gitBtn").mouseleave(function () {
+        $("#gitTag").hide(200);
+    })
+    $("#uploadBtn").mouseenter(function () {
+        $("#uploadTag").show(200);
+    })
+    $("#uploadBtn").mouseleave(function () {
+        $("#uploadTag").hide(200);
+    })
+    $("#hideNavBtn").mouseenter(function () {
+        $("#hideNavTag").show(200);
+    })
+    $("#hideNavBtn").mouseleave(function () {
+        $("#hideNavTag").hide(200);
+    })
+
+    function lightModeToggler() {
+        var operationBar = $("#operationBar");
+
+        if (operationBar.hasClass('lightMode')) {
+            operationBar.addClass('darkMode');
+            operationBar.removeClass('lightMode');
+
+        } else if (operationBar.hasClass('darkMode')) {
+            operationBar.addClass('lightMode');
+            operationBar.removeClass('darkMode');
+
+        }
+    }
+
+
+    function generateDownloadCode(modelFileName){
+        var code = "client = alluxio.Client('3.89.28.106', 39999) \n" +
+            "client.ls(\"/Staging\")\n" +
+            "\n" +
+            "fileName = client.open_file('/Staging/"+ modelFileName +"')\n" +
+            "reader = client.read(fileName)\n" +
+            "file = reader.read()\n" +
+            "with open('/root/Model/"+modelFileName +"', 'wb') as f:\n" +
+            "    f.write(file)\n" +
+            "    f.close()";
+        $("#model-download-code").text(code);
+        $('#downloadCode').modal();
+    }
+
+
+
+</script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+</body>
+</html>

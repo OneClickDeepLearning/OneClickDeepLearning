@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Lesion Segmentation Portal</title>
+  <link rel="stylesheet" href="assets/css/bootstrap.css">
+  <link rel="stylesheet" href="assets/css/index.css">
+  <link rel="stylesheet" href="assets/css/carousel.css">
+  <script src="assets/js/jquery.js"></script>
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#"><span id="titleFirst" style="color: #47C6F8">Lesion</span> <label id="titleSecond">Segmentation</label></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+      </ul>
+      <form class="form-inline mt-2 mt-md-0">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+</header>
+
+  <header id="header" class="page-header">
+      <div class="row">
+        <!-- 拖拽图片到这来 -->
+        <div class="col-md-6  up-content  dragFile">
+          <p style="margin-top:10px;">Drag your Testing data Here!</p>
+          <div class="up-area">
+            <input type="file" style="display:none;" id="fileDrag" name="fileDragselect" multiple>
+            <div class="row">
+              <ul id="testList" class="list-group clearfix list-drag list-btn">
+              </ul>
+            </div>
+          </div>
+          <div class="btn">
+            <button type="button" class="btn btn-success" id="btn">Browse your File </button>
+            <input type="file" style="display:none;" id="fileInput" name="fileselect" multiple>
+            <button type="button" class="btn btn-primary" onclick="modelTest()">Submit</button>
+          </div>
+
+
+        </div>
+        <!-- 点击按钮上传文件 -->
+        <div class="col-md-6 up-content btnFile">
+          <p style="margin-top:10px;">Result</p>
+          <div class="up-area">
+            <div class="row">
+              <ul id="resultList" class="list-group clearfix list-btn">
+                <li class="list-group-item" id="segamentationLoading" style="display: none">
+<!--                  <div>
+                    <img src="https://ocdl-client.s3.amazonaws.com/ISIC_copy_seg.png" alt="文件">
+                  </div>
+                  <h6>ISIC_0012346.jpg</h6>
+                  <h6 style="font-size:10px">Size: 2493191 B</h6>-->
+                  <div>
+                    <img src="assets/images/ajax-loader.gif" alt="loading">
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+<script language="javascript" src="assets/js/index.js"></script>
+<script>
+    initProjectName();
+    function initProjectName(){
+        $.ajax({
+            url: '/rest/config/project',
+            contentType: 'application/json',
+            dataType: "json",
+            type: "GET",
+            success: function(data) {
+                ajaxMessageReader(data,function (data) {
+                    var projectName1= $("#titleFirst");
+                    var projectName2 = $("#titleSecond");
+                    var title=data.split(" ");
+                    if(title.length>1){
+                        projectName2.html(title[1]);
+                    }
+                    projectName1.html(title[0]);
+                })
+            },
+            error: function (data) {
+                var projectName1= $("#titleFirst");
+                var projectName2 = $("#titleSecond");
+                projectName2.html("Segamentation");
+                projectName1.html("Lesion");
+
+            }
+        })
+    }
+
+
+
+    function changeProjectName(projectName) {
+        $.ajax({
+            url: '/rest/config/project',
+            contentType: 'application/json',
+            dataType: "json",
+            data:
+                JSON.stringify({
+                    name: projectName
+                }),
+            type: "PUT",
+            timeout: 0,
+            success: function(data){
+                ajaxMessageReader(data,function (data) {
+                })
+            },
+            error: function (data) {
+            }
+        })
+
+    }
+
+
+
+  $("#titleFirst").click(function () {
+
+      var td=$(this); //为后面文本框变成文本铺垫
+      var td2=$("#titleSecond");
+      var text=$(this).text();
+      var text2=$("#titleSecond").text();
+      var input=$('<input type="text" class="edit" value="'+text+' '+text2+'">');
+      $(this).html( input );
+
+      td2.hide();
+      $(input).click(function(){
+        return false;
+      }); //阻止表单默认点击行为
+
+      $(input).select(); //点击自动全选中表单的内容
+
+      $(input).blur(function(){
+          changeProjectName($(this).val());
+        var title=$(this).val().split(" ");
+        var nextxt=title[0];
+        if(title.length>1){
+          td2.html(title[1]);
+        }
+        td.html(nextxt);
+        td2.show();
+
+      }); //表单失去焦点文本框变成文本
+  })
+  
+</script>
+
+</body>
+</html>
