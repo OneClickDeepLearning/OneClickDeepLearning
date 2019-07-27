@@ -1,6 +1,7 @@
 package acceler.ocdl.utils;
 
 import acceler.ocdl.exception.NotFoundException;
+import acceler.ocdl.exception.OcdlException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,9 +24,17 @@ public class SerializationUtils {
 
     public static void createSerializedFile(String path) {
 
-        File persistanceFile = new File(path);
+        File persistenceFile = new File(path);
+        if (persistenceFile.exists() && !persistenceFile.isDirectory()) {
+            throw new RuntimeException("Data path should be a directory");
+        }
+
+        if (!persistenceFile.exists()) {
+            persistenceFile.mkdirs();
+        }
+
         try {
-            persistanceFile.createNewFile();
+            persistenceFile.createNewFile();
         } catch (IOException ie) {
             throw new RuntimeException(ie.getMessage());
         }
