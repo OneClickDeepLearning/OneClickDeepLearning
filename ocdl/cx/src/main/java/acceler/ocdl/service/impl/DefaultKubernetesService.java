@@ -4,11 +4,8 @@ import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.exception.HdfsException;
 import acceler.ocdl.exception.KuberneteException;
 import acceler.ocdl.model.AbstractUser;
-import acceler.ocdl.model.Project;
 import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.KubernetesService;
-import io.fabric8.kubernetes.api.model.Namespace;
-import io.fabric8.kubernetes.api.model.NamespaceBuilder;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
@@ -149,9 +146,7 @@ public class DefaultKubernetesService implements KubernetesService {
     private Deployment createCpuDeployment(AbstractUser user) {
         String depolyId = getUserSpace(user);
 
-        System.out.println(user.getUserId());
-        System.out.println("++++++++++++++++++++++++");
-        System.out.println(depolyId);
+
 
         Deployment deployment = new DeploymentBuilder()
                 .withApiVersion("apps/v1")
