@@ -8,12 +8,16 @@ import alluxio.client.file.FileInStream;
 import alluxio.client.file.FileSystem;
 import alluxio.exception.FileDoesNotExistException;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class DefaultAlluxioService implements AlluxioService {
+
+    @Value("${APPLICATIONS_DIR.USER_SPACE}")
+    String localUserDir;
 
     @Override
     public void downloadFromStaging(String fileName, Long userId) throws AlluxioException {
@@ -22,7 +26,7 @@ public class DefaultAlluxioService implements AlluxioService {
 
         try {
             FileInStream in = fs.openFile(path);
-            FileOutputStream fileOutputStream = new FileOutputStream(CONSTANTS.APPLICATIONS_DIR.USER_SPACE + userId.toString() + "/" + fileName);
+            FileOutputStream fileOutputStream = new FileOutputStream(localUserDir + userId.toString() + "/" + fileName);
             fileOutputStream.write(IOUtils.toByteArray(in));
             in.close();
             fileOutputStream.close();

@@ -44,12 +44,9 @@ public interface CONSTANTS {
         }
     }
 
-    interface MACHINE {
-        int GPU_AMOUNT = 1;
-    }
 
     interface HDFS {
-        String IP_ADDRESS = "hdfs://66.131.186.246:9000";
+        String IP_ADDRESS = "hdfs://ec2-3-88-164-181.compute-1.amazonaws.com:9000";
         String USER_SPACE = "/UserSpace/";
         String USER_NAME = "hadoop";
     }
