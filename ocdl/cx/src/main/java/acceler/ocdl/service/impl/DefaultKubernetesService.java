@@ -4,11 +4,8 @@ import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.exception.HdfsException;
 import acceler.ocdl.exception.KuberneteException;
 import acceler.ocdl.model.AbstractUser;
-import acceler.ocdl.model.Project;
 import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.KubernetesService;
-import io.fabric8.kubernetes.api.model.Namespace;
-import io.fabric8.kubernetes.api.model.NamespaceBuilder;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
@@ -18,6 +15,7 @@ import io.fabric8.kubernetes.client.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -36,13 +34,26 @@ public class DefaultKubernetesService implements KubernetesService {
     @Autowired
     private HdfsService hdfsService;
 
+    @Value("${K8S.VIRTUAL.MASTER}")
+    private static String k8sVirtualMasterIp;
+    @Value("${K8S.PUBLIC.MASTER}")
+    private static String k8sPublicMasterIp;
+    @Value("${K8S.VIRTUAL.CPU}")
+    private static String k8sVirtualCpuIp;
+    @Value("${K8S.PUBLIC.CPU}")
+    private static String k8sPublicCpuIp;
+    @Value("${K8S.VIRTUAL.GPU}")
+    private static String k8sVirtualGpuIp;
+    @Value("${K8S.PUBLIC.MASTER}")
+    private static String k8sPublicGpuIp;
+
     private static final Map<Long, String> cpuAssigned = new ConcurrentHashMap<>();
     private static final Map<Long, String> gpuAssigned = new ConcurrentHashMap<>();
     private static final Map<String, String> ipMap = new HashMap<String, String>() {
         {
-            put(CONSTANTS.IP.VIRTUAL.MASTER, CONSTANTS.IP.PUBLIC.MASTER);
-            put(CONSTANTS.IP.VIRTUAL.CPU, CONSTANTS.IP.PUBLIC.CPU);
-            put(CONSTANTS.IP.VIRTUAL.GPU, CONSTANTS.IP.PUBLIC.GPU);
+            put(k8sVirtualMasterIp, k8sPublicMasterIp);
+            put(k8sVirtualCpuIp, k8sPublicCpuIp);
+            put(k8sVirtualGpuIp, k8sPublicGpuIp);
         }
     };
 
@@ -56,8 +67,6 @@ public class DefaultKubernetesService implements KubernetesService {
         Long userId = user.getUserId();
         if (gpuAssigned.containsKey(userId))
             return gpuAssigned.get(userId);
-        //else if (gpuAssigned.size() == CONSTANTS.MACHINE.GPU_AMOUNT)
-        //    throw new KuberneteException("No more GPU resource!");
 
         String url;
         String ip;
@@ -138,9 +147,7 @@ public class DefaultKubernetesService implements KubernetesService {
     private Deployment createCpuDeployment(AbstractUser user) {
         String depolyId = getUserSpace(user);
 
-        System.out.println(user.getUserId());
-        System.out.println("++++++++++++++++++++++++");
-        System.out.println(depolyId);
+
 
         Deployment deployment = new DeploymentBuilder()
                 .withApiVersion("apps/v1")
@@ -187,6 +194,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withNewNfs()
                 .withServer(CONSTANTS.IP.PUBLIC.MASTER)
                 .withPath("/home/ubuntu/mount/UserSpace/" + depolyId)
+
                 .endNfs()
                 .endVolume()
 
@@ -198,7 +206,6 @@ public class DefaultKubernetesService implements KubernetesService {
         try {
           deployment = client.apps().deployments().inNamespace("default").create(deployment);
         } catch (KubernetesClientException e) {
-            System.out.println("~~~~~~~EEEEXXXXCCCEEEPPPTTIIOONN");
             throw new KuberneteException(e.getMessage());
         }
         return deployment;
@@ -254,6 +261,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withNewNfs()
                 .withServer(CONSTANTS.IP.PUBLIC.MASTER)
                 .withPath("/home/ubuntu/mount/UserSpace/" + depolyId)
+
                 .endNfs()
                 .endVolume()
 

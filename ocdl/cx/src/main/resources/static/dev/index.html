@@ -438,7 +438,7 @@
 
                         <div role="tabpanel" class="tab-pane fade" id="Section2">
                             <iframe id="fileFrame" sandbox="allow-forms allow-same-origin allow-scripts"
-                                    src="http://3.89.28.106:19999/overview"
+                                    src=""
                                     style="height:550px; width:100%"></iframe>
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="Section3">
@@ -626,9 +626,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
-                <p class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">Copyright &copy; 2019.Concordia
-                    Team
-                    <label style="color:#28a7e9;">Acceler8</label> All rights reserved.
+                <p class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">
+                    Contact us: 2019 <label style="color:#28a7e9;">Acceler8</label> &nbsp;&nbsp
+                    Email: <label style="color:#28a7e9;">yan.liu@concordia.ca</label>
+                </p>
             </div>
         </div>
     </div>
@@ -861,7 +862,7 @@
 
                                             <div class="col-md-7">
                                                 File:<input type="file" id="file" name="file" style="display:none"
-                                                            onchange="changeAgentContent()"/>
+                                                            onchange="changeAgentContent()" />
                                                 <input type="text" value="" disabled id="fileAgent"
                                                        style="color: black"/>
                                                 <input type="button"
@@ -913,7 +914,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">Download Model</h4>
             </div>
-            <div class="modal-body"><textarea id="model-download-code" style="width:100%; height:200px;">testtestestasetsetest</textarea></div>
+            <div class="modal-body"><textarea id="model-download-code" style="width:100%; height:200px;"></textarea></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary btn-copy" data-clipboard-target="#model-download-code" >Copy</button>
@@ -945,6 +946,8 @@
 
 <script type="text/javascript">
 
+    checkPersistence();
+
 
     var clipboard = new ClipboardJS('.btn-copy');
     clipboard.on('success', function (t) {
@@ -956,10 +959,6 @@
     });
 
 
-
-    function changeAgentContent() {
-        document.getElementById("fileAgent").value = document.getElementById("file").value;
-    }
 
     function upload() {
         var url = "";
@@ -1079,6 +1078,28 @@
         $("#model-download-code").text(code);
         $('#downloadCode').modal();
     }
+
+
+
+    function checkPersistence() {
+        $.ajax({
+            url: "/rest/persistence/",
+            contentType: 'application/json',
+            dataType: "json",
+            type: "GET",
+            timeout: 0,
+            success: function(data){
+                ajaxMessageReader(data,function (data) {
+                    if(data==false){
+                        JumpToWithToken("guide.html");
+                    }
+                })
+            },
+            error: function (data) {
+            }
+        })
+    }
+
 
 
 

@@ -21,13 +21,13 @@ public interface CONSTANTS {
     }
 
     interface PERSISTENCE {
-        String _BASE = "D://resources_cx/persistence";
-        String ALGORITHMS = _BASE + "/algorithms";
-        String PROJECT = _BASE + "/project";
-        String USERS = _BASE + "/users";
-        String USER_ID_GENERATOR = _BASE + "/user_id_generator";
-        String NEW_MODEL = _BASE + "/new_model";
-        String REJECTED_MODELS = _BASE + "/rejected_model";
+//        String _BASE = "D://resources_cx/persistence";
+        String ALGORITHMS = "/algorithms";
+        String PROJECT = "/project";
+        String USERS = "/users";
+        String USER_ID_GENERATOR = "/user_id_generator";
+        String NEW_MODEL = "/new_model";
+        String REJECTED_MODELS = "/rejected_model";
     }
 
     interface IP {
@@ -44,12 +44,9 @@ public interface CONSTANTS {
         }
     }
 
-    interface MACHINE {
-        int GPU_AMOUNT = 1;
-    }
 
     interface HDFS {
-        String IP_ADDRESS = "hdfs://66.131.186.246:9000";
+        String IP_ADDRESS = "hdfs://ec2-3-88-164-181.compute-1.amazonaws.com:9000";
         String USER_SPACE = "/UserSpace/";
         String USER_NAME = "hadoop";
     }
