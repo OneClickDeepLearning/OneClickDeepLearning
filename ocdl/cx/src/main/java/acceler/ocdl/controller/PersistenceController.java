@@ -86,20 +86,21 @@ public class PersistenceController {
                 break;
             }
 
-            if (hasProject == false && f.getName().equals("")) {
+            if (hasProject == false && f.getName().equals("project")) {
                 hasProject = true;
             }
-            if (hasUser == false && f.getName().equals("")) {
+            if (hasUser == false && f.getName().equals("users")) {
                 hasUser = true;
             }
         }
         if (hasProject == true && hasUser == true) {
             StorageLoader.initStorage(directory);
+            responseBuilder.setCode(Response.Code.SUCCESS);
         } else {
-            throw new OcdlException("Import file error!");
+            responseBuilder.setCode(Response.Code.ERROR).setMessage("Persistence file are not integrated");
         }
 
-        return responseBuilder.setCode(Response.Code.SUCCESS).build();
+        return responseBuilder.build();
     }
 
 
