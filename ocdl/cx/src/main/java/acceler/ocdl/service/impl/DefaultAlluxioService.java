@@ -1,6 +1,5 @@
 package acceler.ocdl.service.impl;
 
-import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.exception.AlluxioException;
 import acceler.ocdl.service.AlluxioService;
 import alluxio.AlluxioURI;
