@@ -88,16 +88,6 @@ function initTemplateList(){
 
 
 
-function ShowApprovalPortal(content, parent) {
-    var li_1=document.createElement("li");
-    var a=document.createElement("a");
-    a.setAttribute("onclick","forwardTo('views/approvalCenter.html?token="+token+"')");
-    a.setAttribute("href","#");
-    a.innerHTML=content;
-    li_1.appendChild(a);
-
-    document.getElementById(parent).appendChild(li_1);
-}
 function ShowConfigurationPortal(content, parent){
     var li_1=document.createElement("li");
     var a=document.createElement("a");
@@ -224,7 +214,7 @@ function signIn() {
         success:function (data) {
             ajaxMessageReader(data,function (data) {
                 token=data['token'];
-                tradeToken4UsrInfo();
+                JumpToWithToken("index.html");
             })
         },
         error: function (data) {
@@ -325,6 +315,9 @@ function signOut() {
     releaseResource();
     HideConfigurationPortal();
     ShowInitMenu();
+
+    token = "";
+    JumpToWithToken("index.html");
 }
 
 function signUp() {
@@ -489,6 +482,7 @@ $('#projectName').click(function(){
 
 
 function releaseResource(){
+
     $.ajax({
         url: enviorment.API.LOGOUT,
         contentType: 'application/json',
@@ -505,6 +499,7 @@ function releaseResource(){
             alert("Fail to release resources!");
         }
     })
+
 }
 
 function GetQueryString(name) {

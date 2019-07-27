@@ -55,7 +55,7 @@ function afterSignIn(data) {
     selectJupyterServer();
 }
 
-
+/*
 function afterSignIn_ConfigurationPage(data) {
     token= data['token'];
     user_name=data['username'];
@@ -73,7 +73,7 @@ function afterSignIn_ConfigurationPage(data) {
     $("#loginBtnGroup").slideUp();
     $("#userinfo").slideDown();
 
-}
+}*/
 
 
 function signOut() {
