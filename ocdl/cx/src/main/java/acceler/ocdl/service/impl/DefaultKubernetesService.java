@@ -2,7 +2,7 @@ package acceler.ocdl.service.impl;
 
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.exception.HdfsException;
-import acceler.ocdl.exception.KuberneteException;
+import acceler.ocdl.exception.KubernetesException;
 import acceler.ocdl.model.AbstractUser;
 import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.KubernetesService;
@@ -38,32 +38,32 @@ public class DefaultKubernetesService implements KubernetesService {
     private static String k8sVirtualMasterIp;
     @Value("${K8S.PUBLIC.MASTER}")
     private static String k8sPublicMasterIp;
-    @Value("${K8S.VIRTUAL.CPU}")
-    private static String k8sVirtualCpuIp;
-    @Value("${K8S.PUBLIC.CPU}")
-    private static String k8sPublicCpuIp;
-    @Value("${K8S.VIRTUAL.GPU}")
-    private static String k8sVirtualGpuIp;
-    @Value("${K8S.PUBLIC.MASTER}")
-    private static String k8sPublicGpuIp;
+    @Value("${K8S.VIRTUAL.CPU01}")
+    private static String k8sVirtualCpu01Ip;
+    @Value("${K8S.PUBLIC.CPU01}")
+    private static String k8sPublicCpu01Ip;
+    @Value("${K8S.VIRTUAL.GPU03}")
+    private static String k8sVirtualGpu03Ip;
+    @Value("${K8S.PUBLIC.GPU03}")
+    private static String k8sPublicGpu03Ip;
 
     private static final Map<Long, String> cpuAssigned = new ConcurrentHashMap<>();
     private static final Map<Long, String> gpuAssigned = new ConcurrentHashMap<>();
     private static final Map<String, String> ipMap = new HashMap<String, String>() {
         {
             put(k8sVirtualMasterIp, k8sPublicMasterIp);
-            put(k8sVirtualCpuIp, k8sPublicCpuIp);
-            put(k8sVirtualGpuIp, k8sPublicGpuIp);
+            put(k8sVirtualCpu01Ip, k8sPublicCpu01Ip);
+            put(k8sVirtualGpu03Ip, k8sPublicGpu03Ip);
         }
     };
 
-    private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + CONSTANTS.IP.VIRTUAL.MASTER + ":6443").build());
+    private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + k8sVirtualMasterIp + ":6443").build());
 
     private String getUserSpace(AbstractUser user){
         return (CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(user.getUserId()))).toLowerCase();
     }
 
-    public String launchGpuContainer(AbstractUser user) throws KuberneteException, HdfsException {
+    public String launchGpuContainer(AbstractUser user) throws KubernetesException {
         Long userId = user.getUserId();
         if (gpuAssigned.containsKey(userId))
             return gpuAssigned.get(userId);
@@ -89,7 +89,7 @@ public class DefaultKubernetesService implements KubernetesService {
         url = ip + ":" + port;
 
         if (ip == null || port == null) {
-            throw new KuberneteException("Container url unreachable, please try again.");
+            throw new KubernetesException("Container url unreachable, please try again.");
         }
 
         gpuAssigned.put(userId, url);
@@ -103,10 +103,9 @@ public class DefaultKubernetesService implements KubernetesService {
      *
      * @param user userId is required to determine corresponding userspace
      * @return url the address of the launched container format is ip:port
-     * @throws KuberneteException
-     * @throws HdfsException
+     * @throws KubernetesException
      */
-    public String launchCpuContainer(AbstractUser user) throws KuberneteException, HdfsException {
+    public String launchCpuContainer(AbstractUser user) throws KubernetesException {
         Long userId = user.getUserId();
         if (cpuAssigned.containsKey(userId))
             return cpuAssigned.get(userId);
@@ -115,7 +114,6 @@ public class DefaultKubernetesService implements KubernetesService {
         String ip;
         String port;
 
-        System.out.println("===========================");
         createCpuDeployment(user);
 
         io.fabric8.kubernetes.api.model.Service service = createCpuService(user);
@@ -134,7 +132,7 @@ public class DefaultKubernetesService implements KubernetesService {
 
         //get ip or port before container is really launched
         if (ip == null || port == null) {
-            throw new KuberneteException("Container url unreachable, please try again.");
+            throw new KubernetesException("Container url unreachable, please try again.");
         }
 
         cpuAssigned.put(userId, url);
@@ -146,8 +144,6 @@ public class DefaultKubernetesService implements KubernetesService {
 
     private Deployment createCpuDeployment(AbstractUser user) {
         String depolyId = getUserSpace(user);
-
-
 
         Deployment deployment = new DeploymentBuilder()
                 .withApiVersion("apps/v1")
@@ -188,13 +184,17 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withNameservers("8.8.8.8")
                 .endDnsConfig()
 
+                .withNodeSelector(new HashMap<String, String>(){{
+                                      put("rctype","cpu");
+                                  }}
+                )
+
                 .addToVolumes()
                 .addNewVolume()
                 .withName("model")
                 .withNewNfs()
-                .withServer(CONSTANTS.IP.PUBLIC.MASTER)
+                .withServer(k8sPublicMasterIp)
                 .withPath("/home/ubuntu/mount/UserSpace/" + depolyId)
-
                 .endNfs()
                 .endVolume()
 
@@ -206,7 +206,7 @@ public class DefaultKubernetesService implements KubernetesService {
         try {
           deployment = client.apps().deployments().inNamespace("default").create(deployment);
         } catch (KubernetesClientException e) {
-            throw new KuberneteException(e.getMessage());
+            throw new KubernetesException(e.getMessage());
         }
         return deployment;
     }
@@ -234,6 +234,11 @@ public class DefaultKubernetesService implements KubernetesService {
                 .addNewContainer()
                 .withName("jupyter" + depolyId)
                 .withImage("app:gpu")
+
+                .withNewSecurityContext()
+                .withPrivileged(true)
+                .endSecurityContext()
+
                 .addNewPort()
                 .withContainerPort(8998)
                 .endPort()
@@ -255,13 +260,17 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withNameservers("8.8.8.8")
                 .endDnsConfig()
 
+                .withNodeSelector(new HashMap<String, String>(){{
+                    put("rctype","gpu");
+                }}
+                )
+
                 .addToVolumes()
                 .addNewVolume()
                 .withName("model")
                 .withNewNfs()
-                .withServer(CONSTANTS.IP.PUBLIC.MASTER)
+                .withServer(k8sPublicMasterIp)
                 .withPath("/home/ubuntu/mount/UserSpace/" + depolyId)
-
                 .endNfs()
                 .endVolume()
 
@@ -273,7 +282,7 @@ public class DefaultKubernetesService implements KubernetesService {
         try {
             deployment = client.apps().deployments().inNamespace("default").create(deployment);
         } catch (KubernetesClientException e) {
-            throw new KuberneteException(e.getMessage());
+            throw new KubernetesException(e.getMessage());
         }
         return deployment;
     }
@@ -300,7 +309,7 @@ public class DefaultKubernetesService implements KubernetesService {
         try {
             service = client.services().inNamespace("default").create(service);
         } catch (KubernetesClientException e) {
-            throw new KuberneteException(e.getMessage());
+            throw new KubernetesException(e.getMessage());
         }
         return service;
     }
@@ -327,7 +336,7 @@ public class DefaultKubernetesService implements KubernetesService {
         try {
             service = client.services().inNamespace("default").create(service);
         } catch (KubernetesClientException e) {
-            throw new KuberneteException(e.getMessage());
+            throw new KubernetesException(e.getMessage());
         }
         return service;
     }
@@ -343,7 +352,7 @@ public class DefaultKubernetesService implements KubernetesService {
             }
         }
 
-        throw new KuberneteException("Can not find container's IP address");
+        throw new KubernetesException("Can not find container's IP address");
     }
 
     public String getCpuIp(AbstractUser user) {
@@ -359,7 +368,7 @@ public class DefaultKubernetesService implements KubernetesService {
             }
         }
 
-        throw new KuberneteException("Can not find container's IP address");
+        throw new KubernetesException("Can not find container's IP address");
     }
 
     private String getPort(io.fabric8.kubernetes.api.model.Service service) {
@@ -368,12 +377,12 @@ public class DefaultKubernetesService implements KubernetesService {
         try {
             port = service.getSpec().getPorts().get(0).getNodePort().toString();
         } catch (KubernetesClientException e) {
-            throw new KuberneteException(e.getMessage());
+            throw new KubernetesException(e.getMessage());
         }
         return port;
     }
 
-    public void releaseDockerContainer(AbstractUser user) throws KuberneteException {
+    public void releaseDockerContainer(AbstractUser user) throws KubernetesException {
 
         String userId = getUserSpace(user);
         try {
@@ -409,7 +418,7 @@ public class DefaultKubernetesService implements KubernetesService {
             }
 
         } catch (KubernetesClientException e) {
-            throw new KuberneteException(e.getMessage());
+            throw new KubernetesException(e.getMessage());
         }
     }
 }

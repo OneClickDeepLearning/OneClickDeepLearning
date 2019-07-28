@@ -1,7 +1,7 @@
 package acceler.ocdl.service.impl;
 
 import acceler.ocdl.CONSTANTS;
-import acceler.ocdl.exception.KuberneteException;
+import acceler.ocdl.exception.KubernetesException;
 import acceler.ocdl.service.KubernetesService;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
 import io.fabric8.kubernetes.api.model.apps.DeploymentBuilder;
@@ -78,8 +78,7 @@ public class DefaultKubernetesServiceTest {
         try {
             deployment = client.apps().deployments().inNamespace("default").create(deployment);
         } catch (KubernetesClientException e) {
-            System.out.println("~~~~~~~EEEEXXXXCCCEEEPPPTTIIOONN");
-            throw new KuberneteException(e.getMessage());
+            throw new KubernetesException(e.getMessage());
         }
 
 
