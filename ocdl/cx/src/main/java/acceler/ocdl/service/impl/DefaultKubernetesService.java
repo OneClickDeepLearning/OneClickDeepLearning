@@ -51,8 +51,8 @@ public class DefaultKubernetesService implements KubernetesService {
 
     private void initIpMap(){
         ipMap.put(k8sVirtualMasterIp, k8sPublicMasterIp);
-        ipMap.put(k8sVirtualCpuIp, k8sPublicCpuIp);
-        ipMap.put(k8sVirtualGpuIp, k8sPublicGpuIp);
+        ipMap.put(k8sVirtualCpu01Ip, k8sPublicCpu01Ip);
+        ipMap.put(k8sVirtualGpu03Ip, k8sPublicGpu03Ip);
     }
 
     private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + k8sVirtualMasterIp + ":6443").build());
@@ -441,19 +441,19 @@ public class DefaultKubernetesService implements KubernetesService {
         this.k8sPublicMasterIp = k8sPublicMasterIp;
     }
     @Value("${K8S.VIRTUAL.CPU01}")
-    public void setK8sVirtualGpuIp(String k8sVirtualGpuIp){
-        this.k8sVirtualGpuIp = k8sVirtualGpuIp;
+    public void setK8sVirtualCpu01Ip(String k8sVirtualCpu01Ip){
+        this.k8sVirtualCpu01Ip = k8sVirtualCpu01Ip;
     }
     @Value("${K8S.PUBLIC.CPU01}")
-    public void setK8sPublicGpuIp(String k8sPublicGpuIp){
-        this.k8sPublicGpuIp = k8sPublicGpuIp;
+    public void setK8sPublicCpu01Ip(String k8sPublicGpuIp){
+        this.k8sPublicCpu01Ip = k8sPublicGpuIp;
     }
     @Value("${K8S.VIRTUAL.GPU03}")
-    public void setK8sPublicCpuIp(String k8sPublicCpuIp){
-        this.k8sPublicCpuIp = k8sPublicCpuIp;
+    public void setK8sVirtualGpu03Ip(String k8sVirtualGpu03Ip){
+        this.k8sVirtualGpu03Ip = k8sVirtualGpu03Ip;
     }
     @Value("${K8S.PUBLIC.GPU03}")
-    public void setK8sVirtualCpuIp(String k8sVirtualCpuIp){
-        this.k8sVirtualCpuIp = k8sVirtualCpuIp;
+    public void setK8sPublicGpu03Ip(String k8sPublicGpu03Ip){
+        this.k8sPublicGpu03Ip = k8sPublicGpu03Ip;
     }
 }
