@@ -35,17 +35,17 @@ public class DefaultKubernetesService implements KubernetesService {
     private HdfsService hdfsService;
 
     @Value("${K8S.VIRTUAL.MASTER}")
-    private static String k8sVirtualMasterIp;
+    private String k8sVirtualMasterIp;
     @Value("${K8S.PUBLIC.MASTER}")
-    private static String k8sPublicMasterIp;
+    private String k8sPublicMasterIp;
     @Value("${K8S.VIRTUAL.CPU01}")
-    private static String k8sVirtualCpu01Ip;
+    private String k8sVirtualCpu01Ip;
     @Value("${K8S.PUBLIC.CPU01}")
-    private static String k8sPublicCpu01Ip;
+    private String k8sPublicCpu01Ip;
     @Value("${K8S.VIRTUAL.GPU03}")
-    private static String k8sVirtualGpu03Ip;
+    private String k8sVirtualGpu03Ip;
     @Value("${K8S.PUBLIC.GPU03}")
-    private static String k8sPublicGpu03Ip;
+    private String k8sPublicGpu03Ip;
 
     private static final Map<Long, String> cpuAssigned = new ConcurrentHashMap<>();
     private static final Map<Long, String> gpuAssigned = new ConcurrentHashMap<>();

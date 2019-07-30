@@ -4716,3 +4716,6 @@ Unconditional classes:
 
 2019-Jul-29 17:23:11.615 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 10006 (http) with context path ''
 2019-Jul-29 17:23:11.619 INFO  [main] acceler.ocdl.OcdlApplication - Started OcdlApplication in 4.885 seconds (JVM running for 6.65)
+2019-Jul-29 21:26:54.397 DEBUG [Thread-3] org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext - Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@35a3d49f, started on Mon Jul 29 17:23:07 EDT 2019
+2019-Jul-29 21:26:54.429 DEBUG [Thread-3] org.springframework.jmx.export.annotation.AnnotationMBeanExporter - Unregistering JMX-exposed beans on shutdown
+2019-Jul-29 21:26:54.430 INFO  [Thread-3] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
