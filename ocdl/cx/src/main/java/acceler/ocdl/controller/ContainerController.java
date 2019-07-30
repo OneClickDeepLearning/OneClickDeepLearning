@@ -1,6 +1,6 @@
 package acceler.ocdl.controller;
 
-import acceler.ocdl.exception.KuberneteException;
+import acceler.ocdl.exception.KubernetesException;
 import acceler.ocdl.model.InnerUser;
 import acceler.ocdl.model.ResourceType;
 import acceler.ocdl.dto.Response;
@@ -32,7 +32,7 @@ public final class ContainerController {
             } else {
                 assign = kubernetesService.launchCpuContainer(innerUser);
             }
-        }catch (KuberneteException e){
+        }catch (KubernetesException e){
             e.printStackTrace();
             assign = null;
         }
@@ -68,6 +68,6 @@ public final class ContainerController {
         else if (rscType.equals("cpu"))
             return ResourceType.CPU;
         else
-            throw new KuberneteException("Invalid type of resource!");
+            throw new KubernetesException("Invalid type of resource!");
     }
 }
