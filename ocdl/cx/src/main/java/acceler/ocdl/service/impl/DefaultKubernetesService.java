@@ -33,28 +33,26 @@ public class DefaultKubernetesService implements KubernetesService {
     @Autowired
     private HdfsService hdfsService;
 
-    @Value("${K8S.VIRTUAL.MASTER}")
+
     private static String k8sVirtualMasterIp;
-    @Value("${K8S.PUBLIC.MASTER}")
     private static String k8sPublicMasterIp;
-    @Value("${K8S.VIRTUAL.CPU}")
     private static String k8sVirtualCpuIp;
-    @Value("${K8S.PUBLIC.CPU}")
     private static String k8sPublicCpuIp;
-    @Value("${K8S.VIRTUAL.GPU}")
     private static String k8sVirtualGpuIp;
-    @Value("${K8S.PUBLIC.MASTER}")
     private static String k8sPublicGpuIp;
 
     private static final Map<Long, String> cpuAssigned = new ConcurrentHashMap<>();
     private static final Map<Long, String> gpuAssigned = new ConcurrentHashMap<>();
-    private static final Map<String, String> ipMap = new HashMap<String, String>() {
-        {
-            put(k8sVirtualMasterIp, k8sPublicMasterIp);
-            put(k8sVirtualCpuIp, k8sPublicCpuIp);
-            put(k8sVirtualGpuIp, k8sPublicGpuIp);
-        }
-    };
+    private final Map<String, String> ipMap = new HashMap<String, String>();
+
+
+
+
+    private void initIpMap(){
+        ipMap.put(k8sVirtualMasterIp, k8sPublicMasterIp);
+        ipMap.put(k8sVirtualCpuIp, k8sPublicCpuIp);
+        ipMap.put(k8sVirtualGpuIp, k8sPublicGpuIp);
+    }
 
     private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + k8sVirtualMasterIp + ":6443").withTrustCerts(true).withOauthToken("j8q5j3.zfnjcs9vdk76y4b5").build());
 
@@ -63,6 +61,11 @@ public class DefaultKubernetesService implements KubernetesService {
     }
 
     public String launchGpuContainer(AbstractUser user) throws KuberneteException, HdfsException {
+
+        if(!ipMap.containsKey(k8sVirtualMasterIp)){
+            initIpMap();
+        }
+
         Long userId = user.getUserId();
         if (gpuAssigned.containsKey(userId))
             return gpuAssigned.get(userId);
@@ -106,6 +109,11 @@ public class DefaultKubernetesService implements KubernetesService {
      * @throws HdfsException
      */
     public String launchCpuContainer(AbstractUser user) throws KuberneteException, HdfsException {
+
+        if(!ipMap.containsKey(k8sVirtualMasterIp)){
+            initIpMap();
+        }
+
         Long userId = user.getUserId();
         if (cpuAssigned.containsKey(userId))
             return cpuAssigned.get(userId);
@@ -114,7 +122,6 @@ public class DefaultKubernetesService implements KubernetesService {
         String ip;
         String port;
 
-        System.out.println("===========================");
         createCpuDeployment(user);
 
         io.fabric8.kubernetes.api.model.Service service = createCpuService(user);
@@ -397,5 +404,32 @@ public class DefaultKubernetesService implements KubernetesService {
         } catch (KubernetesClientException e) {
             throw new KuberneteException(e.getMessage());
         }
+    }
+
+
+    @Value("${K8S.VIRTUAL.MASTER}")
+    public void setK8sVirtualMasterIp(String k8sVirtualMasterIp){
+        this.k8sVirtualMasterIp = k8sVirtualMasterIp;
+    }
+
+    @Value("${K8S.PUBLIC.MASTER}")
+    public void setK8sPublicMasterIp(String k8sPublicMasterIp){
+        this.k8sPublicMasterIp = k8sPublicMasterIp;
+    }
+    @Value("${K8S.VIRTUAL.GPU}")
+    public void setK8sVirtualGpuIp(String k8sVirtualGpuIp){
+        this.k8sVirtualGpuIp = k8sVirtualGpuIp;
+    }
+    @Value("${K8S.PUBLIC.MASTER}")
+    public void setK8sPublicGpuIp(String k8sPublicGpuIp){
+        this.k8sPublicGpuIp = k8sPublicGpuIp;
+    }
+    @Value("${K8S.PUBLIC.CPU}")
+    public void setK8sPublicCpuIp(String k8sPublicCpuIp){
+        this.k8sPublicCpuIp = k8sPublicCpuIp;
+    }
+    @Value("${K8S.VIRTUAL.CPU}")
+    public void setK8sVirtualCpuIp(String k8sVirtualCpuIp){
+        this.k8sVirtualCpuIp = k8sVirtualCpuIp;
     }
 }
