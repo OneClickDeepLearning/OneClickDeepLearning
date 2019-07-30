@@ -49,15 +49,14 @@ public class DefaultKubernetesService implements KubernetesService {
 
     private static final Map<Long, String> cpuAssigned = new ConcurrentHashMap<>();
     private static final Map<Long, String> gpuAssigned = new ConcurrentHashMap<>();
-    private static final Map<String, String> ipMap = new HashMap<String, String>() {
+    private final Map<String, String> ipMap = new HashMap<String, String>() {
         {
-            put(k8sVirtualMasterIp, k8sPublicMasterIp);
             put(k8sVirtualCpu01Ip, k8sPublicCpu01Ip);
             put(k8sVirtualGpu03Ip, k8sPublicGpu03Ip);
         }
     };
 
-    private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://10.8.0.1:6443").build());
+    private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + k8sVirtualMasterIp + ":6443").build());
 
     private String getUserSpace(AbstractUser user){
         return (CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(user.getUserId()))).toLowerCase();
