@@ -63,6 +63,10 @@ public class DefaultKubernetesService implements KubernetesService {
     }
 
     public String launchGpuContainer(AbstractUser user) throws KubernetesException {
+
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + k8sVirtualMasterIp);
+
+
         Long userId = user.getUserId();
         if (gpuAssigned.containsKey(userId))
             return gpuAssigned.get(userId);
