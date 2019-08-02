@@ -444,16 +444,16 @@ public class DefaultKubernetesService implements KubernetesService {
         this.k8sVirtualCpu01Ip = k8sVirtualCpu01Ip;
     }
     @Value("${K8S.PUBLIC.CPU01}")
-    public void setK8sPublicCpu01Ip(String k8sPublicGpuIp){
-        this.k8sPublicCpu01Ip = k8sPublicGpuIp;
+    public void setK8sPublicCpu01Ip(String k8sPublicCpu01Ip){
+        this.k8sPublicCpu01Ip = k8sPublicCpu01Ip;
     }
     @Value("${K8S.VIRTUAL.CPU02}")
     public void setK8sVirtualCpu02Ip(String k8sVirtualCpu02Ip){
         this.k8sVirtualCpu02Ip = k8sVirtualCpu02Ip;
     }
     @Value("${K8S.PUBLIC.CPU02}")
-    public void setK8sPublicCpu02Ip(String k8sPublicGpuIp){
-        this.k8sPublicCpu02Ip = k8sPublicGpuIp;
+    public void setK8sPublicCpu02Ip(String k8sPublicCpu02Ip){
+        this.k8sPublicCpu02Ip = k8sPublicCpu02Ip;
     }
     @Value("${K8S.VIRTUAL.GPU03}")
     public void setK8sVirtualGpu03Ip(String k8sVirtualGpu03Ip){
