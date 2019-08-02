@@ -34,27 +34,25 @@ public class DefaultKubernetesService implements KubernetesService {
     @Autowired
     private HdfsService hdfsService;
 
-    @Value("${K8S.VIRTUAL.MASTER}")
-    private String k8sVirtualMasterIp;
-    @Value("${K8S.PUBLIC.MASTER}")
-    private String k8sPublicMasterIp;
-    @Value("${K8S.VIRTUAL.CPU01}")
-    private String k8sVirtualCpu01Ip;
-    @Value("${K8S.PUBLIC.CPU01}")
-    private String k8sPublicCpu01Ip;
-    @Value("${K8S.VIRTUAL.GPU03}")
-    private String k8sVirtualGpu03Ip;
-    @Value("${K8S.PUBLIC.GPU03}")
-    private String k8sPublicGpu03Ip;
+    private static String k8sVirtualMasterIp;
+    private static String k8sPublicMasterIp;
+    private static String k8sVirtualCpu01Ip;
+    private static String k8sPublicCpu01Ip;
+    private static String k8sVirtualCpu02Ip;
+    private static String k8sPublicCpu02Ip;
+    private static String k8sVirtualGpu03Ip;
+    private static String k8sPublicGpu03Ip;
 
     private static final Map<Long, String> cpuAssigned = new ConcurrentHashMap<>();
     private static final Map<Long, String> gpuAssigned = new ConcurrentHashMap<>();
-    private final Map<String, String> ipMap = new HashMap<String, String>() {
-        {
-            put("10.8.0.6", "52.91.74.159");
-            put("10.8.0.22", "66.131.186.246");
-        }
-    };
+    private final Map<String, String> ipMap = new HashMap<String, String>();
+
+    private void initIpMap(){
+        ipMap.put(k8sVirtualMasterIp, k8sPublicMasterIp);
+        ipMap.put(k8sVirtualCpu01Ip, k8sPublicCpu01Ip);
+        ipMap.put(k8sVirtualCpu02Ip, k8sPublicCpu02Ip);
+        ipMap.put(k8sVirtualGpu03Ip, k8sPublicGpu03Ip);
+    }
 
     private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://10.8.0.1:6443").build());
 
@@ -64,6 +62,9 @@ public class DefaultKubernetesService implements KubernetesService {
 
     public String launchGpuContainer(AbstractUser user) throws KubernetesException {
 
+        if(!ipMap.containsKey(k8sVirtualMasterIp)){
+            initIpMap();
+        }
 
         Long userId = user.getUserId();
         if (gpuAssigned.containsKey(userId))
@@ -107,6 +108,11 @@ public class DefaultKubernetesService implements KubernetesService {
      * @throws KubernetesException
      */
     public String launchCpuContainer(AbstractUser user) throws KubernetesException {
+
+        if(!ipMap.containsKey(k8sVirtualMasterIp)){
+            initIpMap();
+        }
+
         Long userId = user.getUserId();
         if (cpuAssigned.containsKey(userId))
             return cpuAssigned.get(userId);
@@ -194,7 +200,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .addNewVolume()
                 .withName("model")
                 .withNewNfs()
-                .withServer("10.8.0.1")
+                .withServer(k8sVirtualMasterIp)
                 .withPath("/home/ubuntu/mount/UserSpace/" + depolyId)
                 .endNfs()
                 .endVolume()
@@ -270,7 +276,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .addNewVolume()
                 .withName("model")
                 .withNewNfs()
-                .withServer("10.8.0.1")
+                .withServer(k8sVirtualMasterIp)
                 .withPath("/home/ubuntu/mount/UserSpace/" + depolyId)
                 .endNfs()
                 .endVolume()
@@ -421,5 +427,40 @@ public class DefaultKubernetesService implements KubernetesService {
         } catch (KubernetesClientException e) {
             throw new KubernetesException(e.getMessage());
         }
+    }
+
+
+    @Value("${K8S.VIRTUAL.MASTER}")
+    public void setK8sVirtualMasterIp(String k8sVirtualMasterIp){
+        this.k8sVirtualMasterIp = k8sVirtualMasterIp;
+    }
+
+    @Value("${K8S.PUBLIC.MASTER}")
+    public void setK8sPublicMasterIp(String k8sPublicMasterIp){
+        this.k8sPublicMasterIp = k8sPublicMasterIp;
+    }
+    @Value("${K8S.VIRTUAL.CPU01}")
+    public void setK8sVirtualCpu01Ip(String k8sVirtualCpu01Ip){
+        this.k8sVirtualCpu01Ip = k8sVirtualCpu01Ip;
+    }
+    @Value("${K8S.PUBLIC.CPU01}")
+    public void setK8sPublicCpu01Ip(String k8sPublicGpuIp){
+        this.k8sPublicCpu01Ip = k8sPublicGpuIp;
+    }
+    @Value("${K8S.VIRTUAL.CPU02}")
+    public void setK8sVirtualCpu02Ip(String k8sVirtualCpu02Ip){
+        this.k8sVirtualCpu02Ip = k8sVirtualCpu02Ip;
+    }
+    @Value("${K8S.PUBLIC.CPU02}")
+    public void setK8sPublicCpu02Ip(String k8sPublicGpuIp){
+        this.k8sPublicCpu02Ip = k8sPublicGpuIp;
+    }
+    @Value("${K8S.VIRTUAL.GPU03}")
+    public void setK8sVirtualGpu03Ip(String k8sVirtualGpu03Ip){
+        this.k8sVirtualGpu03Ip = k8sVirtualGpu03Ip;
+    }
+    @Value("${K8S.PUBLIC.GPU03}")
+    public void setK8sPublicGpu03Ip(String k8sPublicGpu03Ip){
+        this.k8sPublicGpu03Ip = k8sPublicGpu03Ip;
     }
 }
