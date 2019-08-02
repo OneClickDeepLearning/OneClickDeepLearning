@@ -34,11 +34,12 @@ public class DefaultKubernetesService implements KubernetesService {
     @Autowired
     private HdfsService hdfsService;
 
-
     private static String k8sVirtualMasterIp;
     private static String k8sPublicMasterIp;
     private static String k8sVirtualCpu01Ip;
     private static String k8sPublicCpu01Ip;
+    private static String k8sVirtualCpu02Ip;
+    private static String k8sPublicCpu02Ip;
     private static String k8sVirtualGpu03Ip;
     private static String k8sPublicGpu03Ip;
 
@@ -46,16 +47,14 @@ public class DefaultKubernetesService implements KubernetesService {
     private static final Map<Long, String> gpuAssigned = new ConcurrentHashMap<>();
     private final Map<String, String> ipMap = new HashMap<String, String>();
 
-
-
-
     private void initIpMap(){
         ipMap.put(k8sVirtualMasterIp, k8sPublicMasterIp);
         ipMap.put(k8sVirtualCpu01Ip, k8sPublicCpu01Ip);
+        ipMap.put(k8sVirtualCpu02Ip, k8sPublicCpu02Ip);
         ipMap.put(k8sVirtualGpu03Ip, k8sPublicGpu03Ip);
     }
 
-    private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + k8sVirtualMasterIp + ":6443").build());
+    private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://10.8.0.1:6443").build());
 
     private String getUserSpace(AbstractUser user){
         return (CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(user.getUserId()))).toLowerCase();
@@ -201,7 +200,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .addNewVolume()
                 .withName("model")
                 .withNewNfs()
-                .withServer(k8sPublicMasterIp)
+                .withServer(k8sVirtualMasterIp)
                 .withPath("/home/ubuntu/mount/UserSpace/" + depolyId)
                 .endNfs()
                 .endVolume()
@@ -277,7 +276,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .addNewVolume()
                 .withName("model")
                 .withNewNfs()
-                .withServer(k8sPublicMasterIp)
+                .withServer(k8sVirtualMasterIp)
                 .withPath("/home/ubuntu/mount/UserSpace/" + depolyId)
                 .endNfs()
                 .endVolume()
@@ -447,6 +446,14 @@ public class DefaultKubernetesService implements KubernetesService {
     @Value("${K8S.PUBLIC.CPU01}")
     public void setK8sPublicCpu01Ip(String k8sPublicGpuIp){
         this.k8sPublicCpu01Ip = k8sPublicGpuIp;
+    }
+    @Value("${K8S.VIRTUAL.CPU02}")
+    public void setK8sVirtualCpu02Ip(String k8sVirtualCpu02Ip){
+        this.k8sVirtualCpu02Ip = k8sVirtualCpu02Ip;
+    }
+    @Value("${K8S.PUBLIC.CPU02}")
+    public void setK8sPublicCpu02Ip(String k8sPublicGpuIp){
+        this.k8sPublicCpu02Ip = k8sPublicGpuIp;
     }
     @Value("${K8S.VIRTUAL.GPU03}")
     public void setK8sVirtualGpu03Ip(String k8sVirtualGpu03Ip){
