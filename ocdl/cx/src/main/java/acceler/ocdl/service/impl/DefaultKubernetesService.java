@@ -52,9 +52,11 @@ public class DefaultKubernetesService implements KubernetesService {
         ipMap.put(k8sVirtualCpu01Ip, k8sPublicCpu01Ip);
         ipMap.put(k8sVirtualCpu02Ip, k8sPublicCpu02Ip);
         ipMap.put(k8sVirtualGpu03Ip, k8sPublicGpu03Ip);
+
+        client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://"+k8sVirtualMasterIp+":6443").build());
     }
 
-    private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://10.8.0.1:6443").build());
+    private KubernetesClient client ;
 
     private String getUserSpace(AbstractUser user){
         return (CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(user.getUserId()))).toLowerCase();
