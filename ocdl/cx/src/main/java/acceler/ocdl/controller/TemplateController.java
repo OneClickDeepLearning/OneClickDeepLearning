@@ -41,8 +41,7 @@ public final class TemplateController {
         }
 
 
-        return Response.getBuilder()
-                .build();
+        return responseBuilder.build();
     }
 
     @ResponseBody

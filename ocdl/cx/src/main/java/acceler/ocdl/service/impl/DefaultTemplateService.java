@@ -1,5 +1,6 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.service.ProjectService;
 import acceler.ocdl.service.TemplateService;
 
@@ -34,16 +35,21 @@ public class DefaultTemplateService implements TemplateService {
     private static List<String> getFile(String path) {
         // 获得指定文件对象
         List<String> nameList = new ArrayList<String>();
-        File file = new File(path);
-        // 获得该文件夹内的所有文件
-        File[] array = file.listFiles();
 
-        for (int i = 0; i < array.length; i++) {
-            if (array[i].isFile())//如果是文件
-            {
+        try {
+            File file = new File(path);
+            // 获得该文件夹内的所有文件
+            File[] array = file.listFiles();
+            for (int i = 0; i < array.length; i++) {
+                if (array[i].isFile())//如果是文件
+                {
 
-                nameList.add(array[i].getName());
+                    nameList.add(array[i].getName());
+                }
             }
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new OcdlException("Get file error");
         }
         return nameList;
     }
@@ -57,7 +63,7 @@ public class DefaultTemplateService implements TemplateService {
         BufferedReader br = null;
         try {
             /* 读入TXT文件 */
-            String pathname = projectService.getProjectConfiguration().getTemplatePath() + type + "//" + name; // 绝对路径或相对路径都可以，这里是绝对路径，写入文件时演示相对路径
+            String pathname = Paths.get(projectService.getProjectConfiguration().getTemplatePath(), type,name).toString(); // 绝对路径或相对路径都可以，这里是绝对路径，写入文件时演示相对路径
             filename = new File(pathname); // 要读取以上路径的input。txt文件
             reader = new InputStreamReader(
                     new FileInputStream(filename)); // 建立一个输入流对象reader
@@ -70,6 +76,7 @@ public class DefaultTemplateService implements TemplateService {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw new OcdlException("Read file error");
         } finally {
             try {
                 br.close();
