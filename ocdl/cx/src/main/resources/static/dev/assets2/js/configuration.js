@@ -17,20 +17,22 @@ function initConfigInfo() {
             ajaxMessageReader(data,function (data) {
                 var projectName=$("#name");
                 var projectName2=$("#projectName");
-                var k8Url= $("#k8Url");
-                var git = $("#git");
+                // var k8Url= $("#k8Url");
+                // var git = $("#git");
                 var templatePath = $("#templateUrl");
                 var suffix = $("#suffix");
                 var algorithm = $("#algorithm");
 
                 projectName.val(data['projectName']);
-                k8Url.val(data['k8Url']);
-                git.val(data['gitPath']);
+                // k8Url.val(data['k8Url']);
+                // git.val(data['gitPath']);
                 templatePath.val(data['templatePath']);
                 projectName2.text("Project:"+data['projectName']);
                 suffix.val(data['suffix']);
                 algorithm.val(data['algorithm']);
 
+            },function (data) {
+                alert(data.message)
             })
         },
         error: function (data) {
@@ -49,8 +51,6 @@ function updateConfiguration() {
         data:
             JSON.stringify({
                 projectName: $("#name").val(),
-                gitPath: $("#git").val(),
-                k8Url: $("#k8Url").val(),
                 templatePath: $("#templateUrl").val(),
                 suffix:$("#suffix").val(),
                 algorithm:$("#algorithm").val()
@@ -61,6 +61,8 @@ function updateConfiguration() {
             ajaxMessageReader(data,function (data) {
                 $("#projectName").text($("#name").val());
                 alert("Update Successful");
+            },function (data) {
+                alert(data.message)
             })
         },
         error: function (data) {

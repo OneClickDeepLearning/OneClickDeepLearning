@@ -25,29 +25,6 @@
   });
 
 
-/*	$(".d-secondNav").on('click',function(e){
-		jsAnimateMenu('close');
-		flipPanel();
-  //      getCode(this.val(),this.parentElement.innerText);
-	 });*/
-
-/*    function selectTemplate(name) {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function () {
-
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById("code").innerHTML = xmlhttp.responseText;
-                dp.SyntaxHighlighter.ClipboardSwf = 'assets/js/clipboard.swf';
-                dp.SyntaxHighlighter.HighlightAll('code');
-            }
-        }
-        xmlhttp.open("POST", "template/getTemplate.do", true);
-        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xmlhttp.send("name="+name);
-    }*/
-
-
-
 
 
 function jsAnimateMenu(tog) {

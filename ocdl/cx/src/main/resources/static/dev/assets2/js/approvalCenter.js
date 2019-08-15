@@ -9,25 +9,6 @@ var salesData = [
 
 var modelTypeList;
 
-
-/*var svg = d3.select("#pie").append("svg").attr("width", 700).attr("height", 300);
-
-svg.append("g").attr("id", "salesDonut");
-Donut3D.draw("salesDonut", randomData(), 150, 150, 130, 100, 30, 0.4);
-
-Donut3D.draw("salesDonut", salesData, 150, 150, 130, 100, 30, 0.4);*/
-
-/*
-token = GetQueryString("token");*/
-/*
-
-initProjectName();
-initUserInfo();
-
-initModelTypeList();
-*/
-
-
 function initApproralCenterInfo() {
     $("#tableNew .data").remove();
     $("#tableApproval .data").remove();
@@ -151,9 +132,9 @@ function initApproralCenterInfo() {
                 }
 
 
+            }, function (response) {
+                alert(response.message)
             })
-        },
-        error: function (data) {
         }
     })
 }
@@ -171,13 +152,12 @@ function initModelTypeList() {
             ajaxMessageReader(data, function (data) {
                 modelTypeList = data;
                 initApproralCenterInfo();
+            },function (response) {
+                alert(response.message)
             })
-        },
-        error: function (data) {
         }
     })
 }
-
 
 function UpdateDecision(id,status,origin) {
     var decision='';
@@ -213,6 +193,8 @@ function UpdateDecision(id,status,origin) {
         success: function (data) {
             ajaxMessageReader(data, function (data) {
                 initApproralCenterInfo();
+            },function (response) {
+                alert(response.message)
             })
         },
         error: function (data) {
@@ -234,15 +216,11 @@ function releaseModel(id) {
             ajaxMessageReader(data, function (data) {
                 initApproralCenterInfo();
                 alert("The model has been released!")
+            },function (data) {
+                alert(data.message)
             })
-        },
-        error: function (data) {
         }
     })
 }
 
-function randomData() {
-    return salesData.map(function (d) {
-        return {label: d.label, value: 1000 * Math.random(), color: d.color};
-    });
-}
+
