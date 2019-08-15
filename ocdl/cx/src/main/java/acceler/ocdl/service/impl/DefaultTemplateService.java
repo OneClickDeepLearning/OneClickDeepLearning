@@ -38,6 +38,7 @@ public class DefaultTemplateService implements TemplateService {
 
         try {
             File file = new File(path);
+            System.out.println("===============================");
             System.out.println(path);
             // 获得该文件夹内的所有文件
             File[] array = file.listFiles();
