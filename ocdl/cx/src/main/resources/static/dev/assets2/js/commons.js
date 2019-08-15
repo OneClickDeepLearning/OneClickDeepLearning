@@ -18,9 +18,9 @@ function tradeToken4UsrInfo() {
         success: function(data) {
             ajaxMessageReader(data,function (data) {
                 afterSignIn(data);
+            },function (data) {
+                alert(data.message)
             })
-        },
-        error: function (data) {
         }
     })
 }
@@ -55,25 +55,6 @@ function afterSignIn(data) {
     selectJupyterServer();
 }
 
-/*
-function afterSignIn_ConfigurationPage(data) {
-    token= data['token'];
-    user_name=data['username'];
-
-    var status=$("#status");
-    var rescource=$("#rescourse");
-    var username=$("#username");
-
-    username.text(user_name);
-    status.removeClass('status_disconnected');
-    status.addClass('status_connected');
-    rescource.removeClass('status_NoneR');
-    rescource.addClass('status_cpu');
-
-    $("#loginBtnGroup").slideUp();
-    $("#userinfo").slideDown();
-
-}*/
 
 
 function signOut() {
@@ -98,6 +79,7 @@ function releaseResource(){
         },
         timeout: 0,
         success: function(data){
+            alert("User resource released")
         },
         error: function () {
             alert("Fail to release user Resources ");
@@ -116,9 +98,8 @@ function initProjectName() {
             ajaxMessageReader(data,function (data) {
                 var projectName=$("#projectName");
                 projectName.text("Project: "+data.projectName);
+            },function () {
             })
-        },
-        error: function (data) {
         }
     })
 }
@@ -139,13 +120,11 @@ function GetQueryString(name) {
     return '';
 }
 
-function ajaxMessageReader(response, func){
+function ajaxMessageReader(response, func, errfunc){
     if(response.code=="200"){
         func(response.data);
     }else{
-        if(response.message!=null){
-            alert(response.message);
-        }
+        errfunc(response);
 
     }
 
@@ -180,6 +159,8 @@ function createAccount(username,password,role, func) {
         success: function(data) {
             ajaxMessageReader(data,function (data) {
                 func(data)
+            },function (data) {
+                alert(data.message)
             })
         }
 
@@ -209,6 +190,8 @@ function modifyConfiguration(projectName,gitPath,k8Url,templatePath,suffix,algor
         success: function(data){
             ajaxMessageReader(data,function (data) {
                 func(data);
+            },function (data) {
+                alert(data.message)
             })
         },
         error: function (data) {
