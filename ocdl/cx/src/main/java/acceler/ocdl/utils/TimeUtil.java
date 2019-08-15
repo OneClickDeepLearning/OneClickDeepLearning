@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class TimeUtil {
-    public static final String DATA_FORMAT = "yyyy-mm-dd hh:mm:ss";
+    public static final String DATA_FORMAT = "yyyy-MM-dd hh:mm:ss";
 
 
     public static Date currentTime() {
