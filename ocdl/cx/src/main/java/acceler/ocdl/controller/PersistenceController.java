@@ -75,8 +75,13 @@ public class PersistenceController {
         Response.Builder responseBuilder = getBuilder();
         String directory = dataPath.get("path").substring(0, dataPath.get("path").lastIndexOf("/"));
 
-        File serializedFile = new File(directory);
-        File[] serializedFiles = serializedFile.listFiles();
+        File[] serializedFiles = null;
+        try {
+            File serializedFile = new File(directory);
+            serializedFiles = serializedFile.listFiles();
+        } catch (Exception e) {
+            responseBuilder.setCode(Response.Code.ERROR).setMessage("Persistence file are not exist");
+        }
 
         // check the validation of imported file
         boolean hasProject = false;
