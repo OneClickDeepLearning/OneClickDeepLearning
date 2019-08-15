@@ -425,12 +425,18 @@ function selectJupyterServer() {
         },
         timeout: 0,
         success: function (data) {
-            $("#resourceLoading").hide();
-            $("#resourceLoadingBar").hide();
-            $("#jupyterFrame").show();
             ajaxMessageReader(data, function (data) {
                 $('#jupyterFrame').attr('src', "http://" + data["url"] + "/notebooks/MySpace");
                 $('#IDE-tab').click();
+
+                $('#jupyterFrame').load(function () {
+                    $("#Section1_label").text("Resource launched successful! Loading...");
+                });
+                $("#jupyterFrame").ready(function () {
+                    $("#resourceLoading").hide();
+                    $("#resourceLoadingBar").hide();
+                    $("#jupyterFrame").show();
+                });
             })
         },
         error: function () {
@@ -439,9 +445,6 @@ function selectJupyterServer() {
             $("#jupyterFrame").hide();
             $("#Section1_label").text("Sorry, Fail to load resource!");
         },
-        complete: function () {
-
-        }
     })
 }
 
