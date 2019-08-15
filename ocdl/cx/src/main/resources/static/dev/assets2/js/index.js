@@ -76,10 +76,10 @@ function initTemplateList() {
                 for (var i = 0; i < frameworks.length; i++) {
                     addLi(frameworks[i], "Frameworks");
                 }
+            }, function (response) {
+                $("#template_alert").show();
             })
         }
-    }, function (response) {
-        $("#template_alert").show();
     })
 }
 
