@@ -31,6 +31,8 @@ function initConfigInfo() {
                 suffix.val(data['suffix']);
                 algorithm.val(data['algorithm']);
 
+            },function (data) {
+                alert(data.message)
             })
         },
         error: function (data) {
@@ -49,8 +51,6 @@ function updateConfiguration() {
         data:
             JSON.stringify({
                 projectName: $("#name").val(),
-                // gitPath: $("#git").val(),
-                // k8Url: $("#k8Url").val(),
                 templatePath: $("#templateUrl").val(),
                 suffix:$("#suffix").val(),
                 algorithm:$("#algorithm").val()
@@ -61,6 +61,8 @@ function updateConfiguration() {
             ajaxMessageReader(data,function (data) {
                 $("#projectName").text($("#name").val());
                 alert("Update Successful");
+            },function (data) {
+                alert(data.message)
             })
         },
         error: function (data) {

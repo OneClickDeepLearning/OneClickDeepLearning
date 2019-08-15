@@ -127,14 +127,6 @@
             var humanize = Math.round(Math.random() * (100 - 30)) + this.typeSpeed;
             var self = this;
 
-            // ------------- optional ------------- //
-            // backpaces a certain string faster
-            // ------------------------------------ //
-            // if (self.arrayPos == 1){
-            //  self.backDelay = 50;
-            // }
-            // else{ self.backDelay = 500; }
-
             // contain typing function in a timeout humanize'd delay
             self.timeout = setTimeout(function() {
                 // check for an escape character before a pause value
@@ -242,19 +234,6 @@
             var self = this;
 
             self.timeout = setTimeout(function() {
-
-                // ----- this part is optional ----- //
-                // check string array position
-                // on the first string, only delete one word
-                // the stopNum actually represents the amount of chars to
-                // keep in the current string. In my case it's 14.
-                // if (self.arrayPos == 1){
-                //  self.stopNum = 14;
-                // }
-                //every other time, delete the whole typed string
-                // else{
-                //  self.stopNum = 0;
-                // }
 
                 if (self.contentType === 'html') {
                     // skip over html tags while backspacing
