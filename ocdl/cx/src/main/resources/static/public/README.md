@@ -1,1 +1,0 @@
-# all front end for demo page put here - boyu
