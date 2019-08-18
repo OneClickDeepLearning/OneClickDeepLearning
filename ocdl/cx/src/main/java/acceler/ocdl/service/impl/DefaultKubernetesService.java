@@ -62,7 +62,7 @@ public class DefaultKubernetesService implements KubernetesService {
     private KubernetesClient client ;
 
     private String getUserSpace(AbstractUser user){
-        return (applicationsDirUserSpace + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(user.getUserId()))).toLowerCase();
+        return (CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(user.getUserId()))).toLowerCase();
     }
 
     public String launchGpuContainer(AbstractUser user) throws KubernetesException {
@@ -206,7 +206,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withName("model")
                 .withNewNfs()
                 .withServer(k8sVirtualMasterIp)
-                .withPath("/home/ubuntu/mount/UserSpace/" + depolyId)
+                .withPath(applicationsDirUserSpace + depolyId)
                 .endNfs()
                 .endVolume()
 
@@ -282,7 +282,7 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withName("model")
                 .withNewNfs()
                 .withServer(k8sVirtualMasterIp)
-                .withPath("/home/ubuntu/mount/UserSpace/" + depolyId)
+                .withPath(applicationsDirUserSpace + depolyId)
                 .endNfs()
                 .endVolume()
 
