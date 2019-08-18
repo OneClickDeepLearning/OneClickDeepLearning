@@ -34,6 +34,9 @@ public class DefaultKubernetesService implements KubernetesService {
     @Autowired
     private HdfsService hdfsService;
 
+    @Value("${APPLICATIONS_DIR.USER_SPACE}")
+    private String applicationsDirUserSpace;
+
     private static String k8sVirtualMasterIp;
     private static String k8sPublicMasterIp;
     private static String k8sVirtualCpu01Ip;
@@ -59,7 +62,7 @@ public class DefaultKubernetesService implements KubernetesService {
     private KubernetesClient client ;
 
     private String getUserSpace(AbstractUser user){
-        return (CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(user.getUserId()))).toLowerCase();
+        return (applicationsDirUserSpace + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(user.getUserId()))).toLowerCase();
     }
 
     public String launchGpuContainer(AbstractUser user) throws KubernetesException {
