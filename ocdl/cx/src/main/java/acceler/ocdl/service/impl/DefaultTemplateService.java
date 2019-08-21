@@ -21,12 +21,6 @@ public class DefaultTemplateService implements TemplateService {
     @Autowired
     private ProjectService projectService;
 
-    private String path;
-
-    public DefaultTemplateService(){
-        path = Paths.get(projectService.getProjectConfiguration().getTemplatePath()).toString();
-    }
-
     /*
      * 函数名：getFile
      * 作用：使用递归，输出指定文件夹内的所有文件
@@ -35,6 +29,7 @@ public class DefaultTemplateService implements TemplateService {
     @Override
     public Map<String, List<String>> getTemplatesList() {
         // 获得指定文件对象
+        String path = Paths.get(projectService.getProjectConfiguration().getTemplatePath()).toString();
         Map<String, List<String>> dirMap = new HashMap<String, List<String>>();
         try {
             File file = new File(path);
