@@ -60,6 +60,11 @@ function initTemplateList() {
         success: function (data) {
             ajaxMessageReader(data, function (data) {
                 $("#template_ul").show();
+
+                for(var val in data){
+                    addLi()
+                }
+
                 var layerList = data[0];
                 var blockList = data[1];
                 var networksList = data[2];
@@ -95,7 +100,7 @@ function ShowConfigurationPortal(content, parent) {
     document.getElementById(parent).appendChild(li_1);
 }
 
-function HideConfigurationPortal(id) {
+function HideConfigurationPortal() {
     $("#configurationBtn").remove();
 }
 
