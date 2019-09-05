@@ -57,6 +57,7 @@ function afterSignIn(data) {
 
 
 
+
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
@@ -65,7 +66,13 @@ function signOut() {
     $("#userinfo").slideUp();
     $("#loginBtnGroup").slideDown();
 
+
     releaseResource();
+    HideConfigurationPortal();
+    ShowInitMenu();
+
+    token = "";
+    JumpToWithToken("index.html");
 }
 
 function releaseResource(){
