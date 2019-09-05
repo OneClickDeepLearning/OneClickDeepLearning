@@ -9,7 +9,7 @@ var key = '';
 
 window.onload = function () {
     initTemplateList();
-    initProjectName();
+/*    initProjectName();*/
     initUserInfo();
     ShowInitMenu();
 };
@@ -436,6 +436,11 @@ function selectJupyterServer() {
                     $("#resourceLoading").hide();
                     $("#resourceLoadingBar").hide();
                     $("#jupyterFrame").show();
+                },function (response) {
+                    $("#resourceLoading").show();
+                    $("#resourceLoadingBar").hide();
+                    $("#jupyterFrame").hide();
+                    $("#Section1_label").text(response.message);
                 });
             })
         },

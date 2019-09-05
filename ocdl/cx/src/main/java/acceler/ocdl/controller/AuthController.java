@@ -104,7 +104,7 @@ public class AuthController {
         return respBuilder.build();
     }
 
-    @RequestMapping(path = "/logout", method= RequestMethod.POST)
+    @RequestMapping(path = "/logout", method = RequestMethod.POST)
     @ResponseBody
     public Response logout(HttpServletRequest request, HttpServletResponse response) {
         final Response.Builder respBuilder = Response.getBuilder();
@@ -121,12 +121,12 @@ public class AuthController {
 
     @RequestMapping(path = "/me", method = RequestMethod.GET)
     @ResponseBody
-    public Response me(HttpServletRequest request, @QueryParam("token")String token) {
+    public Response me(HttpServletRequest request, @QueryParam("token") String token) {
         InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
         final Response.Builder respBuilder = Response.getBuilder();
         Map<String, Object> result = new HashMap<>();
         result.put("userId", innerUser.getUserId());
-        result.put("username",innerUser.getUserName());
+        result.put("username", innerUser.getUserName());
         result.put("token", token);
         result.put("role", innerUser.getRole());
         respBuilder.setData(result);
@@ -134,7 +134,7 @@ public class AuthController {
         return respBuilder.build();
     }
 
-    @RequestMapping(path ="/key", method = RequestMethod.GET)
+    @RequestMapping(path = "/key", method = RequestMethod.GET)
     @ResponseBody
     public Response key() {
         EncryptionUtil.generateKey();
@@ -143,7 +143,7 @@ public class AuthController {
         try {
             respBuilder.setData(EncryptionUtil.getKeyString(EncryptionUtil.publicKey));
         } catch (Exception e) {
-            respBuilder.setMessage("Can't get the public key from server with exception: \n"+e.getMessage());
+            respBuilder.setMessage("Can't get the public key from server with exception: \n" + e.getMessage());
         }
         return respBuilder.build();
     }
