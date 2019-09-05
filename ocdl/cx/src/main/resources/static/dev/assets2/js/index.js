@@ -1,5 +1,5 @@
 var user_name = '';
-var project_name = '';
+// var project_name = '';
 var list;
 var token = GetQueryString("token");
 var id = '';
@@ -294,22 +294,6 @@ function onSignIn(googleUser) {
 
 }
 
-function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-        console.log('User signed out.');
-    });
-    $("#userinfo").slideUp();
-    $("#loginBtnGroup").slideDown();
-
-    releaseResource();
-    HideConfigurationPortal();
-    ShowInitMenu();
-
-    token = "";
-    JumpToWithToken("index.html");
-}
-
 function signUp() {
     if (key == null || key == '') {
         getPublicKey();
@@ -442,14 +426,14 @@ function selectJupyterServer() {
                     $("#jupyterFrame").hide();
                     $("#Section1_label").text(response.message);
                 });
+            },function (data) {
+                $("#resourceLoading").show();
+                $("#resourceLoadingBar").hide();
+                $("#jupyterFrame").hide();
+                $("#Section1_label").text("Sorry, Fail to load resource!");
             })
-        },
-        error: function () {
-            $("#resourceLoading").show();
-            $("#resourceLoadingBar").hide();
-            $("#jupyterFrame").hide();
-            $("#Section1_label").text("Sorry, Fail to load resource!");
-        },
+        }
+
     })
 }
 
