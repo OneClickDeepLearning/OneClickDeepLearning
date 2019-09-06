@@ -2,19 +2,20 @@ package acceler.ocdl.service.impl;
 
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.exception.HdfsException;
-import acceler.ocdl.exception.KuberneteException;
+import acceler.ocdl.exception.KubernetesException;
 import acceler.ocdl.model.AbstractUser;
-import acceler.ocdl.model.Project;
 import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.KubernetesService;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
 import io.fabric8.kubernetes.api.model.apps.DeploymentBuilder;
+import io.fabric8.kubernetes.api.model.apps.ReplicaSet;
 import io.fabric8.kubernetes.client.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -33,29 +34,46 @@ public class DefaultKubernetesService implements KubernetesService {
     @Autowired
     private HdfsService hdfsService;
 
+    @Value("${APPLICATIONS_DIR.USER_SPACE}")
+    private String applicationsDirUserSpace;
+
+    private static String k8sVirtualMasterIp;
+    private static String k8sPublicMasterIp;
+    private static String k8sVirtualCpu01Ip;
+    private static String k8sPublicCpu01Ip;
+    private static String k8sVirtualCpu02Ip;
+    private static String k8sPublicCpu02Ip;
+    private static String k8sVirtualGpu03Ip;
+    private static String k8sPublicGpu03Ip;
+
     private static final Map<Long, String> cpuAssigned = new ConcurrentHashMap<>();
     private static final Map<Long, String> gpuAssigned = new ConcurrentHashMap<>();
-    private static final Map<String, String> ipMap = new HashMap<String, String>() {
-        {
-            put(CONSTANTS.IP.VIRTUAL.MASTER, CONSTANTS.IP.PUBLIC.MASTER);
-            put(CONSTANTS.IP.VIRTUAL.CPU, CONSTANTS.IP.PUBLIC.CPU);
-            put(CONSTANTS.IP.VIRTUAL.GPU, CONSTANTS.IP.PUBLIC.GPU);
-        }
-    };
+    private final Map<String, String> ipMap = new HashMap<String, String>();
 
-    private final KubernetesClient client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://" + CONSTANTS.IP.VIRTUAL.MASTER + ":6443").build());
+    private void initIpMap(){
+        ipMap.put(k8sVirtualMasterIp, k8sPublicMasterIp);
+        ipMap.put(k8sVirtualCpu01Ip, k8sPublicCpu01Ip);
+        ipMap.put(k8sVirtualCpu02Ip, k8sPublicCpu02Ip);
+        ipMap.put(k8sVirtualGpu03Ip, k8sPublicGpu03Ip);
 
+        client = new DefaultKubernetesClient(new ConfigBuilder().withMasterUrl("https://"+k8sVirtualMasterIp+":6443").build());
+    }
+
+    private KubernetesClient client ;
 
     private String getUserSpace(AbstractUser user){
         return (CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(user.getUserId()))).toLowerCase();
     }
 
-    public String launchGpuContainer(AbstractUser user) throws KuberneteException, HdfsException {
+    public String launchGpuContainer(AbstractUser user) throws KubernetesException {
+
+        if(!ipMap.containsKey(k8sVirtualMasterIp)){
+            initIpMap();
+        }
+
         Long userId = user.getUserId();
         if (gpuAssigned.containsKey(userId))
             return gpuAssigned.get(userId);
-        //else if (gpuAssigned.size() == CONSTANTS.MACHINE.GPU_AMOUNT)
-        //    throw new KuberneteException("No more GPU resource!");
 
         String url;
         String ip;
@@ -78,7 +96,7 @@ public class DefaultKubernetesService implements KubernetesService {
         url = ip + ":" + port;
 
         if (ip == null || port == null) {
-            throw new KuberneteException("Container url unreachable, please try again.");
+            throw new KubernetesException("Container url unreachable, please try again.");
         }
 
         gpuAssigned.put(userId, url);
@@ -92,10 +110,14 @@ public class DefaultKubernetesService implements KubernetesService {
      *
      * @param user userId is required to determine corresponding userspace
      * @return url the address of the launched container format is ip:port
-     * @throws KuberneteException
-     * @throws HdfsException
+     * @throws KubernetesException
      */
-    public String launchCpuContainer(AbstractUser user) throws KuberneteException, HdfsException {
+    public String launchCpuContainer(AbstractUser user) throws KubernetesException {
+
+        if(!ipMap.containsKey(k8sVirtualMasterIp)){
+            initIpMap();
+        }
+
         Long userId = user.getUserId();
         if (cpuAssigned.containsKey(userId))
             return cpuAssigned.get(userId);
@@ -122,7 +144,7 @@ public class DefaultKubernetesService implements KubernetesService {
 
         //get ip or port before container is really launched
         if (ip == null || port == null) {
-            throw new KuberneteException("Container url unreachable, please try again.");
+            throw new KubernetesException("Container url unreachable, please try again.");
         }
 
         cpuAssigned.put(userId, url);
@@ -134,24 +156,24 @@ public class DefaultKubernetesService implements KubernetesService {
 
     private Deployment createCpuDeployment(AbstractUser user) {
         String depolyId = getUserSpace(user);
+
         Deployment deployment = new DeploymentBuilder()
                 .withApiVersion("apps/v1")
                 .withKind("Deployment")
                 .withNewMetadata()
                 .withName(depolyId + "-deploy-cpu")
-                .addToLabels("app", "cpu1")
+                .addToLabels("app", depolyId + "-deploy-cpu")
                 .endMetadata()
                 .withNewSpec()
                 .withReplicas(1)
                 .withNewSelector()
-                .addToMatchLabels("app", "cpu1")
+                .addToMatchLabels("app", depolyId + "-deploy-cpu")
                 .endSelector()
                 .withNewTemplate()
                 .withNewMetadata()
-                .addToLabels("app", "cpu1")
+                .addToLabels("app", depolyId + "-deploy-cpu")
                 .endMetadata()
                 .withNewSpec()
-                .withNodeName(CONSTANTS.IP.VIRTUAL.GPU)//GPU node address
                 .addNewContainer()
                 .withName("jupyter" + depolyId)
                 .withImage("app:cpu")
@@ -174,12 +196,17 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withNameservers("8.8.8.8")
                 .endDnsConfig()
 
+                .withNodeSelector(new HashMap<String, String>(){{
+                                      put("rctype","cpu");
+                                  }}
+                )
+
                 .addToVolumes()
                 .addNewVolume()
                 .withName("model")
                 .withNewNfs()
-                .withServer(CONSTANTS.IP.PUBLIC.MASTER)
-                .withPath("/home/hadoop/mount/UserSpace/" + depolyId)
+                .withServer(k8sVirtualMasterIp)
+                .withPath(applicationsDirUserSpace + depolyId)
                 .endNfs()
                 .endVolume()
 
@@ -189,9 +216,9 @@ public class DefaultKubernetesService implements KubernetesService {
                 .build();
 
         try {
-            deployment = client.apps().deployments().inNamespace("default").create(deployment);
+          deployment = client.apps().deployments().inNamespace("default").create(deployment);
         } catch (KubernetesClientException e) {
-            throw new KuberneteException(e.getMessage());
+            throw new KubernetesException(e.getMessage());
         }
         return deployment;
     }
@@ -203,22 +230,27 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withKind("Deployment")
                 .withNewMetadata()
                 .withName(depolyId + "-deploy-gpu")
-                .addToLabels("app", "gpu1")
+                .addToLabels("app", depolyId + "-deploy-gpu")
                 .endMetadata()
                 .withNewSpec()
                 .withReplicas(1)
                 .withNewSelector()
-                .addToMatchLabels("app", "gpu1")
+                .addToMatchLabels("app", depolyId + "-deploy-gpu")
                 .endSelector()
                 .withNewTemplate()
                 .withNewMetadata()
-                .addToLabels("app", "gpu1")
+                .addToLabels("app", depolyId + "-deploy-gpu")
                 .endMetadata()
                 .withNewSpec()
-                .withNodeName(CONSTANTS.IP.VIRTUAL.GPU)//GPU node address
+                //.withNodeName(CONSTANTS.IP.VIRTUAL.GPU)//GPU node address
                 .addNewContainer()
                 .withName("jupyter" + depolyId)
                 .withImage("app:gpu")
+
+                .withNewSecurityContext()
+                .withPrivileged(true)
+                .endSecurityContext()
+
                 .addNewPort()
                 .withContainerPort(8998)
                 .endPort()
@@ -240,12 +272,17 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withNameservers("8.8.8.8")
                 .endDnsConfig()
 
+                .withNodeSelector(new HashMap<String, String>(){{
+                    put("rctype","gpu");
+                }}
+                )
+
                 .addToVolumes()
                 .addNewVolume()
                 .withName("model")
                 .withNewNfs()
-                .withServer(CONSTANTS.IP.PUBLIC.MASTER)
-                .withPath("/home/hadoop/mount/UserSpace/" + depolyId)
+                .withServer(k8sVirtualMasterIp)
+                .withPath(applicationsDirUserSpace + depolyId)
                 .endNfs()
                 .endVolume()
 
@@ -257,7 +294,7 @@ public class DefaultKubernetesService implements KubernetesService {
         try {
             deployment = client.apps().deployments().inNamespace("default").create(deployment);
         } catch (KubernetesClientException e) {
-            throw new KuberneteException(e.getMessage());
+            throw new KubernetesException(e.getMessage());
         }
         return deployment;
     }
@@ -277,14 +314,14 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withNewTargetPort(8998)
                 .withProtocol("TCP")
                 .endPort()
-                .withSelector(Collections.singletonMap("app", "cpu1"))
+                .withSelector(Collections.singletonMap("app", svcId + "-deploy-cpu"))
                 .endSpec()
                 .build();
 
         try {
             service = client.services().inNamespace("default").create(service);
         } catch (KubernetesClientException e) {
-            throw new KuberneteException(e.getMessage());
+            throw new KubernetesException(e.getMessage());
         }
         return service;
     }
@@ -304,14 +341,14 @@ public class DefaultKubernetesService implements KubernetesService {
                 .withNewTargetPort(8998)
                 .withProtocol("TCP")
                 .endPort()
-                .withSelector(Collections.singletonMap("app", "gpu1"))
+                .withSelector(Collections.singletonMap("app", svcId + "-deploy-gpu"))
                 .endSpec()
                 .build();
 
         try {
             service = client.services().inNamespace("default").create(service);
         } catch (KubernetesClientException e) {
-            throw new KuberneteException(e.getMessage());
+            throw new KubernetesException(e.getMessage());
         }
         return service;
     }
@@ -327,7 +364,7 @@ public class DefaultKubernetesService implements KubernetesService {
             }
         }
 
-        throw new KuberneteException("Can not find container's IP address");
+        throw new KubernetesException("Can not find container's IP address");
     }
 
     public String getCpuIp(AbstractUser user) {
@@ -343,7 +380,7 @@ public class DefaultKubernetesService implements KubernetesService {
             }
         }
 
-        throw new KuberneteException("Can not find container's IP address");
+        throw new KubernetesException("Can not find container's IP address");
     }
 
     private String getPort(io.fabric8.kubernetes.api.model.Service service) {
@@ -352,12 +389,12 @@ public class DefaultKubernetesService implements KubernetesService {
         try {
             port = service.getSpec().getPorts().get(0).getNodePort().toString();
         } catch (KubernetesClientException e) {
-            throw new KuberneteException(e.getMessage());
+            throw new KubernetesException(e.getMessage());
         }
         return port;
     }
 
-    public void releaseDockerContainer(AbstractUser user) throws KuberneteException {
+    public void releaseDockerContainer(AbstractUser user) throws KubernetesException {
 
         String userId = getUserSpace(user);
         try {
@@ -373,6 +410,17 @@ public class DefaultKubernetesService implements KubernetesService {
                     client.resource(deploy).delete();
             }
 
+            for(ReplicaSet replicaSet : client.apps().replicaSets().inNamespace("default").list().getItems()) {
+                System.out.println(replicaSet.getMetadata().getName());
+                if (replicaSet.getMetadata().getName().contains(userId))
+                    client.resource(replicaSet).delete();
+            }
+            for (Pod pod : client.pods().inNamespace("default").list().getItems()){
+                System.out.println(pod.getMetadata().getName());
+                if(pod.getMetadata().getName().contains(userId))
+                    client.resource(pod).delete();
+            }
+
             //release resource cache
             if(cpuAssigned.containsKey(user.getUserId())){
                 cpuAssigned.remove(user.getUserId());
@@ -382,7 +430,42 @@ public class DefaultKubernetesService implements KubernetesService {
             }
 
         } catch (KubernetesClientException e) {
-            throw new KuberneteException(e.getMessage());
+            throw new KubernetesException(e.getMessage());
         }
+    }
+
+
+    @Value("${K8S.VIRTUAL.MASTER}")
+    public void setK8sVirtualMasterIp(String k8sVirtualMasterIp){
+        this.k8sVirtualMasterIp = k8sVirtualMasterIp;
+    }
+
+    @Value("${K8S.PUBLIC.MASTER}")
+    public void setK8sPublicMasterIp(String k8sPublicMasterIp){
+        this.k8sPublicMasterIp = k8sPublicMasterIp;
+    }
+    @Value("${K8S.VIRTUAL.CPU01}")
+    public void setK8sVirtualCpu01Ip(String k8sVirtualCpu01Ip){
+        this.k8sVirtualCpu01Ip = k8sVirtualCpu01Ip;
+    }
+    @Value("${K8S.PUBLIC.CPU01}")
+    public void setK8sPublicCpu01Ip(String k8sPublicCpu01Ip){
+        this.k8sPublicCpu01Ip = k8sPublicCpu01Ip;
+    }
+    @Value("${K8S.VIRTUAL.CPU02}")
+    public void setK8sVirtualCpu02Ip(String k8sVirtualCpu02Ip){
+        this.k8sVirtualCpu02Ip = k8sVirtualCpu02Ip;
+    }
+    @Value("${K8S.PUBLIC.CPU02}")
+    public void setK8sPublicCpu02Ip(String k8sPublicCpu02Ip){
+        this.k8sPublicCpu02Ip = k8sPublicCpu02Ip;
+    }
+    @Value("${K8S.VIRTUAL.GPU03}")
+    public void setK8sVirtualGpu03Ip(String k8sVirtualGpu03Ip){
+        this.k8sVirtualGpu03Ip = k8sVirtualGpu03Ip;
+    }
+    @Value("${K8S.PUBLIC.GPU03}")
+    public void setK8sPublicGpu03Ip(String k8sPublicGpu03Ip){
+        this.k8sPublicGpu03Ip = k8sPublicGpu03Ip;
     }
 }

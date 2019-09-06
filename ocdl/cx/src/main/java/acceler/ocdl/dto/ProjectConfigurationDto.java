@@ -12,7 +12,7 @@ public class ProjectConfigurationDto implements Serializable {
     private String projectName;
     private String k8Url;
     private String templatePath;
-    private String gitPath;
+    private String dataPath;
 
     /**
      * suffixes split by ';'
@@ -46,13 +46,11 @@ public class ProjectConfigurationDto implements Serializable {
         this.templatePath = templatePath;
     }
 
-    public String getGitPath() {
-        return gitPath;
+    public String getDataPath() {
+        return dataPath;
     }
 
-    public void setGitPath(String gitPath) {
-        this.gitPath = gitPath;
-    }
+    public void setDataPath(String dataPath) { this.dataPath = dataPath; }
 
     public String getSuffix() {
         return suffix;
@@ -78,7 +76,7 @@ public class ProjectConfigurationDto implements Serializable {
         }
         Project project = new Project();
         project.setTemplatePath(templatePath);
-        project.setGitRepoURI(gitPath);
+        project.setDataPath(dataPath);
         project.setK8MasterUri(k8Url);
         project.setProjectName(projectName);
 

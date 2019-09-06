@@ -123,12 +123,16 @@ public final class ModelController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public final Response initModelToStage(HttpServletRequest request) {
+        String result;
         InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
         Response.Builder builder = Response.getBuilder();
 
-        modelService.initModelToStage(innerUser);
+        Map<String, Integer> initRecords = modelService.initModelToStage(innerUser);
 
-        return builder.setCode(Response.Code.SUCCESS).build();
+        if (initRecords.get("finded") == 0) {
+            throw new NotFoundException("No model file founded! ");
+        }
+        return builder.setCode(Response.Code.SUCCESS).setData(initRecords).build();
     }
 
 

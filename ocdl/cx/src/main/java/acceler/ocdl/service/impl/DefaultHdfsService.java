@@ -1,14 +1,13 @@
 package acceler.ocdl.service.impl;
 
-import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.exception.HdfsException;
 import acceler.ocdl.service.HdfsService;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -16,6 +15,11 @@ import java.net.URISyntaxException;
 public class DefaultHdfsService implements HdfsService {
 
     private Configuration conf;
+
+    @Value("${HDFS.IP_ADDRESS}")
+    private String hdfsIpAddress;
+    @Value("${HDFS.USER_NAME}")
+    private String hdfsUserName;
 
     public DefaultHdfsService() {
         conf = new Configuration();
@@ -30,9 +34,9 @@ public class DefaultHdfsService implements HdfsService {
      */
     public void createDir(Path dirPath) throws HdfsException{
         try {
-            URI uri = new URI(CONSTANTS.HDFS.IP_ADDRESS);
+            URI uri = new URI(hdfsIpAddress);
             //returns the configured filesystem implementation.
-            FileSystem hdfs = FileSystem.get(uri, conf, CONSTANTS.HDFS.USER_NAME);
+            FileSystem hdfs = FileSystem.get(uri, conf, hdfsUserName);
             hdfs.mkdirs(dirPath);
         } catch (URISyntaxException | InterruptedException | IOException e) {
             throw new HdfsException(e.getMessage());
@@ -54,8 +58,8 @@ public class DefaultHdfsService implements HdfsService {
     public void uploadFile(Path srcPath, Path destPath) throws HdfsException {
         //String result = "http://3.92.26.165:50075/webhdfs/v1/CommonSpace/" + fileName + "?op=CREATE&user.name=hadoop&namenoderpcaddress=hadoop-master:9000&createflag=&createparent=true&overwrite=true";
         try {
-            URI uri = new URI(CONSTANTS.HDFS.IP_ADDRESS);
-            FileSystem hdfs = FileSystem.get(uri, conf, CONSTANTS.HDFS.USER_NAME);
+            URI uri = new URI(hdfsIpAddress);
+            FileSystem hdfs = FileSystem.get(uri, conf, hdfsUserName);
             hdfs.copyFromLocalFile(true,true,srcPath,destPath);
         } catch (URISyntaxException | InterruptedException | IOException e){
             throw new HdfsException(e.getMessage());

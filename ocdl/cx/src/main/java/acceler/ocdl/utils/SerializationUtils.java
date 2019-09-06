@@ -6,7 +6,38 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 
 public class SerializationUtils {
+
     public static final Logger logger = LoggerFactory.getLogger(SerializationUtils.class);
+
+
+    public static boolean existDefaultSerializedFile(String defaultDataPath) {
+
+        boolean existSerializedFile = true;
+        File persistanceFile = new File(defaultDataPath);
+        if (!persistanceFile.exists()) {
+            existSerializedFile = false;
+        }
+        return existSerializedFile;
+    }
+
+    public static void createSerializedFile(String path) {
+
+        File persistenceFile = new File(path);
+        if (persistenceFile.exists() && !persistenceFile.isDirectory()) {
+            throw new RuntimeException("Data path should be a directory");
+        }
+
+        if (!persistenceFile.exists()) {
+            persistenceFile.mkdirs();
+        }
+
+        try {
+            persistenceFile.createNewFile();
+        } catch (IOException ie) {
+            throw new RuntimeException(ie.getMessage());
+        }
+    }
+
 
     public static void dump(Object target, File persistanceFile) throws RuntimeException {
         FileOutputStream fileOutputStream = null;

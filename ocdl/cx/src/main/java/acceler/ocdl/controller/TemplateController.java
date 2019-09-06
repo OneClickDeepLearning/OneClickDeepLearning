@@ -13,33 +13,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static acceler.ocdl.dto.Response.getBuilder;
+
 @Controller
 @RequestMapping(path = "/rest/template")
 public final class TemplateController {
 
     @Autowired
-    private TemplateService databaseService;
+    private TemplateService templateService;
 
     @ResponseBody
     @RequestMapping(path = "/file", method = RequestMethod.GET)
     public final Response getTemplateFiles(HttpServletRequest request){
-        List<List<String>> result = new ArrayList<List<String>>();
-        result.add( databaseService.getTemplatesList("Layers"));
-        result.add(databaseService.getTemplatesList("Blocks"));
-        result.add(  databaseService.getTemplatesList("Networks"));
-        result.add(databaseService.getTemplatesList("Frameworks"));
+        Response.Builder responseBuilder = getBuilder();
 
-        return Response.getBuilder()
-                .setCode(Response.Code.SUCCESS)
-                .setData(result)
-                .build();
+
+        try{
+            Map<String,List<String>> result = templateService.getTemplatesList();
+            responseBuilder.setCode(Response.Code.SUCCESS);
+            responseBuilder.setData(result);
+        }catch (Exception e){
+            responseBuilder.setCode(Response.Code.ERROR);
+            responseBuilder.setMessage(e.getMessage());
+        }
+
+
+        return responseBuilder.build();
     }
 
     @ResponseBody
     @RequestMapping(path = "/code", method = RequestMethod.GET)
     public final Response getTemplateCode(@QueryParam("name")String name, @QueryParam("type")String type){
         List<String> templates = new ArrayList <String>();
-        templates = databaseService.getTemplates2(name,type);
+        templates = templateService.getCode(name,type);
 
         return Response.getBuilder()
                 .setCode(Response.Code.SUCCESS)

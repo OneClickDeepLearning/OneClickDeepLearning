@@ -2,10 +2,11 @@ package acceler.ocdl.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 public interface TemplateService {
 
-    List<String> getTemplatesList(String type);
+    Map<String, List<String>> getTemplatesList();
 
-    List<String> getTemplates2(String name,String type);
+    List<String> getCode(String name,String type);
 }

@@ -1,38 +1,38 @@
-var user_name='';
-var project_name='';
+var user_name = '';
+// var project_name = '';
 var list;
-var token= GetQueryString("token");
-var id='';
-var profileImage='';
-
+var token = GetQueryString("token");
+var id = '';
+var profileImage = '';
+var key = '';
 
 
 window.onload = function () {
     initTemplateList();
-    initProjectName();
+/*    initProjectName();*/
     initUserInfo();
     ShowInitMenu();
 };
 
 function initUserInfo() {
-    if(token!=''){
+    if (token != '') {
         tradeToken4UsrInfo();
     }
 }
 
-function addSpan(li,text){
-    var span_1=document.createElement("span");
-    span_1.innerHTML=text;
+function addSpan(li, text) {
+    var span_1 = document.createElement("span");
+    span_1.innerHTML = text;
     li.appendChild(span_1);
 }
-function addLi(content, parent){
-    var li_1=document.createElement("li");
-    li_1.setAttribute("class","d-secondNav s-secondNav");
-    li_1.setAttribute("onclick","javascript:getCode('"+content+"','"+parent+"');");
-    addSpan(li_1,content);
+
+function addLi(content, parent) {
+    var li_1 = document.createElement("li");
+    li_1.setAttribute("class", "d-secondNav s-secondNav");
+    li_1.setAttribute("onclick", "javascript:getCode('" + content + "','" + parent + "');");
+    addSpan(li_1, content);
     document.getElementById(parent).appendChild(li_1);
 }
-
 
 function initProjectName() {
     $.ajax({
@@ -40,78 +40,72 @@ function initProjectName() {
         contentType: 'application/json',
         dataType: "json",
         type: "GET",
-        success: function(data) {
-            ajaxMessageReader(data,function (data) {
-                var projectName=$("#projectName");
-                projectName.text("Project: "+data.projectName);
+        success: function (data) {
+            ajaxMessageReader(data, function (data) {
+                var projectName = $("#projectName");
+                projectName.text("Project: " + data.projectName);
             })
-        },
-        error: function (data) {
         }
+    }, function (response) {
+        alert(response.message);
     })
 }
 
-function initTemplateList(){
+function initTemplateList() {
     $.ajax({
         url: enviorment.API.TEMPLATE_LIST,
         contentType: 'application/json',
         dataType: "json",
         type: "GET",
-        success:function (data) {
-            ajaxMessageReader(data,function (data) {
-                var layerList=data[0];
-                var blockList=data[1];
-                var networksList=data[2];
-                var frameworks = data[3];
-                for(var i=0; i<layerList.length;i++){
-                    addLi(layerList[i],"Layers");
-                }
-                for(var i=0; i<blockList.length;i++){
-                    addLi(blockList[i],"Blocks");
-                }
-                for(var i=0; i<networksList.length;i++){
-                    addLi(networksList[i],"Networks");
-                }
-                for(var i=0; i<frameworks.length;i++){
-                    addLi(frameworks[i],"Frameworks");
-                }
-            })
-        },
+        success: function (data) {
+            ajaxMessageReader(data, function (data) {
+                $("#template_ul").show();
 
-        error: function (data) {
+                for(var val in data){
+                    addLi()
+                }
+
+                var layerList = data[0];
+                var blockList = data[1];
+                var networksList = data[2];
+                var frameworks = data[3];
+                for (var i = 0; i < layerList.length; i++) {
+                    addLi(layerList[i], "Layers");
+                }
+                for (var i = 0; i < blockList.length; i++) {
+                    addLi(blockList[i], "Blocks");
+                }
+                for (var i = 0; i < networksList.length; i++) {
+                    addLi(networksList[i], "Networks");
+                }
+                for (var i = 0; i < frameworks.length; i++) {
+                    addLi(frameworks[i], "Frameworks");
+                }
+            }, function (response) {
+                $("#template_alert").show();
+            })
         }
     })
 }
 
 
-
-function ShowApprovalPortal(content, parent) {
-    var li_1=document.createElement("li");
-    var a=document.createElement("a");
-    a.setAttribute("onclick","forwardTo('views/approvalCenter.html?token="+token+"')");
-    a.setAttribute("href","#");
-    a.innerHTML=content;
-    li_1.appendChild(a);
-
-    document.getElementById(parent).appendChild(li_1);
-}
-function ShowConfigurationPortal(content, parent){
-    var li_1=document.createElement("li");
-    var a=document.createElement("a");
-    a.setAttribute("onclick","forwardTo('views/configuration.html?token="+token+"')");
-    a.setAttribute("href","#");
-    a.innerHTML=content;
+function ShowConfigurationPortal(content, parent) {
+    var li_1 = document.createElement("li");
+    var a = document.createElement("a");
+    a.setAttribute("onclick", "forwardTo('views/configuration.html?token=" + token + "')");
+    a.setAttribute("href", "#");
+    a.innerHTML = content;
     li_1.id = "configurationBtn";
     li_1.appendChild(a);
     document.getElementById(parent).appendChild(li_1);
 }
 
-function HideConfigurationPortal(id) {
+function HideConfigurationPortal() {
     $("#configurationBtn").remove();
 }
 
-function ShowManagerMenu(){
-    ShowConfigurationPortal("CONFIGURE","nav-menu");
+function ShowManagerMenu() {
+    ShowConfigurationPortal("CONFIGURE", "nav-menu");
     $("#model-center-li").show(500);
     $("#IDE-li").show(500);
     $("#file-system-li").show(500);
@@ -121,8 +115,8 @@ function ShowManagerMenu(){
     $("#model-center-li").click();
 };
 
-function  ShowDeveloperMenu() {
-    ShowConfigurationPortal("CONFIGURE","nav-menu");
+function ShowDeveloperMenu() {
+    ShowConfigurationPortal("CONFIGURE", "nav-menu");
     $("#IDE-li").show(500);
     $("#file-system-li").show(500);
     $("#code-template-li").show(500);
@@ -138,9 +132,9 @@ function ShowInitMenu() {
     $("#code-template-li").hide(500);
     $("#welcome-li").show(500);
 
-    $("#welcome-tab").click();
-}
+    setTimeout($("#welcome-tab").click(), 800);
 
+}
 
 
 function changeProjectName() {
@@ -159,27 +153,52 @@ function changeProjectName() {
         beforeSend: function (xhr) {
             xhr.setRequestHeader("AUTH_TOKEN", token);
         },
-        success: function(data){
-            ajaxMessageReader(data,function (data) {
+        success: function (data) {
+            ajaxMessageReader(data, function (data) {
+            }, function (data) {
             })
-        },
-        error: function (data) {
         }
     })
 
 }
-//validation (pending)
-function checkLogin() {
-    if($("#username").val()==''){
+
+
+function loginFormValidate() {
+    if ($("#data_username").val() == '') {
         alert("please input the username");
         return false;
-    }else if($("password").val()==''){
+    } else if ($("#data_pwd").val() == '') {
         alert("please input the password");
         return false;
+    } else {
+        return true;
+    }
+}
+
+function registerFormValidate() {
+    if ($("#data_username").val() == '') {
+        alert("please input the username");
+        return false;
+    } else if ($("#data_pwd").val() == '') {
+        alert("please input the password");
+        return false;
+    } else {
+        return true;
     }
 }
 
 function signIn() {
+    //validation
+    var valid = loginFormValidate();
+    if (!valid) {
+        return
+    }
+    //get the public key
+    if (key == null || key == "") {
+        getPublicKey();
+    }
+
+    var pwd = Encrypt($("#data_pwd").val());
 
     $.ajax({
         url: enviorment.API.LOGIN_PWD,
@@ -189,34 +208,33 @@ function signIn() {
         data:
             JSON.stringify({
                 account: $("#data_username").val(),
-                password: $("#data_pwd").val()
+                password: pwd
             }),
-        success:function (data) {
-            ajaxMessageReader(data,function (data) {
-                token=data['token'];
-                tradeToken4UsrInfo();
+        success: function (data) {
+            ajaxMessageReader(data, function (data) {
+                token = data['token'];
+                JumpToWithToken("index.html");
+            }, function (response) {
+                alert(response.message)
             })
-        },
-
-        error: function (data) {
         }
     })
 }
 
 function afterSignIn(data) {
     token = data['token'];
-    user_name=data['username'];
+    user_name = data['username'];
 
-    if(data['role']=="MANAGER"){
+    if (data['role'] == "MANAGER") {
         ShowManagerMenu();
         initModelTypeList();
-    }else{
+    } else {
         ShowDeveloperMenu();
     }
 
-    var status=$("#status");
-    var rescource=$("#rescourse");
-    var username=$("#username");
+    var status = $("#status");
+    var rescource = $("#rescourse");
+    var username = $("#username");
 
     username.text(user_name);
     status.removeClass('status_disconnected');
@@ -230,119 +248,6 @@ function afterSignIn(data) {
 
     selectJupyterServer();
 }
-
-
-
-function getCode(name,type) {
-    $.ajax({
-        url: enviorment.API.TEMPLATE_CODE+"?name="+name+"&type="+type,
-        contentType: 'application/json',
-        dataType: "json",
-        type: "GET",
-        success:function (data) {
-            ajaxMessageReader(data,function (data) {
-                var  code = $("#code");
-                $(".dp-highlighter").remove();
-                code.text(data[0]);
-                dp.SyntaxHighlighter.ClipboardSwf = 'assets2/js/clipboard.swf';
-                dp.SyntaxHighlighter.HighlightAll('code');
-                jsAnimateMenu();
-                $("#code-template-tab").click();
-            })
-        },
-
-        error: function (data) {
-        }
-    })
-}
-
-function submitToGit(){
-    $.ajax({
-        url: enviorment.API.MODEL,
-        contentType: 'application/json',
-        dataType: "json",
-        type: "POST",
-        timeout: 0,
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("AUTH_TOKEN", token);
-        },
-        success: function(data){
-            ajaxMessageReader(data,function (data) {
-                alert("Push successful!");
-            })
-        },
-        error: function () {
-        }
-    })
-}
-
-function selectJupyterServer(){
-    var server = "cpu";
-    if($("#serverCtl").hasClass('toggle--on')){
-        server = "cpu";
-    }else{
-        server = "gpu";
-    }
-    $.ajax({
-        url: enviorment.API.JUPYTER_SERVER+"/"+server,
-        contentType: 'application/json',
-        dataType: "json",
-        type: "POST",
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("AUTH_TOKEN", token);
-            $("#resourceLoading").show();
-            $("#resourceLoadingBar").show();
-            $("#Section1_label").text("Launching the resource, please wait..");
-        },
-
-        timeout: 0,
-
-        success: function(data) {
-            $("#resourceLoading").hide();
-            $("#resourceLoadingBar").hide();
-            $("#jupyterFrame").show();
-            ajaxMessageReader(data,function (data) {
-                $('#jupyterFrame').attr('src', "http://"+data["url"]+"/notebooks/MySpace");
-                $('#IDE-tab').click();
-            })
-        },
-        error: function () {
-            $("#resourceLoading").show();
-            $("#resourceLoadingBar").hide();
-            $("#jupyterFrame").hide();
-            $("#Section1_label").text("Sorry, Fail to load resource!");
-        },
-        complete:function(){
-
-        }
-    })
-}
-
-
-function forwardTo(url){
-    window.top.location.href=url;
-}
-
-$('#projectName').click(function(){
-    var td=$(this); //为后面文本框变成文本铺垫
-    var text=$(this).text();
-    var input=$('<input type="text" class="edit" value="'+text.slice(9)+'">');
-    $(this).html( input );
-
-    $('input').click(function(){
-        return false;
-    }); //阻止表单默认点击行为
-
-    $('input').select(); //点击自动全选中表单的内容
-
-    $('input').blur(function(){
-        var nextxt=$(this).val();
-        td.html("Project: "+nextxt);
-        changeProjectName();
-    }); //表单失去焦点文本框变成文本
-
-});
-
 
 function onSignIn(googleUser) {
     // Useful data for your client-side scripts:
@@ -361,7 +266,7 @@ function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
     console.log("ID Token: " + id_token);
 
-   /* $("#userinfo").show(1000);*/
+    /* $("#userinfo").show(1000);*/
     $("#userinfo").slideDown();
     $.ajax({
         url: enviorment.API.LOGIN_OAUTH,
@@ -372,16 +277,13 @@ function onSignIn(googleUser) {
         data: JSON.stringify({
             id: id
         }),
-        success: function(data){
-
-            var username=$("#username");
-            var status=$("#status");
-            var rescource=$("#rescourse");
-            var card=$("#card");
-
+        success: function (data) {
+            var username = $("#username");
+            var status = $("#status");
+            var rescource = $("#rescourse");
             username.text(user_name);
-            if (profileImage!=null&&profileImage!=''){
-                $("#profileImage").attr("src",profileImage);
+            if (profileImage != null && profileImage != '') {
+                $("#profileImage").attr("src", profileImage);
                 $("#profileImage").removeClass("hide");
             }
 
@@ -389,65 +291,185 @@ function onSignIn(googleUser) {
             status.addClass('status_connected');
             rescource.removeClass('status_NoneR');
             rescource.addClass('status_cpu');
-            card.removeClass('unlog');
 
             $("#loginBtnGroup").slideUp();
             $("#closeLogin").click();
-        },
-        error: function () {
         }
     })
 
 }
 
-function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-        console.log('User signed out.');
-    });
-    $("#userinfo").slideUp();
-    $("#loginBtnGroup").slideDown();
-
-    releaseResource();
-    HideConfigurationPortal();
-    ShowInitMenu();
-}
-
 function signUp() {
-    var  f_username=$("#signup-username").val();
-    var f_password=$("#signup-password").val();
-    var f_role= document.getElementById("developer-radio").checked;
-    if(f_role){
-        f_role="developer";
-    }else{
-        f_role="manager";
+    if (key == null || key == '') {
+        getPublicKey();
+    }
+
+    var f_username = $("#signup-username").val();
+    var f_password = Encrypt($("#signup-password").val());
+    var f_role = document.getElementById("developer-radio").checked;
+    if (f_role) {
+        f_role = "developer";
+    } else {
+        f_role = "manager";
     }
 
 
     $.ajax({
-        url:enviorment.API.REGISTER,
+        url: enviorment.API.REGISTER,
         type: "POST",
         contentType: 'application/json',
         data:
             JSON.stringify({
                 username: f_username,
-                password:f_password,
-                role:f_role
+                password: f_password,
+                role: f_role
             }),
         dataType: "json",
-        error: function(request) {
+        error: function (request) {
             alert("Connection error");
         },
-        success: function(data) {
-            //接收后台返回的结果
-            alert("Sign up successful");
-            tradeToken4UsrInfo();
+        success: function (data) {
+            ajaxMessageReader(data, function (data) {
+                alert("Sign up successful");
+                token = data['token'];
+                tradeToken4UsrInfo();
+            }, function (response) {
+                alert(response.message)
+            })
         }
 
     })
 }
 
-function releaseResource(){
+
+function getCode(name, type) {
+    $.ajax({
+        url: enviorment.API.TEMPLATE_CODE + "?name=" + name + "&type=" + type,
+        contentType: 'application/json',
+        dataType: "json",
+        type: "GET",
+        success: function (data) {
+            ajaxMessageReader(data, function (data) {
+                var code = $("#code");
+                $(".dp-highlighter").remove();
+                code.text(data[0]);
+                dp.SyntaxHighlighter.ClipboardSwf = 'assets2/js/clipboard.swf';
+                dp.SyntaxHighlighter.HighlightAll('code');
+                jsAnimateMenu();
+                $("#code-template-tab").click();
+            }, function (response) {
+                alert(response.message)
+            })
+        }
+    })
+}
+
+function submitToGit() {
+    $.ajax({
+        url: enviorment.API.MODEL,
+        contentType: 'application/json',
+        dataType: "json",
+        type: "POST",
+        timeout: 0,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("AUTH_TOKEN", token);
+        },
+        success: function (data) {
+            ajaxMessageReader(data,
+                function (data) {
+                    alert("Push successful!");
+                },
+                function (data) {
+                    alert(data.message)
+                })
+        }
+    })
+}
+
+function selectJupyterServer() {
+    var rescource = $("#rescourse");
+    var server = "cpu";
+    if ($("#serverCtl").hasClass('toggle--on')) {
+        server = "cpu";
+        rescource.removeClass('status_NoneR');
+        rescource.removeClass('status_gpu');
+        rescource.addClass('status_cpu');
+
+    } else {
+        server = "gpu";
+        rescource.removeClass('status_NoneR');
+        rescource.removeClass('status_cpu');
+        rescource.addClass('status_gpu');
+    }
+    $.ajax({
+        url: enviorment.API.JUPYTER_SERVER + "/" + server,
+        contentType: 'application/json',
+        dataType: "json",
+        type: "POST",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("AUTH_TOKEN", token);
+            $("#resourceLoading").show();
+            $("#resourceLoadingBar").show();
+            $("#Section1_label").text("Launching the resource, please wait..");
+        },
+        timeout: 0,
+        success: function (data) {
+            ajaxMessageReader(data, function (data) {
+                $('#jupyterFrame').attr('src', "http://" + data["url"] + "/notebooks/MySpace");
+                $('#IDE-tab').click();
+
+                $('#jupyterFrame').load(function () {
+                    $("#Section1_label").text("Resource launched successful! Loading...");
+                });
+                $("#jupyterFrame").ready(function () {
+                    $("#resourceLoading").hide();
+                    $("#resourceLoadingBar").hide();
+                    $("#jupyterFrame").show();
+                },function (response) {
+                    $("#resourceLoading").show();
+                    $("#resourceLoadingBar").hide();
+                    $("#jupyterFrame").hide();
+                    $("#Section1_label").text(response.message);
+                });
+            },function (data) {
+                $("#resourceLoading").show();
+                $("#resourceLoadingBar").hide();
+                $("#jupyterFrame").hide();
+                $("#Section1_label").text("Sorry, Fail to load resource!");
+            })
+        }
+
+    })
+}
+
+
+function forwardTo(url) {
+    window.top.location.href = url;
+}
+
+$('#projectName').click(function () {
+    var td = $(this); //为后面文本框变成文本铺垫
+    var text = $(this).text();
+    var input = $('<input type="text" class="edit" value="' + text.slice(9) + '">');
+    $(this).html(input);
+
+    $('input').click(function () {
+        return false;
+    }); //阻止表单默认点击行为
+
+    $('input').select(); //点击自动全选中表单的内容
+
+    $('input').blur(function () {
+        var nextxt = $(this).val();
+        td.html("Project: " + nextxt);
+        changeProjectName();
+    }); //表单失去焦点文本框变成文本
+
+});
+
+
+function releaseResource() {
+
     $.ajax({
         url: enviorment.API.LOGOUT,
         contentType: 'application/json',
@@ -457,13 +479,14 @@ function releaseResource(){
             xhr.setRequestHeader("AUTH_TOKEN", token);
         },
         timeout: 0,
-        success: function(data){
+        success: function (data) {
             alert("User Resources Released");
         },
         error: function () {
             alert("Fail to release resources!");
         }
     })
+
 }
 
 function GetQueryString(name) {
@@ -471,4 +494,33 @@ function GetQueryString(name) {
     var r = window.location.search.substr(1).match(reg);
     if (r != null) return unescape(r[2]);
     return '';
+}
+
+
+function Encrypt(pwd) {
+    const encrypt = new JSEncrypt();
+    encrypt.setPublicKey(key);
+    const result = encrypt.encrypt(pwd);
+    return result;
+}
+
+function getPublicKey() {
+    $.ajax({
+        url: '/rest/auth/key',
+        contentType: 'application/json',
+        dataType: "json",
+        async: false,
+        type: "GET",
+        timeout: 0,
+        success: function (info) {
+            ajaxMessageReader(info, function (data) {
+                key = data;
+            },function (data) {
+                alert(data.message)
+            })
+        },
+        error: function (resp) {
+            alert(resp);
+        }
+    });
 }

@@ -1,5 +1,6 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.service.ProjectService;
 import acceler.ocdl.service.TemplateService;
 
@@ -8,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DefaultTemplateService implements TemplateService {
@@ -17,38 +21,46 @@ public class DefaultTemplateService implements TemplateService {
     @Autowired
     private ProjectService projectService;
 
-    @Override
-    public List<String> getTemplatesList(String type) {
-
-        List<String> templatesList = getFile(projectService.getProjectConfiguration().getTemplatePath() + type);
-        return templatesList;
-    }
-
-
     /*
      * 函数名：getFile
      * 作用：使用递归，输出指定文件夹内的所有文件
      * 参数：path：文件夹路径
      */
-    private static List<String> getFile(String path) {
+    @Override
+    public Map<String, List<String>> getTemplatesList() {
         // 获得指定文件对象
-        List<String> nameList = new ArrayList<String>();
-        File file = new File(path);
-        // 获得该文件夹内的所有文件
-        File[] array = file.listFiles();
+        String path = Paths.get(projectService.getProjectConfiguration().getTemplatePath()).toString();
+        Map<String, List<String>> dirMap = new HashMap<String, List<String>>();
+        try {
+            File file = new File(path);
+            // 获得该文件夹内的所有文件
+            File[] array = file.listFiles();
+            for (int i = 0; i < array.length; i++) {
+                if (array[i].isDirectory())//如果是文件夹
+                {
+                    dirMap.put(array[i].getName(), new ArrayList<String>());
 
-        for (int i = 0; i < array.length; i++) {
-            if (array[i].isFile())//如果是文件
-            {
-
-                nameList.add(array[i].getName());
+                    File dir = new File(path + array[i].getName());
+                    File[] files = dir.listFiles();
+                    for (File f : files) {
+                        if (!f.isDirectory()) {
+                            dirMap.get(array[i].getName()).add(f.getName());
+                        }
+                    }
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new OcdlException("Get file error");
         }
-        return nameList;
+        return dirMap;
     }
 
+
+
+
     @Override
-    public List<String> getTemplates2(String name, String type) {
+    public List<String> getCode(String name, String type) {
         List<String> result = new ArrayList<>();
         StringBuilder code = new StringBuilder();
         File filename = null;
@@ -56,7 +68,7 @@ public class DefaultTemplateService implements TemplateService {
         BufferedReader br = null;
         try {
             /* 读入TXT文件 */
-            String pathname = projectService.getProjectConfiguration().getTemplatePath() + type + "//" + name; // 绝对路径或相对路径都可以，这里是绝对路径，写入文件时演示相对路径
+            String pathname = Paths.get(projectService.getProjectConfiguration().getTemplatePath(), type, name).toString(); // 绝对路径或相对路径都可以，这里是绝对路径，写入文件时演示相对路径
             filename = new File(pathname); // 要读取以上路径的input。txt文件
             reader = new InputStreamReader(
                     new FileInputStream(filename)); // 建立一个输入流对象reader
@@ -69,6 +81,7 @@ public class DefaultTemplateService implements TemplateService {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw new OcdlException("Read file error");
         } finally {
             try {
                 br.close();
