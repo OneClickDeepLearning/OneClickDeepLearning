@@ -1,0 +1,13 @@
+[Unit]
+Requires=zookeeper.service
+After=zookeeper.service
+
+[Service]
+Type=simple
+User=root
+ExecStart=/home/ubuntu/kafka/kafka_2.12-2.3.0/bin/kafka-server-start.sh /home/ubuntu/kafka/kafka_2.12-2.3.0/config/server.properties
+ExecStop=/home/ubuntu/kafka/kafka_2.12-2.3.0/bin/kafka-server-stop.sh
+Restart=on-abnormal
+
+[Install]
+WantedBy=multi-user.target
