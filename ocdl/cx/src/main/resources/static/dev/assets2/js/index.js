@@ -5,11 +5,11 @@ var token = GetQueryString("token");
 var id = '';
 var profileImage = '';
 var key = '';
+var data1;
 
 
 window.onload = function () {
     initTemplateList();
-/*    initProjectName();*/
     initUserInfo();
     ShowInitMenu();
 };
@@ -32,6 +32,20 @@ function addLi(content, parent) {
     li_1.setAttribute("onclick", "javascript:getCode('" + content + "','" + parent + "');");
     addSpan(li_1, content);
     document.getElementById(parent).appendChild(li_1);
+}
+
+function addTemplateDirComponent(parent, dirName) {
+    var li = document.createElement("li");
+    var a = document.createElement("a");
+    var ul = document.createElement("ul");
+    a.setAttribute("class", "d-firstNav s-firstNav");
+    a.setAttribute("href", "#");
+    a.innerText = dirName;
+    ul.setAttribute("id", dirName);
+    ul.setAttribute("class", "d-firstDrop s-firstDrop");
+    li.appendChild(a);
+    li.appendChild(ul);
+    document.getElementById(parent).appendChild(li);
 }
 
 function initProjectName() {
@@ -59,28 +73,30 @@ function initTemplateList() {
         type: "GET",
         success: function (data) {
             ajaxMessageReader(data, function (data) {
+                data1 = data;
                 $("#template_ul").show();
-
-                for(var val in data){
-                    addLi()
+                for (let d in data) {
+                    addTemplateDirComponent("template_ul", d);
+                    for (let i = 0; i < data[d].length; i++) {
+                        addLi(data[d][i], d);
+                    }
                 }
-
-                var layerList = data[0];
-                var blockList = data[1];
-                var networksList = data[2];
-                var frameworks = data[3];
-                for (var i = 0; i < layerList.length; i++) {
-                    addLi(layerList[i], "Layers");
-                }
-                for (var i = 0; i < blockList.length; i++) {
-                    addLi(blockList[i], "Blocks");
-                }
-                for (var i = 0; i < networksList.length; i++) {
-                    addLi(networksList[i], "Networks");
-                }
-                for (var i = 0; i < frameworks.length; i++) {
-                    addLi(frameworks[i], "Frameworks");
-                }
+                /*   var layerList = data[0];
+                   var blockList = data[1];
+                   var networksList = data[2];
+                   var frameworks = data[3];
+                   for (var i = 0; i < layerList.length; i++) {
+                       addLi(layerList[i], "Layers");
+                   }
+                   for (var i = 0; i < blockList.length; i++) {
+                       addLi(blockList[i], "Blocks");
+                   }
+                   for (var i = 0; i < networksList.length; i++) {
+                       addLi(networksList[i], "Networks");
+                   }
+                   for (var i = 0; i < frameworks.length; i++) {
+                       addLi(frameworks[i], "Frameworks");
+                   }*/
             }, function (response) {
                 $("#template_alert").show();
             })
@@ -100,7 +116,7 @@ function ShowConfigurationPortal(content, parent) {
     document.getElementById(parent).appendChild(li_1);
 }
 
-function HideConfigurationPortal() {
+function HideConfigurationPortal(id) {
     $("#configurationBtn").remove();
 }
 
@@ -110,7 +126,7 @@ function ShowManagerMenu() {
     $("#IDE-li").show(500);
     $("#file-system-li").show(500);
     $("#code-template-li").show(500);
-    $("#welcome-li").hide(500);
+    // $("#welcome-li").hide(500);
 
     $("#model-center-li").click();
 };
@@ -120,7 +136,7 @@ function ShowDeveloperMenu() {
     $("#IDE-li").show(500);
     $("#file-system-li").show(500);
     $("#code-template-li").show(500);
-    $("#welcome-li").hide(500);
+    //   $("#welcome-li").hide(500);
 
     $("#IDE-tab").click();
 }
@@ -131,8 +147,6 @@ function ShowInitMenu() {
     $("#file-system-li").hide(500);
     $("#code-template-li").hide(500);
     $("#welcome-li").show(500);
-
-    setTimeout($("#welcome-tab").click(), 800);
 
 }
 
@@ -425,13 +439,13 @@ function selectJupyterServer() {
                     $("#resourceLoading").hide();
                     $("#resourceLoadingBar").hide();
                     $("#jupyterFrame").show();
-                },function (response) {
+                }, function (response) {
                     $("#resourceLoading").show();
                     $("#resourceLoadingBar").hide();
                     $("#jupyterFrame").hide();
                     $("#Section1_label").text(response.message);
                 });
-            },function (data) {
+            }, function (data) {
                 $("#resourceLoading").show();
                 $("#resourceLoadingBar").hide();
                 $("#jupyterFrame").hide();
@@ -515,7 +529,7 @@ function getPublicKey() {
         success: function (info) {
             ajaxMessageReader(info, function (data) {
                 key = data;
-            },function (data) {
+            }, function (data) {
                 alert(data.message)
             })
         },

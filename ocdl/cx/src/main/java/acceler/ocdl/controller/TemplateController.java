@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.QueryParam;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,17 +28,15 @@ public final class TemplateController {
     public final Response getTemplateFiles(HttpServletRequest request){
         Response.Builder responseBuilder = getBuilder();
 
-
+        Map<String,List<String>> result;
         try{
-            Map<String,List<String>> result = templateService.getTemplatesList();
+            result =  templateService.getTemplatesList();
             responseBuilder.setCode(Response.Code.SUCCESS);
             responseBuilder.setData(result);
         }catch (Exception e){
             responseBuilder.setCode(Response.Code.ERROR);
             responseBuilder.setMessage(e.getMessage());
         }
-
-
         return responseBuilder.build();
     }
 
