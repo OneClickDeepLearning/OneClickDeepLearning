@@ -43,6 +43,7 @@ function addTemplateDirComponent(parent, dirName) {
     a.innerText = dirName;
     ul.setAttribute("id", dirName);
     ul.setAttribute("class", "d-firstDrop s-firstDrop");
+    ul.setAttribute("style","display:none");
     li.appendChild(a);
     li.appendChild(ul);
     document.getElementById(parent).appendChild(li);
@@ -81,22 +82,28 @@ function initTemplateList() {
                         addLi(data[d][i], d);
                     }
                 }
-                /*   var layerList = data[0];
-                   var blockList = data[1];
-                   var networksList = data[2];
-                   var frameworks = data[3];
-                   for (var i = 0; i < layerList.length; i++) {
-                       addLi(layerList[i], "Layers");
-                   }
-                   for (var i = 0; i < blockList.length; i++) {
-                       addLi(blockList[i], "Blocks");
-                   }
-                   for (var i = 0; i < networksList.length; i++) {
-                       addLi(networksList[i], "Networks");
-                   }
-                   for (var i = 0; i < frameworks.length; i++) {
-                       addLi(frameworks[i], "Frameworks");
-                   }*/
+
+                $(function() {
+                    $('.d-firstNav').click(function() {
+                        dropSwift($(this), '.d-firstDrop');
+                    });
+                    $('.d-secondNav').click(function() {
+                        dropSwift($(this), '.d-secondDrop');
+                    });
+
+                    function dropSwift(dom, drop) {
+                        dom.next().slideToggle();
+                        dom.parent().siblings().find('.icon-chevron-up').removeClass('iconRotate');
+                        dom.parent().siblings().find(drop).slideUp();
+                        var iconChevron = dom.find('.icon-chevron-up');
+                        if (iconChevron.hasClass('iconRotate')) {
+                            iconChevron.removeClass('iconRotate');
+                        } else {
+                            iconChevron.addClass('iconRotate');
+                        }
+                    }
+                })
+
             }, function (response) {
                 $("#template_alert").show();
             })
