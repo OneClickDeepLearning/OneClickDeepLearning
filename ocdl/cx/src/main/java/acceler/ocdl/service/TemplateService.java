@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface TemplateService {
 
-    Map<String, List<String>> getTemplatesList();
+    Map<String,List<String>> getTemplatesList();
 
     List<String> getCode(String name,String type);
 }
