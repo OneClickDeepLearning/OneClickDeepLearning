@@ -113,6 +113,17 @@ public class RejectedModel extends Model {
         this.status = Status.REJECTED;
     }
 
+    public static Model[] getAllRejectedModelsByUser(long userId) {
+        lock.readLock().lock();
+        RejectedModel[] rejectedModels = getRejectedModelStorage().stream()
+                .filter(m -> m.getOwnerId() == userId)
+                .map(RejectedModel::deepCopy)
+                .toArray(size -> new RejectedModel[size]);
+        lock.readLock().unlock();
+
+        return rejectedModels;
+    }
+
     public RejectedModel deepCopy() {
         RejectedModel copy = new RejectedModel();
         copy.setModelId(this.modelId);
@@ -120,17 +131,20 @@ public class RejectedModel extends Model {
         copy.setName(this.name);
         copy.status = Status.REJECTED;
         copy.setRejectedTime(this.rejectedTime);
-
+        copy.setOwnerId(this.ownerId);
+        copy.setComments(this.comments);
         return copy;
     }
 
-    public NewModel convertToNewModel() {
+    public NewModel convertToNewModel(String comments) {
         NewModel newModel = new NewModel();
         newModel.setModelId(this.modelId);
         newModel.setSuffix(this.suffix);
         newModel.setName(this.name);
         newModel.status = Status.NEW;
         newModel.setCommitTime(currentTime());
+        newModel.setOwnerId(this.ownerId);
+        newModel.setComments(comments);
 
         return newModel;
     }

@@ -249,7 +249,7 @@ public class Algorithm extends Storable implements Serializable {
         return this.belongingModels.stream().map(ApprovedModel::deepCopy).toArray(size -> new ApprovedModel[size]);
     }
 
-    public ApprovedModel approveModel(NewModel model, UpgradeVersion version) {
+    public ApprovedModel approveModel(NewModel model, UpgradeVersion version, String comments) {
 
         System.out.println("before");
         System.out.println(this.currentReleasedVersion);
@@ -273,7 +273,7 @@ public class Algorithm extends Storable implements Serializable {
         System.out.println(newReleasedVersion);
         System.out.println(newCachedVersion);
 
-        return model.convertToApprovedModel(newCachedVersion, newReleasedVersion);
+        return model.convertToApprovedModel(newCachedVersion, newReleasedVersion, comments);
     }
 
     public void persistAlgorithmVersion(ApprovedModel model) {

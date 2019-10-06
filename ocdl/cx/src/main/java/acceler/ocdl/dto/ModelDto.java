@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
 
-public class ModelDto implements Serializable {
+public class ModelDto implements Serializable,Comparable<ModelDto> {
     private static final long serialVersionUID = 1L;
 
     private String modelId;
@@ -19,6 +19,9 @@ public class ModelDto implements Serializable {
     private String algorithm;
     private String status;
     private String modelFileName;
+    private String ownerId;
+    private String ownerName;
+    private String comments;
 
     /**
      * releasedVersion + cachedVersion;
@@ -87,6 +90,18 @@ public class ModelDto implements Serializable {
 
     public void setModelFileName(String modelFileName) { this.modelFileName = modelFileName; }
 
+    public String getOwnerId() { return ownerId; }
+
+    public void setOwnerId(String ownerId) { this.ownerId = ownerId; }
+
+    public String getOwnerName() { return ownerName; }
+
+    public void setOwnerName(String ownerName) { this.ownerName = ownerName; }
+
+    public String getComments() { return comments; }
+
+    public void setComments(String comments) { this.comments = comments; }
+
     public Model convertToModel() {
 
         Model model;
@@ -99,16 +114,22 @@ public class ModelDto implements Serializable {
                 model = new NewModel();
                 model.setModelId(Long.parseLong(this.modelId));
                 model.setName(this.modelName);
+                model.setOwnerId(Long.parseLong(this.ownerId));
+                model.setComments(this.comments);
                 ((NewModel) model).setCommitTime(time);
             } else if (this.status.toUpperCase().equals(Model.Status.REJECTED.toString())) {
                 model = new RejectedModel();
                 model.setModelId(Long.parseLong(this.modelId));
                 model.setName(this.modelName);
+                model.setOwnerId(Long.parseLong(this.ownerId));
+                model.setComments(this.comments);
                 ((RejectedModel) model).setRejectedTime(time);
             } else if (this.status.toUpperCase().equals(Model.Status.APPROVED.toString())) {
                 model = new ApprovedModel();
                 model.setModelId(Long.parseLong(this.modelId));
                 model.setName(this.modelName);
+                model.setOwnerId(Long.parseLong(this.ownerId));
+                model.setComments(this.comments);
                 ((ApprovedModel) model).setApprovedTime(time);
             } else {
                 throw new OcdlException("Invalid status type in ModelDto.");
@@ -118,5 +139,18 @@ public class ModelDto implements Serializable {
         }
 
         return model;
+    }
+
+    @Override
+    public int compareTo(ModelDto modelDto) {
+        Date thisTime, modleDtoTime;
+        try {
+            thisTime = TimeUtil.convertStringToDate(this.timeStamp);
+            modleDtoTime = TimeUtil.convertStringToDate(modelDto.timeStamp);
+        } catch (ParseException e) {
+            throw new OcdlException("Invalid time format of timestamp.");
+        }
+
+        return thisTime.compareTo(modleDtoTime)*(-1);
     }
 }

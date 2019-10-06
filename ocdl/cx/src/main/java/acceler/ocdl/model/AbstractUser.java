@@ -80,6 +80,21 @@ public abstract class AbstractUser extends Storable implements Serializable {
         persistence();
     }
 
+    public static AbstractUser findUserById(long userId) {
+        lock.writeLock().lock();
+        AbstractUser user = getUserListStorage().stream()
+                .filter(u -> u.getUserId() == userId)
+                .findAny()
+                .get();
+        lock.writeLock().unlock();
+
+        if (user == null) {
+            throw new NotFoundException("Fail to find user by id.");
+        }
+
+        return user.deepCopy();
+    }
+
 
     protected Long userId;
     protected Role role;
