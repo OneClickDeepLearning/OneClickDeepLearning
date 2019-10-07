@@ -269,7 +269,7 @@ public class DefaultModelServiceImpl implements ModelService {
                 .orElseThrow(() -> new NotFoundException(String.format("%s, Fail to find model file, Please download first.", innerUser.getUserId())));
 
         // upload file to AWS S3
-        String publishedModelName = CONSTANTS.NAME_FORMAT.GIT_MODEL.replace("{algorithm}", Algorithm.getAlgorithmOfApprovedModel(model).getAlgorithmName())
+        String publishedModelName = CONSTANTS.NAME_FORMAT.RELEASE_MODEL.replace("{algorithm}", Algorithm.getAlgorithmOfApprovedModel(model).getAlgorithmName())
                 .replace("{release_version}", model.getReleasedVersion().toString())
                 .replace("{cached_version}", model.getCachedVersion().toString())
                 .replace("{suffix}", model.getSuffix());

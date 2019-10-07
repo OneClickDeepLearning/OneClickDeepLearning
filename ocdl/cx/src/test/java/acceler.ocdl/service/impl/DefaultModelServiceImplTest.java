@@ -122,14 +122,6 @@ public class DefaultModelServiceImplTest {
         System.out.println("rejected model:" + models[3].getTimeStamp());
     }
 
-    @Test
-    public void getNewModelsByUserTest() {
-        long userId = 1004L;
-
-        List<ModelDto> modelDtoList = modelServiceImpl.getNewModelsByUser(userId);
-        Assert.assertEquals(modelDtoList.get(0).getModelName(), "new model 1");
-        Assert.assertEquals(modelDtoList.get(1).getModelName(), "new model 2");
-    }
 
 
 
