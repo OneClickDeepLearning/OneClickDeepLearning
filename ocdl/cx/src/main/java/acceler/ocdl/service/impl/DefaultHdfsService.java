@@ -28,6 +28,32 @@ public class DefaultHdfsService implements HdfsService {
     }
 
     /**
+     * List all files on HDFS certain path
+     * @param path the path on HDFS
+     * @throws HdfsException
+     */
+    @Override
+    public void listFiles(Path path) throws HdfsException {
+        try {
+            URI uri = new URI(hdfsIpAddress);
+            //returns the configured filesystem implementation.
+            FileSystem hdfs = FileSystem.get(uri, conf, hdfsUserName);
+            FileStatus[] files = hdfs.listStatus(path);
+            for (FileStatus file: files) {
+                if(file.isDirectory()) {
+                    System.out.println(">>>" + file.getPath());
+                    listFiles(file.getPath());
+                } else {
+                    System.out.println(file.getPath());
+                }
+            }
+
+        } catch (URISyntaxException | InterruptedException | IOException e) {
+            throw new HdfsException(e.getMessage());
+        }
+    }
+
+    /**
      * Create an empty directory on HDFS
      * @param dirPath the taget directory path on HDFS
      * @throws HdfsException
@@ -62,6 +88,16 @@ public class DefaultHdfsService implements HdfsService {
             FileSystem hdfs = FileSystem.get(uri, conf, hdfsUserName);
             hdfs.copyFromLocalFile(true,true,srcPath,destPath);
         } catch (URISyntaxException | InterruptedException | IOException e){
+            throw new HdfsException(e.getMessage());
+        }
+    }
+
+    public void downloadFile(Path srcPath, Path destPath) throws HdfsException {
+        try {
+            URI uri = new URI(hdfsIpAddress);
+            FileSystem hdfs = FileSystem.get(uri, conf, hdfsUserName);
+            hdfs.copyToLocalFile(false,srcPath,destPath);
+        } catch (URISyntaxException | InterruptedException | IOException e) {
             throw new HdfsException(e.getMessage());
         }
     }

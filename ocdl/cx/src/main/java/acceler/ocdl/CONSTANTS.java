@@ -46,7 +46,7 @@ public interface CONSTANTS {
 
 
     interface HDFS {
-        String IP_ADDRESS = "hdfs://ec2-3-88-164-181.compute-1.amazonaws.com:9000";
+        String IP_ADDRESS = "hdfs://ec2-34-229-190-138.compute-1.amazonaws.com:9000";
         String USER_SPACE = "/UserSpace/";
         String USER_NAME = "hadoop";
     }
