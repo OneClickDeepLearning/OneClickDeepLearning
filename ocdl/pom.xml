@@ -17,6 +17,7 @@
         <module>cx</module>
         <module>proxy</module>
         <module>ls</module>
+        <module>vul</module>
     </modules>
 
 </project>

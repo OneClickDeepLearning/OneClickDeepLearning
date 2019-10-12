@@ -12,10 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +44,20 @@ public class ProjectController {
         responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(algorithmNames);
 
+        return responseBuilder.build();
+    }
+
+
+    @ResponseBody
+    @RequestMapping(path = "/latest/{algorithm}", method = RequestMethod.GET)
+    public final Response getLatestModelName(@PathVariable String algorithm) {
+
+        Response.Builder responseBuilder = getBuilder();
+
+        String latestModelName = algorithmService.getLatestModelName(algorithm);
+
+        responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(latestModelName);
         return responseBuilder.build();
     }
 
@@ -99,4 +110,5 @@ public class ProjectController {
         }
         return responseBuilder.build();
     }
+
 }
