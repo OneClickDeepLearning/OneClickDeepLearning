@@ -1,6 +1,7 @@
 package acceler.ocdl.service.impl;
 
 import acceler.ocdl.exception.HdfsException;
+import acceler.ocdl.model.FileListVO;
 import acceler.ocdl.service.HdfsService;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DefaultHdfsService implements HdfsService {
@@ -33,24 +36,35 @@ public class DefaultHdfsService implements HdfsService {
      * @throws HdfsException
      */
     @Override
-    public void listFiles(Path path) throws HdfsException {
+    public List<FileListVO> listFiles(Path path) throws HdfsException {
+        List<FileListVO> list = new ArrayList<>();
         try {
             URI uri = new URI(hdfsIpAddress);
             //returns the configured filesystem implementation.
             FileSystem hdfs = FileSystem.get(uri, conf, hdfsUserName);
             FileStatus[] files = hdfs.listStatus(path);
-            for (FileStatus file: files) {
-                if(file.isDirectory()) {
-                    System.out.println(">>>" + file.getPath());
-                    listFiles(file.getPath());
+            for (FileStatus status: files) {
+                if(status.isDirectory()) {
+                    FileListVO dir = new FileListVO();
+                    dir.fileName = status.getPath().getName();
+                    dir.fileType = "dir";
+                    List<FileListVO> children = listFiles(status.getPath());
+                    dir.children = new ArrayList<>();
+                    dir.children.addAll(children);
+                    list.add(dir);
                 } else {
-                    System.out.println(file.getPath());
+                    FileListVO file = new FileListVO();
+                    file.fileName = status.getPath().getName();
+                    file.fileType = "file";
+                    file.children = null;
+                    list.add(file);
                 }
             }
 
         } catch (URISyntaxException | InterruptedException | IOException e) {
             throw new HdfsException(e.getMessage());
         }
+        return list;
     }
 
     /**

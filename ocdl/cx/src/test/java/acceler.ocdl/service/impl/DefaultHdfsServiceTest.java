@@ -1,6 +1,7 @@
 package acceler.ocdl.service.impl;
 
 import acceler.ocdl.exception.HdfsException;
+import acceler.ocdl.model.FileListVO;
 import acceler.ocdl.service.HdfsService;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -26,29 +29,42 @@ public class DefaultHdfsServiceTest {
 
     @Test
     public void listFiles() {
-        listFiles(new Path("/"));
+        List<FileListVO> fileListVO = new ArrayList<>();
+        fileListVO = listFiles(new Path("/"));
+        System.out.println(fileListVO);
     }
 
-    public void listFiles(Path path) {
-        Configuration conf = new Configuration();
-        conf.set("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem");
+    public List<FileListVO> listFiles(Path path) throws HdfsException {
+        List<FileListVO> list = new ArrayList<>();
         try {
-            URI uri = new URI("hdfs://ec2-34-230-14-57.compute-1.amazonaws.com:9000");
+            URI uri = new URI("hdfs://10.8.0.14:9000");
+            Configuration conf = new Configuration();
+            conf.set("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem");
             //returns the configured filesystem implementation.
             FileSystem hdfs = FileSystem.get(uri, conf, "hadoop");
-            FileStatus[] files = hdfs.listStatus(new Path("/"));
-            for (FileStatus file: files) {
-                if(file.isDirectory()) {
-                    System.out.println(">>>" + file.getPath());
-                    listFiles(file.getPath());
+            FileStatus[] files = hdfs.listStatus(path);
+            for (FileStatus status: files) {
+                if(status.isDirectory()) {
+                    FileListVO dir = new FileListVO();
+                    dir.fileName = status.getPath().getName();
+                    dir.fileType = "dir";
+                    List<FileListVO> children = listFiles(status.getPath());
+                    dir.children = new ArrayList<>();
+                    dir.children.addAll(children);
+                    list.add(dir);
                 } else {
-                    System.out.println(file.getPath());
+                    FileListVO file = new FileListVO();
+                    file.fileName = status.getPath().getName();
+                    file.fileType = "file";
+                    file.children = null;
+                    list.add(file);
                 }
             }
 
         } catch (URISyntaxException | InterruptedException | IOException e) {
             throw new HdfsException(e.getMessage());
         }
+        return list;
     }
 
 }

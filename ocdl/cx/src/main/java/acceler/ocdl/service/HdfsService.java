@@ -1,11 +1,14 @@
 package acceler.ocdl.service;
 
 import acceler.ocdl.exception.HdfsException;
+import acceler.ocdl.model.FileListVO;
 import org.apache.hadoop.fs.Path;
+
+import java.util.List;
 
 public interface HdfsService {
 
-    public void listFiles(Path path) throws HdfsException;
+    public List<FileListVO> listFiles(Path path) throws HdfsException;
 
     public void uploadFile(Path srcPath, Path destPath) throws HdfsException;
 
