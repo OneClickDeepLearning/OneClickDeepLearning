@@ -29,11 +29,13 @@ public class ApprovedModel extends Model implements Cloneable {
         return copy;
     }
 
-    public NewModel convertToNewModel() {
+    public NewModel convertToNewModel(String comments) {
         NewModel newModel = new NewModel();
         newModel.setModelId(this.modelId);
         newModel.setSuffix(this.suffix);
         newModel.setName(this.name);
+        newModel.setOwnerId(this.ownerId);
+        newModel.setComments(comments);
         newModel.setCommitTime(TimeUtil.currentTime());
 
         return newModel;
@@ -55,11 +57,11 @@ public class ApprovedModel extends Model implements Cloneable {
         this.approvedTime = approvedTime;
     }
 
-    void setReleasedVersion(Long releasedVersion) {
+    public void setReleasedVersion(Long releasedVersion) {
         this.releasedVersion = releasedVersion;
     }
 
-    void setCachedVersion(Long cachedVersion) {
+    public void setCachedVersion(Long cachedVersion) {
         this.cachedVersion = cachedVersion;
     }
 
