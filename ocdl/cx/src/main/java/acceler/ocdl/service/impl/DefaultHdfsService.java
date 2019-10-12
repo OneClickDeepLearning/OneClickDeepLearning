@@ -61,7 +61,6 @@ public class DefaultHdfsService implements HdfsService {
                     list.add(file);
                 }
             }
-
         } catch (URISyntaxException | InterruptedException | IOException e) {
             throw new HdfsException(e.getMessage());
         }
