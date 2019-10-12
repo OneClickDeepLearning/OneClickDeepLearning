@@ -252,6 +252,7 @@ function afterSignIn(data) {
     } else {
         ShowDeveloperMenu();
     }
+    initEvent();
 
     var status = $("#status");
     var rescource = $("#rescourse");

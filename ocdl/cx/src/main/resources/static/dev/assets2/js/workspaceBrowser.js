@@ -40,6 +40,9 @@ function getFileListFromHDFS(){
         contentType: 'application/json',
         dataType: "json",
         type: "GET",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("AUTH_TOKEN", token);
+        },
         success: function (data) {
             ajaxMessageReader(data, function (data) {
                 console.log(data);
