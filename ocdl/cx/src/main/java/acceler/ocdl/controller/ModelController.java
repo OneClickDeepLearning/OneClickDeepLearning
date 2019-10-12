@@ -64,10 +64,10 @@ public final class ModelController {
         logger.debug("Get model list by user id");
         Response.Builder responseBuilder = getBuilder();
 
-        ModelDto[] models = modelService.getModelListByUser(userId);
+        Map<String, List<ModelDto>> modelMap = modelService.getModelListByUser(userId);
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
-                .setData(models).build();
+                .setData(modelMap).build();
     }
     
     /**

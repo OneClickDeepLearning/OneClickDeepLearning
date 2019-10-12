@@ -292,15 +292,22 @@ public class DefaultModelServiceImpl implements ModelService {
     }
 
     @Override
-    public ModelDto[] getModelListByUser(long userId) {
-        List<ModelDto> models = new ArrayList<>();
+    public Map<String, List<ModelDto>> getModelListByUser(long userId) {
 
-        models.addAll(getNewModelsByUser(userId));
-        models.addAll(getRejectModelsByUser(userId));
-        models.addAll(Arrays.asList(getModelsByStatus(Model.Status.APPROVED)));
+        Map<String, List<ModelDto>> modelMap = new HashMap<>();
 
-        Collections.sort(models);
-        return models.toArray(new ModelDto[models.size()]);
+        List<ModelDto> personalEvent = new ArrayList<>();
+        personalEvent.addAll(getNewModelsByUser(userId));
+        personalEvent.addAll(getRejectModelsByUser(userId));
+        Collections.sort(personalEvent);
+        modelMap.put("personal_event", personalEvent);
+
+        List<ModelDto> globalEvent = new ArrayList<>();
+        globalEvent.addAll(Arrays.asList(getModelsByStatus(Model.Status.APPROVED)));
+        Collections.sort(globalEvent);
+        modelMap.put("global_event", globalEvent);
+
+        return modelMap;
     }
 
 

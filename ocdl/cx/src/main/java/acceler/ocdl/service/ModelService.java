@@ -3,6 +3,7 @@ package acceler.ocdl.service;
 import acceler.ocdl.dto.ModelDto;
 import acceler.ocdl.model.*;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ModelService {
@@ -56,5 +57,5 @@ public interface ModelService {
      */
     void release(ApprovedModel model, InnerUser innerUser);
 
-    ModelDto[] getModelListByUser(long userId);
+    Map<String, List<ModelDto>> getModelListByUser(long userId);
 }
