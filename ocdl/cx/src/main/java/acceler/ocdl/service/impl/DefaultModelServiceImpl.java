@@ -63,6 +63,7 @@ public class DefaultModelServiceImpl implements ModelService {
         initRecords.put("failUpload", 0);
 
         final String userSpaceName = applicationsDirUserSpace + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(innerUser.getUserId()));
+        log.info(userSpaceName);
         final File userSpace = new File(userSpaceName);
 
         if (userSpace.isDirectory()) {
@@ -115,6 +116,7 @@ public class DefaultModelServiceImpl implements ModelService {
         model.setName(modelFile.getName());
         model.setCommitTime(TimeUtil.currentTime());
         model.setOwnerId(ownerId);
+        log.info("when persist new model, owner id is " + ownerId);
         NewModel.addToStorage(model);
     }
 
