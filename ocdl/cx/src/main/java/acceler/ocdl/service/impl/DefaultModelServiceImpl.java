@@ -92,7 +92,7 @@ public class DefaultModelServiceImpl implements ModelService {
                                 modelId.toString()).replace("{suffix}", suffix)).toString();
 
                         hdfsService.uploadFile(new Path(f.getPath()), new Path(stagedFilePath));
-                        persistNewModel(f, modelId, suffix);
+                        persistNewModel(f, modelId, suffix, innerUser.getUserId());
                         initRecords.put("successUpload", (int)initRecords.get("successUpload")+1);
 
                     } catch (HdfsException e) {
@@ -108,21 +108,22 @@ public class DefaultModelServiceImpl implements ModelService {
         return initRecords;
     }
 
-    private void persistNewModel(File modelFile, Long modelId, String suffix) {
+    private void persistNewModel(File modelFile, Long modelId, String suffix, Long ownerId) {
         NewModel model = new NewModel();
         model.setModelId(modelId);
         model.setSuffix(suffix);
         model.setName(modelFile.getName());
         model.setCommitTime(TimeUtil.currentTime());
+        model.setOwnerId(ownerId);
         NewModel.addToStorage(model);
     }
 
     @Override
-    public void approveModel(NewModel model, String algorithmName, Algorithm.UpgradeVersion version) {
+    public void approveModel(NewModel model, String algorithmName, Algorithm.UpgradeVersion version, String comments) {
         checkIfNewModelExist(model);
         Algorithm algorithm = Algorithm.getAlgorithmByName(algorithmName).orElseThrow(() -> (new NotFoundException(String.format("Not found algorithm: %s", algorithmName))));
 
-        ApprovedModel approvedModel = algorithm.approveModel(model, version);
+        ApprovedModel approvedModel = algorithm.approveModel(model, version, comments);
         algorithm.persistApprovalModel(approvedModel);
         NewModel.removeFromStorage(model.getModelId());
     }
@@ -136,15 +137,15 @@ public class DefaultModelServiceImpl implements ModelService {
 
 
     @Override
-    public void rejectModel(NewModel model) {
+    public void rejectModel(NewModel model, String comments) {
         checkIfNewModelExist(model);
         Date current = TimeUtil.currentTime();
-        RejectedModel.addToStorage(model.convertToRejectedModel());
+        RejectedModel.addToStorage(model.convertToRejectedModel(comments));
         NewModel.removeFromStorage(model.getModelId());
     }
 
     @Override
-    public void undo(Model model) {
+    public void undo(Model model, String comments) {
         if (model instanceof ApprovedModel && !Algorithm.existApprovalModel((ApprovedModel) model)) {
             throw new NotFoundException("model not found");
         }
@@ -163,10 +164,10 @@ public class DefaultModelServiceImpl implements ModelService {
             ApprovedModel approvedModel = (ApprovedModel) model;
             Algorithm algorithm = Algorithm.getAlgorithmOfApprovedModel(approvedModel);
             Algorithm.removeApprovedModelFromAlgorithm(algorithm.getAlgorithmName(), approvedModel);
-            newModel = approvedModel.convertToNewModel();
+            newModel = approvedModel.convertToNewModel(comments);
         } else {
             RejectedModel.removeFromStorage(model.getModelId());
-            newModel = ((RejectedModel) model).convertToNewModel();
+            newModel = ((RejectedModel) model).convertToNewModel(comments);
         }
 
         NewModel.addToStorage(newModel);
@@ -268,7 +269,7 @@ public class DefaultModelServiceImpl implements ModelService {
                 .orElseThrow(() -> new NotFoundException(String.format("%s, Fail to find model file, Please download first.", innerUser.getUserId())));
 
         // upload file to AWS S3
-        String publishedModelName = CONSTANTS.NAME_FORMAT.GIT_MODEL.replace("{algorithm}", Algorithm.getAlgorithmOfApprovedModel(model).getAlgorithmName())
+        String publishedModelName = CONSTANTS.NAME_FORMAT.RELEASE_MODEL.replace("{algorithm}", Algorithm.getAlgorithmOfApprovedModel(model).getAlgorithmName())
                 .replace("{release_version}", model.getReleasedVersion().toString())
                 .replace("{cached_version}", model.getCachedVersion().toString())
                 .replace("{suffix}", model.getSuffix());
@@ -288,5 +289,35 @@ public class DefaultModelServiceImpl implements ModelService {
         algorithm.persistAlgorithmVersion(model);
         //update expected version of others approve model
         //algorithm.updateApprovedModels();
+    }
+
+    @Override
+    public ModelDto[] getModelListByUser(long userId) {
+        List<ModelDto> models = new ArrayList<>();
+
+        models.addAll(getNewModelsByUser(userId));
+        models.addAll(getRejectModelsByUser(userId));
+        models.addAll(Arrays.asList(getModelsByStatus(Model.Status.APPROVED)));
+
+        Collections.sort(models);
+        return models.toArray(new ModelDto[models.size()]);
+    }
+
+
+    public List<ModelDto> getNewModelsByUser(long userId) {
+
+        Model[] newModels = NewModel.getAllNewModelsByUser(userId);
+        List<ModelDto> modelDtoList = convertModelsToModelDtoList(newModels);
+
+        return modelDtoList;
+    }
+
+
+    private List<ModelDto> getRejectModelsByUser(long userId) {
+
+        Model[] newModels = RejectedModel.getAllRejectedModelsByUser(userId);
+        List<ModelDto> modelDtoList = convertModelsToModelDtoList(newModels);
+
+        return modelDtoList;
     }
 }

@@ -8,6 +8,8 @@ import java.util.List;
 @Service
 public interface AlgorithmService {
 
+    String getLatestModelName(String algorithm);
+
     /**
      * get the algorithm list
      * @return list of algorithm

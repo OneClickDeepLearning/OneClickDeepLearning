@@ -15,8 +15,10 @@ public abstract class Model extends Storable implements Serializable {
 
     protected Long modelId;
     protected String name;
+    protected Long ownerId;
     protected Status status;
     protected String suffix;
+    protected String comments;
 
     public String getName() {
         return this.name;
@@ -45,6 +47,14 @@ public abstract class Model extends Storable implements Serializable {
     }
 
     public void setSuffix(String suffix) { this.suffix = suffix; }
+
+    public String getComments() { return comments; }
+
+    public Long getOwnerId() { return ownerId; }
+
+    public void setOwnerId(Long ownerId) { this.ownerId = ownerId; }
+
+    public void setComments(String comments) { this.comments = comments; }
 
     public static Long generateModelId() {
         return modelIdGenerator.incrementAndGet();

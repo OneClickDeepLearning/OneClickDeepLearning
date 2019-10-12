@@ -2,3 +2,4 @@
 !model/**.joblib
 **/.idea/**
 **/target/**
+application.properties
