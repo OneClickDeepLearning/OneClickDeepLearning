@@ -20,12 +20,16 @@ const enviorment = {
         MODEL_PUSH: '/rest/model',
         MODEL_TYPE: '/rest/project/algorithm',
 
+        /*------------- Event stream-----------*/
+        EVENT: '/rest/model/event',
+
         /*------ Configure service resource---------*/
         PROJECT: '/rest/project/config',
         PROJECT_NAME: '/rest/project/config/name',
         PROJECT_UPDATE: '/rest/project/config',
 
         /* ------- Upload  ---------*/
-        UPLOAD:'/rest/project/data'
+        UPLOAD:'/rest/project/data',
+        LIST_FILE:'/rest/data/list'
     }
 };
