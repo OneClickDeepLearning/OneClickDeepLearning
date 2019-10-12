@@ -12,6 +12,9 @@ public class FileListVO {
     @JsonProperty("file_type")
     public String fileType;
 
+    @JsonProperty("file_size")
+    public Long fileSize;
+
     @JsonProperty("children")
     public List<FileListVO> children;
 

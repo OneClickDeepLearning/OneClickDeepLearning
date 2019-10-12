@@ -47,7 +47,7 @@ public class DefaultHdfsServiceTest {
                 if(status.isDirectory()) {
                     FileListVO dir = new FileListVO();
                     dir.fileName = status.getPath().getName();
-                    dir.fileType = "dir";
+                    dir.fileType = "folder";
                     List<FileListVO> children = listFiles(status.getPath());
                     dir.children = new ArrayList<>();
                     dir.children.addAll(children);
@@ -56,6 +56,7 @@ public class DefaultHdfsServiceTest {
                     FileListVO file = new FileListVO();
                     file.fileName = status.getPath().getName();
                     file.fileType = "file";
+                    file.fileSize = status.getLen();
                     file.children = null;
                     list.add(file);
                 }
