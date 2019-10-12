@@ -24,7 +24,6 @@ var files =
     ];
 
 
-
 // Highlight selected row
 $("#hadoop_browser tbody").on("mousedown", "tr", function () {
     $(".selected").not(this).removeClass("selected");
