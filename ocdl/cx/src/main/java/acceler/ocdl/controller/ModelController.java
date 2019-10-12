@@ -55,16 +55,16 @@ public final class ModelController {
 
     /**
      * Get model list by userId
-     * @param userId
      * @return
      */
     @ResponseBody
     @RequestMapping(path="/{userId}", method = RequestMethod.GET)
-    public final Response getModelListByUser(@PathVariable long userId) {
+    public final Response getModelListByUser(HttpServletRequest request) {
         logger.debug("Get model list by user id");
+        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
         Response.Builder responseBuilder = getBuilder();
 
-        Map<String, List<ModelDto>> modelMap = modelService.getModelListByUser(userId);
+        Map<String, List<ModelDto>> modelMap = modelService.getModelListByUser(innerUser.getUserId());
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(modelMap).build();
