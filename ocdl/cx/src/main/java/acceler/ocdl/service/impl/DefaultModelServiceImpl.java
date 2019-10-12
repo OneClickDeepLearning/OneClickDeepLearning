@@ -300,12 +300,12 @@ public class DefaultModelServiceImpl implements ModelService {
         personalEvent.addAll(getNewModelsByUser(userId));
         personalEvent.addAll(getRejectModelsByUser(userId));
         Collections.sort(personalEvent);
-        modelMap.put("personal_event", personalEvent);
+        modelMap.put(CONSTANTS.EVENT.PERSONAL_EVENT, personalEvent);
 
         List<ModelDto> globalEvent = new ArrayList<>();
         globalEvent.addAll(Arrays.asList(getModelsByStatus(Model.Status.APPROVED)));
         Collections.sort(globalEvent);
-        modelMap.put("global_event", globalEvent);
+        modelMap.put(CONSTANTS.EVENT.GLOBAL_EVENT, globalEvent);
 
         return modelMap;
     }
