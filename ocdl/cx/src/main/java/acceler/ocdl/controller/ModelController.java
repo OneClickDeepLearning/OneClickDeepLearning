@@ -58,7 +58,7 @@ public final class ModelController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(path="/{userId}", method = RequestMethod.GET)
+    @RequestMapping(path="/event", method = RequestMethod.GET)
     public final Response getModelListByUser(HttpServletRequest request) {
         logger.debug("Get model list by user id");
         InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
