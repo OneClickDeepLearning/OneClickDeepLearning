@@ -27,7 +27,10 @@
 
     <link rel="stylesheet" type="text/css" href="assets2/css/approvalCenter.css">
 
-    <script src="../dev/assets2/js/jquery.js"></script>
+    <link rel="stylesheet" href="assets2/css/jquery.treetable.css" type="text/css"/>
+    <link rel="stylesheet" href="assets2/css/jquery.treetable.theme.default.css" type="text/css">
+
+    <script src="assets2/js/jquery.js"></script>
 
     <style type="text/css">
 
@@ -253,9 +256,6 @@
                 <span id="gitTag"
                       style="padding-left:0px; height:100%;float:left;padding-top:10px;display: none;">Staging</span>
 
-                <!--                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
-                                    <a id="flapBtn" href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
-                                </span>-->
 
                 <span style="float:left;display: inline-block; width:auto; height:auto;padding:0px;">
                     <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
@@ -419,10 +419,29 @@
                         </div>
 
                         <div role="tabpanel" class="tab-pane fade" id="Section2">
-                            <iframe id="fileFrame" sandbox="allow-forms allow-same-origin allow-scripts"
-                                    src=""
-                                    style="height:550px; width:100%"></iframe>
+
+
+                            <table id="hadoop_browser">
+                                <caption>
+                                    <a href="#" onclick="jQuery('#example-advanced').treetable('expandAll'); return false;">Expand all</a>
+                                    <a href="#" onclick="jQuery('#example-advanced').treetable('collapseAll'); return false;">Collapse all</a>
+                                </caption>
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Kind</th>
+                                    <th>Size</th>
+                                    <th>Operation</th>
+                                </tr>
+                                </thead>
+                                <tbody id="file_list">
+                                </tbody>
+                            </table>
+
+
                         </div>
+
+
                         <div role="tabpanel" class="tab-pane fade" id="Section3">
                             <div id="aaa">
                                    <pre id="code" name="code" class="python" cols="60" rows="10" style="height: 550px">
@@ -494,7 +513,7 @@
                                                     <div class="col4">
                                                         <div class="item-box">
                                                             <div class="item-con">
-                                                                <table class="odd-even" id="tableNew">
+                                                                <table class="odd-even approval-table" id="tableNew">
                                                                     <thead>
                                                                     <tr>
                                                                         <th>Model Name</th>
@@ -532,7 +551,7 @@
                                                     <div class="col4">
                                                         <div class="item-box">
                                                             <div class="item-con">
-                                                                <table class="odd-even" id="tableApproval">
+                                                                <table class="odd-even approval-table" id="tableApproval">
                                                                     <thead>
                                                                     <tr>
                                                                         <th>Model Name</th>
@@ -569,7 +588,7 @@
                                                     <div class="col4">
                                                         <div class="item-box">
                                                             <div class="item-con">
-                                                                <table class="odd-even" id="tableRejected">
+                                                                <table class="odd-even approval-table" id="tableRejected">
                                                                     <thead>
                                                                     <tr>
                                                                         <th>Model Name</th>
@@ -925,6 +944,9 @@
 <script src="assets2/js/commons.js"></script>
 <script src="assets2/js/approvalCenter.js"></script>
 <script src="assets2/js/jsencrypt.min.js"></script>
+<script src="assets2/js/jquery.treetable.js"></script>
+<script src="assets2/js/workspaceBrowser.js"></script>
+
 
 <script type="text/javascript">
 
