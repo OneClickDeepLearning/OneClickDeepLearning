@@ -64,6 +64,7 @@ public class DefaultModelServiceImpl implements ModelService {
 
         final String userSpaceName = applicationsDirUserSpace + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(innerUser.getUserId()));
         log.info(userSpaceName);
+        System.out.println(userSpaceName);
         final File userSpace = new File(userSpaceName);
 
         if (userSpace.isDirectory()) {
@@ -117,6 +118,7 @@ public class DefaultModelServiceImpl implements ModelService {
         model.setCommitTime(TimeUtil.currentTime());
         model.setOwnerId(ownerId);
         log.info("when persist new model, owner id is " + ownerId);
+        System.out.println("when persist new model, owner id is " + ownerId);
         NewModel.addToStorage(model);
     }
 
