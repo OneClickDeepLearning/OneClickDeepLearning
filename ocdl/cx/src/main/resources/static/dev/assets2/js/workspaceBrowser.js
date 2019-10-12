@@ -31,9 +31,26 @@ $("#hadoop_browser tbody").on("mousedown", "tr", function () {
     $(this).toggleClass("selected");
 });
 
-generateFileTree(files);
+getFileListFromHDFS();
 
 
+function getFileListFromHDFS(){
+    $.ajax({
+        url: enviorment.API.LIST_FILE,
+        contentType: 'application/json',
+        dataType: "json",
+        type: "GET",
+        success: function (data) {
+            ajaxMessageReader(data, function (data) {
+                console.log(data);
+                generateFileTree(data);
+
+            }, function (response) {
+                $("#template_alert").show();
+            })
+        }
+    })
+}
 
 
 function generateFileTree(files) {

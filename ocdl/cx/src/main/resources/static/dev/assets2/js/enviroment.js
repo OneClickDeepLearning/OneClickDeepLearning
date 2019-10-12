@@ -26,6 +26,7 @@ const enviorment = {
         PROJECT_UPDATE: '/rest/project/config',
 
         /* ------- Upload  ---------*/
-        UPLOAD:'/rest/project/data'
+        UPLOAD:'/rest/project/data',
+        LIST_FILE:'/rest/data/list'
     }
 };
