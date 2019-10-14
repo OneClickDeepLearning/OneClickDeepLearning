@@ -9,6 +9,4 @@
 out
 gen
 /target/
-*.log
 .properties
-
