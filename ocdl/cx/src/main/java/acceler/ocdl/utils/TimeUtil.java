@@ -2,6 +2,8 @@ package acceler.ocdl.utils;
 
 import acceler.ocdl.dto.ModelDto;
 import acceler.ocdl.exception.OcdlException;
+import acceler.ocdl.service.impl.DefaultModelServiceImpl;
+import org.apache.log4j.Logger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,7 +13,7 @@ import java.util.List;
 
 public class TimeUtil {
     public static final String DATA_FORMAT = "yyyy-MM-dd hh:mm:ss";
-
+    private static final Logger log = Logger.getLogger(TimeUtil.class);
 
     public static Date currentTime() {
         Calendar calendar = Calendar.getInstance();
@@ -33,10 +35,10 @@ public class TimeUtil {
         c.setTime(date);
         int day = c.get(Calendar.DATE);
         c.set(Calendar.DATE, day - 1);
-        System.out.println("model time stamp: " + convertDateToString(date));
-        System.out.println("previous day time stamp: " + convertDateToString(c.getTime()));
+        log.error("model time stamp: " + convertDateToString(date));
+        log.error("previous day time stamp: " + convertDateToString(c.getTime()));
 
-        System.out.println("if after: " + date.after(c.getTime()));
+        log.error("if after: " + date.after(c.getTime()));
         return date.after(c.getTime());
     }
 
