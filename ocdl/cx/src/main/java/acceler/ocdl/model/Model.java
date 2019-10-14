@@ -77,9 +77,6 @@ public abstract class Model extends Storable implements Serializable {
         modelDto.setStatus(model.getStatus().toString());
         modelDto.setComments(model.getComments());
 
-        System.out.println("when convet to model Dto");
-        System.out.println(model.getName());
-        System.out.println(model.getOwnerId());
         if (model.getOwnerId() != null) {
             modelDto.setOwnerId(model.getOwnerId().toString());
             InnerUser user = (InnerUser)AbstractUser.findUserById(model.getOwnerId());

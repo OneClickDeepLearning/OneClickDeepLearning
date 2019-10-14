@@ -182,9 +182,6 @@ public class Algorithm extends Storable implements Serializable {
 
             for (int i = 0; i < algorithm.belongingModels.size(); i++) {
                 belongingModelCopies[i] = algorithm.belongingModels.get(i).deepCopy();
-                System.out.println("get all approve models");
-                System.out.println(belongingModelCopies[i].getName());
-                System.out.println(belongingModelCopies[i].getOwnerId());
             }
 
 
@@ -293,7 +290,7 @@ public class Algorithm extends Storable implements Serializable {
         }
 
         ApprovedModel copyOfModel = model.deepCopy(); //avoid any ref outside
-        System.out.println("befor add to algorithm: " + copyOfModel.getOwnerId());
+        logger.debug("befor add to algorithm: " + copyOfModel.getOwnerId());
         lock.writeLock().lock();
         Optional<Algorithm> algorithmOpt = getRealAlgorithmByName(this.algorithmName);
         algorithmOpt.ifPresent(algorithm -> {

@@ -129,7 +129,7 @@ public class DefaultModelServiceImpl implements ModelService {
 
         ApprovedModel approvedModel = algorithm.approveModel(model, version, comments);
 
-        System.out.println("after approved model, the ower id is: " + approvedModel.getOwnerId());
+        log.debug("after approved model, the ower id is: " + approvedModel.getOwnerId());
         algorithm.persistApprovalModel(approvedModel);
         NewModel.removeFromStorage(model.getModelId());
     }
