@@ -40,21 +40,20 @@ public class TimeUtil {
         return date.after(c.getTime());
     }
 
-    public static List<ModelDto> addNewFlag(List<ModelDto> modelDtos) {
-
-        for (ModelDto m : modelDtos) {
-            if (m.getTimeStamp() != null) {
-                try {
-                    Date time = TimeUtil.convertStringToDate(m.getTimeStamp());
-                    if (TimeUtil.isRecent(time)) {
-                        m.setNewFlag(true);
+    public static void addNewFlag(List<ModelDto> modelDtos) {
+        modelDtos.stream()
+                .filter(m -> {
+                    try {
+                        if (m.getTimeStamp() != null) {
+                            Date time = TimeUtil.convertStringToDate(m.getTimeStamp());
+                            return TimeUtil.isRecent(time);
+                        } else {
+                            return false;
+                        }
+                    } catch (ParseException e) {
+                        throw new OcdlException("Invalid time format of ModelDto timestamp.");
                     }
-                } catch (ParseException e) {
-                    throw new OcdlException("Invalid time format of ModelDto timestamp.");
-                }
-            }
-        }
-        return modelDtos;
-
+                })
+                .forEach(m -> m.setNewFlag(true));
     }
 }
