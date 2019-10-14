@@ -46,9 +46,9 @@ public class TimeUtil {
                     try {
                         if (m.getTimeStamp() != null) {
                             Date time = TimeUtil.convertStringToDate(m.getTimeStamp());
-                            return TimeUtil.isRecent(time);
+                            return !TimeUtil.isRecent(time);
                         } else {
-                            return false;
+                            return true;
                         }
                     } catch (ParseException e) {
                         throw new OcdlException("Invalid time format of ModelDto timestamp.");
