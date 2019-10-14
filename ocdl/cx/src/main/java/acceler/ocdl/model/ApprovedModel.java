@@ -22,6 +22,8 @@ public class ApprovedModel extends Model implements Cloneable {
         copy.setSuffix(this.suffix);
         copy.setName(this.name);
         copy.setStatus(this.status);
+        copy.setOwnerId(this.ownerId);
+        copy.setComments(this.comments);
         copy.setReleasedVersion(this.releasedVersion);
         copy.setCachedVersion(this.cachedVersion);
         copy.setApprovedTime(this.approvedTime);
