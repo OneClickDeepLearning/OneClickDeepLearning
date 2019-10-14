@@ -85,7 +85,7 @@ public abstract class Model extends Storable implements Serializable {
         if (model.getLastOperator() != null) {
             modelDto.setLastOperatorId(model.getLastOperator().toString());
             InnerUser user = (InnerUser)AbstractUser.findUserById(model.getLastOperator());
-            modelDto.setOwnerName(user.getUserName());
+            modelDto.setLastOperatorName(user.getUserName());
         }
 
 
