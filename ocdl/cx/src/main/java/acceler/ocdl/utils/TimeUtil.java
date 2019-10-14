@@ -33,6 +33,8 @@ public class TimeUtil {
         c.setTime(date);
         int day = c.get(Calendar.DATE);
         c.set(Calendar.DATE, day - 1);
+        System.out.println("model time stamp: " + convertDateToString(date));
+        System.out.println("previous day time stamp: " + convertDateToString(c.getTime()));
         return date.after(c.getTime());
     }
 
