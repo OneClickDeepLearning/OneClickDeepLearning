@@ -40,7 +40,7 @@ public class TimeUtil {
         return date.after(c.getTime());
     }
 
-    public static void addNewFlag(List<ModelDto> modelDtos) {
+    public static List<ModelDto> addNewFlag(List<ModelDto> modelDtos) {
 
         for (ModelDto m : modelDtos) {
             if (m.getTimeStamp() != null) {
@@ -54,6 +54,7 @@ public class TimeUtil {
                 }
             }
         }
+        return modelDtos;
 
     }
 }
