@@ -91,6 +91,7 @@ public final class ModelController {
             Model model = NewModel.getNewModelById(Long.parseLong(modelDto.getModelId()))
                     .orElseThrow(()-> new NotFoundException("Fail to found model"));
 
+            System.out.println("before push decision, the owner id is:" + model.getOwnerId());
             modelService.approveModel((NewModel) model,modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(upgradeVersion), modelDto.getComments());
 //            modelService.pushModelToGit(Long.parseLong(modelDto.getModelId()));
 

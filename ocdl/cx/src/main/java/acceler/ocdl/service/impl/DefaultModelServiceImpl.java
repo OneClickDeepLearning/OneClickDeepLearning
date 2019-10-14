@@ -128,6 +128,8 @@ public class DefaultModelServiceImpl implements ModelService {
         Algorithm algorithm = Algorithm.getAlgorithmByName(algorithmName).orElseThrow(() -> (new NotFoundException(String.format("Not found algorithm: %s", algorithmName))));
 
         ApprovedModel approvedModel = algorithm.approveModel(model, version, comments);
+
+        System.out.println("after approved model, the ower id is: " + approvedModel.getOwnerId());
         algorithm.persistApprovalModel(approvedModel);
         NewModel.removeFromStorage(model.getModelId());
     }

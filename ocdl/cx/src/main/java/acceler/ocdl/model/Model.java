@@ -75,6 +75,10 @@ public abstract class Model extends Storable implements Serializable {
         modelDto.setModelFileName(model.getModelFileName());
         modelDto.setModelName(model.getName());
         modelDto.setStatus(model.getStatus().toString());
+
+        System.out.println(model.getName());
+        System.out.println(model.getOwnerId());
+
         modelDto.setOwnerId(model.getOwnerId().toString());
         modelDto.setComments(model.getComments());
 
