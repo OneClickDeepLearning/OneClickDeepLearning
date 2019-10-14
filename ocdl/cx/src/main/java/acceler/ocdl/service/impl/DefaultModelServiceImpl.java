@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.*;
 
 import static org.apache.commons.io.FileUtils.directoryContains;
@@ -306,11 +307,13 @@ public class DefaultModelServiceImpl implements ModelService {
         List<ModelDto> personalEvent = new ArrayList<>();
         personalEvent.addAll(getNewModelsByUser(userId));
         personalEvent.addAll(getRejectModelsByUser(userId));
+        TimeUtil.addNewFlag(personalEvent);
         Collections.sort(personalEvent);
         modelMap.put(CONSTANTS.EVENT.PERSONAL_EVENT, personalEvent);
 
         List<ModelDto> globalEvent = new ArrayList<>();
         globalEvent.addAll(Arrays.asList(getModelsByStatus(Model.Status.APPROVED)));
+        TimeUtil.addNewFlag(globalEvent);
         Collections.sort(globalEvent);
         modelMap.put(CONSTANTS.EVENT.GLOBAL_EVENT, globalEvent);
 
@@ -318,7 +321,9 @@ public class DefaultModelServiceImpl implements ModelService {
     }
 
 
-    public List<ModelDto> getNewModelsByUser(long userId) {
+
+
+    private List<ModelDto> getNewModelsByUser(long userId) {
 
         Model[] newModels = NewModel.getAllNewModelsByUser(userId);
         List<ModelDto> modelDtoList = convertModelsToModelDtoList(newModels);

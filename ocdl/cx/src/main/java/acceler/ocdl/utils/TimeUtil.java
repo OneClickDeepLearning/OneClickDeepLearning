@@ -1,9 +1,13 @@
 package acceler.ocdl.utils;
 
+import acceler.ocdl.dto.ModelDto;
+import acceler.ocdl.exception.OcdlException;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class TimeUtil {
     public static final String DATA_FORMAT = "yyyy-MM-dd hh:mm:ss";
@@ -22,5 +26,30 @@ public class TimeUtil {
     public static String convertDateToString(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATA_FORMAT);
         return dateFormat.format(date);
+    }
+
+    public static boolean isRecent(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        int day = c.get(Calendar.DATE);
+        c.set(Calendar.DATE, day - 1);
+        return date.after(c.getTime());
+    }
+
+    public static void addNewFlag(List<ModelDto> modelDtos) {
+        modelDtos.stream()
+                .filter(m -> {
+                    try {
+                        if (m.getTimeStamp() != null) {
+                            Date time = TimeUtil.convertStringToDate(m.getTimeStamp());
+                            return TimeUtil.isRecent(time);
+                        } else {
+                            return false;
+                        }
+                    } catch (ParseException e) {
+                        throw new OcdlException("Invalid time format of ModelDto timestamp.");
+                    }
+                })
+                .forEach(m -> m.setNewFlag(true));
     }
 }
