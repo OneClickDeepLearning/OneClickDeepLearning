@@ -64,7 +64,7 @@ public class NewModel extends Model {
         if (existNewModel(model)) {
             throw new ExistedException("new model already existed");
         }
-
+        logger.info("when add new model in storage: " + model.getOwnerId());
         lock.writeLock().lock();
         getNewModelStorage().add(model.deepCopy());
         persistence();
