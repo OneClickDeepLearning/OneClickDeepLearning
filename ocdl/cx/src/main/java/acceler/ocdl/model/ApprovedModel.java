@@ -27,17 +27,19 @@ public class ApprovedModel extends Model implements Cloneable {
         copy.setReleasedVersion(this.releasedVersion);
         copy.setCachedVersion(this.cachedVersion);
         copy.setApprovedTime(this.approvedTime);
+        copy.setLastOperator(this.lastOperator);
 
         return copy;
     }
 
-    public NewModel convertToNewModel(String comments) {
+    public NewModel convertToNewModel(String comments, Long lastOperatorId) {
         NewModel newModel = new NewModel();
         newModel.setModelId(this.modelId);
         newModel.setSuffix(this.suffix);
         newModel.setName(this.name);
         newModel.setOwnerId(this.ownerId);
         newModel.setComments(comments);
+        newModel.setLastOperator(lastOperatorId);
         newModel.setCommitTime(TimeUtil.currentTime());
 
         return newModel;

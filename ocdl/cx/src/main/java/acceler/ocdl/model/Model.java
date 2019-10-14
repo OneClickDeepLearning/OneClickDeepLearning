@@ -19,6 +19,7 @@ public abstract class Model extends Storable implements Serializable {
     protected Status status;
     protected String suffix;
     protected String comments;
+    protected Long lastOperator;
 
     public String getName() {
         return this.name;
@@ -56,6 +57,10 @@ public abstract class Model extends Storable implements Serializable {
 
     public void setComments(String comments) { this.comments = comments; }
 
+    public Long getLastOperator() { return lastOperator; }
+
+    public void setLastOperator(Long lastOperator) { this.lastOperator = lastOperator; }
+
     public static Long generateModelId() {
         return modelIdGenerator.incrementAndGet();
     }
@@ -76,6 +81,13 @@ public abstract class Model extends Storable implements Serializable {
         modelDto.setModelName(model.getName());
         modelDto.setStatus(model.getStatus().toString());
         modelDto.setComments(model.getComments());
+
+        if (model.getLastOperator() != null) {
+            modelDto.setLastOperatorId(model.getLastOperator().toString());
+            InnerUser user = (InnerUser)AbstractUser.findUserById(model.getLastOperator());
+            modelDto.setOwnerName(user.getUserName());
+        }
+
 
         if (model.getOwnerId() != null) {
             modelDto.setOwnerId(model.getOwnerId().toString());

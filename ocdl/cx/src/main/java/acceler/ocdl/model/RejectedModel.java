@@ -133,10 +133,11 @@ public class RejectedModel extends Model {
         copy.setRejectedTime(this.rejectedTime);
         copy.setOwnerId(this.ownerId);
         copy.setComments(this.comments);
+        copy.setLastOperator(this.lastOperator);
         return copy;
     }
 
-    public NewModel convertToNewModel(String comments) {
+    public NewModel convertToNewModel(String comments, Long lastOperatorId) {
         NewModel newModel = new NewModel();
         newModel.setModelId(this.modelId);
         newModel.setSuffix(this.suffix);
@@ -145,6 +146,7 @@ public class RejectedModel extends Model {
         newModel.setCommitTime(currentTime());
         newModel.setOwnerId(this.ownerId);
         newModel.setComments(comments);
+        newModel.setLastOperator(lastOperatorId);
 
         return newModel;
     }

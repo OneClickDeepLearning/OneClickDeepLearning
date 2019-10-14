@@ -117,17 +117,18 @@ public class DefaultModelServiceImpl implements ModelService {
         model.setName(modelFile.getName());
         model.setCommitTime(TimeUtil.currentTime());
         model.setOwnerId(ownerId);
+        model.setLastOperator(ownerId);
         log.info("when persist new model, owner id is " + ownerId);
         System.out.println("when persist new model, owner id is " + ownerId);
         NewModel.addToStorage(model);
     }
 
     @Override
-    public void approveModel(NewModel model, String algorithmName, Algorithm.UpgradeVersion version, String comments) {
+    public void approveModel(NewModel model, String algorithmName, Algorithm.UpgradeVersion version, String comments, Long lastOperatorId) {
         checkIfNewModelExist(model);
         Algorithm algorithm = Algorithm.getAlgorithmByName(algorithmName).orElseThrow(() -> (new NotFoundException(String.format("Not found algorithm: %s", algorithmName))));
 
-        ApprovedModel approvedModel = algorithm.approveModel(model, version, comments);
+        ApprovedModel approvedModel = algorithm.approveModel(model, version, comments, lastOperatorId);
 
         log.debug("after approved model, the ower id is: " + approvedModel.getOwnerId());
         algorithm.persistApprovalModel(approvedModel);
@@ -143,15 +144,15 @@ public class DefaultModelServiceImpl implements ModelService {
 
 
     @Override
-    public void rejectModel(NewModel model, String comments) {
+    public void rejectModel(NewModel model, String comments, Long lastOperatorId) {
         checkIfNewModelExist(model);
         Date current = TimeUtil.currentTime();
-        RejectedModel.addToStorage(model.convertToRejectedModel(comments));
+        RejectedModel.addToStorage(model.convertToRejectedModel(comments, lastOperatorId));
         NewModel.removeFromStorage(model.getModelId());
     }
 
     @Override
-    public void undo(Model model, String comments) {
+    public void undo(Model model, String comments, Long lastOperatorId) {
         if (model instanceof ApprovedModel && !Algorithm.existApprovalModel((ApprovedModel) model)) {
             throw new NotFoundException("model not found");
         }
@@ -170,10 +171,10 @@ public class DefaultModelServiceImpl implements ModelService {
             ApprovedModel approvedModel = (ApprovedModel) model;
             Algorithm algorithm = Algorithm.getAlgorithmOfApprovedModel(approvedModel);
             Algorithm.removeApprovedModelFromAlgorithm(algorithm.getAlgorithmName(), approvedModel);
-            newModel = approvedModel.convertToNewModel(comments);
+            newModel = approvedModel.convertToNewModel(comments, lastOperatorId);
         } else {
             RejectedModel.removeFromStorage(model.getModelId());
-            newModel = ((RejectedModel) model).convertToNewModel(comments);
+            newModel = ((RejectedModel) model).convertToNewModel(comments, lastOperatorId);
         }
 
         NewModel.addToStorage(newModel);

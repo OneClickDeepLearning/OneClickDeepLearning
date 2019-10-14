@@ -26,7 +26,7 @@ public interface ModelService {
      * @param algorithmName the name of algorithm that chose when approve
      * @param version the version that chose when approve
      */
-    void approveModel(NewModel model, String algorithmName, Algorithm.UpgradeVersion version, String comments);
+    void approveModel(NewModel model, String algorithmName, Algorithm.UpgradeVersion version, String comments, Long lastOperatorId);
 
     /**
      * reject model
@@ -34,7 +34,7 @@ public interface ModelService {
      * he format of the fileName = "modelName" + "timestamp" + "suffix"
      * @param model model that need to reject
      */
-    void rejectModel(NewModel model, String comments);
+    void rejectModel(NewModel model, String comments, Long lastOperatorId);
 
     /**
      * undo model
@@ -42,7 +42,7 @@ public interface ModelService {
      * the format of the fileName = "modelName" + "timestamp"
      * @param model model that need to undo
      */
-    void undo(Model model, String comments);
+    void undo(Model model, String comments, Long lastOperatorId);
 
     /**
      * get models by status

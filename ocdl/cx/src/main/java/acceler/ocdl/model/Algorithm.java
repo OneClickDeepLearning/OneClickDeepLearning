@@ -250,7 +250,7 @@ public class Algorithm extends Storable implements Serializable {
         return this.belongingModels.stream().map(ApprovedModel::deepCopy).toArray(size -> new ApprovedModel[size]);
     }
 
-    public ApprovedModel approveModel(NewModel model, UpgradeVersion version, String comments) {
+    public ApprovedModel approveModel(NewModel model, UpgradeVersion version, String comments, Long lastOperatorId) {
 
         AtomicLong releaseVersionGenerator = this.currentReleasedVersion != null? new AtomicLong(this.currentReleasedVersion): new AtomicLong(0L);
         AtomicLong cachedVersionGenerator = this.currentCachedVersion != null? new AtomicLong(this.currentCachedVersion) : new AtomicLong(0L);
@@ -266,7 +266,7 @@ public class Algorithm extends Storable implements Serializable {
             newReleasedVersion = releaseVersionGenerator.get();
         }
 
-        return model.convertToApprovedModel(newCachedVersion, newReleasedVersion, comments);
+        return model.convertToApprovedModel(newCachedVersion, newReleasedVersion, comments, lastOperatorId);
     }
 
     public void persistAlgorithmVersion(ApprovedModel model) {

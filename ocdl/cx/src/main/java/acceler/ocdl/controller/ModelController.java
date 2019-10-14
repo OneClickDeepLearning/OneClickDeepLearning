@@ -84,6 +84,7 @@ public final class ModelController {
         String from = request.getParameter("fromStatus");
         String to = request.getParameter("toStatus");
         String upgradeVersion = request.getParameter("upgradeVersion");
+        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
 
         Response.Builder responseBuilder = getBuilder();
 
@@ -92,23 +93,24 @@ public final class ModelController {
                     .orElseThrow(()-> new NotFoundException("Fail to found model"));
 
             logger.debug("before push decision, the owner id is:" + model.getOwnerId());
-            modelService.approveModel((NewModel) model,modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(upgradeVersion), modelDto.getComments());
-//            modelService.pushModelToGit(Long.parseLong(modelDto.getModelId()));
+            modelService.approveModel((NewModel) model,modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(upgradeVersion), modelDto.getComments(), innerUser.getUserId());
 
         } else if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.REJECTED.name())) {
             Model model = NewModel.getNewModelById(Long.parseLong(modelDto.getModelId()))
                     .orElseThrow(()-> new NotFoundException("Fail to found model"));
-            modelService.rejectModel((NewModel) model, modelDto.getComments());
+            modelService.rejectModel((NewModel) model, modelDto.getComments(), innerUser.getUserId());
+
         } else if (from.toUpperCase().equals(Model.Status.REJECTED.name()) && to.toUpperCase().equals(Model.Status.NEW.name())) {
             RejectedModel model = RejectedModel.getRejectedModelById(Long.parseLong(modelDto.getModelId()))
                     .orElseThrow(()-> new NotFoundException("Fail to found model"));
-            modelService.undo(model, modelDto.getComments());
+            modelService.undo(model, modelDto.getComments(), innerUser.getUserId());
+            
         } else if (from.toUpperCase().equals(Model.Status.APPROVED.name()) && to.toUpperCase().equals(Model.Status.NEW.name())) {
             Model model = Algorithm.getApprovalModelById(Long.parseLong(modelDto.getModelId()))
                     .orElseThrow(()-> new NotFoundException("Fail to found model"));
 
             if (model.getStatus() != Model.Status.RELEASED) {
-                modelService.undo(model, modelDto.getComments());
+                modelService.undo(model, modelDto.getComments(), innerUser.getUserId());
             } else {
                 throw new OcdlException("Released model cannot undo.");
             }
