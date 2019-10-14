@@ -54,6 +54,10 @@ public class TimeUtil {
                         throw new OcdlException("Invalid time format of ModelDto timestamp.");
                     }
                 })
-                .forEach(m -> m.setNewFlag(true));
+                .forEach(m -> {
+                    System.out.println(m.getModelName());
+                    m.setNewFlag(true);
+                    System.out.println(m.getNewFlag());
+                });
     }
 }

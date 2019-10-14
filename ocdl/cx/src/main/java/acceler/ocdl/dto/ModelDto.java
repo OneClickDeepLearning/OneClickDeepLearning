@@ -113,7 +113,7 @@ public class ModelDto implements Serializable,Comparable<ModelDto> {
 
     public void setLastOperatorName(String lastOperatorName) { this.lastOperatorName = lastOperatorName; }
 
-    public boolean isNewFlag() { return newFlag; }
+    public boolean getNewFlag() { return newFlag; }
 
     public void setNewFlag(boolean newFlag) { this.newFlag = newFlag; }
 
