@@ -17,7 +17,8 @@ public interface CONSTANTS {
 
         String USER_ID = "{type}{userId}";
         String MODELDTO_VERSION = "v{release_version}.{cached_version}";
-        String GIT_MODEL = "{algorithm}_v{release_version}.{cached_version}.{suffix}";
+        String RELEASE_MODEL = "{algorithm}_v{release_version}.{cached_version}.{suffix}";
+        String LATEST_MODEL = "{algorithm}_v{release_version}.{cached_version}";
     }
 
     interface PERSISTENCE {
@@ -55,5 +56,10 @@ public interface CONSTANTS {
         String TOPIC = "mdmsg";
         String MESSAGE = "{publishedModelName} {modelUrl}";
         String KAFKA_URL = "ec2-35-171-163-170.compute-1.amazonaws.com:9092";
+    }
+
+    interface EVENT {
+        String PERSONAL_EVENT = "personal_event";
+        String GLOBAL_EVENT = "global_event";
     }
 }

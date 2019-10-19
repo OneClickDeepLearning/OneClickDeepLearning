@@ -2,3 +2,5 @@
 !model/**.joblib
 **/.idea/**
 **/target/**
+application.properties
+.DS_Store

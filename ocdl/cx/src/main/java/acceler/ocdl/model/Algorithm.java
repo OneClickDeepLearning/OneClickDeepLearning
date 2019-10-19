@@ -184,6 +184,7 @@ public class Algorithm extends Storable implements Serializable {
                 belongingModelCopies[i] = algorithm.belongingModels.get(i).deepCopy();
             }
 
+
             result.put(algorithm.getAlgorithmName(), belongingModelCopies);
         }
         lock.readLock().unlock();
@@ -249,11 +250,7 @@ public class Algorithm extends Storable implements Serializable {
         return this.belongingModels.stream().map(ApprovedModel::deepCopy).toArray(size -> new ApprovedModel[size]);
     }
 
-    public ApprovedModel approveModel(NewModel model, UpgradeVersion version) {
-
-        System.out.println("before");
-        System.out.println(this.currentReleasedVersion);
-        System.out.println(this.currentCachedVersion);
+    public ApprovedModel approveModel(NewModel model, UpgradeVersion version, String comments, Long lastOperatorId) {
 
         AtomicLong releaseVersionGenerator = this.currentReleasedVersion != null? new AtomicLong(this.currentReleasedVersion): new AtomicLong(0L);
         AtomicLong cachedVersionGenerator = this.currentCachedVersion != null? new AtomicLong(this.currentCachedVersion) : new AtomicLong(0L);
@@ -269,11 +266,7 @@ public class Algorithm extends Storable implements Serializable {
             newReleasedVersion = releaseVersionGenerator.get();
         }
 
-        System.out.println("after reset");
-        System.out.println(newReleasedVersion);
-        System.out.println(newCachedVersion);
-
-        return model.convertToApprovedModel(newCachedVersion, newReleasedVersion);
+        return model.convertToApprovedModel(newCachedVersion, newReleasedVersion, comments, lastOperatorId);
     }
 
     public void persistAlgorithmVersion(ApprovedModel model) {
@@ -297,10 +290,10 @@ public class Algorithm extends Storable implements Serializable {
         }
 
         ApprovedModel copyOfModel = model.deepCopy(); //avoid any ref outside
-
+        logger.debug("befor add to algorithm: " + copyOfModel.getOwnerId());
         lock.writeLock().lock();
         Optional<Algorithm> algorithmOpt = getRealAlgorithmByName(this.algorithmName);
-        getRealAlgorithmByName(this.algorithmName).ifPresent(algorithm -> {
+        algorithmOpt.ifPresent(algorithm -> {
                     algorithm.belongingModels.add(copyOfModel);
         });
         persistence();

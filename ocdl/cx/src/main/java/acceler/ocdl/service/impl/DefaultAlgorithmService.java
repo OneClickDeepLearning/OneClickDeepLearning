@@ -1,5 +1,6 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.model.Algorithm;
 import acceler.ocdl.service.AlgorithmService;
@@ -16,6 +17,15 @@ import java.util.*;
 public class DefaultAlgorithmService implements AlgorithmService {
 
     private static final Logger log = Logger.getLogger(DefaultAlgorithmService.class);
+
+    @Override
+    public String getLatestModelName(String algorithmName) {
+        Algorithm algorithm = getAlgorithmByName(algorithmName);
+        String latestModelName = CONSTANTS.NAME_FORMAT.LATEST_MODEL.replace("{algorithm}", algorithm.getAlgorithmName())
+                .replace("{release_version}", algorithm.getCurrentReleasedVersion().toString())
+                .replace("{cached_version}", algorithm.getCurrentCachedVersion().toString());
+        return latestModelName;
+    }
 
     @Override
     public List<Algorithm> getAllAlgorithm() {

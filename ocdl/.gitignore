@@ -9,5 +9,4 @@
 out
 gen
 /target/
-
-
+.properties

@@ -96,18 +96,18 @@ a:hover,a:focus{
 
 
 /* table - Start -----------------------------------------------------------------S*/
-table{
+table.approval-table{
     color: #ccc;
     width: 100%;
 }
 table.widauto{
     width: unset;
 }
-table tr{
+table.approval-table tr{
     height: 40px;
     line-height: 40px;
 }
-table td{
+table.approval-table td{
     padding: 0 14px;
 }
 
@@ -115,19 +115,19 @@ table.border td , table.border th{
     border:solid 1px #555;
 }
 
-table.odd-even thead tr{
+table.approval-table.odd-even thead tr{
     background: rgba(255, 255, 255, 0.1);
 }
-table.odd-even tbody tr:nth-child(2n+1){
+table.approval-table.odd-even tbody tr:nth-child(2n+1){
 }
-table.odd-even tbody tr:nth-child(2n){
+table.approval-table.odd-even tbody tr:nth-child(2n){
     background: rgba(170, 170, 170, 0.1);
 }
 
-table.border-bottom thead tr{
+table.approval-table.border-bottom thead tr{
     background: rgba(255, 255, 255, 0.1);
 }
-table.border-bottom tbody tr{
+table.approval-table.border-bottom tbody tr{
     border-bottom: solid 1px #555;
 }
 th{

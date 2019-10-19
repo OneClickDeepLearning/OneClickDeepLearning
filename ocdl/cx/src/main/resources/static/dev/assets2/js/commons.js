@@ -37,6 +37,8 @@ function afterSignIn(data) {
         ShowDeveloperMenu();
     }
 
+    initEvent();
+
     var status=$("#status");
     var rescource=$("#rescourse");
     var username=$("#username");

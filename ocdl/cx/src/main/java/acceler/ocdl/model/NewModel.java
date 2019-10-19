@@ -64,7 +64,7 @@ public class NewModel extends Model {
         if (existNewModel(model)) {
             throw new ExistedException("new model already existed");
         }
-
+        logger.info("when add new model in storage: " + model.getOwnerId());
         lock.writeLock().lock();
         getNewModelStorage().add(model.deepCopy());
         persistence();
@@ -113,7 +113,17 @@ public class NewModel extends Model {
         this.status = Status.NEW;
     }
 
-    public ApprovedModel convertToApprovedModel(Long cachedVersion, Long releaseVersion) {
+    public static Model[] getAllNewModelsByUser(long userId) {
+        lock.readLock().lock();
+        NewModel[] newModels = getNewModelStorage().stream()
+                .filter(m -> m.getOwnerId() == userId)
+                .map(NewModel::deepCopy)
+                .toArray(size -> new NewModel[size]);
+        lock.readLock().unlock();
+        return newModels;
+    }
+
+    public ApprovedModel convertToApprovedModel(Long cachedVersion, Long releaseVersion,String comments, Long lastOperatorId) {
         ApprovedModel model = new ApprovedModel();
 
         model.setModelId(this.modelId);
@@ -123,11 +133,14 @@ public class NewModel extends Model {
         model.setApprovedTime(currentTime());
         model.setCachedVersion(cachedVersion);
         model.setReleasedVersion(releaseVersion);
+        model.setOwnerId(this.ownerId);
+        model.setComments(comments);
+        model.setLastOperator(lastOperatorId);
 
         return model;
     }
 
-    public RejectedModel convertToRejectedModel() {
+    public RejectedModel convertToRejectedModel(String comments, Long lastOperatorId) {
         RejectedModel model = new RejectedModel();
 
         model.setModelId(this.modelId);
@@ -135,6 +148,9 @@ public class NewModel extends Model {
         model.setName(this.name);
         model.status = Status.REJECTED;
         model.setRejectedTime(currentTime());
+        model.setOwnerId(this.ownerId);
+        model.setComments(comments);
+        model.setLastOperator(lastOperatorId);
 
         return model;
     }
@@ -147,6 +163,9 @@ public class NewModel extends Model {
         copy.setName(this.name);
         copy.status = Status.NEW;
         copy.setCommitTime(this.commitTime);
+        copy.setOwnerId(this.ownerId);
+        copy.setLastOperator(this.lastOperator);
+        copy.setComments(this.comments);
 
         return copy;
     }
