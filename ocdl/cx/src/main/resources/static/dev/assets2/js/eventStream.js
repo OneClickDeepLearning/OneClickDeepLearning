@@ -14,7 +14,7 @@ function initEvent() {
                 console.log(data);
 
                 <!-- personal event list -->
-                for (var i = 0; i < data["personal_event"].length; i++) {
+                for (var i = 0; i < data["personal_event"].size; i++) {
                     var tr = "<tr class='data'><td>" + data["personal_event"][i].modelName + "</td><td>" +
                         data["personal_event"][i].algorithm +
                         "</td><td>" + data["personal_event"][i].version +
@@ -29,7 +29,7 @@ function initEvent() {
                 }
 
                 <!-- approval list -->
-                for (var i = 0; i < data["globle_event"].length; i++) {
+                for (var i = 0; i < data["globle_event"].size; i++) {
                     var tr;
 
                     tr = "<tr class='data'><td>" + data["globle_event"][i].modelName + "</td> " +
