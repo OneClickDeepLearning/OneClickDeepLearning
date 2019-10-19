@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.*;
 
 import static org.apache.commons.io.FileUtils.directoryContains;
@@ -63,6 +64,8 @@ public class DefaultModelServiceImpl implements ModelService {
         initRecords.put("failUpload", 0);
 
         final String userSpaceName = applicationsDirUserSpace + CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(innerUser.getUserId()));
+        log.info(userSpaceName);
+        System.out.println(userSpaceName);
         final File userSpace = new File(userSpaceName);
 
         if (userSpace.isDirectory()) {
@@ -115,15 +118,20 @@ public class DefaultModelServiceImpl implements ModelService {
         model.setName(modelFile.getName());
         model.setCommitTime(TimeUtil.currentTime());
         model.setOwnerId(ownerId);
+        model.setLastOperator(ownerId);
+        log.info("when persist new model, owner id is " + ownerId);
+        System.out.println("when persist new model, owner id is " + ownerId);
         NewModel.addToStorage(model);
     }
 
     @Override
-    public void approveModel(NewModel model, String algorithmName, Algorithm.UpgradeVersion version, String comments) {
+    public void approveModel(NewModel model, String algorithmName, Algorithm.UpgradeVersion version, String comments, Long lastOperatorId) {
         checkIfNewModelExist(model);
         Algorithm algorithm = Algorithm.getAlgorithmByName(algorithmName).orElseThrow(() -> (new NotFoundException(String.format("Not found algorithm: %s", algorithmName))));
 
-        ApprovedModel approvedModel = algorithm.approveModel(model, version, comments);
+        ApprovedModel approvedModel = algorithm.approveModel(model, version, comments, lastOperatorId);
+
+        log.debug("after approved model, the ower id is: " + approvedModel.getOwnerId());
         algorithm.persistApprovalModel(approvedModel);
         NewModel.removeFromStorage(model.getModelId());
     }
@@ -137,15 +145,15 @@ public class DefaultModelServiceImpl implements ModelService {
 
 
     @Override
-    public void rejectModel(NewModel model, String comments) {
+    public void rejectModel(NewModel model, String comments, Long lastOperatorId) {
         checkIfNewModelExist(model);
         Date current = TimeUtil.currentTime();
-        RejectedModel.addToStorage(model.convertToRejectedModel(comments));
+        RejectedModel.addToStorage(model.convertToRejectedModel(comments, lastOperatorId));
         NewModel.removeFromStorage(model.getModelId());
     }
 
     @Override
-    public void undo(Model model, String comments) {
+    public void undo(Model model, String comments, Long lastOperatorId) {
         if (model instanceof ApprovedModel && !Algorithm.existApprovalModel((ApprovedModel) model)) {
             throw new NotFoundException("model not found");
         }
@@ -164,10 +172,10 @@ public class DefaultModelServiceImpl implements ModelService {
             ApprovedModel approvedModel = (ApprovedModel) model;
             Algorithm algorithm = Algorithm.getAlgorithmOfApprovedModel(approvedModel);
             Algorithm.removeApprovedModelFromAlgorithm(algorithm.getAlgorithmName(), approvedModel);
-            newModel = approvedModel.convertToNewModel(comments);
+            newModel = approvedModel.convertToNewModel(comments, lastOperatorId);
         } else {
             RejectedModel.removeFromStorage(model.getModelId());
-            newModel = ((RejectedModel) model).convertToNewModel(comments);
+            newModel = ((RejectedModel) model).convertToNewModel(comments, lastOperatorId);
         }
 
         NewModel.addToStorage(newModel);
@@ -292,19 +300,30 @@ public class DefaultModelServiceImpl implements ModelService {
     }
 
     @Override
-    public ModelDto[] getModelListByUser(long userId) {
-        List<ModelDto> models = new ArrayList<>();
+    public Map<String, List<ModelDto>> getModelListByUser(long userId) {
 
-        models.addAll(getNewModelsByUser(userId));
-        models.addAll(getRejectModelsByUser(userId));
-        models.addAll(Arrays.asList(getModelsByStatus(Model.Status.APPROVED)));
+        Map<String, List<ModelDto>> modelMap = new HashMap<>();
 
-        Collections.sort(models);
-        return models.toArray(new ModelDto[models.size()]);
+        List<ModelDto> personalEvent = new ArrayList<>();
+        personalEvent.addAll(getNewModelsByUser(userId));
+        personalEvent.addAll(getRejectModelsByUser(userId));
+        TimeUtil.addNewFlag(personalEvent);
+        Collections.sort(personalEvent);
+        modelMap.put(CONSTANTS.EVENT.PERSONAL_EVENT, personalEvent);
+
+        List<ModelDto> globalEvent = new ArrayList<>();
+        globalEvent.addAll(Arrays.asList(getModelsByStatus(Model.Status.APPROVED)));
+        TimeUtil.addNewFlag(globalEvent);
+        Collections.sort(globalEvent);
+        modelMap.put(CONSTANTS.EVENT.GLOBAL_EVENT, globalEvent);
+
+        return modelMap;
     }
 
 
-    public List<ModelDto> getNewModelsByUser(long userId) {
+
+
+    private List<ModelDto> getNewModelsByUser(long userId) {
 
         Model[] newModels = NewModel.getAllNewModelsByUser(userId);
         List<ModelDto> modelDtoList = convertModelsToModelDtoList(newModels);

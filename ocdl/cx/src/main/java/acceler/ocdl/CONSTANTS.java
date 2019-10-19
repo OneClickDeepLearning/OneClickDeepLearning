@@ -57,4 +57,9 @@ public interface CONSTANTS {
         String MESSAGE = "{publishedModelName} {modelUrl}";
         String KAFKA_URL = "ec2-35-171-163-170.compute-1.amazonaws.com:9092";
     }
+
+    interface EVENT {
+        String PERSONAL_EVENT = "personal_event";
+        String GLOBAL_EVENT = "global_event";
+    }
 }
