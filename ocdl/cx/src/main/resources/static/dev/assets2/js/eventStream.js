@@ -1,4 +1,3 @@
-
 function initEvent() {
 
     $.ajax({
@@ -15,7 +14,7 @@ function initEvent() {
 
                 <!-- personal event list -->
                 for (var i = 0; i < data["personal_event"].size; i++) {
-                    var tr = "<tr class='data'><td>" + data["personal_event"][i].modelName + "</td><td>" +
+                    var tr = "<tr class='data'><td id='" + data["personal_event"][i].modelId + "_td'>" + data["personal_event"][i].modelName + "</td><td>" +
                         data["personal_event"][i].algorithm +
                         "</td><td>" + data["personal_event"][i].version +
                         "</td>" +
@@ -26,6 +25,12 @@ function initEvent() {
 
                     $("#table-personal-event").append(tr);
 
+                }
+                for (let e in data["personal_event"]) {
+                    let newTagHtml = "<span class=\"badge badge-primary\">New</span>";
+                    if (e.newFlag) {
+                        $("#" + e.modelId + "_td").append(newTagHtml);
+                    }
                 }
 
                 <!-- approval list -->
@@ -44,6 +49,13 @@ function initEvent() {
                         "</tr>";
 
                     $("#table-globle-event").append(tr);
+                }
+
+                for (let e in data["globle_event"]) {
+                    let newTagHtml = "<span class=\"badge badge-primary\">New</span>";
+                    if (e.newFlag) {
+                        $("#" + e.modelId + "_td").append(newTagHtml);
+                    }
                 }
 
             }, function (response) {
