@@ -48,7 +48,7 @@ public class FileController {
     return null;
     }
 
-    @RequestMapping(path="list", method = RequestMethod.GET)
+    @RequestMapping(path="/list", method = RequestMethod.GET)
     @ResponseBody
     public Response hdfsList(HttpServletRequest request) {
         InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
