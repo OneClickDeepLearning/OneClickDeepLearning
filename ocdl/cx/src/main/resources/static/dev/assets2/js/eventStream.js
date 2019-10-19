@@ -38,7 +38,7 @@ function initEvent() {
 
                 <!-- approval list -->
                 for (var i = 0; i < data.global_event.length; i++) {
-                    var tr = "<tr class='data'><td id='" + data.global[i].modelId + "_td'>" + data.global_event[i].modelName + "</td> " +
+                    var tr = "<tr class='data'><td id='" + data.global_event[i].modelId + "_td'>" + data.global_event[i].modelName + "</td> " +
                         "<td>" + data.global_event[i].ownerName + "</td> <td>" + data.global_event[i].algorithm + "</td>  " +
                         "<td>" + data.global_event[i].version + "</td> <td>" +
                         data.global_event[i].status +
@@ -58,6 +58,15 @@ function initEvent() {
                         $("#" + eg.modelId + "_td").append(newTagHtml);
                         newGlobalTag++;
                     }
+                }
+
+                if (newPersonalTag > 0) {
+                    let numTag = "<span class=\"badge badge-secondary\">" + newPersonalTag + " news</span>";
+                    $("#personal-event-a").append(numTag);
+                }
+                if (newGlobalTag > 0) {
+                    let numTag = "<span class=\"badge badge-secondary\">" + newGlobalTagTag + " news</span>";
+                    $("#global-event-a").append(numTag);
                 }
 
 
