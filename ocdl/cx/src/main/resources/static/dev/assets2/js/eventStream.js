@@ -28,25 +28,23 @@ function initEvent() {
                 }
                 let newPersonalTag = 0;
                 let newGlobalTag = 0;
-                for (let e in data.personal_event) {
+                for (let ep in data.personal_event) {
                     let newTagHtml = "<span class=\"badge badge-primary\">New</span>";
-                    if (e.newFlag) {
-                        $("#" + e.modelId + "_td").append(newTagHtml);
+                    if (ep.newFlag) {
+                        $("#" + ep.modelId + "_td").append(newTagHtml);
                         newPersonalTag++;
                     }
                 }
 
                 <!-- approval list -->
                 for (var i = 0; i < data.global_event.length; i++) {
-                    var tr;
-
-                    tr = "<tr class='data'><td>" + data.global_event[i].modelName + "</td> " +
+                    var tr = "<tr class='data'><td id='" + data.global[i].modelId + "_td'>" + data.global_event[i].modelName + "</td> " +
                         "<td>" + data.global_event[i].ownerName + "</td> <td>" + data.global_event[i].algorithm + "</td>  " +
                         "<td>" + data.global_event[i].version + "</td> <td>" +
                         data.global_event[i].status +
                         "</td>" +
                         "<td>" +
-                        data.global_event[i].operatorName +
+                        data.global_event[i].lastOperatorName +
                         "</td>" +
                         "<td>" + data.global_event[i].timeStamp + "</td>" +
                         "</tr>";
@@ -54,14 +52,13 @@ function initEvent() {
                     $("#table-global-event").append(tr);
                 }
 
-                for (let e in data.global_event) {
+                for (let eg in data.global_event) {
                     let newTagHtml = "<span class=\"badge badge-primary\">New</span>";
-                    if (e.newFlag) {
-                        $("#" + e.modelId + "_td").append(newTagHtml);
+                    if (eg.newFlag) {
+                        $("#" + eg.modelId + "_td").append(newTagHtml);
                         newGlobalTag++;
                     }
                 }
-
 
 
             }, function (response) {
