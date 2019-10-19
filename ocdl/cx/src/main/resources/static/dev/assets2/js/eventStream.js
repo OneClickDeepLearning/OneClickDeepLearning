@@ -20,12 +20,11 @@ function initEvent() {
                         "</td><td>" + data["personal_event"][i].version +
                         "</td>" +
                         "<td>" + data["personal_event"][i].status + "</td> " +
-                        "<td>" + data["personal_event"][i].lastOperation + "</td>" +
-                        "<td>" + data["personal_event"][i].updateTime + "</td>" +
+                        "<td>" + data["personal_event"][i].lastOperatorName + "</td>" +
+                        "<td>" + data["personal_event"][i].timeStamp + "</td>" +
                         "</tr>";
 
                     $("#table-personal-event").append(tr);
-
 
                 }
 
@@ -34,14 +33,14 @@ function initEvent() {
                     var tr;
 
                     tr = "<tr class='data'><td>" + data["globle_event"][i].modelName + "</td> " +
-                        "<td>" + data["globle_event"][i].eventOwner + "</td> <td>" + data["approvalModels"][i].algorithm + "</td>  " +
+                        "<td>" + data["globle_event"][i].ownerName + "</td> <td>" + data["approvalModels"][i].algorithm + "</td>  " +
                         "<td>" + data["globle_event"][i].version + "</td> <td>" +
                         data["globle_event"][i].status +
                         "</td>" +
                         "<td>" +
                         data["globle_event"][i].operatorName +
                         "</td>" +
-                        "<td>" + data["globle_evnet"][i].updateTime + "</td>" +
+                        "<td>" + data["globle_evnet"][i].timeStamp + "</td>" +
                         "</tr>";
 
                     $("#table-globle-event").append(tr);
