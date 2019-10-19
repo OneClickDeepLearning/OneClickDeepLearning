@@ -12,10 +12,6 @@ function initEvent() {
         type: "GET",
         success: function (data) {
             ajaxMessageReader(data, function (data) {
-                console.log(data);
-
-                myevent = data;
-
                 <!-- personal event list -->
                 for (var i = 0; i < data.personal_event.length; i++) {
                     var tr = "<tr class='data'><td id='" + data.personal_event[i].modelId + "_td'>" + data.personal_event[i].modelName + "</td><td>" +
