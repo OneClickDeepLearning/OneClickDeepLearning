@@ -45,7 +45,7 @@ function initEvent() {
                     var tr;
 
                     tr = "<tr class='data'><td>" + data.global_event[i].modelName + "</td> " +
-                        "<td>" + data.global_event[i].ownerName + "</td> <td>" + data["approvalModels"][i].algorithm + "</td>  " +
+                        "<td>" + data.global_event[i].ownerName + "</td> <td>" + data.global_event[i].algorithm + "</td>  " +
                         "<td>" + data.global_event[i].version + "</td> <td>" +
                         data.global_event[i].status +
                         "</td>" +
