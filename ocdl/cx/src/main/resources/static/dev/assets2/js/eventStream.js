@@ -60,6 +60,15 @@ function initEvent() {
                     }
                 }
 
+                if (newPersonalTag > 0) {
+                    let numTag = "<span class=\"badge badge-secondary\">" + newPersonalTag + " news</span>";
+                    $("#personal-event-a").append(numTag);
+                }
+                if (newGlobalTag > 0) {
+                    let numTag = "<span class=\"badge badge-secondary\">" + newGlobalTagTag + " news</span>";
+                    $("#global-event-a").append(numTag);
+                }
+
 
             }, function (response) {
                 alert(response.message)
