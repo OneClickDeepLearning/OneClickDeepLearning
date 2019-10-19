@@ -3,14 +3,10 @@ package acceler.ocdl.model;
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.exception.InitStorageException;
 import acceler.ocdl.exception.NotFoundException;
-import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.utils.SerializationUtils;
-import org.apache.hadoop.fs.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -18,7 +14,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import static org.apache.commons.io.FileUtils.forceMkdir;
 
 
 public abstract class AbstractUser extends Storable implements Serializable {

@@ -22,6 +22,9 @@ public class ModelDto implements Serializable,Comparable<ModelDto> {
     private String ownerId;
     private String ownerName;
     private String comments;
+    private String lastOperatorId;
+    private String lastOperatorName;
+    private boolean newFlag;
 
     /**
      * releasedVersion + cachedVersion;
@@ -102,6 +105,18 @@ public class ModelDto implements Serializable,Comparable<ModelDto> {
 
     public void setComments(String comments) { this.comments = comments; }
 
+    public String getLastOperatorId() { return lastOperatorId; }
+
+    public void setLastOperatorId(String lastOperatorId) { this.lastOperatorId = lastOperatorId; }
+
+    public String getLastOperatorName() { return lastOperatorName; }
+
+    public void setLastOperatorName(String lastOperatorName) { this.lastOperatorName = lastOperatorName; }
+
+    public boolean getNewFlag() { return newFlag; }
+
+    public void setNewFlag(boolean newFlag) { this.newFlag = newFlag; }
+
     public Model convertToModel() {
 
         Model model;
@@ -116,6 +131,7 @@ public class ModelDto implements Serializable,Comparable<ModelDto> {
                 model.setName(this.modelName);
                 model.setOwnerId(Long.parseLong(this.ownerId));
                 model.setComments(this.comments);
+                model.setLastOperator(Long.parseLong(this.lastOperatorId));
                 ((NewModel) model).setCommitTime(time);
             } else if (this.status.toUpperCase().equals(Model.Status.REJECTED.toString())) {
                 model = new RejectedModel();
@@ -123,6 +139,7 @@ public class ModelDto implements Serializable,Comparable<ModelDto> {
                 model.setName(this.modelName);
                 model.setOwnerId(Long.parseLong(this.ownerId));
                 model.setComments(this.comments);
+                model.setLastOperator(Long.parseLong(this.lastOperatorId));
                 ((RejectedModel) model).setRejectedTime(time);
             } else if (this.status.toUpperCase().equals(Model.Status.APPROVED.toString())) {
                 model = new ApprovedModel();
@@ -130,6 +147,7 @@ public class ModelDto implements Serializable,Comparable<ModelDto> {
                 model.setName(this.modelName);
                 model.setOwnerId(Long.parseLong(this.ownerId));
                 model.setComments(this.comments);
+                model.setLastOperator(Long.parseLong(this.lastOperatorId));
                 ((ApprovedModel) model).setApprovedTime(time);
             } else {
                 throw new OcdlException("Invalid status type in ModelDto.");
