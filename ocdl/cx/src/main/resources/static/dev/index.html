@@ -223,8 +223,6 @@
             <ul id="nav-menu" class="nav navbar-nav navbar-right">
                 <li><a href="#" class="nav-link" data-toggle="modal" data-target="#FileModal">DATA UPLOAD</a></li>
                 <li><a href="#">CONTACT</a></li>
-                <!--				<li><a id="signInBtn" href="#" class="nav-link" data-toggle="modal" data-target="#RegistrationModal">SIGN UP</a></li>
-                                <li><a id="signUpBtn" href="#" class="nav-link" data-toggle="modal" data-target="#LogInModal">SIGN IN</a></li>-->
             </ul>
         </div>
     </div>
@@ -431,7 +429,7 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Kind</th>
+                                    <th>Type</th>
                                     <th>Size</th>
                                     <th>Operation</th>
                                 </tr>
@@ -452,14 +450,14 @@
                         </div>
 
                         <div role="tabpanel" class="tab-pane fade" id="Section4">
-                            <div class="panel-group col-md-12" id="accordion1" role="tablist"
+                            <div class="panel-group col-md-12" id="accordion-event" role="tablist"
                                  aria-multiselectable="true">
                                 <div class="panel panel-default">
                                     <div class="panel-heading" role="tab" id="personal_event"
                                          style="background-color:#716aca;">
                                         <h4 class="panel-title">
-                                            <a class="collapsed" role="button" data-toggle="collapse"
-                                               data-parent="#accordion1"
+                                            <a id="personal-event-a" class="collapsed" role="button" data-toggle="collapse"
+                                               data-parent="#accordion-event"
                                                href="#collapsePersonalEvent" aria-expanded="false"
                                                aria-controls="collapsePersonalEvent">
                                                 Personal event
@@ -499,8 +497,8 @@
                                     <div class="panel-heading" role="tab" id="global_event"
                                          style="background-color:#007bff;">
                                         <h4 class="panel-title">
-                                            <a class="collapsed" role="button" data-toggle="collapse"
-                                               data-parent="#accordion1"
+                                            <a id="global-event-a" class="collapsed" role="button" data-toggle="collapse"
+                                               data-parent="#accordion-event"
                                                href="#collapseGlobalEvent" aria-expanded="false"
                                                aria-controls="collapseGlobalEvent">
                                                 Global Event
@@ -1166,7 +1164,7 @@
 
 
     function generateDownloadCode(modelFileName) {
-        var code = "client = alluxio.Client('3.89.28.106', 39999) \n" +
+        var code = "client = alluxio.Client('10.8.0.14', 39999) \n" +
             "client.ls(\"/Staging\")\n" +
             "\n" +
             "fileName = client.open_file('/Staging/" + modelFileName + "')\n" +
