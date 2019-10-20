@@ -134,6 +134,9 @@ Data scientists
 - Yushi  Jing, email@concordia.ca
 
 ## Userful Link
+- <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/">Bootstrapping clusters with kubeadm</a>
+- <a href="https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/">Schedule GPUs</a>
+- <a href="https://hub.docker.com/r/nvidia/cuda/">CUDA and cuDNN images</a>
 - <a href="https://kafka.apache.org/quickstart">Kafka Setting</a> 
 
 
