@@ -124,7 +124,7 @@ Principle investigator
 
 Developers
 - Tianen  Chen
-- Baiyu  Huo, h_baiyu@encs.concordia.ca
+- Baiyu  Huo, b_huo@encs.concordia.ca
 - Boqian  Wang, w_boqian@encs.concordia.ca
 - Ivy  Ling, l_zhijin@encs.concordia.ca
 
