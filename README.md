@@ -123,15 +123,15 @@ Principle investigator
 - Yan Liu, yan.liu@concordia.ca
 
 Developers
-- Tianen  Chen, email@concordia.ca
+- Tianen  Chen
 - Baiyu  Huo, h_baiyu@encs.concordia.ca
 - Boqian  Wang, w_boqian@encs.concordia.ca
 - Ivy  Ling, l_zhijin@encs.concordia.ca
 
 Data scientists
 - Jincheng  Su, s_jinche@encs.concordia.ca
-- Huazhi Liu, email@concordia.ca
-- Yushi  Jing, email@concordia.ca
+- Huazhi Liu
+- Yushi  Jing
 
 ## Userful Link
 - <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/">Bootstrapping clusters with kubeadm</a>
