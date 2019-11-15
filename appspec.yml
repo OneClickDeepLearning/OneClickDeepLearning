@@ -1,8 +1,12 @@
 version: 0.0
 os: linux
 files:
-  - source: ./ocdl/cx/target
-    destination: /home/ubuntu/ocdl
+  - source: ./ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar
+    destination: /home/ubuntu/ocdl/
+  - source: ./runapp.sh
+    destination: /home/ubuntu/ocdl/
+  - source: ./appspec.yml
+    destination: /home/ubuntu/ocdl/
 hooks:
   ApplicationStart:
     - location: runapp.sh
