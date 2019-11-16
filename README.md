@@ -45,7 +45,8 @@ Launcher builds a workflow from mature models, which automatically publish model
  <img src="https://raw.githubusercontent.com/BoyuHuo/OCDL-Image/master/Technology%20%20Stack.png" alt="Markdownify" width="700" style="border:0px;">
  </p>It builds a workflow from trained models, which automatically publish model to the thousands of clients
 
-## Capsule
+## Capsule 
+[Download Tutorial](https://github.com/OneClickDeepLearning/OneClickDeepLearning/raw/dev/tutorials/OCDL-Capsule%20-%20Baiyu.pptx 'capsule.ppt')
 - Facilitate the process of model development
 Capsule embedding the Jupiter IDE into the website as well  as the code templates which contains most popular code  samples such as layers, neural network and networks. So it  boosts the whole process of model development of senior  developer and also reduces the learning curve of junior developers.
 
@@ -56,6 +57,7 @@ Capsule allows you to customize your project architecture  by combining it with 
 The OCDL Capsule is a lightweight Java web applicationwhich means the only environment requirement is JVM.There is no reliable plugins, no database and even noconfiguration file in the Capsule. What’s more, the Capsuleis also very flexible, since it supports you to deploy multiple Capsules in one Rover and Launcher which could makeyour resource more reusable.
 
 ## Rover
+[Download Tutorial](https://github.com/OneClickDeepLearning/OneClickDeepLearning/raw/dev/tutorials/OCDL-Rover-Boqian.pptx 'capsule.ppt')
 - Application containerization
 Our applications such as Jupyter Notebook, is containerized with docker. This means our application can be deployed more rapidly, easily, safely and platform independently.
 
@@ -71,6 +73,7 @@ cluster nodes automatically. It also provides self healing capabilities which ca
 We provide Hadoop HDFS as underlying file system, allowing users to store large files. HDFS itself is robust and scalable. Since it can be inefficient for HDFS to access data, we use Alluxio on top of HDFS, which enables us to access data at memory speed.
 
 ## Launcher
+[Download Tutorial](https://github.com/OneClickDeepLearning/OneClickDeepLearning/raw/dev/tutorials/OCDL_Deployment0908.pptx 'launcher.ppt')
 - Model Center
 Model Center is a model management module that we designed ourselves. In Model Center, Manager could easily approve or reject a model that submitted by developer. Once the manager clicked the button “APPROVE”, it will start the process of automated model deployment. We also allow Manager to customize their own Algorithm (The different categories’ model they want to publish), and manager could publish the model to a specific Algorithm, and the system will auto assign a version according the manager’s choice.
 
@@ -84,17 +87,8 @@ The implementation of Auto Deployment like a pipe lines. The physical model file
 
 
 
-## Getting Started
-### Prerequisites and Supported Browsers
-
-### Capsule
-
-### Rover
-
-### Launcher
-
 ## Sample projects
-- NLP for Metropolitan Residence Request Classification
+- <a href="https://github.com/OneClickDeepLearning/classificationOfResidentialRequests">NLP for Metropolitan Residence Request Classification</a>
 <p align="center">
  <img src="https://raw.githubusercontent.com/BoyuHuo/OCDL-Image/master/nlp1.jpg" alt="Markdownify" width="400" style="border:0px;">
  </p>
@@ -104,7 +98,7 @@ The implementation of Auto Deployment like a pipe lines. The physical model file
  <img src="https://raw.githubusercontent.com/BoyuHuo/OCDL-Image/master/medical2.png" alt="Markdownify" width="400" style="border:0px;">
  </p>
  
-- Time Series Forecasting for Cloud Service Workload
+- <a href="https://github.com/haniehalipour/Online-Machine-Learning-for-Cloud-Resource-Provisioning-of-Microservice-Backend-Systems">Time Series Forecasting for Cloud Service Workload</a>
  <p align="center">
  <img src="https://raw.githubusercontent.com/BoyuHuo/OCDL-Image/master/timeseries2.jpg" alt="Markdownify" width="400" style="border:0px;">
  </p>
@@ -129,17 +123,20 @@ Principle investigator
 - Yan Liu, yan.liu@concordia.ca
 
 Developers
-- Tianen  Chen, email@concordia.ca
-- Baiyu  Huo, email@concordia.ca
-- Boqian  Wang, email@concordia.ca
-- Ivy  Ling, email@concordia.ca
+- Tianen  Chen
+- Baiyu  Huo, b_huo@encs.concordia.ca
+- Boqian  Wang, w_boqian@encs.concordia.ca
+- Ivy  Ling, l_zhijin@encs.concordia.ca
 
 Data scientists
-- Jincheng  Su, email@concordia.ca
-- Huazhi Liu, email@concordia.ca
-- Yushi  Jing, email@concordia.ca
+- Jincheng  Su, s_jinche@encs.concordia.ca
+- Huazhi Liu
+- Yushi  Jing
 
 ## Userful Link
+- <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/">Bootstrapping clusters with kubeadm</a>
+- <a href="https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/">Schedule GPUs</a>
+- <a href="https://hub.docker.com/r/nvidia/cuda/">CUDA and cuDNN images</a>
 - <a href="https://kafka.apache.org/quickstart">Kafka Setting</a> 
 
 
