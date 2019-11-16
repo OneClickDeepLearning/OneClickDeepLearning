@@ -15,4 +15,3 @@ hooks:
     - location: deploy_script/startApp.sh
       runas: ubuntu
       timeout: 300
-
