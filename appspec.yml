@@ -11,9 +11,9 @@ files:
     destination: /home/ubuntu/ocdl/
 hooks:
   ApplicationStop:
-    - location: stopApp.sh
+    - location: deploy_script/stopApp.sh
       timeout: 300
   ApplicationStart:
-    - location: startApp.sh
+    - location: deploy_script/startApp.sh
       runas: ubuntu
       timeout: 300
