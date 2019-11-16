@@ -3,7 +3,7 @@ os: linux
 files:
   - source: ./ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar
     destination: /home/ubuntu/ocdl/
-  - source: ./deploy_script
+  - source: ./ocdl/deploy_script
     destination: /home/ubuntu/ocdl/
   - source: ./appspec.yml
     destination: /home/ubuntu/ocdl/
