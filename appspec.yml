@@ -7,6 +7,8 @@ files:
     destination: /home/ubuntu/ocdl/
   - source: ./ocdl/deploy_script/startApp.sh
     destination: /home/ubuntu/ocdl/
+   - source: ./ocdl/deploy_script/clean.sh
+   destination: /home/ubuntu/ocdl/
   - source: ./appspec.yml
     destination: /home/ubuntu/ocdl/
 hooks:
@@ -17,3 +19,7 @@ hooks:
     - location: /ocdl/deploy_script/startApp.sh
       runas: ubuntu
       timeout: 300
+  ValidateService:
+    - location: /ocdl/deploy_script/clean.sh
+      timeout:300
+
