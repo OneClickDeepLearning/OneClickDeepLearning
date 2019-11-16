@@ -3,16 +3,16 @@ os: linux
 files:
   - source: ./ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar
     destination: /home/ubuntu/ocdl/
-  - source: ./dep_script
-    destination: /home/ubuntu/dep_script
+  - source: ./deploy_script
+    destination: /home/ubuntu/ocdl/
   - source: ./appspec.yml
     destination: /home/ubuntu/ocdl/
 hooks:
   ApplicationStop:
-    - location: scripts/stop_application
+    - location: deploy_script/stopApp.sh
       timeout: 300
   ApplicationStart:
-    - location: /dep_script/startApp.sh
+    - location: deploy_script/startApp.sh
       runas: ubuntu
       timeout: 300
 
