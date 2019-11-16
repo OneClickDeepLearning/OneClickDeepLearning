@@ -7,8 +7,8 @@ files:
     destination: /home/ubuntu/ocdl/
   - source: ./ocdl/deploy_script/startApp.sh
     destination: /home/ubuntu/ocdl/
-   - source: ./ocdl/deploy_script/clean.sh
-   destination: /home/ubuntu/ocdl/
+  - source: ./ocdl/deploy_script/clean.sh
+    destination: /home/ubuntu/ocdl/
   - source: ./appspec.yml
     destination: /home/ubuntu/ocdl/
 hooks:
