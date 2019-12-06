@@ -1,8 +1,6 @@
 package acceler.ocdl.entity;
 
-
 import lombok.Data;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -12,8 +10,8 @@ import javax.persistence.*;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "user_data")
-public class UserData {
+@Table(name = "user")
+public class Suffix extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,14 +21,7 @@ public class UserData {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "suffix")
-    private String suffix;
-
-    @Column(name = "ref_id")
-    @JsonProperty("ref_id")
-    private String refId;
-
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "project_id")
+    private Project project;
 }

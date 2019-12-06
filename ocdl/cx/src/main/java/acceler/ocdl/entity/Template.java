@@ -12,11 +12,11 @@ import javax.persistence.*;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "user_data")
-public class UserData {
+@Table(name = "template")
+public class Template extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
@@ -26,11 +26,19 @@ public class UserData {
     @Column(name = "suffix")
     private String suffix;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "ref_id")
     @JsonProperty("ref_id")
     private String refId;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "project_id")
+    private Project project;
+
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private TemplateCategory templateCategory;
+
 }

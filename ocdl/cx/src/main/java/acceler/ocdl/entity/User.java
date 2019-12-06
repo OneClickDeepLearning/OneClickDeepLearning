@@ -1,6 +1,7 @@
 package acceler.ocdl.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.ColumnTransformer;
@@ -50,5 +51,25 @@ public class User extends BaseEntity {
     private String updatedAt;
 
     @OneToMany(mappedBy = "user")
+    @JsonProperty("user_data_list")
+    @JsonIgnoreProperties(value = "user")
     private List<UserData> userDataList;
+
+    @OneToMany(mappedBy = "owner")
+    @JsonProperty("model_list")
+    @JsonIgnoreProperties(value = "owner")
+    private List<Model> modelList;
+
+    @OneToMany(mappedBy = "lastOperator")
+    @JsonProperty("operate_model_list")
+    @JsonIgnoreProperties(value = "lastOperator")
+    private List<Model> operateModelList;
+
+    @ManyToMany(mappedBy = "userList")
+    @JsonProperty("project_list")
+    @JsonIgnoreProperties(value = "userList")
+    private List<Project> projectList;
+
+
+
 }

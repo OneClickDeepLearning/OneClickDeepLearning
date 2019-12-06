@@ -1,6 +1,5 @@
 package acceler.ocdl.entity;
 
-
 import lombok.Data;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.DynamicInsert;
@@ -12,8 +11,8 @@ import javax.persistence.*;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "user_data")
-public class UserData {
+@Table(name = "project_data")
+public class ProjectData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,6 +30,6 @@ public class UserData {
     private String refId;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "project_id")
+    private Project project;
 }
