@@ -1,7 +1,8 @@
 package acceler.ocdl.dao;
 
 import acceler.ocdl.entity.Project;
-import acceler.ocdl.entity.Suffix;
+import acceler.ocdl.entity.Template;
+import acceler.ocdl.entity.TemplateCategory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,18 +19,18 @@ import static org.junit.Assert.assertEquals;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
-public class SuffixDaoTest {
+public class TemplateDaoTest {
 
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
-    private SuffixDao dao;
+    private TemplateDao dao;
 
     @Autowired
     private ProjectDao projectDao;
 
-    private Suffix test;
+    private Template test;
 
     @Before
     public void before() {
@@ -37,9 +38,12 @@ public class SuffixDaoTest {
         Project project = projectDao.findByName("ocdl").get();
 
         // init user data
-        test = Suffix.builder()
-                .name("tflite")
+        test = Template.builder()
+                .name("readfile")
+                .description("readfile")
                 .project(project)
+                .refId("abck")
+                .suffix("ipynb")
                 .build();
     }
 
@@ -53,22 +57,27 @@ public class SuffixDaoTest {
 
     private void testCreate() {
 
-        Suffix objInDb = dao.save(test);
+        Template objInDb = dao.save(test);
         assertEquals(objInDb.getName(), test.getName());
+        assertEquals(objInDb.getDescription(), test.getDescription());
         assertEquals(objInDb.getProject().getId(), test.getProject().getId());
-
+        assertEquals(objInDb.getRefId(), test.getRefId());
+        assertEquals(objInDb.getSuffix(), test.getSuffix());
     }
 
     private void testRead() {
         // read
-        Suffix objInDb = dao.findByName(test.getName()).get();
+        Template objInDb = dao.findByRefId(test.getRefId()).get();
         assertEquals(objInDb.getName(), test.getName());
+        assertEquals(objInDb.getDescription(), test.getDescription());
         assertEquals(objInDb.getProject().getId(), test.getProject().getId());
+        assertEquals(objInDb.getRefId(), test.getRefId());
+        assertEquals(objInDb.getSuffix(), test.getSuffix());
     }
 
     private void testUpdate() {
 
-        Suffix objInDb = dao.findByName(test.getName()).get();
+        Template objInDb = dao.findByRefId(test.getRefId()).get();
         String name = "data";
         Long id = objInDb.getId();
         objInDb.setName(name);
@@ -76,15 +85,17 @@ public class SuffixDaoTest {
 
         assertEquals(objInDb.getId(), id);
         assertEquals(objInDb.getName(), name);
+        assertEquals(objInDb.getDescription(), test.getDescription());
         assertEquals(objInDb.getProject().getId(), test.getProject().getId());
+        assertEquals(objInDb.getRefId(), test.getRefId());
+        assertEquals(objInDb.getSuffix(), test.getSuffix());
     }
 
     private void testDelete() {
 
-        Suffix objInDb = dao.findByName(test.getName()).get();
+        Template objInDb = dao.findByRefId(test.getRefId()).get();
         dao.delete(objInDb);
-        Boolean exist = dao.findByName(test.getName()).isPresent();
+        Boolean exist = dao.findByRefId(test.getRefId()).isPresent();
         assertEquals(exist, false);
     }
-
 }

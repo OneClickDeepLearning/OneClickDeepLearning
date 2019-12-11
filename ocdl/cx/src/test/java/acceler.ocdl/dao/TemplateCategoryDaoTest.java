@@ -1,7 +1,7 @@
 package acceler.ocdl.dao;
 
 import acceler.ocdl.entity.Project;
-import acceler.ocdl.entity.Suffix;
+import acceler.ocdl.entity.TemplateCategory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,18 +18,18 @@ import static org.junit.Assert.assertEquals;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
-public class SuffixDaoTest {
+public class TemplateCategoryDaoTest {
 
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
-    private SuffixDao dao;
+    private TemplateCategoryDao dao;
 
     @Autowired
     private ProjectDao projectDao;
 
-    private Suffix test;
+    private TemplateCategory test;
 
     @Before
     public void before() {
@@ -37,9 +37,11 @@ public class SuffixDaoTest {
         Project project = projectDao.findByName("ocdl").get();
 
         // init user data
-        test = Suffix.builder()
-                .name("tflite")
+        test = TemplateCategory.builder()
+                .name("common")
+                .description("common")
                 .project(project)
+                .shared(false)
                 .build();
     }
 
@@ -53,22 +55,26 @@ public class SuffixDaoTest {
 
     private void testCreate() {
 
-        Suffix objInDb = dao.save(test);
+        TemplateCategory objInDb = dao.save(test);
         assertEquals(objInDb.getName(), test.getName());
+        assertEquals(objInDb.getDescription(), test.getDescription());
         assertEquals(objInDb.getProject().getId(), test.getProject().getId());
+        assertEquals(objInDb.getShared(), test.getShared());
 
     }
 
     private void testRead() {
         // read
-        Suffix objInDb = dao.findByName(test.getName()).get();
+        TemplateCategory objInDb = dao.findByName(test.getName()).get();
         assertEquals(objInDb.getName(), test.getName());
+        assertEquals(objInDb.getDescription(), test.getDescription());
         assertEquals(objInDb.getProject().getId(), test.getProject().getId());
+        assertEquals(objInDb.getShared(), test.getShared());
     }
 
     private void testUpdate() {
 
-        Suffix objInDb = dao.findByName(test.getName()).get();
+        TemplateCategory objInDb = dao.findByName(test.getName()).get();
         String name = "data";
         Long id = objInDb.getId();
         objInDb.setName(name);
@@ -76,15 +82,16 @@ public class SuffixDaoTest {
 
         assertEquals(objInDb.getId(), id);
         assertEquals(objInDb.getName(), name);
+        assertEquals(objInDb.getDescription(), test.getDescription());
         assertEquals(objInDb.getProject().getId(), test.getProject().getId());
+        assertEquals(objInDb.getShared(), test.getShared());
     }
 
     private void testDelete() {
 
-        Suffix objInDb = dao.findByName(test.getName()).get();
+        TemplateCategory objInDb = dao.findByName(test.getName()).get();
         dao.delete(objInDb);
         Boolean exist = dao.findByName(test.getName()).isPresent();
         assertEquals(exist, false);
     }
-
 }

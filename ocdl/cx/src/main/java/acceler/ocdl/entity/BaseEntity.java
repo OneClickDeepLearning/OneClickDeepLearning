@@ -1,8 +1,6 @@
 package acceler.ocdl.entity;
 
 import org.codehaus.jackson.annotate.JsonProperty;
-
-
 import javax.persistence.Column;
 import java.io.Serializable;
 

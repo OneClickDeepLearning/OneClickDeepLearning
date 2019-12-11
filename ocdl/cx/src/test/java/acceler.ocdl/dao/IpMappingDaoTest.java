@@ -1,6 +1,7 @@
 package acceler.ocdl.dao;
 
-import acceler.ocdl.entity.Project;
+
+import acceler.ocdl.entity.IpMapping;
 import acceler.ocdl.entity.Suffix;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,28 +19,24 @@ import static org.junit.Assert.assertEquals;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
-public class SuffixDaoTest {
+public class IpMappingDaoTest {
+
 
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
-    private SuffixDao dao;
+    private IpMappingDao dao;
 
-    @Autowired
-    private ProjectDao projectDao;
-
-    private Suffix test;
+    private IpMapping test;
 
     @Before
     public void before() {
 
-        Project project = projectDao.findByName("ocdl").get();
-
-        // init user data
-        test = Suffix.builder()
-                .name("tflite")
-                .project(project)
+        test = IpMapping.builder()
+                .name("test")
+                .privateIp("55555")
+                .publicIp("66666")
                 .build();
     }
 
@@ -53,22 +50,24 @@ public class SuffixDaoTest {
 
     private void testCreate() {
 
-        Suffix objInDb = dao.save(test);
+        IpMapping objInDb = dao.save(test);
         assertEquals(objInDb.getName(), test.getName());
-        assertEquals(objInDb.getProject().getId(), test.getProject().getId());
+        assertEquals(objInDb.getPrivateIp(), test.getPrivateIp());
+        assertEquals(objInDb.getPublicIp(), test.getPublicIp());
 
     }
 
     private void testRead() {
         // read
-        Suffix objInDb = dao.findByName(test.getName()).get();
+        IpMapping objInDb = dao.findByName(test.getName()).get();
         assertEquals(objInDb.getName(), test.getName());
-        assertEquals(objInDb.getProject().getId(), test.getProject().getId());
+        assertEquals(objInDb.getPrivateIp(), test.getPrivateIp());
+        assertEquals(objInDb.getPublicIp(), test.getPublicIp());
     }
 
     private void testUpdate() {
 
-        Suffix objInDb = dao.findByName(test.getName()).get();
+        IpMapping objInDb = dao.findByName(test.getName()).get();
         String name = "data";
         Long id = objInDb.getId();
         objInDb.setName(name);
@@ -76,15 +75,15 @@ public class SuffixDaoTest {
 
         assertEquals(objInDb.getId(), id);
         assertEquals(objInDb.getName(), name);
-        assertEquals(objInDb.getProject().getId(), test.getProject().getId());
+        assertEquals(objInDb.getPrivateIp(), test.getPrivateIp());
+        assertEquals(objInDb.getPublicIp(), test.getPublicIp());
     }
 
     private void testDelete() {
 
-        Suffix objInDb = dao.findByName(test.getName()).get();
+        IpMapping objInDb = dao.findByName(test.getName()).get();
         dao.delete(objInDb);
         Boolean exist = dao.findByName(test.getName()).isPresent();
         assertEquals(exist, false);
     }
-
 }

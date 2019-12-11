@@ -1,8 +1,5 @@
 package acceler.ocdl.dao;
 
-
-import acceler.ocdl.entity.Project;
-import acceler.ocdl.entity.ProjectData;
 import acceler.ocdl.entity.Role;
 import acceler.ocdl.entity.User;
 import org.junit.Before;
