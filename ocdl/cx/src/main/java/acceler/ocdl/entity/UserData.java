@@ -1,7 +1,12 @@
 package acceler.ocdl.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -12,11 +17,14 @@ import javax.persistence.*;
 @Entity
 @DynamicInsert
 @DynamicUpdate
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "user_data")
 public class UserData {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -32,5 +40,6 @@ public class UserData {
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties(value = {"userDataList", "modelList", "operateModelList"})
     private User user;
 }

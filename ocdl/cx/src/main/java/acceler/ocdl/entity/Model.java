@@ -1,22 +1,28 @@
 package acceler.ocdl.entity;
 
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @Entity
 @DynamicInsert
 @DynamicUpdate
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "model")
 public class Model extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -28,11 +34,13 @@ public class Model extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "owner")
+    @JsonIgnoreProperties(value = {"modelList", "operateModelList"})
     private User owner;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "last_operator")
     @JsonProperty("last_operator")
+    @JsonIgnoreProperties(value = {"modelList", "operateModelList"})
     private User lastOperator;
 
     @Column(name = "comments")
@@ -56,6 +64,7 @@ public class Model extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "algorithm_id")
+    @JsonIgnoreProperties(value = "modelList")
     private Algorithm algorithm;
 
     @Column(name = "suffix")
@@ -63,9 +72,8 @@ public class Model extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
+    @JsonIgnoreProperties(value = "modelList")
     private Project project;
-
-
 
 
 }

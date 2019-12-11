@@ -1,7 +1,10 @@
 package acceler.ocdl.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -13,11 +16,14 @@ import java.util.List;
 @Entity
 @DynamicInsert
 @DynamicUpdate
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "project")
 public class Project extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -28,6 +34,8 @@ public class Project extends BaseEntity {
     private String description;
 
     @OneToMany(mappedBy = "project")
+    @JsonProperty("model_list")
+    @JsonIgnoreProperties(value = "project")
     private List<Model> modelList;
 
     @OneToMany(mappedBy = "project")
@@ -38,14 +46,17 @@ public class Project extends BaseEntity {
 
     @OneToMany(mappedBy = "project")
     @JsonProperty("project_data_list")
+    @JsonIgnoreProperties(value = "project")
     private List<ProjectData> projectDataList;
 
     @OneToMany(mappedBy = "project")
     @JsonProperty("template_list")
+    @JsonIgnoreProperties(value = "project")
     private List<Template> templateList;
 
     @OneToMany(mappedBy = "project")
     @JsonProperty("template_category_list")
+    @JsonIgnoreProperties(value = "project")
     private List<TemplateCategory> templateCategoryList;
 
     @ManyToMany

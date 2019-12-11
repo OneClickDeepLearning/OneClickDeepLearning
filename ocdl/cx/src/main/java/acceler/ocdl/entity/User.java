@@ -1,11 +1,11 @@
 package acceler.ocdl.entity;
 
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.DynamicInsert;
@@ -14,7 +14,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @DynamicInsert
 @DynamicUpdate
@@ -50,6 +51,7 @@ public class User extends BaseEntity {
             name = "r_user_role",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
+    @JsonIgnoreProperties(value = "users")
     private List<Role> roles;
 
     @Column(name = "updated_at")
@@ -63,12 +65,12 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "owner")
     @JsonProperty("model_list")
-    @JsonIgnoreProperties(value = "owner")
+    @JsonIgnoreProperties(value = {"owner", "lastOperator"})
     private List<Model> modelList;
 
     @OneToMany(mappedBy = "lastOperator")
     @JsonProperty("operate_model_list")
-    @JsonIgnoreProperties(value = "lastOperator")
+    @JsonIgnoreProperties(value = {"owner", "lastOperator"})
     private List<Model> operateModelList;
 
     @ManyToMany(mappedBy = "userList")

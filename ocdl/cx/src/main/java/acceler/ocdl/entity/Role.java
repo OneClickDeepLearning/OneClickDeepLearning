@@ -1,7 +1,11 @@
 package acceler.ocdl.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -12,11 +16,14 @@ import java.util.List;
 @Entity
 @DynamicInsert
 @DynamicUpdate
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "role")
 public class Role  extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -27,5 +34,6 @@ public class Role  extends BaseEntity {
     private String description;
 
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnoreProperties(value = "roles")
     private List<User> users;
 }
