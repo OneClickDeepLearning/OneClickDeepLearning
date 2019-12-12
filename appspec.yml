@@ -1,0 +1,25 @@
+version: 0.0
+os: linux
+files:
+  - source: ./ocdl/cx/target/cx-0.0.1-SNAPSHOT.jar
+    destination: /home/ubuntu/ocdl/
+  - source: ./ocdl/deploy_script/stopApp.sh
+    destination: /home/ubuntu/ocdl/
+  - source: ./ocdl/deploy_script/startApp.sh
+    destination: /home/ubuntu/ocdl/
+   - source: ./ocdl/deploy_script/clean.sh
+   destination: /home/ubuntu/ocdl/
+  - source: ./appspec.yml
+    destination: /home/ubuntu/ocdl/
+hooks:
+  ApplicationStop:
+    - location: /ocdl/deploy_script/stopApp.sh
+      timeout: 300
+  ApplicationStart:
+    - location: /ocdl/deploy_script/startApp.sh
+      runas: ubuntu
+      timeout: 300
+  ValidateService:
+    - location: /ocdl/deploy_script/clean.sh
+      timeout:300
+
