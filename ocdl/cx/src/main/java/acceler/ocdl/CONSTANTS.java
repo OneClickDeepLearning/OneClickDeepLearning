@@ -17,7 +17,8 @@ public interface CONSTANTS {
 
         String USER_ID = "{type}{userId}";
         String MODELDTO_VERSION = "v{release_version}.{cached_version}";
-        String GIT_MODEL = "{algorithm}_v{release_version}.{cached_version}.{suffix}";
+        String RELEASE_MODEL = "{algorithm}_v{release_version}.{cached_version}.{suffix}";
+        String LATEST_MODEL = "{algorithm}_v{release_version}.{cached_version}";
     }
 
     interface PERSISTENCE {
@@ -46,7 +47,7 @@ public interface CONSTANTS {
 
 
     interface HDFS {
-        String IP_ADDRESS = "hdfs://ec2-3-88-164-181.compute-1.amazonaws.com:9000";
+        String IP_ADDRESS = "hdfs://10.8.0.14:9000";
         String USER_SPACE = "/UserSpace/";
         String USER_NAME = "hadoop";
     }
@@ -55,5 +56,10 @@ public interface CONSTANTS {
         String TOPIC = "mdmsg";
         String MESSAGE = "{publishedModelName} {modelUrl}";
         String KAFKA_URL = "ec2-35-171-163-170.compute-1.amazonaws.com:9092";
+    }
+
+    interface EVENT {
+        String PERSONAL_EVENT = "personal_event";
+        String GLOBAL_EVENT = "global_event";
     }
 }

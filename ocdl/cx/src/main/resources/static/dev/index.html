@@ -27,7 +27,10 @@
 
     <link rel="stylesheet" type="text/css" href="assets2/css/approvalCenter.css">
 
-    <script src="../dev/assets2/js/jquery.js"></script>
+    <link rel="stylesheet" href="assets2/css/jquery.treetable.css" type="text/css"/>
+    <link rel="stylesheet" href="assets2/css/jquery.treetable.theme.default.css" type="text/css">
+
+    <script src="assets2/js/jquery.js"></script>
 
     <style type="text/css">
 
@@ -169,23 +172,20 @@
         }
 
 
-
-
-
-        .statistic-title{
+        .statistic-title {
             margin-left: 1.8rem;
             margin-top: 3.21rem;
             display: inline-block;
             font-size: 6rem;
             font-weight: 400;
         }
-        .statistic-desc{
+
+        .statistic-desc {
             margin-left: 1.8rem;
             font-size: 1rem;
             font-weight: 300;
             color: #eeeeee;
         }
-
 
 
     </style>
@@ -217,14 +217,12 @@
                 <span class="icon icon-bar"></span>
             </button>
             <img href="#" alt="OCDL" class="navbar-brand" style="padding-left: 0px;" src="assets2/images/Brand3.png"/>
-<!--            <label id="projectName" style="color: black; margin-top: 30px; margin-left: 20px; float:left;"></label>-->
+            <!--            <label id="projectName" style="color: black; margin-top: 30px; margin-left: 20px; float:left;"></label>-->
         </div>
         <div class="collapse navbar-collapse">
             <ul id="nav-menu" class="nav navbar-nav navbar-right">
                 <li><a href="#" class="nav-link" data-toggle="modal" data-target="#FileModal">DATA UPLOAD</a></li>
                 <li><a href="#">CONTACT</a></li>
-                <!--				<li><a id="signInBtn" href="#" class="nav-link" data-toggle="modal" data-target="#RegistrationModal">SIGN UP</a></li>
-                                <li><a id="signUpBtn" href="#" class="nav-link" data-toggle="modal" data-target="#LogInModal">SIGN IN</a></li>-->
             </ul>
         </div>
     </div>
@@ -253,9 +251,6 @@
                 <span id="gitTag"
                       style="padding-left:0px; height:100%;float:left;padding-top:10px;display: none;">Staging</span>
 
-                <!--                <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a">
-                                    <a id="flapBtn" href="#" class="hi-icon hi-icon-refresh roundA">Flap</a>
-                                </span>-->
 
                 <span style="float:left;display: inline-block; width:auto; height:auto;padding:0px;">
                     <span class=" hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a ">
@@ -311,33 +306,22 @@
 <a href="#" class="menubtn">menu</a>
 <div id="hamburgermenu">
     <ul id="template_ul" style="display: none">
-        <li><a class="d-firstNav s-firstNav" href="#">Framework</a>
-            <ul id="Frameworks" class="d-firstDrop s-firstDrop">
-            </ul>
-
-        </li>
-        <li><a class="d-firstNav s-firstNav" href="#">Layer</a>
-            <ul id="Layers" class="d-firstDrop s-firstDrop">
-            </ul>
-        </li>
-        <li><a class="d-firstNav s-firstNav" href="#">Block</a>
-            <ul id="Blocks" class="d-firstDrop s-firstDrop">
-            </ul>
-
-        </li>
-        <li><a class="d-firstNav s-firstNav" href="#">Network</a>
-            <ul id="Networks" class="d-firstDrop s-firstDrop">
-            </ul>
-        </li>
     </ul>
 
     <ul id="template_alert" style="display: none">
         <li>
             <div style="TEXT-ALIGN:center" style="padding-top: 30px">
                 <H3>No Template</H3>
-                <p style="margin-bottom:50px; margin-top:30px ">You can reload the template or jump directly to the configuration portal to set up the path of templates!</p>
-                <button class="btn btn-info " style="margin: 5px"><icon class="glyphicon glyphicon-refresh"style="margin-right:5px; "></icon>Reload</button>
-                <button class="btn btn-success  " style="margin:5px"><icon class="glyphicon glyphicon-cog"style="margin-right:5px; "></icon>Config</button>
+                <p style="margin-bottom:50px; margin-top:30px ">You can reload the template or jump directly to the
+                    configuration portal to set up the path of templates!</p>
+                <button class="btn btn-info " style="margin: 5px">
+                    <icon class="glyphicon glyphicon-refresh" style="margin-right:5px; "></icon>
+                    Reload
+                </button>
+                <button class="btn btn-success  " style="margin:5px">
+                    <icon class="glyphicon glyphicon-cog" style="margin-right:5px; "></icon>
+                    Config
+                </button>
             </div>
         </li>
     </ul>
@@ -355,24 +339,36 @@
                 <div class="tab" role="tabpanel">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
-                        <li id="welcome-li" role="presentation" class="active"><a id="welcome-tab" href="#Section0" aria-controls="home"
-                                                                  role="tab"
-                                                                  data-toggle="tab"><i class="fa fa-home"></i><span>Welcome</span></a>
+                        <li id="welcome-li" role="presentation" class="active"><a id="welcome-tab" href="#Section0"
+                                                                                  aria-controls="home"
+                                                                                  role="tab"
+                                                                                  data-toggle="tab"><i
+                                class="fa fa-home"></i><span>Welcome</span></a>
                         </li>
-                        <li id="IDE-li" role="presentation"><a id="IDE-tab" href="#Section1" aria-controls="home" role="tab"
-                                                   data-toggle="tab"><i
+                        <li id="IDE-li" role="presentation"><a id="IDE-tab" href="#Section1" aria-controls="home"
+                                                               role="tab"
+                                                               data-toggle="tab"><i
                                 class="fa fa-home"></i><span>Jupyter</span></a>
                         </li>
-                        <li id="file-system-li" role="presentation"><a id="file-system-tab" href="#Section2" aria-controls="profile"
-                                                   role="tab"
-                                                   data-toggle="tab"><i
+                        <li id="file-system-li" role="presentation"><a id="file-system-tab" href="#Section2"
+                                                                       aria-controls="profile"
+                                                                       role="tab"
+                                                                       data-toggle="tab"><i
                                 class="fa fa-globe"></i><span>File System</span></a></li>
-                        <li id="code-template-li" role="presentation" ><a id="code-template-tab" href="#Section3" aria-controls="messages"
-                                                   role="tab"
-                                                   data-toggle="tab"><i
+                        <li id="code-template-li" role="presentation"><a id="code-template-tab" href="#Section3"
+                                                                         aria-controls="messages"
+                                                                         role="tab"
+                                                                         data-toggle="tab"><i
                                 class="fa fa-briefcase"></i><span>Templates</span></a></li>
-                        <li id="model-center-li" role="presentation" ><a id="model-center-tab" href="#Section4" aria-controls="message"
-                                                   role="tab" data-toggle="tab"><i class="fa fa-twitter"></i><span>Model Center</span>
+                        <li id="event-stream-li" role="presentation"><a id="event-stream-tab" href="#Section4"
+                                                                        aria-controls="message"
+                                                                        role="tab" data-toggle="tab"><i
+                                class="fa fa-twitter"></i><span>Event Stream</span>
+                        </a></li>
+                        <li id="model-center-li" role="presentation"><a id="model-center-tab" href="#Section5"
+                                                                        aria-controls="message"
+                                                                        role="tab" data-toggle="tab"><i
+                                class="fa fa-twitter"></i><span>Model Center</span>
                         </a></li>
                     </ul>
                     <!-- Tab panes -->
@@ -383,32 +379,16 @@
                             <div class="cover" style="overflow:auto;">
                                 <div class="">
                                     <div class="col-md-12">
-                                        <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">OUR
-                                            <span>AWESOME</span> THINGS</h2>
+                                        <img src="assets2/images/model_lifecycle.png" width="95%">
                                     </div>
-                                    <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
-                                        <i class="fa fa-laptop"></i>
-                                        <h4>One Click Deep learning</h4>
-                                        <p>We can help you to deploy deep learning project in a convenient, fast and
-                                            reliable
-                                            way. We're totally offering more than 50 templates, 20 type of networks,
-                                            30 kinds of
-                                            layers and 20 kinds blocks templates for you. From training to
-                                            assessment, all you
-                                            need to you is just one click. </p>
-                                    </div>
-                                    <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.9s">
-                                        <i class="fa fa-cloud"></i>
-                                        <h4>Distributed Computing</h4>
-                                        <p>Don't have a powerful computing resource? We offered distributed
-                                            computing resource
-                                            for your training task, </p>
-                                    </div>
-                                    <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
-                                        <i class="fa fa-cog"></i>
-                                        <h4>Container friendly</h4>
-                                        <p>Easy packing of deep learning stacks rapid development across multiple
-                                            platforms</p>
+
+
+                                    <div class="col-md-12 wow fadeIn" style="color: black" data-wow-offset="50" data-wow-delay="0.6s">
+                                        <p><strong>OCDL(One Click Deep Learning)</strong>  is an open-source suite of tools for composing
+                                            connections of models, data, hybrid clouds, computers and devices for deep
+                                            learning. It builds a bridge between abundant models, data, computing
+                                            infrastructure, and software platforms which enable users accelerate their
+                                            completion, testing and deployment of Deep Learning project. </p>
                                     </div>
                                 </div>
                             </div>
@@ -437,10 +417,31 @@
                         </div>
 
                         <div role="tabpanel" class="tab-pane fade" id="Section2">
-                            <iframe id="fileFrame" sandbox="allow-forms allow-same-origin allow-scripts"
-                                    src=""
-                                    style="height:550px; width:100%"></iframe>
+                            <table id="hadoop_browser">
+                                <caption>
+                                    <a href="#"
+                                       onclick="jQuery('#example-advanced').treetable('expandAll'); return false;">Expand
+                                        all</a>
+                                    <a href="#"
+                                       onclick="jQuery('#example-advanced').treetable('collapseAll'); return false;">Collapse
+                                        all</a>
+                                </caption>
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Size</th>
+                                    <th>Operation</th>
+                                </tr>
+                                </thead>
+                                <tbody id="file_list">
+                                </tbody>
+                            </table>
+
+
                         </div>
+
+
                         <div role="tabpanel" class="tab-pane fade" id="Section3">
                             <div id="aaa">
                                    <pre id="code" name="code" class="python" cols="60" rows="10" style="height: 550px">
@@ -448,7 +449,95 @@
                             </div>
                         </div>
 
-                        <div role="tabpanel" class="tab-pane fade" id="Section4" style="border:1px solid; padding:10px;">
+                        <div role="tabpanel" class="tab-pane fade" id="Section4">
+                            <div class="panel-group col-md-12" id="accordion-event" role="tablist"
+                                 aria-multiselectable="true">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="personal_event"
+                                         style="background-color:#716aca;">
+                                        <h4 class="panel-title">
+                                            <a id="personal-event-a" class="collapsed" role="button" data-toggle="collapse"
+                                               data-parent="#accordion-event"
+                                               href="#collapsePersonalEvent" aria-expanded="false"
+                                               aria-controls="collapsePersonalEvent">
+                                                Personal event
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapsePersonalEvent" class="panel-collapse collapse" role="tabpanel"
+                                         aria-labelledby="personal_event">
+                                        <div class="panel-body">
+
+                                            <div class="col4">
+                                                <div class="item-box">
+                                                    <div class="item-con">
+                                                        <table class="odd-even approval-table"
+                                                               id="table-personal-event">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Model Name</th>
+                                                                <th>Algorithm</th>
+                                                                <th>Version</th>
+                                                                <th>Status</th>
+                                                                <th>Operator</th>
+                                                                <th>Update Time</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="global_event"
+                                         style="background-color:#007bff;">
+                                        <h4 class="panel-title">
+                                            <a id="global-event-a" class="collapsed" role="button" data-toggle="collapse"
+                                               data-parent="#accordion-event"
+                                               href="#collapseGlobalEvent" aria-expanded="false"
+                                               aria-controls="collapseGlobalEvent">
+                                                Global Event
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseGlobalEvent" class="panel-collapse collapse" role="tabpanel"
+                                         aria-labelledby="global_event">
+                                        <div class="panel-body">
+                                            <div class="col4">
+                                                <div class="item-box">
+                                                    <div class="item-con">
+                                                        <table class="odd-even approval-table" id="table-global-event">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Model Name</th>
+                                                                <th>Event Owner</th>
+                                                                <th>Algorithm</th>
+                                                                <th>Version</th>
+                                                                <th>Status</th>
+                                                                <th>Operator</th>
+                                                                <th>Update Time</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="Section5"
+                             style="border:1px solid; padding:10px;">
                             <div class="demo">
                                 <div class="row">
 
@@ -461,20 +550,22 @@
                                         <div class="col-md-7">
                                             <div class="col-md-6">
                                                 <div style="background-color: #716aca; height: 150px; margin-top:5px; margin-bottom: 5px; border-radius:10px;">
-                                                    <span  id="newModelNum" class="statistic-title" style="color: white">0</span>
+                                                    <span id="newModelNum" class="statistic-title" style="color: white">0</span>
                                                     <h3 class="statistic-desc">New Models</h3>
 
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div style="background-color: #007bff; height: 150px; margin-top:5px; margin-bottom: 5px; border-radius:10px;">
-                                                    <span  class="statistic-title" id="approvalModelNum" style="color: white">0</span>
+                                                    <span class="statistic-title" id="approvalModelNum"
+                                                          style="color: white">0</span>
                                                     <h3 class="statistic-desc">Approved Models</h3>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div style="background-color: #f4516c; height: 150px; margin-top:5px; margin-bottom: 5px; border-radius:10px;">
-                                                    <span id="rejectedModelNum" class="statistic-title" style="color: white">0</span>
+                                                    <span id="rejectedModelNum" class="statistic-title"
+                                                          style="color: white">0</span>
                                                     <h3 class="statistic-desc">Rejected Models</h3>
                                                 </div>
                                             </div>
@@ -485,14 +576,10 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
-
-
                                     </div>
 
-
-                                    <div class="panel-group col-md-12" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class="panel-group col-md-12" id="accordion" role="tablist"
+                                         aria-multiselectable="true">
                                         <div class="panel panel-default">
                                             <div class="panel-heading" role="tab" id="headingTwo"
                                                  style="background-color:#716aca;">
@@ -512,7 +599,7 @@
                                                     <div class="col4">
                                                         <div class="item-box">
                                                             <div class="item-con">
-                                                                <table class="odd-even" id="tableNew">
+                                                                <table class="odd-even approval-table" id="tableNew">
                                                                     <thead>
                                                                     <tr>
                                                                         <th>Model Name</th>
@@ -550,7 +637,8 @@
                                                     <div class="col4">
                                                         <div class="item-box">
                                                             <div class="item-con">
-                                                                <table class="odd-even" id="tableApproval">
+                                                                <table class="odd-even approval-table"
+                                                                       id="tableApproval">
                                                                     <thead>
                                                                     <tr>
                                                                         <th>Model Name</th>
@@ -587,7 +675,8 @@
                                                     <div class="col4">
                                                         <div class="item-box">
                                                             <div class="item-con">
-                                                                <table class="odd-even" id="tableRejected">
+                                                                <table class="odd-even approval-table"
+                                                                       id="tableRejected">
                                                                     <thead>
                                                                     <tr>
                                                                         <th>Model Name</th>
@@ -622,14 +711,13 @@
 
 <!-- end servie -->
 
+
 <footer id="copyright">
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
-                <p class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">
-                    Contact us: 2019 <label style="color:#28a7e9;">Acceler8</label> &nbsp;&nbsp
-                    Email: <label style="color:#28a7e9;">yan.liu@concordia.ca</label>
-                </p>
+                <p class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">Copyright &copy; 2019.<label
+                        style="color:#28a7e9;">Concordia</label> All rights reserved.
             </div>
         </div>
     </div>
@@ -644,7 +732,9 @@
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content temp-custom-modal-content">
-                <button id="closeSignup" type="button" class="close temp-custom-close-button" data-dismiss="modal">&times;</button>
+                <button id="closeSignup" type="button" class="close temp-custom-close-button" data-dismiss="modal">
+                    &times;
+                </button>
                 <div class="modal-body temp-custom-modal-body">
                     <div class="temp-login-form-wrapper">
                         <div class="row custom-row">
@@ -731,7 +821,8 @@
                                             </div>
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="temp-login-button-wrap">
-                                                    <button class="btn btn-info temp-form-button" type="button" onclick="signUp()">sign
+                                                    <button class="btn btn-info temp-form-button" type="button"
+                                                            onclick="signUp()">sign
                                                         up
                                                     </button>
                                                 </div>
@@ -862,7 +953,7 @@
 
                                             <div class="col-md-7">
                                                 File:<input type="file" id="file" name="file" style="display:none"
-                                                            onchange="changeAgentContent()" />
+                                                            onchange="changeAgentContent()"/>
                                                 <input type="text" value="" disabled id="fileAgent"
                                                        style="color: black"/>
                                                 <input type="button"
@@ -907,42 +998,50 @@
 <!--====  End of login form modal  ====-->
 
 
-<div class="modal fade" id="downloadCode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="color:#000000;">
+<div class="modal fade" id="downloadCode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     style="color:#000000;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">Download Model</h4>
             </div>
-            <div class="modal-body"><textarea id="model-download-code" style="width:100%; height:200px;"></textarea></div>
+            <div class="modal-body"><textarea id="model-download-code" style="width:100%; height:200px;"></textarea>
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary btn-copy" data-clipboard-target="#model-download-code" >Copy</button>
+                <button type="button" class="btn btn-primary btn-copy" data-clipboard-target="#model-download-code">
+                    Copy
+                </button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
 
 
-<script src="assets2/js/jquery.js"></script>
-<script src="assets2/js/bootstrap.min.js"></script>
-<script src="assets2/js/jquery.singlePageNav.min.js"></script>
-<script src="assets2/js/clipboard.min.js"></script>
+<script src="assets2/js/util/jquery.js"></script>
+<script src="assets2/js/util/bootstrap.min.js"></script>
+<script src="assets2/js/util/jquery.singlePageNav.min.js"></script>
+<script src="assets2/js/util/clipboard.min.js"></script>
 <script src="assets2/js/enviroment.js"></script>
-<script src="assets2/js/typed.js"></script>
-<script src="assets2/js/wow.min.js"></script>
-<script src="assets2/js/custom.js"></script>
-<script src="assets2/js/prefixfree.min.js"></script>
+<script src="assets2/js/util/typed.js"></script>
+<script src="assets2/js/util/wow.min.js"></script>
+<script src="assets2/js/util/custom.js"></script>
+<script src="assets2/js/util/prefixfree.min.js"></script>
 <script src="assets2/js/switchServer.js"></script>
-<script language="javascript" src="assets2/js/shCore.js"></script>
-<script language="javascript" src="assets2/js/shBrushPython.js"></script>
+<script language="javascript" src="assets2/js/util/shCore.js"></script>
+<script language="javascript" src="assets2/js/util/shBrushPython.js"></script>
 <script src="assets2/js/menu.js"></script>
-<script language="javascript" src="assets2/js/secondlayernav.js"></script>
-<script language="javascript" src="assets2/js/login.js"></script>
 <script language="JavaScript" src="assets2/js/index.js"></script>
+<script language="javascript" src="assets2/js/login.js"></script>
+<script language="javascript" src="assets2/js/secondlayernav.js"></script>
 <script src="assets2/js/commons.js"></script>
 <script src="assets2/js/approvalCenter.js"></script>
-<script src="assets2/js/jsencrypt.min.js"></script>
+<script src="assets2/js/util/jsencrypt.min.js"></script>
+<script src="assets2/js/util/jquery.treetable.js"></script>
+<script src="assets2/js/workspaceBrowser.js"></script>
+<script src="assets2/js/eventStream.js"></script>
+
 
 <script type="text/javascript">
 
@@ -957,7 +1056,6 @@
     clipboard.on('error', function (t) {
         $(t.trigger).attr("title", "Fail").tooltip("fixTitle").tooltip("show").attr("title", "Copy to the clickboard").tooltip("fixTitle");
     });
-
 
 
     function upload() {
@@ -1065,20 +1163,19 @@
     }
 
 
-    function generateDownloadCode(modelFileName){
-        var code = "client = alluxio.Client('3.89.28.106', 39999) \n" +
+    function generateDownloadCode(modelFileName) {
+        var code = "client = alluxio.Client('10.8.0.14', 39999) \n" +
             "client.ls(\"/Staging\")\n" +
             "\n" +
-            "fileName = client.open_file('/Staging/"+ modelFileName +"')\n" +
+            "fileName = client.open_file('/Staging/" + modelFileName + "')\n" +
             "reader = client.read(fileName)\n" +
             "file = reader.read()\n" +
-            "with open('/root/Model/"+modelFileName +"', 'wb') as f:\n" +
+            "with open('/root/Model/" + modelFileName + "', 'wb') as f:\n" +
             "    f.write(file)\n" +
             "    f.close()";
         $("#model-download-code").text(code);
         $('#downloadCode').modal();
     }
-
 
 
     function checkPersistence() {
@@ -1088,9 +1185,9 @@
             dataType: "json",
             type: "GET",
             timeout: 0,
-            success: function(data){
-                ajaxMessageReader(data,function (data) {
-                    if(data==false){
+            success: function (data) {
+                ajaxMessageReader(data, function (data) {
+                    if (data == false) {
                         JumpToWithToken("guide.html");
                     }
                 })
@@ -1099,8 +1196,6 @@
             }
         })
     }
-
-
 
 
 </script>

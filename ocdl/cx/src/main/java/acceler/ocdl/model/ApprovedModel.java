@@ -22,18 +22,24 @@ public class ApprovedModel extends Model implements Cloneable {
         copy.setSuffix(this.suffix);
         copy.setName(this.name);
         copy.setStatus(this.status);
+        copy.setOwnerId(this.ownerId);
+        copy.setComments(this.comments);
         copy.setReleasedVersion(this.releasedVersion);
         copy.setCachedVersion(this.cachedVersion);
         copy.setApprovedTime(this.approvedTime);
+        copy.setLastOperator(this.lastOperator);
 
         return copy;
     }
 
-    public NewModel convertToNewModel() {
+    public NewModel convertToNewModel(String comments, Long lastOperatorId) {
         NewModel newModel = new NewModel();
         newModel.setModelId(this.modelId);
         newModel.setSuffix(this.suffix);
         newModel.setName(this.name);
+        newModel.setOwnerId(this.ownerId);
+        newModel.setComments(comments);
+        newModel.setLastOperator(lastOperatorId);
         newModel.setCommitTime(TimeUtil.currentTime());
 
         return newModel;
@@ -55,11 +61,11 @@ public class ApprovedModel extends Model implements Cloneable {
         this.approvedTime = approvedTime;
     }
 
-    void setReleasedVersion(Long releasedVersion) {
+    public void setReleasedVersion(Long releasedVersion) {
         this.releasedVersion = releasedVersion;
     }
 
-    void setCachedVersion(Long cachedVersion) {
+    public void setCachedVersion(Long cachedVersion) {
         this.cachedVersion = cachedVersion;
     }
 

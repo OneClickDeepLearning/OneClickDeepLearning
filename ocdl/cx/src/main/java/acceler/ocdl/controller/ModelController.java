@@ -52,6 +52,23 @@ public final class ModelController {
         return responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(models).build();
     }
+
+    /**
+     * Get model list by userId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(path="/event", method = RequestMethod.GET)
+    public final Response getModelListByUser(HttpServletRequest request) {
+        logger.debug("Get model list by user id");
+        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
+        Response.Builder responseBuilder = getBuilder();
+
+        Map<String, List<ModelDto>> modelMap = modelService.getModelListByUser(innerUser.getUserId());
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(modelMap).build();
+    }
     
     /**
      * The dicision could be approve, reject and undo.
@@ -67,6 +84,7 @@ public final class ModelController {
         String from = request.getParameter("fromStatus");
         String to = request.getParameter("toStatus");
         String upgradeVersion = request.getParameter("upgradeVersion");
+        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
 
         Response.Builder responseBuilder = getBuilder();
 
@@ -74,23 +92,25 @@ public final class ModelController {
             Model model = NewModel.getNewModelById(Long.parseLong(modelDto.getModelId()))
                     .orElseThrow(()-> new NotFoundException("Fail to found model"));
 
-            modelService.approveModel((NewModel) model,modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(upgradeVersion));
-//            modelService.pushModelToGit(Long.parseLong(modelDto.getModelId()));
+            logger.debug("before push decision, the owner id is:" + model.getOwnerId());
+            modelService.approveModel((NewModel) model,modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(upgradeVersion), modelDto.getComments(), innerUser.getUserId());
 
         } else if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.REJECTED.name())) {
             Model model = NewModel.getNewModelById(Long.parseLong(modelDto.getModelId()))
                     .orElseThrow(()-> new NotFoundException("Fail to found model"));
-            modelService.rejectModel((NewModel) model);
+            modelService.rejectModel((NewModel) model, modelDto.getComments(), innerUser.getUserId());
+
         } else if (from.toUpperCase().equals(Model.Status.REJECTED.name()) && to.toUpperCase().equals(Model.Status.NEW.name())) {
             RejectedModel model = RejectedModel.getRejectedModelById(Long.parseLong(modelDto.getModelId()))
                     .orElseThrow(()-> new NotFoundException("Fail to found model"));
-            modelService.undo(model);
+            modelService.undo(model, modelDto.getComments(), innerUser.getUserId());
+
         } else if (from.toUpperCase().equals(Model.Status.APPROVED.name()) && to.toUpperCase().equals(Model.Status.NEW.name())) {
             Model model = Algorithm.getApprovalModelById(Long.parseLong(modelDto.getModelId()))
                     .orElseThrow(()-> new NotFoundException("Fail to found model"));
 
             if (model.getStatus() != Model.Status.RELEASED) {
-                modelService.undo(model);
+                modelService.undo(model, modelDto.getComments(), innerUser.getUserId());
             } else {
                 throw new OcdlException("Released model cannot undo.");
             }

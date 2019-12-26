@@ -1,6 +1,7 @@
 package acceler.ocdl.service.impl;
 
 import acceler.ocdl.exception.HdfsException;
+import acceler.ocdl.model.FileListVO;
 import acceler.ocdl.service.HdfsService;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DefaultHdfsService implements HdfsService {
@@ -25,6 +28,43 @@ public class DefaultHdfsService implements HdfsService {
         conf = new Configuration();
         //without this configuration, will throw exception: java.io.IOException: No FileSystem for scheme: hdfs
         conf.set("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem");
+    }
+
+    /**
+     * List all files on HDFS certain path
+     * @param path the path on HDFS
+     * @throws HdfsException
+     */
+    @Override
+    public List<FileListVO> listFiles(Path path) throws HdfsException {
+        List<FileListVO> list = new ArrayList<>();
+        try {
+            URI uri = new URI(hdfsIpAddress);
+            //returns the configured filesystem implementation.
+            FileSystem hdfs = FileSystem.get(uri, conf, hdfsUserName);
+            FileStatus[] files = hdfs.listStatus(path);
+            for (FileStatus status: files) {
+                if(status.isDirectory()) {
+                    FileListVO dir = new FileListVO();
+                    dir.fileName = status.getPath().getName();
+                    dir.fileType = "folder";
+                    List<FileListVO> children = listFiles(status.getPath());
+                    dir.children = new ArrayList<>();
+                    dir.children.addAll(children);
+                    list.add(dir);
+                } else {
+                    FileListVO file = new FileListVO();
+                    file.fileName = status.getPath().getName();
+                    file.fileType = "file";
+                    file.fileSize = status.getBlockSize();
+                    file.children = null;
+                    list.add(file);
+                }
+            }
+        } catch (URISyntaxException | InterruptedException | IOException e) {
+            throw new HdfsException(e.getMessage());
+        }
+        return list;
     }
 
     /**
@@ -62,6 +102,16 @@ public class DefaultHdfsService implements HdfsService {
             FileSystem hdfs = FileSystem.get(uri, conf, hdfsUserName);
             hdfs.copyFromLocalFile(true,true,srcPath,destPath);
         } catch (URISyntaxException | InterruptedException | IOException e){
+            throw new HdfsException(e.getMessage());
+        }
+    }
+
+    public void downloadFile(Path srcPath, Path destPath) throws HdfsException {
+        try {
+            URI uri = new URI(hdfsIpAddress);
+            FileSystem hdfs = FileSystem.get(uri, conf, hdfsUserName);
+            hdfs.copyToLocalFile(false,srcPath,destPath);
+        } catch (URISyntaxException | InterruptedException | IOException e) {
             throw new HdfsException(e.getMessage());
         }
     }

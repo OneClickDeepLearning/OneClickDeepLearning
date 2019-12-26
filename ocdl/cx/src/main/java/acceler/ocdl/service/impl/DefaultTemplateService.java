@@ -21,16 +21,22 @@ public class DefaultTemplateService implements TemplateService {
     @Autowired
     private ProjectService projectService;
 
+    @Override
+    public Map<String,List<String>> getTemplatesList() {
+
+        Map<String,List<String>> templatesList = getFileList(Paths.get(projectService.getProjectConfiguration().getTemplatePath()).toString());
+        return templatesList;
+    }
+
     /*
      * 函数名：getFile
      * 作用：使用递归，输出指定文件夹内的所有文件
      * 参数：path：文件夹路径
      */
-    @Override
-    public Map<String, List<String>> getTemplatesList() {
+    private static  Map<String,List<String>> getFileList(String path) {
         // 获得指定文件对象
-        String path = Paths.get(projectService.getProjectConfiguration().getTemplatePath()).toString();
-        Map<String, List<String>> dirMap = new HashMap<String, List<String>>();
+        Map<String,List<String>> nameList = new HashMap<>();
+
         try {
             File file = new File(path);
             // 获得该文件夹内的所有文件
@@ -38,26 +44,23 @@ public class DefaultTemplateService implements TemplateService {
             for (int i = 0; i < array.length; i++) {
                 if (array[i].isDirectory())//如果是文件夹
                 {
-                    dirMap.put(array[i].getName(), new ArrayList<String>());
-
-                    File dir = new File(path + array[i].getName());
-                    File[] files = dir.listFiles();
-                    for (File f : files) {
-                        if (!f.isDirectory()) {
-                            dirMap.get(array[i].getName()).add(f.getName());
-                        }
-                    }
+                    nameList.put(array[i].getName(),new ArrayList<String>());
                 }
             }
-        } catch (Exception e) {
+            Object[] keySets = nameList.keySet().toArray();
+            for (int i=0;i < nameList.size() ; i++){
+                File dir = new File(Paths.get(path,(String)keySets[i]).toString());
+                File[] codeFileList = dir.listFiles();
+                for(File f: codeFileList){
+                    nameList.get((String)keySets[i]).add(f.getName());
+                }
+            }
+        }catch (Exception e) {
             e.printStackTrace();
             throw new OcdlException("Get file error");
         }
-        return dirMap;
+        return nameList;
     }
-
-
-
 
     @Override
     public List<String> getCode(String name, String type) {
@@ -68,7 +71,7 @@ public class DefaultTemplateService implements TemplateService {
         BufferedReader br = null;
         try {
             /* 读入TXT文件 */
-            String pathname = Paths.get(projectService.getProjectConfiguration().getTemplatePath(), type, name).toString(); // 绝对路径或相对路径都可以，这里是绝对路径，写入文件时演示相对路径
+            String pathname = Paths.get(projectService.getProjectConfiguration().getTemplatePath(), type,name).toString(); // 绝对路径或相对路径都可以，这里是绝对路径，写入文件时演示相对路径
             filename = new File(pathname); // 要读取以上路径的input。txt文件
             reader = new InputStreamReader(
                     new FileInputStream(filename)); // 建立一个输入流对象reader
