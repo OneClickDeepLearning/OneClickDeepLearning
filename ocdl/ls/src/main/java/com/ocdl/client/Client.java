@@ -30,18 +30,18 @@ public class Client {
 
     public void run() {
 
-        logger.info("Client is running....");
-
-        // run consumer in a separated thread
-        Client client = this;
-
-        (new Thread(new Runnable() {
-            @Override
-            public void run() {
-                consumer.createConsumer();
-                consumer.run(client);
-            }
-        })).start();
+//        logger.info("Client is running....");
+//
+//        // run consumer in a separated thread
+//        Client client = this;
+//
+//        (new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                consumer.createConsumer();
+//                consumer.run(client);
+//            }
+//        })).start();
     }
 
     public void downloadModel(String msg) {
