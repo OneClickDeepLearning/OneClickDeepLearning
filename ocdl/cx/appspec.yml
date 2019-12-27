@@ -1,0 +1,9 @@
+version: 0.0
+os: linux
+files:
+  - source: ./ocdl/cx/target
+    destination: /home/ubuntu/ocdl
+hooks:
+  ApplicationStart:
+    - location: runapp.sh
+      runas: ubuntu

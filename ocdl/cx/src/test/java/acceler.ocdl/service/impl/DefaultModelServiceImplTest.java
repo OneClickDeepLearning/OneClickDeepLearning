@@ -1,5 +1,6 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.dto.ModelDto;
 import acceler.ocdl.model.*;
 import org.junit.Assert;
@@ -13,10 +14,8 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.validation.constraints.AssertTrue;
+import java.util.*;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore("javax.management.*")
@@ -108,21 +107,19 @@ public class DefaultModelServiceImplTest {
     public void getModelListByUser() {
 
         long userId = 1004L;
-        int size = 4;
-        ModelDto[] models = modelServiceImpl.getModelListByUser(userId);
-        Assert.assertEquals(models.length, size);
-        Assert.assertEquals(models[0].getModelName(),"new model 1");
-        Assert.assertEquals(models[1].getModelName(),"approved model 1");
-        Assert.assertEquals(models[2].getModelName(),"new model 2");
-        Assert.assertEquals(models[3].getModelName(),"rejected model");
+        int size = 2;
+        Map<String, List<ModelDto>> models = modelServiceImpl.getModelListByUser(userId);
+        Assert.assertEquals(models.size(), size);
 
-        System.out.println("new model 1:" + models[0].getTimeStamp());
-        System.out.println("approved model 1:" + models[1].getTimeStamp());
-        System.out.println("new model 2:" + models[2].getTimeStamp());
-        System.out.println("rejected model:" + models[3].getTimeStamp());
+        Assert.assertTrue(models.containsKey(CONSTANTS.EVENT.PERSONAL_EVENT));
+        Assert.assertTrue(models.containsKey(CONSTANTS.EVENT.GLOBAL_EVENT));
+
+        List<ModelDto> personalModels = models.get(CONSTANTS.EVENT.PERSONAL_EVENT);
+        Assert.assertEquals(personalModels.get(0).getModelName(),"new model 1");
+        Assert.assertEquals(personalModels.get(1).getModelName(),"new model 2");
+        Assert.assertEquals(personalModels.get(2).getModelName(),"rejected model");
+
+        List<ModelDto> globalModels = models.get(CONSTANTS.EVENT.GLOBAL_EVENT);
+        Assert.assertEquals(globalModels.get(0).getModelName(),"approved model 1");
     }
-
-
-
-
 }

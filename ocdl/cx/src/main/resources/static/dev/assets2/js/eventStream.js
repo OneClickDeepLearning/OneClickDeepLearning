@@ -1,3 +1,4 @@
+var myevent;
 
 function initEvent() {
 
@@ -11,41 +12,63 @@ function initEvent() {
         type: "GET",
         success: function (data) {
             ajaxMessageReader(data, function (data) {
-                console.log(data);
-
                 <!-- personal event list -->
-                for (var i = 0; i < data["personal_event"].length; i++) {
-                    var tr = "<tr class='data'><td>" + data["personal_event"][i].modelName + "</td><td>" +
-                        data["personal_event"][i].algorithm +
-                        "</td><td>" + data["personal_event"][i].version +
+                for (var i = 0; i < data.personal_event.length; i++) {
+                    var tr = "<tr class='data'><td id='" + data.personal_event[i].modelId + "_td'>" + data.personal_event[i].modelName + "</td><td>" +
+                        data.personal_event[i].algorithm +
+                        "</td><td>" + data.personal_event[i].version +
                         "</td>" +
-                        "<td>" + data["personal_event"][i].status + "</td> " +
-                        "<td>" + data["personal_event"][i].lastOperation + "</td>" +
-                        "<td>" + data["personal_event"][i].updateTime + "</td>" +
+                        "<td>" + data.personal_event[i].status + "</td> " +
+                        "<td>" + data.personal_event[i].lastOperatorName + "</td>" +
+                        "<td>" + data.personal_event[i].timeStamp + "</td>" +
                         "</tr>";
 
                     $("#table-personal-event").append(tr);
 
-
+                }
+                let newPersonalTag = 0;
+                let newGlobalTag = 0;
+                for (let ep in data.personal_event) {
+                    let newTagHtml = "<span class=\"badge badge-primary\">New</span>";
+                    if (ep.newFlag) {
+                        $("#" + ep.modelId + "_td").append(newTagHtml);
+                        newPersonalTag++;
+                    }
                 }
 
                 <!-- approval list -->
-                for (var i = 0; i < data["globle_event"].length; i++) {
-                    var tr;
-
-                    tr = "<tr class='data'><td>" + data["globle_event"][i].modelName + "</td> " +
-                        "<td>" + data["globle_event"][i].eventOwner + "</td> <td>" + data["approvalModels"][i].algorithm + "</td>  " +
-                        "<td>" + data["globle_event"][i].version + "</td> <td>" +
-                        data["globle_event"][i].status +
+                for (var i = 0; i < data.global_event.length; i++) {
+                    var tr = "<tr class='data'><td id='" + data.global_event[i].modelId + "_td'>" + data.global_event[i].modelName + "</td> " +
+                        "<td>" + data.global_event[i].ownerName + "</td> <td>" + data.global_event[i].algorithm + "</td>  " +
+                        "<td>" + data.global_event[i].version + "</td> <td>" +
+                        data.global_event[i].status +
                         "</td>" +
                         "<td>" +
-                        data["globle_event"][i].operatorName +
+                        data.global_event[i].lastOperatorName +
                         "</td>" +
-                        "<td>" + data["globle_evnet"][i].updateTime + "</td>" +
+                        "<td>" + data.global_event[i].timeStamp + "</td>" +
                         "</tr>";
 
-                    $("#table-globle-event").append(tr);
+                    $("#table-global-event").append(tr);
                 }
+
+                for (let eg in data.global_event) {
+                    let newTagHtml = "<span class=\"badge badge-primary\">New</span>";
+                    if (eg.newFlag) {
+                        $("#" + eg.modelId + "_td").append(newTagHtml);
+                        newGlobalTag++;
+                    }
+                }
+
+                if (newPersonalTag > 0) {
+                    let numTag = "<span class=\"badge badge-secondary\">" + newPersonalTag + " news</span>";
+                    $("#personal-event-a").append(numTag);
+                }
+                if (newGlobalTag > 0) {
+                    let numTag = "<span class=\"badge badge-secondary\">" + newGlobalTagTag + " news</span>";
+                    $("#global-event-a").append(numTag);
+                }
+
 
             }, function (response) {
                 alert(response.message)

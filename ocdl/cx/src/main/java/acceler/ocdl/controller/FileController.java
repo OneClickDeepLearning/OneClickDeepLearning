@@ -8,7 +8,11 @@ import org.apache.hadoop.fs.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -16,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@RestController
+@Controller
 @RequestMapping(path = "/rest/data")
 public class FileController {
 
@@ -48,9 +52,9 @@ public class FileController {
     return null;
     }
 
-    @RequestMapping(path="list", method = RequestMethod.GET)
+    @RequestMapping(path="/list", method = RequestMethod.GET)
     @ResponseBody
-    public Response hdfsList(HttpServletRequest request) {
+    public final Response hdfsList(HttpServletRequest request) {
         InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
         Path path = new Path("/UserSpace/" + innerUser.getUserId().toString());
         List<FileListVO> list = new ArrayList<>();

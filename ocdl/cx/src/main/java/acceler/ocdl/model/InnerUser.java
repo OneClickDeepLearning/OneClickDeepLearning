@@ -58,9 +58,6 @@ public class InnerUser extends AbstractUser implements Serializable {
 
     @Override
     public InnerUser deepCopy() {
-        System.out.println("------------------------------");
-        System.out.println("inner user copy");
-
         System.out.println(this.userName);
         System.out.println(this.password);
 
