@@ -1,18 +1,29 @@
 package acceler.ocdl.service;
 
-import acceler.ocdl.model.Project;
+import acceler.ocdl.entity.Project;
 
 public interface ProjectService {
 
     /**
-     * update project configuration
-     * @param updatedProjectInfo the Project obj that contains update info
-     * @return updatedProject obj
+     * create/update project configurations
+     * if Param project has id, then update
+     * else create new project record
+     * @param project project
+     * @return project in updated database
      */
-    Project updateProjectConfiguration(Project updatedProjectInfo);
+    Project saveProject(Project project);
+
     /**
-     * get Project obj that contains project configuration info
-     * @return Project obj
+     * get project according project id
+     * @param id project id
+     * @return Project in database
      */
-    Project getProjectConfiguration();
+    Project getProject(Long id);
+
+    /**
+     * delete Project obj
+     * @param id project id
+     * @return if delete success
+     */
+    boolean deleteProject(Long id);
 }

@@ -20,6 +20,10 @@ public class TimeUtil {
         return calendar.getTime();
     }
 
+    public static String currentTimeStampStr() {
+        return String.valueOf(new Date().getTime());
+    }
+
     public static Date convertStringToDate(String s) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATA_FORMAT);
         return dateFormat.parse(s);

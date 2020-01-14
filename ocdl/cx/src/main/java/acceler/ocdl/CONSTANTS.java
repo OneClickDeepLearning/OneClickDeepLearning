@@ -62,4 +62,10 @@ public interface CONSTANTS {
         String PERSONAL_EVENT = "personal_event";
         String GLOBAL_EVENT = "global_event";
     }
+
+    interface ALGORITHM_TABLE {
+        String NAME = "name";
+        String DESCRIPTION = "description";
+        String PROJECT = "project";
+    }
 }

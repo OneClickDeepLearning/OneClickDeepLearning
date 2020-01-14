@@ -7,12 +7,10 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 
-@Service
 @DependsOn({"storageLoader"})
 public class DefaultProjectService implements ProjectService {
 
 
-    @Override
     public Project updateProjectConfiguration(Project updatedProjectInfo) {
 
         Project currentProjectData = Project.getProjectInStorage();
@@ -48,9 +46,24 @@ public class DefaultProjectService implements ProjectService {
     }
 
 
-    @Override
     public Project getProjectConfiguration() {
         return Project.getProjectInStorage();
 
+    }
+
+
+    @Override
+    public acceler.ocdl.entity.Project saveProject(acceler.ocdl.entity.Project project) {
+        return null;
+    }
+
+    @Override
+    public acceler.ocdl.entity.Project getProject(Long id) {
+        return null;
+    }
+
+    @Override
+    public boolean deleteProject(Long id) {
+        return false;
     }
 }

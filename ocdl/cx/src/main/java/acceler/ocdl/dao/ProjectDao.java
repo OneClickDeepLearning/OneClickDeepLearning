@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface ProjectDao extends JpaRepository<Project, Long>, JpaSpecificationExecutor<Project> {
 
     Optional<Project> findByName(String name);
+
+    Optional<Project> findByIdAndDeletedIsFalse(Long id);
 }

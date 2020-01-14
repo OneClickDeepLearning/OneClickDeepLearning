@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 
-@Service
 @DependsOn({"storageLoader"})
 public class DefaultAlgorithmService implements AlgorithmService {
 
