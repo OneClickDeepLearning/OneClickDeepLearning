@@ -114,17 +114,23 @@ public class DBAlgorithmService implements AlgorithmService {
                     predicates.add(criteriaBuilder.equal(root.get(CONSTANTS.ALGORITHM_TABLE.PROJECT), project));
                 }
 
+                if (algorithm.getIsDeleted() == null) {
+                    algorithm.setIsDeleted(false);
+                }
+                predicates.add(criteriaBuilder.equal(root.get(CONSTANTS.BASE_ENTITY.ISDELETED), algorithm.getIsDeleted()));
+
                 criteriaQuery.distinct(true);
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
 
         // sort and page
-        Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC,"id"));
-        PageRequest pageRequest = new PageRequest(page, size,sort);
+        Sort sort = Sort.by(new Sort.Order(Sort.Direction.ASC,"id"));
+        PageRequest pageRequest = PageRequest.of(page, size,sort);
 
         return algorithmDao.findAll(specification, pageRequest);
     }
+
 
     @Override
     public boolean batchDeleteAlgorithm(List<Algorithm> algorithms) {
@@ -142,7 +148,7 @@ public class DBAlgorithmService implements AlgorithmService {
         Algorithm algorithmInDb = algorithmDao.findByIdAndDeletedIsFalse(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Fail to find Algorithm(# %d )", id)));
 
-        algorithmInDb.setIsDeleted(false);
+        algorithmInDb.setIsDeleted(true);
         algorithmInDb.setDeletedAt(TimeUtil.currentTimeStampStr());
         algorithmDao.save(algorithmInDb);
         return true;

@@ -63,9 +63,33 @@ public interface CONSTANTS {
         String GLOBAL_EVENT = "global_event";
     }
 
+    interface BASE_ENTITY {
+        String ISDELETED = "isDeleted";
+    }
+
     interface ALGORITHM_TABLE {
         String NAME = "name";
         String DESCRIPTION = "description";
         String PROJECT = "project";
+
+    }
+
+    interface SUFFIX_TABLE {
+        String NAME = "name";
+        String PROJECT = "project";
+    }
+
+    interface PROJECT_DATA_TABLE {
+        int LENGTH_REF_ID = 12;
+        String NAME = "name";
+        String SUFFIX = "suffix";
+        String PROJECT = "project";
+    }
+
+    interface USER_DATA_TABLE {
+        int LENGTH_REF_ID = 12;
+        String NAME = "name";
+        String SUFFIX = "suffix";
+        String USER = "user";
     }
 }

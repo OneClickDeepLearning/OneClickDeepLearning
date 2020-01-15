@@ -2,13 +2,12 @@ package acceler.ocdl.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 
@@ -18,9 +17,9 @@ import javax.persistence.*;
 @DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Table(name = "project_data")
-public class ProjectData {
+public class ProjectData extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

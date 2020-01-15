@@ -2,6 +2,8 @@ package acceler.ocdl.service.impl;
 
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.controller.AuthController;
+import acceler.ocdl.dao.UserDao;
+import acceler.ocdl.entity.User;
 import acceler.ocdl.exception.ExistedException;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.exception.OcdlException;
@@ -34,6 +36,9 @@ public class DBUserService implements UserService {
     @Autowired
     HdfsService hdfsService;
 
+    @Autowired
+    private UserDao userDao;
+
     @Value("${HDFS.USER_SPACE}")
     private String  hdfsUserSpace;
     @Value("${APPLICATIONS_DIR.USER_SPACE}")
@@ -57,6 +62,12 @@ public class DBUserService implements UserService {
     public InnerUser getUserByUsername(String userName) throws NotFoundException {
         Optional<InnerUser> targetUserOpt = InnerUser.getUserByUserName(userName);
         return targetUserOpt.orElseThrow(() -> new NotFoundException("User Not Found"));
+    }
+
+    @Override
+    public User getUserByUserId(Long id) throws NotFoundException {
+        return userDao.findById(id)
+                .orElseThrow(() -> new NotFoundException("User Not Found"));
     }
 
     @Override

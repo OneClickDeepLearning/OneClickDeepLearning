@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface SuffixDao extends JpaRepository<Suffix, Long>, JpaSpecificationExecutor<Suffix> {
 
     Optional<Suffix> findByName(String name);
+
+    Optional<Suffix> findByIdAndDeletedIsFalse(Long id);
 }

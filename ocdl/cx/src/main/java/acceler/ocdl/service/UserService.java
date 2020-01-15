@@ -1,6 +1,7 @@
 package acceler.ocdl.service;
 
 import acceler.ocdl.controller.AuthController;
+import acceler.ocdl.entity.User;
 import acceler.ocdl.exception.ExistedException;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.model.AbstractUser;
@@ -15,6 +16,8 @@ public interface UserService {
     InnerUser getUserByUsername(String userName) throws NotFoundException;
 
     OauthUser getUserBySourceID(OauthUser.OauthSource source, String ID) throws NotFoundException;
+
+    User getUserByUserId(Long id) throws NotFoundException;
 
     OauthUser createUser(OauthUser.OauthSource source, String ID) throws ExistedException;
 
