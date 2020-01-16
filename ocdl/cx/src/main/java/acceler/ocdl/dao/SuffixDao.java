@@ -13,5 +13,5 @@ public interface SuffixDao extends JpaRepository<Suffix, Long>, JpaSpecification
 
     Optional<Suffix> findByName(String name);
 
-    Optional<Suffix> findByIdAndDeletedIsFalse(Long id);
+    Optional<Suffix> findByIdAndIsDeletedIsFalse(Long id);
 }

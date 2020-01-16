@@ -41,7 +41,7 @@ public class DBProjectDataService implements ProjectDataService {
     public ProjectData uploadProjectData() {
 
         // TODO: upload file to HDFS
-        String refId = RandomStringUtils.randomAlphanumeric(CONSTANTS.PROJECT_DATA_TABLE.LENGTH_REF_ID);
+        String refId = CONSTANTS.PROJECT_DATA_TABLE.PROJECT_PREFIX + RandomStringUtils.randomAlphanumeric(CONSTANTS.PROJECT_DATA_TABLE.LENGTH_REF_ID);
 
         // create projectData in database
         return null;

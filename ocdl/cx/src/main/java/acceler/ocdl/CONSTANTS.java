@@ -80,6 +80,7 @@ public interface CONSTANTS {
     }
 
     interface PROJECT_DATA_TABLE {
+        String PROJECT_PREFIX = "P";
         int LENGTH_REF_ID = 12;
         String NAME = "name";
         String SUFFIX = "suffix";
@@ -87,9 +88,20 @@ public interface CONSTANTS {
     }
 
     interface USER_DATA_TABLE {
+        String USER_PREFIX = "U";
         int LENGTH_REF_ID = 12;
         String NAME = "name";
         String SUFFIX = "suffix";
         String USER = "user";
+    }
+
+    interface TEMPLATE_TABLE {
+        String TEMPLATE_PREFIX = "T";
+        int LENGTH_REF_ID = 12;
+        String NAME = "name";
+        String SUFFIX = "suffix";
+        String DESCRIPTION = "description";
+        String PROJECT = "project";
+        String CATEGORY = "templateCategory";
     }
 }

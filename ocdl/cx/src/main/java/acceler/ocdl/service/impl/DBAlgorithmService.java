@@ -145,7 +145,7 @@ public class DBAlgorithmService implements AlgorithmService {
 
     public boolean deleteAlgorithm(Long id) {
 
-        Algorithm algorithmInDb = algorithmDao.findByIdAndDeletedIsFalse(id)
+        Algorithm algorithmInDb = algorithmDao.findByIdAndIsDeletedIsFalse(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Fail to find Algorithm(# %d )", id)));
 
         algorithmInDb.setIsDeleted(true);

@@ -1,11 +1,7 @@
 package acceler.ocdl.entity;
 
-
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import org.codehaus.jackson.annotate.JsonBackReference;
-import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.DynamicInsert;
@@ -41,10 +37,21 @@ public class User extends BaseEntity {
 
     @Column(name = "password")
     @ColumnTransformer(
-            read = "CAST(AES_DECRYPT(UNHEX(password), '$*^@!#') as char(128))",
-            write = "HEX(AES_ENCRYPT(?, '$*^@!#'))"
+            read = "CAST(AES_DECRYPT(UNHEX(password), '!@#$%^&') as char(128))",
+            write = "HEX(AES_ENCRYPT(?, '!@#$%^&'))"
     )
     private String password;
+
+    @Column(name = "source")
+    private String source;
+
+    @Column(name = "source_id")
+    @JsonProperty("source_id")
+    private String sourceId;
+
+    @Column(name = "is_inner_user")
+    @JsonProperty("is_inner_user")
+    private Boolean isInnerUser;
 
     @ManyToMany
     @JoinTable(
@@ -77,7 +84,5 @@ public class User extends BaseEntity {
     @JsonProperty("project_list")
     @JsonIgnoreProperties(value = "userList")
     private List<Project> projectList;
-
-
 
 }

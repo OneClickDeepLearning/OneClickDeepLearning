@@ -1,7 +1,5 @@
 package acceler.ocdl.service.impl;
 
-
-import acceler.ocdl.dao.AlgorithmDao;
 import acceler.ocdl.dao.ProjectDao;
 import acceler.ocdl.entity.Project;
 import acceler.ocdl.exception.NotFoundException;
@@ -9,7 +7,9 @@ import acceler.ocdl.service.ProjectService;
 import acceler.ocdl.utils.TimeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DBProjectService implements ProjectService {
 
     @Autowired
@@ -66,7 +66,7 @@ public class DBProjectService implements ProjectService {
     @Override
     public Project getProject(Long id) {
 
-        return projectDao.findByIdAndDeletedIsFalse(id)
+        return projectDao.findByIdAndIsDeletedIsFalse(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Fail to find Project(# %d )", id)));
     }
 
@@ -74,7 +74,7 @@ public class DBProjectService implements ProjectService {
     @Override
     public boolean deleteProject(Long id) {
 
-        Project projectInDb = projectDao.findByIdAndDeletedIsFalse(id)
+        Project projectInDb = projectDao.findByIdAndIsDeletedIsFalse(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Fail to find Project(# %d )", id)));
 
         projectInDb.setIsDeleted(false);

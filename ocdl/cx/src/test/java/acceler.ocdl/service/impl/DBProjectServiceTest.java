@@ -82,7 +82,7 @@ public class DBProjectServiceTest {
     public void testGetProject() {
 
         // test1: get project without exceptions
-        Mockito.when(projectDao.findByIdAndDeletedIsFalse(1L))
+        Mockito.when(projectDao.findByIdAndIsDeletedIsFalse(1L))
                 .thenReturn(Optional.ofNullable(p1));
         Project project = projectService.getProject(p1.getId());
 
@@ -95,7 +95,7 @@ public class DBProjectServiceTest {
 
         // test2: delete project and throw exception
         Long nonExistedId = 3L;
-        Mockito.when(projectDao.findByIdAndDeletedIsFalse(nonExistedId))
+        Mockito.when(projectDao.findByIdAndIsDeletedIsFalse(nonExistedId))
                 .thenReturn(Optional.ofNullable(null));
 
         expectedEx.expect(NotFoundException.class);
@@ -108,7 +108,7 @@ public class DBProjectServiceTest {
     public void testDeleteProject() {
 
         // test1: delete project without exceptions
-        Mockito.when(projectDao.findByIdAndDeletedIsFalse(1L))
+        Mockito.when(projectDao.findByIdAndIsDeletedIsFalse(1L))
                 .thenReturn(Optional.ofNullable(p1));
 
         // with id = 1 & isDeleted = true
@@ -129,7 +129,7 @@ public class DBProjectServiceTest {
 
         // test2: delete project and throw the exceptions
         Long nonExistedId = 3L;
-        Mockito.when(projectDao.findByIdAndDeletedIsFalse(nonExistedId))
+        Mockito.when(projectDao.findByIdAndIsDeletedIsFalse(nonExistedId))
                 .thenReturn(Optional.ofNullable(null));
 
         expectedEx.expect(NotFoundException.class);

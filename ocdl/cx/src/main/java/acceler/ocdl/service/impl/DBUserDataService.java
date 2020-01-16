@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
@@ -25,6 +26,7 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class DBUserDataService implements UserDataService {
 
     @Autowired
@@ -39,7 +41,7 @@ public class DBUserDataService implements UserDataService {
     public UserData uploadUserData() {
 
         // TODO: upload file to HDFS
-        String refId = RandomStringUtils.randomAlphanumeric(CONSTANTS.PROJECT_DATA_TABLE.LENGTH_REF_ID);
+        String refId = CONSTANTS.USER_DATA_TABLE.USER_PREFIX + RandomStringUtils.randomAlphanumeric(CONSTANTS.PROJECT_DATA_TABLE.LENGTH_REF_ID);
 
         // create userData in database
         return null;

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 
 @DependsOn({"storageLoader"})
-public class DefaultProjectService implements ProjectService {
+public class DefaultProjectService {
 
 
     public Project updateProjectConfiguration(Project updatedProjectInfo) {
@@ -49,21 +49,5 @@ public class DefaultProjectService implements ProjectService {
     public Project getProjectConfiguration() {
         return Project.getProjectInStorage();
 
-    }
-
-
-    @Override
-    public acceler.ocdl.entity.Project saveProject(acceler.ocdl.entity.Project project) {
-        return null;
-    }
-
-    @Override
-    public acceler.ocdl.entity.Project getProject(Long id) {
-        return null;
-    }
-
-    @Override
-    public boolean deleteProject(Long id) {
-        return false;
     }
 }

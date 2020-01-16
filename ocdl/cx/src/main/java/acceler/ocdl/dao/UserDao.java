@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface UserDao extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
 
     Optional<User> findByEmail(String email);
+
+    Optional<User> findByName(String account);
 }

@@ -1,54 +1,95 @@
 package acceler.ocdl.controller;
 
 
+import acceler.ocdl.entity.Project;
+import acceler.ocdl.entity.TemplateCategory;
+import acceler.ocdl.service.ProjectService;
 import acceler.ocdl.service.TemplateService;
 import acceler.ocdl.dto.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.QueryParam;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static acceler.ocdl.dto.Response.getBuilder;
 
-@Controller
+@RestController
 @RequestMapping(path = "/rest/template")
 public final class TemplateController {
 
     @Autowired
     private TemplateService templateService;
 
-    @ResponseBody
-    @RequestMapping(path = "/file", method = RequestMethod.GET)
-    public final Response getTemplateFiles(HttpServletRequest request){
+    @Autowired
+    private ProjectService projectService;
+
+//    @ResponseBody
+//    @RequestMapping(path = "/file", method = RequestMethod.GET)
+//    public final Response getTemplateFiles(HttpServletRequest request){
+//        Response.Builder responseBuilder = getBuilder();
+//
+//        Map<String,List<String>> result;
+//        try{
+//            result =  templateService.getTemplatesList();
+//            responseBuilder.setCode(Response.Code.SUCCESS);
+//            responseBuilder.setData(result);
+//        }catch (Exception e){
+//            responseBuilder.setCode(Response.Code.ERROR);
+//            responseBuilder.setMessage(e.getMessage());
+//        }
+//        return responseBuilder.build();
+//    }
+//
+//    @ResponseBody
+//    @RequestMapping(path = "/code", method = RequestMethod.GET)
+//    public final Response getTemplateCode(@QueryParam("name")String name, @QueryParam("type")String type){
+//        List<String> templates = new ArrayList <String>();
+//        templates = templateService.getCode(name,type);
+//
+//        return Response.getBuilder()
+//                .setCode(Response.Code.SUCCESS)
+//                .setData(templates)
+//                .build();
+//    }
+
+
+    @RequestMapping(path = "/category", method = RequestMethod.GET)
+    public Response getCategory(@RequestParam(value = "project_id", required = true) Long projectId){
         Response.Builder responseBuilder = getBuilder();
 
-        Map<String,List<String>> result;
-        try{
-            result =  templateService.getTemplatesList();
-            responseBuilder.setCode(Response.Code.SUCCESS);
-            responseBuilder.setData(result);
-        }catch (Exception e){
-            responseBuilder.setCode(Response.Code.ERROR);
-            responseBuilder.setMessage(e.getMessage());
-        }
-        return responseBuilder.build();
-    }
+        Project project = projectService.getProject(projectId);
+        TemplateCategory category = templateService.getProjectCategory(project);
 
-    @ResponseBody
-    @RequestMapping(path = "/code", method = RequestMethod.GET)
-    public final Response getTemplateCode(@QueryParam("name")String name, @QueryParam("type")String type){
-        List<String> templates = new ArrayList <String>();
-        templates = templateService.getCode(name,type);
-
-        return Response.getBuilder()
+        return responseBuilder
                 .setCode(Response.Code.SUCCESS)
-                .setData(templates)
+                .setData(category)
                 .build();
     }
+
+
+    @RequestMapping(path = "/category", method = RequestMethod.POST)
+    public Response saveCategory(@RequestBody TemplateCategory templateCategory) {
+        Response.Builder responseBuilder = getBuilder();
+
+        TemplateCategory category = templateService.saveCategory(templateCategory);
+
+        return responseBuilder
+                .setCode(Response.Code.SUCCESS)
+                .setData(category)
+                .build();
+    }
+
+
+    @RequestMapping(path = "/category", method = RequestMethod.DELETE)
+    public Response deleteCategory(@RequestBody TemplateCategory templateCategory) {
+        Response.Builder responseBuilder = getBuilder();
+
+        TemplateCategory category = templateService.saveCategory(templateCategory);
+
+        return responseBuilder
+                .setCode(Response.Code.SUCCESS)
+                .setData(category)
+                .build();
+    }
+
+
+
 }

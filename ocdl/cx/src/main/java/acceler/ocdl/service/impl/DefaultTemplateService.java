@@ -15,13 +15,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
-public class DefaultTemplateService implements TemplateService {
+
+public class DefaultTemplateService {
 
     @Autowired
     private ProjectService projectService;
 
-    @Override
+    //@Override
     public Map<String,List<String>> getTemplatesList() {
 
 //        Map<String,List<String>> templatesList = getFileList(Paths.get(projectService.getProjectConfiguration().getTemplatePath()).toString());
@@ -63,7 +63,7 @@ public class DefaultTemplateService implements TemplateService {
         return nameList;
     }
 
-    @Override
+    //@Override
     public List<String> getCode(String name, String type) {
         List<String> result = new ArrayList<>();
         StringBuilder code = new StringBuilder();

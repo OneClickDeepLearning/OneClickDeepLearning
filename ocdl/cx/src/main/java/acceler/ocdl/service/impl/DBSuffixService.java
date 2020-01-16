@@ -89,7 +89,7 @@ public class DBSuffixService implements SuffixService {
 
     public boolean deleteSuffix(Long id) {
 
-        Suffix suffixInDb = suffixDao.findByIdAndDeletedIsFalse(id)
+        Suffix suffixInDb = suffixDao.findByIdAndIsDeletedIsFalse(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Fail to find Suffix(# %d )", id)));
 
         suffixInDb.setIsDeleted(true);

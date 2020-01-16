@@ -13,11 +13,11 @@ import java.util.*;
 
 
 @DependsOn({"storageLoader"})
-public class DefaultAlgorithmService implements AlgorithmService {
+public class DefaultAlgorithmService {
 
     private static final Logger log = Logger.getLogger(DefaultAlgorithmService.class);
 
-    @Override
+    //@Override
     public String getLatestModelName(String algorithmName) {
         Algorithm algorithm = getAlgorithmByName(algorithmName);
         String latestModelName = CONSTANTS.NAME_FORMAT.LATEST_MODEL.replace("{algorithm}", algorithm.getAlgorithmName())
@@ -26,18 +26,18 @@ public class DefaultAlgorithmService implements AlgorithmService {
         return latestModelName;
     }
 
-    @Override
+    //@Override
     public List<Algorithm> getAllAlgorithm() {
 
         return Arrays.asList(Algorithm.getAlgorithms());
     }
 
-    @Override
+    //@Override
     public Algorithm getAlgorithmByName(String algorithmName) {
         return Algorithm.getAlgorithmByName(algorithmName).orElseThrow(() -> (new NotFoundException("Not found algorithm:" + algorithmName)));
     }
 
-    @Override
+    //@Override
     public List<String> updateAlgorithmList(List<String> algorithms, boolean forceRemove) {
         Algorithm[] existedAlgorithms = Algorithm.getAlgorithms();
         List<String> overlap = new ArrayList<>();
