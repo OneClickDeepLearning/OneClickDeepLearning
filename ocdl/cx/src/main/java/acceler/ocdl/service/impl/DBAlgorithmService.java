@@ -110,7 +110,7 @@ public class DBAlgorithmService implements AlgorithmService {
                 }
 
                 if (algorithm.getProject() != null) {
-                    Project project = projectService.getProject(algorithm.getId());
+                    Project project = projectService.getProject(algorithm.getProject().getId());
                     predicates.add(criteriaBuilder.equal(root.get(CONSTANTS.ALGORITHM_TABLE.PROJECT), project));
                 }
 

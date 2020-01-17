@@ -1,6 +1,5 @@
 package acceler.ocdl.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -40,10 +39,12 @@ public class Project extends BaseEntity {
 //    private List<Model> modelList;
 
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
+    @JsonProperty("algorithm_list")
     @JsonIgnoreProperties(value = "project")
     private Set<Algorithm> algorithmList;
 
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
+    @JsonProperty("suffix_list")
     @JsonIgnoreProperties(value = "project")
     private Set<Suffix> suffixList;
 

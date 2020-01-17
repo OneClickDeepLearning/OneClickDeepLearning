@@ -41,8 +41,7 @@ public class Algorithm extends BaseEntity {
     private Integer currentReleasedVersion;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    //@JsonIgnoreProperties(value = "algorithmList")
-    @JsonIgnore
+    @JsonIgnoreProperties(value = {"algorithmList", "suffixList", "userList"})
     private Project project;
 
     @OneToMany(mappedBy = "algorithm")
