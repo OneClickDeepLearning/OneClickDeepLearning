@@ -75,5 +75,4 @@ public class Project extends BaseEntity {
     @JsonIgnoreProperties(value = "projectList")
     private Set<User> userList;
 
-
 }

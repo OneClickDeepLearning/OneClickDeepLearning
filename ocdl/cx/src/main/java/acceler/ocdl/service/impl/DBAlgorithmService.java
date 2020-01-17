@@ -5,6 +5,7 @@ import acceler.ocdl.dao.AlgorithmDao;
 import acceler.ocdl.entity.Algorithm;
 import acceler.ocdl.entity.Project;
 import acceler.ocdl.exception.NotFoundException;
+import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.service.AlgorithmService;
 import acceler.ocdl.service.ProjectService;
 import acceler.ocdl.utils.TimeUtil;
@@ -48,6 +49,16 @@ public class DBAlgorithmService implements AlgorithmService {
 
 
     private Algorithm createAlgorithm(Algorithm algorithm) {
+
+        if (algorithm.getProject() == null) {
+            throw new OcdlException("Project couldn't be null.");
+        }
+
+        Project project = projectService.getProject(algorithm.getProject().getId());
+        algorithmDao.findByNameAndProject(project).ifPresent(al -> {
+            throw new OcdlException(String.format("Algorithm %s already exist.", al.getName());
+            return;
+        });
 
         algorithm.setCreatedAt(TimeUtil.currentTimeStampStr());
         algorithm.setIsDeleted(false);
