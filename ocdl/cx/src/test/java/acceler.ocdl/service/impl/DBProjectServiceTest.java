@@ -2,6 +2,7 @@ package acceler.ocdl.service.impl;
 
 import acceler.ocdl.dao.ProjectDao;
 import acceler.ocdl.entity.Project;
+import acceler.ocdl.entity.User;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.service.ProjectService;
 import acceler.ocdl.utils.TimeUtil;
@@ -48,9 +49,16 @@ public class DBProjectServiceTest {
     private Project p1;
     private Project p2;
     private Project p3;
+    private User user;
 
     @Before
     public void setUp() {
+
+        user = User.builder()
+                .id(1L)
+                .userName("ivy")
+                .password("123456")
+                .build();
 
         // with id = 1 & isDeleted = false
         p1 = Project.builder()
@@ -144,7 +152,7 @@ public class DBProjectServiceTest {
         Mockito.when(projectDao.save(p3))
                 .thenReturn(p2);
 
-        Project project = projectService.saveProject(p3);
+        Project project = projectService.saveProject(p3, user);
         assertEquals(true, project.getId() != null);
         assertEquals(p2. getName(), project.getName());
         assertEquals(p2.getDescription(), project.getDescription());
@@ -160,7 +168,7 @@ public class DBProjectServiceTest {
         Mockito.when(projectDao.save(p2))
                 .thenReturn(p2);
 
-        project = projectService.saveProject(p2);
+        project = projectService.saveProject(p2, user);
         assertEquals(true, project.getId() != null);
         assertEquals("update", project.getName());
         assertEquals(p2.getDescription(), project.getDescription());

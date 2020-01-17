@@ -1,12 +1,14 @@
 package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
+import acceler.ocdl.entity.User;
 import acceler.ocdl.model.AbstractUser;
 import acceler.ocdl.model.InnerUser;
 import acceler.ocdl.service.KubernetesService;
 import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.EncryptionUtil;
 import acceler.ocdl.utils.SecurityUtil;
+import acceler.ocdl.utils.TimeUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,21 +47,30 @@ public class AuthController {
         Response.Builder respBuilder = Response.getBuilder();
         String username = registerInfo.get("username");
         String password = registerInfo.get("password");
-        AbstractUser.Role role = AbstractUser.Role.valueOf(registerInfo.get("role").toUpperCase());
+        //AbstractUser.Role role = AbstractUser.Role.valueOf(registerInfo.get("role").toUpperCase());
 
-        byte[] textBytes = Base64.decodeBase64(password);
+        /*byte[] textBytes = Base64.decodeBase64(password);
         String decryptedPassword = EncryptionUtil.decrypt(textBytes);
         System.out.println(password);
-        System.out.println(decryptedPassword);
+        System.out.println(decryptedPassword);*/
 
-        InnerUser newUser = userService.createUser(username, decryptedPassword, role);
+        String decryptedPassword = password;
+
+        String current = TimeUtil.currentTimeStampStr();
+        User user = User.builder()
+                .userName(username)
+                .password(decryptedPassword)
+                .isInnerUser(true)
+                .build();
+
+        User newUser = userService.saveUser(user);
 
         String token = securityUtil.requestToken(newUser);
 
         Map<String, Object> result = new HashMap<>();
-        result.put("userId", newUser.getUserId());
+        result.put("userId", newUser.getId());
         result.put("token", token);
-        result.put("role", newUser.getRole());
+        //result.put("role", newUser.getRole());
 
         return respBuilder.setCode(Response.Code.SUCCESS)
                 .setData(result).build();
@@ -82,13 +93,13 @@ public class AuthController {
             respBuilder.setMessage("incorrect account & password");
             return respBuilder.build();
         } else {
-            InnerUser loginInnerUser = userService.getUserByUsername(credential.account);
-            String token = securityUtil.requestToken(loginInnerUser);
+            User loginUser = userService.getUserByUsername(credential.account);
+            String token = securityUtil.requestToken(loginUser);
 
             Map<String, Object> result = new HashMap<>();
-            result.put("userId", loginInnerUser.getUserId());
+            result.put("userId", loginUser.getId());
             result.put("token", token);
-            result.put("role", loginInnerUser.getRole());
+            //result.put("role", loginInnerUser.getRole());
 
             respBuilder.setCode(Response.Code.SUCCESS);
             respBuilder.setData(result);
@@ -108,10 +119,10 @@ public class AuthController {
     @ResponseBody
     public Response logout(HttpServletRequest request, HttpServletResponse response) {
         final Response.Builder respBuilder = Response.getBuilder();
-        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
-        if (innerUser != null) {
-            securityUtil.releaseToken(innerUser);
-            kubernetesService.releaseDockerContainer(innerUser);
+        User user = (User) request.getAttribute("CURRENT_USER");
+        if (user != null) {
+            securityUtil.releaseToken(user);
+            //kubernetesService.releaseDockerContainer(user);
             respBuilder.setCode(Response.Code.SUCCESS);
         } else {
             respBuilder.setCode(Response.Code.ERROR);
@@ -122,16 +133,18 @@ public class AuthController {
     @RequestMapping(path = "/me", method = RequestMethod.GET)
     @ResponseBody
     public Response me(HttpServletRequest request, @QueryParam("token") String token) {
-        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
+        User user = (User) request.getAttribute("CURRENT_USER");
         final Response.Builder respBuilder = Response.getBuilder();
+
         Map<String, Object> result = new HashMap<>();
-        result.put("userId", innerUser.getUserId());
-        result.put("username", innerUser.getUserName());
+        result.put("userId", user.getId());
+        result.put("username", user.getUserName());
         result.put("token", token);
-        result.put("role", innerUser.getRole());
-        respBuilder.setData(result);
-        respBuilder.setCode(Response.Code.SUCCESS);
-        return respBuilder.build();
+        //result.put("role", innerUser.getRole());
+
+        return respBuilder.setCode(Response.Code.SUCCESS)
+                .setData(result)
+                .build();
     }
 
     @RequestMapping(path = "/key", method = RequestMethod.GET)

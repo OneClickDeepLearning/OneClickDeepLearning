@@ -1,6 +1,6 @@
 package acceler.ocdl.utils;
 
-import acceler.ocdl.model.InnerUser;
+import acceler.ocdl.entity.User;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -25,12 +25,12 @@ public final class AuthInterceptor extends HandlerInterceptorAdapter {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return false;
         }
-        InnerUser accessInnerUser = securityUtil.getUserByToken(token);
-        if (null == accessInnerUser) {
+        User accessUser = securityUtil.getUserByToken(token);
+        if (null == accessUser) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return false;
         }
-        request.setAttribute("CURRENT_USER", accessInnerUser);
+        request.setAttribute("CURRENT_USER", accessUser);
         request.setAttribute("CURRENT_TOKEN", token);
         return true;
     }

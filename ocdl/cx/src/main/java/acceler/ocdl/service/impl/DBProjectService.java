@@ -2,7 +2,9 @@ package acceler.ocdl.service.impl;
 
 import acceler.ocdl.dao.ProjectDao;
 import acceler.ocdl.entity.Project;
+import acceler.ocdl.entity.User;
 import acceler.ocdl.exception.NotFoundException;
+import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.service.ProjectService;
 import acceler.ocdl.utils.TimeUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -16,14 +18,18 @@ public class DBProjectService implements ProjectService {
     private ProjectDao projectDao;
 
     @Override
-    public Project saveProject(Project project) {
+    public Project saveProject(Project project, User user) {
 
         Project projectInDb = null;
 
         if (project.getId() != null) {
+            if (getProject(project.getId()).getUserList().contains(user)) {
+                throw new OcdlException("Permission denied.");
+            }
             projectInDb = updateProject(project);
         } else {
             projectInDb = createProject(project);
+            //TODO add r_user_project
         }
 
         return projectInDb;
@@ -77,7 +83,7 @@ public class DBProjectService implements ProjectService {
         Project projectInDb = projectDao.findByIdAndIsDeletedIsFalse(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Fail to find Project(# %d )", id)));
 
-        projectInDb.setIsDeleted(false);
+        projectInDb.setIsDeleted(true);
         projectInDb.setDeletedAt(TimeUtil.currentTimeStampStr());
         projectDao.save(projectInDb);
         return true;

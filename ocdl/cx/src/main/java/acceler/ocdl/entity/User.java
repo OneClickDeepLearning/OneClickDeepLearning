@@ -2,6 +2,7 @@ package acceler.ocdl.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.DynamicInsert;
@@ -17,7 +18,7 @@ import java.util.List;
 @DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Table(name = "user")
 public class User extends BaseEntity {
 
@@ -31,9 +32,6 @@ public class User extends BaseEntity {
 
     @Column(name = "email")
     private String email;
-
-    @Column(name = "type")
-    private String type;
 
     @Column(name = "password")
     @ColumnTransformer(
@@ -82,7 +80,7 @@ public class User extends BaseEntity {
 
     @ManyToMany(mappedBy = "userList")
     @JsonProperty("project_list")
-    @JsonIgnoreProperties(value = "userList")
+    @JsonIgnoreProperties(value = {"userList", "algorithmList", "suffixList"})
     private List<Project> projectList;
 
 }

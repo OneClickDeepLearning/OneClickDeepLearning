@@ -35,7 +35,7 @@ public class UserDaoTest {
                 .userName("Ann")
                 .email("ann@gmail.com")
                 .password("123456")
-                .type("ocdl")
+                //.type("ocdl")
                 .build();
     }
 

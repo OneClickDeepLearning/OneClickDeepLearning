@@ -1,10 +1,8 @@
 package acceler.ocdl.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -12,7 +10,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Setter
+@Getter
 @Entity
 @DynamicInsert
 @DynamicUpdate
@@ -41,8 +40,9 @@ public class Algorithm extends BaseEntity {
     @JsonProperty("current_released_version")
     private Integer currentReleasedVersion;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    //@JsonIgnoreProperties(value = "algorithmList")
+    @JsonIgnore
     private Project project;
 
     @OneToMany(mappedBy = "algorithm")

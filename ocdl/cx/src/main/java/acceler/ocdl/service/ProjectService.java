@@ -1,6 +1,7 @@
 package acceler.ocdl.service;
 
 import acceler.ocdl.entity.Project;
+import acceler.ocdl.entity.User;
 
 public interface ProjectService {
 
@@ -11,7 +12,7 @@ public interface ProjectService {
      * @param project project
      * @return project in updated database
      */
-    Project saveProject(Project project);
+    Project saveProject(Project project, User user);
 
     /**
      * get project according project id

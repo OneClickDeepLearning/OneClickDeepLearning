@@ -53,7 +53,7 @@ public class DBSuffixService implements SuffixService {
                     predicates.add(criteriaBuilder.like(root.get(CONSTANTS.SUFFIX_TABLE.NAME), "%" + suffix.getName() + "%"));
                 }
 
-                if (suffix.getProject() != null) {
+                if (suffix.getProject  () != null) {
                     Project project = projectService.getProject(suffix.getId());
                     predicates.add(criteriaBuilder.equal(root.get(CONSTANTS.SUFFIX_TABLE.PROJECT), project));
                 }

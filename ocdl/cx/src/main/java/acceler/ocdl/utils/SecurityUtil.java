@@ -1,7 +1,7 @@
 package acceler.ocdl.utils;
 
+import acceler.ocdl.entity.User;
 import acceler.ocdl.exception.NotFoundException;
-import acceler.ocdl.model.InnerUser;
 import org.springframework.stereotype.Component;
 
 import java.util.Hashtable;
@@ -18,36 +18,36 @@ public class SecurityUtil {
     private final long intervalThreshold = 1L; //1 hour
     private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
-    public String requestToken(InnerUser innerUser) {
+    public String requestToken(User user) {
 
         for (Map.Entry entry : inMemoryTokenManager.entrySet()) {
-            if (((SecurityUser) entry.getValue()).getInnerUser().getUserId().equals(innerUser.getUserId())) {
+            if (((SecurityUser) entry.getValue()).getUser().getId().equals(user.getId())) {
                 return (String) entry.getKey();
             }
         }
 
         //innerUser never get token
         String token = generateToken();
-        this.inMemoryTokenManager.put(token, new SecurityUser(TimeUtil.currentTime(), innerUser));
+        this.inMemoryTokenManager.put(token, new SecurityUser(TimeUtil.currentTime(), user));
         return token;
     }
 
-    public boolean isUserLogin(InnerUser innerUser) {
+    public boolean isUserLogin(User user) {
 
         for (SecurityUser securityUser : this.inMemoryTokenManager.values()) {
-            if (securityUser.getInnerUser().getUserId().equals(innerUser.getUserId())) {
+            if (securityUser.getUser().getId().equals(user.getId())) {
                 return true;
             }
         }
         return false;
     }
 
-    public InnerUser getUserByToken(String token){
+    public User getUserByToken(String token){
         if (this.inMemoryTokenManager.containsKey(token)) {
             long diffInterval = (TimeUtil.currentTime().getTime() - this.inMemoryTokenManager.get(token).getRequestTime().getTime()) / (1000 * 60 * 60);
             if (diffInterval <= intervalThreshold) {
                 this.inMemoryTokenManager.get(token).setRequestTime(TimeUtil.currentTime());
-                return this.inMemoryTokenManager.get(token).getInnerUser();
+                return this.inMemoryTokenManager.get(token).getUser();
             } else {
                 this.inMemoryTokenManager.remove(token);
                 throw new NotFoundException("Fail to find the token, your token maybe expired");
@@ -57,10 +57,10 @@ public class SecurityUtil {
         }
     }
 
-    public void releaseToken(InnerUser innerUser){
+    public void releaseToken(User user){
         String token = null;
         for (Map.Entry<String, SecurityUser> entry : this.inMemoryTokenManager.entrySet()) {
-            if (innerUser.getUserId().equals(entry.getValue().getInnerUser().getUserId())) {
+            if (user.getId().equals(entry.getValue().getUser().getId())) {
                 token = entry.getKey();
             }
         }
