@@ -1,11 +1,11 @@
 package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
-import acceler.ocdl.entity.Algorithm;
-import acceler.ocdl.entity.Project;
-import acceler.ocdl.entity.User;
+import acceler.ocdl.entity.*;
 import acceler.ocdl.service.AlgorithmService;
+import acceler.ocdl.service.ProjectDataService;
 import acceler.ocdl.service.ProjectService;
+import acceler.ocdl.service.SuffixService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 import static acceler.ocdl.dto.Response.getBuilder;
 
@@ -29,6 +30,12 @@ public class ProjectController {
 
     @Autowired
     private AlgorithmService algorithmService;
+
+    @Autowired
+    private SuffixService suffixService;
+
+    @Autowired
+    private ProjectDataService projectDataService;
 
     @RequestMapping(path = "/algorithm/get", method = RequestMethod.POST)
     public Response getAlgorithm(@RequestBody Algorithm algorithm,
@@ -122,6 +129,100 @@ public class ProjectController {
         Response.Builder responseBuilder = getBuilder();
 
         boolean success = projectService.deleteProject(project.getId());
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(success)
+                .build();
+    }
+
+
+    @RequestMapping(path = "/suffix/get", method = RequestMethod.POST)
+    public Response getSuffix(@RequestBody Suffix suffix,
+                                 @RequestParam(value = "page", required = false, defaultValue = "0") int page ,
+                                 @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
+
+        Response.Builder responseBuilder = getBuilder();
+
+        Page<Suffix> suffixPage = suffixService.getSuffix(suffix, page, size);
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(suffixPage)
+                .build();
+    }
+
+    @RequestMapping(path = "/suffix", method = RequestMethod.POST)
+    public Response createSuffix(@RequestBody Suffix suffix) {
+
+        Response.Builder responseBuilder = getBuilder();
+
+        Suffix suffixInDb = suffixService.createSuffix(suffix);
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(suffixInDb)
+                .build();
+    }
+
+
+    @RequestMapping(path = "/suffix", method = RequestMethod.DELETE)
+    public Response batchDeleteSuffix(@RequestBody List<Suffix> suffixes) {
+
+        Response.Builder responseBuilder = getBuilder();
+
+        boolean success = suffixService.batchDeleteSuffix(suffixes);
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(success)
+                .build();
+    }
+
+
+    @RequestMapping(path = "/projectdata/get", method = RequestMethod.POST)
+    public Response getProjectData(@RequestBody ProjectData projectData,
+                              @RequestParam(value = "page", required = false, defaultValue = "0") int page ,
+                              @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
+
+        Response.Builder responseBuilder = getBuilder();
+
+        Page<ProjectData> projectDataPage = projectDataService.getProjectData(projectData, page, size);
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(projectDataPage)
+                .build();
+    }
+
+    // TODO: file
+    @RequestMapping(path = "/projectdata", method = RequestMethod.POST)
+    public Response uploadProjectData(@RequestBody Map<String,String> file) {
+
+        Response.Builder responseBuilder = getBuilder();
+
+        ProjectData projectData = projectDataService.uploadProjectData();
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(projectData)
+                .build();
+    }
+
+    // TODO: file
+    @RequestMapping(path = "/projectdata", method = RequestMethod.GET)
+    public Response downloadProjectData(@RequestParam(name = "refid") String refId ) {
+
+        Response.Builder responseBuilder = getBuilder();
+
+        List<String> projectDataCode = projectDataService.downloadProjectData(refId);
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(projectDataCode)
+                .build();
+    }
+
+
+    @RequestMapping(path = "/projectdata", method = RequestMethod.DELETE)
+    public Response batchDeleteProjectData(@RequestBody List<ProjectData> projectDatas) {
+
+        Response.Builder responseBuilder = getBuilder();
+
+        boolean success = projectDataService.batchDeleteProjectData(projectDatas);
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(success)

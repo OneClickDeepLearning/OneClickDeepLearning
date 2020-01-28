@@ -1,30 +1,31 @@
 package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
+import acceler.ocdl.entity.ProjectData;
 import acceler.ocdl.entity.User;
-import acceler.ocdl.model.AbstractUser;
-import acceler.ocdl.model.InnerUser;
+import acceler.ocdl.entity.UserData;
 import acceler.ocdl.service.KubernetesService;
+import acceler.ocdl.service.UserDataService;
 import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.EncryptionUtil;
 import acceler.ocdl.utils.SecurityUtil;
 import acceler.ocdl.utils.TimeUtil;
-import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.QueryParam;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static acceler.ocdl.dto.Response.getBuilder;
 
 @Controller
 @RequestMapping(path = "/rest/auth")
@@ -39,6 +40,9 @@ public class AuthController {
 
     @Autowired
     private KubernetesService kubernetesService;
+
+    @Autowired
+    private UserDataService userDataService;
 
     @RequestMapping(path = "/signup", method = RequestMethod.POST)
     @ResponseBody
@@ -164,5 +168,59 @@ public class AuthController {
     public static class UserCredentials {
         public String account;
         public String password;
+    }
+
+
+    @RequestMapping(path = "/userdata/get", method = RequestMethod.POST)
+    public Response getUserData(@RequestBody UserData userData,
+                                   @RequestParam(value = "page", required = false, defaultValue = "0") int page ,
+                                   @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
+
+        Response.Builder responseBuilder = getBuilder();
+
+        Page<UserData> userDataPage = userDataService.getUserData(userData, page, size);
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(userDataPage)
+                .build();
+    }
+
+    // TODO: file
+    @RequestMapping(path = "/userdata", method = RequestMethod.POST)
+    public Response uploadProjectData(@RequestBody Map<String,String> file) {
+
+        Response.Builder responseBuilder = getBuilder();
+
+        UserData userData = userDataService.uploadUserData();
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(userData)
+                .build();
+    }
+
+    // TODO: file
+    @RequestMapping(path = "/userdata", method = RequestMethod.GET)
+    public Response downloadProjectData(@RequestParam(name = "refid") String refId ) {
+
+        Response.Builder responseBuilder = getBuilder();
+
+        List<String> userdataCode = userDataService.downloadUserData(refId);
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(userdataCode)
+                .build();
+    }
+
+
+    @RequestMapping(path = "/userdata", method = RequestMethod.DELETE)
+    public Response batchDeleteProjectData(@RequestBody List<UserData> userDatas) {
+
+        Response.Builder responseBuilder = getBuilder();
+
+        boolean success = userDataService.batchDeleteUserData(userDatas);
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(success)
+                .build();
     }
 }

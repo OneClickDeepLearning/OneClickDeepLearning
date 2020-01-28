@@ -29,6 +29,7 @@ public class DBUserService implements UserService {
 
     @Value("${HDFS.USER_SPACE}")
     private String  hdfsUserSpace;
+
     @Value("${APPLICATIONS_DIR.USER_SPACE}")
     private String applicationsDirUserSpace;
 
@@ -115,7 +116,7 @@ public class DBUserService implements UserService {
     private User updateUser(User user) {
         
         User userInDb = userDao.findById(user.getId())
-                .orElseThrow(() -> new NotFoundException("%s user isn't found."));
+                .orElseThrow(() -> new NotFoundException(String.format("%s user isn't found.", user.getId())));
         
         if (!StringUtils.isEmpty(user.getUserName())) {
             userInDb.setUserName(user.getUserName());

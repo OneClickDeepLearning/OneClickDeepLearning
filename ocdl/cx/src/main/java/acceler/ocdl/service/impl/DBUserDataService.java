@@ -48,7 +48,6 @@ public class DBUserDataService implements UserDataService {
 
     }
 
-
     private UserData createUserData(UserData userData) {
 
         List<UserData> data = userDataDao.findByNameAndIsDeletedIsFalse(userData.getName());
@@ -112,6 +111,11 @@ public class DBUserDataService implements UserDataService {
                 }
         );
         return true;
+    }
+
+    @Override
+    public List<String> downloadUserData(String refId) {
+        return null;
     }
 
 

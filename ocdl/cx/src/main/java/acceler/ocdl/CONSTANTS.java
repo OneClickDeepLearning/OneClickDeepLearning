@@ -2,6 +2,7 @@ package acceler.ocdl;
 
 public interface CONSTANTS {
 
+
     interface APPLICATIONS_DIR {
         String USER_SPACE = "/home/hadoop/mount/UserSpace/";
 //        String STAGE_SPACE = "/home/ec2-user/stage/";
@@ -103,5 +104,16 @@ public interface CONSTANTS {
         String DESCRIPTION = "description";
         String PROJECT = "project";
         String CATEGORY = "templateCategory";
+    }
+
+    interface MODEL_TABLE {
+        String MODEL_PREFIX = "M";
+        int LENGTH_REF_ID = 12;
+        String NAME = "name";
+        String SUFFIX = "suffix";
+        String ALGORITHM = "algorithm";
+        String STATUS = "status";
+        String OWNER = "owner";
+        String PROJECT = "project";
     }
 }

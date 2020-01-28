@@ -10,13 +10,9 @@ import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.MessageQueueService;
 import acceler.ocdl.service.ModelService;
 import acceler.ocdl.service.StorageService;
-import acceler.ocdl.utils.CommandHelper;
 import acceler.ocdl.utils.TimeUtil;
-import com.sun.istack.Nullable;
-import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.fs.Path;
 import org.apache.log4j.Logger;
-import org.eclipse.jgit.api.Git;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.DependsOn;
@@ -25,14 +21,13 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.text.ParseException;
 import java.util.*;
 
 import static org.apache.commons.io.FileUtils.directoryContains;
 
-@Service
+
 @DependsOn({"storageLoader"})
-public class DefaultModelServiceImpl implements ModelService {
+public class DefaultModelServiceImpl  {
 
     private static final Logger log = Logger.getLogger(DefaultModelServiceImpl.class);
 
@@ -55,7 +50,7 @@ public class DefaultModelServiceImpl implements ModelService {
     private String kafkaTopic;
 
 
-    @Override
+
     public Map<String, Integer> initModelToStage(InnerUser innerUser) {
 
         Map<String, Integer> initRecords = new HashMap<>();
@@ -124,7 +119,7 @@ public class DefaultModelServiceImpl implements ModelService {
         NewModel.addToStorage(model);
     }
 
-    @Override
+
     public void approveModel(NewModel model, String algorithmName, Algorithm.UpgradeVersion version, String comments, Long lastOperatorId) {
         checkIfNewModelExist(model);
         Algorithm algorithm = Algorithm.getAlgorithmByName(algorithmName).orElseThrow(() -> (new NotFoundException(String.format("Not found algorithm: %s", algorithmName))));
@@ -144,7 +139,7 @@ public class DefaultModelServiceImpl implements ModelService {
     }
 
 
-    @Override
+
     public void rejectModel(NewModel model, String comments, Long lastOperatorId) {
         checkIfNewModelExist(model);
         Date current = TimeUtil.currentTime();
@@ -152,7 +147,7 @@ public class DefaultModelServiceImpl implements ModelService {
         NewModel.removeFromStorage(model.getModelId());
     }
 
-    @Override
+
     public void undo(Model model, String comments, Long lastOperatorId) {
         if (model instanceof ApprovedModel && !Algorithm.existApprovalModel((ApprovedModel) model)) {
             throw new NotFoundException("model not found");
@@ -182,7 +177,7 @@ public class DefaultModelServiceImpl implements ModelService {
     }
 
 
-    @Override
+
     public ModelDto[] getModelsByStatus(Model.Status status) {
 
         List<ModelDto> modelDtoList = null;
@@ -270,7 +265,7 @@ public class DefaultModelServiceImpl implements ModelService {
     }
 
 
-    @Override
+
     public void release(ApprovedModel model, InnerUser innerUser) {
 
         File modelFile = existModelFile(model, innerUser)
@@ -299,7 +294,7 @@ public class DefaultModelServiceImpl implements ModelService {
         //algorithm.updateApprovedModels();
     }
 
-    @Override
+
     public Map<String, List<ModelDto>> getModelListByUser(long userId) {
 
         Map<String, List<ModelDto>> modelMap = new HashMap<>();

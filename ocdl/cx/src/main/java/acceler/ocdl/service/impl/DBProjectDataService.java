@@ -114,7 +114,13 @@ public class DBProjectDataService implements ProjectDataService {
         return true;
     }
 
+    @Override
+    public List<String> downloadProjectData(String refId) {
+        return null;
+    }
 
+
+    // TODO real delete data from HDFS
     private boolean deleteProjectData(Long id) {
 
         ProjectData projectDataInDb = projectDataDao.findByIdAndIsDeletedIsFalse(id)

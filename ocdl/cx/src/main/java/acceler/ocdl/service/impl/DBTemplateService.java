@@ -244,4 +244,9 @@ public class DBTemplateService implements TemplateService {
                         new NotFoundException("Root category isn't exist."));
     }
 
+    @Override
+    public List<String> downloadTemplate(String refId) {
+        return null;
+    }
+
 }

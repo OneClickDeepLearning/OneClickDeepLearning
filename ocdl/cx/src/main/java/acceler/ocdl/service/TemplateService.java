@@ -27,4 +27,7 @@ public interface TemplateService {
     boolean deleteCategory(TemplateCategory category);
 
     TemplateCategory getProjectCategory(Project project);
+
+    List<String> downloadTemplate(String refId);
+
 }
