@@ -21,6 +21,8 @@ public interface ProjectService {
      */
     Project getProject(Long id);
 
+    Project getProject(String refId);
+
     /**
      * delete Project obj
      * @param id project id

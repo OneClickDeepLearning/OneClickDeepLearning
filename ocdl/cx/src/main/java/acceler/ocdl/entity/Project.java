@@ -32,6 +32,11 @@ public class Project extends BaseEntity {
     @Column(name = "description")
     private String description;
 
+
+    @Column(name = "ref_id")
+    @JsonProperty("ref_id")
+    private String refId;
+
 //    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
 //    @JsonProperty("model_list")
 //    @JsonIgnoreProperties(value = "project")

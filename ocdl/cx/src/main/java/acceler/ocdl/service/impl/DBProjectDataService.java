@@ -6,11 +6,14 @@ import acceler.ocdl.entity.Project;
 import acceler.ocdl.entity.ProjectData;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.exception.OcdlException;
+import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.ProjectDataService;
 import acceler.ocdl.service.ProjectService;
 import acceler.ocdl.utils.TimeUtil;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.hadoop.fs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -23,6 +26,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,16 +40,38 @@ public class DBProjectDataService implements ProjectDataService {
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private HdfsService hdfsService;
+
+    @Value("${HDFS.PROJECT_DATA}")
+    private String hdfsProjectDataPath;
+
+    @Value("${HDFS.USER_DATA}")
+    private String hdfsUserDataPath;
+
 
     @Override
     @Transactional
-    public ProjectData uploadProjectData() {
+    public ProjectData uploadProjectData(Project project, String srcPath) {
 
-        // TODO: upload file to HDFS
+        File srcFile = new File(srcPath);
+        if (!srcFile.isFile()) {
+            throw new OcdlException(String.format("%s is not a file.", srcFile.getName()));
+        }
+
+        // upload file to HDFS
         String refId = CONSTANTS.PROJECT_DATA_TABLE.PROJECT_PREFIX + RandomStringUtils.randomAlphanumeric(CONSTANTS.PROJECT_DATA_TABLE.LENGTH_REF_ID);
+        String desPath = Paths.get(hdfsProjectDataPath, refId).toString();
+        hdfsService.uploadFile(new Path(srcPath), new Path(desPath));
 
         // create projectData in database
-        return null;
+        ProjectData projectData = ProjectData.builder()
+                .name(srcFile.getName())
+                .suffix(srcFile.getName().substring(srcFile.getName().lastIndexOf(".")+1))
+                .refId(refId)
+                .project(project)
+                .build();
+        return createProjectData(projectData);
 
     }
 

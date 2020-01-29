@@ -192,11 +192,13 @@ public class ProjectController {
 
     // TODO: file
     @RequestMapping(path = "/projectdata", method = RequestMethod.POST)
-    public Response uploadProjectData(@RequestBody Map<String,String> file) {
+    public Response uploadProjectData(@RequestParam(name = "projectid") Long projectId,
+                                      @RequestParam(name = "srcpath") String srcPath) {
 
         Response.Builder responseBuilder = getBuilder();
 
-        ProjectData projectData = projectDataService.uploadProjectData();
+        Project project = projectService.getProject(projectId);
+        ProjectData projectData = projectDataService.uploadProjectData(project, srcPath);
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(projectData)

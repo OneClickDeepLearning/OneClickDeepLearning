@@ -68,6 +68,10 @@ public interface CONSTANTS {
         String ISDELETED = "isDeleted";
     }
 
+    interface PROJECT_TABLE {
+        int LENGTH_REF_ID = 20;
+    }
+
     interface ALGORITHM_TABLE {
         String NAME = "name";
         String DESCRIPTION = "description";

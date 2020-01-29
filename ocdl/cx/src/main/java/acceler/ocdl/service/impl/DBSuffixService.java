@@ -57,7 +57,7 @@ public class DBSuffixService implements SuffixService {
                 }
 
                 if (suffix.getProject  () != null) {
-                    Project project = projectService.getProject(suffix.getId());
+                    Project project = projectService.getProject(suffix.getProject().getId());
                     predicates.add(criteriaBuilder.equal(root.get(CONSTANTS.SUFFIX_TABLE.PROJECT), project));
                 }
 

@@ -1,14 +1,19 @@
 package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.ModelDto;
+import acceler.ocdl.entity.Model;
+import acceler.ocdl.entity.ModelStatus;
+import acceler.ocdl.entity.Project;
+import acceler.ocdl.entity.User;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.exception.OcdlException;
-import acceler.ocdl.model.*;
 import acceler.ocdl.service.ModelService;
 import acceler.ocdl.dto.Response;
+import acceler.ocdl.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 
@@ -28,6 +33,9 @@ public final class ModelController {
     private static final Logger logger = LoggerFactory.getLogger(ModelController.class);
 
     @Autowired
+    private ProjectService projectService;
+
+    @Autowired
     private ModelService modelService;
 
     /**
@@ -35,20 +43,37 @@ public final class ModelController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(method = RequestMethod.GET)
-    public final Response getModelList() {
+    @RequestMapping(path="/", method = RequestMethod.GET)
+    public final Response getModelList(@RequestParam(name = "projectid") Long projectId, HttpServletRequest request) {
         logger.debug("enter the get model list funciton");
         Response.Builder responseBuilder = getBuilder();
 
-        Map<String, ModelDto[]> models = new HashMap<>();
-        Model newModel = Model
-        Page<Model> newModels = modelService.getModels()
+        Project project = projectService.getProject(projectId);
+        User user = (User) request.getAttribute("CURRENT_USER");
+
+        Map<String, Page<Model>> models = new HashMap<>();
+        Model newModel = Model.builder()
+                .status(ModelStatus.NEW)
+                .project(project)
+                .owner(user)
+                .build();
+        Page<Model> newModels = modelService.getModels(newModel, 1, 100);
         models.put("newModels", newModels);
 
-        ModelDto[] approvedModels= modelService.getModelsByStatus(Model.Status.APPROVED);
+
+        Model approvedModel = Model.builder()
+                .status(ModelStatus.APPROVED)
+                .project(project)
+                .build();
+        Page<Model> approvedModels = modelService.getModels(approvedModel, 1, 100);
         models.put("approvalModels", approvedModels);
 
-        ModelDto[] rejectedModels= modelService.getModelsByStatus(Model.Status.REJECTED);
+        Model rejectedModel = Model.builder()
+                .status(ModelStatus.APPROVED)
+                .project(project)
+                .owner(user)
+                .build();
+        Page<Model> rejectedModels = modelService.getModels(rejectedModel, 1, 100);
         models.put("rejectedModels", rejectedModels);
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
@@ -63,13 +88,13 @@ public final class ModelController {
     @RequestMapping(path="/event", method = RequestMethod.GET)
     public final Response getModelListByUser(HttpServletRequest request) {
         logger.debug("Get model list by user id");
-        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
+        User user = (User) request.getAttribute("CURRENT_USER");
         Response.Builder responseBuilder = getBuilder();
 
-        Map<String, List<ModelDto>> modelMap = modelService.getModelListByUser(innerUser.getUserId());
+        //Map<String, List<ModelDto>> modelMap = modelService.getModelListByUser(innerUser.getUserId());
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
-                .setData(modelMap).build();
+                .build();
     }
     
     /**
@@ -86,39 +111,39 @@ public final class ModelController {
         String from = request.getParameter("fromStatus");
         String to = request.getParameter("toStatus");
         String upgradeVersion = request.getParameter("upgradeVersion");
-        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
+        User user = (User) request.getAttribute("CURRENT_USER");
 
         Response.Builder responseBuilder = getBuilder();
 
-        if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.APPROVED.name())) {
-            Model model = NewModel.getNewModelById(Long.parseLong(modelDto.getModelId()))
-                    .orElseThrow(()-> new NotFoundException("Fail to found model"));
-
-            logger.debug("before push decision, the owner id is:" + model.getOwnerId());
-            modelService.approveModel((NewModel) model,modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(upgradeVersion), modelDto.getComments(), innerUser.getUserId());
-
-        } else if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.REJECTED.name())) {
-            Model model = NewModel.getNewModelById(Long.parseLong(modelDto.getModelId()))
-                    .orElseThrow(()-> new NotFoundException("Fail to found model"));
-            modelService.rejectModel((NewModel) model, modelDto.getComments(), innerUser.getUserId());
-
-        } else if (from.toUpperCase().equals(Model.Status.REJECTED.name()) && to.toUpperCase().equals(Model.Status.NEW.name())) {
-            RejectedModel model = RejectedModel.getRejectedModelById(Long.parseLong(modelDto.getModelId()))
-                    .orElseThrow(()-> new NotFoundException("Fail to found model"));
-            modelService.undo(model, modelDto.getComments(), innerUser.getUserId());
-
-        } else if (from.toUpperCase().equals(Model.Status.APPROVED.name()) && to.toUpperCase().equals(Model.Status.NEW.name())) {
-            Model model = Algorithm.getApprovalModelById(Long.parseLong(modelDto.getModelId()))
-                    .orElseThrow(()-> new NotFoundException("Fail to found model"));
-
-            if (model.getStatus() != Model.Status.RELEASED) {
-                modelService.undo(model, modelDto.getComments(), innerUser.getUserId());
-            } else {
-                throw new OcdlException("Released model cannot undo.");
-            }
-        } else {
-            throw new OcdlException("Invalid From/To parameters.");
-        }
+//        if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.APPROVED.name())) {
+//            Model model = NewModel.getNewModelById(Long.parseLong(modelDto.getModelId()))
+//                    .orElseThrow(()-> new NotFoundException("Fail to found model"));
+//
+//            logger.debug("before push decision, the owner id is:" + model.getOwnerId());
+//            modelService.approveModel((NewModel) model,modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(upgradeVersion), modelDto.getComments(), innerUser.getUserId());
+//
+//        } else if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.REJECTED.name())) {
+//            Model model = NewModel.getNewModelById(Long.parseLong(modelDto.getModelId()))
+//                    .orElseThrow(()-> new NotFoundException("Fail to found model"));
+//            modelService.rejectModel((NewModel) model, modelDto.getComments(), innerUser.getUserId());
+//
+//        } else if (from.toUpperCase().equals(Model.Status.REJECTED.name()) && to.toUpperCase().equals(Model.Status.NEW.name())) {
+//            RejectedModel model = RejectedModel.getRejectedModelById(Long.parseLong(modelDto.getModelId()))
+//                    .orElseThrow(()-> new NotFoundException("Fail to found model"));
+//            modelService.undo(model, modelDto.getComments(), innerUser.getUserId());
+//
+//        } else if (from.toUpperCase().equals(Model.Status.APPROVED.name()) && to.toUpperCase().equals(Model.Status.NEW.name())) {
+//            Model model = Algorithm.getApprovalModelById(Long.parseLong(modelDto.getModelId()))
+//                    .orElseThrow(()-> new NotFoundException("Fail to found model"));
+//
+//            if (model.getStatus() != Model.Status.RELEASED) {
+//                modelService.undo(model, modelDto.getComments(), innerUser.getUserId());
+//            } else {
+//                throw new OcdlException("Released model cannot undo.");
+//            }
+//        } else {
+//            throw new OcdlException("Invalid From/To parameters.");
+//        }
         return responseBuilder.setCode(Response.Code.SUCCESS).build();
     }
 
@@ -128,15 +153,15 @@ public final class ModelController {
     public final Response release(@PathVariable String modelId, HttpServletRequest request){
         Response.Builder builder = Response.getBuilder();
 
-        ApprovedModel model = Algorithm.getApprovalModelById(Long.parseLong(modelId))
-                .orElseThrow(()-> new NotFoundException("Fail to found model"));
-        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
-
-        if (model.getStatus() != Model.Status.RELEASED) {
-            modelService.release(model, innerUser);
-        } else {
-            throw new OcdlException("Released model cannot be release again.");
-        }
+//        ApprovedModel model = Algorithm.getApprovalModelById(Long.parseLong(modelId))
+//                .orElseThrow(()-> new NotFoundException("Fail to found model"));
+//        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
+//
+//        if (model.getStatus() != Model.Status.RELEASED) {
+//            modelService.release(model, innerUser);
+//        } else {
+//            throw new OcdlException("Released model cannot be release again.");
+//        }
 
         return builder.setCode(Response.Code.SUCCESS).build();
     }
@@ -144,12 +169,13 @@ public final class ModelController {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public final Response initModelToStage(HttpServletRequest request) {
-        String result;
-        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
+    public final Response initModelToStage(@RequestParam(name = "projectid") Long projectId, HttpServletRequest request) {
+
+        Project project = projectService.getProject(projectId);
+        User user = (User) request.getAttribute("CURRENT_USER");
         Response.Builder builder = Response.getBuilder();
 
-        Map<String, Integer> initRecords = modelService.initModelToStage(innerUser);
+        Map<String, Integer> initRecords = modelService.initModelToStage(user, project);
 
         if (initRecords.get("finded") == 0) {
             throw new NotFoundException("No model file founded! ");

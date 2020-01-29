@@ -1,5 +1,6 @@
 package acceler.ocdl.service;
 
+import acceler.ocdl.entity.Project;
 import acceler.ocdl.entity.ProjectData;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +11,7 @@ public interface ProjectDataService {
 
 
     @Transactional
-    ProjectData uploadProjectData();
+    ProjectData uploadProjectData(Project project, String srcPath);
 
     Page<ProjectData> getProjectData(ProjectData projectData, int page, int size);
 

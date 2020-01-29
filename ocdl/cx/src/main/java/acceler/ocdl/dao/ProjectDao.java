@@ -14,4 +14,6 @@ public interface ProjectDao extends JpaRepository<Project, Long>, JpaSpecificati
     Optional<Project> findByName(String name);
 
     Optional<Project> findByIdAndIsDeletedIsFalse(Long id);
+
+    Optional<Project> findByRefId(String refId);
 }

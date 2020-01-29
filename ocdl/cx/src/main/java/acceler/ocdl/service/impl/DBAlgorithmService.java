@@ -55,7 +55,7 @@ public class DBAlgorithmService implements AlgorithmService {
         }
 
         Project project = projectService.getProject(algorithm.getProject().getId());
-        algorithmDao.findByNameAndProject(project).ifPresent(al -> {
+        algorithmDao.findByNameAndProject(algorithm.getName(), project).ifPresent(al -> {
             throw new OcdlException(String.format("Algorithm %s already exist.", al.getName()));
         });
 

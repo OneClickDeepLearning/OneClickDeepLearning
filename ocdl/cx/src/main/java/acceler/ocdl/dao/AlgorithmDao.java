@@ -16,5 +16,5 @@ public interface AlgorithmDao extends JpaRepository<Algorithm, Long>, JpaSpecifi
 
     Optional<Algorithm> findByIdAndIsDeletedIsFalse(Long id);
 
-    Optional<Algorithm> findByNameAndProject(Project project);
+    Optional<Algorithm> findByNameAndProject(String name, Project project);
 }

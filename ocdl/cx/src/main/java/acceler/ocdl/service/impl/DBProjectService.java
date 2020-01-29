@@ -78,6 +78,14 @@ public class DBProjectService implements ProjectService {
 
 
     @Override
+    public Project getProject(String refId) {
+
+        return projectDao.findByRefId(refId)
+                .orElse(null);
+    }
+
+
+    @Override
     public boolean deleteProject(Long id) {
 
         Project projectInDb = projectDao.findByIdAndIsDeletedIsFalse(id)
