@@ -72,7 +72,6 @@ public class Model extends BaseEntity {
     private String suffix;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id")
     @JsonIgnoreProperties(value = "modelList")
     private Project project;
 

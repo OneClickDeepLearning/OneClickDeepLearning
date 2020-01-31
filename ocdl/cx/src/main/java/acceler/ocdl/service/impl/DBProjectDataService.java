@@ -62,14 +62,15 @@ public class DBProjectDataService implements ProjectDataService {
         // upload file to HDFS
         String refId = CONSTANTS.PROJECT_DATA_TABLE.PROJECT_PREFIX + RandomStringUtils.randomAlphanumeric(CONSTANTS.PROJECT_DATA_TABLE.LENGTH_REF_ID);
         String desPath = Paths.get(hdfsProjectDataPath, refId).toString();
-        hdfsService.uploadFile(new Path(srcPath), new Path(desPath));
+        //hdfsService.uploadFile(new Path(srcPath), new Path(desPath));
 
         // create projectData in database
+        Project projectInDb = projectService.getProject(project.getId());
         ProjectData projectData = ProjectData.builder()
                 .name(srcFile.getName())
                 .suffix(srcFile.getName().substring(srcFile.getName().lastIndexOf(".")+1))
                 .refId(refId)
-                .project(project)
+                .project(projectInDb)
                 .build();
         return createProjectData(projectData);
 
@@ -85,7 +86,6 @@ public class DBProjectDataService implements ProjectDataService {
 
         projectData.setCreatedAt(TimeUtil.currentTimeStampStr());
         projectData.setIsDeleted(false);
-
         return projectDataDao.save(projectData);
     }
 
@@ -109,7 +109,7 @@ public class DBProjectDataService implements ProjectDataService {
                 }
 
                 if (projectData.getProject() != null) {
-                    Project project = projectService.getProject(projectData.getId());
+                    Project project = projectService.getProject(projectData.getProject().getId());
                     predicates.add(criteriaBuilder.equal(root.get(CONSTANTS.PROJECT_DATA_TABLE.PROJECT), project));
                 }
 
@@ -131,27 +131,45 @@ public class DBProjectDataService implements ProjectDataService {
     }
 
 
+    @Transactional
     @Override
-    public boolean batchDeleteProjectData(List<ProjectData> projectDatas) {
+    public boolean batchDeleteProjectData(List<ProjectData> projectDatas, Project project) {
         projectDatas.forEach(
                 each -> {
-                    deleteProjectData(each.getId());
+                    deleteProjectData(each.getId(), project);
                 }
         );
         return true;
     }
 
     @Override
-    public List<String> downloadProjectData(String refId) {
-        return null;
+    public boolean downloadProjectData(String refId, Project project) {
+
+        ProjectData projectData = projectDataDao.findByRefId(refId)
+                .orElseThrow(() -> new NotFoundException(String.format("Fail to find project data(#%s)", refId)));
+
+        if (!projectData.getProject().getId().equals(project.getId())) {
+            throw new OcdlException("Permission denied.");
+        }
+
+        String srcPath = Paths.get(hdfsProjectDataPath, refId).toString();
+        String desPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.CONTAINER + projectData.getName()).toString();
+        //hdfsService.downloadFile(new Path(srcPath), new Path(desPath));
+        return true;
     }
 
 
     // TODO real delete data from HDFS
-    private boolean deleteProjectData(Long id) {
+    private boolean deleteProjectData(Long id, Project project) {
+
+        //TODO delete file in HDFS
 
         ProjectData projectDataInDb = projectDataDao.findByIdAndIsDeletedIsFalse(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Fail to find ProjectData(# %d )", id)));
+
+        if (!projectDataInDb.getProject().getId().equals(project.getId())) {
+            throw new OcdlException("Permission denied.");
+        }
 
         projectDataInDb.setIsDeleted(true);
         projectDataInDb.setDeletedAt(TimeUtil.currentTimeStampStr());

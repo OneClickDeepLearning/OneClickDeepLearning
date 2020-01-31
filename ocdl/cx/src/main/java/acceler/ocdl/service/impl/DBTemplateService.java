@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.entity.Template;
 import org.apache.commons.lang.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -21,12 +22,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import sun.plugin.dom.exception.InvalidAccessException;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,16 +44,36 @@ public class DBTemplateService implements TemplateService {
     @Autowired
     private ProjectService projectService;
 
+    @Value("${HDFS.TEMPLATE}")
+    private String hdfsTemplatePath;
+
     @Override
     @Transactional
-    public Template uploadTemplate() {
+    public Template uploadTemplate(Project project, String srcPath, TemplateCategory category) {
 
-        // TODO: upload file to HDFS
-        String refId = CONSTANTS.TEMPLATE_TABLE.TEMPLATE_PREFIX 
+        File srcFile = new File(srcPath);
+        if (!srcFile.isFile()) {
+            throw new OcdlException(String.format("%s is not a file.", srcFile.getName()));
+        }
+
+        // upload file to HDFS
+        String refId = CONSTANTS.TEMPLATE_TABLE.TEMPLATE_PREFIX
                 + RandomStringUtils.randomAlphanumeric(CONSTANTS.PROJECT_DATA_TABLE.LENGTH_REF_ID);
+        String desPath = Paths.get(hdfsTemplatePath, refId).toString();
+        //hdfsService.uploadFile(new Path(srcPath), new Path(desPath));
 
         // create template in database
-        return null;
+        Project projectInDb = projectService.getProject(project.getId());
+        TemplateCategory templateCategoryInDb = templateCategoryDao.findById(category.getId())
+                .orElseThrow(() -> new NotFoundException(String.format("Fail to find category(#%s)", category.getId())));
+        Template template = Template.builder()
+                .name(srcFile.getName())
+                .suffix(srcFile.getName().substring(srcFile.getName().lastIndexOf(".")+1))
+                .refId(refId)
+                .project(projectInDb)
+                .build();
+
+        return createTemplate(template);
 
     }
 
@@ -171,7 +192,9 @@ public class DBTemplateService implements TemplateService {
         }
 
        if (category.getParent() != null) {
-           categoryInDb.setParent(category.getParent());
+           TemplateCategory parent = templateCategoryDao.findById(category.getParent().getId())
+                   .orElseThrow(() -> new NotFoundException(String.format("%s parent category isn't exist.", category.getParent().getId())));
+           categoryInDb.setParent(parent);
        }
 
        if (category.getShared() != null) {
@@ -198,10 +221,14 @@ public class DBTemplateService implements TemplateService {
             throw new InvalidParamException("Category name shouldn't be empty.");
         }
         // check project exist
-        projectService.getProject(category.getProject().getId());
+        Project project = projectService.getProject(category.getProject().getId());
+        category.setProject(project);
+
         // check parent exist
         TemplateCategory parent = templateCategoryDao.findById(category.getParent().getId())
                 .orElseThrow(() -> new NotFoundException(String.format("%s parent category isn't exist.", category.getParent().getId())));
+        category.setParent(parent);
+
         // check if category exist
         List<TemplateCategory> data = templateCategoryDao.findByNameAndParentAndIsDeletedIsFalse(category.getName(), parent);
         if (data.size() > 0) {
@@ -223,7 +250,7 @@ public class DBTemplateService implements TemplateService {
     @Override
     public boolean deleteCategory(TemplateCategory category) {
 
-        TemplateCategory categoryInDb = templateCategoryDao.findById(category.getParent().getId())
+        TemplateCategory categoryInDb = templateCategoryDao.findById(category.getId())
                 .orElseThrow(() -> new NotFoundException(String.format("%s template category isn't exist.", category.getParent().getId())));
 
         if (categoryInDb.getTemplateList().size() > 0 || categoryInDb.getChildren().size() > 0) {
@@ -239,14 +266,27 @@ public class DBTemplateService implements TemplateService {
     @Override
     public TemplateCategory getProjectCategory(Project project) {
 
-        return templateCategoryDao.findByProjectAndParent(project, null)
+        TemplateCategory category = templateCategoryDao.findByProjectAndParent(project, null)
                 .orElseThrow(() ->
                         new NotFoundException("Root category isn't exist."));
+
+        return category;
     }
 
     @Override
-    public List<String> downloadTemplate(String refId) {
-        return null;
+    public boolean downloadTemplate(String refId, Project project) {
+
+        Template templateInDb = templateDao.findByRefId(refId)
+                .orElseThrow(() -> new NotFoundException(String.format("Fail to find template(#%s)", refId)));
+
+        if (!templateInDb.getProject().getId().equals(project.getId())) {
+            throw new OcdlException("Permission denied.");
+        }
+
+        String srcPath = Paths.get(hdfsTemplatePath, refId).toString();
+        String desPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.CONTAINER + templateInDb.getName()).toString();
+        //hdfsService.downloadFile(new Path(srcPath), new Path(desPath));
+        return true;
     }
 
 }

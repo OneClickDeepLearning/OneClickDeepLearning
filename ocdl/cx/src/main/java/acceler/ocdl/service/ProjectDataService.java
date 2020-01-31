@@ -15,7 +15,7 @@ public interface ProjectDataService {
 
     Page<ProjectData> getProjectData(ProjectData projectData, int page, int size);
 
-    boolean batchDeleteProjectData(List<ProjectData> projectDatas);
+    boolean batchDeleteProjectData(List<ProjectData> projectDatas, Project project);
 
-    List<String> downloadProjectData(String refId);
+    boolean downloadProjectData(String refId, Project project);
 }

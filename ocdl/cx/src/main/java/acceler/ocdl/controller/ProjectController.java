@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 import static acceler.ocdl.dto.Response.getBuilder;
 
@@ -52,7 +51,7 @@ public class ProjectController {
     }
 
     @RequestMapping(path = "/algorithm", method = RequestMethod.POST)
-    public Response saveAlgorithm(@RequestBody Algorithm algorithm, HttpServletRequest request) {
+    public Response saveAlgorithm(@RequestBody Algorithm algorithm) {
 
         Response.Builder responseBuilder = getBuilder();
 
@@ -111,8 +110,6 @@ public class ProjectController {
 
         final Response.Builder respBuilder = Response.getBuilder();
         User user = (User) request.getAttribute("CURRENT_USER");
-
-
 
         Project projectInDb = projectService.saveProject(project, user);
         //algorithmService.updateAlgorithmList(updatedProjectConfig.getAlgorithmStrList(), updatedProjectConfig.getForceRemoved());
@@ -192,12 +189,12 @@ public class ProjectController {
 
     // TODO: file
     @RequestMapping(path = "/projectdata", method = RequestMethod.POST)
-    public Response uploadProjectData(@RequestParam(name = "projectid") Long projectId,
+    public Response uploadProjectData(HttpServletRequest request,
                                       @RequestParam(name = "srcpath") String srcPath) {
 
         Response.Builder responseBuilder = getBuilder();
 
-        Project project = projectService.getProject(projectId);
+        Project project = (Project) request.getAttribute("PROJECT");
         ProjectData projectData = projectDataService.uploadProjectData(project, srcPath);
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
@@ -207,24 +204,27 @@ public class ProjectController {
 
     // TODO: file
     @RequestMapping(path = "/projectdata", method = RequestMethod.GET)
-    public Response downloadProjectData(@RequestParam(name = "refid") String refId ) {
+    public Response downloadProjectData(HttpServletRequest request, @RequestParam(name = "refid") String refId) {
 
         Response.Builder responseBuilder = getBuilder();
 
-        List<String> projectDataCode = projectDataService.downloadProjectData(refId);
+        Project project = (Project) request.getAttribute("PROJECT");
+        boolean success = projectDataService.downloadProjectData(refId, project);
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
-                .setData(projectDataCode)
+                .setData(success)
                 .build();
     }
 
 
     @RequestMapping(path = "/projectdata", method = RequestMethod.DELETE)
-    public Response batchDeleteProjectData(@RequestBody List<ProjectData> projectDatas) {
+    public Response batchDeleteProjectData(@RequestBody List<ProjectData> projectDatas,
+                                           HttpServletRequest request) {
 
         Response.Builder responseBuilder = getBuilder();
 
-        boolean success = projectDataService.batchDeleteProjectData(projectDatas);
+        Project project = (Project) request.getAttribute("PROJECT");
+        boolean success = projectDataService.batchDeleteProjectData(projectDatas, project);
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(success)

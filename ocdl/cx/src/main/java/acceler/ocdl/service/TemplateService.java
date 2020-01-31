@@ -16,7 +16,7 @@ public interface TemplateService {
 //    List<String> getCode(String name,String type);
 
     @Transactional
-    Template uploadTemplate();
+    Template uploadTemplate(Project project, String srcPath, TemplateCategory category);
 
     Page<Template> getTemplate(Template template, int page, int size);
 
@@ -28,6 +28,6 @@ public interface TemplateService {
 
     TemplateCategory getProjectCategory(Project project);
 
-    List<String> downloadTemplate(String refId);
+    boolean downloadTemplate(String refId, Project project);
 
 }

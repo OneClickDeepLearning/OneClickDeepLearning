@@ -40,12 +40,20 @@ public final class AuthInterceptor extends HandlerInterceptorAdapter {
             return false;
         }
 
-        // if header has project 
+        // if header has project
         String projectRefId = request.getHeader(PROJECT_HEADER);
-        if (!StringUtils.isEmpty(token)) {
+        if (!StringUtils.isEmpty(projectRefId)) {
 
             Project project = projectService.getProject(projectRefId);
+            // verify if project exist
             if (null == project) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                return false;
+            }
+
+            // verify if project belongs to the accessUser
+            if (project.getUserList().stream()
+                    .noneMatch(u -> u.getId().equals(accessUser.getId()))) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 return false;
             }

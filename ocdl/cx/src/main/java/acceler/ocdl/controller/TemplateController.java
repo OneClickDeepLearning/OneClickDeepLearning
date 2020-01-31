@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -57,10 +58,10 @@ public final class TemplateController {
 
 
     @RequestMapping(path = "/category", method = RequestMethod.GET)
-    public Response getCategory(@RequestParam(value = "project_id", required = true) Long projectId){
+    public Response getCategory(HttpServletRequest request){
         Response.Builder responseBuilder = getBuilder();
 
-        Project project = projectService.getProject(projectId);
+        Project project = (Project)request.getAttribute("PROJECT");
         TemplateCategory category = templateService.getProjectCategory(project);
 
         return responseBuilder
@@ -71,9 +72,13 @@ public final class TemplateController {
 
 
     @RequestMapping(path = "/category", method = RequestMethod.POST)
-    public Response saveCategory(@RequestBody TemplateCategory templateCategory) {
+    public Response saveCategory(@RequestBody TemplateCategory templateCategory,
+                                 HttpServletRequest request) {
+
         Response.Builder responseBuilder = getBuilder();
 
+        Project project = (Project)request.getAttribute("PROJECT");
+        templateCategory.setProject(project);
         TemplateCategory category = templateService.saveCategory(templateCategory);
 
         return responseBuilder
@@ -113,10 +118,12 @@ public final class TemplateController {
 
 
     @RequestMapping(path = "/", method = RequestMethod.POST)
-    public Response uploadTemplate(@RequestBody Map<String,String> file) {
+    public Response uploadTemplate(HttpServletRequest request,
+                                   @RequestParam(name = "srcpath") String srcPath) {
         Response.Builder responseBuilder = getBuilder();
 
-        Template templateInDb = templateService.uploadTemplate();
+        Project project = (Project)request.getAttribute("PROJECT");
+        Template templateInDb = templateService.uploadTemplate(project, srcPath, category);
 
         return responseBuilder
                 .setCode(Response.Code.SUCCESS)
@@ -126,14 +133,16 @@ public final class TemplateController {
 
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public Response downloadTemplate(@RequestParam(name = "refid") String refId) {
+    public Response downloadTemplate(@RequestParam(name = "refid") String refId,
+                                     HttpServletRequest request) {
         Response.Builder responseBuilder = getBuilder();
 
-        List<String> templateCode = templateService.downloadTemplate(refId);
+        Project project = (Project)request.getAttribute("PROJECT");
+        boolean success = templateService.downloadTemplate(refId, project);
 
         return responseBuilder
                 .setCode(Response.Code.SUCCESS)
-                .setData(templateCode)
+                .setData(success)
                 .build();
     }
 

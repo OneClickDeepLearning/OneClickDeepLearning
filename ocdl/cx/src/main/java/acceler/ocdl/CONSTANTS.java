@@ -7,6 +7,7 @@ public interface CONSTANTS {
         String USER_SPACE = "/home/hadoop/mount/UserSpace/";
 //        String STAGE_SPACE = "/home/ec2-user/stage/";
         String STAGE_SPACE = "/Staging";
+        String CONTAINER = "/downloads/";
     }
 
     interface NAME_FORMAT {
