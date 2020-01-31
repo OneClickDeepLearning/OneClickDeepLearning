@@ -46,8 +46,6 @@ public class DBProjectDataService implements ProjectDataService {
     @Value("${HDFS.PROJECT_DATA}")
     private String hdfsProjectDataPath;
 
-    @Value("${HDFS.USER_DATA}")
-    private String hdfsUserDataPath;
 
 
     @Override

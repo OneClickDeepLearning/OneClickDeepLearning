@@ -2,15 +2,18 @@ package acceler.ocdl.service.impl;
 
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.dao.UserDataDao;
+import acceler.ocdl.entity.ProjectData;
 import acceler.ocdl.entity.User;
 import acceler.ocdl.entity.UserData;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.exception.OcdlException;
+import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.UserDataService;
 import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.TimeUtil;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -23,6 +26,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,16 +40,37 @@ public class DBUserDataService implements UserDataService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private HdfsService hdfsService;
+
+    @Value("${HDFS.USER_DATA}")
+    private String hdfsUserDataPath;
 
     @Override
     @Transactional
-    public UserData uploadUserData() {
+    public UserData uploadUserData(String srcPath, User user) {
 
         // TODO: upload file to HDFS
-        String refId = CONSTANTS.USER_DATA_TABLE.USER_PREFIX + RandomStringUtils.randomAlphanumeric(CONSTANTS.PROJECT_DATA_TABLE.LENGTH_REF_ID);
 
-        // create userData in database
-        return null;
+
+        File srcFile = new File(srcPath);
+        if (!srcFile.isFile()) {
+            throw new OcdlException(String.format("%s is not a file.", srcFile.getName()));
+        }
+
+        // upload file to HDFS
+        String refId = CONSTANTS.USER_DATA_TABLE.USER_PREFIX + RandomStringUtils.randomAlphanumeric(CONSTANTS.PROJECT_DATA_TABLE.LENGTH_REF_ID);
+        String desPath = Paths.get(hdfsUserDataPath, refId).toString();
+        //hdfsService.uploadFile(new Path(srcPath), new Path(desPath));
+
+        // create userdata in database
+        UserData projectData = UserData.builder()
+                .name(srcFile.getName())
+                .suffix(srcFile.getName().substring(srcFile.getName().lastIndexOf(".")+1))
+                .refId(refId)
+                .user(user)
+                .build();
+        return createUserData(projectData);
 
     }
 
@@ -114,8 +140,19 @@ public class DBUserDataService implements UserDataService {
     }
 
     @Override
-    public List<String> downloadUserData(String refId) {
-        return null;
+    public boolean downloadUserData(String refId, User user) {
+
+        UserData userData = userDataDao.findByRefId(refId)
+                .orElseThrow(() -> new NotFoundException(String.format("Fail to find project data(#%s)", refId)));
+
+        if (!userData.getUser().getId().equals(user.getId())) {
+            throw new OcdlException("Permission denied.");
+        }
+
+        String srcPath = Paths.get(hdfsUserDataPath, refId).toString();
+        String desPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.CONTAINER + userData.getName()).toString();
+        //hdfsService.downloadFile(new Path(srcPath), new Path(desPath));
+        return true;
     }
 
 

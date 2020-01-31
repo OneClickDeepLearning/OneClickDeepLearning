@@ -1,6 +1,7 @@
 package acceler.ocdl.controller;
 
 
+import acceler.ocdl.dto.UploadDto;
 import acceler.ocdl.entity.Project;
 import acceler.ocdl.entity.Template;
 import acceler.ocdl.entity.TemplateCategory;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 import static acceler.ocdl.dto.Response.getBuilder;
 
@@ -119,11 +119,11 @@ public final class TemplateController {
 
     @RequestMapping(path = "/", method = RequestMethod.POST)
     public Response uploadTemplate(HttpServletRequest request,
-                                   @RequestParam(name = "srcpath") String srcPath) {
+                                   @RequestBody UploadDto uploadDto) {
         Response.Builder responseBuilder = getBuilder();
 
         Project project = (Project)request.getAttribute("PROJECT");
-        Template templateInDb = templateService.uploadTemplate(project, srcPath, category);
+        Template templateInDb = templateService.uploadTemplate(project, uploadDto.getSrc(), uploadDto.getCategory());
 
         return responseBuilder
                 .setCode(Response.Code.SUCCESS)

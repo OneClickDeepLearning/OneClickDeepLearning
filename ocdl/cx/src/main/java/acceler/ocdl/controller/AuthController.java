@@ -1,6 +1,7 @@
 package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
+import acceler.ocdl.dto.UploadDto;
 import acceler.ocdl.entity.ProjectData;
 import acceler.ocdl.entity.User;
 import acceler.ocdl.entity.UserData;
@@ -187,11 +188,13 @@ public class AuthController {
 
     // TODO: file
     @RequestMapping(path = "/userdata", method = RequestMethod.POST)
-    public Response uploadProjectData(@RequestBody Map<String,String> file) {
+    public Response uploadProjectData(@RequestBody UploadDto uploadDto,
+                                      HttpServletRequest request) {
 
         Response.Builder responseBuilder = getBuilder();
 
-        UserData userData = userDataService.uploadUserData();
+        User user = (User) request.getAttribute("CURRENT_USER");
+        UserData userData = userDataService.uploadUserData(uploadDto.getSrc(), user);
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(userData)
@@ -200,14 +203,16 @@ public class AuthController {
 
     // TODO: file
     @RequestMapping(path = "/userdata", method = RequestMethod.GET)
-    public Response downloadProjectData(@RequestParam(name = "refid") String refId ) {
+    public Response downloadProjectData(@RequestParam(name = "refid") String refId,
+                                        HttpServletRequest request) {
 
         Response.Builder responseBuilder = getBuilder();
 
-        List<String> userdataCode = userDataService.downloadUserData(refId);
+        User user = (User) request.getAttribute("CURRENT_USER");
+        boolean success = userDataService.downloadUserData(refId, user);
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
-                .setData(userdataCode)
+                .setData(success)
                 .build();
     }
 
