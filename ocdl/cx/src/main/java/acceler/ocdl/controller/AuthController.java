@@ -2,7 +2,6 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.dto.UploadDto;
-import acceler.ocdl.entity.ProjectData;
 import acceler.ocdl.entity.User;
 import acceler.ocdl.entity.UserData;
 import acceler.ocdl.service.KubernetesService;
