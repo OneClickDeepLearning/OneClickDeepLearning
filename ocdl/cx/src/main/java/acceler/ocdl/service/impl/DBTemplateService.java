@@ -71,6 +71,7 @@ public class DBTemplateService implements TemplateService {
                 .suffix(srcFile.getName().substring(srcFile.getName().lastIndexOf(".")+1))
                 .refId(refId)
                 .project(projectInDb)
+                .templateCategory(templateCategoryInDb)
                 .build();
 
         return createTemplate(template);
@@ -145,10 +146,7 @@ public class DBTemplateService implements TemplateService {
     @Override
     public boolean batchDeleteTemplate(List<Template> templates) {
         templates.forEach(
-                each -> {
-                    deleteTemplate(each.getId());
-                }
-        );
+                each -> deleteTemplate(each.getId()));
         return true;
     }
 

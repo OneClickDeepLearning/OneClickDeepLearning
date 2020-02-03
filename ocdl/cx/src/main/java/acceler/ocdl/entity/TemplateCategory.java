@@ -47,7 +47,7 @@ public class TemplateCategory extends BaseEntity{
 
     @OneToMany(mappedBy = "templateCategory", fetch = FetchType.EAGER)
     @JsonProperty("template_list")
-    @JsonIgnoreProperties(value = {"project", "template_category", "created_at", "deleted_at", "is_deleted"})
+    @JsonIgnoreProperties(value = {"template_category", "project", "template_category", "created_at", "deleted_at", "is_deleted"})
     private List<Template> templateList;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

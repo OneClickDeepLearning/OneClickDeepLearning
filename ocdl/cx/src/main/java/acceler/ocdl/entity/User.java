@@ -9,7 +9,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -51,13 +51,13 @@ public class User extends BaseEntity {
     @JsonProperty("is_inner_user")
     private Boolean isInnerUser;
 
-    @ManyToMany
+    @ManyToMany()
     @JoinTable(
             name = "r_user_role",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     @JsonIgnoreProperties(value = "users")
-    private List<Role> roles;
+    private Set<Role> roles;
 
     @Column(name = "updated_at")
     @JsonProperty("updated_at")
@@ -66,21 +66,21 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user")
     @JsonProperty("user_data_list")
     @JsonIgnoreProperties(value = "user")
-    private List<UserData> userDataList;
+    private Set<UserData> userDataList;
 
     @OneToMany(mappedBy = "owner")
     @JsonProperty("model_list")
     @JsonIgnoreProperties(value = {"owner", "lastOperator"})
-    private List<Model> modelList;
+    private Set<Model> modelList;
 
     @OneToMany(mappedBy = "lastOperator")
     @JsonProperty("operate_model_list")
     @JsonIgnoreProperties(value = {"owner", "lastOperator"})
-    private List<Model> operateModelList;
+    private Set<Model> operateModelList;
 
     @ManyToMany(mappedBy = "userList")
     @JsonProperty("project_list")
     @JsonIgnoreProperties(value = {"userList", "algorithmList", "suffixList"})
-    private List<Project> projectList;
+    private Set<Project> projectList;
 
 }

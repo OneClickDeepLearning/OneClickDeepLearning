@@ -41,6 +41,6 @@ public class UserData extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties(value = {"userDataList", "modelList", "operateModelList"})
+    @JsonIgnoreProperties(value = {"roles", "projectList", "userDataList", "modelList", "operateModelList"})
     private User user;
 }

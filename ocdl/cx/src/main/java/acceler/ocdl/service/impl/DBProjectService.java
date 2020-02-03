@@ -1,11 +1,15 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.dao.ProjectDao;
+import acceler.ocdl.dao.RoleDao;
 import acceler.ocdl.entity.Project;
+import acceler.ocdl.entity.Role;
 import acceler.ocdl.entity.User;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.service.ProjectService;
+import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.TimeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,12 @@ public class DBProjectService implements ProjectService {
 
     @Autowired
     private ProjectDao projectDao;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RoleDao roleDao;
 
     @Override
     public Project saveProject(Project project, User user) {
@@ -29,7 +39,11 @@ public class DBProjectService implements ProjectService {
             projectInDb = updateProject(project);
         } else {
             projectInDb = createProject(project);
-            //TODO add r_user_project
+
+            Role role = roleDao.findByName(CONSTANTS.ROLE_TABLE.ROLE_MAN)
+                    .orElseThrow(() ->
+                            new NotFoundException(String.format("Fail to find role(#%s)", CONSTANTS.ROLE_TABLE.ROLE_MAN)));
+            userService.addRole(user, role, projectInDb);
         }
 
         return projectInDb;
@@ -38,10 +52,12 @@ public class DBProjectService implements ProjectService {
 
     private Project createProject(Project project) {
 
+        // create project in Db
         project.setCreatedAt(TimeUtil.currentTimeStampStr());
         project.setIsDeleted(false);
+        Project projectInDb = projectDao.save(project);
 
-        return projectDao.save(project);
+        return projectInDb;
     }
 
 

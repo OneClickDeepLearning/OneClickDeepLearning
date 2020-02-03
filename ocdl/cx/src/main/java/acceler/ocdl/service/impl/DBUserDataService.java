@@ -50,9 +50,6 @@ public class DBUserDataService implements UserDataService {
     @Transactional
     public UserData uploadUserData(String srcPath, User user) {
 
-        // TODO: upload file to HDFS
-
-
         File srcFile = new File(srcPath);
         if (!srcFile.isFile()) {
             throw new OcdlException(String.format("%s is not a file.", srcFile.getName()));
@@ -64,13 +61,14 @@ public class DBUserDataService implements UserDataService {
         //hdfsService.uploadFile(new Path(srcPath), new Path(desPath));
 
         // create userdata in database
-        UserData projectData = UserData.builder()
+        User userInDb = userService.getUserByUserId(user.getId());
+        UserData userData = UserData.builder()
                 .name(srcFile.getName())
                 .suffix(srcFile.getName().substring(srcFile.getName().lastIndexOf(".")+1))
                 .refId(refId)
-                .user(user)
+                .user(userInDb)
                 .build();
-        return createUserData(projectData);
+        return createUserData(userData);
 
     }
 
@@ -107,7 +105,7 @@ public class DBUserDataService implements UserDataService {
                 }
 
                 if (userData.getUser() != null) {
-                    User user = userService.getUserByUserId(userData.getId());
+                    User user = userService.getUserByUserId(userData.getUser().getId());
                     predicates.add(criteriaBuilder.equal(root.get(CONSTANTS.USER_DATA_TABLE.USER), user));
                 }
 

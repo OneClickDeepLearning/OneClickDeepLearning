@@ -1,11 +1,9 @@
 package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
+import acceler.ocdl.dto.UserRoleDto;
 import acceler.ocdl.entity.*;
-import acceler.ocdl.service.AlgorithmService;
-import acceler.ocdl.service.ProjectDataService;
-import acceler.ocdl.service.ProjectService;
-import acceler.ocdl.service.SuffixService;
+import acceler.ocdl.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +30,9 @@ public class ProjectController {
 
     @Autowired
     private SuffixService suffixService;
+
+    @Autowired
+    protected UserService userService;
 
     @Autowired
     private ProjectDataService projectDataService;
@@ -108,9 +109,7 @@ public class ProjectController {
 
         Response.Builder responseBuilder = Response.getBuilder();
 
-        final Response.Builder respBuilder = Response.getBuilder();
         User user = (User) request.getAttribute("CURRENT_USER");
-
         Project projectInDb = projectService.saveProject(project, user);
         //algorithmService.updateAlgorithmList(updatedProjectConfig.getAlgorithmStrList(), updatedProjectConfig.getForceRemoved());
 
@@ -228,6 +227,21 @@ public class ProjectController {
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(success)
+                .build();
+    }
+
+
+    @RequestMapping(path = "/coop", method = RequestMethod.POST)
+    public Response addCooperator(@RequestBody UserRoleDto userRoleDto,
+                                  HttpServletRequest request) {
+
+        Response.Builder responseBuilder = getBuilder();
+
+        Project project = (Project) request.getAttribute("PROJECT");
+        RUserRole rUserRole = userService.addRole(userRoleDto.getUser(), userRoleDto.getRole(), project);
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(rUserRole)
                 .build();
     }
 

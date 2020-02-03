@@ -27,8 +27,8 @@ import java.util.Map;
 
 import static acceler.ocdl.dto.Response.getBuilder;
 
-@Controller
-@RequestMapping(path = "/rest/auth")
+@RestController
+@RequestMapping(path = "/rest")
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
@@ -44,7 +44,7 @@ public class AuthController {
     @Autowired
     private UserDataService userDataService;
 
-    @RequestMapping(path = "/signup", method = RequestMethod.POST)
+    @RequestMapping(path = "/auth/signup", method = RequestMethod.POST)
     @ResponseBody
     public Response signUp(@RequestBody Map<String, String> registerInfo) {
 
@@ -81,7 +81,7 @@ public class AuthController {
 
     }
 
-    @RequestMapping(path = "/login", method = RequestMethod.POST, params = "pwd")
+    @RequestMapping(path = "/auth/login", method = RequestMethod.POST, params = "pwd")
     @ResponseBody
     public Response login(@RequestBody UserCredentials credential) {
         boolean success;
@@ -111,7 +111,7 @@ public class AuthController {
         return respBuilder.build();
     }
 
-    @RequestMapping(path = "/login", method = RequestMethod.POST, params = "oauth")
+    @RequestMapping(path = "/auth/login", method = RequestMethod.POST, params = "oauth")
     @ResponseBody
     public Response login(@RequestBody Map<String, String> param) {
         final Response.Builder respBuilder = Response.getBuilder();
@@ -119,7 +119,7 @@ public class AuthController {
         return respBuilder.build();
     }
 
-    @RequestMapping(path = "/logout", method = RequestMethod.POST)
+    @RequestMapping(path = "/auth/logout", method = RequestMethod.POST)
     @ResponseBody
     public Response logout(HttpServletRequest request, HttpServletResponse response) {
         final Response.Builder respBuilder = Response.getBuilder();
@@ -134,7 +134,7 @@ public class AuthController {
         return respBuilder.build();
     }
 
-    @RequestMapping(path = "/me", method = RequestMethod.GET)
+    @RequestMapping(path = "/auth/me", method = RequestMethod.GET)
     @ResponseBody
     public Response me(HttpServletRequest request, @QueryParam("token") String token) {
         User user = (User) request.getAttribute("CURRENT_USER");
@@ -151,7 +151,7 @@ public class AuthController {
                 .build();
     }
 
-    @RequestMapping(path = "/key", method = RequestMethod.GET)
+    @RequestMapping(path = "/auth/key", method = RequestMethod.GET)
     @ResponseBody
     public Response key() {
         EncryptionUtil.generateKey();
@@ -185,9 +185,9 @@ public class AuthController {
                 .build();
     }
 
-    // TODO: file
+
     @RequestMapping(path = "/userdata", method = RequestMethod.POST)
-    public Response uploadProjectData(@RequestBody UploadDto uploadDto,
+    public Response uploadUserData(@RequestBody UploadDto uploadDto,
                                       HttpServletRequest request) {
 
         Response.Builder responseBuilder = getBuilder();
@@ -202,7 +202,7 @@ public class AuthController {
 
     // TODO: file
     @RequestMapping(path = "/userdata", method = RequestMethod.GET)
-    public Response downloadProjectData(@RequestParam(name = "refid") String refId,
+    public Response downloadUserData(@RequestParam(name = "refid") String refId,
                                         HttpServletRequest request) {
 
         Response.Builder responseBuilder = getBuilder();
@@ -217,7 +217,7 @@ public class AuthController {
 
 
     @RequestMapping(path = "/userdata", method = RequestMethod.DELETE)
-    public Response batchDeleteProjectData(@RequestBody List<UserData> userDatas) {
+    public Response batchDeleteUserData(@RequestBody List<UserData> userDatas) {
 
         Response.Builder responseBuilder = getBuilder();
 
@@ -227,4 +227,20 @@ public class AuthController {
                 .setData(success)
                 .build();
     }
+
+
+    @RequestMapping(path = "/user", method = RequestMethod.GET)
+    public Response batchDeleteUserData(@RequestParam(name = "name") String name) {
+
+        Response.Builder responseBuilder = getBuilder();
+
+        List<User> users = userService.getAllUserByNameContaining(name);
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(users)
+                .build();
+    }
+
+
+
 }

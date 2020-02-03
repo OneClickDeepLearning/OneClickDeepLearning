@@ -1,12 +1,18 @@
 package acceler.ocdl.service.impl;
 
 import acceler.ocdl.controller.AuthController;
+import acceler.ocdl.dao.RUserRoleDao;
+import acceler.ocdl.dao.RoleDao;
 import acceler.ocdl.dao.UserDao;
+import acceler.ocdl.entity.Project;
+import acceler.ocdl.entity.RUserRole;
+import acceler.ocdl.entity.Role;
 import acceler.ocdl.entity.User;
 import acceler.ocdl.exception.InvalidParamException;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.model.OauthUser;
 import acceler.ocdl.service.HdfsService;
+import acceler.ocdl.service.ProjectService;
 import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.EncryptionUtil;
 import acceler.ocdl.utils.TimeUtil;
@@ -15,6 +21,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -26,6 +34,15 @@ public class DBUserService implements UserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private RoleDao roleDao;
+
+    @Autowired
+    private ProjectService projectService;
+
+    @Autowired
+    private RUserRoleDao rUserRoleDao;
 
     @Value("${HDFS.USER_SPACE}")
     private String  hdfsUserSpace;
@@ -163,5 +180,34 @@ public class DBUserService implements UserService {
         user.setUpdatedAt(current);
         user.setIsDeleted(false);
         return userDao.save(user);
+    }
+
+
+    @Override
+    public List<User> getAllUserByNameContaining(String name) {
+        return userDao.findAllByUserNameContaining(name);
+    }
+
+    @Override
+    public List<Role> getAllRole() {
+        return roleDao.findAllByIsDeletedIsFalse();
+    }
+
+    @Override
+    public RUserRole addRole(User user, Role role, Project project) {
+
+        Role roleInDb = roleDao.findById(role.getId())
+                .orElseThrow(() -> new NotFoundException("Fail to find role"));
+        Project projectInDb = projectService.getProject(project.getId());
+        User userInDb = getUserByUserId(user.getId());
+
+        RUserRole rUserRole = RUserRole.builder()
+                .user(userInDb)
+                .role(roleInDb)
+                .project(projectInDb)
+                .build();
+
+        return rUserRoleDao.save(rUserRole);
+
     }
 }

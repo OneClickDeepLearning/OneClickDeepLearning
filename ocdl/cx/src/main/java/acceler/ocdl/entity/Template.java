@@ -39,13 +39,13 @@ public class Template extends BaseEntity {
     @JsonProperty("ref_id")
     private String refId;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JsonIgnoreProperties(value = {"description", "algorithm_list", "suffix_list", "user_list", "created_at", "deleted_at", "is_deleted"})
     private Project project;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JsonProperty("template_category")
-    @JsonIgnoreProperties(value = "template_list")
+    @JsonIgnoreProperties(value = {"template_list", "parent", "children"})
     private TemplateCategory templateCategory;
 
 }

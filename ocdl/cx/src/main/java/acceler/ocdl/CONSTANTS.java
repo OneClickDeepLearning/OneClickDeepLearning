@@ -121,4 +121,9 @@ public interface CONSTANTS {
         String OWNER = "owner";
         String PROJECT = "project";
     }
+
+    interface ROLE_TABLE {
+        String ROLE_DEV = "developer";
+        String ROLE_MAN = "manager";
+    }
 }
