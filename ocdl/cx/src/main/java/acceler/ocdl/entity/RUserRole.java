@@ -19,7 +19,7 @@ import javax.persistence.*;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "r_user_project")
+@Table(name = "r_user_role")
 public class RUserRole extends BaseEntity {
 
     @Id
@@ -27,14 +27,14 @@ public class RUserRole extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @JoinColumn(name = "project_id")
-    private Project project;
+    @Column(name = "project_id")
+    private Long projectId;
 
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @Column(name = "role_id")
+    private Long roleId;
 
 
 }

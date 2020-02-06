@@ -45,7 +45,7 @@ public class Project extends BaseEntity {
 
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     @JsonProperty("algorithm_list")
-    @JsonIgnoreProperties(value = "project")
+    @JsonIgnoreProperties(value = {"project", "model_list"})
     private Set<Algorithm> algorithmList;
 
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
@@ -73,7 +73,7 @@ public class Project extends BaseEntity {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "r_user_project",
+            name = "r_user_role",
             joinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
     @JsonProperty("user_list")

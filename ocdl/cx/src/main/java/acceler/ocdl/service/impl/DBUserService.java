@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -194,6 +195,7 @@ public class DBUserService implements UserService {
     }
 
     @Override
+    @Transactional
     public RUserRole addRole(User user, Role role, Project project) {
 
         Role roleInDb = roleDao.findById(role.getId())
@@ -202,9 +204,11 @@ public class DBUserService implements UserService {
         User userInDb = getUserByUserId(user.getId());
 
         RUserRole rUserRole = RUserRole.builder()
-                .user(userInDb)
-                .role(roleInDb)
-                .project(projectInDb)
+                .userId(userInDb.getId())
+                .roleId(roleInDb.getId())
+                .projectId(projectInDb.getId())
+                .createdAt(TimeUtil.currentTimeStampStr())
+                .isDeleted(false)
                 .build();
 
         return rUserRoleDao.save(rUserRole);

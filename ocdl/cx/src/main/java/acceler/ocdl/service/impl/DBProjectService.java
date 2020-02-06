@@ -11,9 +11,11 @@ import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.service.ProjectService;
 import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.TimeUtil;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DBProjectService implements ProjectService {
@@ -28,6 +30,7 @@ public class DBProjectService implements ProjectService {
     private RoleDao roleDao;
 
     @Override
+    @Transactional
     public Project saveProject(Project project, User user) {
 
         Project projectInDb = null;
@@ -53,6 +56,7 @@ public class DBProjectService implements ProjectService {
     private Project createProject(Project project) {
 
         // create project in Db
+        project.setRefId(RandomStringUtils.randomAlphanumeric(CONSTANTS.PROJECT_TABLE.LENGTH_REF_ID));
         project.setCreatedAt(TimeUtil.currentTimeStampStr());
         project.setIsDeleted(false);
         Project projectInDb = projectDao.save(project);

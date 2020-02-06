@@ -1,9 +1,9 @@
 package acceler.ocdl.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -80,7 +80,7 @@ public class User extends BaseEntity {
 
     @ManyToMany(mappedBy = "userList")
     @JsonProperty("project_list")
-    @JsonIgnoreProperties(value = {"userList", "algorithmList", "suffixList"})
+    @JsonIgnoreProperties(value = {"user_list", "algorithm_list", "suffix_list"})
     private Set<Project> projectList;
 
 }

@@ -57,9 +57,15 @@ public interface ModelService {
      */
     void release(Model model, User user);
 
+    Model createModel(Model model);
+
+    Model updateModel(Model model);
+
     Boolean deleteModel(Model model);
 
     Page<Model> getModels(Model model, int page, int size);
+
+    Model getModelById(Long id);
 
     //Map<String, List<ModelDto>> getModelListByUser(long userId);
 }

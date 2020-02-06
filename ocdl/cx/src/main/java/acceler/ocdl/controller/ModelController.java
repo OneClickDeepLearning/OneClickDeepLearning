@@ -1,6 +1,6 @@
 package acceler.ocdl.controller;
 
-import acceler.ocdl.dto.ModelDto;
+import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.entity.Model;
 import acceler.ocdl.entity.ModelStatus;
 import acceler.ocdl.entity.Project;
@@ -10,6 +10,7 @@ import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.service.ModelService;
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.service.ProjectService;
+import org.apache.commons.lang.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ import java.util.*;
 
 import static acceler.ocdl.dto.Response.getBuilder;
 
-@Controller
+@RestController
 @RequestMapping(path = "/rest/model")
 public final class ModelController {
     private static final Logger logger = LoggerFactory.getLogger(ModelController.class);
@@ -42,22 +43,20 @@ public final class ModelController {
      * Get all models
      * @return
      */
-    @ResponseBody
     @RequestMapping(path="/", method = RequestMethod.GET)
-    public final Response getModelList(@RequestParam(name = "projectid") Long projectId, HttpServletRequest request) {
+    public final Response getModelList(HttpServletRequest request) {
         logger.debug("enter the get model list funciton");
         Response.Builder responseBuilder = getBuilder();
 
-        Project project = projectService.getProject(projectId);
         User user = (User) request.getAttribute("CURRENT_USER");
+        Project project = (Project) request.getAttribute("PROJECT");
 
         Map<String, Page<Model>> models = new HashMap<>();
         Model newModel = Model.builder()
                 .status(ModelStatus.NEW)
                 .project(project)
-                .owner(user)
                 .build();
-        Page<Model> newModels = modelService.getModels(newModel, 1, 100);
+        Page<Model> newModels = modelService.getModels(newModel, 0, 10);
         models.put("newModels", newModels);
 
 
@@ -65,15 +64,14 @@ public final class ModelController {
                 .status(ModelStatus.APPROVED)
                 .project(project)
                 .build();
-        Page<Model> approvedModels = modelService.getModels(approvedModel, 1, 100);
+        Page<Model> approvedModels = modelService.getModels(approvedModel, 0, 100);
         models.put("approvalModels", approvedModels);
 
         Model rejectedModel = Model.builder()
-                .status(ModelStatus.APPROVED)
+                .status(ModelStatus.REJECTED)
                 .project(project)
-                .owner(user)
                 .build();
-        Page<Model> rejectedModels = modelService.getModels(rejectedModel, 1, 100);
+        Page<Model> rejectedModels = modelService.getModels(rejectedModel, 0, 100);
         models.put("rejectedModels", rejectedModels);
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
@@ -84,36 +82,52 @@ public final class ModelController {
      * Get model list by userId
      * @return
      */
-    @ResponseBody
     @RequestMapping(path="/event", method = RequestMethod.GET)
     public final Response getModelListByUser(HttpServletRequest request) {
         logger.debug("Get model list by user id");
-        User user = (User) request.getAttribute("CURRENT_USER");
         Response.Builder responseBuilder = getBuilder();
 
+        User user = (User) request.getAttribute("CURRENT_USER");
+        Project project = (Project) request.getAttribute("PROJECT");
+
         //Map<String, List<ModelDto>> modelMap = modelService.getModelListByUser(innerUser.getUserId());
+        Model model = Model.builder()
+                .project(project)
+                .owner(user)
+                .build();
+        Page<Model> models = modelService.getModels(model, 0, 100);
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(models)
                 .build();
     }
     
     /**
      * The dicision could be approve, reject and undo.
-     * @param modelDto model info
+     * @param model model info
      *                 Note: modelDto.status == from;
      *                       modelDto.algorithm is needed only when from=new && to=approval, the value is algorithm name;
      *                       modelDto.version is needed only when from=new && to=approval, the value is "RELEASE_VERSION" or "CACHED_VERSION";
      * @return
      */
-    @ResponseBody
     @RequestMapping(path="/{modelId}", method = RequestMethod.POST)
-    public final Response pushDecision(@RequestBody ModelDto modelDto, HttpServletRequest request) {
-        String from = request.getParameter("fromStatus");
-        String to = request.getParameter("toStatus");
-        String upgradeVersion = request.getParameter("upgradeVersion");
-        User user = (User) request.getAttribute("CURRENT_USER");
+    public final Response pushDecision(@RequestBody Model model, HttpServletRequest request) {
+//        String from = request.getParameter("fromStatus");
+//        String to = request.getParameter("toStatus");
+//        String upgradeVersion = request.getParameter("upgradeVersion");
 
         Response.Builder responseBuilder = getBuilder();
+
+        User user = (User) request.getAttribute("CURRENT_USER");
+        Project project = (Project) request.getAttribute("PROJECT");
+
+        Model modelInDb = modelService.getModelById(model.getId());
+        if (!modelInDb.getProject().getId().equals(project.getId())) {
+            throw new OcdlException("Permission denied!");
+        }
+        model.setLastOperator(user);
+        modelInDb = modelService.updateModel(model);
+
 
 //        if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.APPROVED.name())) {
 //            Model model = NewModel.getNewModelById(Long.parseLong(modelDto.getModelId()))
@@ -144,14 +158,28 @@ public final class ModelController {
 //        } else {
 //            throw new OcdlException("Invalid From/To parameters.");
 //        }
-        return responseBuilder.setCode(Response.Code.SUCCESS).build();
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(modelInDb)
+                .build();
     }
 
 
     @ResponseBody
     @RequestMapping(path="/{modelId}", method = RequestMethod.PATCH)
-    public final Response release(@PathVariable String modelId, HttpServletRequest request){
+    public final Response release(@RequestBody Model model, HttpServletRequest request){
         Response.Builder builder = Response.getBuilder();
+
+        Response.Builder responseBuilder = getBuilder();
+
+        User user = (User) request.getAttribute("CURRENT_USER");
+        Project project = (Project) request.getAttribute("PROJECT");
+
+        Model modelInDb = modelService.getModelById(model.getId());
+        if (!modelInDb.getProject().getId().equals(project.getId())) {
+            throw new OcdlException("Permission denied!");
+        }
+
+        modelService.release(model, user);
 
 //        ApprovedModel model = Algorithm.getApprovalModelById(Long.parseLong(modelId))
 //                .orElseThrow(()-> new NotFoundException("Fail to found model"));
@@ -181,6 +209,32 @@ public final class ModelController {
             throw new NotFoundException("No model file founded! ");
         }
         return builder.setCode(Response.Code.SUCCESS).setData(initRecords).build();
+    }
+
+
+    @ResponseBody
+    @RequestMapping(path = "/create", method = RequestMethod.POST)
+    public final Response createModel(HttpServletRequest request) {
+
+        Response.Builder builder = Response.getBuilder();
+        User user = (User) request.getAttribute("CURRENT_USER");
+        Project project = (Project) request.getAttribute("PROJECT");
+
+        String refId = CONSTANTS.MODEL_TABLE.MODEL_PREFIX + RandomStringUtils.randomAlphanumeric(CONSTANTS.MODEL_TABLE.LENGTH_REF_ID);
+
+        Model model = Model.builder()
+                .name("test")
+                .suffix("tflite")
+                .status(ModelStatus.NEW)
+                .owner(user)
+                .lastOperator(user)
+                .refId(refId)
+                .project(project)
+                .build();
+
+        Model modelInDb = modelService.createModel(model);
+
+        return builder.setCode(Response.Code.SUCCESS).setData(modelInDb).build();
     }
 
 

@@ -104,7 +104,7 @@ public class ProjectController {
     }
 
 
-    @RequestMapping(path = "/config", method = RequestMethod.PUT)
+    @RequestMapping(path = "/config", method = RequestMethod.POST)
     public Response saveProject(@RequestBody Project project, HttpServletRequest request) {
 
         Response.Builder responseBuilder = Response.getBuilder();

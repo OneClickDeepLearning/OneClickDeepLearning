@@ -36,6 +36,9 @@ public class DBModelService implements ModelService {
     private static final Logger log = Logger.getLogger(DBModelService.class);
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private ModelDao modelDao;
 
     @Autowired
@@ -214,7 +217,8 @@ public class DBModelService implements ModelService {
         messageQueueService.send(kafkaTopic, message);
 
 
-        modelInDb.setStatus(ModelStatus.RELEASED);
+        modelInDb.setStatus(ModelStatus.APPROVED);
+        modelInDb.setIsReleased(true);
         modelInDb.setUpdatedAt(TimeUtil.currentTimeStampStr());
         modelInDb.setLastOperator(user);
         modelInDb = modelDao.save(modelInDb);
@@ -227,13 +231,16 @@ public class DBModelService implements ModelService {
         algorithmDao.save(algorithmInDb);
     }
     
-    
-    private Model createModel(Model model) {
+    @Override
+    public Model createModel(Model model) {
         
         if (modelDao.findAllByProjectAndName(model.getProject(), model.getName()).size() > 0) {
             throw new OcdlException(String.format("%s Model name already exist.", model.getName()));
         }
-        
+
+        model.setOwner(userService.getUserByUserId(model.getOwner().getId()));
+        model.setLastOperator(userService.getUserByUserId(model.getLastOperator().getId()));
+        model.setProject(projectService.getProject(model.getProject().getId()));
         model.setCreatedAt(TimeUtil.currentTimeStampStr());
         model.setIsDeleted(false);
         
@@ -241,8 +248,8 @@ public class DBModelService implements ModelService {
     }
     
 
-
-    private Model updateModel(Model model) {
+    @Override
+    public Model updateModel(Model model) {
         
         String current = TimeUtil.currentTimeStampStr();
         
@@ -270,7 +277,9 @@ public class DBModelService implements ModelService {
         }
         
         if (model.getAlgorithm() != null) {
-            modelInDb.setAlgorithm(model.getAlgorithm());
+            Algorithm algorithm = algorithmDao.findById(model.getAlgorithm().getId())
+                    .orElseThrow(() -> new NotFoundException(String.format("Fail to find algorithm(#%s)", model.getAlgorithm().getId())));
+            modelInDb.setAlgorithm(algorithm);
         }
         
         if (model.getCachedVersion() != null) {
@@ -325,7 +334,7 @@ public class DBModelService implements ModelService {
                 }
 
                 if (model.getProject() != null) {
-                    Project project = projectService.getProject(model.getId());
+                    Project project = projectService.getProject(model.getProject().getId());
                     predicates.add(criteriaBuilder.equal(root.get(CONSTANTS.MODEL_TABLE.PROJECT), project));
                 }
 
@@ -356,6 +365,12 @@ public class DBModelService implements ModelService {
 
     private boolean isModelFile(List<Suffix> modelSuffixes, String fileName) {
         return modelSuffixes.stream().anyMatch(s -> fileName.trim().endsWith(s.getName()));
+    }
+
+    @Override
+    public Model getModelById(Long id) {
+        return modelDao.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Fail to find model(#%s)", id)));
     }
 
 }

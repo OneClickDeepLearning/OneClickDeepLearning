@@ -34,14 +34,12 @@ public class Model extends BaseEntity {
     private ModelStatus status;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner")
-    @JsonIgnoreProperties(value = {"modelList", "operateModelList"})
+    @JsonIgnoreProperties(value = {"project_list", "user_data_list", "model_list", "operate_model_list", "project", "roles"})
     private User owner;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "last_operator")
     @JsonProperty("last_operator")
-    @JsonIgnoreProperties(value = {"modelList", "operateModelList"})
+    @JsonIgnoreProperties(value = {"project_list", "user_data_list", "model_list", "operate_model_list", "project", "roles"})
     private User lastOperator;
 
     @Column(name = "comments")
@@ -64,16 +62,18 @@ public class Model extends BaseEntity {
     private String updatedAt;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "algorithm_id")
-    @JsonIgnoreProperties(value = "modelList")
+    @JsonIgnoreProperties(value = {"model_list", "project"})
     private Algorithm algorithm;
 
     @Column(name = "suffix")
     private String suffix;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = "modelList")
+    @JsonIgnoreProperties(value = {"algorithm_list", "suffix_list", "user_list", "model_list"})
     private Project project;
 
+    @Column(name = "is_released")
+    @JsonProperty("is_released")
+    private Boolean isReleased;
 
 }

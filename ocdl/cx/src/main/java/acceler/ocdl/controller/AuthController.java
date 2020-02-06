@@ -2,6 +2,7 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.dto.UploadDto;
+import acceler.ocdl.entity.Role;
 import acceler.ocdl.entity.User;
 import acceler.ocdl.entity.UserData;
 import acceler.ocdl.service.KubernetesService;
@@ -169,6 +170,35 @@ public class AuthController {
         public String account;
         public String password;
     }
+
+
+    @RequestMapping(path = "/user/get", method = RequestMethod.GET)
+    public Response getUserData(@RequestParam(name = "name") String name) {
+
+        Response.Builder responseBuilder = getBuilder();
+
+        List<User> users = userService.getAllUserByNameContaining(name);
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(users)
+                .build();
+    }
+
+
+    @RequestMapping(path = "/role/get", method = RequestMethod.GET)
+    public Response getUserData() {
+
+        Response.Builder responseBuilder = getBuilder();
+
+        List<Role> roles = userService.getAllRole();
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(roles)
+                .build();
+    }
+
+
+
 
 
     @RequestMapping(path = "/userdata/get", method = RequestMethod.POST)

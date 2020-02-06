@@ -45,7 +45,7 @@ public class Algorithm extends BaseEntity {
 
     @OneToMany(mappedBy = "algorithm")
     @JsonProperty("model_list")
-    @JsonIgnoreProperties(value = "algorithm")
+    @JsonIgnoreProperties(value = {"algorithm", "project", "owner", "last_operator"})
     private List<Model> modelList;
 
 }
