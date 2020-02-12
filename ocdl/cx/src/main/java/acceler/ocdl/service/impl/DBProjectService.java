@@ -36,7 +36,9 @@ public class DBProjectService implements ProjectService {
         Project projectInDb = null;
 
         if (project.getId() != null) {
-            if (getProject(project.getId()).getUserList().contains(user)) {
+            if (getProject(project.getId())
+                    .getUserRoles().stream()
+                    .anyMatch(rUserRole -> rUserRole.getUser().getId().equals(user.getId()))) {
                 throw new OcdlException("Permission denied.");
             }
             projectInDb = updateProject(project);

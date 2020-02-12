@@ -28,6 +28,7 @@ public class User extends BaseEntity {
     private Long id;
 
     @Column(name = "username")
+    @JsonProperty("username")
     private String userName;
 
     @Column(name = "email")
@@ -51,13 +52,13 @@ public class User extends BaseEntity {
     @JsonProperty("is_inner_user")
     private Boolean isInnerUser;
 
-    @ManyToMany()
-    @JoinTable(
-            name = "r_user_role",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    @JsonIgnoreProperties(value = "users")
-    private Set<Role> roles;
+//    @ManyToMany()
+//    @JoinTable(
+//            name = "r_user_role",
+//            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+//            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
+//    @JsonIgnoreProperties(value = "users")
+//    private Set<Role> roles;
 
     @Column(name = "updated_at")
     @JsonProperty("updated_at")
@@ -78,9 +79,14 @@ public class User extends BaseEntity {
     @JsonIgnoreProperties(value = {"owner", "lastOperator"})
     private Set<Model> operateModelList;
 
-    @ManyToMany(mappedBy = "userList")
-    @JsonProperty("project_list")
-    @JsonIgnoreProperties(value = {"user_list", "algorithm_list", "suffix_list"})
-    private Set<Project> projectList;
+//    @ManyToMany(mappedBy = "userList")
+//    @JsonProperty("project_list")
+//    @JsonIgnoreProperties(value = {"user_list", "algorithm_list", "suffix_list"})
+//    private Set<Project> projectList;
+
+    @OneToMany(mappedBy = "user")
+    @JsonProperty("user_roles")
+    @JsonIgnoreProperties(value = {"user"})
+    private Set<RUserRole> userRoles;
 
 }

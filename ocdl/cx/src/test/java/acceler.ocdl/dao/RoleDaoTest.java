@@ -41,10 +41,8 @@ public class RoleDaoTest {
         test = Role.builder()
                 .name("admin")
                 .description("admin")
-                .users(new ArrayList<>())
                 .build();
 
-        test.getUsers().add(user);
     }
 
     @Test
@@ -60,8 +58,7 @@ public class RoleDaoTest {
         Role objInDb = dao.save(test);
         assertEquals(objInDb.getName(), test.getName());
         assertEquals(objInDb.getDescription(), test.getDescription());
-        System.out.println(objInDb.getUsers().get(0).getEmail());
-        assertEquals(objInDb.getUsers().get(0).getId(), test.getUsers().get(0).getId());
+
     }
 
     private void testRead() {
@@ -69,8 +66,7 @@ public class RoleDaoTest {
         Role objInDb = dao.findByName(test.getName()).get();
         assertEquals(objInDb.getName(), test.getName());
         assertEquals(objInDb.getDescription(), test.getDescription());
-        System.out.println(objInDb.getUsers().get(0).getEmail());
-        assertEquals(objInDb.getUsers().get(0).getId(), test.getUsers().get(0).getId());
+
     }
 
     private void testUpdate() {
@@ -84,7 +80,7 @@ public class RoleDaoTest {
         assertEquals(objInDb.getId(), id);
         assertEquals(objInDb.getName(), name);
         assertEquals(objInDb.getDescription(), test.getDescription());
-        assertEquals(objInDb.getUsers().get(0).getId(), test.getUsers().get(0).getId());
+
     }
 
     private void testDelete() {

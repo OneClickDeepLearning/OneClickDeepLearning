@@ -5,6 +5,7 @@ import acceler.ocdl.dto.UploadDto;
 import acceler.ocdl.entity.Role;
 import acceler.ocdl.entity.User;
 import acceler.ocdl.entity.UserData;
+import acceler.ocdl.exception.InvalidParamException;
 import acceler.ocdl.service.KubernetesService;
 import acceler.ocdl.service.UserDataService;
 import acceler.ocdl.service.UserService;
@@ -15,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,36 +46,39 @@ public class AuthController {
     private UserDataService userDataService;
 
     @RequestMapping(path = "/auth/signup", method = RequestMethod.POST)
-    @ResponseBody
-    public Response signUp(@RequestBody Map<String, String> registerInfo) {
+    public Response signUp(@RequestBody User user) {
 
         Response.Builder respBuilder = Response.getBuilder();
-        String username = registerInfo.get("username");
-        String password = registerInfo.get("password");
-        //AbstractUser.Role role = AbstractUser.Role.valueOf(registerInfo.get("role").toUpperCase());
 
-        /*byte[] textBytes = Base64.decodeBase64(password);
-        String decryptedPassword = EncryptionUtil.decrypt(textBytes);
-        System.out.println(password);
-        System.out.println(decryptedPassword);*/
+        boolean valid;
+        if (user.getIsInnerUser()) {
+            valid = !org.apache.commons.lang.StringUtils.isEmpty(user.getUserName())
+                    && !org.apache.commons.lang.StringUtils.isEmpty(user.getPassword());
+            // decrypted password
 
-        String decryptedPassword = password;
+            /*byte[] textBytes = Base64.decodeBase64(user.getPassword());
+            String decryptedPassword = EncryptionUtil.decrypt(textBytes);
+            System.out.println(password);
+            System.out.println(decryptedPassword);*/
+            String decryptedPassword = user.getPassword();
+            user.setPassword(decryptedPassword);
+        } else {
+            valid = !org.apache.commons.lang.StringUtils.isEmpty(user.getUserName())
+                    && !org.apache.commons.lang.StringUtils.isEmpty(user.getSource())
+                    && !org.apache.commons.lang.StringUtils.isEmpty(user.getSourceId());
+        }
 
-        String current = TimeUtil.currentTimeStampStr();
-        User user = User.builder()
-                .userName(username)
-                .password(decryptedPassword)
-                .isInnerUser(true)
-                .build();
+        if (!valid) {
+            throw new InvalidParamException("Incomplete user info.");
+        }
 
         User newUser = userService.saveUser(user);
-
         String token = securityUtil.requestToken(newUser);
 
         Map<String, Object> result = new HashMap<>();
         result.put("userId", newUser.getId());
         result.put("token", token);
-        //result.put("role", newUser.getRole());
+        result.put("role", newUser.getUserRoles());
 
         return respBuilder.setCode(Response.Code.SUCCESS)
                 .setData(result).build();
@@ -104,7 +107,7 @@ public class AuthController {
             Map<String, Object> result = new HashMap<>();
             result.put("userId", loginUser.getId());
             result.put("token", token);
-            //result.put("role", loginInnerUser.getRole());
+            result.put("role", loginUser.getUserRoles());
 
             respBuilder.setCode(Response.Code.SUCCESS);
             respBuilder.setData(result);
@@ -122,7 +125,7 @@ public class AuthController {
 
     @RequestMapping(path = "/auth/logout", method = RequestMethod.POST)
     @ResponseBody
-    public Response logout(HttpServletRequest request, HttpServletResponse response) {
+    public Response logout(HttpServletRequest request) {
         final Response.Builder respBuilder = Response.getBuilder();
         User user = (User) request.getAttribute("CURRENT_USER");
         if (user != null) {
@@ -172,6 +175,16 @@ public class AuthController {
     }
 
 
+    @RequestMapping(path = "/auth", method = RequestMethod.GET)
+    @ResponseBody
+    public Response checkExist(@RequestParam(name = "source_id") String sourceId) {
+        Response.Builder respBuilder = Response.getBuilder();
+        boolean isExist = userService.isExist(sourceId);
+        return respBuilder.setCode(Response.Code.SUCCESS)
+                .setData(isExist).build();
+    }
+
+
     @RequestMapping(path = "/user/get", method = RequestMethod.GET)
     public Response getUserData(@RequestParam(name = "name") String name) {
 
@@ -196,9 +209,6 @@ public class AuthController {
                 .setData(roles)
                 .build();
     }
-
-
-
 
 
     @RequestMapping(path = "/userdata/get", method = RequestMethod.POST)

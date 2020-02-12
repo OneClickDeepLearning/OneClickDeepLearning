@@ -71,13 +71,18 @@ public class Project extends BaseEntity {
 //    @JsonIgnore
 //    private List<TemplateCategory> templateCategoryList;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "r_user_role",
-            joinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
-    @JsonProperty("user_list")
-    @JsonIgnoreProperties(value = "projectList")
-    private Set<User> userList;
+//    @ManyToMany(fetch = FetchType.EAGER)
+////    @JoinTable(
+////            name = "r_user_role",
+////            joinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id")},
+////            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
+////    @JsonProperty("user_list")
+////    @JsonIgnoreProperties(value = "projectList")
+////    private Set<User> userList;
+
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
+    @JsonProperty("user_roles")
+    @JsonIgnoreProperties(value = "project")
+    private Set<RUserRole> userRoles;
 
 }

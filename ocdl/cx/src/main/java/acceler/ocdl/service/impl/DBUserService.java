@@ -162,20 +162,6 @@ public class DBUserService implements UserService {
 
     private User createUser(User user) {
 
-        boolean valid;
-        if (user.getIsInnerUser()) {
-            valid = !StringUtils.isEmpty(user.getUserName())
-                    && !StringUtils.isEmpty(user.getPassword());
-        } else {
-            valid = !StringUtils.isEmpty(user.getUserName())
-                    && !StringUtils.isEmpty(user.getSource())
-                    && !StringUtils.isEmpty(user.getSourceId());
-        }
-
-        if (!valid) {
-            throw new InvalidParamException("Incomplete user info.");
-        }
-
         String current = TimeUtil.currentTimeStampStr();
         user.setCreatedAt(current);
         user.setUpdatedAt(current);
@@ -204,14 +190,19 @@ public class DBUserService implements UserService {
         User userInDb = getUserByUserId(user.getId());
 
         RUserRole rUserRole = RUserRole.builder()
-                .userId(userInDb.getId())
-                .roleId(roleInDb.getId())
-                .projectId(projectInDb.getId())
+                .user(userInDb)
+                .role(roleInDb)
+                .project(project)
                 .createdAt(TimeUtil.currentTimeStampStr())
                 .isDeleted(false)
                 .build();
 
         return rUserRoleDao.save(rUserRole);
 
+    }
+
+    @Override
+    public boolean isExist(String sourceId) {
+        return userDao.findBySourceId(sourceId).isPresent();
     }
 }

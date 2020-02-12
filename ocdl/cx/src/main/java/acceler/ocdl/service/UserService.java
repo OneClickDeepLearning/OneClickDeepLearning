@@ -32,4 +32,6 @@ public interface UserService {
     List<Role> getAllRole();
 
     RUserRole addRole(User user, Role role, Project project);
+
+    boolean isExist(String sourceId);
 }

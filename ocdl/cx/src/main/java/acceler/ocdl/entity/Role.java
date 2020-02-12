@@ -33,7 +33,7 @@ public class Role  extends BaseEntity {
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(mappedBy = "roles")
-    @JsonIgnoreProperties(value = "roles")
-    private List<User> users;
+//    @ManyToMany(mappedBy = "roles")
+//    @JsonIgnoreProperties(value = "roles")
+//    private List<User> users;
 }

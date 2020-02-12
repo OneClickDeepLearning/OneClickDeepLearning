@@ -52,8 +52,8 @@ public final class AuthInterceptor extends HandlerInterceptorAdapter {
             }
 
             // verify if project belongs to the accessUser
-            if (project.getUserList().stream()
-                    .noneMatch(u -> u.getId().equals(accessUser.getId()))) {
+            if (project.getUserRoles().stream()
+                    .noneMatch(u -> u.getUser().getId().equals(accessUser.getId()))) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 return false;
             }

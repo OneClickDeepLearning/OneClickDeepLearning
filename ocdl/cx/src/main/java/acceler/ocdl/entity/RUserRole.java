@@ -1,5 +1,6 @@
 package acceler.ocdl.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,14 +28,17 @@ public class RUserRole extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = {"user_roles","model_list", "operate_model_list", "user_data_list","updated_at", "created_at", "is_deleted", "deleted_at"})
+    private User user;
 
-    @Column(name = "project_id")
-    private Long projectId;
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = {"user_roles", "algorithm_list", "suffix_list", "user_list", "model_list", "created_at", "is_deleted", "deleted_at"})
+    private Project project;
 
-    @Column(name = "role_id")
-    private Long roleId;
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = {"users", "created_at", "is_deleted", "deleted_at"})
+    private Role role;
 
 
 }
