@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.Serializers;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -21,7 +22,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user_data")
-public class UserData {
+public class UserData extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +41,6 @@ public class UserData {
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties(value = {"userDataList", "modelList", "operateModelList"})
+    @JsonIgnoreProperties(value = {"roles", "projectList", "userDataList", "modelList", "operateModelList"})
     private User user;
 }

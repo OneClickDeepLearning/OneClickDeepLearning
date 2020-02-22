@@ -2,7 +2,6 @@ package acceler.ocdl.utils;
 
 import acceler.ocdl.dto.ModelDto;
 import acceler.ocdl.exception.OcdlException;
-import acceler.ocdl.service.impl.DefaultModelServiceImpl;
 import org.apache.log4j.Logger;
 
 import java.text.ParseException;
@@ -18,6 +17,10 @@ public class TimeUtil {
     public static Date currentTime() {
         Calendar calendar = Calendar.getInstance();
         return calendar.getTime();
+    }
+
+    public static String currentTimeStampStr() {
+        return String.valueOf(new Date().getTime());
     }
 
     public static Date convertStringToDate(String s) throws ParseException {

@@ -15,17 +15,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
-public class DefaultTemplateService implements TemplateService {
+
+public class DefaultTemplateService {
 
     @Autowired
     private ProjectService projectService;
 
-    @Override
+    //@Override
     public Map<String,List<String>> getTemplatesList() {
 
-        Map<String,List<String>> templatesList = getFileList(Paths.get(projectService.getProjectConfiguration().getTemplatePath()).toString());
-        return templatesList;
+//        Map<String,List<String>> templatesList = getFileList(Paths.get(projectService.getProjectConfiguration().getTemplatePath()).toString());
+//        return templatesList;
+        return null;
     }
 
     /*
@@ -62,7 +63,7 @@ public class DefaultTemplateService implements TemplateService {
         return nameList;
     }
 
-    @Override
+    //@Override
     public List<String> getCode(String name, String type) {
         List<String> result = new ArrayList<>();
         StringBuilder code = new StringBuilder();
@@ -71,7 +72,8 @@ public class DefaultTemplateService implements TemplateService {
         BufferedReader br = null;
         try {
             /* 读入TXT文件 */
-            String pathname = Paths.get(projectService.getProjectConfiguration().getTemplatePath(), type,name).toString(); // 绝对路径或相对路径都可以，这里是绝对路径，写入文件时演示相对路径
+            String pathname = "";
+                    //Paths.get(projectService.getProjectConfiguration().getTemplatePath(), type,name).toString(); // 绝对路径或相对路径都可以，这里是绝对路径，写入文件时演示相对路径
             filename = new File(pathname); // 要读取以上路径的input。txt文件
             reader = new InputStreamReader(
                     new FileInputStream(filename)); // 建立一个输入流对象reader

@@ -1,5 +1,6 @@
 package acceler.ocdl.utils;
 
+import acceler.ocdl.entity.User;
 import acceler.ocdl.model.InnerUser;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,8 @@ public class ManagerAuthInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        InnerUser accessInnerUser = (InnerUser) request.getAttribute("CURRENT_USER");
-        return accessInnerUser.getRole() == InnerUser.Role.MANAGER;
+        User accessUser = (User) request.getAttribute("CURRENT_USER");
+        return true;
+        //return accessUser.getRole() == InnerUser.Role.MANAGER;
     }
 }

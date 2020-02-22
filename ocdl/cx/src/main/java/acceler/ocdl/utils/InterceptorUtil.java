@@ -21,11 +21,15 @@ public class InterceptorUtil extends WebMvcConfigurerAdapter {
                 .excludePathPatterns("/rest/auth/signup")
                 .excludePathPatterns("/rest/auth/login")
                 .excludePathPatterns("/rest/auth/key")
-                .excludePathPatterns("/rest/template/**")
-                .excludePathPatterns("/rest/project/config")
-                .excludePathPatterns("/rest/persistence/*")
-                .excludePathPatterns("/rest/persistence");
+                .excludePathPatterns("/rest/auth");
+                //.excludePathPatterns("/rest/template/**")
+                //.excludePathPatterns("/rest/project/config")
+                //.excludePathPatterns("/rest/persistence/*")
+                //.excludePathPatterns("/rest/persistence");
+
         //manager authorization interceptor setup
-        registry.addInterceptor(managerAuthInterceptor).addPathPatterns(ManagerAuthInterceptor.INTERCEPTED_URLS).excludePathPatterns(ManagerAuthInterceptor.EXCEPTED_URLS);
+        registry.addInterceptor(managerAuthInterceptor)
+                .addPathPatterns(ManagerAuthInterceptor.INTERCEPTED_URLS)
+                .excludePathPatterns(ManagerAuthInterceptor.EXCEPTED_URLS);
     }
 }

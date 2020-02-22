@@ -1,24 +1,23 @@
 package acceler.ocdl.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
-@Data
+@Setter
+@Getter
 @Entity
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Table(name = "project")
 public class Project extends BaseEntity {
 
@@ -33,40 +32,57 @@ public class Project extends BaseEntity {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "project")
-    @JsonProperty("model_list")
+
+    @Column(name = "ref_id")
+    @JsonProperty("ref_id")
+    private String refId;
+
+//    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
+//    @JsonProperty("model_list")
+//    @JsonIgnoreProperties(value = "project")
+//    @JsonIgnore
+//    private List<Model> modelList;
+
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
+    @JsonProperty("algorithm_list")
+    @JsonIgnoreProperties(value = {"project", "model_list"})
+    private Set<Algorithm> algorithmList;
+
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
+    @JsonProperty("suffix_list")
     @JsonIgnoreProperties(value = "project")
-    private List<Model> modelList;
+    private Set<Suffix> suffixList;
 
-    @OneToMany(mappedBy = "project")
-    private List<Algorithm> algorithmList;
+//    @OneToMany(mappedBy = "project")
+//    @JsonProperty("project_data_list")
+//    @JsonIgnoreProperties(value = "project")
+//    @JsonIgnore
+//    private List<ProjectData> projectDataList;
 
-    @OneToMany(mappedBy = "project")
-    private List<Suffix> suffixList;
+//    @OneToMany(mappedBy = "project")
+//    @JsonProperty("template_list")
+//    @JsonIgnoreProperties(value = "project")
+//    @JsonIgnore
+//    private List<Template> templateList;
+//
+//    @OneToMany(mappedBy = "project")
+//    @JsonProperty("template_category_list")
+//    @JsonIgnoreProperties(value = "project")
+//    @JsonIgnore
+//    private List<TemplateCategory> templateCategoryList;
 
-    @OneToMany(mappedBy = "project")
-    @JsonProperty("project_data_list")
+//    @ManyToMany(fetch = FetchType.EAGER)
+////    @JoinTable(
+////            name = "r_user_role",
+////            joinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id")},
+////            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
+////    @JsonProperty("user_list")
+////    @JsonIgnoreProperties(value = "projectList")
+////    private Set<User> userList;
+
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
+    @JsonProperty("user_roles")
     @JsonIgnoreProperties(value = "project")
-    private List<ProjectData> projectDataList;
-
-    @OneToMany(mappedBy = "project")
-    @JsonProperty("template_list")
-    @JsonIgnoreProperties(value = "project")
-    private List<Template> templateList;
-
-    @OneToMany(mappedBy = "project")
-    @JsonProperty("template_category_list")
-    @JsonIgnoreProperties(value = "project")
-    private List<TemplateCategory> templateCategoryList;
-
-    @ManyToMany
-    @JoinTable(
-            name = "r_user_project",
-            joinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
-    @JsonProperty("user_list")
-    @JsonIgnoreProperties(value = "projectList")
-    private List<User> userList;
-
+    private Set<RUserRole> userRoles;
 
 }

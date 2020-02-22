@@ -4,6 +4,7 @@ package acceler.ocdl.utils;
 import sun.misc.BASE64Encoder;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.*;
@@ -48,6 +49,11 @@ public class EncryptionUtil {
                 e.printStackTrace();
             }
         }
+
+        String testData = "123456";
+        byte[] pwd = encrypt(testData, publicKey);
+        System.out.println(new String(pwd));
+        System.out.println("[password]: " + encrypt(testData, publicKey));
     }
 
     /**
@@ -95,6 +101,24 @@ public class EncryptionUtil {
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
             dectyptedText = cipher.doFinal(text);
 
+//            int offLen = 0;
+//            int i = 0;
+//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//            while(text.length - offLen > 0){
+//                byte[] cache;
+//                if(text.length - offLen > 128){
+//                    cache = cipher.doFinal(text,offLen,128);
+//                }else{
+//                    cache = cipher.doFinal(text,offLen,text.length - offLen);
+//                }
+//                byteArrayOutputStream.write(cache);
+//                i++;
+//                offLen = 128 * i;
+//
+//            }
+//            byteArrayOutputStream.close();
+//            dectyptedText = byteArrayOutputStream.toByteArray();
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -121,7 +145,7 @@ public class EncryptionUtil {
     public static void main(String[] args) throws Exception {
 
         generateKey();
-        String text = "blue123";
+        String text = "123456";
         byte[] encriptedText = encrypt(text, publicKey);
         String plainText = decrypt(encriptedText);
 

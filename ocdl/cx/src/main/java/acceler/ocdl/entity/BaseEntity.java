@@ -1,9 +1,17 @@
 package acceler.ocdl.entity;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@MappedSuperclass
 public abstract class BaseEntity implements Serializable {
 
     protected static final long serialVersionUID = 1L;
@@ -18,6 +26,6 @@ public abstract class BaseEntity implements Serializable {
 
     @Column(name = "is_deleted")
     @JsonProperty("is_deleted")
-    private boolean isdeleted;
+    private Boolean isDeleted;
 
 }
