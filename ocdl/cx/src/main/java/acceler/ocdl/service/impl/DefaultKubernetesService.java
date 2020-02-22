@@ -1,9 +1,8 @@
 package acceler.ocdl.service.impl;
 
 import acceler.ocdl.CONSTANTS;
-import acceler.ocdl.exception.HdfsException;
+import acceler.ocdl.entity.User;
 import acceler.ocdl.exception.KubernetesException;
-import acceler.ocdl.model.AbstractUser;
 import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.KubernetesService;
 import io.fabric8.kubernetes.api.model.Pod;
@@ -61,17 +60,17 @@ public class DefaultKubernetesService implements KubernetesService {
 
     private KubernetesClient client ;
 
-    private String getUserSpace(AbstractUser user){
-        return (CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(user.getUserId()))).toLowerCase();
+    private String getUserSpace(User user){
+        return (CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(user.getId()))).toLowerCase();
     }
 
-    public String launchGpuContainer(AbstractUser user) throws KubernetesException {
+    public String launchGpuContainer(User user) throws KubernetesException {
 
         if(!ipMap.containsKey(k8sVirtualMasterIp)){
             initIpMap();
         }
 
-        Long userId = user.getUserId();
+        Long userId = user.getId();
         if (gpuAssigned.containsKey(userId))
             return gpuAssigned.get(userId);
 
@@ -112,13 +111,13 @@ public class DefaultKubernetesService implements KubernetesService {
      * @return url the address of the launched container format is ip:port
      * @throws KubernetesException
      */
-    public String launchCpuContainer(AbstractUser user) throws KubernetesException {
+    public String launchCpuContainer(User user) throws KubernetesException {
 
         if(!ipMap.containsKey(k8sVirtualMasterIp)){
             initIpMap();
         }
 
-        Long userId = user.getUserId();
+        Long userId = user.getId();
         if (cpuAssigned.containsKey(userId))
             return cpuAssigned.get(userId);
 
@@ -154,7 +153,7 @@ public class DefaultKubernetesService implements KubernetesService {
         return url;
     }
 
-    private Deployment createCpuDeployment(AbstractUser user) {
+    private Deployment createCpuDeployment(User user) {
         String depolyId = getUserSpace(user);
 
         Deployment deployment = new DeploymentBuilder()
@@ -223,7 +222,7 @@ public class DefaultKubernetesService implements KubernetesService {
         return deployment;
     }
 
-    private Deployment createGpuDeployment(AbstractUser user) {
+    private Deployment createGpuDeployment(User user) {
         String depolyId = getUserSpace(user);
         Deployment deployment = new DeploymentBuilder()
                 .withApiVersion("apps/v1")
@@ -299,7 +298,7 @@ public class DefaultKubernetesService implements KubernetesService {
         return deployment;
     }
 
-    private io.fabric8.kubernetes.api.model.Service createCpuService(AbstractUser user) {
+    private io.fabric8.kubernetes.api.model.Service createCpuService(User user) {
         String svcId = getUserSpace(user);
         io.fabric8.kubernetes.api.model.Service service = new ServiceBuilder()
                 .withApiVersion("v1")
@@ -326,7 +325,7 @@ public class DefaultKubernetesService implements KubernetesService {
         return service;
     }
 
-    private io.fabric8.kubernetes.api.model.Service createGpuService(AbstractUser user) {
+    private io.fabric8.kubernetes.api.model.Service createGpuService(User user) {
         String svcId = getUserSpace(user);
         io.fabric8.kubernetes.api.model.Service service = new ServiceBuilder()
                 .withApiVersion("v1")
@@ -353,7 +352,7 @@ public class DefaultKubernetesService implements KubernetesService {
         return service;
     }
 
-    public String getGpuIp(AbstractUser user) {
+    public String getGpuIp(User user) {
         StringBuilder podId = new StringBuilder();
         String userSpace = getUserSpace(user);
         podId.append(userSpace).append("-deploy-gpu");
@@ -367,7 +366,7 @@ public class DefaultKubernetesService implements KubernetesService {
         throw new KubernetesException("Can not find container's IP address");
     }
 
-    public String getCpuIp(AbstractUser user) {
+    public String getCpuIp(User user) {
 
         StringBuilder podId = new StringBuilder();
 
@@ -394,7 +393,7 @@ public class DefaultKubernetesService implements KubernetesService {
         return port;
     }
 
-    public void releaseDockerContainer(AbstractUser user) throws KubernetesException {
+    public void releaseDockerContainer(User user) throws KubernetesException {
 
         String userId = getUserSpace(user);
         try {
@@ -422,11 +421,11 @@ public class DefaultKubernetesService implements KubernetesService {
             }
 
             //release resource cache
-            if(cpuAssigned.containsKey(user.getUserId())){
-                cpuAssigned.remove(user.getUserId());
+            if(cpuAssigned.containsKey(user.getId())){
+                cpuAssigned.remove(user.getId());
             }
-            if(gpuAssigned.containsKey(user.getUserId())){
-                gpuAssigned.remove(user.getUserId());
+            if(gpuAssigned.containsKey(user.getId())){
+                gpuAssigned.remove(user.getId());
             }
 
         } catch (KubernetesClientException e) {
