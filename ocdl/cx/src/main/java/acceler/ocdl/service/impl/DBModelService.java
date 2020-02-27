@@ -269,7 +269,8 @@ public class DBModelService implements ModelService {
         }
         
         if (model.getLastOperator() != null) {
-            modelInDb.setLastOperator(model.getLastOperator());
+            User user = userService.getUserByUserId(model.getLastOperator().getId());
+            modelInDb.setLastOperator(user);
         }
         
         if (!StringUtils.isEmpty(model.getComments())) {
