@@ -197,7 +197,7 @@ public final class ModelController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public final Response initModelToStage(HttpServletRequest request) {
-        
+
         User user = (User) request.getAttribute("CURRENT_USER");
         Project project = (Project) request.getAttribute("PROJECT");
         Response.Builder builder = Response.getBuilder();
