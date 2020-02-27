@@ -129,6 +129,7 @@ public class DBUserService implements UserService {
 
 
     @Override
+    @Transactional
     public User saveUser(User user) {
         User userInDb = null;
         if (user.getId() != null) {
