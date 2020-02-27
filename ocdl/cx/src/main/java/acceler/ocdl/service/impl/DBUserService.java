@@ -1,5 +1,6 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.controller.AuthController;
 import acceler.ocdl.dao.RUserRoleDao;
 import acceler.ocdl.dao.RoleDao;
@@ -8,8 +9,8 @@ import acceler.ocdl.entity.Project;
 import acceler.ocdl.entity.RUserRole;
 import acceler.ocdl.entity.Role;
 import acceler.ocdl.entity.User;
-import acceler.ocdl.exception.InvalidParamException;
 import acceler.ocdl.exception.NotFoundException;
+import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.model.OauthUser;
 import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.ProjectService;
@@ -18,12 +19,19 @@ import acceler.ocdl.utils.EncryptionUtil;
 import acceler.ocdl.utils.TimeUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
+import org.apache.hadoop.fs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
+
+import static org.apache.tomcat.util.http.fileupload.FileUtils.forceMkdir;
 
 
 @Service
@@ -166,7 +174,21 @@ public class DBUserService implements UserService {
         user.setCreatedAt(current);
         user.setUpdatedAt(current);
         user.setIsDeleted(false);
-        return userDao.save(user);
+        User newUser = userDao.save(user);
+
+        //Path hadoopPath = new Path(hdfsUserSpace + newUser.getId());
+        //hdfsService.createDir(hadoopPath);
+
+        try{
+            File localMountSpace = new File(Paths.get(applicationsDirUserSpace,
+                    CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(newUser.getId()))).toString());
+            forceMkdir(localMountSpace);
+        } catch (IOException e) {
+            throw new OcdlException("Fail to creat mounted userspace for " + newUser.getUserName());
+        }
+
+        return newUser;
+
     }
 
 
