@@ -196,10 +196,10 @@ public final class ModelController {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public final Response initModelToStage(@RequestParam(name = "projectid") Long projectId, HttpServletRequest request) {
-
-        Project project = projectService.getProject(projectId);
+    public final Response initModelToStage(HttpServletRequest request) {
+        
         User user = (User) request.getAttribute("CURRENT_USER");
+        Project project = (Project) request.getAttribute("PROJECT");
         Response.Builder builder = Response.getBuilder();
 
         Map<String, Integer> initRecords = modelService.initModelToStage(user, project);

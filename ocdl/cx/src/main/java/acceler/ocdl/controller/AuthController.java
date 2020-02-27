@@ -128,7 +128,7 @@ public class AuthController {
         User user = (User) request.getAttribute("CURRENT_USER");
         if (user != null) {
             securityUtil.releaseToken(user);
-            //kubernetesService.releaseDockerContainer(user);
+            kubernetesService.releaseDockerContainer(user);
             respBuilder.setCode(Response.Code.SUCCESS);
         } else {
             respBuilder.setCode(Response.Code.ERROR);
