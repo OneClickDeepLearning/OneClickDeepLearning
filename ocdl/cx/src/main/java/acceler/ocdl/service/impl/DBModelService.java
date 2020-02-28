@@ -62,7 +62,7 @@ public class DBModelService implements ModelService {
     @Value("${APPLICATIONS_DIR.USER_SPACE}")
     private String applicationsDirUserSpace;
 
-    @Value("${APPLICATIONS_DIR.STAGE_SPACE}")
+    @Value("${HDFS.STAGING}")
     private String applicationsDirStageSpace;
 
     @Value("${S3.server.bucketName}")
