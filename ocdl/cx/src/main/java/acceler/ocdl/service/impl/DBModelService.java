@@ -26,6 +26,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.io.File;
 import org.apache.hadoop.fs.Path;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.Paths;
 import java.util.*;
@@ -72,6 +73,7 @@ public class DBModelService implements ModelService {
     private String kafkaTopic;
 
     @Override
+    @Transactional
     public Map<String, Integer> initModelToStage(User user, Project project) {
 
         user = userService.getUserByUserId(user.getId());
@@ -116,7 +118,6 @@ public class DBModelService implements ModelService {
 
                         String stagedFilePath = Paths.get(applicationsDirStageSpace,CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{modelId}",
                                 refId).replace("{suffix}", suffix)).toString();
-                        hdfsService.uploadFile(new Path(f.getPath()), new Path(stagedFilePath));
 
                         Model model = Model.builder()
                                 .name(f.getName())
@@ -131,6 +132,7 @@ public class DBModelService implements ModelService {
                                 .build();
 
                         modelDao.save(model);
+                        hdfsService.uploadFile(new Path(f.getPath()), new Path(stagedFilePath));
                         initRecords.put("successUpload", (int)initRecords.get("successUpload")+1);
 
                     } catch (Exception e) {
