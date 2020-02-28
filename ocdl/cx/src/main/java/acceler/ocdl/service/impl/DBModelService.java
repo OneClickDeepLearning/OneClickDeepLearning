@@ -131,6 +131,7 @@ public class DBModelService implements ModelService {
                         initRecords.put("successUpload", (int)initRecords.get("successUpload")+1);
 
                     } catch (Exception e) {
+                        e.printStackTrace();
                         initRecords.put("failUpload", (int) initRecords.get("failUpload") + 1);
                         log.error(String.format("Fail to init %s to new model", f.getName()));
                         continue;
