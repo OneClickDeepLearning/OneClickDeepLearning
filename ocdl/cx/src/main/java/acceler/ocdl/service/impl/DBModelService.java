@@ -119,6 +119,8 @@ public class DBModelService implements ModelService {
                         String stagedFilePath = Paths.get(applicationsDirStageSpace,CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{modelId}",
                                 refId).replace("{suffix}", suffix)).toString();
 
+                        String now = TimeUtil.currentTimeStampStr();
+
                         Model model = Model.builder()
                                 .name(f.getName())
                                 .suffix(suffix)
@@ -127,7 +129,8 @@ public class DBModelService implements ModelService {
                                 .lastOperator(user)
                                 .refId(refId)
                                 .project(project)
-                                .createdAt(TimeUtil.currentTimeStampStr())
+                                .createdAt(now)
+                                .updatedAt(now)
                                 .isDeleted(false)
                                 .build();
 
