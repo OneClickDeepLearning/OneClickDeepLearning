@@ -74,6 +74,9 @@ public class DBModelService implements ModelService {
     @Override
     public Map<String, Integer> initModelToStage(User user, Project project) {
 
+        user = userService.getUserByUserId(user.getId());
+        project = projectService.getProject(project.getId());
+
         Map<String, Integer> initRecords = new HashMap<>();
         initRecords.put("finded", 0);
         initRecords.put("successUpload", 0);
