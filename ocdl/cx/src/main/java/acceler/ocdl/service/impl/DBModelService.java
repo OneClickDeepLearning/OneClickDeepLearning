@@ -133,9 +133,9 @@ public class DBModelService implements ModelService {
                                 .updatedAt(now)
                                 .isDeleted(false)
                                 .build();
-
-                        modelDao.save(model);
+                        
                         hdfsService.uploadFile(new Path(f.getPath()), new Path(stagedFilePath));
+                        modelDao.save(model);
                         initRecords.put("successUpload", (int)initRecords.get("successUpload")+1);
 
                     } catch (Exception e) {
