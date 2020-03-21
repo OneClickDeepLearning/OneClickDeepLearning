@@ -138,13 +138,14 @@ public class AuthController {
 
     @RequestMapping(path = "/auth/me", method = RequestMethod.GET)
     @ResponseBody
-    public Response me(HttpServletRequest request, @QueryParam("token") String token) {
+    public Response me(HttpServletRequest request) {
         User user = (User) request.getAttribute("CURRENT_USER");
         final Response.Builder respBuilder = Response.getBuilder();
 
         Map<String, Object> result = new HashMap<>();
         result.put("userId", user.getId());
         result.put("username", user.getUserName());
+        String token = securityUtil.requestToken(user);
         result.put("token", token);
         //result.put("role", innerUser.getRole());
 
@@ -183,8 +184,8 @@ public class AuthController {
     }
 
 
-    @RequestMapping(path = "/user/get", method = RequestMethod.GET)
-    public Response getUserData(@RequestParam(name = "name") String name) {
+    @RequestMapping(path = "/user", method = RequestMethod.GET)
+    public Response getUserByName(@RequestParam(name = "name") String name) {
 
         Response.Builder responseBuilder = getBuilder();
 
@@ -196,8 +197,8 @@ public class AuthController {
     }
 
 
-    @RequestMapping(path = "/role/get", method = RequestMethod.GET)
-    public Response getUserData() {
+    @RequestMapping(path = "/role", method = RequestMethod.GET)
+    public Response getRoles() {
 
         Response.Builder responseBuilder = getBuilder();
 
@@ -267,17 +268,7 @@ public class AuthController {
     }
 
 
-    @RequestMapping(path = "/user", method = RequestMethod.GET)
-    public Response batchDeleteUserData(@RequestParam(name = "name") String name) {
 
-        Response.Builder responseBuilder = getBuilder();
-
-        List<User> users = userService.getAllUserByNameContaining(name);
-
-        return responseBuilder.setCode(Response.Code.SUCCESS)
-                .setData(users)
-                .build();
-    }
 
 
 
