@@ -219,9 +219,10 @@ public class DBModelService implements ModelService {
         Algorithm algorithmInDb = algorithmDao.findById(model.getAlgorithm().getId())
                 .orElseThrow(() -> new NotFoundException("Algorithm is not found."));
 
-        String fileName = model.getRefId() + "." + model.getSuffix();
-        alluxioService.downloadFromStaging(fileName, model.getOwner().getId());
-        File modelFile = new File(Paths.get(applicationsDirUserSpace, model.getOwner().getId().toString(),fileName).toString());
+        String srcPath = Paths.get(applicationsDirStageSpace, model.getRefId() + "." + model.getSuffix()).toString();
+        String desPath = Paths.get(applicationsDirUserSpace, model.getOwner().getId().toString(),model.getRefId() + "." + model.getSuffix()).toString();
+        hdfsService.downloadFile(new Path(srcPath), new Path(desPath));
+        File modelFile = new File(desPath);
 
         // upload file to AWS S3
         String publishedModelName = CONSTANTS.NAME_FORMAT.RELEASE_MODEL.replace("{algorithm}", algorithmInDb.getName())
