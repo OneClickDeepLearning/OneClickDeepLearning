@@ -55,6 +55,9 @@ public class DBModelService implements ModelService {
     private HdfsService hdfsService;
 
     @Autowired
+    private AlluxioService alluxioService;
+
+    @Autowired
     private StorageService storageService;
 
     @Autowired
@@ -216,12 +219,16 @@ public class DBModelService implements ModelService {
         Algorithm algorithmInDb = algorithmDao.findById(model.getAlgorithm().getId())
                 .orElseThrow(() -> new NotFoundException("Algorithm is not found."));
 
+        String fileName = model.getRefId() + "." + model.getSuffix();
+        alluxioService.downloadFromStaging(fileName, model.getOwner().getId());
+        File modelFile = new File(Paths.get(applicationsDirUserSpace, model.getOwner().getId().toString(),fileName).toString());
+        
         // upload file to AWS S3
         String publishedModelName = CONSTANTS.NAME_FORMAT.RELEASE_MODEL.replace("{algorithm}", algorithmInDb.getName())
                 .replace("{release_version}", model.getReleasedVersion().toString())
                 .replace("{cached_version}", model.getCachedVersion().toString())
                 .replace("{suffix}", model.getSuffix());
-        //storageService.uploadObject(bucketName, publishedModelName, modelFile);
+        storageService.uploadObject(bucketName, publishedModelName, modelFile);
 
         //send kafka message
         String message = CONSTANTS.KAFKA.MESSAGE.replace("{publishedModelName}", publishedModelName).replace("{modelUrl}",storageService.getObkectUrl(bucketName, publishedModelName));
