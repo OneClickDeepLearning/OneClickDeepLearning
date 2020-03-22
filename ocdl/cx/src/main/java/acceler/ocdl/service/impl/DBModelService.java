@@ -222,7 +222,7 @@ public class DBModelService implements ModelService {
         String fileName = model.getRefId() + "." + model.getSuffix();
         alluxioService.downloadFromStaging(fileName, model.getOwner().getId());
         File modelFile = new File(Paths.get(applicationsDirUserSpace, model.getOwner().getId().toString(),fileName).toString());
-        
+
         // upload file to AWS S3
         String publishedModelName = CONSTANTS.NAME_FORMAT.RELEASE_MODEL.replace("{algorithm}", algorithmInDb.getName())
                 .replace("{release_version}", model.getReleasedVersion().toString())
