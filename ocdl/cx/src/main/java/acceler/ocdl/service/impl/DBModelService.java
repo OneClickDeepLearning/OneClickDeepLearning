@@ -69,9 +69,6 @@ public class DBModelService implements ModelService {
     @Value("${S3.server.bucketName}")
     private String bucketName;
 
-    @Value("${KAFKA.TOPIC}")
-    private String kafkaTopic;
-
     @Override
     @Transactional
     public Map<String, Integer> initModelToStage(User user, Project project) {
@@ -133,7 +130,11 @@ public class DBModelService implements ModelService {
                                 .updatedAt(now)
                                 .isDeleted(false)
                                 .build();
-                        
+
+                        if (modelDao.findAllByProjectAndName(project, f.getName()).size() > 0) {
+                            throw new OcdlException("Model already exist, please change your name.");
+                        }
+
                         hdfsService.uploadFile(new Path(f.getPath()), new Path(stagedFilePath));
                         modelDao.save(model);
                         initRecords.put("successUpload", (int)initRecords.get("successUpload")+1);
@@ -212,8 +213,11 @@ public class DBModelService implements ModelService {
         Model modelInDb = modelDao.findByIdAndStatus(model.getId(), ModelStatus.APPROVED)
                 .orElseThrow(() -> new NotFoundException(String.format("%s approved model is not found.", model.getId())));
 
+        Algorithm algorithmInDb = algorithmDao.findById(modelInDb.getAlgorithm().getId())
+                .orElseThrow(() -> new NotFoundException("Algorithm is not found."));
+
         // upload file to AWS S3
-        String publishedModelName = CONSTANTS.NAME_FORMAT.RELEASE_MODEL.replace("{algorithm}", modelInDb.getAlgorithm().getName())
+        String publishedModelName = CONSTANTS.NAME_FORMAT.RELEASE_MODEL.replace("{algorithm}", algorithmInDb.getName())
                 .replace("{release_version}", modelInDb.getReleasedVersion().toString())
                 .replace("{cached_version}", modelInDb.getCachedVersion().toString())
                 .replace("{suffix}", modelInDb.getSuffix());
@@ -223,7 +227,10 @@ public class DBModelService implements ModelService {
         String message = CONSTANTS.KAFKA.MESSAGE.replace("{publishedModelName}", publishedModelName).replace("{modelUrl}",storageService.getObkectUrl(bucketName, publishedModelName));
         System.out.println("+++++++++++++++++++++++++++++++++++++++");
         System.out.println(message);
-        messageQueueService.send(kafkaTopic, message);
+        if (StringUtils.isEmpty(algorithmInDb.getKafkaTopic())) {
+            throw new OcdlException("Please set the Topic in Algorithm first.");
+        }
+        messageQueueService.send(algorithmInDb.getKafkaTopic(), message);
 
 
         modelInDb.setStatus(ModelStatus.APPROVED);
@@ -232,8 +239,7 @@ public class DBModelService implements ModelService {
         modelInDb.setLastOperator(user);
         modelInDb = modelDao.save(modelInDb);
 
-        Algorithm algorithmInDb = algorithmDao.findById(modelInDb.getAlgorithm().getId())
-                .orElseThrow(() -> new NotFoundException("Algorithm is not found."));
+
 
         algorithmInDb.setCurrentCachedVersion(modelInDb.getCachedVersion());
         algorithmInDb.setCurrentReleasedVersion(modelInDb.getReleasedVersion());

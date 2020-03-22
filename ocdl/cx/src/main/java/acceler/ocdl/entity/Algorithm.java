@@ -31,6 +31,9 @@ public class Algorithm extends BaseEntity {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "kafka_topic")
+    private String kafkaTopic;
+
     @Column(name = "current_cached_version")
     @JsonProperty("current_cached_version")
     private Integer currentCachedVersion;
