@@ -164,7 +164,7 @@ public final class ModelController {
 
 
     @ResponseBody
-    @RequestMapping(path="/{modelId}", method = RequestMethod.PATCH)
+    @RequestMapping(method = RequestMethod.PATCH)
     public final Response release(@RequestBody Model model, HttpServletRequest request){
         Response.Builder builder = Response.getBuilder();
 
@@ -178,7 +178,11 @@ public final class ModelController {
             throw new OcdlException("Permission denied!");
         }
 
-        modelService.release(model, user);
+        modelInDb.setAlgorithm(model.getAlgorithm());
+        modelInDb.setCachedVersion(model.getCachedVersion());
+        modelInDb.setReleasedVersion(model.getReleasedVersion());
+
+        modelService.release(modelInDb, user);
 
 //        ApprovedModel model = Algorithm.getApprovalModelById(Long.parseLong(modelId))
 //                .orElseThrow(()-> new NotFoundException("Fail to found model"));

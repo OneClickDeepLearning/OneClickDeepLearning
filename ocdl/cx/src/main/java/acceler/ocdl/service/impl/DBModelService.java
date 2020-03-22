@@ -210,17 +210,17 @@ public class DBModelService implements ModelService {
     @Override
     public void release(Model model, User user) {
 
-        Model modelInDb = modelDao.findByIdAndStatus(model.getId(), ModelStatus.APPROVED)
-                .orElseThrow(() -> new NotFoundException(String.format("%s approved model is not found.", model.getId())));
+        modelDao.findByIdAndStatus(model.getId(), ModelStatus.APPROVED)
+                .orElseThrow(() -> new NotFoundException("Model should be approved first."));
 
-        Algorithm algorithmInDb = algorithmDao.findById(modelInDb.getAlgorithm().getId())
+        Algorithm algorithmInDb = algorithmDao.findById(model.getAlgorithm().getId())
                 .orElseThrow(() -> new NotFoundException("Algorithm is not found."));
 
         // upload file to AWS S3
         String publishedModelName = CONSTANTS.NAME_FORMAT.RELEASE_MODEL.replace("{algorithm}", algorithmInDb.getName())
-                .replace("{release_version}", modelInDb.getReleasedVersion().toString())
-                .replace("{cached_version}", modelInDb.getCachedVersion().toString())
-                .replace("{suffix}", modelInDb.getSuffix());
+                .replace("{release_version}", model.getReleasedVersion().toString())
+                .replace("{cached_version}", model.getCachedVersion().toString())
+                .replace("{suffix}", model.getSuffix());
         //storageService.uploadObject(bucketName, publishedModelName, modelFile);
 
         //send kafka message
@@ -233,16 +233,14 @@ public class DBModelService implements ModelService {
         messageQueueService.send(algorithmInDb.getKafkaTopic(), message);
 
 
-        modelInDb.setStatus(ModelStatus.APPROVED);
-        modelInDb.setIsReleased(true);
-        modelInDb.setUpdatedAt(TimeUtil.currentTimeStampStr());
-        modelInDb.setLastOperator(user);
-        modelInDb = modelDao.save(modelInDb);
+        model.setStatus(ModelStatus.APPROVED);
+        model.setIsReleased(true);
+        model.setUpdatedAt(TimeUtil.currentTimeStampStr());
+        model.setLastOperator(user);
+        model = modelDao.save(model);
 
-
-
-        algorithmInDb.setCurrentCachedVersion(modelInDb.getCachedVersion());
-        algorithmInDb.setCurrentReleasedVersion(modelInDb.getReleasedVersion());
+        algorithmInDb.setCurrentCachedVersion(model.getCachedVersion());
+        algorithmInDb.setCurrentReleasedVersion(model.getReleasedVersion());
         algorithmDao.save(algorithmInDb);
     }
     
