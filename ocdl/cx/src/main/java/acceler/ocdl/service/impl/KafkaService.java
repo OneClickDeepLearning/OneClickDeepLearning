@@ -34,6 +34,11 @@ public class KafkaService implements MessageQueueService {
         }
     }
 
+    @Override
+    public void addTopic(String topic) {
+
+    }
+
 
     @Override
     public void send(String topic, String data) {
