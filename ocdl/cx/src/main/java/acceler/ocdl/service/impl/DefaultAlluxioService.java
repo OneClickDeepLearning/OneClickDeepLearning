@@ -25,6 +25,7 @@ public class DefaultAlluxioService implements AlluxioService {
     public void downloadFromStaging(String fileName, Long userId) throws AlluxioException {
         FileSystem fs = FileSystem.Factory.get();
         AlluxioURI path = new AlluxioURI("/staging/" + fileName);
+        System.out.println(path.toString());
 
         try {
             FileInStream in = fs.openFile(path);
