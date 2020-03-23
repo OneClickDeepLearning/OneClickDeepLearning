@@ -50,10 +50,10 @@ public class SecurityUtil {
                 return this.inMemoryTokenManager.get(token).getUser();
             } else {
                 this.inMemoryTokenManager.remove(token);
-                throw new NotFoundException("Fail to find the token, your token maybe expired");
+                return null;
             }
         } else {
-            throw new NotFoundException("Fail to find the token, your token maybe expired");
+            return null;
         }
     }
 

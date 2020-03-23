@@ -57,6 +57,10 @@ public class DBProjectService implements ProjectService {
 
     private Project createProject(Project project) {
 
+        if (projectDao.findByName(project.getName()).isPresent()) {
+            throw new OcdlException("Project already exist.");
+        }
+
         // create project in Db
         project.setRefId(RandomStringUtils.randomAlphanumeric(CONSTANTS.PROJECT_TABLE.LENGTH_REF_ID));
         project.setCreatedAt(TimeUtil.currentTimeStampStr());

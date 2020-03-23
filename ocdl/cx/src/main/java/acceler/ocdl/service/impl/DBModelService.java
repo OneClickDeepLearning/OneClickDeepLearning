@@ -211,6 +211,7 @@ public class DBModelService implements ModelService {
 
 
     @Override
+    @Transactional
     public void release(Model model, User user) {
 
         modelDao.findByIdAndStatus(model.getId(), ModelStatus.APPROVED)
