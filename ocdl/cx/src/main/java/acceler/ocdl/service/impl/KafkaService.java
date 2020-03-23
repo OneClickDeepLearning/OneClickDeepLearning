@@ -29,7 +29,7 @@ public class KafkaService implements MessageQueueService {
         if (producer == null) {
             // create kafka producer
             Properties props = new Properties();
-            PlatformMeta meta = platformMetaDao.findById(1L)
+            PlatformMeta meta = platformMetaDao.findById(4L)
                     .orElseThrow(() -> new OcdlException("Fail to get Platform meta data."));
             String kafkaUrl = meta.getKafkaUrl();
             props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaUrl);
