@@ -18,6 +18,7 @@ import java.util.List;
 import static acceler.ocdl.dto.Response.getBuilder;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "/rest/template")
 public final class TemplateController {
 

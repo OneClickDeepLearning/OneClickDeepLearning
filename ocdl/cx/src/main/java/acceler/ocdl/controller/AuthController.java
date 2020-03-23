@@ -27,6 +27,7 @@ import java.util.Map;
 import static acceler.ocdl.dto.Response.getBuilder;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "/rest")
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);

@@ -28,6 +28,7 @@ import java.util.*;
 import static acceler.ocdl.dto.Response.getBuilder;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "/rest/model")
 public final class ModelController {
     private static final Logger logger = LoggerFactory.getLogger(ModelController.class);
