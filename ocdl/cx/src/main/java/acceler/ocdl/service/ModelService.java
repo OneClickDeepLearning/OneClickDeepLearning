@@ -55,7 +55,7 @@ public interface ModelService {
      * release model
      * @param model approved model
      */
-    void release(Model model, User user);
+    Model release(Model model, User user);
 
     Model createModel(Model model);
 

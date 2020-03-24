@@ -128,48 +128,15 @@ public final class ModelController {
         model.setLastOperator(user);
         modelInDb = modelService.updateModel(model);
 
-
-//        if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.APPROVED.name())) {
-//            Model model = NewModel.getNewModelById(Long.parseLong(modelDto.getModelId()))
-//                    .orElseThrow(()-> new NotFoundException("Fail to found model"));
-//
-//            logger.debug("before push decision, the owner id is:" + model.getOwnerId());
-//            modelService.approveModel((NewModel) model,modelDto.getAlgorithm(), Algorithm.UpgradeVersion.valueOf(upgradeVersion), modelDto.getComments(), innerUser.getUserId());
-//
-//        } else if (from.toUpperCase().equals(Model.Status.NEW.name()) && to.toUpperCase().equals(Model.Status.REJECTED.name())) {
-//            Model model = NewModel.getNewModelById(Long.parseLong(modelDto.getModelId()))
-//                    .orElseThrow(()-> new NotFoundException("Fail to found model"));
-//            modelService.rejectModel((NewModel) model, modelDto.getComments(), innerUser.getUserId());
-//
-//        } else if (from.toUpperCase().equals(Model.Status.REJECTED.name()) && to.toUpperCase().equals(Model.Status.NEW.name())) {
-//            RejectedModel model = RejectedModel.getRejectedModelById(Long.parseLong(modelDto.getModelId()))
-//                    .orElseThrow(()-> new NotFoundException("Fail to found model"));
-//            modelService.undo(model, modelDto.getComments(), innerUser.getUserId());
-//
-//        } else if (from.toUpperCase().equals(Model.Status.APPROVED.name()) && to.toUpperCase().equals(Model.Status.NEW.name())) {
-//            Model model = Algorithm.getApprovalModelById(Long.parseLong(modelDto.getModelId()))
-//                    .orElseThrow(()-> new NotFoundException("Fail to found model"));
-//
-//            if (model.getStatus() != Model.Status.RELEASED) {
-//                modelService.undo(model, modelDto.getComments(), innerUser.getUserId());
-//            } else {
-//                throw new OcdlException("Released model cannot undo.");
-//            }
-//        } else {
-//            throw new OcdlException("Invalid From/To parameters.");
-//        }
         return responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(modelInDb)
                 .build();
     }
 
 
-    @ResponseBody
     @RequestMapping(method = RequestMethod.PATCH)
     public final Response release(@RequestBody Model model, HttpServletRequest request){
         Response.Builder builder = Response.getBuilder();
-
-        Response.Builder responseBuilder = getBuilder();
 
         User user = (User) request.getAttribute("CURRENT_USER");
         Project project = (Project) request.getAttribute("PROJECT");
@@ -187,23 +154,10 @@ public final class ModelController {
         modelInDb.setCachedVersion(model.getCachedVersion());
         modelInDb.setReleasedVersion(model.getReleasedVersion());
 
-        modelService.release(modelInDb, user);
-
-//        ApprovedModel model = Algorithm.getApprovalModelById(Long.parseLong(modelId))
-//                .orElseThrow(()-> new NotFoundException("Fail to found model"));
-//        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
-//
-//        if (model.getStatus() != Model.Status.RELEASED) {
-//            modelService.release(model, innerUser);
-//        } else {
-//            throw new OcdlException("Released model cannot be release again.");
-//        }
-
-        return builder.setCode(Response.Code.SUCCESS).build();
+        modelInDb = modelService.release(modelInDb, user);
+        return builder.setCode(Response.Code.SUCCESS).setData(modelInDb).build();
     }
 
-
-    @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public final Response initModelToStage(HttpServletRequest request) {
 
@@ -220,7 +174,6 @@ public final class ModelController {
     }
 
 
-    @ResponseBody
     @RequestMapping(path = "/create", method = RequestMethod.POST)
     public final Response createModel(HttpServletRequest request) {
 

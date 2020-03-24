@@ -26,7 +26,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.io.File;
 import org.apache.hadoop.fs.Path;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.nio.file.Paths;
 import java.util.*;
@@ -73,7 +73,6 @@ public class DBModelService implements ModelService {
     private String bucketName;
 
     @Override
-    @Transactional
     public Map<String, Integer> initModelToStage(User user, Project project) {
 
         user = userService.getUserByUserId(user.getId());
@@ -211,8 +210,8 @@ public class DBModelService implements ModelService {
 
 
     @Override
-    @Transactional
-    public void release(Model model, User user) {
+    //@Transactional
+    public Model release(Model model, User user) {
 
         Algorithm algorithmInDb = algorithmDao.findById(model.getAlgorithm().getId())
                 .orElseThrow(() -> new NotFoundException("Algorithm is not found."));
@@ -238,14 +237,14 @@ public class DBModelService implements ModelService {
         }
         messageQueueService.send(algorithmInDb.getKafkaTopic(), message);
 
-        model.setIsReleased(true);
-        model.setUpdatedAt(TimeUtil.currentTimeStampStr());
-        model.setLastOperator(user);
-        model = modelDao.save(model);
-
         algorithmInDb.setCurrentCachedVersion(model.getCachedVersion());
         algorithmInDb.setCurrentReleasedVersion(model.getReleasedVersion());
-        algorithmDao.save(algorithmInDb);
+
+        model.setAlgorithm(algorithmInDb);
+        model.setIsReleased(true);
+        model.setUpdatedAt(TimeUtil.currentTimeStampStr());
+        model.setLastOperator(userService.getUserByUserId(user.getId()));
+        return modelDao.save(model);
     }
     
     @Override
