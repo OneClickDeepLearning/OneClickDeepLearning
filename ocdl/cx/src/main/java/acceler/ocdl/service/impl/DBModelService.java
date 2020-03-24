@@ -214,11 +214,6 @@ public class DBModelService implements ModelService {
     @Transactional
     public void release(Model model, User user) {
 
-        Model modeltemp = getModelById(model.getId());
-        if (!modeltemp.getStatus().equals(ModelStatus.APPROVED)) {
-            throw new OcdlException("Model should be approved first, if you want to release it.");
-        }
-
         Algorithm algorithmInDb = algorithmDao.findById(model.getAlgorithm().getId())
                 .orElseThrow(() -> new NotFoundException("Algorithm is not found."));
 
@@ -242,8 +237,7 @@ public class DBModelService implements ModelService {
             throw new OcdlException("Please set the Topic in Algorithm first.");
         }
         messageQueueService.send(algorithmInDb.getKafkaTopic(), message);
-
-        model.setStatus(ModelStatus.APPROVED);
+        
         model.setIsReleased(true);
         model.setUpdatedAt(TimeUtil.currentTimeStampStr());
         model.setLastOperator(user);

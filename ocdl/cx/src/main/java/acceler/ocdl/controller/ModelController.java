@@ -179,6 +179,10 @@ public final class ModelController {
             throw new OcdlException("Permission denied!");
         }
 
+        if (!modelInDb.getStatus().equals(ModelStatus.APPROVED)) {
+            throw new OcdlException("Model should be approved first, if you want to release it.");
+        }
+
         modelInDb.setAlgorithm(model.getAlgorithm());
         modelInDb.setCachedVersion(model.getCachedVersion());
         modelInDb.setReleasedVersion(model.getReleasedVersion());
