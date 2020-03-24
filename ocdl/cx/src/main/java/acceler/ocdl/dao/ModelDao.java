@@ -18,5 +18,5 @@ public interface ModelDao extends JpaRepository<Model, Long>, JpaSpecificationEx
 
     List<Model> findAllByProjectAndName(Project project, String name);
 
-    Optional<Model> findByIdAndStatus(Long id, ModelStatus approved);
+    Optional<Model> findById(Long id);
 }
