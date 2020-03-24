@@ -237,7 +237,7 @@ public class DBModelService implements ModelService {
             throw new OcdlException("Please set the Topic in Algorithm first.");
         }
         messageQueueService.send(algorithmInDb.getKafkaTopic(), message);
-        
+
         model.setIsReleased(true);
         model.setUpdatedAt(TimeUtil.currentTimeStampStr());
         model.setLastOperator(user);
