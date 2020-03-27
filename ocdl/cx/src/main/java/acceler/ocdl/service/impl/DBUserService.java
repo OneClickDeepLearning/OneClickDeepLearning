@@ -172,7 +172,7 @@ public class DBUserService implements UserService {
     private User createUser(User user) {
 
         if (user.getUserName() != null && userDao.findByUserName(user.getUserName()).isPresent()) {
-            throw new OcdlException("User's name already exist.");
+            throw new OcdlException("Users name already exist.");
         }
 
         if (user.getEmail() != null && userDao.findByEmail(user.getEmail()).isPresent()) {

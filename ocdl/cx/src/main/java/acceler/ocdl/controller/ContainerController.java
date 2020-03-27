@@ -15,7 +15,7 @@ import java.util.Map;
 @RestController
 @CrossOrigin
 @RequestMapping(path = "/rest/container")
-public final class ContainerController {
+public class ContainerController {
 
     @Autowired
     private KubernetesService kubernetesService;

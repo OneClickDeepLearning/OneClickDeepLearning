@@ -14,12 +14,9 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +27,7 @@ import static acceler.ocdl.dto.Response.getBuilder;
 @RestController
 @CrossOrigin
 @RequestMapping(path = "/rest/model")
-public final class ModelController {
+public class ModelController {
     private static final Logger logger = LoggerFactory.getLogger(ModelController.class);
 
     @Autowired
@@ -133,7 +130,6 @@ public final class ModelController {
                 .build();
     }
 
-
     @RequestMapping(method = RequestMethod.PATCH)
     public final Response release(@RequestBody Model model, HttpServletRequest request){
         Response.Builder builder = Response.getBuilder();
@@ -158,7 +154,7 @@ public final class ModelController {
         return builder.setCode(Response.Code.SUCCESS).setData(modelInDb).build();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(path="/init", method = RequestMethod.POST)
     public final Response initModelToStage(HttpServletRequest request) {
 
         User user = (User) request.getAttribute("CURRENT_USER");

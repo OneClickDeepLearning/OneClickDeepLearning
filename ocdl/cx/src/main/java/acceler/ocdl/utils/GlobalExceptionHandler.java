@@ -11,7 +11,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = OcdlException.class)
     @ResponseBody
-    public Response exceptionsHandling(OcdlException exception) {
+    public Response ocdlExceptionsHandling(OcdlException exception) {
         String frontErrorMsg= exception.getMessage();
 
         return Response.getBuilder()

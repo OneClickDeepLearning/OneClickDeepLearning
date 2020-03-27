@@ -20,7 +20,7 @@ import static acceler.ocdl.dto.Response.getBuilder;
 @RestController
 @CrossOrigin
 @RequestMapping(path = "/rest/template")
-public final class TemplateController {
+public class TemplateController {
 
     @Autowired
     private TemplateService templateService;

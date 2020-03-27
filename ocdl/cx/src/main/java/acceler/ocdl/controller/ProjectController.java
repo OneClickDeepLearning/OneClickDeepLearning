@@ -64,7 +64,6 @@ public class ProjectController {
                 .build();
     }
 
-
     @RequestMapping(path = "/algorithm", method = RequestMethod.DELETE)
     public Response batchDeleteAlgorithm(@RequestBody List<Algorithm> algorithms) {
 
@@ -104,7 +103,6 @@ public class ProjectController {
                 .build();
     }
 
-
     @RequestMapping(path = "/config", method = RequestMethod.POST)
     public Response saveProject(@RequestBody Project project, HttpServletRequest request) {
 
@@ -118,7 +116,6 @@ public class ProjectController {
                 .setData(projectInDb)
                 .build();
     }
-
 
     @RequestMapping(path = "", method = RequestMethod.DELETE)
     public Response deleteProject(@RequestBody Project project) {
@@ -158,7 +155,6 @@ public class ProjectController {
                 .setData(suffixInDb)
                 .build();
     }
-
 
     @RequestMapping(path = "/suffix", method = RequestMethod.DELETE)
     public Response batchDeleteSuffix(@RequestBody List<Suffix> suffixes) {
@@ -215,7 +211,6 @@ public class ProjectController {
                 .setData(success)
                 .build();
     }
-
 
     @RequestMapping(path = "/projectdata", method = RequestMethod.DELETE)
     public Response batchDeleteProjectData(@RequestBody List<ProjectData> projectDatas,
