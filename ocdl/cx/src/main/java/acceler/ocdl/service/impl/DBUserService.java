@@ -236,4 +236,10 @@ public class DBUserService implements UserService {
     public boolean isExist(String sourceId) {
         return userDao.findBySourceId(sourceId).isPresent();
     }
+
+    @Override
+    public List<RUserRole> getProjectsByUser(User user) {
+
+        return rUserRoleDao.findAllByUser(user);
+    }
 }

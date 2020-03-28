@@ -2,6 +2,7 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.dto.UploadDto;
+import acceler.ocdl.entity.RUserRole;
 import acceler.ocdl.entity.Role;
 import acceler.ocdl.entity.User;
 import acceler.ocdl.entity.UserData;
@@ -268,9 +269,16 @@ public class AuthController {
                 .build();
     }
 
+    @RequestMapping(path = "/projects", method = RequestMethod.GET)
+    public Response getProjectsByUser(HttpServletRequest request) {
+        Response.Builder responseBuilder = getBuilder();
+        User user = (User) request.getAttribute("CURRENT_USER");
 
+        List<RUserRole> projects = userService.getProjectsByUser(user);
 
-
-
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(projects)
+                .build();
+    }
 
 }

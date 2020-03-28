@@ -13,4 +13,6 @@ import java.util.Optional;
 public interface RUserRoleDao extends JpaRepository<RUserRole, Long> {
 
     List<RUserRole> findAllByUserAndProject(User user, Project project);
+
+    List<RUserRole> findAllByUser(User user);
 }
