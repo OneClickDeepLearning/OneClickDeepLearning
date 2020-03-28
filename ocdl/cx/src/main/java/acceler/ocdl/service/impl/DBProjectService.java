@@ -3,12 +3,12 @@ package acceler.ocdl.service.impl;
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.dao.ProjectDao;
 import acceler.ocdl.dao.RoleDao;
-import acceler.ocdl.entity.Project;
-import acceler.ocdl.entity.Role;
-import acceler.ocdl.entity.User;
+import acceler.ocdl.dao.TemplateCategoryDao;
+import acceler.ocdl.entity.*;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.service.ProjectService;
+import acceler.ocdl.service.TemplateService;
 import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.TimeUtil;
 import org.apache.commons.lang.RandomStringUtils;
@@ -29,6 +29,9 @@ public class DBProjectService implements ProjectService {
     @Autowired
     private RoleDao roleDao;
 
+    @Autowired
+    private TemplateService templateService;
+
     @Override
     @Transactional
     public Project saveProject(Project project, User user) {
@@ -45,10 +48,17 @@ public class DBProjectService implements ProjectService {
         } else {
             projectInDb = createProject(project);
 
+            // connect user and project
             Role role = roleDao.findByName(CONSTANTS.ROLE_TABLE.ROLE_MAN)
                     .orElseThrow(() ->
                             new NotFoundException(String.format("Fail to find role(#%s)", CONSTANTS.ROLE_TABLE.ROLE_MAN)));
             userService.addRole(user, role, projectInDb);
+
+            // create root template category to project
+            TemplateCategory templateCategory = TemplateCategory.builder()
+                    .name("root")
+                    .build();
+            templateService.saveCategory(templateCategory);
         }
 
         return projectInDb;
