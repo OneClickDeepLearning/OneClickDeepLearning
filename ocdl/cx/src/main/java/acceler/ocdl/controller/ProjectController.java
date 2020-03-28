@@ -110,14 +110,13 @@ public class ProjectController {
 
         User user = (User) request.getAttribute("CURRENT_USER");
         Project projectInDb = projectService.saveProject(project, user);
-        //algorithmService.updateAlgorithmList(updatedProjectConfig.getAlgorithmStrList(), updatedProjectConfig.getForceRemoved());
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(projectInDb)
                 .build();
     }
 
-    @RequestMapping(path = "", method = RequestMethod.DELETE)
+    @RequestMapping(path = "/config", method = RequestMethod.DELETE)
     public Response deleteProject(@RequestBody Project project) {
 
         Response.Builder responseBuilder = getBuilder();
