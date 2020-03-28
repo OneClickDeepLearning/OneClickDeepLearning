@@ -57,6 +57,7 @@ public class DBProjectService implements ProjectService {
             // create root template category to project
             TemplateCategory templateCategory = TemplateCategory.builder()
                     .name("root")
+                    .project(projectInDb)
                     .build();
             templateService.saveCategory(templateCategory);
         }
