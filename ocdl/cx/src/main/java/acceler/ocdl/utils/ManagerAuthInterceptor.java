@@ -20,7 +20,7 @@ public class ManagerAuthInterceptor extends HandlerInterceptorAdapter {
 
     static final String[] EXCEPTED_URLS = {
             "/rest/model/event",
-            "/rest/model//init"
+            "/rest/model/init"
     };
 
     @Override
