@@ -63,7 +63,7 @@ public class TemplateController {
         Response.Builder responseBuilder = getBuilder();
 
         Project project = (Project)request.getAttribute("PROJECT");
-        TemplateCategory category = templateService.getProjectCategory(project);
+        List<TemplateCategory> category = templateService.getProjectCategory(project);
 
         return responseBuilder
                 .setCode(Response.Code.SUCCESS)

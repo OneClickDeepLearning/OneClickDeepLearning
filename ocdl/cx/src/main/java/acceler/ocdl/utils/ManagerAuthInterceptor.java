@@ -11,11 +11,11 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Order(2)
+@Order(3)
 @Component
 public class ManagerAuthInterceptor extends HandlerInterceptorAdapter {
     static final String[] INTERCEPTED_URLS = {
-            "/rest/model"
+            "/rest/model/**"
     };
 
     static final String[] EXCEPTED_URLS = {

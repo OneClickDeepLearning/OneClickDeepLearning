@@ -264,11 +264,9 @@ public class DBTemplateService implements TemplateService {
     }
 
     @Override
-    public TemplateCategory getProjectCategory(Project project) {
+    public List<TemplateCategory> getProjectCategory(Project project) {
 
-        TemplateCategory category = templateCategoryDao.findByProjectAndParent(project, null)
-                .orElseThrow(() ->
-                        new NotFoundException("Root category isn't exist."));
+        List<TemplateCategory> category = templateCategoryDao.findAllByProjectAndParent(project, null);
 
         return category;
     }

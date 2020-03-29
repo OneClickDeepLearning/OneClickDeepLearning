@@ -91,7 +91,7 @@ public class ProjectController {
 //        return responseBuilder.build();
 //    }
 
-    @RequestMapping(path = "", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public final Response getProjectConfig(@RequestParam(value = "id") Long id) {
 
         Response.Builder responseBuilder = Response.getBuilder();

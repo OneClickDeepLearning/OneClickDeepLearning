@@ -107,7 +107,7 @@ public class ModelController {
      *                       modelDto.version is needed only when from=new && to=approval, the value is "RELEASE_VERSION" or "CACHED_VERSION";
      * @return
      */
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(path="/", method = RequestMethod.PUT)
     public final Response pushDecision(@RequestBody Model model, HttpServletRequest request) {
 //        String from = request.getParameter("fromStatus");
 //        String to = request.getParameter("toStatus");
@@ -130,7 +130,7 @@ public class ModelController {
                 .build();
     }
 
-    @RequestMapping(method = RequestMethod.PATCH)
+    @RequestMapping(path="/", method = RequestMethod.PATCH)
     public final Response release(@RequestBody Model model, HttpServletRequest request){
         Response.Builder builder = Response.getBuilder();
 
