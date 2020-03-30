@@ -24,7 +24,10 @@ public class ProjectAuthInterceptor extends HandlerInterceptorAdapter {
 
     static final String[] INTERCEPTED_URLS = {
             "/rest/model/**",
-            "/rest/project/**",
+            "/rest/project/algorithm/**",
+            "/rest/project/suffix/**",
+            "/rest/project/projectdata/**",
+            "/rest/project/coop",
             "/rest/template/**"
     };
 

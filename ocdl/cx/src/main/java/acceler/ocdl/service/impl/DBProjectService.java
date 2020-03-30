@@ -62,7 +62,7 @@ public class DBProjectService implements ProjectService {
             templateService.saveCategory(templateCategory);
         }
 
-        return projectInDb;
+        return projectDao.findById(projectInDb.getId()).get();
     }
 
 

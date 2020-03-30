@@ -1,5 +1,6 @@
 package acceler.ocdl.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -35,6 +36,7 @@ public class User extends BaseEntity {
     private String email;
 
     @Column(name = "password")
+    @JsonIgnore
     @ColumnTransformer(
             read = "CAST(AES_DECRYPT(UNHEX(password), '!@#$%^&') as char(128))",
             write = "HEX(AES_ENCRYPT(?, '!@#$%^&'))"
