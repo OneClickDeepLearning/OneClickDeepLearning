@@ -35,7 +35,6 @@ public class RUserRole extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JsonIgnoreProperties(value = {"user_list", "model_list", "created_at", "deleted_at"})
-    @Where(clause = "is_deleted=false")
     private Project project;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -42,12 +43,13 @@ public class Project extends BaseEntity {
 //    @JsonIgnoreProperties(value = "project")
 //    @JsonIgnore
 //    private List<Model> modelList;
-
+    @Where(clause = "is_deleted=false")
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     @JsonProperty("algorithm_list")
     @JsonIgnoreProperties(value = {"project", "model_list"})
     private Set<Algorithm> algorithmList;
 
+    @Where(clause = "is_deleted=false")
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     @JsonProperty("suffix_list")
     @JsonIgnoreProperties(value = "project")
@@ -80,6 +82,7 @@ public class Project extends BaseEntity {
 ////    @JsonIgnoreProperties(value = "projectList")
 ////    private Set<User> userList;
 
+    @Where(clause = "is_deleted=false")
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     @JsonProperty("user_roles")
     @JsonIgnoreProperties(value = "project")
