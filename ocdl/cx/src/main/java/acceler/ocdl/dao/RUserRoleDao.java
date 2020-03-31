@@ -14,5 +14,5 @@ public interface RUserRoleDao extends JpaRepository<RUserRole, Long> {
 
     List<RUserRole> findAllByUserAndProject(User user, Project project);
 
-    List<RUserRole> findAllByUser(User user);
+    List<RUserRole> findAllByUserAndIsDeletedIsFalse(User user);
 }

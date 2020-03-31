@@ -213,7 +213,7 @@ public class DBUserService implements UserService {
 
     @Override
     @Transactional
-    public RUserRole addRole(User user, Role role, Project project) {
+    public RUserRole addRoleRelation(User user, Role role, Project project) {
 
         Role roleInDb = roleDao.findById(role.getId())
                 .orElseThrow(() -> new NotFoundException("Fail to find role"));
@@ -233,6 +233,21 @@ public class DBUserService implements UserService {
     }
 
     @Override
+    @Transactional
+    public RUserRole deleteRoleRelation(Long id) {
+
+        RUserRole rUserRole = rUserRoleDao.findById(id)
+                .orElseThrow(()-> new OcdlException("Fail to find RUserRole."));
+
+        rUserRole.setIsDeleted(true);
+        rUserRole.setDeletedAt(TimeUtil.currentTimeStampStr());
+        return rUserRoleDao.save(rUserRole);
+
+    }
+
+
+
+    @Override
     public boolean isExist(String sourceId) {
         return userDao.findBySourceId(sourceId).isPresent();
     }
@@ -240,6 +255,6 @@ public class DBUserService implements UserService {
     @Override
     public List<RUserRole> getProjectsByUser(User user) {
 
-        return rUserRoleDao.findAllByUser(user);
+        return rUserRoleDao.findAllByUserAndIsDeletedIsFalse(user);
     }
 }

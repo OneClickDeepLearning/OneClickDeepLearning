@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Where;
 
 
 import javax.persistence.*;
@@ -33,7 +34,8 @@ public class RUserRole extends BaseEntity {
     private User user;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    @JsonIgnoreProperties(value = {"user_list", "model_list", "created_at", "is_deleted", "deleted_at"})
+    @JsonIgnoreProperties(value = {"user_list", "model_list", "created_at", "deleted_at"})
+    @Where(clause = "is_deleted=false")
     private Project project;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

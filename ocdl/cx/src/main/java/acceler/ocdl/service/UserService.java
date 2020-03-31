@@ -8,6 +8,7 @@ import acceler.ocdl.entity.User;
 import acceler.ocdl.exception.ExistedException;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.model.OauthUser;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,7 +32,11 @@ public interface UserService {
 
     List<Role> getAllRole();
 
-    RUserRole addRole(User user, Role role, Project project);
+    @Transactional
+    RUserRole addRoleRelation(User user, Role role, Project project);
+
+    @Transactional
+    RUserRole deleteRoleRelation(Long id);
 
     boolean isExist(String sourceId);
 

@@ -233,7 +233,7 @@ public class ProjectController {
         Response.Builder responseBuilder = getBuilder();
 
         Project project = (Project) request.getAttribute("PROJECT");
-        RUserRole rUserRole = userService.addRole(userRoleDto.getUser(), userRoleDto.getRole(), project);
+        RUserRole rUserRole = userService.addRoleRelation(userRoleDto.getUser(), userRoleDto.getRole(), project);
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(rUserRole)

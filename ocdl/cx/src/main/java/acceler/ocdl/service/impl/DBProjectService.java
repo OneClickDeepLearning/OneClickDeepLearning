@@ -52,7 +52,7 @@ public class DBProjectService implements ProjectService {
             Role role = roleDao.findByName(CONSTANTS.ROLE_TABLE.ROLE_MAN)
                     .orElseThrow(() ->
                             new NotFoundException(String.format("Fail to find role(#%s)", CONSTANTS.ROLE_TABLE.ROLE_MAN)));
-            userService.addRole(user, role, projectInDb);
+            userService.addRoleRelation(user, role, projectInDb);
 
             // create root template category to project
             TemplateCategory templateCategory = TemplateCategory.builder()
@@ -123,6 +123,7 @@ public class DBProjectService implements ProjectService {
 
 
     @Override
+    @Transactional
     public boolean deleteProject(Long id) {
 
         Project projectInDb = projectDao.findByIdAndIsDeletedIsFalse(id)
@@ -131,6 +132,10 @@ public class DBProjectService implements ProjectService {
         projectInDb.setIsDeleted(true);
         projectInDb.setDeletedAt(TimeUtil.currentTimeStampStr());
         projectDao.save(projectInDb);
+
+        projectInDb.getUserRoles().forEach(rUserRole -> userService.deleteRoleRelation(rUserRole.getId()));
         return true;
     }
+
+
 }

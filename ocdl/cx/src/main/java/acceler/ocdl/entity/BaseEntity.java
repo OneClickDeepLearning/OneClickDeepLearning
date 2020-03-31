@@ -3,6 +3,8 @@ package acceler.ocdl.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;

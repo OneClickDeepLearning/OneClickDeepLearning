@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -89,6 +90,7 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user")
     @JsonProperty("user_roles")
     @JsonIgnoreProperties(value = {"user"})
+    @Where(clause = "is_deleted=false")
     private Set<RUserRole> userRoles;
 
 }
