@@ -30,7 +30,6 @@
     <link rel="stylesheet" href="assets2/css/jquery.treetable.css" type="text/css"/>
     <link rel="stylesheet" href="assets2/css/jquery.treetable.theme.default.css" type="text/css">
 
-    <script src="assets2/js/jquery.js"></script>
 
     <style type="text/css">
 
@@ -307,8 +306,18 @@
 <div id="hamburgermenu">
     <ul id="template_ul" style="display: none">
     </ul>
+    <ul id="template_operation" style="display: none">
+        <li>
+            <div style="TEXT-ALIGN:center" style="padding-top: 30px">
+                <button class="btn btn-success  " style="margin:5px">
+                    <icon class="glyphicon glyphicon-upload" style="margin-right:5px; "></icon>
+                    Upload
+                </button>
+            </div>
+        </li>
+    </ul>
 
-    <ul id="template_alert" style="display: none">
+    <ul id="template_alert">
         <li>
             <div style="TEXT-ALIGN:center" style="padding-top: 30px">
                 <H3>No Template</H3>
@@ -930,6 +939,11 @@
     </div>
 </div>
 <!--====  End of login form modal  ====-->
+
+<!--== Project selection modal ==-->
+<!--======================================
+=            login form modal            =
+=======================================-->
 
 <!-- Upload -->
 <div class="modal fade" id="FileModal" role="dialog">
