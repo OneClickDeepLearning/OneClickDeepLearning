@@ -38,54 +38,22 @@ public class Project extends BaseEntity {
     @JsonProperty("ref_id")
     private String refId;
 
-//    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
-//    @JsonProperty("model_list")
-//    @JsonIgnoreProperties(value = "project")
-//    @JsonIgnore
-//    private List<Model> modelList;
     @Where(clause = "is_deleted=false")
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     @JsonProperty("algorithm_list")
-    @JsonIgnoreProperties(value = {"project", "model_list"})
+    @JsonIgnoreProperties(value = {"project", "model_list"}, allowSetters = true)
     private Set<Algorithm> algorithmList;
 
     @Where(clause = "is_deleted=false")
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     @JsonProperty("suffix_list")
-    @JsonIgnoreProperties(value = "project")
+    @JsonIgnoreProperties(value = "project", allowSetters = true)
     private Set<Suffix> suffixList;
-
-//    @OneToMany(mappedBy = "project")
-//    @JsonProperty("project_data_list")
-//    @JsonIgnoreProperties(value = "project")
-//    @JsonIgnore
-//    private List<ProjectData> projectDataList;
-
-//    @OneToMany(mappedBy = "project")
-//    @JsonProperty("template_list")
-//    @JsonIgnoreProperties(value = "project")
-//    @JsonIgnore
-//    private List<Template> templateList;
-//
-//    @OneToMany(mappedBy = "project")
-//    @JsonProperty("template_category_list")
-//    @JsonIgnoreProperties(value = "project")
-//    @JsonIgnore
-//    private List<TemplateCategory> templateCategoryList;
-
-//    @ManyToMany(fetch = FetchType.EAGER)
-////    @JoinTable(
-////            name = "r_user_role",
-////            joinColumns = {@JoinColumn(name = "project_id", referencedColumnName = "id")},
-////            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
-////    @JsonProperty("user_list")
-////    @JsonIgnoreProperties(value = "projectList")
-////    private Set<User> userList;
 
     @Where(clause = "is_deleted=false")
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     @JsonProperty("user_roles")
-    @JsonIgnoreProperties(value = "project")
+    @JsonIgnoreProperties(value = "project", allowSetters = true)
     private Set<RUserRole> userRoles;
 
 }
