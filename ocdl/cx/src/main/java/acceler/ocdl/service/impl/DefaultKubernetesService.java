@@ -397,29 +397,39 @@ public class DefaultKubernetesService implements KubernetesService {
 
         String userId = getUserSpace(user);
         try {
-            for (io.fabric8.kubernetes.api.model.Service svc : client.services().inNamespace("default").list().getItems()) {
-                System.out.println(svc.getMetadata().getName());
+            if(client.services().inNamespace("default").list().getItems().size() > 0) {
+                for (io.fabric8.kubernetes.api.model.Service svc : client.services().inNamespace("default").list().getItems()) {
+                    System.out.println(svc.getMetadata().getName());
 
-                if (svc.getMetadata().getName().contains(userId))
-                    client.resource(svc).delete();
-            }
-            for (Deployment deploy : client.apps().deployments().inNamespace("default").list().getItems()) {
-                System.out.println(deploy.getMetadata().getName());
-                if (deploy.getMetadata().getName().contains(userId))
-                    client.resource(deploy).delete();
+                    if (svc.getMetadata().getName().contains(userId))
+                        client.resource(svc).delete();
+                }
             }
 
-            for(ReplicaSet replicaSet : client.apps().replicaSets().inNamespace("default").list().getItems()) {
-                System.out.println(replicaSet.getMetadata().getName());
-                if (replicaSet.getMetadata().getName().contains(userId))
-                    client.resource(replicaSet).delete();
-            }
-            for (Pod pod : client.pods().inNamespace("default").list().getItems()){
-                System.out.println(pod.getMetadata().getName());
-                if(pod.getMetadata().getName().contains(userId))
-                    client.resource(pod).delete();
+            if (client.apps().deployments().inNamespace("default").list().getItems().size() > 0){
+                for (Deployment deploy : client.apps().deployments().inNamespace("default").list().getItems()) {
+                    System.out.println(deploy.getMetadata().getName());
+                    if (deploy.getMetadata().getName().contains(userId))
+                        client.resource(deploy).delete();
+                }
             }
 
+            if (client.apps().replicaSets().inNamespace("default").list().getItems().size() > 0) {
+                for(ReplicaSet replicaSet : client.apps().replicaSets().inNamespace("default").list().getItems()) {
+                    System.out.println(replicaSet.getMetadata().getName());
+                    if (replicaSet.getMetadata().getName().contains(userId))
+                        client.resource(replicaSet).delete();
+                }
+            }
+
+            if (client.pods().inNamespace("default").list().getItems().size() > 0) {
+                for (Pod pod : client.pods().inNamespace("default").list().getItems()){
+                    System.out.println(pod.getMetadata().getName());
+                    if(pod.getMetadata().getName().contains(userId))
+                        client.resource(pod).delete();
+                }
+            }
+            
             //release resource cache
             if(cpuAssigned.containsKey(user.getId())){
                 cpuAssigned.remove(user.getId());
