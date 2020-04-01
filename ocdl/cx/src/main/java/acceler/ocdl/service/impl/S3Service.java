@@ -17,11 +17,6 @@ import java.net.URL;
 @Component
 public class S3Service implements StorageService {
 
-    @Value("${S3.server.accesskey}")
-    private String accesskey;
-    @Value("${S3.server.secretkey}")
-    private String secretkey;
-
     private static AmazonS3 s3client;
 
     private void createStorage() {
