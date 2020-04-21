@@ -2,9 +2,9 @@ package acceler.ocdl.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -56,6 +56,10 @@ public class Model extends BaseEntity {
     @Column(name = "released_version")
     @JsonProperty("released_version")
     private Integer releasedVersion;
+
+    @Transient
+    @JsonProperty("is_cached_version")
+    private Boolean isCachedVersion;
 
     @Column(name = "updated_at")
     @JsonProperty("updated_at")

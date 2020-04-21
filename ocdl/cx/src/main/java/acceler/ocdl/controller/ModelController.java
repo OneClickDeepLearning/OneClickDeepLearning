@@ -123,6 +123,7 @@ public class ModelController {
             throw new OcdlException("Permission denied!");
         }
         model.setLastOperator(user);
+
         modelInDb = modelService.updateModel(model);
 
         return responseBuilder.setCode(Response.Code.SUCCESS)

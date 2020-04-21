@@ -279,10 +279,6 @@ public class DBModelService implements ModelService {
         if (!StringUtils.isEmpty(model.getSuffix())) {
             modelInDb.setSuffix(model.getSuffix());
         }
-
-        if (model.getStatus() != null) {
-            modelInDb.setStatus(model.getStatus());
-        }
         
         if (model.getLastOperator() != null) {
             User user = userService.getUserByUserId(model.getLastOperator().getId());
@@ -297,14 +293,16 @@ public class DBModelService implements ModelService {
             Algorithm algorithm = algorithmDao.findById(model.getAlgorithm().getId())
                     .orElseThrow(() -> new NotFoundException(String.format("Fail to find algorithm(#%s)", model.getAlgorithm().getId())));
             modelInDb.setAlgorithm(algorithm);
-        }
-        
-        if (model.getCachedVersion() != null) {
-            modelInDb.setCachedVersion(model.getCachedVersion());
-        }
 
-        if (model.getReleasedVersion() != null) {
-            modelInDb.setReleasedVersion(model.getReleasedVersion());
+            if (modelInDb.getStatus().equals(ModelStatus.NEW) && model.getStatus().equals(ModelStatus.APPROVED)) {
+                if (model.getIsCachedVersion()) {
+                    modelInDb.setReleasedVersion(algorithm.getCurrentReleasedVersion());
+                    modelInDb.setCachedVersion(algorithm.getCurrentCachedVersion()+1);
+                } else {
+                    modelInDb.setReleasedVersion(algorithm.getCurrentReleasedVersion()+1);
+                    modelInDb.setCachedVersion(0);
+                }
+            }
         }
         
         if (model.getIsDeleted() != null) {
@@ -312,6 +310,10 @@ public class DBModelService implements ModelService {
                 modelInDb.setDeletedAt(current);
             }
             modelInDb.setIsDeleted(model.getIsDeleted());
+        }
+
+        if (model.getStatus() != null) {
+            modelInDb.setStatus(model.getStatus());
         }
         
         modelInDb.setUpdatedAt(current);
