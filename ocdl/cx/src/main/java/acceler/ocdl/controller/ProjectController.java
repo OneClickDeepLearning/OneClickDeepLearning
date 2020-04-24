@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -43,6 +45,9 @@ public class ProjectController {
 
     @Autowired
     private ProjectDataService projectDataService;
+
+    @Value("${APPLICATIONS_DIR.TEMP_SPACE}")
+    private String tempPath;
 
     private Gson gson = new Gson();
 
@@ -196,8 +201,9 @@ public class ProjectController {
         Response.Builder responseBuilder = Response.getBuilder();
 
         // create file
+        Path path = Paths.get(tempPath,vulDataDto.getCreateAt());
         try {
-            Files.write(Paths.get(vulDataDto.getCreateAt()), gson.toJson(vulDataDto).getBytes());
+            Files.write(path, gson.toJson(vulDataDto).getBytes());
         } catch (IOException e) {
             return responseBuilder.setCode(Response.Code.ERROR)
                     .setMessage(e.getMessage()).build();
@@ -205,15 +211,14 @@ public class ProjectController {
 
         // upload file to corresponding project
         Project project = projectService.getProject(vulDataDto.getProjectRefId());
-        String srcPath = vulDataDto.getCreateAt();
-        ProjectData projectData = projectDataService.uploadProjectData(project, srcPath);
+        ProjectData projectData = projectDataService.uploadProjectData(project, path.toString());
 
         // delete file
-        File file = new File(vulDataDto.getCreateAt());
+        File file = new File(path.toString());
         file.delete();
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
-                .setData(null).build();
+                .setData(projectData).build();
     }
 
     // TODO: file

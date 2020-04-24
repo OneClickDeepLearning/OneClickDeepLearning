@@ -46,8 +46,6 @@ public class DBProjectDataService implements ProjectDataService {
     @Value("${HDFS.PROJECT_DATA}")
     private String hdfsProjectDataPath;
 
-
-
     @Override
     @Transactional
     public ProjectData uploadProjectData(Project project, String srcPath) {
@@ -60,7 +58,7 @@ public class DBProjectDataService implements ProjectDataService {
         // upload file to HDFS
         String refId = CONSTANTS.PROJECT_DATA_TABLE.PROJECT_PREFIX + RandomStringUtils.randomAlphanumeric(CONSTANTS.PROJECT_DATA_TABLE.LENGTH_REF_ID);
         String desPath = Paths.get(hdfsProjectDataPath, refId).toString();
-        //hdfsService.uploadFile(new Path(srcPath), new Path(desPath));
+        hdfsService.uploadFile(new Path(srcPath), new Path(desPath));
 
         // create projectData in database
         Project projectInDb = projectService.getProject(project.getId());
