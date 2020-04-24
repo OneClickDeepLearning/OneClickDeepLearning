@@ -32,7 +32,7 @@ public class ProjectAuthInterceptor extends HandlerInterceptorAdapter {
     };
 
     static final String[] EXCEPTED_URLS = {
-
+            "/rest/project/projectdata/recycle"
     };
 
     @Override

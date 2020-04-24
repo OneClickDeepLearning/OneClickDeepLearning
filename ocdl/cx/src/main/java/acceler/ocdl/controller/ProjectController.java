@@ -2,8 +2,10 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.dto.UserRoleDto;
+import acceler.ocdl.dto.VulDataDto;
 import acceler.ocdl.entity.*;
 import acceler.ocdl.service.*;
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static acceler.ocdl.dto.Response.getBuilder;
@@ -37,6 +43,8 @@ public class ProjectController {
 
     @Autowired
     private ProjectDataService projectDataService;
+
+    private Gson gson = new Gson();
 
     @RequestMapping(path = "/algorithm/get", method = RequestMethod.POST)
     public Response getAlgorithm(@RequestBody Algorithm algorithm,
@@ -180,6 +188,32 @@ public class ProjectController {
         return responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(projectDataPage)
                 .build();
+    }
+
+    @RequestMapping(path = "/projectdata/recycle", method = RequestMethod.POST)
+    public Response recycleTaggedData(HttpServletRequest request, @RequestBody VulDataDto vulDataDto) {
+
+        Response.Builder responseBuilder = Response.getBuilder();
+
+        // create file
+        try {
+            Files.write(Paths.get(vulDataDto.getCreateAt()), gson.toJson(vulDataDto).getBytes());
+        } catch (IOException e) {
+            return responseBuilder.setCode(Response.Code.ERROR)
+                    .setMessage(e.getMessage()).build();
+        }
+
+        // upload file to corresponding project
+        Project project = projectService.getProject(vulDataDto.getProjectRefId());
+        String srcPath = vulDataDto.getCreateAt();
+        ProjectData projectData = projectDataService.uploadProjectData(project, srcPath);
+
+        // delete file
+        File file = new File(vulDataDto.getCreateAt());
+        file.delete();
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(null).build();
     }
 
     // TODO: file

@@ -60,6 +60,4 @@ public class S3Service implements StorageService {
         System.out.println("Pre-Signed URL: " + url.toString());
         return url.toString();
     }
-
-
 }

@@ -64,9 +64,10 @@ public class DBProjectDataService implements ProjectDataService {
 
         // create projectData in database
         Project projectInDb = projectService.getProject(project.getId());
+        String suffix = srcFile.getName().contains(".")? srcFile.getName().substring(srcFile.getName().lastIndexOf(".")+1):"";
         ProjectData projectData = ProjectData.builder()
                 .name(srcFile.getName())
-                .suffix(srcFile.getName().substring(srcFile.getName().lastIndexOf(".")+1))
+                .suffix(suffix)
                 .refId(refId)
                 .project(projectInDb)
                 .build();

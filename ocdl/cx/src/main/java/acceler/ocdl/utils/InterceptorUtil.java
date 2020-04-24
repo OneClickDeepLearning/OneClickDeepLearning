@@ -24,7 +24,9 @@ public class InterceptorUtil extends WebMvcConfigurerAdapter {
                 .excludePathPatterns("/rest/auth/signup")
                 .excludePathPatterns("/rest/auth/login")
                 .excludePathPatterns("/rest/auth/key")
-                .excludePathPatterns("/rest/auth");
+                .excludePathPatterns("/rest/auth")
+                // for vul app upload tagged data
+                .excludePathPatterns("/rest/project/projectdata/recycle");
 
         //manager authorization interceptor setup
         registry.addInterceptor(projectAuthInterceptor)
