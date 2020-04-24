@@ -45,6 +45,7 @@ public class TemplateCategory extends BaseEntity{
     @Where(clause = "is_deleted = false")
     private List<TemplateCategory> children;
 
+    @Where(clause = "is_deleted=false")
     @OneToMany(mappedBy = "templateCategory", fetch = FetchType.EAGER)
     @JsonProperty("template_list")
     @JsonIgnoreProperties(value = {"template_category", "project", "template_category", "created_at", "deleted_at", "is_deleted"})

@@ -223,14 +223,16 @@ public class DBTemplateService implements TemplateService {
         category.setProject(project);
 
         // check parent exist
-        TemplateCategory parent = templateCategoryDao.findById(category.getParent().getId())
-                .orElseThrow(() -> new NotFoundException(String.format("%s parent category isn't exist.", category.getParent().getId())));
-        category.setParent(parent);
+        if (category.getParent() != null) {
+            TemplateCategory parent = templateCategoryDao.findById(category.getParent().getId())
+                    .orElseThrow(() -> new NotFoundException(String.format("%s parent category isn't exist.", category.getParent().getId())));
+            category.setParent(parent);
 
-        // check if category exist
-        List<TemplateCategory> data = templateCategoryDao.findByNameAndParentAndIsDeletedIsFalse(category.getName(), parent);
-        if (data.size() > 0) {
-            throw new OcdlException(String.format("%s category is already exist.", category.getName()));
+            // check if category exist
+            List<TemplateCategory> data = templateCategoryDao.findByNameAndParentAndIsDeletedIsFalse(category.getName(), parent);
+            if (data.size() > 0) {
+                throw new OcdlException(String.format("%s category is already exist.", category.getName()));
+            }
         }
 
         // set default value
@@ -262,11 +264,9 @@ public class DBTemplateService implements TemplateService {
     }
 
     @Override
-    public TemplateCategory getProjectCategory(Project project) {
+    public List<TemplateCategory> getProjectCategory(Project project) {
 
-        TemplateCategory category = templateCategoryDao.findByProjectAndParent(project, null)
-                .orElseThrow(() ->
-                        new NotFoundException("Root category isn't exist."));
+        List<TemplateCategory> category = templateCategoryDao.findAllByProjectAndParent(project, null);
 
         return category;
     }

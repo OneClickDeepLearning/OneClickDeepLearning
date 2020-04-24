@@ -1,5 +1,6 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.controller.AuthController;
 import acceler.ocdl.dao.RUserRoleDao;
 import acceler.ocdl.dao.RoleDao;
@@ -8,8 +9,8 @@ import acceler.ocdl.entity.Project;
 import acceler.ocdl.entity.RUserRole;
 import acceler.ocdl.entity.Role;
 import acceler.ocdl.entity.User;
-import acceler.ocdl.exception.InvalidParamException;
 import acceler.ocdl.exception.NotFoundException;
+import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.model.OauthUser;
 import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.ProjectService;
@@ -18,12 +19,19 @@ import acceler.ocdl.utils.EncryptionUtil;
 import acceler.ocdl.utils.TimeUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
+import org.apache.hadoop.fs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
+
+import static org.apache.tomcat.util.http.fileupload.FileUtils.forceMkdir;
 
 
 @Service
@@ -121,6 +129,7 @@ public class DBUserService implements UserService {
 
 
     @Override
+    @Transactional
     public User saveUser(User user) {
         User userInDb = null;
         if (user.getId() != null) {
@@ -162,11 +171,33 @@ public class DBUserService implements UserService {
 
     private User createUser(User user) {
 
+        if (user.getUserName() != null && userDao.findByUserName(user.getUserName()).isPresent()) {
+            throw new OcdlException("Users name already exist.");
+        }
+
+        if (user.getEmail() != null && userDao.findByEmail(user.getEmail()).isPresent()) {
+            throw new OcdlException("Email already used.");
+        }
+
         String current = TimeUtil.currentTimeStampStr();
         user.setCreatedAt(current);
         user.setUpdatedAt(current);
         user.setIsDeleted(false);
-        return userDao.save(user);
+        User newUser = userDao.save(user);
+
+        //Path hadoopPath = new Path(hdfsUserSpace + newUser.getId());
+        //hdfsService.createDir(hadoopPath);
+
+        try{
+            File localMountSpace = new File(Paths.get(applicationsDirUserSpace,
+                    CONSTANTS.NAME_FORMAT.USER_SPACE.replace("{userId}", String.valueOf(newUser.getId()))).toString());
+            forceMkdir(localMountSpace);
+        } catch (IOException e) {
+            throw new OcdlException("Fail to creat mounted userspace for " + newUser.getUserName());
+        }
+
+        return newUser;
+
     }
 
 
@@ -182,7 +213,7 @@ public class DBUserService implements UserService {
 
     @Override
     @Transactional
-    public RUserRole addRole(User user, Role role, Project project) {
+    public RUserRole addRoleRelation(User user, Role role, Project project) {
 
         Role roleInDb = roleDao.findById(role.getId())
                 .orElseThrow(() -> new NotFoundException("Fail to find role"));
@@ -202,7 +233,28 @@ public class DBUserService implements UserService {
     }
 
     @Override
+    @Transactional
+    public RUserRole deleteRoleRelation(Long id) {
+
+        RUserRole rUserRole = rUserRoleDao.findById(id)
+                .orElseThrow(()-> new OcdlException("Fail to find RUserRole."));
+
+        rUserRole.setIsDeleted(true);
+        rUserRole.setDeletedAt(TimeUtil.currentTimeStampStr());
+        return rUserRoleDao.save(rUserRole);
+
+    }
+
+
+
+    @Override
     public boolean isExist(String sourceId) {
         return userDao.findBySourceId(sourceId).isPresent();
+    }
+
+    @Override
+    public List<RUserRole> getProjectsByUser(User user) {
+
+        return rUserRoleDao.findAllByUserAndIsDeletedIsFalse(user);
     }
 }

@@ -27,6 +27,7 @@ import javax.persistence.criteria.Root;
 import java.io.File;
 import org.apache.hadoop.fs.Path;
 
+
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -54,6 +55,9 @@ public class DBModelService implements ModelService {
     private HdfsService hdfsService;
 
     @Autowired
+    private AlluxioService alluxioService;
+
+    @Autowired
     private StorageService storageService;
 
     @Autowired
@@ -62,17 +66,17 @@ public class DBModelService implements ModelService {
     @Value("${APPLICATIONS_DIR.USER_SPACE}")
     private String applicationsDirUserSpace;
 
-    @Value("${APPLICATIONS_DIR.STAGE_SPACE}")
+    @Value("${HDFS.STAGING}")
     private String applicationsDirStageSpace;
 
     @Value("${S3.server.bucketName}")
     private String bucketName;
 
-    @Value("${KAFKA.TOPIC}")
-    private String kafkaTopic;
-
     @Override
     public Map<String, Integer> initModelToStage(User user, Project project) {
+
+        user = userService.getUserByUserId(user.getId());
+        project = projectService.getProject(project.getId());
 
         Map<String, Integer> initRecords = new HashMap<>();
         initRecords.put("finded", 0);
@@ -113,7 +117,8 @@ public class DBModelService implements ModelService {
 
                         String stagedFilePath = Paths.get(applicationsDirStageSpace,CONSTANTS.NAME_FORMAT.STAGED_MODEL.replace("{modelId}",
                                 refId).replace("{suffix}", suffix)).toString();
-                        hdfsService.uploadFile(new Path(f.getPath()), new Path(stagedFilePath));
+
+                        String now = TimeUtil.currentTimeStampStr();
 
                         Model model = Model.builder()
                                 .name(f.getName())
@@ -123,14 +128,21 @@ public class DBModelService implements ModelService {
                                 .lastOperator(user)
                                 .refId(refId)
                                 .project(project)
-                                .createdAt(TimeUtil.currentTimeStampStr())
+                                .createdAt(now)
+                                .updatedAt(now)
                                 .isDeleted(false)
                                 .build();
 
+                        if (modelDao.findAllByProjectAndName(project, f.getName()).size() > 0) {
+                            throw new OcdlException("Model already exist, please change your name.");
+                        }
+
+                        hdfsService.uploadFile(new Path(f.getPath()), new Path(stagedFilePath));
                         modelDao.save(model);
                         initRecords.put("successUpload", (int)initRecords.get("successUpload")+1);
 
                     } catch (Exception e) {
+                        e.printStackTrace();
                         initRecords.put("failUpload", (int) initRecords.get("failUpload") + 1);
                         log.error(String.format("Fail to init %s to new model", f.getName()));
                         continue;
@@ -198,37 +210,41 @@ public class DBModelService implements ModelService {
 
 
     @Override
-    public void release(Model model, User user) {
+    //@Transactional
+    public Model release(Model model, User user) {
 
-        Model modelInDb = modelDao.findByIdAndStatus(model.getId(), ModelStatus.APPROVED)
-                .orElseThrow(() -> new NotFoundException(String.format("%s approved model is not found.", model.getId())));
+        Algorithm algorithmInDb = algorithmDao.findById(model.getAlgorithm().getId())
+                .orElseThrow(() -> new NotFoundException("Algorithm is not found."));
+
+        String srcPath = Paths.get(applicationsDirStageSpace, model.getRefId() + "." + model.getSuffix()).toString();
+        String desPath = Paths.get(applicationsDirUserSpace, model.getOwner().getId().toString(),model.getRefId() + "." + model.getSuffix()).toString();
+        hdfsService.downloadFile(new Path(srcPath), new Path(desPath));
+        File modelFile = new File(desPath);
 
         // upload file to AWS S3
-        String publishedModelName = CONSTANTS.NAME_FORMAT.RELEASE_MODEL.replace("{algorithm}", modelInDb.getAlgorithm().getName())
-                .replace("{release_version}", modelInDb.getReleasedVersion().toString())
-                .replace("{cached_version}", modelInDb.getCachedVersion().toString())
-                .replace("{suffix}", modelInDb.getSuffix());
-        //storageService.uploadObject(bucketName, publishedModelName, modelFile);
+        String publishedModelName = CONSTANTS.NAME_FORMAT.RELEASE_MODEL.replace("{algorithm}", algorithmInDb.getName())
+                .replace("{release_version}", model.getReleasedVersion().toString())
+                .replace("{cached_version}", model.getCachedVersion().toString())
+                .replace("{suffix}", model.getSuffix());
+        storageService.uploadObject(bucketName, publishedModelName, modelFile);
 
         //send kafka message
         String message = CONSTANTS.KAFKA.MESSAGE.replace("{publishedModelName}", publishedModelName).replace("{modelUrl}",storageService.getObkectUrl(bucketName, publishedModelName));
         System.out.println("+++++++++++++++++++++++++++++++++++++++");
         System.out.println(message);
-        messageQueueService.send(kafkaTopic, message);
+        if (StringUtils.isEmpty(algorithmInDb.getKafkaTopic())) {
+            throw new OcdlException("Please set the Topic in Algorithm first.");
+        }
+        messageQueueService.send(algorithmInDb.getKafkaTopic(), message);
 
+        algorithmInDb.setCurrentCachedVersion(model.getCachedVersion());
+        algorithmInDb.setCurrentReleasedVersion(model.getReleasedVersion());
 
-        modelInDb.setStatus(ModelStatus.APPROVED);
-        modelInDb.setIsReleased(true);
-        modelInDb.setUpdatedAt(TimeUtil.currentTimeStampStr());
-        modelInDb.setLastOperator(user);
-        modelInDb = modelDao.save(modelInDb);
-
-        Algorithm algorithmInDb = algorithmDao.findById(modelInDb.getAlgorithm().getId())
-                .orElseThrow(() -> new NotFoundException("Algorithm is not found."));
-
-        algorithmInDb.setCurrentCachedVersion(modelInDb.getCachedVersion());
-        algorithmInDb.setCurrentReleasedVersion(modelInDb.getReleasedVersion());
-        algorithmDao.save(algorithmInDb);
+        model.setAlgorithm(algorithmInDb);
+        model.setIsReleased(true);
+        model.setUpdatedAt(TimeUtil.currentTimeStampStr());
+        model.setLastOperator(userService.getUserByUserId(user.getId()));
+        return modelDao.save(model);
     }
     
     @Override
@@ -263,13 +279,10 @@ public class DBModelService implements ModelService {
         if (!StringUtils.isEmpty(model.getSuffix())) {
             modelInDb.setSuffix(model.getSuffix());
         }
-
-        if (model.getStatus() != null) {
-            modelInDb.setStatus(model.getStatus());
-        }
         
         if (model.getLastOperator() != null) {
-            modelInDb.setLastOperator(model.getLastOperator());
+            User user = userService.getUserByUserId(model.getLastOperator().getId());
+            modelInDb.setLastOperator(user);
         }
         
         if (!StringUtils.isEmpty(model.getComments())) {
@@ -280,14 +293,16 @@ public class DBModelService implements ModelService {
             Algorithm algorithm = algorithmDao.findById(model.getAlgorithm().getId())
                     .orElseThrow(() -> new NotFoundException(String.format("Fail to find algorithm(#%s)", model.getAlgorithm().getId())));
             modelInDb.setAlgorithm(algorithm);
-        }
-        
-        if (model.getCachedVersion() != null) {
-            modelInDb.setCachedVersion(model.getCachedVersion());
-        }
 
-        if (model.getReleasedVersion() != null) {
-            modelInDb.setReleasedVersion(model.getReleasedVersion());
+            if (modelInDb.getStatus().equals(ModelStatus.NEW) && model.getStatus().equals(ModelStatus.APPROVED)) {
+                if (model.getIsCachedVersion()) {
+                    modelInDb.setReleasedVersion(algorithm.getCurrentReleasedVersion());
+                    modelInDb.setCachedVersion(algorithm.getCurrentCachedVersion()+1);
+                } else {
+                    modelInDb.setReleasedVersion(algorithm.getCurrentReleasedVersion()+1);
+                    modelInDb.setCachedVersion(0);
+                }
+            }
         }
         
         if (model.getIsDeleted() != null) {
@@ -295,6 +310,10 @@ public class DBModelService implements ModelService {
                 modelInDb.setDeletedAt(current);
             }
             modelInDb.setIsDeleted(model.getIsDeleted());
+        }
+
+        if (model.getStatus() != null) {
+            modelInDb.setStatus(model.getStatus());
         }
         
         modelInDb.setUpdatedAt(current);

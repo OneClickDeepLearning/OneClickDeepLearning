@@ -99,6 +99,4 @@ public class DefaultTemplateService {
         result.add("I'm the description");
         return result;
     }
-
-
 }

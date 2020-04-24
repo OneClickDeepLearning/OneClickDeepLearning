@@ -2,6 +2,7 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.dto.UploadDto;
+import acceler.ocdl.entity.RUserRole;
 import acceler.ocdl.entity.Role;
 import acceler.ocdl.entity.User;
 import acceler.ocdl.entity.UserData;
@@ -11,7 +12,6 @@ import acceler.ocdl.service.UserDataService;
 import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.EncryptionUtil;
 import acceler.ocdl.utils.SecurityUtil;
-import acceler.ocdl.utils.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.QueryParam;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +28,7 @@ import java.util.Map;
 import static acceler.ocdl.dto.Response.getBuilder;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "/rest")
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
@@ -130,7 +130,7 @@ public class AuthController {
         User user = (User) request.getAttribute("CURRENT_USER");
         if (user != null) {
             securityUtil.releaseToken(user);
-            //kubernetesService.releaseDockerContainer(user);
+            kubernetesService.releaseDockerContainer(user);
             respBuilder.setCode(Response.Code.SUCCESS);
         } else {
             respBuilder.setCode(Response.Code.ERROR);
@@ -140,13 +140,14 @@ public class AuthController {
 
     @RequestMapping(path = "/auth/me", method = RequestMethod.GET)
     @ResponseBody
-    public Response me(HttpServletRequest request, @QueryParam("token") String token) {
+    public Response me(HttpServletRequest request) {
         User user = (User) request.getAttribute("CURRENT_USER");
         final Response.Builder respBuilder = Response.getBuilder();
 
         Map<String, Object> result = new HashMap<>();
         result.put("userId", user.getId());
         result.put("username", user.getUserName());
+        String token = securityUtil.requestToken(user);
         result.put("token", token);
         //result.put("role", innerUser.getRole());
 
@@ -185,8 +186,8 @@ public class AuthController {
     }
 
 
-    @RequestMapping(path = "/user/get", method = RequestMethod.GET)
-    public Response getUserData(@RequestParam(name = "name") String name) {
+    @RequestMapping(path = "/user", method = RequestMethod.GET)
+    public Response getUserByName(@RequestParam(name = "name") String name) {
 
         Response.Builder responseBuilder = getBuilder();
 
@@ -198,8 +199,8 @@ public class AuthController {
     }
 
 
-    @RequestMapping(path = "/role/get", method = RequestMethod.GET)
-    public Response getUserData() {
+    @RequestMapping(path = "/role", method = RequestMethod.GET)
+    public Response getRoles() {
 
         Response.Builder responseBuilder = getBuilder();
 
@@ -268,19 +269,16 @@ public class AuthController {
                 .build();
     }
 
-
-    @RequestMapping(path = "/user", method = RequestMethod.GET)
-    public Response batchDeleteUserData(@RequestParam(name = "name") String name) {
-
+    @RequestMapping(path = "/projects", method = RequestMethod.GET)
+    public Response getProjectsByUser(HttpServletRequest request) {
         Response.Builder responseBuilder = getBuilder();
+        User user = (User) request.getAttribute("CURRENT_USER");
 
-        List<User> users = userService.getAllUserByNameContaining(name);
+        List<RUserRole> projects = userService.getProjectsByUser(user);
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
-                .setData(users)
+                .setData(projects)
                 .build();
     }
-
-
 
 }

@@ -2,9 +2,7 @@ package acceler.ocdl.service.impl;
 
 import acceler.ocdl.service.StorageService;
 import com.amazonaws.HttpMethod;
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.*;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
@@ -19,23 +17,18 @@ import java.net.URL;
 @Component
 public class S3Service implements StorageService {
 
-    @Value("${S3.server.accesskey}")
-    private String accesskey;
-    @Value("${S3.server.secretkey}")
-    private String secretkey;
-
     private static AmazonS3 s3client;
 
     private void createStorage() {
 
         if (s3client == null) {
             System.out.println("create the S3 services  ====================================");
-            AWSCredentials credentials = new BasicAWSCredentials(accesskey, secretkey);
+            //AWSCredentials credentials = new BasicAWSCredentials(accesskey, secretkey);
 
             // change the regions if you don't use us_east_virginia
             s3client = AmazonS3ClientBuilder
                     .standard()
-                    .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                    .withCredentials(new DefaultAWSCredentialsProviderChain())
                     .withRegion(Regions.US_EAST_1)
                     .build();
         }
@@ -67,6 +60,4 @@ public class S3Service implements StorageService {
         System.out.println("Pre-Signed URL: " + url.toString());
         return url.toString();
     }
-
-
 }

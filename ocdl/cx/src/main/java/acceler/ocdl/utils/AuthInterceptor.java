@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public final class AuthInterceptor extends HandlerInterceptorAdapter {
     private static final String AUTH_TOKEN_HEADER = "AUTH_TOKEN";
-    private static final String PROJECT_HEADER = "PROJECT";
 
     @Resource
     private SecurityUtil securityUtil;
@@ -39,27 +38,6 @@ public final class AuthInterceptor extends HandlerInterceptorAdapter {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return false;
         }
-
-        // if header has project
-        String projectRefId = request.getHeader(PROJECT_HEADER);
-        if (!StringUtils.isEmpty(projectRefId)) {
-
-            Project project = projectService.getProject(projectRefId);
-            // verify if project exist
-            if (null == project) {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return false;
-            }
-
-            // verify if project belongs to the accessUser
-            if (project.getUserRoles().stream()
-                    .noneMatch(u -> u.getUser().getId().equals(accessUser.getId()))) {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return false;
-            }
-            request.setAttribute("PROJECT", project);
-        }
-
 
         request.setAttribute("CURRENT_USER", accessUser);
         request.setAttribute("CURRENT_TOKEN", token);

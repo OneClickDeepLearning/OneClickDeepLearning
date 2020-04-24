@@ -2,21 +2,30 @@ package acceler.ocdl.controller;
 
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.dto.UserRoleDto;
+import acceler.ocdl.dto.VulDataDto;
 import acceler.ocdl.entity.*;
 import acceler.ocdl.service.*;
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static acceler.ocdl.dto.Response.getBuilder;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "/rest/project")
 public class ProjectController {
 
@@ -36,6 +45,11 @@ public class ProjectController {
 
     @Autowired
     private ProjectDataService projectDataService;
+
+    @Value("${APPLICATIONS_DIR.TEMP_SPACE}")
+    private String tempPath;
+
+    private Gson gson = new Gson();
 
     @RequestMapping(path = "/algorithm/get", method = RequestMethod.POST)
     public Response getAlgorithm(@RequestBody Algorithm algorithm,
@@ -62,7 +76,6 @@ public class ProjectController {
                 .setData(algorithmInDb)
                 .build();
     }
-
 
     @RequestMapping(path = "/algorithm", method = RequestMethod.DELETE)
     public Response batchDeleteAlgorithm(@RequestBody List<Algorithm> algorithms) {
@@ -91,7 +104,7 @@ public class ProjectController {
 //        return responseBuilder.build();
 //    }
 
-    @RequestMapping(path = "", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public final Response getProjectConfig(@RequestParam(value = "id") Long id) {
 
         Response.Builder responseBuilder = Response.getBuilder();
@@ -103,7 +116,6 @@ public class ProjectController {
                 .build();
     }
 
-
     @RequestMapping(path = "/config", method = RequestMethod.POST)
     public Response saveProject(@RequestBody Project project, HttpServletRequest request) {
 
@@ -111,15 +123,13 @@ public class ProjectController {
 
         User user = (User) request.getAttribute("CURRENT_USER");
         Project projectInDb = projectService.saveProject(project, user);
-        //algorithmService.updateAlgorithmList(updatedProjectConfig.getAlgorithmStrList(), updatedProjectConfig.getForceRemoved());
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(projectInDb)
                 .build();
     }
 
-
-    @RequestMapping(path = "", method = RequestMethod.DELETE)
+    @RequestMapping(path = "/config", method = RequestMethod.DELETE)
     public Response deleteProject(@RequestBody Project project) {
 
         Response.Builder responseBuilder = getBuilder();
@@ -158,7 +168,6 @@ public class ProjectController {
                 .build();
     }
 
-
     @RequestMapping(path = "/suffix", method = RequestMethod.DELETE)
     public Response batchDeleteSuffix(@RequestBody List<Suffix> suffixes) {
 
@@ -184,6 +193,32 @@ public class ProjectController {
         return responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(projectDataPage)
                 .build();
+    }
+
+    @RequestMapping(path = "/projectdata/recycle", method = RequestMethod.POST)
+    public Response recycleTaggedData(HttpServletRequest request, @RequestBody VulDataDto vulDataDto) {
+
+        Response.Builder responseBuilder = Response.getBuilder();
+
+        // create file
+        Path path = Paths.get(tempPath,vulDataDto.getCreateAt());
+        try {
+            Files.write(path, gson.toJson(vulDataDto).getBytes());
+        } catch (IOException e) {
+            return responseBuilder.setCode(Response.Code.ERROR)
+                    .setMessage(e.getMessage()).build();
+        }
+
+        // upload file to corresponding project
+        Project project = projectService.getProject(vulDataDto.getProjectRefId());
+        ProjectData projectData = projectDataService.uploadProjectData(project, path.toString());
+
+        // delete file
+        File file = new File(path.toString());
+        file.delete();
+
+        return responseBuilder.setCode(Response.Code.SUCCESS)
+                .setData(projectData).build();
     }
 
     // TODO: file
@@ -215,7 +250,6 @@ public class ProjectController {
                 .build();
     }
 
-
     @RequestMapping(path = "/projectdata", method = RequestMethod.DELETE)
     public Response batchDeleteProjectData(@RequestBody List<ProjectData> projectDatas,
                                            HttpServletRequest request) {
@@ -238,12 +272,14 @@ public class ProjectController {
         Response.Builder responseBuilder = getBuilder();
 
         Project project = (Project) request.getAttribute("PROJECT");
-        RUserRole rUserRole = userService.addRole(userRoleDto.getUser(), userRoleDto.getRole(), project);
+        RUserRole rUserRole = userService.addRoleRelation(userRoleDto.getUser(), userRoleDto.getRole(), project);
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
                 .setData(rUserRole)
                 .build();
     }
+
+
 
 
 

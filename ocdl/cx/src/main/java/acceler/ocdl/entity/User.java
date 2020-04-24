@@ -1,5 +1,6 @@
 package acceler.ocdl.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -7,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -35,6 +37,7 @@ public class User extends BaseEntity {
     private String email;
 
     @Column(name = "password")
+    @JsonIgnore
     @ColumnTransformer(
             read = "CAST(AES_DECRYPT(UNHEX(password), '!@#$%^&') as char(128))",
             write = "HEX(AES_ENCRYPT(?, '!@#$%^&'))"
@@ -87,6 +90,7 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user")
     @JsonProperty("user_roles")
     @JsonIgnoreProperties(value = {"user"})
+    @Where(clause = "is_deleted=false")
     private Set<RUserRole> userRoles;
 
 }

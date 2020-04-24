@@ -15,7 +15,7 @@ public interface TemplateCategoryDao extends JpaRepository<TemplateCategory, Lon
 
     Optional<TemplateCategory> findByName(String name);
 
-    Optional<TemplateCategory> findByProjectAndParent(Project project, TemplateCategory parent);
+    List<TemplateCategory> findAllByProjectAndParent(Project project, TemplateCategory parent);
 
     List<TemplateCategory> findByNameAndParentAndIsDeletedIsFalse(String name, TemplateCategory category);
 }

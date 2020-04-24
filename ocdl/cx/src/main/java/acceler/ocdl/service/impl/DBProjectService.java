@@ -3,12 +3,12 @@ package acceler.ocdl.service.impl;
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.dao.ProjectDao;
 import acceler.ocdl.dao.RoleDao;
-import acceler.ocdl.entity.Project;
-import acceler.ocdl.entity.Role;
-import acceler.ocdl.entity.User;
+import acceler.ocdl.dao.TemplateCategoryDao;
+import acceler.ocdl.entity.*;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.exception.OcdlException;
 import acceler.ocdl.service.ProjectService;
+import acceler.ocdl.service.TemplateService;
 import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.TimeUtil;
 import org.apache.commons.lang.RandomStringUtils;
@@ -29,6 +29,9 @@ public class DBProjectService implements ProjectService {
     @Autowired
     private RoleDao roleDao;
 
+    @Autowired
+    private TemplateService templateService;
+
     @Override
     @Transactional
     public Project saveProject(Project project, User user) {
@@ -45,17 +48,29 @@ public class DBProjectService implements ProjectService {
         } else {
             projectInDb = createProject(project);
 
+            // connect user and project
             Role role = roleDao.findByName(CONSTANTS.ROLE_TABLE.ROLE_MAN)
                     .orElseThrow(() ->
                             new NotFoundException(String.format("Fail to find role(#%s)", CONSTANTS.ROLE_TABLE.ROLE_MAN)));
-            userService.addRole(user, role, projectInDb);
+            userService.addRoleRelation(user, role, projectInDb);
+
+            // create root template category to project
+            TemplateCategory templateCategory = TemplateCategory.builder()
+                    .name("root")
+                    .project(projectInDb)
+                    .build();
+            templateService.saveCategory(templateCategory);
         }
 
-        return projectInDb;
+        return projectDao.findById(projectInDb.getId()).get();
     }
 
 
     private Project createProject(Project project) {
+
+        if (projectDao.findByName(project.getName()).isPresent()) {
+            throw new OcdlException("Project already exist.");
+        }
 
         // create project in Db
         project.setRefId(RandomStringUtils.randomAlphanumeric(CONSTANTS.PROJECT_TABLE.LENGTH_REF_ID));
@@ -108,6 +123,7 @@ public class DBProjectService implements ProjectService {
 
 
     @Override
+    @Transactional
     public boolean deleteProject(Long id) {
 
         Project projectInDb = projectDao.findByIdAndIsDeletedIsFalse(id)
@@ -116,6 +132,10 @@ public class DBProjectService implements ProjectService {
         projectInDb.setIsDeleted(true);
         projectInDb.setDeletedAt(TimeUtil.currentTimeStampStr());
         projectDao.save(projectInDb);
+
+        projectInDb.getUserRoles().forEach(rUserRole -> userService.deleteRoleRelation(rUserRole.getId()));
         return true;
     }
+
+
 }

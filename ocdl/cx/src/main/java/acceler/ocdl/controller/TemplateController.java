@@ -18,8 +18,9 @@ import java.util.List;
 import static acceler.ocdl.dto.Response.getBuilder;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "/rest/template")
-public final class TemplateController {
+public class TemplateController {
 
     @Autowired
     private TemplateService templateService;
@@ -62,7 +63,7 @@ public final class TemplateController {
         Response.Builder responseBuilder = getBuilder();
 
         Project project = (Project)request.getAttribute("PROJECT");
-        TemplateCategory category = templateService.getProjectCategory(project);
+        List<TemplateCategory> category = templateService.getProjectCategory(project);
 
         return responseBuilder
                 .setCode(Response.Code.SUCCESS)
