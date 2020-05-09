@@ -7,9 +7,11 @@ import acceler.ocdl.entity.TemplateCategory;
 import acceler.ocdl.exception.InvalidParamException;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.exception.OcdlException;
+import acceler.ocdl.service.HdfsService;
 import acceler.ocdl.service.ProjectService;
 import acceler.ocdl.service.TemplateService;
 import acceler.ocdl.utils.TimeUtil;
+import org.apache.hadoop.fs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.entity.Template;
@@ -43,6 +45,9 @@ public class DBTemplateService implements TemplateService {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private HdfsService hdfsService;
 
     @Value("${HDFS.TEMPLATE}")
     private String hdfsTemplatePath;
@@ -283,7 +288,7 @@ public class DBTemplateService implements TemplateService {
 
         String srcPath = Paths.get(hdfsTemplatePath, refId).toString();
         String desPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.CONTAINER + templateInDb.getName()).toString();
-        //hdfsService.downloadFile(new Path(srcPath), new Path(desPath));
+        hdfsService.downloadFile(new Path(srcPath), new Path(desPath));
         return true;
     }
 

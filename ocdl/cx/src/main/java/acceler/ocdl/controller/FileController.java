@@ -1,8 +1,8 @@
 package acceler.ocdl.controller;
 
+import acceler.ocdl.dto.FileListVO;
 import acceler.ocdl.dto.Response;
-import acceler.ocdl.model.FileListVO;
-import acceler.ocdl.model.InnerUser;
+import acceler.ocdl.entity.User;
 import acceler.ocdl.service.HdfsService;
 import org.apache.hadoop.fs.Path;
 import org.slf4j.Logger;
@@ -22,7 +22,6 @@ import java.util.Map;
 @RequestMapping(path = "/rest/data")
 public class FileController {
 
-
     @Autowired
     private HdfsService hdfsService;
 
@@ -33,28 +32,22 @@ public class FileController {
     public Response springUpload(@RequestBody Map<String,String> file) {
         //TODO: add a new function for upload data -> Boqian
 
-/*        Response.Builder builder = Response.getBuilder();
-
-        if(!file.isEmpty()){
-
-            String result =  hdfsService.uploadFile(file.get("file"));
-
-            builder.setCode(Response.Code.SUCCESS).setData(result);
-
-        } else {
-            builder.setCode(Response.Code.ERROR).setMessage("Empty file!");
-        }
-
+        Response.Builder builder = Response.getBuilder();
+//        if(!file.isEmpty()){
+//            String result =  hdfsService.uploadFile(file.get("file"));
+//            builder.setCode(Response.Code.SUCCESS).setData(result);
+//
+//        } else {
+//            builder.setCode(Response.Code.ERROR).setMessage("Empty file!");
+//        }
         return builder.build();
-        */
-    return null;
     }
 
     @RequestMapping(path="/list", method = RequestMethod.GET)
     @ResponseBody
     public final Response hdfsList(HttpServletRequest request) {
-        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
-        Path path = new Path("/UserSpace/" + innerUser.getUserId().toString());
+        User user = (User) request.getAttribute("CURRENT_USER");
+        Path path = new Path("/UserSpace/" + user.getId().toString());
         List<FileListVO> list = new ArrayList<>();
         list = hdfsService.listFiles(path);
         return Response.getBuilder()

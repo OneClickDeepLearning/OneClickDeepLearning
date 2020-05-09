@@ -8,9 +8,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Where;
-
-
 import javax.persistence.*;
 
 @Getter
@@ -40,6 +37,4 @@ public class RUserRole extends BaseEntity {
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JsonIgnoreProperties(value = {"users", "created_at", "is_deleted", "deleted_at"})
     private Role role;
-
-
 }

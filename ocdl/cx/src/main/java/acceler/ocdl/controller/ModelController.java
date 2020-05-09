@@ -18,7 +18,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -87,7 +86,6 @@ public class ModelController {
         User user = (User) request.getAttribute("CURRENT_USER");
         Project project = (Project) request.getAttribute("PROJECT");
 
-        //Map<String, List<ModelDto>> modelMap = modelService.getModelListByUser(innerUser.getUserId());
         Model model = Model.builder()
                 .project(project)
                 .owner(user)
@@ -109,9 +107,6 @@ public class ModelController {
      */
     @RequestMapping(path="/", method = RequestMethod.PUT)
     public final Response pushDecision(@RequestBody Model model, HttpServletRequest request) {
-//        String from = request.getParameter("fromStatus");
-//        String to = request.getParameter("toStatus");
-//        String upgradeVersion = request.getParameter("upgradeVersion");
 
         Response.Builder responseBuilder = getBuilder();
 
@@ -123,7 +118,6 @@ public class ModelController {
             throw new OcdlException("Permission denied!");
         }
         model.setLastOperator(user);
-
         modelInDb = modelService.updateModel(model);
 
         return responseBuilder.setCode(Response.Code.SUCCESS)
@@ -187,7 +181,6 @@ public class ModelController {
                 .build();
 
         Model modelInDb = modelService.createModel(model);
-
         return builder.setCode(Response.Code.SUCCESS).setData(modelInDb).build();
     }
 

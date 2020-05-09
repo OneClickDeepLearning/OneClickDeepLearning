@@ -1,30 +1,25 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.dto.FileListVO;
 import acceler.ocdl.exception.HdfsException;
-import acceler.ocdl.model.FileListVO;
-import acceler.ocdl.service.HdfsService;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class DefaultHdfsServiceTest {
 
     @Test
     public void uploadFile() {
-//        DefaultHdfsService service = new DefaultHdfsService();
-//        String url = service.uploadFile("test.txt");
-//        System.out.println(url);
+        DefaultHdfsService service = new DefaultHdfsService();
+        //String url = service.uploadFile("test.txt");
+        //System.out.println(url);
     }
 
     @Test

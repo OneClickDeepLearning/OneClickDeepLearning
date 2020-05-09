@@ -1,14 +1,10 @@
 package acceler.ocdl.utils;
 
-import acceler.ocdl.entity.Project;
 import acceler.ocdl.entity.User;
-import acceler.ocdl.service.ProjectService;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,9 +16,6 @@ public final class AuthInterceptor extends HandlerInterceptorAdapter {
 
     @Resource
     private SecurityUtil securityUtil;
-
-    @Autowired
-    private ProjectService projectService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

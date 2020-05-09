@@ -11,10 +11,8 @@ import acceler.ocdl.dto.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
 import static acceler.ocdl.dto.Response.getBuilder;
 
 @RestController
@@ -27,36 +25,6 @@ public class TemplateController {
 
     @Autowired
     private ProjectService projectService;
-
-//    @ResponseBody
-//    @RequestMapping(path = "/file", method = RequestMethod.GET)
-//    public final Response getTemplateFiles(HttpServletRequest request){
-//        Response.Builder responseBuilder = getBuilder();
-//
-//        Map<String,List<String>> result;
-//        try{
-//            result =  templateService.getTemplatesList();
-//            responseBuilder.setCode(Response.Code.SUCCESS);
-//            responseBuilder.setData(result);
-//        }catch (Exception e){
-//            responseBuilder.setCode(Response.Code.ERROR);
-//            responseBuilder.setMessage(e.getMessage());
-//        }
-//        return responseBuilder.build();
-//    }
-//
-//    @ResponseBody
-//    @RequestMapping(path = "/code", method = RequestMethod.GET)
-//    public final Response getTemplateCode(@QueryParam("name")String name, @QueryParam("type")String type){
-//        List<String> templates = new ArrayList <String>();
-//        templates = templateService.getCode(name,type);
-//
-//        return Response.getBuilder()
-//                .setCode(Response.Code.SUCCESS)
-//                .setData(templates)
-//                .build();
-//    }
-
 
     @RequestMapping(path = "/category", method = RequestMethod.GET)
     public Response getCategory(HttpServletRequest request){
@@ -158,9 +126,4 @@ public class TemplateController {
                 .setData(success)
                 .build();
     }
-
-
-
-
-
 }

@@ -42,7 +42,7 @@ public class KafkaService implements MessageQueueService {
 
     @Override
     public void addTopic(String topic) {
-
+        //TODO add topic in kafka
     }
 
 
