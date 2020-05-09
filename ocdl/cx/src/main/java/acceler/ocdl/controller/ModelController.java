@@ -147,10 +147,6 @@ public class ModelController {
             throw new OcdlException("Model should be approved first, if you want to release it.");
         }
 
-        modelInDb.setAlgorithm(model.getAlgorithm());
-        modelInDb.setCachedVersion(model.getCachedVersion());
-        modelInDb.setReleasedVersion(model.getReleasedVersion());
-
         modelInDb = modelService.release(modelInDb, user);
         return builder.setCode(Response.Code.SUCCESS).setData(modelInDb).build();
     }

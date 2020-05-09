@@ -52,8 +52,8 @@ public class AuthController {
 
         boolean valid;
         if (user.getIsInnerUser()) {
-            valid = !org.apache.commons.lang.StringUtils.isEmpty(user.getUserName())
-                    && !org.apache.commons.lang.StringUtils.isEmpty(user.getPassword());
+            valid = (!org.apache.commons.lang.StringUtils.isEmpty(user.getUserName()))
+                    && (!org.apache.commons.lang.StringUtils.isEmpty(user.getPassword()));
             // decrypted password
 
             /*byte[] textBytes = Base64.decodeBase64(user.getPassword());
@@ -63,9 +63,9 @@ public class AuthController {
             String decryptedPassword = user.getPassword();
             user.setPassword(decryptedPassword);
         } else {
-            valid = !org.apache.commons.lang.StringUtils.isEmpty(user.getUserName())
-                    && !org.apache.commons.lang.StringUtils.isEmpty(user.getSource())
-                    && !org.apache.commons.lang.StringUtils.isEmpty(user.getSourceId());
+            valid = (!org.apache.commons.lang.StringUtils.isEmpty(user.getUserName()))
+                    && (!org.apache.commons.lang.StringUtils.isEmpty(user.getSource()))
+                    && (!org.apache.commons.lang.StringUtils.isEmpty(user.getSourceId()));
         }
 
         if (!valid) {
