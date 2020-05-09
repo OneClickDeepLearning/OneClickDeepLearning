@@ -3,7 +3,6 @@ package acceler.ocdl.dao;
 import acceler.ocdl.entity.PlatformMeta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
 
 

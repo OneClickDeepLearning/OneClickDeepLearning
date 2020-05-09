@@ -22,7 +22,6 @@ import java.util.Map;
 @RequestMapping(path = "/rest/data")
 public class FileController {
 
-
     @Autowired
     private HdfsService hdfsService;
 
@@ -33,21 +32,15 @@ public class FileController {
     public Response springUpload(@RequestBody Map<String,String> file) {
         //TODO: add a new function for upload data -> Boqian
 
-/*        Response.Builder builder = Response.getBuilder();
-
-        if(!file.isEmpty()){
-
-            String result =  hdfsService.uploadFile(file.get("file"));
-
-            builder.setCode(Response.Code.SUCCESS).setData(result);
-
-        } else {
-            builder.setCode(Response.Code.ERROR).setMessage("Empty file!");
-        }
-
+        Response.Builder builder = Response.getBuilder();
+//        if(!file.isEmpty()){
+//            String result =  hdfsService.uploadFile(file.get("file"));
+//            builder.setCode(Response.Code.SUCCESS).setData(result);
+//
+//        } else {
+//            builder.setCode(Response.Code.ERROR).setMessage("Empty file!");
+//        }
         return builder.build();
-        */
-    return null;
     }
 
     @RequestMapping(path="/list", method = RequestMethod.GET)

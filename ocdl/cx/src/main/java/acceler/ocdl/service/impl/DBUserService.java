@@ -19,13 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
-
 import static org.apache.tomcat.util.http.fileupload.FileUtils.forceMkdir;
 
 
@@ -203,7 +200,6 @@ public class DBUserService implements UserService {
 
     @Override
     public List<RUserRole> getProjectsByUser(User user) {
-
         return rUserRoleDao.findAllByUserAndIsDeletedIsFalse(user);
     }
 }

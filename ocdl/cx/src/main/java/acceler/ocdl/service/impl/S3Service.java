@@ -7,9 +7,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
 import java.io.File;
 import java.net.URL;
 

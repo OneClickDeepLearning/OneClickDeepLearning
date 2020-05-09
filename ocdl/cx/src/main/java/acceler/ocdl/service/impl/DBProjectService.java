@@ -3,7 +3,6 @@ package acceler.ocdl.service.impl;
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.dao.ProjectDao;
 import acceler.ocdl.dao.RoleDao;
-import acceler.ocdl.dao.TemplateCategoryDao;
 import acceler.ocdl.entity.*;
 import acceler.ocdl.exception.NotFoundException;
 import acceler.ocdl.exception.OcdlException;

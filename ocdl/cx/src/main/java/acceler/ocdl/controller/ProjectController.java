@@ -11,9 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -88,21 +86,6 @@ public class ProjectController {
                 .setData(success)
                 .build();
     }
-
-
-
-//    @ResponseBody
-//    @RequestMapping(path = "/latest/{algorithm}", method = RequestMethod.GET)
-//    public final Response getLatestModelName(@PathVariable String algorithm) {
-//
-//        Response.Builder responseBuilder = getBuilder();
-//
-//        String latestModelName = algorithmService.getLatestModelName(algorithm);
-//
-//        responseBuilder.setCode(Response.Code.SUCCESS)
-//                .setData(latestModelName);
-//        return responseBuilder.build();
-//    }
 
     @RequestMapping(method = RequestMethod.GET)
     public final Response getProjectConfig(@RequestParam(value = "id") Long id) {
@@ -179,7 +162,6 @@ public class ProjectController {
                 .setData(success)
                 .build();
     }
-
 
     @RequestMapping(path = "/projectdata/get", method = RequestMethod.POST)
     public Response getProjectData(@RequestBody ProjectData projectData,
@@ -278,29 +260,5 @@ public class ProjectController {
                 .setData(rUserRole)
                 .build();
     }
-
-
-
-
-
-
-//    @RequestMapping(path = "/config/name", method = RequestMethod.PUT)
-//    @ResponseBody
-//    public Response updateProjectNames(@RequestBody Map<String, String> projectName) {
-//
-//        Response.Builder responseBuilder = Response.getBuilder();
-//        String name = projectName.get("name");
-//
-//        if (!StringUtil.isNullOrEmpty(name)) {
-//            Project project = new Project();
-//            project.setProjectName(projectName.get("name"));
-//            projectService.updateProjectConfiguration(project);
-//            responseBuilder.setCode(Response.Code.SUCCESS)
-//                    .setData(projectName);
-//        } else {
-//            responseBuilder.setCode(Response.Code.ERROR).setMessage("ProjectName can not be empty");
-//        }
-//        return responseBuilder.build();
-//    }
 
 }

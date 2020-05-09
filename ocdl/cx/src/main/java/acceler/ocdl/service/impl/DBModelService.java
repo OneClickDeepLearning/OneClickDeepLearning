@@ -210,7 +210,6 @@ public class DBModelService implements ModelService {
 
 
     @Override
-    //@Transactional
     public Model release(Model model, User user) {
 
         Algorithm algorithmInDb = algorithmDao.findById(model.getAlgorithm().getId())

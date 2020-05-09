@@ -2,7 +2,6 @@ package acceler.ocdl.service.impl;
 
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.dao.UserDataDao;
-import acceler.ocdl.entity.ProjectData;
 import acceler.ocdl.entity.User;
 import acceler.ocdl.entity.UserData;
 import acceler.ocdl.exception.NotFoundException;
@@ -12,6 +11,7 @@ import acceler.ocdl.service.UserDataService;
 import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.TimeUtil;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.hadoop.fs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -58,7 +58,7 @@ public class DBUserDataService implements UserDataService {
         // upload file to HDFS
         String refId = CONSTANTS.USER_DATA_TABLE.USER_PREFIX + RandomStringUtils.randomAlphanumeric(CONSTANTS.PROJECT_DATA_TABLE.LENGTH_REF_ID);
         String desPath = Paths.get(hdfsUserDataPath, refId).toString();
-        //hdfsService.uploadFile(new Path(srcPath), new Path(desPath));
+        hdfsService.uploadFile(new Path(srcPath), new Path(desPath));
 
         // create userdata in database
         User userInDb = userService.getUserByUserId(user.getId());
@@ -149,7 +149,7 @@ public class DBUserDataService implements UserDataService {
 
         String srcPath = Paths.get(hdfsUserDataPath, refId).toString();
         String desPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.CONTAINER + userData.getName()).toString();
-        //hdfsService.downloadFile(new Path(srcPath), new Path(desPath));
+        hdfsService.downloadFile(new Path(srcPath), new Path(desPath));
         return true;
     }
 

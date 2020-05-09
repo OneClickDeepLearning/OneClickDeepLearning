@@ -1,6 +1,5 @@
 package acceler.ocdl.utils;
 
-import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.entity.Project;
 import acceler.ocdl.entity.User;
 import acceler.ocdl.service.ProjectService;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

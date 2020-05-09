@@ -151,7 +151,7 @@ public class DBProjectDataService implements ProjectDataService {
 
         String srcPath = Paths.get(hdfsProjectDataPath, refId).toString();
         String desPath = Paths.get(CONSTANTS.APPLICATIONS_DIR.CONTAINER + projectData.getName()).toString();
-        //hdfsService.downloadFile(new Path(srcPath), new Path(desPath));
+        hdfsService.downloadFile(new Path(srcPath), new Path(desPath));
         return true;
     }
 

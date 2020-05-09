@@ -1,7 +1,6 @@
 package acceler.ocdl.dao;
 
 import acceler.ocdl.entity.Model;
-import acceler.ocdl.entity.ModelStatus;
 import acceler.ocdl.entity.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

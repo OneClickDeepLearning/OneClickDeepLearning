@@ -1,6 +1,5 @@
 package acceler.ocdl.dto;
 
-
 import acceler.ocdl.entity.Role;
 import acceler.ocdl.entity.User;
 import lombok.AllArgsConstructor;

@@ -12,18 +12,17 @@ import acceler.ocdl.service.UserDataService;
 import acceler.ocdl.service.UserService;
 import acceler.ocdl.utils.EncryptionUtil;
 import acceler.ocdl.utils.SecurityUtil;
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import static acceler.ocdl.dto.Response.getBuilder;
 
 @RestController
@@ -54,11 +53,8 @@ public class AuthController {
             valid = (!org.apache.commons.lang.StringUtils.isEmpty(user.getUserName()))
                     && (!org.apache.commons.lang.StringUtils.isEmpty(user.getPassword()));
             // decrypted password
-
-            /*byte[] textBytes = Base64.decodeBase64(user.getPassword());
-            String decryptedPassword = EncryptionUtil.decrypt(textBytes);
-            System.out.println(password);
-            System.out.println(decryptedPassword);*/
+            //byte[] textBytes = Base64.decodeBase64(user.getPassword());
+            //String decryptedPassword = EncryptionUtil.decrypt(textBytes);
             String decryptedPassword = user.getPassword();
             user.setPassword(decryptedPassword);
         } else {

@@ -44,12 +44,6 @@ public interface ModelService {
      */
     void undo(Model model, String comments, User lastOperator);
 
-    /**
-     * get models by status
-     * @param status specific status
-     * @return list of Model
-     */
-    //ModelDto[] getModelsByStatus(Model.Status status);
 
     /**
      * release model
@@ -66,6 +60,4 @@ public interface ModelService {
     Page<Model> getModels(Model model, int page, int size);
 
     Model getModelById(Long id);
-
-    //Map<String, List<ModelDto>> getModelListByUser(long userId);
 }

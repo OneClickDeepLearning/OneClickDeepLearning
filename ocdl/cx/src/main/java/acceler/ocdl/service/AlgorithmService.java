@@ -4,40 +4,30 @@ package acceler.ocdl.service;
 import acceler.ocdl.entity.Algorithm;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 public interface AlgorithmService {
+
+    /**
+     * create or update algorithm
+     * @param algorithm the algorithm that received by front-end
+     * @return updated algorithm
+     */
     Algorithm saveAlgorithm(Algorithm algorithm);
 
-    Page<Algorithm> getAlgorithm(Algorithm algorithm, int page, int size);
-
-    boolean batchDeleteAlgorithm(List<Algorithm> algorithms);
-
-    //String getLatestModelName(String algorithm);
-
     /**
-     * get the algorithm list
+     * get the algorithm list with condition
      * @return list of algorithm
      */
-    //List<Algorithm> getAllAlgorithm();
+    Page<Algorithm> getAlgorithm(Algorithm algorithm, int page, int size);
 
     /**
-     * get Algorithm obj by name
-     * @param algorithmName the name of Algorithm
-     * @return Algorithm obj
+     * delete algorithm list
+     * @param algorithms the algorithm  list that aim to delete
+     * @return boolean result to deletion
      */
-    //Algorithm getAlgorithmByName(String algorithmName);
-
-
-    /**
-     * update algorithm list
-     * @param algorithms the algorithm list that received by front-end
-     * @param forceRemove is force removed
-     * @return list of updated algorithm name
-     */
-    //List<String> updateAlgorithmList(List<String> algorithms, boolean forceRemove);
+    boolean batchDeleteAlgorithm(List<Algorithm> algorithms);
 
 
 

@@ -1,7 +1,6 @@
 package acceler.ocdl.utils;
 
 import acceler.ocdl.entity.User;
-import acceler.ocdl.exception.NotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.Hashtable;
