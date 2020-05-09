@@ -1,13 +1,12 @@
 package acceler.ocdl.controller;
 
+import acceler.ocdl.entity.ResourceType;
 import acceler.ocdl.entity.User;
 import acceler.ocdl.exception.KubernetesException;
-import acceler.ocdl.model.ResourceType;
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.service.KubernetesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;

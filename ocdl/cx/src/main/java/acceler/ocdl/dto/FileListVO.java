@@ -1,4 +1,4 @@
-package acceler.ocdl.model;
+package acceler.ocdl.dto;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 

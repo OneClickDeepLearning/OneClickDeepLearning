@@ -1,8 +1,8 @@
 package acceler.ocdl.controller;
 
+import acceler.ocdl.dto.FileListVO;
 import acceler.ocdl.dto.Response;
-import acceler.ocdl.model.FileListVO;
-import acceler.ocdl.model.InnerUser;
+import acceler.ocdl.entity.User;
 import acceler.ocdl.service.HdfsService;
 import org.apache.hadoop.fs.Path;
 import org.slf4j.Logger;
@@ -53,8 +53,8 @@ public class FileController {
     @RequestMapping(path="/list", method = RequestMethod.GET)
     @ResponseBody
     public final Response hdfsList(HttpServletRequest request) {
-        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
-        Path path = new Path("/UserSpace/" + innerUser.getUserId().toString());
+        User user = (User) request.getAttribute("CURRENT_USER");
+        Path path = new Path("/UserSpace/" + user.getId().toString());
         List<FileListVO> list = new ArrayList<>();
         list = hdfsService.listFiles(path);
         return Response.getBuilder()

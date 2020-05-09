@@ -1,9 +1,8 @@
 package acceler.ocdl.service;
 
+import acceler.ocdl.dto.FileListVO;
 import acceler.ocdl.exception.HdfsException;
-import acceler.ocdl.model.FileListVO;
 import org.apache.hadoop.fs.Path;
-
 import java.util.List;
 
 public interface HdfsService {

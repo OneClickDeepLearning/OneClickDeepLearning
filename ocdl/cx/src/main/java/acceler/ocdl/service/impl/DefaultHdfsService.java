@@ -1,7 +1,7 @@
 package acceler.ocdl.service.impl;
 
+import acceler.ocdl.dto.FileListVO;
 import acceler.ocdl.exception.HdfsException;
-import acceler.ocdl.model.FileListVO;
 import acceler.ocdl.service.HdfsService;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;

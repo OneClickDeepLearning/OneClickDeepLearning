@@ -3,7 +3,6 @@ package acceler.ocdl.utils;
 import acceler.ocdl.CONSTANTS;
 import acceler.ocdl.entity.Project;
 import acceler.ocdl.entity.User;
-import acceler.ocdl.model.InnerUser;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
