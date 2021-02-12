@@ -1,23 +1,23 @@
 package acceler.ocdl.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-
+import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Table(name = "template_category")
 public class TemplateCategory extends BaseEntity{
 
@@ -35,18 +35,22 @@ public class TemplateCategory extends BaseEntity{
     @Column(name = "shared")
     private Boolean shared;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = {"parent", "children", "template_list", "project", "created_at", "deleted_at", "is_deleted"})
     private TemplateCategory parent;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = {"parent", "project", "created_at", "deleted_at", "is_deleted"})
+    @Where(clause = "is_deleted = false")
     private List<TemplateCategory> children;
 
-    @OneToMany(mappedBy = "templateCategory")
+    @Where(clause = "is_deleted=false")
+    @OneToMany(mappedBy = "templateCategory", fetch = FetchType.EAGER)
+    @JsonProperty("template_list")
+    @JsonIgnoreProperties(value = {"template_category", "project", "template_category", "created_at", "deleted_at", "is_deleted"})
     private List<Template> templateList;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id")
-    @JsonIgnoreProperties(value = "templateCategoryList")
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = {"description", "algorithm_list", "suffix_list", "user_list", "created_at", "deleted_at", "is_deleted"})
     private Project project;
 }

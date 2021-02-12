@@ -1,9 +1,10 @@
 package acceler.ocdl.service;
 
-import acceler.ocdl.dto.ModelDto;
-import acceler.ocdl.model.*;
+import acceler.ocdl.entity.Model;
+import acceler.ocdl.entity.Project;
+import acceler.ocdl.entity.User;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
 import java.util.Map;
 
 public interface ModelService {
@@ -11,10 +12,10 @@ public interface ModelService {
     /**
      * move the model from userspace to stage space, name is formatted at the same time
      * the status of moved model is new, and the format of the fileName = "modelName + timestamp" + "suffix"
-     * @param innerUser used for get userspace path, userspacePath = "HDFS path" + "projectName-userID"
+     * @param user used for get userspace path, userspacePath = "HDFS path" + "projectName-userID"
      * @return the records of finded, success uploaded, and fail uploaded file
      */
-    Map<String, Integer> initModelToStage(InnerUser innerUser);
+    Map<String, Integer> initModelToStage(User user, Project project);
 
 
     /**
@@ -24,9 +25,8 @@ public interface ModelService {
      * the format of version = "v*.*"
      * @param model model that need to approve
      * @param algorithmName the name of algorithm that chose when approve
-     * @param version the version that chose when approve
      */
-    void approveModel(NewModel model, String algorithmName, Algorithm.UpgradeVersion version, String comments, Long lastOperatorId);
+    void approveModel(Model model, String algorithmName, String comments, User lastOperator);
 
     /**
      * reject model
@@ -34,7 +34,7 @@ public interface ModelService {
      * he format of the fileName = "modelName" + "timestamp" + "suffix"
      * @param model model that need to reject
      */
-    void rejectModel(NewModel model, String comments, Long lastOperatorId);
+    void rejectModel(Model model, String comments, User lastOperator);
 
     /**
      * undo model
@@ -42,20 +42,22 @@ public interface ModelService {
      * the format of the fileName = "modelName" + "timestamp"
      * @param model model that need to undo
      */
-    void undo(Model model, String comments, Long lastOperatorId);
+    void undo(Model model, String comments, User lastOperator);
 
-    /**
-     * get models by status
-     * @param status specific status
-     * @return list of Model
-     */
-    ModelDto[] getModelsByStatus(Model.Status status);
 
     /**
      * release model
      * @param model approved model
      */
-    void release(ApprovedModel model, InnerUser innerUser);
+    Model release(Model model, User user);
 
-    Map<String, List<ModelDto>> getModelListByUser(long userId);
+    Model createModel(Model model);
+
+    Model updateModel(Model model);
+
+    Boolean deleteModel(Model model);
+
+    Page<Model> getModels(Model model, int page, int size);
+
+    Model getModelById(Long id);
 }

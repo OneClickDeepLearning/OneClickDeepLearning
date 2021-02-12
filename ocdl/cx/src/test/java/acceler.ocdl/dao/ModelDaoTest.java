@@ -1,9 +1,6 @@
 package acceler.ocdl.dao;
 
-import acceler.ocdl.entity.Algorithm;
-import acceler.ocdl.entity.Model;
-import acceler.ocdl.entity.Project;
-import acceler.ocdl.entity.User;
+import acceler.ocdl.entity.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,7 +58,7 @@ public class ModelDaoTest {
                 .lastOperator(user)
                 .refId("abcd")
                 // 0 - new, 1 - approved, 2 - rejected
-                .status(0)
+                .status(ModelStatus.NEW)
                 .suffix("tflite")
                 .build();
 

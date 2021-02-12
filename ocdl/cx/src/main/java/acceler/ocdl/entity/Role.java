@@ -1,16 +1,12 @@
 package acceler.ocdl.entity;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
@@ -32,8 +28,4 @@ public class Role  extends BaseEntity {
 
     @Column(name = "description")
     private String description;
-
-    @ManyToMany(mappedBy = "roles")
-    @JsonIgnoreProperties(value = "roles")
-    private List<User> users;
 }

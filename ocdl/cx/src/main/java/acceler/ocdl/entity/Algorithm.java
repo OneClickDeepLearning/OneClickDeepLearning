@@ -1,18 +1,15 @@
 package acceler.ocdl.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Setter
+@Getter
 @Entity
 @DynamicInsert
 @DynamicUpdate
@@ -30,6 +27,13 @@ public class Algorithm extends BaseEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "kafka_topic")
+    @JsonProperty("kafka_topic")
+    private String kafkaTopic;
+
     @Column(name = "current_cached_version")
     @JsonProperty("current_cached_version")
     private Integer currentCachedVersion;
@@ -38,13 +42,13 @@ public class Algorithm extends BaseEntity {
     @JsonProperty("current_released_version")
     private Integer currentReleasedVersion;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = {"description", "algorithm_list", "suffix_list", "user_list", "created_at", "deleted_at", "is_deleted"})
     private Project project;
 
     @OneToMany(mappedBy = "algorithm")
     @JsonProperty("model_list")
-    @JsonIgnoreProperties(value = "algorithm")
+    @JsonIgnoreProperties(value = {"algorithm", "project", "owner", "last_operator"})
     private List<Model> modelList;
 
 }

@@ -1,21 +1,20 @@
 package acceler.ocdl.controller;
 
+import acceler.ocdl.entity.ResourceType;
+import acceler.ocdl.entity.User;
 import acceler.ocdl.exception.KubernetesException;
-import acceler.ocdl.model.InnerUser;
-import acceler.ocdl.model.ResourceType;
 import acceler.ocdl.dto.Response;
 import acceler.ocdl.service.KubernetesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "/rest/container")
-public final class ContainerController {
+public class ContainerController {
 
     @Autowired
     private KubernetesService kubernetesService;
@@ -23,14 +22,14 @@ public final class ContainerController {
     @ResponseBody
     @RequestMapping(path = "/type/{rscType}", method = RequestMethod.POST)
     public final Response requestContainer(HttpServletRequest request, @PathVariable("rscType") String rscType) {
-        InnerUser innerUser = (InnerUser) request.getAttribute("CURRENT_USER");
+        User user = (User) request.getAttribute("CURRENT_USER");
         String assign;
 
         try {
             if (getResourceType(rscType).equals(ResourceType.GPU)) {
-                assign = kubernetesService.launchGpuContainer(innerUser);
+                assign = kubernetesService.launchGpuContainer(user);
             } else {
-                assign = kubernetesService.launchCpuContainer(innerUser);
+                assign = kubernetesService.launchCpuContainer(user);
             }
         }catch (KubernetesException e){
             e.printStackTrace();

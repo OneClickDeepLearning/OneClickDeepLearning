@@ -2,10 +2,12 @@ package acceler.ocdl;
 
 public interface CONSTANTS {
 
+
     interface APPLICATIONS_DIR {
         String USER_SPACE = "/home/hadoop/mount/UserSpace/";
 //        String STAGE_SPACE = "/home/ec2-user/stage/";
         String STAGE_SPACE = "/Staging";
+        String CONTAINER = "/downloads/";
     }
 
     interface NAME_FORMAT {
@@ -61,5 +63,67 @@ public interface CONSTANTS {
     interface EVENT {
         String PERSONAL_EVENT = "personal_event";
         String GLOBAL_EVENT = "global_event";
+    }
+
+    interface BASE_ENTITY {
+        String ISDELETED = "isDeleted";
+    }
+
+    interface PROJECT_TABLE {
+        int LENGTH_REF_ID = 20;
+    }
+
+    interface ALGORITHM_TABLE {
+        String NAME = "name";
+        String DESCRIPTION = "description";
+        String PROJECT = "project";
+
+    }
+
+    interface SUFFIX_TABLE {
+        String NAME = "name";
+        String PROJECT = "project";
+    }
+
+    interface PROJECT_DATA_TABLE {
+        String PROJECT_PREFIX = "P";
+        int LENGTH_REF_ID = 12;
+        String NAME = "name";
+        String SUFFIX = "suffix";
+        String PROJECT = "project";
+    }
+
+    interface USER_DATA_TABLE {
+        String USER_PREFIX = "U";
+        int LENGTH_REF_ID = 12;
+        String NAME = "name";
+        String SUFFIX = "suffix";
+        String USER = "user";
+    }
+
+    interface TEMPLATE_TABLE {
+        String TEMPLATE_PREFIX = "T";
+        int LENGTH_REF_ID = 12;
+        String NAME = "name";
+        String SUFFIX = "suffix";
+        String DESCRIPTION = "description";
+        String PROJECT = "project";
+        String CATEGORY = "templateCategory";
+    }
+
+    interface MODEL_TABLE {
+        String MODEL_PREFIX = "M";
+        int LENGTH_REF_ID = 12;
+        String NAME = "name";
+        String SUFFIX = "suffix";
+        String ALGORITHM = "algorithm";
+        String STATUS = "status";
+        String OWNER = "owner";
+        String PROJECT = "project";
+    }
+
+    interface ROLE_TABLE {
+        String ROLE_DEV = "developer";
+        String ROLE_MAN = "manager";
     }
 }
